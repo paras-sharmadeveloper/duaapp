@@ -1,0 +1,47 @@
+<!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <!-- <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div> -->
+    <div class="credits">
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ asset('assets/theme/vendor/apexcharts/apexcharts.min.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/chart.js/chart.umd.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/echarts/echarts.min.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/quill/quill.min.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/simple-datatables/simple-datatables.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/tinymce/tinymce.min.js')}}"></script>
+  <script src="{{ asset('assets/theme/vendor/php-email-form/validate.js')}}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ asset('assets/theme/js/main.js')}}"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+@yield('page-script')
+<script type="text/javascript">
+  function ShowSuccess(message){ 
+  $("#success-alert").find('span').text(message);
+  $("#success-alert").fadeIn(500); 
+  setTimeout(function() {
+      $("#success-alert").fadeOut(500);
+  }, 2500);
+}
+function ShowError(message){
+  $("#error-alert").find('span').text(message);
+  $("#error-alert").fadeIn(500); 
+  setTimeout(function() {
+      $("#error-alert").fadeOut(500);
+  }, 2500);
+}
+</script>
+</body>
+
+</html>
