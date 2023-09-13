@@ -12,7 +12,9 @@ class VistorsController extends Controller
      */
     public function index()
     {
-        //
+        
+        $vistors = Vistors::with('slot')->get(); 
+        return view('visitor.index',compact('vistors')); 
     }
 
     /**

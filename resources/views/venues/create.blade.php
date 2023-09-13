@@ -35,86 +35,105 @@
 
         <div class="card">
             <div class="card-body">
-               
+
 
 
                 @if (Route::currentRouteName() == 'venues.edit')
-                <h5 class="card-title">Edit Venue</h5>
-                   
-                    {!! Form::model($venue, ['route' => ['venues.update', $venue->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
- 
-                    @else
+                    <h5 class="card-title">Edit Venue</h5>
+
+                    {!! Form::model($venueAddress, [
+                        'route' => ['venues.update', $venueAddress->id],
+                        'method' => 'PUT',
+                        'enctype' => 'multipart/form-data',
+                    ]) !!}
+                @else
                     {!! Form::open(['route' => 'venues.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <h5 class="card-title">Create Venue</h5>
-                         
-                        <form method="POST" action="{{ route('venues.store') }}">
-                @endif 
+
+                    <form method="POST" action="{{ route('venues.store') }}">
+                @endif
 
                 <div class="col-md-6">
                     <div class="input-group">
-                      <span class="input-group-text" id="inputGroupPrepend2">Country Name</span>
-                      <input type="text" class="form-control" id="country_name" name="country_name"
-                      value="{{ isset($venue) ? $venue->country_name : '' }}" required>
-                   </div>
-                    
-                  </div> 
+                        <span class="input-group-text" id="inputGroupPrepend2">Select Country</span>
+                         <select class="form-control" name="venue_id">
+                            @foreach($countries as $country)
+                            <option value="{{  $country->id }}"> {{  $country->country_name }}</option>
+                            @endforeach
+                         </select>
+                    </div>
 
-                <div class="form-group mt-4">
-                    <label for="flag_path">Upload Country Flag (Optional)</label>
-                    <input type="file" class="form-control-file" id="flag_path" name="flag_path">
                 </div>
 
-                <!-- Address Input Fields -->
-                <div class="row g-3 mt-4" id="venue-htm">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Venue Addresses</span>
-                            {!! Form::text('venue_addresses[]', null, ['class' => 'form-control', 'placeholder' => 'Address']) !!}
-                           
-                        </div>
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
+                         <select class="form-control" name="therapist_id">
+                            @foreach($therapists as $therapist)
+                            <option value="{{  $therapist->id }}"> {{  $therapist->name }}</option>
+                            @endforeach
+                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text">Date </span>
-                            {!! Form::date('venue_date[]', null, ['class' => 'form-control', 'placeholder' => 'Date']) !!}
-                             
-                        </div>
+
+                </div>
+
+                
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Venue Addresses</span>
+
+                        {!! Form::textarea('venue_addresses',$venueAddress->address ?? '', ['class' => 'form-control', 'placeholder' => 'Address','row' => 2]) !!}
+
                     </div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <span class="input-group-text">starts at</span>
-                            {!! Form::time('venue_starts[]', null, ['class' => 'form-control', 'placeholder' => 'Starts']) !!}
-                             
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-text">ends at</span>
-                            {!! Form::time('venue_ends[]', null, ['class' => 'form-control', 'placeholder' => 'ends']) !!}
-                            <button type="button" class="btn btn-success add-address">Add</button>
-                            <button type="button" class="btn btn-danger remove-address d-none">Remove</button>
-                        </div>
+
+                </div>
+
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Date </span>
+                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '' , ['class' => 'form-control', 'placeholder' => 'Date']) !!}
+
                     </div>
                 </div>
-    
-                <div class="venue-addresses">
-                    
-                    <!-- Addresses will be dynamically added here -->
+                <div class="col-md-6 mt-4 ">
+                    <div class="input-group">
+                        <span class="input-group-text">starts at</span>
+                        {!! Form::time('venue_starts',$venueAddress->slot_starts_at ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Starts',
+                        ]) !!}
+
+                    </div>
                 </div>
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">ends at</span>
+                        {!! Form::time('venue_ends', $venueAddress->slot_ends_at ?? '', ['class' => 'form-control', 'placeholder' => 'ends']) !!}
+                        
+                    </div>
+                </div>
+
+                 
 
                 <div class="form-group mt-4">
                     <label for="type">Type</label>
                     <div>
                         <input type="radio" id="on-site" name="type" value="on-site"
-                            {{ isset($venue) && $venue->type === 'on-site' ? 'checked' : '' }} required>
+                            {{ isset($venueAddress) && $venueAddress->type === 'on-site' ? 'checked' : '' }} required>
                         <label for="on-site">On-site</label>
                     </div>
                     <div>
                         <input type="radio" id="virtual" name="type" value="virtual"
-                            {{ isset($venue) && $venue->type === 'virtual' ? 'checked' : '' }} required>
+                            {{ isset($venueAddress) && $venueAddress->type === 'virtual' ? 'checked' : '' }} required>
                         <label for="virtual">Virtual</label>
                     </div>
                 </div>
+                @if (Route::currentRouteName() == 'venues.edit')
+                <div class="form-check">
+                    {!! Form::checkbox('update_slots', 'yes',null, ['class' => 'form-check-input', 'id' => 'checkbox_id']) !!}
+                    <label class="form-check-label" for="checkbox_id">Check If you also want to Update Slots and Date </label>
+                </div>
+                @endif
 
                 <button type="submit"
                     class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Venue' : 'Create Venue' }}</button>
@@ -124,24 +143,20 @@
     </div>
 @endsection
 @section('page-script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var addAddressButton = $(".add-address");
+            var venueAddresses = $(".venue-addresses");
+            var venuehtml = $("#venue-htm").html();
+            $(document).on('click', ".add-address", function() {
+                venueAddresses.append('<div class="row g-3 mt-3">' + venuehtml + '</div>');
+                $(".venue-addresses").find('.remove-address').removeClass('d-none');
+            })
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var addAddressButton = $(".add-address");
-        var venueAddresses = $(".venue-addresses");
-        var venuehtml = $("#venue-htm").html();
-        $(document).on('click',".add-address",function(){
-            venueAddresses.append('<div class="row g-3 mt-3">'+venuehtml+'</div>');
-            $(".venue-addresses").find('.remove-address').removeClass('d-none'); 
-        })
-        
 
-        venueAddresses.on("click", ".remove-address", function() {
-            $(this).closest('.row').remove();
+            venueAddresses.on("click", ".remove-address", function() {
+                $(this).closest('.row').remove();
+            });
         });
-    });
-</script>
-
-@endsection 
-
-
+    </script>
+@endsection

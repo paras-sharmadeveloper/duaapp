@@ -1,0 +1,110 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+
+            <div class="action-top float-end mb-3">
+                <a class="btn btn-outline-primary" href="{{ route('users.index') }}"> <i
+                        class="bi bi-skip-backward-circle me-1"></i> Back</a>
+            </div>
+
+        </div>
+    </div>
+    @if (count($errors) > 0)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+            {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body">
+ 
+                @if (Route::currentRouteName() == 'venues.edit-country')
+                    <h5 class="card-title">Edit Country</h5>
+
+                    {!! Form::model($venue, [
+                        'route' => ['venues.update-country', $venue->id],
+                        'method' => 'PUT',
+                        'enctype' => 'multipart/form-data',
+                    ]) !!}
+                @else
+                    {!! Form::open(['route' => 'venues.store-country', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    <h5 class="card-title">Create Country</h5>
+
+                    <form method="POST" action="{{ route('venues.store') }}">
+                @endif
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Country Name</span>
+                        <input type="text" class="form-control" id="country_name" name="country_name"
+                            value="{{ isset($venue) ? $venue->country_name : '' }}" required>
+                    </div>
+
+                </div>
+
+                <div class="form-group mt-4">
+                    <label for="flag_path">Upload Country Flag (Optional)</label>
+                    <input type="file" class="form-control-file" id="flag_path" name="flag_path">
+                    @if (!empty($venue))
+                        <img src="{{ asset('images/' . $venue->flag_path) }}" alt="Flag Image">
+                    @endif
+                </div>
+                <div class="form-group mt-4">
+                    <label for="type">Type</label>
+                    <div>
+                        <input type="radio" id="on-site" name="type" value="on-site"
+                            {{ isset($venue) && $venue->type === 'on-site' ? 'checked' : '' }} required>
+                        <label for="on-site">On-site</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="virtual" name="type" value="virtual"
+                            {{ isset($venue) && $venue->type === 'virtual' ? 'checked' : '' }} required>
+                        <label for="virtual">Virtual</label>
+                    </div>
+                </div>
+
+                <!-- Address Input Fields --> 
+
+                <button type="submit"
+                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Venue' : 'Create Venue' }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('page-script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var addAddressButton = $(".add-address");
+            var venueAddresses = $(".venue-addresses");
+            var venuehtml = $("#venue-htm").html();
+            $(document).on('click', ".add-address", function() {
+                venueAddresses.append('<div class="row g-3 mt-3">' + venuehtml + '</div>');
+                $(".venue-addresses").find('.remove-address').removeClass('d-none');
+            })
+
+
+            venueAddresses.on("click", ".remove-address", function() {
+                $(this).closest('.row').remove();
+            });
+        });
+    </script>
+@endsection

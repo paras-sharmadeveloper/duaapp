@@ -14,14 +14,20 @@ return new class extends Migration
         Schema::create('venue_addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('venue_id');
+            $table->unsignedBigInteger('therapist_id');
             $table->text('address');
             $table->date('venue_date'); 
             $table->time('slot_starts_at');
             $table->time('slot_ends_at');
+            $table->enum('type', ['on-site', 'virtual']);
             $table->timestamps(); 
             $table->foreign('venue_id')
                   ->references('id')
                   ->on('venues')
+                  ->onDelete('cascade');
+            $table->foreign('therapist_id')
+                  ->references('id')
+                  ->on('users')
                   ->onDelete('cascade');
         });
     }

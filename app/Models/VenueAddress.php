@@ -20,4 +20,15 @@ class VenueAddress extends Model
     {
         return $this->hasMany(VenueSloting::class);
     }
+   
+    // get address by venue address id
+    static function getAddress($id){
+        return self::where(['venue_id' => $id])->get()->first();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'therapist_id');
+    }
+    // get address by venue  id
+    
 }

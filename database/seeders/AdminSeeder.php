@@ -25,7 +25,7 @@ class AdminSeeder extends Seeder
        $user = User::create([
             'name' => 'Admin User', 
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin@123'), 
+            'password' => bcrypt('123456'), 
             'email_verified_at' => date('Y-m-d H:i:s'),
         ]);
         $role = Role::create(['name' => 'admin']);
@@ -35,14 +35,20 @@ class AdminSeeder extends Seeder
         $role->syncPermissions($permissions);
      
         $user->assignRole([$role->id]);
-    
+        // $roles = ['admin', 'therapist', 'patient', 'site-admin', 'visitor'];
+// 
     
     }
 
 
     public function PermissionSeeder(){
         $permissions =[
-            'user-management-access'
+            'user-management-access',
+            'visitor-access',
+            'venue-access',
+            'queue-management-access',
+            'vedio-call-access',
+            'vistor-schduling-access',
         ];
      
         foreach ($permissions as $permission) {

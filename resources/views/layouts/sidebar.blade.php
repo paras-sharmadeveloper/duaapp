@@ -16,7 +16,7 @@
   
       
       <!-- End Dashboard Nav -->
-       @can('user-management-access')
+       @canany('user-management-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -39,24 +39,60 @@
           </li>
         </ul>
       </li>
-      @endcan
+      @endcanany
 
       @can('user-management-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#venue-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Venue Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="venue-nav" class="{{ ( $currentPath == 'venues.index' || $currentPath == 'venues.edit' || $currentPath == 'venues.create' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" data-bs-parent="#sidebar-nav">
+        <ul id="venue-nav" 
+        class="{{ ( $currentPath == 'venues.index' || $currentPath == 'venues.show' 
+        || $currentPath == 'venues.edit' || $currentPath == 'venues.create' || $currentPath == 'venues.edit-country'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        data-bs-parent="#sidebar-nav">
+           
           <li>
-            <a href="{{ route('venues.index') }}" class="{{ ( $currentPath == 'venues.index' || $currentPath == 'venues.edit' || $currentPath == 'venues.create' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Manage Venues</span>
+            <a data-href="{{ $currentPath }}" href="{{ route('venues.add-country') }}" class="{{ ( $currentPath == 'venues.show' || $currentPath == 'venues.edit-country'   ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Add Venue Country</span>
+            </a>
+          </li>
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('venues.list-country') }}" class="{{ ( $currentPath == 'venues.list-country' || $currentPath == 'venues.edit'   ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>List Venue Country</span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="{{ route('venues.create') }}" class="{{ ($currentPath == 'venues.edit' || $currentPath == 'venues.create' ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Add Venues</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('venues.index') }}" class="{{ ( $currentPath == 'venues.index' ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>List Venues</span>
+            </a>
+          </li>
+
+         
+           
+        </ul>
+      </li>
+      @endcan 
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#vistor-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Vistor Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="vistor-nav" class="{{ ( $currentPath == 'visitor.index' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ route('visitor.index') }}" class="{{ ( $currentPath == 'visitor.index') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>List</span>
             </a>
           </li>
            
         </ul>
       </li>
-      @endcan
-
     
 
 

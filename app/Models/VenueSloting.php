@@ -14,5 +14,9 @@ class VenueSloting extends Model
     {
         return $this->belongsTo(VenueAddress::class, 'venue_address_id');
     }
+    public function visitors()
+    {
+        return $this->hasMany(Vistors::class, 'slot_id');
+    }
 
 }

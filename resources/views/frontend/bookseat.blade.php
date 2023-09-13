@@ -1,16 +1,14 @@
 @extends('layouts.guest')
 @section('content')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-    <link href="https://fonts.gstatic.com" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;1,300&amp;display=swap" rel="stylesheet">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    
 
     <style>
         body {
             background-color: #f2f5f8;
             font-family: 'Karla', sans-serif;
+        }
+        .select2-container .select2-selection--single{
+            height: 38px;
         }
 
         .main-content .wizard-form .progressbar-list::before {
@@ -121,8 +119,20 @@
             height: 500px;
             overflow: overlay;
         }
-        div#slot-listing h1 {
-    width: 100%;
+        div#slot-listing h1 {width: 100%;}
+        button.btn:hover{
+            color: #000 !important; 
+            background-color:grey; 
+        }
+        .card-title {
+    padding: 10px 0 4px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+}
+.card-body {
+    padding: 0 17px 0px 20px;
 }
     </style>
     <!-- section -->
@@ -131,31 +141,15 @@
         <div class="container">
             <!-- main content -->
             <div class="main-content">
-                <!-- alert box -->
-                <div class="row justify-content-center">
-                    <div class="col-lg-7 col-md-8">
-                        <!-- svg -->
-                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                            </symbol>
-                        </svg>
-                        <!-- /svg -->
-                        <div class="alert alert-danger d-flex align-items-center mt-3 d-none mb-0" id="alertBox"
-                            role="alert">
-                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                aria-label="Danger:">
-                                <use xlink:href="#exclamation-triangle-fill" />
-                            </svg>
-                            <div>
-                                Please select any card , only then you can move further!
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- alert box -->
-                <!-- row -->
+
+                <div class="d-flex justify-content-center py-4">
+                    <a href="index.html" class="logoo  d-flex align-items-center wuto">
+                      <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                      <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? ''}}</span> -->
+                    </a>
+                  </div>
+                 
+                 
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow">
                     <!-- col -->
                     <div class="col-md-10 text-center">
@@ -180,6 +174,29 @@
                         </div>
                         <!-- /wizard -->
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7 col-md-8">
+                            <!-- svg -->
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                </symbol>
+                            </svg>
+                            <!-- /svg -->
+                            <div class="alert alert-danger d-flex align-items-center mt-3 d-none mb-0" id="alertBox"
+                                role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                    aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill" />
+                                </svg>
+                                <div>
+                                    Please select any card , only then you can move further!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- /col -->
                 </div>
                 <!-- /row -->
@@ -187,13 +204,13 @@
                 <div class="row justify-content-center" id="cardSection">
                     <!-- col -->
                     <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold pt-5">Select Country</h3>
-                        <p class="small pb-5">Please select at least one card</p>
+                        <h3 class="fw-bold">Select Country</h3>
+                        <p class="small">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($VenueList as $venue)
-                                <div class="col">
-                                    <div class="card text-center h-100 py-5 shadow-sm country-section"
+                                <div class="col-lg-2">
+                                    <div class="card text-center h-60 py-2 shadow-sm country-section"
                                         data-id="{{ $venue->id }}">
                                         <img src="{{ asset('images/' . $venue->flag_path) }}" alt="Flag Image">
 
@@ -206,12 +223,12 @@
                                 </div>
                             @endforeach
                         </div>
-
+                        <button type="button"
+                        class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div>
                     <!-- /cards -->
                     <!-- NEXT BUTTON-->
-                    <button type="button"
-                        class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
+                    
                     <!-- /NEXT BUTTON-->
                 </div>
                 <!-- /col -->
@@ -221,8 +238,8 @@
                 <div class="row justify-content-center form-business">
                     <!-- col -->
                     <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold pt-5">Select Venue</h3>
-                        <p class="small pb-5">Please select at least one card</p>
+                        <h3 class="fw-bold">Select Venue</h3>
+                        <p class="small">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="venues-listing">
 
@@ -241,10 +258,10 @@
                 <div class="row justify-content-center form-business sloting-main">
                     <!-- col -->
                     <div class="col-lg-7 col-md-8 slot-in">
-                        <h3 class="fw-bold pt-5">Select Slot</h3>
-                        <p class="small pb-5">Please select at least one card</p>
+                        <h3 class="fw-bold ">Select Slot</h3>
+                        <p class="small">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-5 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
+                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
  
                         </div>
                         <!-- /cards -->
@@ -274,7 +291,7 @@
                     <!-- /col -->
                     <!-- col -->
                     <div class="col-lg-7 col-md-8" id="successForm">
-                        <div class="mb-5 pb-5">
+                        <div class="mb-5">
                             <!-- Final step -->
                             <div class="alert alert-primary text-center" role="alert">
                                 <h5 class="p-4">Finally We are going to submit your information if you want to continue
@@ -301,9 +318,22 @@
                                         <input type="email" class="form-control" name="email"
                                             placeholder="test@example.com" aria-label="Email">
                                     </div>
-                                    <div class="col">
-                                        <input type="number" class="form-control" name="mobile"
-                                            placeholder="+178978978" aria-label="Mobile">
+                                    <div class="col d-flex">
+                                        <div class="col-md-5">
+                                             
+                                            <select id="single" name="country_code" class="js-states form-control">
+                                             @foreach($countryList as $country)
+                                             <option value="{{ $country->phonecode }}"> {{ $country->name }} 
+                                                {{ '(+'. $country->phonecode.')' }}</option>
+                                             @endforeach
+                                            </select>
+                                            
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input type="number" class="form-control" name="mobile"
+                                            placeholder="78978978" aria-label="Mobile">
+                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -346,7 +376,13 @@
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+        $("#single").select2({
+          placeholder: "Select a programming language",
+          allowClear: true
+      });
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -354,7 +390,7 @@
         });
         $(document).ready(function() {
             // hidden things
-            $(".form-business").hide();
+           $(".form-business").hide();
             $("#successMessage").hide();
             // next button
             $(".next").on({
@@ -371,7 +407,7 @@
                         });
 
                     } else {
-                        $("#alertBox").removeClass("d-none");
+                        $("#alertBox").removeClass("d-none").find("div").text("Please select any card , only then you can move further!");
                     }
                 }
             });
@@ -434,7 +470,7 @@
                         var html = '';
                         $.each(response, function(key, item) {
                             html += `<div class="col">
-                            <div class="card text-center h-100 py-5 shadow-sm venues-selection" data-id="${item.venue_address_id}">
+                            <div class="card text-center h-60 py-2 shadow-sm venues-selection" data-id="${item.venue_address_id}">
                                 <img src="${item.imgUrl}" alt="Flag Image"> 
                                 <div class="card-body px-0">
                                     <h5 class="card-title title-binding">${item.address}</h5>
@@ -510,6 +546,8 @@
                     },
                     error: function(error) {
                         $("#successMessage").hide();
+                        $("#alertBox").removeClass("d-none").find("div").html(error
+                            .responseText.message);
                         // Handle any errors here (e.g., display an error message)
                         console.error('Error submitting the form.');
                         console.log(error

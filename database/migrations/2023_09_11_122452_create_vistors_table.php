@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('slot_id')
             ->references('id')
             ->on('venues_sloting');  
+            $table->timestamp('meeting_doneAt'); 
             $table->timestamps();
 
         });

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors,CountryListing};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use App\Jobs\{SendMessage, SendEmail};
 
 class HomeController extends Controller
 {
@@ -27,8 +28,9 @@ class HomeController extends Controller
   public function index()
   {
     $VenueList = Venue::all();
+    $countryList = CountryListing::all(); 
 
-    return view('frontend.bookseat', compact('VenueList'));
+    return view('frontend.bookseat', compact('VenueList','countryList'));
   }
   public function BookingSubmit(Request $request)
   {
@@ -41,12 +43,14 @@ class HomeController extends Controller
       'user_question' => 'nullable|string',
     ]);
     $uuid = Str::uuid()->toString();
+    $countryCode = $request->input('country_code'); 
     // Create a new Vistors record in the database
+    $mobile = $countryCode.$validatedData['mobile']; 
     $booking = new Vistors;
     $booking->fname = $validatedData['fname'];
     $booking->lname = $validatedData['lname'];
     $booking->email = $validatedData['email'];
-    $booking->phone = $validatedData['mobile'];
+    $booking->phone = $mobile;
     $booking->user_question = $validatedData['user_question'];
     $booking->slot_id = $request->input('slot_id');
     $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
@@ -55,12 +59,46 @@ class HomeController extends Controller
 
     // Save the booking record
     $booking->save();
+    $message  = "Hi, Here is your Booking Confirmed with us.\nHere is your Booking link\n" . route('book.confirmation', [$uuid]);
+    SendMessage::dispatch($validatedData['mobile'], $message, $booking->is_whatsapp)->onQueue('send-message');
+    SendEmail::dispatch($validatedData['email'], $message, $booking->is_whatsapp)->onQueue('send-email');
+
 
     // You can also add additional logic here, such as sending emails, etc.
 
     // Return a response (e.g., a success message)
     return response()->json(['message' => 'Booking submitted successfully', "status" => true]);
   }
+
+  public function bookingConfirmation(Request $request, $id)
+  {
+
+    $userBooking = Vistors::where('booking_uniqueid', $id)->first();
+
+    if (!$userBooking) {
+        return response()->json(['error' => 'Booking not found'], 404);
+    }
+
+    // Get the user's slot time
+    $userSlot = VenueSloting::find($userBooking->slot_id);
+    $userSlotTime = $userSlot->slot_time;  // Assuming 'time' is the column where you store the slot time
+    $venueAddress = VenueAddress::find($userSlot->venue_address_id); 
+    // Calculate the start of slots
+    $startTime = $venueAddress->slot_starts_at;
+
+    // Count bookings from the start time until the user's slot time
+    $aheadPeople = Vistors::whereHas('venueSloting', function($query) use ($startTime, $userSlotTime) {
+        $query->where('slot_time', '>=', $startTime)
+              ->where('slot_time', '<', $userSlotTime);
+    })->count();
+
+    $serveredPeople = Vistors::whereNotNull('meeting_doneAt')->get()->count();
+ 
+ 
+    return view('frontend.queue-status', compact('aheadPeople','venueAddress','userSlot','serveredPeople'));
+  }
+
+
   public function home()
   {
     return view('home');
@@ -90,11 +128,13 @@ class HomeController extends Controller
     }
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id);
-      $currentTime = strtotime(now()->addHour(24));
+
+      $currentTime = strtotime(now()->addHour(24)->format('y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date . $venueAddress->slot_starts_at);
+      
 
       if ($currentTime >= $EventStartTime) {
-        $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get();
+        $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id','slot_time','id']);
         return response()->json(['status' => true, 'message' => 'Slots are be avilable', 'data' => $slotArr]);
       } else {
         return response()->json(['status' => false, 'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience', 'data' => []]);
@@ -102,3 +142,4 @@ class HomeController extends Controller
     }
   }
 }
+ 

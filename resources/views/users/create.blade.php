@@ -38,7 +38,7 @@
               <h5 class="card-title">Create New User</h5>
              
 
-              {!! Form::open(array('route' => 'users.store','method'=>'POST' , 'class' =>'row g-3')) !!}
+              {!! Form::open(array('route' => 'users.store','method'=>'POST' , 'class' =>'row g-3','enctype' => "multipart/form-data")) !!}
             
                 <div class="col-md-6">
                   <div class="input-group">
@@ -70,43 +70,17 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Roles</span>
                          {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!}
                    </div>
-                </div>
-
-                <div class="col-lg-6  d-flex justify-content-around">
-
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="all_agent_access" id="all_agent_access" value="all"  >
-                      <label class="form-check-label" for="flexSwitchCheckDefault">All Agents</label>
-                    </div>
- 
                 </div> 
-
+                <div class="col-md-6">
+                  <div class="input-group">
+                      <span class="input-group-text" id="inputGroupPrepend2">Upload Profile</span>
+                      <input type="file" name="profile_pic" accept="image/*">
+                 </div>
+              </div> 
                 
-                <div class="row g-3" >
-                    <div class="col-md-5">
-                    <div class="input-group"> 
-                       {!! 
 
-                           Form::textarea('agents_ids_text', null, 
-                           [
-                           'class'=>'form-control',
-                           'placeholder' => 'Add Agent Ids' ,
-                           'id'=>"agents_ids",
-                           'value'=> '' , 
-
-
-                           ] ) !!}
-                   </div>
-                  </div>
-                    <div class="col-md-5">
-                     <input type="text" name='agents_ids' id="basic" value="" />
-                    </div>
-                    <div class="col-md-2"> 
-                     <button  class="btn btn-primary float-right" id="click" type="button">Add Agents</button>
-                    </div>
-                </div>
                 <div class="col-12">
-                  <button class="btn btn-primary" type="submit">Submit form</button>
+                  <button class="btn btn-primary" type="submit">Create User</button>
                 </div>
               {!! Form::close() !!}
               <!-- End Browser Default Validation -->
@@ -121,30 +95,5 @@
 @endsection
 @section('page-script')
 
-<script type="text/javascript"> 
-    var input = document.querySelector('input[name=agents_ids]');
-    var tagify = new Tagify(input);
-     $("#click").on("click", function() { 
-        var tags = [];
-        var textArea = $("#agents_ids").val(); 
-        var strArray = textArea.split("\n");
-        strArray.map(function(value,key){
-             tags.push(value);
-        }); 
-        tagify.addTags(tags); 
-    }); 
-
-    $(document).on("click",'.tagify__tag__removeBtn',function(){
-         var tags = [];
-         var val = $(this).parent().attr('value');
-        var textArea = $("#agents_ids").val(); 
-        var strArray = textArea.split("\n");
-        var arr = strArray.filter(function(item) {
-              return item !== val
-        })
-        var join = arr.join('\n'); 
-        $("#agents_ids").val(join)  
-
-    })    
-</script>
+ 
 @endsection

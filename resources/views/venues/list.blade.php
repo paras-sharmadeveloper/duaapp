@@ -6,7 +6,7 @@
             <div class="action-top float-end mb-3">
                 <!-- <button type="button" class="btn btn-primary"><i class="bi bi-star me-1"></i> With Text</button> -->
                 <a class="btn btn-outline-primary" href="{{ route('venues.create') }}"> <i class="bi bi-plus me-1"></i> New
-                    User</a>
+                    Venue</a>
             </div>
         </div>
     </div>
@@ -39,26 +39,29 @@
                 <tr>
                     <th>No</th>
                     <th>Country Name</th>
+                    <th>Thripist Name</th>
+                    <th>Venue Address</th>
+                    <th>Venue Deatail</th>
                     <th>Type</th>
                     <th width="280px">Action</th>
                 </tr>
-                @foreach ($venues as $venue)
+                @foreach ($venuesAddress as $venueAdd)
                     <tr>
-                        <td>{{ $venue->id }}</td>
-                        <td>{{ $venue->country_name }} 
-                            <img src="{{   asset('images/'.$venue->flag_path ) }}" alt="Flag Image">
-
-
-                        </td>
-                        <td>{{ $venue->type }}</td>
+                        <td>{{ $venueAdd->id }}</td>
+                        <td>{{ $venueAdd->venue->country_name }} 
+                            <img src="{{   asset('images/'.$venueAdd->venue->flag_path ) }}" alt="Flag Image"></td>
+                        <td>{{ $venueAdd->user->name }}</td>
+                        <td>{{ $venueAdd->address }}</td>
+                        <td>{{ $venueAdd->venue_date }} {{ $venueAdd->starts_at }} - {{ $venueAdd->slot_ends_at }}</td>
+                        <td>{{ $venueAdd->type }}</td>
                         <td>
-                            <a href="{{ route('venues.edit', $venue->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('venues.destroy', $venue->id) }}" method="POST"
+                            <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('venues.edit', $venueAdd->id) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this venue?')">Delete</button>
+                                    onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
                             </form>
                         </td>
                     </tr>

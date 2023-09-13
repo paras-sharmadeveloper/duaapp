@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
-use DB;
-use Hash;
 use Illuminate\Support\Arr;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash; 
 class UserController extends Controller
 {
     /**
@@ -44,16 +43,7 @@ class UserController extends Controller
     {
 
         $post = $request->all();
-      
-
-        if(isset($post['all_agent_access'])){
-            $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|same:confirm-password',
-                'roles' => 'required', 
-          ]);
-        }else{
+       
             $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -61,19 +51,20 @@ class UserController extends Controller
             'roles' => 'required',
              
            ]);
-        } 
+        
     
         $input = $request->all();
-        if(!isset($post['all_agent_access'])){
-           $agentIds = json_decode($request->input('agents_ids'),true);
-            $agentArr = []; 
-             foreach ($agentIds as $key => $agent) {
-                $agentArr[] = $agent['value']; 
-                   
-             }    
+
+        if ($request->hasFile('profile_pic')) {
+            $image = $request->file('profile_pic');
+            $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName); 
         }
+        
              
         $input['password'] = Hash::make($input['password']); 
+        $input['profile_pic'] = $imageName; 
+         
     
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
@@ -108,20 +99,12 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $post = $request->all();
-        if(isset($post['all_agent_access'])){
             $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required|email', 
                 'roles' => 'required', 
           ]);
-        }else{
-            $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email', 
-            'roles' => 'required',
-            'agents_ids' => 'required'
-           ]);
-        } 
+        
     
         $input = $request->all();
         if(!empty($input['password'])){ 
@@ -130,16 +113,15 @@ class UserController extends Controller
         }else{
             $input = Arr::except($input,array('password'));    
         }
-         if(!isset($post['all_agent_access'])){
-           $agentIds = json_decode($request->input('agents_ids'),true);
-            $agentArr = []; 
-             foreach ($agentIds as $key => $agent) {
-                $agentArr[] = $agent['value']; 
-                   
-             }    
-        }        
-        // $input['agents_ids'] = json_encode($agentArr);
-         $input['agents_ids'] = (isset($post['all_agent_access'])) ? $post['all_agent_access'] : json_encode($agentArr);
+
+        if ($request->hasFile('profile_pic')) {
+            $image = $request->file('profile_pic');
+            $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName); 
+        }
+
+        $input['profile_pic'] = $imageName;
+         
     
         $user = User::find($id);
         $user->update($input);
