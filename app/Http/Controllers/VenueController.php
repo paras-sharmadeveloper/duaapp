@@ -13,31 +13,13 @@ class VenueController extends Controller
         $venuesAddress = VenueAddress::all();
         return view('venues.list', compact('venuesAddress'));
     }
-
-    public function venueCountry()
-    {
-        return view('venues.venueCountry');
-    }
-    public function venueCountryEdit($id)
-    {
-        $venue = Venue::findOrFail($id);
-       
-        return view('venues.venueCountry', compact('venue'));
-    }
-    public function venueCountryShow()
-    {
-        return view('venues.venueCountry');
-    }
+ 
+   
     public function show()
     {
         return view('venues.venueCountry');
     }
-
-    public function venueCountryList(){
-        $venues = Venue::all();
-        return view('venues.listCountry',compact('venues'));
-    }
-
+ 
 
     public function create()
     {
@@ -47,56 +29,8 @@ class VenueController extends Controller
         })->get();  
         return view('venues.create',compact('countries','therapists'));
     }
-    public function venueCountryUpdate(Request $request,$id){
-        $venue = Venue::findOrFail($id);
-        $request->validate([
-            'country_name' => 'required',
-            'type' => 'required',
-            'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file type and size limits
-
-        ]);
-        if ($request->hasFile('flag_path')) {
-            $flagPath = $request->file('flag_path')->storeAs('public/flags', $request->file('flag_path')->getClientOriginalName());
-        } else {
-            $flagPath = null;
-        }
-        $venue->update([
-            'country_name' => $request->input('country_name'),
-            'flag_path' =>  $flagPath,
-            'type' => $request->input('type'),
-        ]);
-    }
-
-    public function venueCountryStore(Request $request){
-        $request->validate([
-            'country_name' => 'required',
-            'type' => 'required', 
-            'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file type and size limits
-
-        ]);
- 
-
-
-
-        if ($request->hasFile('flag_path')) {
-            $imageName = time() . '.' . $request->flag_path->extension();
-            $flagPath = $request->flag_path->move(public_path('images'), $imageName);
-
-            //            $flagPath = $request->file('flag_path')->storeAs('links', $request->file('flag_path')->getClientOriginalName());
-        } else {
-            $imageName = null;
-        }
-
-        $venue = Venue::create([
-            'country_name' => $request->input('country_name'),
-            'flag_path' =>  $imageName,
-            'type' => $request->input('type'),
-        ]); 
-        return redirect()->route('venues.index')->with('success', 'Venue created successfully');
-
-
-
-    }
+     
+    
     public function store(Request $request)
     {
         // Validate the request data

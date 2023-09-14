@@ -1,13 +1,12 @@
 @extends('layouts.guest')
 @section('content')
-    
-
     <style>
         body {
             background-color: #f2f5f8;
             font-family: 'Karla', sans-serif;
         }
-        .select2-container .select2-selection--single{
+
+        .select2-container .select2-selection--single {
             height: 38px;
         }
 
@@ -119,21 +118,118 @@
             height: 500px;
             overflow: overlay;
         }
-        div#slot-listing h1 {width: 100%;}
-        button.btn:hover{
-            color: #000 !important; 
-            background-color:grey; 
+
+        div#slot-listing h1 {
+            width: 100%;
         }
+
+        button.btn:hover {
+            color: #000 !important;
+            background-color: grey;
+        }
+
         .card-title {
-    padding: 10px 0 4px 0;
-    font-size: 18px;
-    font-weight: 500;
-    color: #012970;
-    font-family: "Poppins", sans-serif;
+            padding: 10px 0 4px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #012970;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .card-body {
+            padding: 0 17px 0px 20px;
+        }
+
+
+
+        video#video,
+        #selfie-image {
+            height: 200px;
+            width: 250px;
+        }
+
+        div#captured-image {
+            margin-bottom: 15px;
+        }
+
+        .loader {
+            border: 5px solid #3498db;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-main {
+            display: flex;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .success {
+            text-align: center;
+            font-size: 16px;
+            color: green;
+            font-weight: 900;
+        }
+
+        .danger{
+            color: red;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        div#error {
+            margin: 20px 0;
+        }
+        .error{color: red}
+        .error.country_code {
+            position: absolute;
+            z-index: 999;
+            /* left: 0; */
+            font-size: 9px;
+            bottom: -89px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 767px) {
+            span.select2.select2-container.select2-container--default {width: 100% !important;flex: auto !important;}
+            .col { flex-shrink: 0 !important;flex: auto;}
+            .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px; }
+            .selfie {text-align: center;}
+            .p-4 {padding: 0.5rem!important;}
+            .card {margin-bottom: 20px; }
+            .logoo img {height: 80px;width: 80px;}
+            .mt-4 {margin-top: 0.5rem!important;}
+            .error.country_code {font-size: 14px;bottom: 2px;}
+            
+
+        }
+        /* Styles for tablets (e.g., iPads) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            /* Your CSS styles for tablets here */
+            /* Modify layout, font sizes, and other styles for tablets */
+        }
+        @media (min-width: 1024px) {
+            .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px;}
+            .error.country_code { bottom: -35px;}
+        }
+
+    figcaption {
+    font-size: 10px;
 }
-.card-body {
-    padding: 0 17px 0px 20px;
-}
+
+
     </style>
     <!-- section -->
     <section>
@@ -144,12 +240,12 @@
 
                 <div class="d-flex justify-content-center py-4">
                     <a href="index.html" class="logoo  d-flex align-items-center wuto">
-                      <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-                      <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? ''}}</span> -->
+                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                        <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
                     </a>
-                  </div>
-                 
-                 
+                </div>
+
+
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow">
                     <!-- col -->
                     <div class="col-md-10 text-center">
@@ -209,10 +305,10 @@
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($VenueList as $venue)
-                                <div class="col-lg-2">
+                                <div class="col-lg-3 col-md-4">
                                     <div class="card text-center h-60 py-2 shadow-sm country-section"
                                         data-id="{{ $venue->id }}">
-                                        <img src="{{ asset('images/' . $venue->flag_path) }}" alt="Flag Image">
+                                        <img src="{{ asset('flags/' . $venue->flag_path) }}" alt="Flag Image">
 
                                         {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
                                         <div class="card-body px-0">
@@ -224,11 +320,11 @@
                             @endforeach
                         </div>
                         <button type="button"
-                        class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
+                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div>
                     <!-- /cards -->
                     <!-- NEXT BUTTON-->
-                    
+
                     <!-- /NEXT BUTTON-->
                 </div>
                 <!-- /col -->
@@ -262,7 +358,7 @@
                         <p class="small">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
- 
+
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -299,47 +395,47 @@
                                     please click on the finish button to finish up your Working process.</h5>
                             </div>
 
-                            <form action="{{ route('booking.submit') }}" method="post" id="booking-form">
+                            <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <div class="row g-3 mb-3">
-                                    <div class="col">
+                                    <div class="col col-md-12">
                                         <input type="text" class="form-control" name="fname" placeholder="Jhon"
                                             aria-label="First name">
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-md-12">
                                         <input type="text" class="form-control" name="lname" placeholder="Deo"
                                             aria-label="Last name">
                                     </div>
                                 </div>
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col">
+                                    <div class="col col-md-12">
                                         <input type="email" class="form-control" name="email"
                                             placeholder="test@example.com" aria-label="Email">
-                                    </div>
-                                    <div class="col d-flex">
-                                        <div class="col-md-5">
-                                             
+                                    </div> 
+                                        <div class="col col-lg-5  col-md-12">
+
                                             <select id="single" name="country_code" class="js-states form-control">
-                                             @foreach($countryList as $country)
-                                             <option value="{{ $country->phonecode }}"> {{ $country->name }} 
-                                                {{ '(+'. $country->phonecode.')' }}</option>
-                                             @endforeach
+                                                <option value="">select</option>
+                                                @foreach ($countryList as $country)
+                                                    <option value="{{ $country->phonecode }}"> {{ $country->name }}
+                                                        {{ '(+' . $country->phonecode . ')' }}</option>
+                                                @endforeach
                                             </select>
-                                            
+
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col col-lg-7 col-md-12">
                                             <input type="number" class="form-control" name="mobile"
-                                            placeholder="78978978" aria-label="Mobile">
+                                                placeholder="78978978" aria-label="Mobile">
                                         </div>
-                                        
-                                    </div>
+ 
                                 </div>
 
                                 <div class="row g-3">
-                                    <div class="col">
-                                        <textarea name="user_question" id="" cols="30" rows="10"
+                                    <div class="col col-md-12">
+                                        <textarea name="user_question" id="" cols="30" rows="3"
                                             placeholder="Put some line of your query" class="form-control"></textarea>
 
                                     </div>
@@ -353,12 +449,56 @@
                                         This number is on whatsapp ?
                                     </label>
                                 </div>
+
+                                <div class="form-group row mt-3 selfie">
+                                    <label for="selfie"
+                                        class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label>
+
+                                    <div class="col-md-6">
+                                        <img id="start-camera" width="64" height="64" src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/external-camera-smartphone-application-wanicon-lineal-color-wanicon.png" alt="external-camera-smartphone-application-wanicon-lineal-color-wanicon"/>
+                                        <!-- Add a camera view area -->
+                                        <div id="camera-view" style="display: none;">
+                                            <video id="video" autoplay playsinline></video>
+                                        </div>
+                                        <!-- Display the captured image -->
+                                        <div id="captured-image" style="display: none;">
+                                            <img id="selfie-image" src="" alt="Captured Selfie"> 
+                                        </div>
+ 
+                                      
+                                        <input type="hidden" id="selfie" name="selfie" required>
+ 
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 d-flex justify-content-center">
+                                        <figure style="display: none;"  id="capture-selfie">
+                                            <img  width="48" height="48" src="https://img.icons8.com/nolan/48/bandicam.png" alt="bandicam"/> 
+                                            <figcaption>capture</figcaption>
+                                        </figure>
+
+                                        <figure id="restart-camera" style="display: none;" >
+                                             <img   width="48" height="48" src="https://img.icons8.com/nolan/48/restart.png" alt="restart"/> 
+                                            <figcaption>restart</figcaption>
+                                        </figure>
+                                        
+
+                                       
+                                   </div>
+                               </div>
                                 <!-- /Final step -->
                         </div>
+                        <div id="error"></div>
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
-                        <button type="submit"
+                        <button type="submit" id="submitBtn"
                             class="btn text-white float-end submit-button rounded-3 bg-color-info">Finish</button>
+
+                        <div class="loader-main" id="loader-main" style="display: none">
+                            <div class="loader"></div>
+                        </div>
+                         
                         </form>
                         <!-- /NEXT BUTTON-->
                     </div>
@@ -370,6 +510,7 @@
         <!-- /container -->
     </section>
 
+
     <!-- /section -->
 @endsection
 
@@ -380,9 +521,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
         $("#single").select2({
-          placeholder: "Select a programming language",
-          allowClear: true
-      });
+            placeholder: "Select country",
+            allowClear: true
+        });
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -390,7 +531,7 @@
         });
         $(document).ready(function() {
             // hidden things
-           $(".form-business").hide();
+            $(".form-business").hide();
             $("#successMessage").hide();
             // next button
             $(".next").on({
@@ -407,7 +548,8 @@
                         });
 
                     } else {
-                        $("#alertBox").removeClass("d-none").find("div").text("Please select any card , only then you can move further!");
+                        $("#alertBox").removeClass("d-none").find("div").text(
+                            "Please select any card , only then you can move further!");
                     }
                 }
             });
@@ -469,7 +611,7 @@
                     if (type == 'venue_address') {
                         var html = '';
                         $.each(response, function(key, item) {
-                            html += `<div class="col">
+                            html += `<div class="col col-lg-6 col-md-7">
                             <div class="card text-center h-60 py-2 shadow-sm venues-selection" data-id="${item.venue_address_id}">
                                 <img src="${item.imgUrl}" alt="Flag Image"> 
                                 <div class="card-body px-0">
@@ -492,7 +634,7 @@
                         var html = '';
                         if (response.status) {
                             $.each(response.data, function(key, item) {
-                                html += `<div class="col">
+                                html += `<div class="col col-lg-3 col-md-7">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-selection" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
@@ -505,8 +647,8 @@
                             $("#slot-listing").html(html);
                             $(".confirm").show();
                             $(".back").show();
-                        }else{
-                            $("#slot-listing").html("<h1>"+response.message+"</h1>");
+                        } else {
+                            $("#slot-listing").html("<h1>" + response.message + "</h1>");
                             $(".confirm").hide();
                             $(".back").hide();
                         }
@@ -545,17 +687,149 @@
                         console.log(response); // You can log or display the response as needed
                     },
                     error: function(error) {
-                        $("#successMessage").hide();
-                        $("#alertBox").removeClass("d-none").find("div").html(error
-                            .responseText.message);
-                        // Handle any errors here (e.g., display an error message)
-                        console.error('Error submitting the form.');
-                        console.log(error
-                            .responseText
-                            ); // You can log or display the error response as needed
+                        if (error.responseJSON && error.responseJSON.errors) {
+                            var errors = error.responseJSON.errors;
+
+                            // Clear any existing error messages
+                            $('.alert-danger').remove();
+
+                            // Loop through the errors and display them near the respective form fields
+                            $.each(errors, function(field, messages) {
+                                
+                                var inputElement = $('[name="' + field + '"]');
+                                inputElement.addClass('is-invalid');
+                                inputElement.after('<div class="error '+field+'">' +
+                                    messages.join('<br>') + '</div>');
+                            });
+                        }
+                        // Handle other types of errors here if needed
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var video = document.getElementById('video');
+            var startCameraButton = $('#start-camera');
+            var captureSelfieButton = $('#capture-selfie');
+            var restartCameraButton = $('#restart-camera');
+            var capturedImageDiv = $('#captured-image');
+            var selfieImage = $('#selfie-image');
+            var selfieInput = $('#selfie');
+            // Add an event listener to the "Start Camera" button
+
+            function startCamera() {
+                $("#camera-view").show();
+                // Access the camera and display the feed in the video element
+                navigator.mediaDevices.getUserMedia({
+                        video: true
+                    })
+                    .then(function(stream) {
+                        video.srcObject = stream;
+
+                        // When the stream is loaded, start playing the video
+                        video.onloadedmetadata = function(e) {
+                            video.play();
+                            // Show the "Capture Selfie" button and hide the "Start Camera" button
+                            startCameraButton.hide();
+                            captureSelfieButton.show();
+                            restartCameraButton.show();
+                        };
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing camera:', error);
+                    });
+            }
+
+            startCameraButton.on('click', function() {
+                startCamera();
+            });
+
+            restartCameraButton.on('click', function() {
+                // Hide the captured image and show the camera view
+                capturedImageDiv.hide();
+                video.srcObject = null;
+                startCamera();
+            });
+
+            // Add an event listener to the "Capture Selfie" button
+            captureSelfieButton.on('click', function() {
+
+
+
+                // Create a canvas to capture the current frame
+                var canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                var context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Convert the captured frame to base64 and set it in the hidden input field
+                var selfieDataUrl = canvas.toDataURL('image/jpeg');
+                selfieInput.val(selfieDataUrl);
+
+
+                // Stop the video stream and hide the camera view
+                var stream = video.srcObject;
+                if (stream) {
+                    var tracks = stream.getTracks();
+                    tracks.forEach(function(track) {
+                        track.stop();
+                    });
+                }
+                video.srcObject = null;
+                $("#camera-view").hide();
+                capturedImageDiv.show();
+
+                selfieImage.attr('src', selfieDataUrl);
+
+                // Show the "Restart Camera" button and hide the "Capture Selfie" button
+                captureSelfieButton.hide();
+                restartCameraButton.show();
+                restartCameraButton.prop('disabled', false);
+                $("#loader-main").show()
+                $("#submitBtn").hide();
+                $.ajax({
+                    url: '/detect-liveness', // Update the URL to your Laravel endpoint
+                    method: 'POST',
+                    data: {
+                        image: selfieDataUrl, // Send the base64-encoded image data
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#loader-main").hide()
+                        $("#submitBtn").show();
+                        // Handle the server's re 
+
+                        // You can provide feedback to the user based on the response
+
+                        $("#submitBtn").show();
+                        $("#error").removeClass('danger');
+                        $("#error").addClass('success').text("Perfect. You can proceed");
+                        // Liveness detected, show success message
+
+
+                    },
+                    error: function(error) {
+                        $("#loader-main").hide()
+                        // Handle errors
+                        if (error.responseJSON.status == false) {
+                            $("#error").removeClass('success');
+                            $("#error").addClass('danger').text(
+                                "We are unable to detect a face. It look like this is something object or other. Please retry again."
+                            )
+                            $("#submitBtn").hide();
+                        }
+
+                    }
+                });
+            });
+
         });
     </script>
 @endsection

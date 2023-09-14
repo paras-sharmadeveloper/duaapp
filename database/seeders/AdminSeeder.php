@@ -17,6 +17,7 @@ class AdminSeeder extends Seeder
     {
         $this->PermissionSeeder();
         $this->AdminSeeder(); 
+        
  
     }
 
@@ -35,9 +36,36 @@ class AdminSeeder extends Seeder
         $role->syncPermissions($permissions);
      
         $user->assignRole([$role->id]);
-        // $roles = ['admin', 'therapist', 'patient', 'site-admin', 'visitor'];
-// 
-    
+        $roles = [ 
+            'therapist',
+            'patient', 
+            'site-admin', 
+            'visitor'
+        ];
+        $this->CraeteAllUsers($roles);
+   
+    }
+
+    public function CraeteAllUsers($roles){
+
+        foreach($roles as $role){
+
+            $user = User::create([
+                'name' => $role.' User', 
+                'email' => $role.'@gmail.com',
+                'password' => bcrypt('123456'), 
+                'email_verified_at' => date('Y-m-d H:i:s'),
+            ]);
+            $role = Role::create(['name' => $role]);
+         
+            $permissions = Permission::pluck('id','id')->all();
+       
+            $role->syncPermissions($permissions);
+         
+            $user->assignRole([$role->id]);
+            
+        }
+        
     }
 
 

@@ -36,19 +36,18 @@
         <div class="card">
             <div class="card-body">
  
-                @if (Route::currentRouteName() == 'venues.edit-country')
+                @if (Route::currentRouteName() == 'country.edit')
                     <h5 class="card-title">Edit Country</h5>
 
                     {!! Form::model($venue, [
-                        'route' => ['venues.update-country', $venue->id],
+                        'route' => ['country.update', $venue->id],
                         'method' => 'PUT',
                         'enctype' => 'multipart/form-data',
                     ]) !!}
                 @else
-                    {!! Form::open(['route' => 'venues.store-country', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['route' => 'country.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <h5 class="card-title">Create Country</h5>
-
-                    <form method="POST" action="{{ route('venues.store') }}">
+ 
                 @endif
 
                 <div class="col-md-6">
@@ -64,7 +63,7 @@
                     <label for="flag_path">Upload Country Flag (Optional)</label>
                     <input type="file" class="form-control-file" id="flag_path" name="flag_path">
                     @if (!empty($venue))
-                        <img src="{{ asset('images/' . $venue->flag_path) }}" alt="Flag Image">
+                    <img src="{{   asset('flags/'.$venue->flag_path ) }}" alt="Flag Image">
                     @endif
                 </div>
                 <div class="form-group mt-4">

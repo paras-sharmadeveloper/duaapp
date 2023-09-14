@@ -5,7 +5,7 @@
 
             <div class="action-top float-end mb-3">
                 <!-- <button type="button" class="btn btn-primary"><i class="bi bi-star me-1"></i> With Text</button> -->
-                <a class="btn btn-outline-primary" href="{{ route('venues.create') }}"> <i class="bi bi-plus me-1"></i> New
+                <a class="btn btn-outline-primary" href="{{ route('country.create') }}"> <i class="bi bi-plus me-1"></i> New
                     Venue</a>
             </div>
         </div>
@@ -46,11 +46,11 @@
                     <tr>
                         <td>{{ $venue->id }}</td>
                         <td>{{ $venue->country_name }} 
-                            <img src="{{   asset('images/'.$venue->flag_path ) }}" alt="Flag Image"></td>
+                            <img src="{{   asset('flags/'.$venue->flag_path ) }}" alt="Flag Image"></td>
                         <td>{{ $venue->type }}</td>
                         <td>
-                            <a href="{{ route('venues.edit-country', $venue->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('venues.edit', $venue->id) }}" method="POST"
+                            <a href="{{ route('country.edit', $venue->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('country.destroy', $venue->id) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')

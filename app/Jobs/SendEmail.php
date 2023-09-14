@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use SendGrid;
-use SendGrid\Mail\Mail;
+use App\Mail\BookingConfirmationEmail;
+use Illuminate\Support\Facades\Mail;  
+
 class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -17,11 +18,11 @@ class SendEmail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    protected $message;
+    protected $data;
     protected $recipient;
-    public function __construct($recipient, $message)
+    public function __construct($recipient, $data)
     {
-        $this->message = $message;
+        $this->data = $data;
         $this->recipient = $recipient;
     }
 
@@ -30,13 +31,20 @@ class SendEmail implements ShouldQueue
      */
     public function handle(): void
     { 
-         $email = new Mail();
-         $email->setFrom("kahayfaqeer.org@gmail.com", "DUA APP");
-         $email->setSubject("Your Booking has been confirmed");
-         $email->addTo($this->recipient);
-         $email->addContent("text/plain", $this->message);
+        try {
+           Mail::to($this->recipient)->send(new BookingConfirmationEmail($this->data)); 
+  
+        } catch (\Throwable $th) {
+            // echo '<pre>'; print_r($th->getMessage()); die;  
+         
+        }
+        //  $email = new Mail();
+        //  $email->setFrom("kahayfaqeer.org@gmail.com", "DUA APP");
+        //  $email->setSubject("Your Booking has been confirmed");
+        //  $email->addTo($this->recipient);
+        //  $email->addContent("text/plain", $this->message);
  
-         $sendgrid = new SendGrid(config('services.sendgrid.key'));
-         $sendgrid->send($email);
+        //  $sendgrid = new SendGrid(config('services.sendgrid.key'));
+        //  $sendgrid->send($email);
     }
 }

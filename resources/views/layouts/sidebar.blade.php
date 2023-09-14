@@ -48,16 +48,16 @@
         </a>
         <ul id="venue-nav" 
         class="{{ ( $currentPath == 'venues.index' || $currentPath == 'venues.show' 
-        || $currentPath == 'venues.edit' || $currentPath == 'venues.create' || $currentPath == 'venues.edit-country'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        || $currentPath == 'venues.edit' || $currentPath == 'country.create' || $currentPath == 'country.edit'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('venues.add-country') }}" class="{{ ( $currentPath == 'venues.show' || $currentPath == 'venues.edit-country'   ) ? 'active' : '' }}">
+            <a data-href="{{ $currentPath }}" href="{{ route('country.create') }}" class="{{ ( $currentPath == 'country.create' || $currentPath == 'country.edit'   ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Add Venue Country</span>
             </a>
           </li>
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('venues.list-country') }}" class="{{ ( $currentPath == 'venues.list-country' || $currentPath == 'venues.edit'   ) ? 'active' : '' }}">
+            <a data-href="{{ $currentPath }}" href="{{ route('country.index') }}" class="{{ ( $currentPath == 'venues.list-country' || $currentPath == 'venues.edit'   ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>List Venue Country</span>
             </a>
           </li>

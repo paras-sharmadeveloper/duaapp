@@ -23,12 +23,12 @@ return new class extends Migration
             $table->timestamps(); 
             $table->foreign('venue_id')
                   ->references('id')
-                  ->on('venues')
-                  ->onDelete('cascade');
+                  ->on('venues');
+                //   ->onDelete('cascade');
             $table->foreign('therapist_id')
                   ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                  ->on('users'); 
+                //   ->onDelete('cascade');
         });
     }
 

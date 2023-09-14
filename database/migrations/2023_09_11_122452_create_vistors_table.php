@@ -26,6 +26,7 @@ return new class extends Migration
             ->references('id')
             ->on('venues_sloting');  
             $table->timestamp('meeting_doneAt'); 
+            $table->text('recognized_code')->nullable(); 
             $table->timestamps();
 
         });
