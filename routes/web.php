@@ -10,8 +10,10 @@ use App\Http\Controllers\{
     VenueController,
     VistorsController,
     VenueCountryController
-}; 
-use Illuminate\Support\Facades\Auth; 
+};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,16 +24,20 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/run/queue', function () {
+    Artisan::call('schedule:run'); // Replace with the name of your custom command
+    return 'Scheduled task triggered successfully.';
+});
 
 Route::get('/', function () {
     if(Auth::check()){
         return redirect('home');
     }else{
         return redirect('login');
-    } 
+    }
 });
- 
- 
+
+
 Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
@@ -40,23 +46,23 @@ Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmati
 Route::get('/book/cancel/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.cancel');
 Route::get('/book/reschudule/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.reschudule');
 Auth::routes();
- 
+
 Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
 Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
-Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify'); 
-Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend'); 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home'); 
+Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
+Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
-Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail'); 
+Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
 Route::post('/detect-liveness',  [HomeController::class,'detectLiveness']);
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');   
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
-    Route::resource('users', UserController::class); 
-    Route::resource('permissions',PermissionController::class); 
-    Route::resource('venues',VenueController::class); 
-    Route::resource('visitor',VistorsController::class); 
+    Route::resource('users', UserController::class);
+    Route::resource('permissions',PermissionController::class);
+    Route::resource('venues',VenueController::class);
+    Route::resource('visitor',VistorsController::class);
     Route::resource('country',VenueCountryController::class);
-  
-    
-}); 
+
+
+});
