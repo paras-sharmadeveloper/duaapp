@@ -104,8 +104,8 @@ class HomeController extends Controller
       'therapist_name' => $venueAddress->user->name,
     ];
 
-    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp);
-    SendEmail::dispatch($validatedData['email'], $dynamicData);
+    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp,$booking->id);
+    SendEmail::dispatch($validatedData['email'], $dynamicData,$booking->id);
 
     return response()->json(['message' => 'Booking submitted successfully', "status" => true],200);
   }

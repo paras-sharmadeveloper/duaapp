@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Twilio\Rest\Client as TwilioClient;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\Vistors;
 class SendMessage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -24,15 +24,16 @@ class SendMessage implements ShouldQueue
     protected $message;
     protected $is_whatsapp;
     protected $messageSendTo;
-
+    protected $visitorId; 
     // recipient means to message sent to person number
 
-    public function __construct($recipient, $message,$is_whatsapp)
+    public function __construct($recipient, $message,$is_whatsapp,$id)
     {
         $this->message = $message;
         $this->messageSendTo = $recipient;
         $this->is_whatsapp = $is_whatsapp; 
-    }
+        $this->visitorId = $id; 
+    }   
 
     /**
      * Execute the job.
@@ -73,6 +74,7 @@ class SendMessage implements ShouldQueue
                    ]
                );
             }
+            Vistors::find($this->visitorId)->update(['sms_sent_at' => date('y-m-d H:i:s')]); 
             // Your job's code here
         } catch (\Exception $e) {
             Log::error('Job failed SendMessage: ' . $e->getMessage());
