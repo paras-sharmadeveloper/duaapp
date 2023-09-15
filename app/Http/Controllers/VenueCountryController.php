@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VenueCountry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VenueCountryController extends Controller
 {
@@ -41,7 +42,8 @@ class VenueCountryController extends Controller
         if ($request->hasFile('flag_path')) {
             $image = $request->file('flag_path');
             $imageName = time() . 'flag.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/flags'), $imageName); 
+            Storage::disk('s3_general')->put('flags/' . $imageName, file_get_contents($image));
+            // $image->move(public_path('/flags'), $imageName); 
             
         } 
 
@@ -87,7 +89,8 @@ class VenueCountryController extends Controller
         if ($request->hasFile('flag_path')) {
             $image = $request->file('flag_path');
             $imageName = time() . 'flag.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/flags'), $imageName); 
+            Storage::disk('s3_general')->put('flags/' . $imageName, file_get_contents($image));
+           // $image->move(public_path('/flags'), $imageName); 
             
         } 
         $venue->update([
@@ -104,7 +107,6 @@ class VenueCountryController extends Controller
     public function destroy(VenueCountry $venueCountry)
     {
         $venueCountry->delete(); 
-        //
         return redirect()->route('country.index')->with('success', 'Country deleted successfully');
     }
 }

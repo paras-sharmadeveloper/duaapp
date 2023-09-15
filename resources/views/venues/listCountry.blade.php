@@ -46,7 +46,7 @@
                     <tr>
                         <td>{{ $venue->id }}</td>
                         <td>{{ $venue->country_name }} 
-                            <img src="{{   asset('flags/'.$venue->flag_path ) }}" alt="Flag Image"></td>
+                            <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image"></td>
                         <td>{{ $venue->type }}</td>
                         <td>
                             <a href="{{ route('country.edit', $venue->id) }}" class="btn btn-primary">Edit</a>

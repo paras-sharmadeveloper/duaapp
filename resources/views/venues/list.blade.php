@@ -49,7 +49,7 @@
                     <tr>
                         <td>{{ $venueAdd->id }}</td>
                         <td>{{ $venueAdd->venue->country_name }} 
-                            <img src="{{   asset('flags/'.$venueAdd->venue->flag_path ) }}" alt="Flag Image"></td>
+                            <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venueAdd->venue->flag_path }}" alt="Flag Image"></td>
                         <td>{{ $venueAdd->user->name }}</td>
                         <td>{{ $venueAdd->address }}</td>
                         <td>{{ $venueAdd->venue_date }} {{ $venueAdd->starts_at }} - {{ $venueAdd->slot_ends_at }}</td>

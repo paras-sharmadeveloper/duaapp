@@ -308,7 +308,7 @@
                                 <div class="col-lg-3 col-md-4">
                                     <div class="card text-center h-60 py-2 shadow-sm country-section"
                                         data-id="{{ $venue->id }}">
-                                        <img src="{{ asset('flags/' . $venue->flag_path) }}" alt="Flag Image">
+                                        <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image">
 
                                         {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
                                         <div class="card-body px-0">

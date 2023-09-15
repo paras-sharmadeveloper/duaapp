@@ -9,7 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Twilio\Rest\Client as TwilioClient;
- 
+use Illuminate\Support\Facades\Log;
+
 class SendMessage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -17,6 +18,8 @@ class SendMessage implements ShouldQueue
     /**
      * Create a new job instance.
      */
+    public $tries = 3; // Number of retry attempts
+    public $retryAfter = 60; // Delay between retries (in seconds)
 
     protected $message;
     protected $is_whatsapp;
@@ -37,39 +40,44 @@ class SendMessage implements ShouldQueue
 
      public function handle()
      {
-         // Send via Twilio SMS
-         $twilioClient = new TwilioClient(
-             config('services.twilio.sid'), 
-             config('services.twilio.token')
-         );
-         if($this->is_whatsapp == 'yes'){
-            
-            $twilioClient->messages->create(
-                "+".$this->messageSendTo, 
-                [
-                    'from' => config('services.twilio.phone'), 
-                    'body' => $this->message
-                ]
-            );
+        
 
-            // $twilioClient->messages->create(
-            //     "whatsapp:" . "+".$this->messageSendTo, 
-            //     [
-            //         'from' => "whatsapp:" . config('services.twilio.whatsapp'), 
-            //         'body' => $this->message
-            //     ]
-            // );
-         }else{
-            $twilioClient->messages->create(
-                "+".$this->messageSendTo, 
-                [
-                    'from' => config('services.twilio.phone'), 
-                    'body' => $this->message
-                ]
+        try {
+            $twilioClient = new TwilioClient(
+                config('services.twilio.sid'), 
+                config('services.twilio.token')
             );
-         }
- 
-         // Send via Twilio WhatsApp
+            if($this->is_whatsapp == 'yes'){
+               
+               $twilioClient->messages->create(
+                   "+".$this->messageSendTo, 
+                   [
+                       'from' => config('services.twilio.phone'), 
+                       'body' => $this->message
+                   ]
+               );
+   
+               // $twilioClient->messages->create(
+               //     "whatsapp:" . "+".$this->messageSendTo, 
+               //     [
+               //         'from' => "whatsapp:" . config('services.twilio.whatsapp'), 
+               //         'body' => $this->message
+               //     ]
+               // );
+            }else{
+               $twilioClient->messages->create(
+                   "+".$this->messageSendTo, 
+                   [
+                       'from' => config('services.twilio.phone'), 
+                       'body' => $this->message
+                   ]
+               );
+            }
+            // Your job's code here
+        } catch (\Exception $e) {
+            Log::error('Job failed SendMessage: ' . $e->getMessage());
+            // You can also dispatch a notification or take other actions here
+        } 
         
  
        

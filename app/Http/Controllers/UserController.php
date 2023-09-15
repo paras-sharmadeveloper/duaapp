@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Storage;
+
 class UserController extends Controller
 {
     /**
@@ -58,7 +60,9 @@ class UserController extends Controller
         if ($request->hasFile('profile_pic')) {
             $image = $request->file('profile_pic');
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName); 
+            Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
+
+           // $image->move(public_path('images'), $imageName); 
         }
         
              
@@ -117,7 +121,8 @@ class UserController extends Controller
         if ($request->hasFile('profile_pic')) {
             $image = $request->file('profile_pic');
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName); 
+            Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
+          // $image->move(public_path('images'), $imageName); 
         }
 
         $input['profile_pic'] = $imageName;

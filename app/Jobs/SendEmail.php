@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\BookingConfirmationEmail;
 use Illuminate\Support\Facades\Mail;  
+use Illuminate\Support\Facades\Log;
 
 class SendEmail implements ShouldQueue
 {
@@ -34,17 +35,9 @@ class SendEmail implements ShouldQueue
         try {
            Mail::to($this->recipient)->send(new BookingConfirmationEmail($this->data)); 
   
-        } catch (\Throwable $th) {
-            // echo '<pre>'; print_r($th->getMessage()); die;  
+        } catch (\Exception $e) {
+            Log::error('Job failed: ' . $e->getMessage());
          
-        }
-        //  $email = new Mail();
-        //  $email->setFrom("kahayfaqeer.org@gmail.com", "DUA APP");
-        //  $email->setSubject("Your Booking has been confirmed");
-        //  $email->addTo($this->recipient);
-        //  $email->addContent("text/plain", $this->message);
- 
-        //  $sendgrid = new SendGrid(config('services.sendgrid.key'));
-        //  $sendgrid->send($email);
+        } 
     }
 }

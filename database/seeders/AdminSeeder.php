@@ -20,8 +20,6 @@ class AdminSeeder extends Seeder
         
  
     }
-
-
     public function AdminSeeder(){
        $user = User::create([
             'name' => 'Admin User', 

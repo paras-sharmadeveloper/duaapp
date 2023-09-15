@@ -107,8 +107,8 @@ class HomeController extends Controller
       'therapist_name' => $venueAddress->user->name,
     ];
 
-    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp)->onQueue('send-message');
-    SendEmail::dispatch($validatedData['email'], $dynamicData)->onQueue('send-email');
+    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp);
+    SendEmail::dispatch($validatedData['email'], $dynamicData);
 
     return response()->json(['message' => 'Booking submitted successfully', "status" => true]);
   }
@@ -199,7 +199,7 @@ class HomeController extends Controller
     if (count($result['FaceDetails']) > 0) {
       // At least one face detected
       foreach ($result['FaceDetails'] as $face) {
-        if ($face['Quality']['Sharpness'] >= 90) {
+        if ($face['Quality']['Sharpness'] >= 80) {
           // Face is sharp, indicating a live person
           return response()->json(['message' => 'Liveness detected.', 'status' => true], 200);
         }
@@ -262,7 +262,7 @@ class HomeController extends Controller
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $dataArr[] = [
-          'imgUrl' => asset('flags/' . $venuesList->venue->flag_path),
+          'imgUrl' => env('AWS_GENERAL_PATH').'flags/'.$venuesList->venue->flag_path,
           'address' => $venuesList->address,
           'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
           'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
