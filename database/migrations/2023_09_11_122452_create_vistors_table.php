@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->string('email')->unique();
+            $table->string('country_code',5)->nullable();
             $table->string('phone',15)->unique();
             $table->enum('is_whatsapp',['yes','no'])->default('no');
             $table->string('user_ip');

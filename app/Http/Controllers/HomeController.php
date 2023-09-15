@@ -68,7 +68,8 @@ class HomeController extends Controller
     $booking->fname = $validatedData['fname'];
     $booking->lname = $validatedData['lname'];
     $booking->email = $validatedData['email'];
-    $booking->phone = $mobile;
+    $booking->country_code = $countryCode;
+    $booking->phone = $validatedData['mobile'];
     $booking->user_question = $validatedData['user_question'];
     $booking->slot_id = $request->input('slot_id');
     $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
