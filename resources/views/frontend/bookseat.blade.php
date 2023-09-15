@@ -687,6 +687,9 @@
                         console.log(response); // You can log or display the response as needed
                     },
                     error: function(error) {
+                        if(error.responseJSON.status== false){
+                            alert(error.responseJSON.message);
+                        }
                         if (error.responseJSON && error.responseJSON.errors) {
                             var errors = error.responseJSON.errors;
 
@@ -699,7 +702,7 @@
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 inputElement.after('<div class="error '+field+'">' +
-                                    messages.join('<br>') + '</div>');
+                                messages.join('<br>') + '</div>');
                             });
                         }
                         // Handle other types of errors here if needed
