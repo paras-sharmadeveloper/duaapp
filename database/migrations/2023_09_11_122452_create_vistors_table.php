@@ -15,18 +15,20 @@ return new class extends Migration
             $table->id();
             $table->string('fname');
             $table->string('lname');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('email')->unique();
+            $table->string('phone',15)->unique();
             $table->enum('is_whatsapp',['yes','no'])->default('no');
             $table->string('user_ip');
-            $table->string('user_question');
-            $table->string('booking_uniqueid')->uniqid();
+            $table->string('user_question')->nullable();
+            $table->string('booking_uniqueid')->unique();
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')
             ->references('id')
             ->on('venues_sloting');  
             $table->timestamp('meeting_doneAt')->nullable(); 
             $table->text('recognized_code')->nullable(); 
+            $table->timestamp('sms_sent_at')->nullable(); 
+            $table->timestamp('email_sent_at')->nullable(); 
             $table->timestamps();
 
         });

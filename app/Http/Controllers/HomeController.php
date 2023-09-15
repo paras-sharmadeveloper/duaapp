@@ -44,8 +44,8 @@ class HomeController extends Controller
     $validatedData = $request->validate([
       'fname' => 'required|string|max:255',
       'lname' => 'required|string|max:255',
-      'email' => 'required|email|max:255',
-      'mobile' => 'required|string|max:255',
+      'email' => 'required|email|max:255|unique_email', // Check for duplicate email
+      'mobile' => 'required|string|max:255|unique_phone', 
       'user_question' => 'nullable|string',
       'selfie' => 'required',
       'country_code' =>'required'
