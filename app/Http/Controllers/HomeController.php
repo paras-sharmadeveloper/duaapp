@@ -68,7 +68,7 @@ class HomeController extends Controller
     $booking->fname = $validatedData['fname'];
     $booking->lname = $validatedData['lname'];
     $booking->email = $validatedData['email'];
-    $booking->country_code = $countryCode;
+    $booking->country_code = '+'.$countryCode;
     $booking->phone = $validatedData['mobile'];
     $booking->user_question = $validatedData['user_question'];
     $booking->slot_id = $request->input('slot_id');
