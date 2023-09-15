@@ -41,9 +41,6 @@ class HomeController extends Controller
   }
   public function BookingSubmit(Request $request)
   {
-
-
-
     $validatedData = $request->validate([
       'fname' => 'required|string|max:255',
       'lname' => 'required|string|max:255',
@@ -60,7 +57,7 @@ class HomeController extends Controller
     $isUsers = $this->IsRegistredAlready($selfieImage);
 
     if ($isUsers['status'] == false) {
-      return response()->json(['message' => 'You already Booked a seat', "status" => false]);
+      return response()->json(['message' => 'You already Booked a seat', "status" => false],406);
     }
 
     $uuid = Str::uuid()->toString();
@@ -110,7 +107,7 @@ class HomeController extends Controller
     SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp);
     SendEmail::dispatch($validatedData['email'], $dynamicData);
 
-    return response()->json(['message' => 'Booking submitted successfully', "status" => true]);
+    return response()->json(['message' => 'Booking submitted successfully', "status" => true],200);
   }
 
 
