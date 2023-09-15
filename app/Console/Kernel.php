@@ -12,14 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
-        // $schedule->command('queue:work --queue=default --sleep=3 --tries=3')->everyMinute();
-
-        // Schedule a task for a 'high-priority' queue
-        // $schedule->command('queue:work --queue=send-email --sleep=3 --tries=3')->withoutOverlapping()->everyMinute();
-
-        // Schedule a task for a 'low-priority' queue
-        $schedule->command('queue:work --queue=send-message --sleep=3 --tries=3')->withoutOverlapping()->everyMinute();
+        
     }
 
     /**
