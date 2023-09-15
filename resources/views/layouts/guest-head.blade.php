@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Login - {{ env('APP_NAME') ?? 'Laravel' }}</title>
+  <title>{{ ucwords(request()->route()->getName()) }} - {{ env('APP_NAME') ?? 'Laravel' }}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 

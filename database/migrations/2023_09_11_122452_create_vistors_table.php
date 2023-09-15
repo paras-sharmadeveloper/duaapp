@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('slot_id')
             ->references('id')
             ->on('venues_sloting');  
-            $table->timestamp('meeting_doneAt')->nullable(); 
+            $table->string('meeting_doneAt',60)->nullable(); 
             $table->text('recognized_code')->nullable(); 
             $table->timestamp('sms_sent_at')->nullable(); 
             $table->timestamp('email_sent_at')->nullable(); 

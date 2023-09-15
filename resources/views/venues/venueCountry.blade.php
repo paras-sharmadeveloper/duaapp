@@ -62,8 +62,10 @@
                 <div class="form-group mt-4">
                     <label for="flag_path">Upload Country Flag (Optional)</label>
                     <input type="file" class="form-control-file" id="flag_path" name="flag_path">
-                    @if (!empty($venue))
-                    <img src="{{   asset('flags/'.$venue->flag_path ) }}" alt="Flag Image">
+                    
+
+                    @if (Storage::disk('s3_general')->exists('flags/' . $venue->flag_path))
+                    <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image">
                     @endif
                 </div>
                 <div class="form-group mt-4">

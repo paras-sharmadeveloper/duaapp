@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('content')
+
     <style>
         body {
             background-color: #f2f5f8;
