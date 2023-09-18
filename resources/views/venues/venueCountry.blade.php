@@ -64,7 +64,7 @@
                     <input type="file" class="form-control-file" id="flag_path" name="flag_path">
                     
 
-                    @if (Storage::disk('s3_general')->exists('flags/' . $venue->flag_path))
+                    @if (isset( $venue->flag_path ) && Storage::disk('s3_general')->exists('flags/' . $venue->flag_path))
                     <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image">
                     @endif
                 </div>
