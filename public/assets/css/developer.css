@@ -235,7 +235,7 @@ width: 90%;
 border-radius: 20%;
 }
 .loader-img{
-    height: 64px;
+    height: 64px; 
     width: 64px !important;
 }
 .row .loader-img {
