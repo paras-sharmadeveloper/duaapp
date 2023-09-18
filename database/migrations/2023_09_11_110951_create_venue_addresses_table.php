@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('venue_id');
             $table->unsignedBigInteger('therapist_id');
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
             $table->text('address');
             $table->date('venue_date'); 
             $table->time('slot_starts_at');

@@ -10,8 +10,13 @@ use App\Jobs\{SendMessage, SendEmail};
 use App\Mail\BookingConfirmationEmail;
 use Illuminate\Support\Facades\Mail;
 use Aws\Rekognition\RekognitionClient;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Cache;
+
+use Twilio\Rest\Client as TwilioClient;
 
 class HomeController extends Controller
 {
@@ -34,21 +39,24 @@ class HomeController extends Controller
    */
   public function index()
   {
+    $therapistRole = Role::where('name', 'therapist')->first();
     $VenueList = Venue::all();
     $countryList = CountryListing::all();
+    $therapists = $therapistRole->users;
 
-    return view('frontend.bookseat', compact('VenueList', 'countryList'));
+    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists'));
   }
   public function BookingSubmit(Request $request)
   {
+
     $validatedData = $request->validate([
       'fname' => 'required|string|max:255',
       'lname' => 'required|string|max:255',
       'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-      'mobile' => 'required|string|max:255|unique:vistors,phone',  
+      'mobile' => 'required|string|max:255|unique:vistors,phone',
       'user_question' => 'nullable|string',
       'selfie' => 'required',
-      'country_code' =>'required'
+      'country_code' => 'required'
     ]);
 
     $selfieData = $request->input('selfie');
@@ -57,7 +65,7 @@ class HomeController extends Controller
     $isUsers = $this->IsRegistredAlready($selfieImage);
 
     if ($isUsers['status'] == false) {
-      return response()->json(['message' => 'You already Booked a seat', "status" => false],406);
+      return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
     }
 
     $uuid = Str::uuid()->toString();
@@ -68,7 +76,7 @@ class HomeController extends Controller
     $booking->fname = $validatedData['fname'];
     $booking->lname = $validatedData['lname'];
     $booking->email = $validatedData['email'];
-    $booking->country_code = '+'.$countryCode;
+    $booking->country_code = '+' . $countryCode;
     $booking->phone = $validatedData['mobile'];
     $booking->user_question = $validatedData['user_question'];
     $booking->slot_id = $request->input('slot_id');
@@ -105,10 +113,10 @@ class HomeController extends Controller
       'therapist_name' => $venueAddress->user->name,
     ];
 
-    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp,$booking->id);
-    SendEmail::dispatch($validatedData['email'], $dynamicData,$booking->id);
+    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id);
+    SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id);
 
-    return response()->json(['message' => 'Booking submitted successfully', "status" => true],200);
+    return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
   }
 
 
@@ -119,52 +127,59 @@ class HomeController extends Controller
     $objectKey = $this->encryptFilename($filename);
     $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
     $userArr = [];
+
     if (!empty($userAll)) {
 
-      $rekognition = new RekognitionClient([
-        'version' => 'latest',
-        'region' => env('AWS_DEFAULT_REGION'),
-        'credentials' => [
-          'key' => env('AWS_ACCESS_KEY_ID'),
-          'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        ],
-      ]);
-      Storage::disk('s3')->put($objectKey, $selfieImage);
 
-      foreach ($userAll as $user) {
-
-        $response = $rekognition->compareFaces([
-          'SourceImage' => [
-            'S3Object' => [
-              'Bucket' => env('AWS_BUCKET'),
-              'Name' => $objectKey,
-            ],
-          ],
-          'TargetImage' => [
-            'S3Object' => [
-              'Bucket' => env('AWS_BUCKET'),
-              'Name' => $user['recognized_code'],
-            ],
-          ],
-        ]);
-
-        $faceMatches = $response['FaceMatches'];
-        if (count($faceMatches) > 0) {
-
-          foreach ($faceMatches as $match) {
-            if ($match['Similarity'] >= 80) {
-              $userArr[] = $user['id'];
+          try {
+            $rekognition = new RekognitionClient([
+              'version' => 'latest',
+              'region' => env('AWS_DEFAULT_REGION'),
+              'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+              ],
+            ]);
+            Storage::disk('s3')->put($objectKey, $selfieImage);
+      
+            foreach ($userAll as $user) {
+      
+              $response = $rekognition->compareFaces([
+                'SourceImage' => [
+                  'S3Object' => [
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Name' => $objectKey,
+                  ],
+                ],
+                'TargetImage' => [
+                  'S3Object' => [
+                    'Bucket' => env('AWS_BUCKET'),
+                    'Name' => $user['recognized_code'],
+                  ],
+                ],
+              ]);
+      
+              $faceMatches = $response['FaceMatches'];
+              if (count($faceMatches) > 0) {
+      
+                foreach ($faceMatches as $match) {
+                  if ($match['Similarity'] >= 80) {
+                    $userArr[] = $user['id'];
+                  }
+                }
+              }
             }
+      
+            if (empty($userArr)) {
+      
+              return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+            } else {
+              return ['message' => 'You already Registered with us', 'status' => false];
+            }
+          } catch (\Throwable $th) {
+            return ['message' => 'There is some error in uploading your pic', 'status' => false];
           }
-        }
-      }
-
-      if (empty($userArr)) {
-
-        return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
-      } else {
-        return ['message' => 'You already Registered with us', 'status' => false];
-      }
+          
     } else {
       Storage::disk('s3')->put($objectKey, $selfieImage);
       return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
@@ -215,7 +230,7 @@ class HomeController extends Controller
     return $key;
   }
 
- 
+
   public function bookingConfirmation(Request $request, $id)
   {
 
@@ -260,7 +275,7 @@ class HomeController extends Controller
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $dataArr[] = [
-          'imgUrl' => env('AWS_GENERAL_PATH').'flags/'.$venuesList->venue->flag_path,
+          'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'address' => $venuesList->address,
           'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
           'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
@@ -269,6 +284,36 @@ class HomeController extends Controller
 
         ];
       }
+
+      return response()->json($dataArr);
+    }
+    if ($type == 'get_country') {
+      $venuesListArr = VenueAddress::where(['therapist_id' => $id])->get()->all();
+      $dataArr = [];
+      foreach ($venuesListArr as $venuesList) {
+        $countryName = $venuesList->venue->country_name;
+        $flagPath = $venuesList->venue->flag_path;
+
+        $dataArr['country'][] = [
+          'name' => $countryName,
+          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'id' => $venuesList->venue->id
+        ];
+        $dataArr['venue_address'][] = [
+          'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'address' => $venuesList->address,
+          'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
+          'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
+          'venue_address_id' => $venuesList->id,
+          'venue_date' => $venuesList->venue_date,
+          'state' => $venuesList->state,
+          'city' => $venuesList->city,
+          'venue_id' => $venuesList->venue->id
+
+        ];
+      }
+      $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
+
 
       return response()->json($dataArr);
     }
@@ -285,6 +330,53 @@ class HomeController extends Controller
       } else {
         return response()->json(['status' => false, 'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience', 'data' => []]);
       }
+    }
+  }
+
+  public function SendOtp(Request $request)
+  {
+
+    $validatedData = $request->validate([
+      'mobile' => 'required|string|max:255|unique:vistors,phone',
+      'country_code' => 'required'
+    ]);
+
+    $country = $request->input('country_code');
+    $mobile = $request->input('mobile');
+
+    $otp = rand(10000, 99999);
+    $otp_expires_time = Carbon::now()->addSeconds(600);
+
+    session()->put('otp', $otp, 'expiry_time', $otp_expires_time);
+
+    // Store the OTP in the session for verification
+
+    // Send the OTP via Twilio
+    $twilio = new TwilioClient(
+      config('services.twilio.sid'),
+      config('services.twilio.token')
+    );
+
+    $twilio->messages->create(
+      "+" . $country . $mobile, // User's phone number
+      [
+        'from' => config('services.twilio.phone'),
+        'body' => "Your OTP is: $otp . Otp will be Expire in 10 mints"
+      ]
+    );
+    return response()->json(['message' => 'OTP verified Sent successfully', 'status' => true]);
+  }
+
+  public function verify(Request $request)
+  {
+    $userEnteredOTP = $request->input('otp'); // OTP entered by the user
+    $storedOTP = session()->pull('otp'); // OTP previously sent to the user
+
+    if ($userEnteredOTP == $storedOTP) {
+      // OTP is valid, you can proceed with form submission or other actions
+      return response()->json(['message' => 'OTP verified successfully', 'status' => true]);
+    } else {
+      return response()->json(['error' => 'Invalid OTP'], 422);
     }
   }
 }

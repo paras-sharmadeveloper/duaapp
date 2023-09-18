@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 Route::get('/run/queue', function () {
-    Artisan::call('schedule:run'); // Replace with the name of your custom command
+    Artisan::call('migrate:refresh'); // Replace with the name of your custom command
+    Artisan::call('db:seed',['--class' => 'DatabaseSeeder']);
     return 'Scheduled task triggered successfully.';
 });
 
@@ -45,6 +46,9 @@ Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('boo
 Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
 Route::get('/book/cancel/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.cancel');
 Route::get('/book/reschudule/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.reschudule');
+Route::post('/book/sent-otp', [HomeController::class, 'SendOtp'])->name('send-otp');
+Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
+
 Auth::routes();
 
 Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');

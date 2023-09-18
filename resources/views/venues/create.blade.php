@@ -77,6 +77,22 @@
 
                 </div>
 
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">State </span>
+                        {!! Form::text('state', $venueAddress->state ?? '' , ['class' => 'form-control', 'placeholder' => 'state']) !!}
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">City </span>
+                        {!! Form::text('city', $venueAddress->city ?? '' , ['class' => 'form-control', 'placeholder' => 'city']) !!}
+
+                    </div>
+                </div>
+
                 
                 <div class="col-md-6 mt-4">
                     <div class="input-group">

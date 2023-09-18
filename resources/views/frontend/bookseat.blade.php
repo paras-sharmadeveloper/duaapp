@@ -2,233 +2,7 @@
 @section('content')
 
     <style>
-        body {
-            background-color: #f2f5f8;
-            font-family: 'Karla', sans-serif;
-        }
-
-        .select2-container .select2-selection--single {
-            height: 38px;
-        }
-
-        .main-content .wizard-form .progressbar-list::before {
-            content: " ";
-            background-color: rgb(155, 155, 155);
-            border: 10px solid #fff;
-            border-radius: 50%;
-            display: block;
-            width: 30px;
-            height: 30px;
-            margin: 9px auto;
-            box-shadow: 1px 1px 3px #606060;
-            transition: all;
-        }
-
-        .main-content .wizard-form .progressbar-list::after {
-            content: "";
-            background-color: rgb(155, 155, 155);
-            padding: 0px 0px;
-            position: absolute;
-            top: 14px;
-            left: -50%;
-            width: 100%;
-            height: 2px;
-            margin: 9px auto;
-            z-index: -1;
-            transition: all 0.8s;
-        }
-
-        .main-content .wizard-form .progressbar-list.active::after {
-            background-color: #763cb0;
-        }
-
-        .main-content .wizard-form .progressbar-list:first-child::after {
-            content: none;
-        }
-
-        .main-content .wizard-form .progressbar-list.active::before {
-            font-family: "Font Awesome 5 free";
-            content: "\f00c";
-            font-size: 11px;
-            font-weight: 600;
-            color: #fff;
-            padding: 6px;
-            background-color: #763cb0;
-            border: 1px solid #763cb0;
-            box-shadow: 0 0 0 7.5px rgb(118 60 176 / 11%);
-        }
-
-        .progressbar-list {
-            color: #6f787d;
-        }
-
-        .active {
-            color: #000;
-        }
-
-        /* card */
-        .card img {
-            width: 40px;
-        }
-
-        .card {
-            border: 3px solid rgb(145 145 145);
-            cursor: pointer;
-        }
-
-        .active-card {
-            color: #763cb0;
-            font-weight: bold;
-            border: 3px solid #763cb0;
-        }
-
-        .form-check-input:focus {
-            box-shadow: none;
-        }
-
-        .bg-color-info {
-            background-color: #00d69f;
-        }
-
-        .border-color {
-            border-color: #ececec;
-        }
-
-        .btn {
-            padding: 16px 30px;
-        }
-
-        .back-to-wizard {
-            transform: translate(-50%, -139%) !important;
-        }
-
-        .bg-success-color {
-            background-color: #87D185;
-        }
-
-        .bg-success-color:focus {
-            box-shadow: 0 0 0 0.25rem rgb(55 197 20 / 25%);
-        }
-
-        .card img {
-            margin: auto;
-        }
-
-        .row.justify-content-center.form-business.sloting-main .sloting-inner {
-            max-height: 500px;
-            height: 500px;
-            overflow: overlay;
-        }
-
-        div#slot-listing h1 {
-            width: 100%;
-        }
-
-        button.btn:hover {
-            color: #000 !important;
-            background-color: grey;
-        }
-
-        .card-title {
-            padding: 10px 0 4px 0;
-            font-size: 18px;
-            font-weight: 500;
-            color: #012970;
-            font-family: "Poppins", sans-serif;
-        }
-
-        .card-body {
-            padding: 0 17px 0px 20px;
-        }
-
-
-
-        video#video,
-        #selfie-image {
-            height: 200px;
-            width: 250px;
-        }
-
-        div#captured-image {
-            margin-bottom: 15px;
-        }
-
-        .loader {
-            border: 5px solid #3498db;
-            border-top: 5px solid transparent;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-
-        .loader-main {
-            display: flex;
-            justify-content: center;
-            margin-top: 5px;
-        }
-
-        .success {
-            text-align: center;
-            font-size: 16px;
-            color: green;
-            font-weight: 900;
-        }
-
-        .danger{
-            color: red;
-            text-align: center;
-            font-size: 16px;
-        }
-
-        div#error {
-            margin: 20px 0;
-        }
-        .error{color: red}
-        .error.country_code {
-            position: absolute;
-            z-index: 999;
-            /* left: 0; */
-            font-size: 9px;
-            bottom: -89px;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @media (max-width: 767px) {
-            span.select2.select2-container.select2-container--default {width: 100% !important;flex: auto !important;}
-            .col { flex-shrink: 0 !important;flex: auto;}
-            .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px; }
-            .selfie {text-align: center;}
-            .p-4 {padding: 0.5rem!important;}
-            .card {margin-bottom: 20px; }
-            .logoo img {height: 80px;width: 80px;}
-            .mt-4 {margin-top: 0.5rem!important;}
-            .error.country_code {font-size: 14px;bottom: 2px;}
-            
-
-        }
-        /* Styles for tablets (e.g., iPads) */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            /* Your CSS styles for tablets here */
-            /* Modify layout, font sizes, and other styles for tablets */
-        }
-        @media (min-width: 1024px) {
-            .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px;}
-            .error.country_code { bottom: -35px;}
-        }
-
-    figcaption {
-    font-size: 10px;
-}
+       
 
 
     </style>
@@ -248,27 +22,43 @@
 
 
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow">
+                    
                     <!-- col -->
                     <div class="col-md-10 text-center">
+
+                      
                         <!-- wizard -->
                         <div class="wizard-form py-4 my-2">
                             <!-- ul -->
                             <ul id="progressBar" class="progressbar px-lg-5 px-0">
-                                <li id="progressList-1"
+                                <li id="progressList-0"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list active">
                                     Step 1</li>
-                                <li id="progressList-2"
+                                <li id="progressList-1"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Step 2</li>
-                                <li id="progressList-3"
+                                <li id="progressList-2"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Step 3</li>
-                                <li id="progressList-4"
+                                <li id="progressList-3"
+                                    class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
+                                    Step 4</li>
+                                    <li id="progressList-4"
+                                    class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
+                                    Step 5</li>
+                                <li id="progressList-5"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Done</li>
+
+                                    <img src="/assets/loader.gif" alt="" class="loader-img" style="display: none">
+                                 
+                                  
                             </ul>
+                            
+                           
                             <!-- /ul -->
                         </div>
+                        
                         <!-- /wizard -->
                     </div>
 
@@ -289,7 +79,7 @@
                                     <use xlink:href="#exclamation-triangle-fill" />
                                 </svg>
                                 <div>
-                                    Please select any card , only then you can move further!
+                                    Please select any card , only then you can move furthe  asdr!
                                 </div>
                             </div>
                         </div>
@@ -297,23 +87,23 @@
                     <!-- /col -->
                 </div>
                 <!-- /row -->
-                <!-- row -->
+
                 <div class="row justify-content-center" id="cardSection">
-                    <!-- col -->
+                       
                     <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select Country</h3>
+                        <h3 class="fw-bold">Select Thripist</h3>
                         <p class="small">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
-                            @foreach ($VenueList as $venue)
+                            @foreach ($therapists as $therapist)
                                 <div class="col-lg-3 col-md-4">
-                                    <div class="card text-center h-60 py-2 shadow-sm country-section"
-                                        data-id="{{ $venue->id }}">
-                                        <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image">
+                                    <div class="card text-center h-60 py-2 shadow-sm thripist-section"
+                                        data-id="{{ $therapist->id }}">
+                                        <img src="{{ env('AWS_GENERAL_PATH').'images/'.$therapist->profile_pic }}" alt="Profile">
 
                                         {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
                                         <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">{{ $venue->country_name }}</h5>
+                                            <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
                                             <p class="card-text">
                                         </div>
                                     </div>
@@ -323,23 +113,61 @@
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div>
+                    <!-- col -->
+                
                     <!-- /cards -->
                     <!-- NEXT BUTTON-->
 
                     <!-- /NEXT BUTTON-->
                 </div>
-                <!-- /col -->
-
-                <!-- /row -->
                 <!-- row -->
+                <div class="row justify-content-center  form-business" id="cardSection">
+                   
+                    <div class="col-lg-7 col-md-8">
+                        
+                        <h3 class="fw-bold">Select Country</h3>
+                        <p class="small">Please select at least one card</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
+                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                        </div>
+                        <button type="button"
+                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
+                    </div>
+                    <!-- col -->
+                
+                    <!-- /cards -->
+                    <!-- NEXT BUTTON-->
+
+                    <!-- /NEXT BUTTON-->
+                </div>
                 <div class="row justify-content-center form-business">
                     <!-- col -->
                     <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select Venue</h3>
+                        <h3 class="fw-bold">Select City</h3>
                         <p class="small">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="venues-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
+                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                        </div> 
+                        <!-- NEXT BUTTON-->
+                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button"
+                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info">Next</button>
+                        <!-- /NEXT BUTTON-->
+                    </div>
+                    <!-- /col -->
+                </div>
+                <!-- /col -->
 
+                <div class="row justify-content-center form-business">
+                    <!-- col -->
+                    <div class="col-lg-7 col-md-8">
+                        <h3 class="fw-bold">Select Date</h3>
+                        <p class="small">Please select at least one card</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
+                            <img src="/assets/loader.gif" alt="" class="loader-img">
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -350,7 +178,7 @@
                     </div>
                     <!-- /col -->
                 </div>
-                <!-- /row -->
+ 
                 <!-- row -->
                 <div class="row justify-content-center form-business sloting-main">
                     <!-- col -->
@@ -359,7 +187,7 @@
                         <p class="small">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
-
+                            <img src="/assets/loader.gif" alt="" class="loader-img">
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -418,7 +246,7 @@
                                     </div> 
                                         <div class="col col-lg-5  col-md-12">
 
-                                            <select id="single" name="country_code" class="js-states form-control">
+                                            <select id="country_code" name="country_code" class="js-states form-control">
                                                 <option value="">select</option>
                                                 @foreach ($countryList as $country)
                                                     <option value="{{ $country->phonecode }}"> {{ $country->name }}
@@ -427,9 +255,20 @@
                                             </select>
 
                                         </div>
-                                        <div class="col col-lg-7 col-md-12">
-                                            <input type="number" class="form-control" name="mobile"
-                                                placeholder="78978978" aria-label="Mobile">
+                                       
+                                        <div class="col col-lg-7 col-md-12" id="mobile-dib">
+                                            <input type="number" class="form-control" id="mobile" name="mobile"
+                                                placeholder="Enter mobile eg:8884445555" aria-label="Mobile">
+                                                <p> </p>
+                                        </div>
+                                        <div id="opt-form-confirm" style="display: none">
+                                            <p></p>
+                                            <button type="button" class="" id="sendOtp">Send OTP</button>
+                                        </div>
+                                        <div id="opt-form" style="display: none">
+                                            <input type="text" class="form-control"  name="otp" id="otp" placeholder="Enter OTP">
+                                            <p> </p>
+                                            <button type="button" class="" id="submit-otp">Submit</button>
                                         </div>
  
                                 </div>
@@ -456,14 +295,17 @@
                                         class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label>
 
                                     <div class="col-md-6">
-                                        <img id="start-camera" width="64" height="64" src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/external-camera-smartphone-application-wanicon-lineal-color-wanicon.png" alt="external-camera-smartphone-application-wanicon-lineal-color-wanicon"/>
+                                        <button class="btn btn-outline-success" type="button"   id="start-camera">Take Selfie</button>
+                                       
                                         <!-- Add a camera view area -->
                                         <div id="camera-view" style="display: none;">
                                             <video id="video" autoplay playsinline></video>
                                         </div>
                                         <!-- Display the captured image -->
                                         <div id="captured-image" style="display: none;">
+                                           
                                             <img id="selfie-image" src="" alt="Captured Selfie"> 
+                                            <div id="error"></div> 
                                         </div>
  
                                       
@@ -473,32 +315,32 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12 d-flex justify-content-center">
-                                        <figure style="display: none;"  id="capture-selfie">
-                                            <img  width="48" height="48" src="https://img.icons8.com/nolan/48/bandicam.png" alt="bandicam"/> 
-                                            <figcaption>capture</figcaption>
-                                        </figure>
-
-                                        <figure id="restart-camera" style="display: none;" >
-                                             <img   width="48" height="48" src="https://img.icons8.com/nolan/48/restart.png" alt="restart"/> 
-                                            <figcaption>restart</figcaption>
-                                        </figure>
-                                        
-
-                                       
+                                    <div class="loader-main" id="loader-main" style="display: none">
+                                        <div class="loader mb-3"></div>
+                                    
+                                    </div>
+                                    <div class="col-lg-6 d-flex justify-content-evenly">
+                                      
+                                        <button class="btn btn-outline-primary" type="button" style="display: none;"   id="capture-selfie">Capture</button>
+                                    
                                    </div>
+                                    <div class="col-lg-6 d-flex justify-content-evenly">
+                                       
+                                        <button class="btn btn-outline-info mr-2" type="button" style="display: none;"   id="restart-camera">Restart camera</button>
+                                        
+                                   </div>
+                                   
                                </div>
                                 <!-- /Final step -->
-                        </div>
-                        <div id="error"></div>
+                        </div> 
+
+                        
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
                         <button type="submit" id="submitBtn"
                             class="btn text-white float-end submit-button rounded-3 bg-color-info">Finish</button>
 
-                        <div class="loader-main" id="loader-main" style="display: none">
-                            <div class="loader"></div>
-                        </div>
+                       
                          
                         </form>
                         <!-- /NEXT BUTTON-->
@@ -521,7 +363,7 @@
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-        $("#single").select2({
+        $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
         });
@@ -537,16 +379,18 @@
             // next button
             $(".next").on({
                 click: function() {
-
+                    $(".loader-img").show();
 
                     // select any card
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
                     if (getValue) {
                         $("#progressBar").find(".active").next().addClass("active");
                         $("#alertBox").addClass("d-none");
-                        $(this).parents(".row").fadeOut("slow", function() {
-                            $(this).next(".row").fadeIn("slow");
-                        });
+                       
+                         $(this).parents(".row").fadeOut("slow", function() {
+                          $(this).next(".row").fadeIn(); 
+                          $(".loader-img").hide();
+                         });
 
                     } else {
                         $("#alertBox").removeClass("d-none").find("div").text(
@@ -557,9 +401,12 @@
             // back button
             $(".back").on({
                 click: function() {
+                    $(".loader-img").show();
                     $("#progressBar .active").last().removeClass("active");
+                   // $(this).next(".row").show();
                     $(this).parents(".row").fadeOut("slow", function() {
-                        $(this).prev(".row").fadeIn("slow");
+                        $(".loader-img").hide();
+                        $(this).prev(".row").fadeIn();
                     });
                 }
             });
@@ -576,14 +423,29 @@
             $(document).on("click", ".card", function() {
                 $(this).toggleClass("active-card");
                 var cardId = $(this).attr('data-id');
-                if ($(this).hasClass('country-section')) {
-                    getAjax(cardId, 'venue_address')
-                } else if ($(this).hasClass('venues-selection')) {
-                    getAjax(cardId, 'get_slots')
 
-                } else if ($(this).hasClass('slot-selection')) {
-                    $("#slot_id_booked").val(cardId);
+                if ($(this).hasClass('thripist-section')) {
+                    getAjax(cardId, 'get_country')
+                }else if ($(this).hasClass('city-selection')) {
+                  
+                     getAjax(cardId, 'city_section')
+                } else if ($(this).hasClass('date-selection')) {
+                    getAjax(cardId, 'date_section')
+                  //  $("#slot_id_booked").val(cardId);
                 }
+                else if ($(this).hasClass('date-selection')) {
+                    getAjax(cardId, 'date_section')
+                  //  $("#slot_id_booked").val(cardId);
+                }
+                else if ($(this).hasClass('slot-selection')) {
+                    getAjax(cardId, 'get_slots')
+                    // $("#slot_id_booked").val(cardId);
+                }else if ($(this).hasClass('slot-capture')) {
+                    // getAjax(cardId, 'get_slots')
+                     $("#slot_id_booked").val(cardId);
+                }
+
+                
 
                 $(this).parent(".col").siblings().children(".card").removeClass("active-card");
             })
@@ -596,6 +458,19 @@
         });
 
         function getAjax(id, type) {
+            if(type == 'city_section'){
+                
+                $(`.country-enable-n`).addClass('d-none'); 
+                $(`.country-enable-${id}`).removeClass('d-none');
+                return true; 
+                $(".loader-img").hide();
+            }else if(type == 'date_section'){
+                
+                $(`.date-enable-n`).addClass('d-none'); 
+                $(`.date-enable-${id}`).removeClass('d-none');
+                $(".loader-img").hide();
+                return true; 
+            } 
 
             $.ajax({
                 type: 'POST',
@@ -609,34 +484,62 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    if (type == 'venue_address') {
-                        var html = '';
-                        $.each(response, function(key, item) {
-                            html += `<div class="col col-lg-6 col-md-7">
-                            <div class="card text-center h-60 py-2 shadow-sm venues-selection" data-id="${item.venue_address_id}">
-                                <img src="${item.imgUrl}" alt="Flag Image"> 
+                    $(".loader-img").hide();
+                    if (type == 'get_country') {
+                        var country = '';
+                        $.each(response.country, function(key, item) {
+                            country += `<div class="col col-lg-6 col-md-7">
+                            <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.id}">
+                                <img src="${item.flag_path}" alt="Flag Image"> 
                                 <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${item.address}</h5>
-                                    <p class="card-text">Slot Date
-                                       <strong> ${item.venue_date} </strong>
-                                    </p
-                                    <p class="card-text">Slot Timings
-                                        ${item.slot_start}
-                                        -
-                                        ${item.slot_ends}
-                                    </p>
+                                    <h5 class="card-title title-binding">${item.name}</h5>
+                                   
                                 </div>
                             </div>
                         </div>`;
                         })
-                        $("#venues-listing").html(html);
+
+                        $("#country-listing").html(country);
+                        var city = '';
+                        var darte = '';
+                        $.each(response.venue_address, function(key, item) {
+                            city += `<div class="col col-lg-6 col-md-7 country-enable-n country-enable-${item.venue_id} d-none">
+                            <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
+                                <img src="${item.imgUrl}" alt="Flag Image"> 
+                                <div class="card-body px-0">
+                                    <h5 class="card-title title-binding">${item.city}</h5>
+                                     
+                                </div>
+                            </div>
+                        </div>`;
+                        darte += `<div class="col col-lg-6 col-md-7 date-enable-n date-enable-${item.venue_address_id} d-none">
+                            <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
+                                <img src="${item.imgUrl}" alt="Flag Image"> 
+                                <div class="card-body px-0">
+                                    <h5 class="card-title title-binding">${item.venue_date}</h5>  
+                                </div>
+                            </div>
+                        </div>`;
+                        })
+                        $("#city-listing").html(city); 
+
+                        $("#date-listing").html(darte);
+
+                       
+
+
                     }
+                    // if (type == 'venue_address') {
+                    //     var html = '';
+                       
+                    //     $("#venues-listing").html(html);
+                    // }
                     if (type == 'get_slots') {
                         var html = '';
                         if (response.status) {
                             $.each(response.data, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-7">
-                                <div class="card text-center h-10 py-0 shadow-sm slot-selection" data-id="${item.id}">
+                                <div class="card text-center h-10 py-0 shadow-sm slot-capture" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
                                         <h5 class="card-title title-binding">${item.slot_time}</h5>
@@ -671,7 +574,7 @@
             // Add an event listener to the form's submit event
             $('#booking-form').submit(function(event) {
                 event.preventDefault(); // Prevent the default form submission
-
+                $(".loader-img").show();
                 // Serialize the form data
                 var formData = $(this).serialize();
 
@@ -681,13 +584,14 @@
                     type: $(this).attr('method'), // Get the form's HTTP method (POST in this case)
                     data: formData, // Use the serialized form data
                     success: function(response) {
+                        $(".loader-img").hide();
                         // Handle the success response here (e.g., display a message) 
                         $("#wizardRow").fadeOut(300);
                         $("#successForm").fadeOut(300);
-                        $("#successMessage").fadeIn(3000);
-                        console.log(response); // You can log or display the response as needed
+                        $("#successMessage").fadeIn(3000); 
                     },
                     error: function(error) {
+                        $(".loader-img").hide();
                         if(error.responseJSON.status== false){
                             alert(error.responseJSON.message);
                         }
@@ -759,10 +663,7 @@
             });
 
             // Add an event listener to the "Capture Selfie" button
-            captureSelfieButton.on('click', function() {
-
-
-
+            captureSelfieButton.on('click', function() { 
                 // Create a canvas to capture the current frame
                 var canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
@@ -836,4 +737,71 @@
 
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+       $('#mobile').on('input', function() {
+           // Get the value of the phone input
+           let phoneNumber = $(this).val();
+
+           // Remove any non-digit characters (e.g., spaces, dashes)
+           phoneNumber = phoneNumber.replace(/\D/g, '');
+
+           // Check if the phone number has reached 10 digits
+           if (phoneNumber.length === 10) {
+               $("#submitBtn").hide();
+               $("#opt-form-confirm").fadeIn(500);
+           }else{
+               $("#submitBtn").show();
+               $("#opt-form-confirm").fadeOut(500);
+           }
+       });
+       $("#sendOtp").click(function(){
+           
+           $.ajax({
+               url: "{{ route('send-otp') }}",
+               type: 'POST',
+               data: {  
+                   country_code : $("#country_code").val(),
+                   mobile : $("#mobile").val(),
+
+               },
+               success: function(response) {
+                $("#opt-form").show(); 
+                $("#opt-form").find('p').text('Otp is sent on your mobile please confirm your number');
+                $("#submitBtn").hide(); 
+                   alert(response.message); 
+               },
+               error: function(xhr) {
+              
+                $("#opt-form-confirm").find('p').text(xhr.responseJSON.message);
+                    
+               }
+           });
+       })
+
+       $("#submit-otp").click(function(){
+           $("#opt-form").show(); 
+           
+           $("#submitBtn").hide(); 
+           $.ajax({
+               url: "{{ route('verify-otp') }}",
+               type: 'POST',
+               data: {  otp: $("#otp").val() },
+               success: function(response) {
+                $("#opt-form-confirm").hide(); 
+                   $("#submitBtn").show(); // Display a success message
+                   $("#opt-form").hide(); 
+                   $("#mobile-dib").find('p').addClass('text-success').text('Mobile Number Verified')
+                   // You can proceed with form submission here
+               },
+               error: function(xhr) {
+                $("#opt-form").find('p').text(xhr.responseJSON.error); 
+               }
+           });
+       })
+   });
+
+   
+   </script>
 @endsection

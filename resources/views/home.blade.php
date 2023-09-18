@@ -23,7 +23,7 @@
                   </ul>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body d-none">
                     <div class="d-flex justify-content-between
                     ">
                           <h5 class="card-title">Balance <span>| Today</span></h5>

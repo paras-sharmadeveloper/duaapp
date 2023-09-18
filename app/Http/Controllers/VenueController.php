@@ -43,15 +43,17 @@ class VenueController extends Controller
             'venue_addresses' => 'required',
             'venue_starts' => 'required',
             'venue_ends' => 'required', 
+            'city' => 'required',
 
         ]);
-
+       
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
         $venueStarts = $request->input('venue_starts');
-        $venueEnds = $request->input('venue_ends');
- 
+        $venueEnds = $request->input('venue_ends'); 
             $venueAddress =   VenueAddress::create([
+                'city' => $request->input('city'), 
+                'state' =>  $request->input('state',null), 
                 'address' => $venueAdd,
                 'venue_date' => $venueDate,
                 'slot_starts_at' =>  $venueStarts,
@@ -90,6 +92,7 @@ class VenueController extends Controller
             'venue_addresses' => 'required',
             'venue_starts' => 'required',
             'venue_ends' => 'required', 
+            'city' => 'required',
 
         ]);
         
@@ -99,6 +102,8 @@ class VenueController extends Controller
         $venueEnds = $request->input('venue_ends');
          
         $VenueAddress->update([
+            'city' => $request->input('city'), 
+            'state' =>  $request->input('state',null), 
             'address' => $venueAdd,
             'venue_date' => $venueDate,
             'slot_starts_at' =>  $venueStarts,

@@ -1,0 +1,253 @@
+body {
+    background-color: #f2f5f8;
+    font-family: 'Karla', sans-serif;
+}
+
+.select2-container .select2-selection--single {
+    height: 38px;
+}
+
+.main-content .wizard-form .progressbar-list::before {
+    content: " ";
+    background-color: rgb(155, 155, 155);
+    border: 10px solid #fff;
+    border-radius: 50%;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 9px auto;
+    box-shadow: 1px 1px 3px #606060;
+    transition: all;
+}
+
+.main-content .wizard-form .progressbar-list::after {
+    content: "";
+    background-color: rgb(155, 155, 155);
+    padding: 0px 0px;
+    position: absolute;
+    top: 14px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    margin: 9px auto;
+    z-index: -1;
+    transition: all 0.8s;
+}
+
+.main-content .wizard-form .progressbar-list.active::after {
+    background-color: #763cb0;
+}
+
+.main-content .wizard-form .progressbar-list:first-child::after {
+    content: none;
+}
+
+.main-content .wizard-form .progressbar-list.active::before {
+    font-family: "Font Awesome 5 free";
+    content: "\f00c";
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    padding: 6px;
+    background-color: #763cb0;
+    border: 1px solid #763cb0;
+    box-shadow: 0 0 0 7.5px rgb(118 60 176 / 11%);
+}
+
+.progressbar-list {
+    color: #6f787d;
+}
+
+.active {
+    color: #000;
+}
+
+/* card */
+.card img {
+    width: 40px;
+}
+
+.card {
+    border: 3px solid rgb(145 145 145);
+    cursor: pointer;
+}
+
+.active-card {
+    color: #763cb0;
+    font-weight: bold;
+    border: 3px solid #763cb0;
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+}
+
+.bg-color-info {
+    background-color: #00d69f;
+}
+
+.border-color {
+    border-color: #ececec;
+}
+
+.btn {
+    padding: 16px 30px;
+}
+
+.back-to-wizard {
+    transform: translate(-50%, -139%) !important;
+}
+
+.bg-success-color {
+    background-color: #87D185;
+}
+
+.bg-success-color:focus {
+    box-shadow: 0 0 0 0.25rem rgb(55 197 20 / 25%);
+}
+
+.card img {
+    margin: auto;
+}
+
+.row.justify-content-center.form-business.sloting-main .sloting-inner {
+    max-height: 500px;
+    height: 500px;
+    overflow: overlay;
+}
+
+div#slot-listing h1 {
+    width: 100%;
+}
+
+button.btn:hover {
+    color: #000 !important;
+    background-color: grey;
+}
+
+.card-title {
+    padding: 10px 0 4px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+}
+
+.card-body {
+    padding: 0 17px 0px 20px;
+}
+
+
+
+video#video,
+#selfie-image {
+    height: 200px;
+    width: 250px;
+}
+
+div#captured-image {
+    margin-bottom: 15px;
+}
+
+.loader {
+    border: 5px solid #3498db;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+.loader-main {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.success {
+    text-align: center;
+    font-size: 16px;
+    color: green;
+    font-weight: 900;
+}
+
+.danger{
+    color: red;
+    text-align: center;
+    font-size: 16px;
+}
+
+div#error {
+    margin: 20px 0;
+}
+.error{color: red}
+.error.country_code {
+    position: absolute;
+    z-index: 999;
+    /* left: 0; */
+    font-size: 9px;
+    bottom: -89px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 767px) {
+    span.select2.select2-container.select2-container--default {width: 100% !important;flex: auto !important;}
+    .col { flex-shrink: 0 !important;flex: auto;}
+    .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px; }
+    .selfie {text-align: center;}
+    .p-4 {padding: 0.5rem!important;}
+    .card {margin-bottom: 20px; }
+    .logoo img {height: 80px;width: 80px;}
+    .mt-4 {margin-top: 0.5rem!important;}
+    .error.country_code {font-size: 14px;bottom: -20px;}
+    .row .loader-img {
+        margin: 17px !important;
+    }
+    
+
+}
+/* Styles for tablets (e.g., iPads) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Your CSS styles for tablets here */
+    /* Modify layout, font sizes, and other styles for tablets */
+}
+@media (min-width: 1024px) {
+    .row.justify-content-center.form-business.sloting-main .sloting-inner {max-height: 290px;}
+    .error.country_code { bottom: -35px;}
+}
+
+figcaption {
+font-size: 10px;
+}
+
+.thripist-section img {
+height: 100%;
+width: 90%;
+border-radius: 20%;
+}
+.loader-img{
+    height: 64px;
+    width: 64px !important;
+}
+.row .loader-img {
+    margin: auto;
+}
+
+#progressBar .w-25 {
+    width: 14%!important;
+}
+.row .loader-img {
+    margin: auto ;
+}
+/* ul#progressBar img {
+    margin-top: 50px;
+} */
