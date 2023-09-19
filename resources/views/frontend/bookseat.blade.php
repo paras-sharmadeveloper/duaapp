@@ -364,7 +364,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-         $(".form-business").show();
+         $(".form-business").hide();
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
