@@ -9,7 +9,9 @@ use App\Http\Controllers\{
     HomeController,
     VenueController,
     VistorsController,
-    VenueCountryController
+    VenueCountryController,
+    BookingController,
+    SiteAdminController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -43,9 +45,15 @@ Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
+Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
+  
+Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
+Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
+Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
 Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
-Route::get('/book/cancel/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.cancel');
-Route::get('/book/reschudule/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.reschudule');
+Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
+Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
+Route::any('/book/reschdule/{id}', [HomeController::class, 'BookingReschdule'])->name('book.reschdule');
 Route::post('/book/sent-otp', [HomeController::class, 'SendOtp'])->name('send-otp');
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 
@@ -67,6 +75,12 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::resource('venues',VenueController::class);
     Route::resource('visitor',VistorsController::class);
     Route::resource('country',VenueCountryController::class);
+
+    Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
+    Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
+ 
+
+    
 
 
 });

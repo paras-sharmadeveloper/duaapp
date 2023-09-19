@@ -93,6 +93,26 @@
            
         </ul>
       </li>
+
+      @can('user-management-access')
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#siteadmin-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="siteadmin-nav" 
+        class="{{ ( $currentPath == 'siteadmin.queue.show'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        data-bs-parent="#sidebar-nav">
+           
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" class="{{ ( $currentPath == 'siteadmin.queue.show') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Show</span>
+            </a>
+          </li>
+             
+           
+        </ul>
+      </li>
+      @endcan 
     
 
 

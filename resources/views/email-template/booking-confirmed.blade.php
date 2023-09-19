@@ -181,10 +181,15 @@ body {font-family: 'Lato', sans-serif;}
 <div style="font-family: inherit; text-align: left"><br></div>
 <div style="font-family: inherit; text-align: inherit"><span style="font-family: inherit"><strong>Event Name: {{  $dynamicData['event_name'] }}<br>
 </strong></span><span style="font-family: inherit">Location: {{ $dynamicData['location'] }} <br>
-</span></div>
+</span>
+</div>
 <div style="font-family: inherit; text-align: inherit">
   <span style="font-family: inherit">You can join this meeting from your computer, tablet, or smartphone.<br>
     {{ $dynamicData['meeting_link'] }}
+<br>
+<div style="font-family: inherit; text-align: inherit">
+  <span style="font-family: inherit">When You vist your location you have to confirm your check in .<br>
+    {{ $dynamicData['spot_confirmation'] }}
 <br>
 <br>
 Need to make changes to this event?<br>
@@ -196,6 +201,8 @@ Reschedule: </span><span style="box-sizing: border-box; padding-top: 0px; paddin
   {{ $dynamicData['meeting_reschedule_link'] }}
 </span><span style="font-family: inherit"> &nbsp;</span></div>
 <div style="font-family: inherit; text-align: inherit"><br></div>
+<div style="font-family: inherit; text-align: inherit"><span style="font-family: inherit"><strong>BookingId<br>
+</strong></span><span style="font-family: inherit">{{  $dynamicData['booking_number'] }}</span></div>
 <div style="font-family: inherit; text-align: inherit"><span style="font-family: inherit"><strong>When<br>
 </strong></span><span style="font-family: inherit">{{  $dynamicData['meeting_date_time'] }}</span></div>
 <div style="font-family: inherit; text-align: inherit"><br></div>

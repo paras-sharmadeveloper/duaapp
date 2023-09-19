@@ -10,21 +10,16 @@ use App\Jobs\{SendMessage, SendEmail};
 use App\Mail\BookingConfirmationEmail;
 use Illuminate\Support\Facades\Mail;
 use Aws\Rekognition\RekognitionClient;
-use Illuminate\Contracts\Session\Session;
+
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Cache;
+use App\Traits\OtpTrait;
 
 use Twilio\Rest\Client as TwilioClient;
 
 class HomeController extends Controller
 {
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
+   use OtpTrait; 
   public function __construct()
   {
     //  $this->middleware('auth');
@@ -42,7 +37,7 @@ class HomeController extends Controller
     $therapistRole = Role::where('name', 'therapist')->first();
     $VenueList = Venue::all();
     $countryList = Country::all();
-     
+
     $therapists = $therapistRole->users;
 
     return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists'));
@@ -71,6 +66,10 @@ class HomeController extends Controller
 
     $uuid = Str::uuid()->toString();
     $countryCode = $request->input('country_code');
+    $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
+    $randomString = Str::random(3); // Generate a random string of 6 characters
+
+    $bookingNumber = $timestamp . $randomString;
     // Create a new Vistors record in the database
     $mobile = $countryCode . $validatedData['mobile'];
     $booking = new Vistors;
@@ -85,14 +84,15 @@ class HomeController extends Controller
     $booking->booking_uniqueid = $uuid;
     $booking->user_ip =   $request->ip();
     $booking->recognized_code = $isUsers['recognized_code'];
+    $booking->booking_number = $bookingNumber;
+
+    
     // Save the booking record
     $booking->save();
 
     $venueSlots = VenueSloting::find($request->input('slot_id'));
     $venueAddress = $venueSlots->venueAddress;
     $venue = $venueAddress->venue;
-
-    $Mobilemessage  = "Hi, Here is your Booking Confirmed with us.\nHere is your Booking link\n" . route('book.confirmation', [$uuid]);
 
     $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
     $dateTime = Carbon::parse($eventData);
@@ -105,14 +105,17 @@ class HomeController extends Controller
       'country' =>  $venue->country_name,
       'event_name' => "1 Minute Online Dua Appointment",
       'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
-      "meeting_link" => route('book.confirmation', [$uuid]),
-      'meeting_cancel_link' => route('book.cancel', [$uuid]),
-      'meeting_reschedule_link' => route('book.reschudule', [$uuid]),
+      "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
+      "meeting_link" => route('book.status', [$uuid]),
+      'meeting_cancel_link' => route('book.cancle', [$uuid]),
+      'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
       'unsubscribe_link' => '',
       'meeting_date_time' => $formattedDateTime,
       'meeting_location' => $venueAddress->type,
       'therapist_name' => $venueAddress->user->name,
+      'booking_number' => $bookingNumber
     ];
+    $Mobilemessage  = "Hi ".$validatedData['fname'].",\n Your Booking Confirmed with us.\nBookID:".$bookingNumber."\nHere is your Booking Status link\n ".route('booking.status', [$uuid])."\n When you vist at place you vist confirmation link" . route('booking.confirm-spot')."\nThanks\nTeam\nKahay Faqeer."; 
 
     SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id);
     SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id);
@@ -132,55 +135,54 @@ class HomeController extends Controller
     if (!empty($userAll)) {
 
 
-          try {
-            $rekognition = new RekognitionClient([
-              'version' => 'latest',
-              'region' => env('AWS_DEFAULT_REGION'),
-              'credentials' => [
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+      try {
+        $rekognition = new RekognitionClient([
+          'version' => 'latest',
+          'region' => env('AWS_DEFAULT_REGION'),
+          'credentials' => [
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+          ],
+        ]);
+        Storage::disk('s3')->put($objectKey, $selfieImage);
+
+        foreach ($userAll as $user) {
+
+          $response = $rekognition->compareFaces([
+            'SourceImage' => [
+              'S3Object' => [
+                'Bucket' => env('AWS_BUCKET'),
+                'Name' => $objectKey,
               ],
-            ]);
-            Storage::disk('s3')->put($objectKey, $selfieImage);
-      
-            foreach ($userAll as $user) {
-      
-              $response = $rekognition->compareFaces([
-                'SourceImage' => [
-                  'S3Object' => [
-                    'Bucket' => env('AWS_BUCKET'),
-                    'Name' => $objectKey,
-                  ],
-                ],
-                'TargetImage' => [
-                  'S3Object' => [
-                    'Bucket' => env('AWS_BUCKET'),
-                    'Name' => $user['recognized_code'],
-                  ],
-                ],
-              ]);
-      
-              $faceMatches = $response['FaceMatches'];
-              if (count($faceMatches) > 0) {
-      
-                foreach ($faceMatches as $match) {
-                  if ($match['Similarity'] >= 80) {
-                    $userArr[] = $user['id'];
-                  }
-                }
+            ],
+            'TargetImage' => [
+              'S3Object' => [
+                'Bucket' => env('AWS_BUCKET'),
+                'Name' => $user['recognized_code'],
+              ],
+            ],
+          ]);
+
+          $faceMatches = $response['FaceMatches'];
+          if (count($faceMatches) > 0) {
+
+            foreach ($faceMatches as $match) {
+              if ($match['Similarity'] >= 80) {
+                $userArr[] = $user['id'];
               }
             }
-      
-            if (empty($userArr)) {
-      
-              return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
-            } else {
-              return ['message' => 'You already Registered with us', 'status' => false];
-            }
-          } catch (\Throwable $th) {
-            return ['message' => 'There is some error in uploading your pic', 'status' => false];
           }
-          
+        }
+
+        if (empty($userArr)) {
+
+          return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+        } else {
+          return ['message' => 'You already Registered with us', 'status' => false];
+        }
+      } catch (\Throwable $th) {
+        return ['message' => 'There is some error in uploading your pic', 'status' => false];
+      }
     } else {
       Storage::disk('s3')->put($objectKey, $selfieImage);
       return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
@@ -345,39 +347,25 @@ class HomeController extends Controller
     $country = $request->input('country_code');
     $mobile = $request->input('mobile');
 
-    $otp = rand(10000, 99999);
-    $otp_expires_time = Carbon::now()->addSeconds(600);
-
-    session()->put('otp', $otp, 'expiry_time', $otp_expires_time);
-
-    // Store the OTP in the session for verification
-
-    // Send the OTP via Twilio
-    $twilio = new TwilioClient(
-      config('services.twilio.sid'),
-      config('services.twilio.token')
-    );
-
-    $twilio->messages->create(
-      "+" . $country . $mobile, // User's phone number
-      [
-        'from' => config('services.twilio.phone'),
-        'body' => "Your OTP is: $otp . Otp will be Expire in 10 mints"
-      ]
-    );
-    return response()->json(['message' => 'OTP verified Sent successfully', 'status' => true]);
+     $result =  $this->SendOtp($mobile,$country);
+    
+    if($result['status']){
+      return response()->json(['message' => 'OTP verified Sent successfully', 'status' => true]);
+    }else{
+      return response()->json(['message' => 'OTP failed to sent', 'status' => false]);
+    }
+    
   }
 
   public function verify(Request $request)
   {
-    $userEnteredOTP = $request->input('otp'); // OTP entered by the user
-    $storedOTP = session()->pull('otp'); // OTP previously sent to the user
+    $userEnteredOTP = $request->input('otp'); // OTP entered by the user 
+    $result = $this->VerifyOtp($userEnteredOTP); 
 
-    if ($userEnteredOTP == $storedOTP) {
-      // OTP is valid, you can proceed with form submission or other actions
+    if($result['stutus']){
       return response()->json(['message' => 'OTP verified successfully', 'status' => true]);
-    } else {
+    }else{
       return response()->json(['error' => 'Invalid OTP'], 422);
-    }
+    } 
   }
 }

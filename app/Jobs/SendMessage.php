@@ -32,7 +32,7 @@ class SendMessage implements ShouldQueue
         $this->message = $message;
         $this->messageSendTo = $recipient;
         $this->is_whatsapp = $is_whatsapp; 
-        $this->visitorId = $id; 
+        $this->visitorId = $id;  
     }   
  
     /**

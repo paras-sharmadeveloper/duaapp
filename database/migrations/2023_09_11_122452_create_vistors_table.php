@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('vistors', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_number');
             $table->string('fname');
             $table->string('lname');
             $table->string('email')->unique();
@@ -30,6 +31,9 @@ return new class extends Migration
             $table->text('recognized_code')->nullable(); 
             $table->timestamp('sms_sent_at')->nullable(); 
             $table->timestamp('email_sent_at')->nullable(); 
+            $table->enum('is_available',['not_confirmed','confirmed'])->default('not_confirmed'); 
+            $table->string('confirmed_at',60)->nullable(); 
+            
             $table->timestamps();
 
         });

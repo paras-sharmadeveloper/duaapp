@@ -35,7 +35,8 @@
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.css" />
   <link href="{{ asset('assets/theme/css/audioplayer.css') }}" rel="stylesheet">
- 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+   
 </head> 
 
 <body>
