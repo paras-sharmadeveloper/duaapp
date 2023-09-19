@@ -6,7 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role; 
-use App\Models\User;
+use App\Models\{User,Country};
+use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
@@ -41,6 +42,7 @@ class AdminSeeder extends Seeder
             'visitor'
         ];
         $this->CraeteAllUsers($roles);
+        $this->InsertCountryData(); 
    
     }
 
@@ -80,5 +82,12 @@ class AdminSeeder extends Seeder
         foreach ($permissions as $permission) {
              Permission::create(['name' => $permission]);
         }
+    }
+
+
+    public function InsertCountryData(){
+        $sqlDumpPath = __DIR__ . '/countries.sql';
+        $sql = file_get_contents($sqlDumpPath);
+        DB::unprepared($sql); 
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, CountryListing, User};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{SendMessage, SendEmail};
@@ -41,7 +41,8 @@ class HomeController extends Controller
   {
     $therapistRole = Role::where('name', 'therapist')->first();
     $VenueList = Venue::all();
-    $countryList = CountryListing::all();
+    $countryList = Country::all();
+     
     $therapists = $therapistRole->users;
 
     return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists'));

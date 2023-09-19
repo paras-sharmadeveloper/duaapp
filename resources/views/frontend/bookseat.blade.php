@@ -51,7 +51,6 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                                     Done</li>
 
                                     <img src="/assets/loader.gif" alt="" class="loader-img" style="display: none">
-                                 
                                   
                             </ul>
                             
