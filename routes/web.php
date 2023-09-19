@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 Route::get('/run/queue', function () {
-    Artisan::call('migrate:refresh'); // Replace with the name of your custom command
+    Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed',['--class' => 'AdminSeeder']);
     return 'Scheduled task triggered successfully.';
 });
