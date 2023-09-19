@@ -47,11 +47,12 @@
                   <form class="row g-3 needs-validation " action="{{ route('book.cancle',['id' => $vistor->booking_uniqueid]) }}" method="post">
                     <p class="text-center small">Your Mobile number Register with us {{ str_repeat('*', strlen($vistor->phone) - 4) . substr($vistor->phone, -4) }}                    </p>
                      @csrf
+                     
 
                     <div class="col-12"> 
                          <label for="yourPassword" class="form-label">Enter You Mobile Number Here</label>
                         <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" 
-                          value="{{ old('phone') }}" 
+                          value="{{ session()->get('booking_number') }}" 
                           required autocomplete="phone" 
                           autofocus>
                          @error('phone')
@@ -75,7 +76,7 @@
                   <form class="row g-3 needs-validation mt-5" action="{{ route('book.cancle.otp',['id' => $vistor->booking_uniqueid ]) }}" method="post">
                     
                      @csrf
-
+                     <input type="hidden" name="booking_number" value="{{ session()->get('booking_number') }}">
                     <div class="col-12"> 
                          <label for="yourPassword" class="form-label">Enter You OTP (One Time Password)</label>
                         <input id="otp" type="otp" class="form-control @error('otp') is-invalid @enderror" name="otp" 

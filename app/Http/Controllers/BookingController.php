@@ -25,9 +25,11 @@ class BookingController extends Controller
                 $country = $vistor->country_code;
                 $otp = $this->SendOtp($phone, $country);
                 if ($otp['status']) {
-                    return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'input_data' => $request->all()]);
+                    return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $request->input('booking_number') ]);
                 } else {
-                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 'enable' => false, 'input_data' => $request->all()]);
+                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 'enable' => false, 
+                    'booking_number' => $request->input('booking_number')
+                ]);
                 }
             } else {
                 return redirect()->back()->with(['error' => 'Mobile Number not matched']);
@@ -51,9 +53,15 @@ class BookingController extends Controller
             return view('frontend.booking-cancle', compact('vistor'));
         }
     }
-    public function BookingReschdule(Request $request)
+    public function BookingReschdule(Request $request,$id)
     {
-        return view('frontend.booking-reschdule');
+        $vistor = [];
+        $vistor = Vistors::where(['booking_uniqueid' => $id])->get()->first();
+        if (!$vistor) {
+            $message = "No Booking found.";
+            return view('frontend.not-found', compact('message'));
+        }
+        return view('frontend.booking-reschdule',compact('vistor'));
     }
     public function ConfirmBookingAvailabilityShow(Request $request)
     {
