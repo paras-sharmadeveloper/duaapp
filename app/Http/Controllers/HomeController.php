@@ -67,7 +67,7 @@ class HomeController extends Controller
     $uuid = Str::uuid()->toString();
     $countryCode = $request->input('country_code');
     $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
-    $randomString = Str::random(3); // Generate a random string of 6 characters
+    $randomString = rand(4,9999); // Generate a random string of 6 characters
 
     $bookingNumber = $timestamp . $randomString;
     // Create a new Vistors record in the database
@@ -106,7 +106,7 @@ class HomeController extends Controller
       'event_name' => "1 Minute Online Dua Appointment",
       'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
       "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
-      "meeting_link" => route('book.status', [$uuid]),
+      "meeting_link" => route('booking.status', [$uuid]),
       'meeting_cancel_link' => route('book.cancle', [$uuid]),
       'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
       'unsubscribe_link' => '',
