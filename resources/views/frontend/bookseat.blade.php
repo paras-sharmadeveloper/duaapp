@@ -263,11 +263,13 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                                         <div id="opt-form-confirm" style="display: none">
                                             <p></p>
                                             <button type="button" class="" id="sendOtp">Send OTP</button>
+                                            <img src="/assets/loader.gif" alt="" class="loader-img-otp d-none" style="height: 30px; width:30px !important;">
                                         </div>
                                         <div id="opt-form" style="display: none">
                                             <input type="text" class="form-control"  name="otp" id="otp" placeholder="Enter OTP">
                                             <p> </p>
                                             <button type="button" class="" id="submit-otp">Submit</button>
+                                            <img src="/assets/loader.gif" alt="" class="loader-img-otp2 d-none" style="height: 30px; width:30px !important;">
                                         </div>
  
                                 </div>
@@ -362,7 +364,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-         $(".form-business").hide();
+         $(".form-business").show();
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
@@ -757,7 +759,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
            }
        });
        $("#sendOtp").click(function(){
-           
+           $(".loader-img-otp").removeClass('d-none');
            $.ajax({
                url: "{{ route('send-otp') }}",
                type: 'POST',
@@ -767,6 +769,8 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                },
                success: function(response) {
+                $(this).text('Resent OTP');
+                $(".loader-img-otp").addClass('d-none');
                 $("#opt-form").show();  
                 $("#submitBtn").hide(); 
                 $("#opt-form").find('p').text(response.message);
@@ -781,6 +785,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
        })
 
        $("#submit-otp").click(function(){
+        $(".loader-img-otp2").removeClass('d-none');
            $("#opt-form").show(); 
            
            $("#submitBtn").hide(); 
@@ -789,6 +794,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                type: 'POST',
                data: {  otp: $("#otp").val() },
                success: function(response) {
+                $(".loader-img-otp2").addClass('d-none');
                 $("#opt-form-confirm").hide(); 
                    $("#submitBtn").show(); // Display a success message
                    $("#opt-form").hide(); 

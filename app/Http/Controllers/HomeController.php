@@ -361,8 +361,8 @@ class HomeController extends Controller
   {
     $userEnteredOTP = $request->input('otp'); // OTP entered by the user 
     $result = $this->VerifyOtp($userEnteredOTP); 
-
-    if($result['stutus']){
+    // return $result; 
+    if($result['status']){
       return response()->json(['message' => 'OTP verified successfully', 'status' => true]);
     }else{
       return response()->json(['error' => 'Invalid OTP'], 422);
