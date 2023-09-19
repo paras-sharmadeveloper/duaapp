@@ -122,10 +122,11 @@ class UserController extends Controller
             $image = $request->file('profile_pic');
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
+            $input['profile_pic'] = $imageName;
           // $image->move(public_path('images'), $imageName); 
         }
 
-        $input['profile_pic'] = $imageName;
+       
          
     
         $user = User::find($id);
