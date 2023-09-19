@@ -67,7 +67,7 @@ class HomeController extends Controller
     $uuid = Str::uuid()->toString();
     $countryCode = $request->input('country_code');
     $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
-    $randomString = rand(4,9999); // Generate a random string of 6 characters
+    $randomString = rand(10,100); // Generate a random string of 6 characters
 
     $bookingNumber = $timestamp . $randomString;
     // Create a new Vistors record in the database
