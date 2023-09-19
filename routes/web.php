@@ -54,7 +54,7 @@ Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmati
 Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
 Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
 Route::any('/book/reschdule/{id}', [HomeController::class, 'BookingReschdule'])->name('book.reschdule');
-Route::post('/book/sent-otp', [HomeController::class, 'SendOtp'])->name('send-otp');
+Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 
 Auth::routes();

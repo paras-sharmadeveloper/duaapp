@@ -362,6 +362,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+         $(".form-business").hide();
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
@@ -373,7 +374,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
         });
         $(document).ready(function() {
             // hidden things
-            $(".form-business").hide();
+           
             $("#successMessage").hide();
             // next button
             $(".next").on({
@@ -766,10 +767,10 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                },
                success: function(response) {
-                $("#opt-form").show(); 
-                $("#opt-form").find('p').text('Otp is sent on your mobile please confirm your number');
+                $("#opt-form").show();  
                 $("#submitBtn").hide(); 
-                   alert(response.message); 
+                $("#opt-form").find('p').text(response.message);
+                   
                },
                error: function(xhr) {
               

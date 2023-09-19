@@ -336,7 +336,7 @@ class HomeController extends Controller
     }
   }
 
-  public function SendOtp(Request $request)
+  public function SendOtpUser(Request $request)
   {
 
     $validatedData = $request->validate([
@@ -350,7 +350,7 @@ class HomeController extends Controller
      $result =  $this->SendOtp($mobile,$country);
     
     if($result['status']){
-      return response()->json(['message' => 'OTP verified Sent successfully', 'status' => true]);
+      return response()->json(['message' => 'OTP Sent successfully', 'status' => true]);
     }else{
       return response()->json(['message' => 'OTP failed to sent', 'status' => false]);
     }
