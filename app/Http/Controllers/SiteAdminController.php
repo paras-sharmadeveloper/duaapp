@@ -27,5 +27,16 @@ class SiteAdminController extends Controller
         return view('site-admin.queue-list'); 
     }
 
+    public function VisitorUpdate(Request $request, $id){
+        
+        if($request->input('type') == 'start'){
+            $col ='meeting_start_at';
+        }else{
+            $col ='meeting_ends_at';
+        }
+        Vistors::find($id)->update([$col => date('Y-m-d H:i:s')]);
+        return response()->json(['success' => true]); 
+    }
+
     
 }

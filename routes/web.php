@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
 
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
+    Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+   
  
 
     
