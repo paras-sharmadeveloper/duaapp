@@ -61,12 +61,16 @@ class VideoConferenceController extends Controller
             $roomName = $this->fetchRoomName($roomId); 
 
             $accessToken = $this->generateAccessToken($roomName,$userName);
-            return redirect()->back()->with([
+
+            return redirect()->route('join.conference.show',[$room->sid])->with([
                 'accessToken' => $accessToken,
                 'roomName' => $roomName,
                 'success' => 'You joined this Meeting',
-                'enable' => false
-            ]);    
+                'enable' => false,
+                'roomId' => $room->sid
+            ]); 
+
+              
          
     }
 
