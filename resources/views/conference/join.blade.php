@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    video {
+    height: 300px;
+}
+@media (max-width: 767px) {
+    video {
+    height: 150px;
+}
+}
+
+</style>
 @if (count($errors) > 0)
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -21,7 +32,7 @@
 </div>
  
 @endif
-<div class="d-flex">
+<div class="d-flex justify-content-around">
     <div id="local-video"></div>
     <div id="remote-video"></div>
 </div>
@@ -83,21 +94,41 @@ function initializeVideoCall(token, room) {
         });
 
 
-        room.on('participantConnected', function (participant) {
-                    console.log('Participant connected:', participant.identity);
+        // room.on('participantConnected', function (participant) {
+        //             console.log('Participant connected:', participant.identity);
 
-                    const remoteVideoContainer = document.getElementById('remote-video');
-                    room.localParticipant.videoTracks.forEach(function (participantAd) {
-            // Check if the track is enabled before attaching it
-                            if (participantAd.isTrackEnabled) {
-                                console.log("ParticipantHere")
-                                const track = participantAd.track;
-                                const RemoteMediaContainer = document.createElement('div');
-                                RemoteMediaContainer.appendChild(track.attach());
-                                remoteVideoContainer.appendChild(RemoteMediaContainer);
-                            }
-                        }); 
-                });
+        //             const remoteVideoContainer = document.getElementById('remote-video');
+        //             room.localParticipant.videoTracks.forEach(function (participantAd) {
+        //     // Check if the track is enabled before attaching it
+        //                     if (participantAd.isTrackEnabled) {
+        //                         console.log("ParticipantHere")
+        //                         const track = participantAd.track;
+        //                         const RemoteMediaContainer = document.createElement('div');
+        //                         RemoteMediaContainer.appendChild(track.attach());
+        //                         remoteVideoContainer.appendChild(RemoteMediaContainer);
+        //                     }
+        //                 }); 
+        //         });
+
+
+        room.on('participantConnected', function (participant) {
+            console.log('Participant connected:', participant.identity);
+
+            const remoteVideoContainer = document.getElementById('remote-video');
+            participant.videoTracks.forEach(function (publication) {
+                // Check if the track is enabled before attaching it
+                if (publication.track.isEnabled) {
+                    console.log("ParticipantHere")
+                    const track = publication.track;
+                    const remoteMediaContainer = document.createElement('div');
+                    remoteMediaContainer.appendChild(track.attach());
+                    remoteVideoContainer.appendChild(remoteMediaContainer);
+                }
+            });
+        });
+
+       
+
     }).catch(function (error) {
         console.log('Error connecting to Twilio:', error);
     });
