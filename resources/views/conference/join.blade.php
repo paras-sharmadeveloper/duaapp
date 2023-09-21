@@ -51,7 +51,7 @@
             <button type="submit" class="btn btn-primary mt-2">Join Conference</button>
         </form>
     </div>
- 
+
     </div>
 
 
@@ -90,9 +90,13 @@
                 .then(function(room) {
                     console.log('Connected to room:', room.name);
 
+                    const localParticipant = room.localParticipant;
+console.log(`Connected to the Room as LocalParticipant "${localParticipant.identity}"`);
+
+
                     // Handle local participant (your own video)
                     room.localParticipant.videoTracks.forEach(function(publication) {
-                        console.log("publication",publication)
+                        console.log("publication", publication)
                         if (publication.track.isEnabled) {
                             const track = publication.track;
                             const localMediaContainer = document.createElement('div');
@@ -102,21 +106,48 @@
                     });
 
                     room.on('participantConnected', participant => {
-                        console.log("participant",participant)
                         console.log(`Participant "${participant.identity}" connected`);
 
                         participant.tracks.forEach(publication => {
                             if (publication.isSubscribed) {
-                                const track = publication.track;
-                                remoteVideoContainer.appendChild(track.attach());
+                            const track = publication.track;
+                            remoteVideoContainer.appendChild(track.attach());
                             }
                         });
 
-                        participant.on('trackSubscribed', track => { 
+                        participant.on('trackSubscribed', track => {
                             remoteVideoContainer.appendChild(track.attach());
                         });
-                });
- 
+                    });
+
+                        room.participants.forEach(participant => {
+                        participant.tracks.forEach(publication => {
+                            if (publication.track) {
+                                remoteVideoContainer.appendChild(publication.track.attach());
+                            }
+                        });
+
+                        participant.on('trackSubscribed', track => {
+                            remoteVideoContainer.appendChild(track.attach());
+                        });
+                        });
+
+                    //     room.on('participantConnected', participant => {
+                    //         console.log("participant",participant)
+                    //         console.log(`Participant "${participant.identity}" connected`);
+
+                    //         participant.tracks.forEach(publication => {
+                    //             if (publication.isSubscribed) {
+                    //                 const track = publication.track;
+                    //                 remoteVideoContainer.appendChild(track.attach());
+                    //             }
+                    //         });
+
+                    //         participant.on('trackSubscribed', track => { 
+                    //             remoteVideoContainer.appendChild(track.attach());
+                    //         });
+                    // });
+
                     // Handle room errors
                     room.on('error', function(error) {
                         console.error('Error:', error.message);
