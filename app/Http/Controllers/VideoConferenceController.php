@@ -8,6 +8,8 @@ use Twilio\Jwt\Grants\VideoGrant;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
+use App\Models\VideoConference;
+// 
 class VideoConferenceController extends Controller
 {
     use OtpTrait; 
@@ -26,6 +28,8 @@ class VideoConferenceController extends Controller
             'uniqueName' =>  $roomName,
             'type' => 'group',
         ]);
+
+        VideoConference::create(['room_name' =>$roomName,'room_sid' => $roomName]);
         $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
         $this->SendMessage('+91','8950990009',$message); 
 
@@ -39,20 +43,20 @@ class VideoConferenceController extends Controller
             'roomName' => $roomName,
             'success' => 'You joined this Meeting',
             'enable' => false
-        ]); 
-        // return redirect()->back()->with([
-        //     'room' =>  $room,
-        //     'success' => 'Room created :' . $roomName
-        // ]); 
-      
+        ]);  
     }   
 
     
 
     public function joinConference(Request $request,   $roomId)
     {
-        if($request->has('_token')){
-           $userName = $request->input('participantName');   
+        return view('conference.join');  
+    }
+
+    public function joinConferencePost(Request $request,   $roomId)
+    {
+       
+            $userName = $request->input('participantName');   
             $roomName = $this->fetchRoomName($roomId); 
             $accessToken = $this->generateAccessToken($roomName,$userName);
             return redirect()->back()->with([
@@ -60,29 +64,15 @@ class VideoConferenceController extends Controller
                 'roomName' => $roomName,
                 'success' => 'You joined this Meeting',
                 'enable' => false
-            ]);   
-        }else{
-            $accessToken ='';
-            $roomName = ''; 
-            return view('conference.join', [
-                'accessToken' => $accessToken,
-                'roomName' => $roomName,
-                'roomId' =>  $roomId
-            ]);
-
-        }
-        // Fetch room details or perform any necessary logic here
-        
-
-        
+            ]);    
+         
     }
 
 
-    private function generateAccessToken($roomName,$userName)
+    private function generateAccessToken($roomName,$identity)
     {
         // Twilio Account SID and Auth Token from your Twilio account 
-   
-        $identity = 'john_doe';
+    
 
         $token = new AccessToken(
             env('TWILIO_ACCOUNT_SID'),
@@ -100,9 +90,8 @@ class VideoConferenceController extends Controller
     }
     private function fetchRoomName($roomId)
     {
-        // Implement your logic to fetch the room name based on $roomId
-        // You can query your database or another data source.
-        return 'Test ROOM'; // Replace with your actual room name logic
+        $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first(); 
+        return  $videoConfernce->room_name;  
     }
 
     

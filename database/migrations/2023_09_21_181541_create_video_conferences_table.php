@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('site_admins', function (Blueprint $table) {
+        Schema::create('video_conferences', function (Blueprint $table) {
             $table->id();
+            $table->string('room_name');
+            $table->string('room_sid'); 
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('site_admins');
+        Schema::dropIfExists('video_conferences');
     }
 };
