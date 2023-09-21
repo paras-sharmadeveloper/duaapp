@@ -42,7 +42,8 @@ class VideoConferenceController extends Controller
             'accessToken' => $accessToken,
             'roomName' => $roomName,
             'success' => 'You joined this Meeting',
-            'enable' => false
+            'enable' => false,
+            'roomId' => $room->sid
         ]);  
     }   
 

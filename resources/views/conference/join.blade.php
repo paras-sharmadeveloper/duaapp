@@ -5,7 +5,7 @@
 <div id="remote-video"></div>
 
 <div class="card-body">
-    <form method="POST" action="{{ route('join.conference.post', $roomId) }}">
+    <form method="POST" action="{{ route('join.conference.post',request()->route('id')) }}">
         @csrf
 
         <div class="form-group">
