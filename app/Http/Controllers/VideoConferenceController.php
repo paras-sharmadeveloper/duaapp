@@ -26,12 +26,12 @@ class VideoConferenceController extends Controller
 
         $room = $twilio->video->v1->rooms->create([
             'uniqueName' =>  $roomName,
-            'type' => 'group',
+            'type' => 'peer-to-peer',
         ]);
 
         VideoConference::create(['room_name' =>$roomName,'room_sid' => $room->sid ]);
         $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
-        $this->SendMessage('+91','8950990009',$message); 
+        // $this->SendMessage('+91','8950990009',$message); 
 
         $userName = Auth::user()->name;   
         $roomName = $this->fetchRoomName($room->sid); 

@@ -48,11 +48,10 @@
                 <input type="text" class="form-control" id="participantName" name="participantName" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Join Conference</button>
+            <button type="submit" class="btn btn-primary mt-2">Join Conference</button>
         </form>
     </div>
-
-    <button onclick="initializeVideoCall('{{ $accessToken }}','{{ $roomName }}')">Start Video Call</button>
+ 
     </div>
 
 
@@ -80,6 +79,7 @@
         function initializeVideoCall(token, roomName) {
             const localVideoContainer = document.getElementById('local-video');
             const remoteVideoContainer = document.getElementById('remote-video');
+            // const videoChatWindow = document.getElementById('video-chat-window');
 
             // Connect to the Twilio Video room
             Twilio.Video.connect(token, {
@@ -92,6 +92,7 @@
 
                     // Handle local participant (your own video)
                     room.localParticipant.videoTracks.forEach(function(publication) {
+                        console.log("publication",publication)
                         if (publication.track.isEnabled) {
                             const track = publication.track;
                             const localMediaContainer = document.createElement('div');
@@ -100,34 +101,22 @@
                         }
                     });
 
-                    room.on('participantConnected', function(participant) {
-                        console.log('Participant connected:', participant.identity);
+                    room.on('participantConnected', participant => {
+                        console.log("participant",participant)
+                        console.log(`Participant "${participant.identity}" connected`);
 
-                        // Subscribe to remote video tracks
-                        participant.on('trackSubscribed', function(track) {
-                            console.log("track",track)
-                            if (track.kind === 'video') {
-                                const remoteMediaContainer = document.createElement('div');
-                                remoteMediaContainer.appendChild(track.attach());
-                                remoteVideoContainer.appendChild(remoteMediaContainer);
+                        participant.tracks.forEach(publication => {
+                            if (publication.isSubscribed) {
+                                const track = publication.track;
+                                remoteVideoContainer.appendChild(track.attach());
                             }
                         });
 
-                        // Subscribe to existing tracks for all participants
-                        room.participants.forEach(function(existingParticipant) {
-                            existingParticipant.tracks.forEach(function(publication) {
-                                console.log("publication2",publication)
-                                if (publication.isSubscribed && publication.track.kind === 'video') {
-                                    const remoteMediaContainer = document.createElement('div');
-                                    remoteMediaContainer.appendChild(publication.track.attach());
-                                    remoteVideoContainer.appendChild(remoteMediaContainer);
-                                }
-                            });
+                        participant.on('trackSubscribed', track => { 
+                            remoteVideoContainer.appendChild(track.attach());
                         });
-                    });
-
-
-
+                });
+ 
                     // Handle room errors
                     room.on('error', function(error) {
                         console.error('Error:', error.message);
