@@ -49,12 +49,12 @@ class VideoConferenceController extends Controller
 
     
 
-    public function joinConference(Request $request,   $roomId)
+    public function joinConference(Request $request,$roomId)
     {
         return view('conference.join');  
     }
 
-    public function joinConferencePost(Request $request,   $roomId)
+    public function joinConferencePost(Request $request,$roomId)
     {
        
             $userName = $request->input('participantName');   
