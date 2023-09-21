@@ -116,10 +116,9 @@ function initializeVideoCall(token, room) {
 
             const remoteVideoContainer = document.getElementById('remote-video');
             participant.videoTracks.forEach(function (publication) {
-                // Check if the track is enabled before attaching it
-                if (publication.track.isEnabled) {
+                const track = publication.track;
+                if (track && track.isEnabled) {
                     console.log("ParticipantHere")
-                    const track = publication.track;
                     const remoteMediaContainer = document.createElement('div');
                     remoteMediaContainer.appendChild(track.attach());
                     remoteVideoContainer.appendChild(remoteMediaContainer);
