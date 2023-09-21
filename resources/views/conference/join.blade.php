@@ -3,7 +3,10 @@
 @section('content')
 <div id="local-video"></div>
 <div id="remote-video"></div>
-
+@php 
+$accessToken = session()->has('accessToken') ? session()->get('accessToken') : '';
+$roomName = session()->has('roomName') ? session()->get('roomName') : '';
+@endphp
 <div class="card-body">
     <form method="POST" action="{{ route('join.conference.post',request()->route('roomId')) }}">
         @csrf
@@ -22,10 +25,7 @@
 
 
 
-@php 
-$accessToken = session()->has('accessToken') ? session()->get('accessToken') : '';
-$roomName = session()->has('roomName') ? session()->get('roomName') : '';
-@endphp
+
 
 @endsection
 
