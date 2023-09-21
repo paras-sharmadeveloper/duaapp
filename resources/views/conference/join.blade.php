@@ -60,19 +60,41 @@ function initializeVideoCall(token, room) {
             }
         });
 
-        // Listen for new participants joining the room
-        room.on('participantConnected', function (participant) {
-            console.log('Participant connected:', participant.identity);
 
-            // Handle remote participant (other participant's video)
-            const remoteVideoContainer = document.getElementById('remote-video');
-            participant.videoTracks.forEach(function (track) {
-                console.log("track",track)
-                // const remoteMediaContainer = document.createElement('div');
-                // remoteMediaContainer.appendChild(track.attach());
-                // remoteVideoContainer.appendChild(remoteMediaContainer);
-            });
-        });
+        room.on('participantConnected', function (participant) {
+                    console.log('Participant connected:', participant.identity);
+
+                    // Handle remote participant (other participant's video)
+                    const remoteVideoContainer = document.getElementById('remote-video');
+                    participant.videoTracks.forEach(function (track) {
+                        // Attach remote participant's video track to the container
+                        const RemoteMediaContainer = document.createElement('div');
+                        RemoteMediaContainer.appendChild(track.attach());
+                        remoteVideoContainer.appendChild(RemoteMediaContainer);
+                    });
+                });
+
+         
+
+        // Listen for new participants joining the room
+        // room.on('participantConnected', function (participant) {
+        //     console.log('Participant connected:', participant.identity);
+        //     const remoteVideoContainer = document.getElementById('remote-video');
+
+        //     participant.videoTracks.forEach(function (track) {
+        //         // Attach remote participant's video track to the container
+        //         remoteVideoContainer.appendChild(track.attach());
+        //     });
+
+        //     // Handle remote participant (other participant's video)
+        //     const remoteVideoContainer = document.getElementById('remote-video');
+        //     participant.videoTracks.forEach(function (track) {
+        //         console.log("track",track)
+        //         // const remoteMediaContainer = document.createElement('div');
+        //         // remoteMediaContainer.appendChild(track.attach());
+        //         // remoteVideoContainer.appendChild(remoteMediaContainer);
+        //     });
+        // });
     }).catch(function (error) {
         console.log('Error connecting to Twilio:', error);
     });
