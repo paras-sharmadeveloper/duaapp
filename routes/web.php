@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::get('/join-conference/{roomId}', [VideoConferenceController::class, 'joinConference'])->name('join.conference.show'); 
     Route::post('/join-conference/post/{roomId}',[VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
  
-    
+    Route::get('/design', [VideoConferenceController::class, 'design'])->name('design'); 
 
     
 

@@ -13,6 +13,11 @@ use App\Models\VideoConference;
 class VideoConferenceController extends Controller
 {
     use OtpTrait; 
+    public function design()
+    {
+         
+        return view('conference.new');
+    }
     public function createConference()
     {
          
@@ -31,7 +36,7 @@ class VideoConferenceController extends Controller
 
         VideoConference::create(['room_name' =>$roomName,'room_sid' => $room->sid ]);
         $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
-        // $this->SendMessage('+91','8950990009',$message); 
+         $this->SendMessage('+91','8950990009',$message); 
 
         $userName = Auth::user()->name;   
         $roomName = $this->fetchRoomName($room->sid); 
