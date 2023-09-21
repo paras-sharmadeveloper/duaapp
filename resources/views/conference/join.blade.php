@@ -67,12 +67,14 @@
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
 
     <script>
-        var accessToken = "{{ $accessToken }} ";
-        var roomName = "{{ $roomName }} ";
-        console.log("accessToken", accessToken)
-        if (accessToken !== ' ' && roomName !== ' ') {
+        var accessToken = "{{ $accessToken }}";
+        var roomName = "{{ $roomName }}";
 
+        // Check if accessToken and roomName are provided
+        if (accessToken && roomName) {
             initializeVideoCall(accessToken, roomName);
+        } else {
+            console.error('Access token or room name is missing.');
         }
 
         function initializeVideoCall(token, roomName) {
@@ -81,103 +83,59 @@
 
             // Connect to the Twilio Video room
             Twilio.Video.connect(token, {
-                video: true,
-                audio: true,
-                name: roomName
-            }).then(function(room) {
-                console.log('Connected to room:', room.name);
+                    video: true,
+                    audio: true,
+                    name: roomName,
+                })
+                .then(function(room) {
+                    console.log('Connected to room:', room.name);
 
-                // Handle local participant (your own video)
-                room.localParticipant.videoTracks.forEach(function(publication) {
-                    // Check if the track is enabled before attaching it
-                    if (publication.track.isEnabled) {
-                        console.log('Local participant video track is enabled');
-                        const track = publication.track;
-                        const localMediaContainer = document.createElement('div');
-                        localMediaContainer.appendChild(track.attach());
-                        localVideoContainer.appendChild(localMediaContainer);
-                    }
-                });
-
-                // Handle remote participants
-                room.on('participantConnected', function(participant) {
-                    console.log('Participant connected:', participant.identity);
-
-                    // Add remote participant's video to the remote video container
-                    participant.tracks.forEach(function(publication) {
+                    // Handle local participant (your own video)
+                    room.localParticipant.videoTracks.forEach(function(publication) {
                         if (publication.track.isEnabled) {
                             const track = publication.track;
-                            const remoteMediaContainer = document.createElement('div');
-                            remoteMediaContainer.appendChild(track.attach());
-                            remoteVideoContainer.appendChild(remoteMediaContainer);
+                            const localMediaContainer = document.createElement('div');
+                            localMediaContainer.appendChild(track.attach());
+                            localVideoContainer.appendChild(localMediaContainer);
                         }
                     });
-                });
 
-                // Handle participant disconnect
-                room.on('participantDisconnected', function(participant) {
-                    console.log('Participant disconnected:', participant.identity);
+                    room.on('participantConnected', function(participant) {
+                        console.log('Participant connected:', participant.identity);
 
-                    // Remove the participant's video from the remote video container
-                    participant.tracks.forEach(function(publication) {
-                        if (publication.track.isEnabled) {
-                            publication.track.detach().forEach(function(element) {
-                                element.remove();
+                        // Subscribe to remote video tracks
+                        participant.on('trackSubscribed', function(track) {
+                            console.log("track",track)
+                            if (track.kind === 'video') {
+                                const remoteMediaContainer = document.createElement('div');
+                                remoteMediaContainer.appendChild(track.attach());
+                                remoteVideoContainer.appendChild(remoteMediaContainer);
+                            }
+                        });
+
+                        // Subscribe to existing tracks for all participants
+                        room.participants.forEach(function(existingParticipant) {
+                            existingParticipant.tracks.forEach(function(publication) {
+                                console.log("publication2",publication)
+                                if (publication.isSubscribed && publication.track.kind === 'video') {
+                                    const remoteMediaContainer = document.createElement('div');
+                                    remoteMediaContainer.appendChild(publication.track.attach());
+                                    remoteVideoContainer.appendChild(remoteMediaContainer);
+                                }
                             });
-                        }
+                        });
                     });
-                });
 
-                // Handle any errors
-                room.on('error', function(error) {
-                    console.error('Error:', error.message);
-                });
-            }).catch(function(error) {
-                console.error('Unable to connect:', error.message);
-            });
-        }
 
-        function initializeVideoCallOLD(token, room) {
-            Twilio.Video.connect(token, {
-                video: true,
-                audio: true,
-                name: room
-            }).then(function(room) {
-                console.log('Connected to room:', room.name);
 
-                // Handle local participant (your own video)
-                const localVideoContainer = document.getElementById('local-video');
-                room.localParticipant.videoTracks.forEach(function(publication) {
-                    // Check if the track is enabled before attaching it
-                    if (publication.isTrackEnabled) {
-                        console.log("local")
-                        const track = publication.track;
-                        const localMediaContainer = document.createElement('div');
-                        localMediaContainer.appendChild(track.attach());
-                        localVideoContainer.appendChild(localMediaContainer);
-                    }
-                });
-
-                room.on('participantConnected', function(participant) {
-                    console.log('Participant connected:', participant.identity);
-
-                    const remoteVideoContainer = document.getElementById('remote-video');
-                    participant.videoTracks.forEach(function(publication) {
-                        const track = publication.track;
-                        if (track && track.isEnabled) {
-                            console.log("ParticipantHere")
-                            const remoteMediaContainer = document.createElement('div');
-                            remoteMediaContainer.appendChild(track.attach());
-                            remoteVideoContainer.appendChild(remoteMediaContainer);
-                        }
+                    // Handle room errors
+                    room.on('error', function(error) {
+                        console.error('Error:', error.message);
                     });
+                })
+                .catch(function(error) {
+                    console.error('Unable to connect:', error.message);
                 });
-
-
-
-            }).catch(function(error) {
-                console.log('Error connecting to Twilio:', error);
-            });
         }
     </script>
 @endsection
