@@ -59,6 +59,7 @@ class VideoConferenceController extends Controller
        
             $userName = $request->input('participantName');   
             $roomName = $this->fetchRoomName($roomId); 
+
             $accessToken = $this->generateAccessToken($roomName,$userName);
             return redirect()->back()->with([
                 'accessToken' => $accessToken,
@@ -92,6 +93,7 @@ class VideoConferenceController extends Controller
     private function fetchRoomName($roomId)
     {
         $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first(); 
+        echo "<pre>"; print_r( $videoConfernce); die; 
         return  $videoConfernce->room_name;  
     }
 
