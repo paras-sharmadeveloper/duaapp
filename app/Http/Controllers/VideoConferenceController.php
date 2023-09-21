@@ -93,7 +93,7 @@ class VideoConferenceController extends Controller
     private function fetchRoomName($roomId)
     {
         $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first(); 
-        echo "<pre>"; print_r( $videoConfernce); die; 
+        // echo "<pre>"; print_r( $videoConfernce); die; 
         return  $videoConfernce->room_name;  
     }
 
