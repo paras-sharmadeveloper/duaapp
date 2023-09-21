@@ -21,7 +21,7 @@ class VideoConferenceController extends Controller
     
     public function createConferencePost(Request $request){
 
-        $roomName = $request->input('roomname'); 
+        $roomName = $request->input('roomName'); 
         $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
 
         $room = $twilio->video->v1->rooms->create([
@@ -29,7 +29,7 @@ class VideoConferenceController extends Controller
             'type' => 'group',
         ]);
 
-        VideoConference::create(['room_name' =>$roomName,'room_sid' => $roomName]);
+        VideoConference::create(['room_name' =>$roomName,'room_sid' => $room->sid ]);
         $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
         $this->SendMessage('+91','8950990009',$message); 
 
