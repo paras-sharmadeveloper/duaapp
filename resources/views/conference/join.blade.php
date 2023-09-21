@@ -21,8 +21,10 @@
 </div>
  
 @endif
-<div id="local-video"></div>
-<div id="remote-video"></div>
+<div class="d-flex">
+    <div id="local-video"></div>
+    <div id="remote-video"></div>
+</div>
 @php 
 $accessToken = session()->has('accessToken') ? session()->get('accessToken') : '';
 $roomName = session()->has('roomName') ? session()->get('roomName') : '';
@@ -96,28 +98,6 @@ function initializeVideoCall(token, room) {
                             }
                         }); 
                 });
-
-         
-
-        // Listen for new participants joining the room
-        // room.on('participantConnected', function (participant) {
-        //     console.log('Participant connected:', participant.identity);
-        //     const remoteVideoContainer = document.getElementById('remote-video');
-
-        //     participant.videoTracks.forEach(function (track) {
-        //         // Attach remote participant's video track to the container
-        //         remoteVideoContainer.appendChild(track.attach());
-        //     });
-
-        //     // Handle remote participant (other participant's video)
-        //     const remoteVideoContainer = document.getElementById('remote-video');
-        //     participant.videoTracks.forEach(function (track) {
-        //         console.log("track",track)
-        //         // const remoteMediaContainer = document.createElement('div');
-        //         // remoteMediaContainer.appendChild(track.attach());
-        //         // remoteVideoContainer.appendChild(remoteMediaContainer);
-        //     });
-        // });
     }).catch(function (error) {
         console.log('Error connecting to Twilio:', error);
     });
