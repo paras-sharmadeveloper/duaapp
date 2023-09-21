@@ -34,10 +34,11 @@ return [
         'key' => env('SENDGRID_API_KEY')
     ],
     'twilio' => [
-        'sid' => env('TWILIO_SID'),
+        'sid' => env('TWILIO_ACCOUNT_SID'),
         'token' => env('TWILIO_AUTH_TOKEN'),
         'phone' => env('TWILIO_PHONE'),
-        'whatsapp' => env('TWILIO_PHONE_WHATSAPP')
+        'whatsapp' => env('TWILIO_PHONE_WHATSAPP'),
+        'api_key' => env('TWILIO_API_KEY_SECRET')
     ],
 
 ];

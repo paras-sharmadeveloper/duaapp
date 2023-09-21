@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 
-  <title>Dashboard - {{ env('APP_NAME') ?? 'Laravel' }}</title>
+  <title>Dashboard</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -47,7 +47,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="/" class="logo d-flex align-items-center">
         <img src="{{ asset('assets/theme/img/logo.png') }}"  alt="">
-        <span class="d-none d-lg-block">{{ env('APP_NAME') ?? 'Laravel' }}</span>
+        {{-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? 'Laravel' }}</span> --}}
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -212,13 +212,13 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" data-img="{{ Auth::user()->profile_pic }}">
-            @if (Storage::disk('s3_general')->exists('images/' . Auth::user()->profile_pic))
+            @if (!empty(Auth::user()->profile_pic) && Storage::disk('s3_general')->exists('images/' . Auth::user()->profile_pic))
             <img src="{{ env('AWS_GENERAL_PATH').'images/'.Auth::user()->profile_pic }}"  class="rounded-circle">
             @else
               <img src="{{ asset('assets/theme/img/profile-img.jpg') }}"  alt="Profile" class="rounded-circle">
             @endif
           
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ (Auth::check()) ? Auth::user()->name : '' }}</span>
+            {{-- <span class="d-none d-md-block dropdown-toggle ps-2">{{ (Auth::check()) ? Auth::user()->name : '' }}</span> --}}
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -265,9 +265,7 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-              </form>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> @csrf</form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

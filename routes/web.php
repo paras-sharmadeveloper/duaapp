@@ -11,7 +11,8 @@ use App\Http\Controllers\{
     VistorsController,
     VenueCountryController,
     BookingController,
-    SiteAdminController
+    SiteAdminController,
+    VideoConferenceController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -82,6 +83,19 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
    
  
+    Route::get('/video-conference', [VideoConferenceController::class, 'index']);
+    Route::any('/start-conference', [VideoConferenceController::class, 'startConference']);
+
+
+    Route::get('/create-conference',[VideoConferenceController::class, 'createConference'])->name('conference.create');
+
+    Route::post('/create-conference/submit',[VideoConferenceController::class, 'createConferencePost'])->name('create-conference');
+
+
+    Route::get('/join-conference/{roomId}', [VideoConferenceController::class, 'joinConference'])->name('join.conference.show'); 
+    Route::post('/join-conference/post/{roomId}',[VideoConferenceController::class, 'joinConference'])->name('join.conference.post');
+ 
+    
 
     
 

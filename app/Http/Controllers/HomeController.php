@@ -265,7 +265,8 @@ class HomeController extends Controller
 
   public function home()
   {
-    return view('home');
+    $visitos = Vistors::get()->count(); 
+    return view('home',compact('visitos'));
   }
 
 
