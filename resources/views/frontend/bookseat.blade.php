@@ -3,7 +3,7 @@
 
     <style>
        
-body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:18px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}}@media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}.thripist-section img{height:100%;width:90%;border-radius:20%}.loader-img{height:64px;width:64px!important}#progressBar .w-25{width:16%!important}.row .loader-img{margin:auto}
+body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:18px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}}@media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}.thripist-section img{height:100%;width:90%;border-radius:20%}.loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
 
     </style>
     <!-- section -->
@@ -43,10 +43,13 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                                 <li id="progressList-3"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Step 4</li>
-                                    <li id="progressList-4"
+                                <li id="progressList-4"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Step 5</li>
                                 <li id="progressList-5"
+                                    class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
+                                    Step 5</li>
+                                <li id="progressList-6"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Done</li>
 
@@ -90,7 +93,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 <div class="row justify-content-center" id="cardSection">
                        
                     <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select Thripist</h3>
+                        <h3 class="fw-bold">Select Sahib-e-Dua</h3>
                         <p class="small">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
@@ -119,6 +122,30 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                     <!-- /NEXT BUTTON-->
                 </div>
+
+                <div class="row justify-content-center  form-business" id="select-typed">
+                   
+                    <div class="col-lg-7 col-md-8">
+                        
+                        <h3 class="fw-bold">Select Type</h3>
+                        <p class="small">Please select at least one card</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom"  id="select-type-listing">
+                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                        </div>
+                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button"
+                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
+                    </div>
+                    <!-- col -->
+                
+                    <!-- /cards -->
+                    <!-- NEXT BUTTON-->
+
+                    <!-- /NEXT BUTTON-->
+                </div>
+
+                
                 <!-- row -->
                 <div class="row justify-content-center  form-business" id="cardSection">
                    
@@ -130,6 +157,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
                         </div>
+                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div>
@@ -274,14 +302,14 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
  
                                 </div>
 
-                                <div class="row g-3">
+                                {{-- <div class="row g-3">
                                     <div class="col col-md-12">
                                         <textarea name="user_question" id="" cols="30" rows="3"
                                             placeholder="Put some line of your query" class="form-control"></textarea>
 
                                     </div>
 
-                                </div>
+                                </div> --}}
                                 <div class="form-check mt-4">
                                     <input class="form-check-input" type="checkbox" name="is_whatsapp"
                                         id="flexCheckDefault">
@@ -428,7 +456,10 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                 if ($(this).hasClass('thripist-section')) {
                     getAjax(cardId, 'get_country')
-                }else if ($(this).hasClass('city-selection')) {
+                }else if ($(this).hasClass('type-selection')) {
+                  
+                //   getAjax(cardId, 'city_section')
+               }else if ($(this).hasClass('city-selection')) {
                   
                      getAjax(cardId, 'city_section')
                 } else if ($(this).hasClass('date-selection')) {
@@ -503,8 +534,26 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                         $("#country-listing").html(country);
                         var city = '';
+                        var typed = '';
                         var darte = '';
                         $.each(response.venue_address, function(key, item) {
+
+                            var meetingType = 'Online';
+
+                            if(item.type == 'on-site'){
+                                meetingType = 'Physical';
+                            }
+                            // select-type
+
+                            typed += `<div class="col col-lg-6 col-md-7">
+                            <div class="card text-center h-60 py-2 shadow-sm type-selection" data-id="${item.venue_address_id}" data-type="${item.type}"> 
+                                <img src="${item.imgUrl}" alt="Flag Image"> 
+                                <div class="card-body px-0">
+                                    <h5 class="card-title title-binding">${meetingType}</h5>
+                                     
+                                </div>
+                            </div>
+                        </div>`;
                             city += `<div class="col col-lg-6 col-md-7 country-enable-n country-enable-${item.venue_id} d-none">
                             <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
                                 <img src="${item.imgUrl}" alt="Flag Image"> 
@@ -518,11 +567,13 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                             <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                 <img src="${item.imgUrl}" alt="Flag Image"> 
                                 <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${item.venue_date}</h5>  
+                                    <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
                                 </div>
                             </div>
                         </div>`;
                         })
+                         
+                        $("#select-type-listing").html(typed);
                         $("#city-listing").html(city); 
 
                         $("#date-listing").html(darte);
@@ -544,7 +595,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
-                                        <h5 class="card-title title-binding">${item.slot_time}</h5>
+                                        <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
                                         
                                     </div>
                                 </div>
@@ -808,6 +859,30 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
        })
    });
 
+   function convertTimeTo12HourFormat(inputTime) {
+    var timeParts = inputTime.split(":");
+    var hours = parseInt(timeParts[0], 10);
+    var minutes = parseInt(timeParts[1], 10);
+    var ampm = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    var formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + ampm;
+    return formattedTime;
+}
+
+function convertDateToCustomFormat(inputDate) {
+    var dateParts = inputDate.split("-");
+    var year = dateParts[0];
+    var month = dateParts[1];
+    var day = dateParts[2];
+
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    var formattedDate = day + "-" + monthNames[parseInt(month, 10) - 1] + "-" + year;
+    return formattedDate;
+}
    
    </script>
 @endsection

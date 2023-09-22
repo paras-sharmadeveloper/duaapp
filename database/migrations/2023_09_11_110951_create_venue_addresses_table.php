@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('venue_id');
             $table->unsignedBigInteger('therapist_id');
+            $table->unsignedBigInteger('siteadmin_id');
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->text('address');
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->time('slot_starts_at');
             $table->time('slot_ends_at');
             $table->enum('type', ['on-site', 'virtual']);
+            $table->string('room_name')->nullable();
+            $table->string('room_sid')->nullable();
+            $table->integer('slot_duration')->default(1);
+
             $table->timestamps(); 
             $table->foreign('venue_id')
                   ->references('id')
@@ -31,6 +36,10 @@ return new class extends Migration
                   ->references('id')
                   ->on('users'); 
                 //   ->onDelete('cascade');
+            $table->foreign('siteadmin_id')
+                ->references('id')
+                ->on('users'); 
+              //   ->onDelete('cascade');
         });
     }
 

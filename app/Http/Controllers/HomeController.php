@@ -37,7 +37,6 @@ class HomeController extends Controller
     $therapistRole = Role::where('name', 'therapist')->first();
     $VenueList = Venue::all();
     $countryList = Country::all();
-
     $therapists = $therapistRole->users;
 
     return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists'));
@@ -78,7 +77,7 @@ class HomeController extends Controller
     $booking->email = $validatedData['email'];
     $booking->country_code = '+' . $countryCode;
     $booking->phone = $validatedData['mobile'];
-    $booking->user_question = $validatedData['user_question'];
+    $booking->user_question =  $request->input('user_question',null);
     $booking->slot_id = $request->input('slot_id');
     $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
     $booking->booking_uniqueid = $uuid;
@@ -312,7 +311,8 @@ class HomeController extends Controller
           'venue_date' => $venuesList->venue_date,
           'state' => $venuesList->state,
           'city' => $venuesList->city,
-          'venue_id' => $venuesList->venue->id
+          'venue_id' => $venuesList->venue->id,
+          'type' => $venuesList->type,
 
         ];
       }

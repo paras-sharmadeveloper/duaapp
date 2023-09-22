@@ -35,9 +35,6 @@
 
         <div class="card">
             <div class="card-body">
-
-
-
                 @if (Route::currentRouteName() == 'venues.edit')
                     <h5 class="card-title">Edit Venue</h5>
 
@@ -58,7 +55,11 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Select Country</span>
                          <select class="form-control" name="venue_id">
                             @foreach($countries as $country)
-                            <option value="{{  $country->id }}"> {{  $country->country_name }}</option>
+                            <option value="{{  $country->id }}"
+                                    @if(!empty($venueAddress) && $venueAddress->venue_id == $country->id)
+                                        selected
+                                    @endif
+                                > {{  $country->country_name }}</option>
                             @endforeach
                          </select>
                     </div>
@@ -70,11 +71,30 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
                          <select class="form-control" name="therapist_id">
                             @foreach($therapists as $therapist)
-                            <option value="{{  $therapist->id }}"> {{  $therapist->name }}</option>
+                            <option value="{{  $therapist->id }}"
+                                @if(!empty($venueAddress) &&  $venueAddress->therapist_id == $therapist->id)
+                                        selected
+                                    @endif    
+                            > {{  $therapist->name }}</option>
                             @endforeach
                          </select>
-                    </div>
+                    </div> 
+                </div>
 
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
+                         <select class="form-control" name="siteadmin_id">
+                            @foreach($siteAdmins as $siteadmin)
+                            <option value="{{  $siteadmin->id }}"
+                                @if(!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id)
+                                        selected
+                                    @endif 
+                                
+                                > {{  $siteadmin->name }}</option>
+                            @endforeach
+                         </select>
+                    </div> 
                 </div>
 
                 <div class="col-md-6 mt-4">
@@ -98,7 +118,7 @@
                     <div class="input-group">
                         <span class="input-group-text">Venue Addresses</span>
 
-                        {!! Form::textarea('venue_addresses',$venueAddress->address ?? '', ['class' => 'form-control', 'placeholder' => 'Address','row' => 2]) !!}
+                        {!! Form::textarea('venue_addresses',$venueAddress->address ?? '', ['class' => 'form-control', 'placeholder' => 'Address', 'cols' => 10]) !!}
 
                     </div>
 
@@ -111,6 +131,16 @@
 
                     </div>
                 </div>
+
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Slot Duration</span>
+                        {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '' , ['class' => 'form-control', 'placeholder' => 'Add Slot Duration in Mint']) !!}
+
+                    </div>
+                </div>
+
+                
                 <div class="col-md-6 mt-4 ">
                     <div class="input-group">
                         <span class="input-group-text">starts at</span>
@@ -136,12 +166,20 @@
                     <div>
                         <input type="radio" id="on-site" name="type" value="on-site"
                             {{ isset($venueAddress) && $venueAddress->type === 'on-site' ? 'checked' : '' }} required>
-                        <label for="on-site">On-site</label>
+                        <label for="on-site">Physical (On Site)</label>
                     </div>
                     <div>
                         <input type="radio" id="virtual" name="type" value="virtual"
                             {{ isset($venueAddress) && $venueAddress->type === 'virtual' ? 'checked' : '' }} required>
-                        <label for="virtual">Virtual</label>
+                        <label for="virtual">Online (Virtual)</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Video Room Name</span>
+                        {!! Form::text('video_room', $venueAddress->room_name ?? '', ['class' => 'form-control', 'placeholder' => 'Enter Vedio Room Name']) !!}
+                        
                     </div>
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
