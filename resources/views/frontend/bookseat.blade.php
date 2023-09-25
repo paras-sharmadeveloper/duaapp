@@ -1,11 +1,31 @@
 @extends('layouts.guest')
 @section('content')
+<style>   
+        body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        @media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
+        .thripist-section img {
+            height: 30% !important;
+            width: 30% !important;
+            border-radius: 20%;
+        }
+        .col-lg-6 {
+            flex: 0 0 auto;
+            width: 50% !important;
+        }
 
-    <style>
-       
-body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:18px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}}@media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}.thripist-section img{height:100%;width:90%;border-radius:20%}.loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
+        }
+        @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
+        .thripist-section img{height:50%;width:50%;border-radius:20%}
 
-    </style>
+        .loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
+        .col-lg-6 {
+            flex: 0 0 auto;
+            width: 20%;
+        }
+        .select2-container{
+            width: 100%;
+        }
+</style>
     <!-- section -->
     <section>
         <!-- container -->
@@ -24,7 +44,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow">
                     
                     <!-- col -->
-                    <div class="col-md-10 text-center">
+                    <div class="col-md-12 text-center">
 
                       
                         <!-- wizard -->
@@ -63,46 +83,25 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                         
                         <!-- /wizard -->
                     </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7 col-md-8">
-                            <!-- svg -->
-                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                </symbol>
-                            </svg>
-                            <!-- /svg -->
-                            <div class="alert alert-danger d-flex align-items-center mt-3 d-none mb-0" id="alertBox"
-                                role="alert">
-                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
-                                    aria-label="Danger:">
-                                    <use xlink:href="#exclamation-triangle-fill" />
-                                </svg>
-                                <div>
-                                    Please select any card , only then you can move furthe  asdr!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /col -->
                 </div>
-                <!-- /row -->
+ 
 
                 <div class="row justify-content-center" id="cardSection">
                        
-                    <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select Sahib-e-Dua</h3>
-                        <p class="small">Please select at least one card</p>
+                    <div class="col-lg-12 col-md-12">
+                        <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($therapists as $therapist)
                                 <div class="col-lg-3 col-md-4">
                                     <div class="card text-center h-60 py-2 shadow-sm thripist-section"
                                         data-id="{{ $therapist->id }}">
+                                        @if(!empty($therapist->profile_pic))
                                         <img src="{{ env('AWS_GENERAL_PATH').'images/'.$therapist->profile_pic }}" alt="Profile">
-
+                                        @else 
+                                        <img src="{{ asset('assets/theme/img/avatar.png') }}">
+                                        @endif
                                         {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
@@ -115,44 +114,32 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div>
-                    <!-- col -->
-                
-                    <!-- /cards -->
-                    <!-- NEXT BUTTON-->
-
-                    <!-- /NEXT BUTTON-->
+                    <!-- col --> 
                 </div>
 
-                <div class="row justify-content-center  form-business" id="select-typed">
+                <div class="row justify-content-center  form-business">
                    
-                    <div class="col-lg-7 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         
-                        <h3 class="fw-bold">Select Type</h3>
-                        <p class="small">Please select at least one card</p>
+                        <h3 class="fw-bold text-center">Select Type</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom"  id="select-type-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="type-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
                         </div>
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
-                    </div>
-                    <!-- col -->
-                
-                    <!-- /cards -->
-                    <!-- NEXT BUTTON-->
-
-                    <!-- /NEXT BUTTON-->
+                    </div> 
                 </div>
-
-                
+ 
                 <!-- row -->
-                <div class="row justify-content-center  form-business" id="cardSection">
+                <div class="row justify-content-center  form-business" >
                    
-                    <div class="col-lg-7 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         
-                        <h3 class="fw-bold">Select Country</h3>
-                        <p class="small">Please select at least one card</p>
+                        <h3 class="fw-bold text-center">Select Country</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
@@ -160,19 +147,13 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
-                    </div>
-                    <!-- col -->
-                
-                    <!-- /cards -->
-                    <!-- NEXT BUTTON-->
-
-                    <!-- /NEXT BUTTON-->
+                    </div> 
                 </div>
                 <div class="row justify-content-center form-business">
                     <!-- col -->
-                    <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select City</h3>
-                        <p class="small">Please select at least one card</p>
+                    <div class="col-lg-12 col-md-12">
+                        <h3 class="fw-bold text-center">Select City</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
@@ -189,9 +170,9 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
 
                 <div class="row justify-content-center form-business">
                     <!-- col -->
-                    <div class="col-lg-7 col-md-8">
-                        <h3 class="fw-bold">Select Date</h3>
-                        <p class="small">Please select at least one card</p>
+                    <div class="col-lg-12 col-md-12">
+                        <h3 class="fw-bold text-center">Select Date</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
@@ -209,9 +190,9 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 <!-- row -->
                 <div class="row justify-content-center form-business sloting-main">
                     <!-- col -->
-                    <div class="col-lg-7 col-md-8 slot-in">
-                        <h3 class="fw-bold ">Select Slot</h3>
-                        <p class="small">Please select at least one card</p>
+                    <div class="col-lg-12 col-md-12 slot-in">
+                        <h3 class="fw-bold text-center">Select Slot</h3>
+                        <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
                             <img src="/assets/loader.gif" alt="" class="loader-img">
@@ -229,7 +210,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 <!-- row -->
                 <div class="row justify-content-center py-5 form-business">
                     <!-- col -->
-                    <div class="col-lg-7 col-md-8" id="successMessage">
+                    <div class="col-lg-12 col-md-12" id="successMessage">
                         <!-- success message -->
                         <div class="position-relative success-content">
                             <img src="https://uploads-ssl.webflow.com/5ef0df6b9272f7410180a013/60c0e28575cd7c21701806fd_q1cunpuhbdreMPFRSFLyfUXNzpqv_I5fz_plwv6gV3sMNXwUSPrq88pC2iJijEV7wERnKXtdTA0eE4HvdnntGo9AHAWn-IcMPKV-rZw1v75vlTEoLF4OdNqsRb7C6r7Mvzrm7fe4.png"
@@ -242,7 +223,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                     </div>
                     <!-- /col -->
                     <!-- col -->
-                    <div class="col-lg-7 col-md-8" id="successForm">
+                    <div class="col-lg-12 col-md-12" id="successForm">
                         <div class="mb-5">
                             <!-- Final step -->
                             <div class="alert alert-primary text-center" role="alert">
@@ -392,7 +373,7 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-         $(".form-business").hide();
+          $(".form-business").hide();
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
@@ -455,21 +436,17 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 var cardId = $(this).attr('data-id');
 
                 if ($(this).hasClass('thripist-section')) {
-                    getAjax(cardId, 'get_country')
+                    getAjax(cardId, 'get_type')
+                    // getAjax(cardId, 'get_country')
                 }else if ($(this).hasClass('type-selection')) {
-                  
-                //   getAjax(cardId, 'city_section')
+                    getAjax(cardId, 'get_country') 
                }else if ($(this).hasClass('city-selection')) {
                   
-                     getAjax(cardId, 'city_section')
+                     getAjax(cardId, 'get_city')
                 } else if ($(this).hasClass('date-selection')) {
-                    getAjax(cardId, 'date_section')
+                    getAjax(cardId, 'get_date')
                   //  $("#slot_id_booked").val(cardId);
-                }
-                else if ($(this).hasClass('date-selection')) {
-                    getAjax(cardId, 'date_section')
-                  //  $("#slot_id_booked").val(cardId);
-                }
+                } 
                 else if ($(this).hasClass('slot-selection')) {
                     getAjax(cardId, 'get_slots')
                     // $("#slot_id_booked").val(cardId);
@@ -491,19 +468,20 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
         });
 
         function getAjax(id, type) {
-            if(type == 'city_section'){
+            console.log("type",type)
+            // if(type == 'city_section'){
                 
-                $(`.country-enable-n`).addClass('d-none'); 
-                $(`.country-enable-${id}`).removeClass('d-none');
-                return true; 
-                $(".loader-img").hide();
-            }else if(type == 'date_section'){
+            //     $(`.country-enable-n`).addClass('d-none'); 
+            //     $(`.country-enable-${id}`).removeClass('d-none');
+            //     return true; 
+            //     $(".loader-img").hide();
+            // }else if(type == 'date_section'){
                 
-                $(`.date-enable-n`).addClass('d-none'); 
-                $(`.date-enable-${id}`).removeClass('d-none');
-                $(".loader-img").hide();
-                return true; 
-            } 
+            //     $(`.date-enable-n`).addClass('d-none'); 
+            //     $(`.date-enable-${id}`).removeClass('d-none');
+            //     $(".loader-img").hide();
+            //     return true; 
+            // } 
 
             $.ajax({
                 type: 'POST',
@@ -518,79 +496,93 @@ body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .s
                 },
                 success: function(response) {
                     $(".loader-img").hide();
+                    if (type == 'get_type') { 
+                        var typed = '';
+                       
+                        $.each(response.type, function(key, item) {
+
+                            var meetingType = 'Online';
+                            if(item.name == 'on-site'){
+                                meetingType = 'Physical';
+                            }
+                            typed += `<div class="col col-lg-6 col-md-7">
+                                <div class="card text-center h-60 py-2 shadow-sm type-selection" 
+                                 data-id="${item.venue_address_id}" 
+                                 data-type="${item.name}"> 
+                                    <img src="${item.flag_path}" alt="Flag Image"> 
+                                    <div class="card-body px-0">
+                                        <h5 class="card-title title-binding">${meetingType}</h5>
+                                    </div>
+                                </div>
+                            </div>`;
+                        })
+                        $("#type-listing").html(typed); 
+ 
+                    }
+
+
                     if (type == 'get_country') {
                         var country = '';
                         $.each(response.country, function(key, item) {
+                            var meetingType = 'Online';
+                            if(item.type == 'on-site'){
+                                meetingType = item.name;
+                            }
                             country += `<div class="col col-lg-6 col-md-7">
                             <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.id}">
                                 <img src="${item.flag_path}" alt="Flag Image"> 
                                 <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${item.name}</h5>
+                                    <h5 class="card-title title-binding">${meetingType}</h5>
                                    
                                 </div>
                             </div>
                         </div>`;
                         })
-
-                        $("#country-listing").html(country);
-                        var city = '';
-                        var typed = '';
-                        var darte = '';
-                        $.each(response.venue_address, function(key, item) {
-
-                            var meetingType = 'Online';
-
-                            if(item.type == 'on-site'){
-                                meetingType = 'Physical';
-                            }
-                            // select-type
-
-                            typed += `<div class="col col-lg-6 col-md-7">
-                            <div class="card text-center h-60 py-2 shadow-sm type-selection" data-id="${item.venue_address_id}" data-type="${item.type}"> 
-                                <img src="${item.imgUrl}" alt="Flag Image"> 
-                                <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${meetingType}</h5>
-                                     
-                                </div>
-                            </div>
-                        </div>`;
-                            city += `<div class="col col-lg-6 col-md-7 country-enable-n country-enable-${item.venue_id} d-none">
-                            <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
-                                <img src="${item.imgUrl}" alt="Flag Image"> 
-                                <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${item.city}</h5>
-                                     
-                                </div>
-                            </div>
-                        </div>`;
-                        darte += `<div class="col col-lg-6 col-md-7 date-enable-n date-enable-${item.venue_address_id} d-none">
-                            <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                                <img src="${item.imgUrl}" alt="Flag Image"> 
-                                <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
-                                </div>
-                            </div>
-                        </div>`;
-                        })
-                         
-                        $("#select-type-listing").html(typed);
-                        $("#city-listing").html(city); 
-
-                        $("#date-listing").html(darte);
-
-                       
-
+                        $("#country-listing").html(country); 
 
                     }
-                    // if (type == 'venue_address') {
-                    //     var html = '';
+                    if (type == 'get_city') { 
                        
-                    //     $("#venues-listing").html(html);
-                    // }
+                        var city = '';
+                        $.each(response.city, function(key, item) {
+                            var meetingType = 'Online';
+                            if(item.type == 'on-site'){
+                                meetingType = item.name;
+                            }
+                            city += `<div class="col col-lg-6 col-md-7 country-enable-n country-enable-${item.id}">
+                                <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
+                                    <img src="${item.flag_path}" alt="Flag Image"> 
+                                    <div class="card-body px-0">
+                                        <h5 class="card-title title-binding">${meetingType}</h5>
+                                        
+                                    </div>
+                                </div>
+                            </div>`;
+                       })
+                       $("#city-listing").html(city); 
+
+                    }
+                    if (type == 'get_date') {  
+
+                        var dAte = '';
+                        $.each(response.date, function(key, item) { 
+                            
+                            dAte += `<div class="col col-lg-6 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
+                                <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
+                                    <img src="${item.flag_path}" alt="Flag Image"> 
+                                    <div class="card-body px-0">
+                                        <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                                    </div>
+                                </div>
+                            </div>`;
+                        })
+                        $("#date-listing").html(dAte);
+                    } 
+                    
                     if (type == 'get_slots') {
                         var html = '';
                         if (response.status) {
-                            $.each(response.data, function(key, item) {
+                            $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-7">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture" data-id="${item.id}">
                                     

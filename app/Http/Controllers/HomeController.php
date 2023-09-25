@@ -6,20 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{SendMessage, SendEmail};
-use App\Mail\BookingConfirmationEmail;
-use Illuminate\Support\Facades\Mail;
+use App\Jobs\{SendMessage, SendEmail}; 
 use Aws\Rekognition\RekognitionClient;
-
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
-
-use Twilio\Rest\Client as TwilioClient;
+ 
 
 class HomeController extends Controller
 {
-   use OtpTrait; 
+  use OtpTrait;
   public function __construct()
   {
     //  $this->middleware('auth');
@@ -63,10 +59,14 @@ class HomeController extends Controller
       return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
     }
 
+    $venueSlots = VenueSloting::find($request->input('slot_id'));
+    $venueAddress = $venueSlots->venueAddress;
+    $venue = $venueAddress->venue;
+
     $uuid = Str::uuid()->toString();
     $countryCode = $request->input('country_code');
     $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
-    $randomString = rand(10,100); // Generate a random string of 6 characters
+    $randomString = rand(10, 100); // Generate a random string of 6 characters
 
     $bookingNumber = $timestamp . $randomString;
     // Create a new Vistors record in the database
@@ -77,21 +77,22 @@ class HomeController extends Controller
     $booking->email = $validatedData['email'];
     $booking->country_code = '+' . $countryCode;
     $booking->phone = $validatedData['mobile'];
-    $booking->user_question =  $request->input('user_question',null);
+    $booking->user_question =  $request->input('user_question', null);
     $booking->slot_id = $request->input('slot_id');
     $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
     $booking->booking_uniqueid = $uuid;
     $booking->user_ip =   $request->ip();
     $booking->recognized_code = $isUsers['recognized_code'];
     $booking->booking_number = $bookingNumber;
-
+    $booking->meeting_type = $venueAddress->type;
     
+
+
+
     // Save the booking record
     $booking->save();
 
-    $venueSlots = VenueSloting::find($request->input('slot_id'));
-    $venueAddress = $venueSlots->venueAddress;
-    $venue = $venueAddress->venue;
+   
 
     $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
     $dateTime = Carbon::parse($eventData);
@@ -112,9 +113,14 @@ class HomeController extends Controller
       'meeting_date_time' => $formattedDateTime,
       'meeting_location' => $venueAddress->type,
       'therapist_name' => $venueAddress->user->name,
-      'booking_number' => $bookingNumber
+      'booking_number' => $bookingNumber,
+      'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
     ];
-    $Mobilemessage  = "Hi ".$validatedData['fname'].",\n Your Booking Confirmed with us.\nBookID:".$bookingNumber."\nHere is your Booking Status link\n ".route('booking.status', [$uuid])."\n When you vist at place you vist confirmation link" . route('booking.confirm-spot')."\nThanks\nTeam\nKahay Faqeer."; 
+    if ($venueAddress->type == 'on-site') {
+      $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
+  } else {
+      $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
+  }
 
     SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id);
     SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id);
@@ -264,8 +270,8 @@ class HomeController extends Controller
 
   public function home()
   {
-    $visitos = Vistors::get()->count(); 
-    return view('home',compact('visitos'));
+    $visitos = Vistors::get()->count();
+    return view('home', compact('visitos'));
   }
 
 
@@ -290,37 +296,108 @@ class HomeController extends Controller
 
       return response()->json($dataArr);
     }
+    if ($type == 'get_type') {
+      $addRess = VenueAddress::where(['therapist_id' => $id])->get()->all();
+      $dataArr = [];
+      foreach ($addRess as $venuesList) {
+        $dataArr['type'][] = [
+          'name' => $venuesList->type,
+          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'venue_address_id' => $venuesList->id
+        ];
+      }
+      return response()->json($dataArr);
+    }
     if ($type == 'get_country') {
-      $venuesListArr = VenueAddress::where(['therapist_id' => $id])->get()->all();
+      $venuesListArr = VenueAddress::where(['id' => $id])->get()->all();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $countryName = $venuesList->venue->country_name;
         $flagPath = $venuesList->venue->flag_path;
 
+
         $dataArr['country'][] = [
           'name' => $countryName,
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
-          'id' => $venuesList->venue->id
-        ];
-        $dataArr['venue_address'][] = [
-          'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
-          'address' => $venuesList->address,
-          'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
-          'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
-          'venue_address_id' => $venuesList->id,
-          'venue_date' => $venuesList->venue_date,
-          'state' => $venuesList->state,
-          'city' => $venuesList->city,
-          'venue_id' => $venuesList->venue->id,
           'type' => $venuesList->type,
-
+          'id' => $venuesList->id
         ];
+        // $dataArr['venue_address'][] = [
+        //   'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+        //   'address' => $venuesList->address,
+        //   'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
+        //   'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
+        //   'venue_address_id' => $venuesList->id,
+        //   'venue_date' => $venuesList->venue_date,
+        //   'state' => $venuesList->state,
+        //   'city' => $venuesList->city,
+        //   'venue_id' => $venuesList->venue->id,
+        //   'type' => $venuesList->type,
+
+        // ];
       }
       $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
 
       return response()->json($dataArr);
     }
+
+    if ($type == 'get_city') {
+      $venuesListArr = VenueAddress::where(['id' => $id])->get()->all();
+      $dataArr = [];
+      foreach ($venuesListArr as $venuesList) {
+        $cityName = $venuesList->city;
+        $flagPath = $venuesList->venue->flag_path;
+
+
+        $dataArr['city'][] = [
+          'name' => $cityName,
+          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'id' => $venuesList->venue->id,
+          'type' => $venuesList->type,
+          'venue_address_id' => $venuesList->id
+        ];
+        // $dataArr['venue_address'][] = [
+        //   'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+        //   'address' => $venuesList->address,
+        //   'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
+        //   'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
+        //   'venue_address_id' => $venuesList->id,
+        //   'venue_date' => $venuesList->venue_date,
+        //   'state' => $venuesList->state,
+        //   'city' => $venuesList->city,
+        //   'venue_id' => $venuesList->venue->id,
+        //   'type' => $venuesList->type,
+
+        // ];
+      }
+      // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
+
+
+      return response()->json($dataArr);
+    }
+    if ($type == 'get_date') {
+
+      $venuesListArr = VenueAddress::where(['id' => $id])->get()->all();
+      $dataArr = [];
+      foreach ($venuesListArr as $venuesList) {
+        $venue_date = $venuesList->venue_date;
+        $flagPath = $venuesList->venue->flag_path;
+
+
+        $dataArr['date'][] = [
+          'venue_date' => $venue_date,
+          'type' => $venuesList->type,
+          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'id' => $venuesList->venue->id,
+          'venue_address_id' => $venuesList->id
+        ];
+      }
+      return response()->json($dataArr);
+    }
+
+
+
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id);
 
@@ -330,7 +407,7 @@ class HomeController extends Controller
 
       if ($currentTime >= $EventStartTime) {
         $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id', 'slot_time', 'id']);
-        return response()->json(['status' => true, 'message' => 'Slots are be avilable', 'data' => $slotArr]);
+        return response()->json(['status' => true, 'message' => 'Slots are be avilable', 'slots' => $slotArr]);
       } else {
         return response()->json(['status' => false, 'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience', 'data' => []]);
       }
@@ -348,25 +425,24 @@ class HomeController extends Controller
     $country = $request->input('country_code');
     $mobile = $request->input('mobile');
 
-     $result =  $this->SendOtp($mobile,$country);
-    
-    if($result['status']){
+    $result =  $this->SendOtp($mobile, $country);
+
+    if ($result['status']) {
       return response()->json(['message' => 'OTP Sent successfully', 'status' => true]);
-    }else{
+    } else {
       return response()->json(['message' => 'OTP failed to sent', 'status' => false]);
     }
-    
   }
 
   public function verify(Request $request)
   {
     $userEnteredOTP = $request->input('otp'); // OTP entered by the user 
-    $result = $this->VerifyOtp($userEnteredOTP); 
+    $result = $this->VerifyOtp($userEnteredOTP);
     // return $result; 
-    if($result['status']){
+    if ($result['status']) {
       return response()->json(['message' => 'OTP verified successfully', 'status' => true]);
-    }else{
+    } else {
       return response()->json(['error' => 'Invalid OTP'], 422);
-    } 
+    }
   }
 }

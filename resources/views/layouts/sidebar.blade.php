@@ -120,13 +120,13 @@
           <i class="bi bi-person"></i><span>Video Conference</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="video-nav" 
-        class="{{ ( $currentPath == 'siteadmin.queue.show'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        class="{{ ( $currentPath == 'join.conference.show'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('conference.create') }}" 
-            class="{{ ( $currentPath == 'conference.create') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Create</span>
+            <a data-href="{{ $currentPath }}" href="{{ route('join.conference.show') }}" 
+            class="{{ ( $currentPath == 'join.conference.show') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Show</span>
             </a>
           </li>
 

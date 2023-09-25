@@ -27,12 +27,15 @@ return new class extends Migration
             $table->foreign('slot_id')
             ->references('id')
             ->on('venues_sloting');  
+            $table->string('meeting_type',60)->nullable(); 
             $table->string('meeting_doneAt',60)->nullable(); 
             $table->text('recognized_code')->nullable(); 
             $table->timestamp('sms_sent_at')->nullable(); 
             $table->timestamp('email_sent_at')->nullable(); 
             $table->enum('is_available',['not_confirmed','confirmed'])->default('not_confirmed'); 
             $table->string('confirmed_at',60)->nullable(); 
+            $table->enum('is_whatsapp',['in-queue','admitted','dismiss','hold','pause','blocked','no_action'])->default('no_action');
+            $table->string('user_status',60)->nullable(); 
             $table->string('meeting_start_at',60)->nullable(); 
             $table->string('meeting_ends_at',60)->nullable(); 
             $table->timestamps();

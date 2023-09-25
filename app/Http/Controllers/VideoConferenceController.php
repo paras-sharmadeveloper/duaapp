@@ -2,31 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VenueAddress;
 use Illuminate\Http\Request;
 use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VideoGrant;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
-use App\Models\VideoConference;
+use App\Models\{VideoConference, Vistors};
+use Carbon\Carbon;
+
+
 // 
 class VideoConferenceController extends Controller
 {
-    use OtpTrait; 
+    use OtpTrait;
     public function design()
     {
-         
+
         return view('conference.new');
     }
     public function createConference()
     {
-         
+
         return view('conference.create');
     }
-    
-    public function createConferencePost(Request $request){
 
-        $roomName = $request->input('roomName'); 
+    public function createConferencePost(Request $request)
+    {
+
+        $roomName = $request->input('roomName');
         $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
 
         $room = $twilio->video->v1->rooms->create([
@@ -34,56 +39,183 @@ class VideoConferenceController extends Controller
             'type' => 'peer-to-peer',
         ]);
 
-        VideoConference::create(['room_name' =>$roomName,'room_sid' => $room->sid ]);
-        $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
-         $this->SendMessage('+91','8950990009',$message); 
+        VideoConference::create(['room_name' => $roomName, 'room_sid' => $room->sid]);
+        $message = "Hi ,\n Join Meeting here\n" . route('join.conference.show', [$room->sid]);
+        $this->SendMessage('+91', '8950990009', $message);
 
-        $userName = Auth::user()->name;   
-        $roomName = $this->fetchRoomName($room->sid); 
-        $accessToken = $this->generateAccessToken($roomName,$userName);
+        $userName = Auth::user()->name;
+        $roomName = $this->fetchRoomName($room->sid);
+        $accessToken = $this->generateAccessToken($roomName, $userName);
         // $room->sid
-        //  $room->uniqueName $room->type 
-        return redirect()->route('join.conference.show',[$room->sid])->with([
+        //  $room->uniqueName $room->type
+        
+        return redirect()->route('join.conference.show', [
+            'roomSid' => $room->sid,
             'accessToken' => $accessToken,
             'roomName' => $roomName,
             'success' => 'You joined this Meeting',
-            'enable' => false,
-            'roomId' => $room->sid
-        ]);  
-    }   
-
-    
-
-    public function joinConference(Request $request,$roomId)
-    {
-        return view('conference.join');  
+            'enable' => false
+        ]);
+        
     }
 
-    public function joinConferencePost(Request $request,$roomId)
+
+
+    public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
+        $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();
+        if (empty($vistor)) {
+            abort(404);
+        }
+
+        $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+
+        $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
+        $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
+        $timeRemaining = $meetingStartTime->diffForHumans(null, true);
+        $isMeetingInProgress = Carbon::now()->gte($meetingStartTime);
+        $currentDateTime = Carbon::now();
+        $isFifteenMinutesRemaining = false;
+        //  echo  $meetingStartTime ; die; 
+        if ($meetingStartTime->isFuture()) {
+            $interval = $currentDateTime->diff($meetingStartTime);
+            $timeRemaining = $interval->format('%D days %h hours and %i minutes');
+            $isFifteenMinutesRemaining = ($interval->i <= 15) ? true : false;
+            // Check if the meeting is already in progress
+            $isMeetingInProgress = false;
+        } else if ($currentDateTime->isAfter($meetingEndsTime)) {
+            // Meeting has already passed, display an error message
+            $timeRemaining = "The meeting has already taken place.";
+            // You can redirect or display the error message as needed.
+            $isMeetingInProgress = false;
+        } else {
+            $isFifteenMinutesRemaining = true;
+            // The meeting is already in progress
+            $timeRemaining = "Meeting is in progress"; // You can customize this message
+            $isMeetingInProgress = true;
+        }
+
+
+
        
-            $userName = $request->input('participantName');   
-            $roomName = $this->fetchRoomName($roomId); 
+        $vistorName = $vistor->fname . ' ' . $vistor->lname;
+        $roomName =  ''; $accessToken =''; 
+        // $roomName =   $venueAddress->room_name;
+        // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
 
-            $accessToken = $this->generateAccessToken($roomName,$userName);
+        $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
+        $servedCount = Vistors::where(['meeting_type' => 'virtual'])->alreadyServed();
 
-            return redirect()->route('join.conference.show',[$roomId])->with([
-                'accessToken' => $accessToken,
-                'roomName' => $roomName,
-                'success' => 'You joined this Meeting',
-                'enable' => false,
-                'roomId' => $roomId
-            ]); 
+        $timePerSlot =  $venueAddress->slot_duration; // Time duration for each slot (in minutes)
+        $estimatedWaitTime = $aheadCount * $timePerSlot;
 
-              
-         
+        return view('frontend.onlinemeeting', compact(
+            'venueAddress',
+            'roomName',
+            'accessToken',
+            'aheadCount',
+            'servedCount',
+            'estimatedWaitTime',
+            'isMeetingInProgress',
+            'timeRemaining',
+            'isFifteenMinutesRemaining',
+            'vistor',
+            'timePerSlot'
+
+        ));
     }
 
 
-    private function generateAccessToken($roomName,$identity)
+    public function StartConferenceShow(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $userName = Auth::user()->name;
+        $venues = [];
+        $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
+        // echo "<pre>"; print_r($venues); die; 
+        return view('conference.create', compact('venues', 'userId', 'userName'));
+    }
+
+    public function joinConference(Request $request)
+    {
+        $participants = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
+        return view('conference.join', compact('participants'));
+    }
+
+    public function joinConferencePost(Request $request, $roomId)
+    {
+
+        $userName = $request->input('participantName');
+        $roomName = $request->input('roomName');
+        //  echo "<pre>"; print_r($request->all()); die; 
+        $accessToken = $this->generateAccessToken($roomName, $userName);
+
+        return redirect()->route('join.conference',
+        [
+            'accessToken' => $accessToken,
+            'roomName' => $roomName, 
+            'roomId' => $roomId
+        ]);
+
+        // return redirect()->route('join.conference')->with([
+        //     'accessToken' => $accessToken,
+        //     'roomName' => $roomName,
+        //     'success' => 'You joined this Meeting',
+        //     'enable' => false,
+        //     'roomId' => $roomId
+        // ]);
+    }
+
+
+    public function AskToJoin(Request $request)
+    {
+
+        $id = $request->input('id');
+        $type =  $request->input('action','in-queue'); 
+        $visor = Vistors::find($id)->update(['user_status' =>  $type]);
+        return response()->json(['message' => 'You request submitted successfully. Lets Wait for Host to approve your request', "status" => true], 200);
+    }
+
+    public function VisitorRequests(Request $request)
+    {
+
+        $id = $request->input('id');
+        $vistors = Vistors::where(['meeting_type' => 'virtual','user_status' => 'in-queue'])->get();  
+        return response()->json(['participants' => $vistors, "status" => true], 200);
+    }
+
+
+    public function CheckParticpentStatus(Request $request)
+    {
+
+        $id = $request->input('id');
+        $vistor = Vistors::find($id)->get()->first();
+        $roomDetails = []; 
+        $admitted=false;
+        if($vistor->user_status == 'admitted'){
+            $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+            $roomDetails['room_name'] = $venueAddress->room_name;
+            $vistorName = $vistor->fname . ' ' . $vistor->lname; 
+            $roomDetails['accessToken'] = $this->generateAccessToken($venueAddress->room_name, $vistorName);
+            $admitted=true;
+        }
+       
+        // $roomName =   ;
+        // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
+        return response()->json(['message' => 'You request submitted successfully. Lets Wait for Host to approve your request', 
+        "status" => true,
+        'visitor' => $vistor,
+         'is_admit' => $admitted,
+        'roomDetails' => $roomDetails
+    ], 200);
+    }
+
+
+
+    private function generateAccessToken($roomName, $identity)
     {
         // Twilio Account SID and Auth Token from your Twilio account 
-    
+
 
         $token = new AccessToken(
             env('TWILIO_ACCOUNT_SID'),
@@ -95,18 +227,18 @@ class VideoConferenceController extends Controller
 
         $videoGrant = new VideoGrant();
         $videoGrant->setRoom($roomName);
-        $token->addGrant($videoGrant); 
-  
+        $token->addGrant($videoGrant);
+
         return $token->toJWT();
     }
     private function fetchRoomName($roomId)
     {
-        $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first(); 
+        $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first();
         // echo "<pre>"; print_r( $videoConfernce); die; 
-        return  $videoConfernce->room_name;  
+        return  $videoConfernce->room_name;
     }
 
-    
+
 
     public function generate_token(Request $request)
     {
@@ -140,7 +272,7 @@ class VideoConferenceController extends Controller
         $authToken =  env('TWILIO_AUTH_TOKEN');
         $apiKeySecret =  env('TWILIO_API_KEY_SID');
         // $rest = $this->getKey(); 
- 
+
         $accessToken = new AccessToken($accountSid, $authToken, $apiKeySecret);
 
         // Create a Video Grant and add it to the token
@@ -162,8 +294,8 @@ class VideoConferenceController extends Controller
 
     public function startConference(Request $request)
     {
-        $identity = $request->input('identity','ParasUSer1');
-        $roomName = $request->input('roomName','room007');
+        $identity = $request->input('identity', 'ParasUSer1');
+        $roomName = $request->input('roomName', 'room007');
 
         $accountSid = env('TWILIO_SID');
         $authToken =  env('TWILIO_AUTH_TOKEN');
@@ -171,18 +303,16 @@ class VideoConferenceController extends Controller
 
         $token = new AccessToken(
             $accountSid,
-            $authToken, $apiKeySecret 
+            $authToken,
+            $apiKeySecret
         );
 
         $token->setIdentity($identity);
         $videoGrant = new VideoGrant();
         $videoGrant->setRoom($roomName);
         $token->addGrant($videoGrant);
-        $accessToken = $token->toJWT(); 
-        return view('video-conference.video-conference', compact('accessToken','roomName'));
+        $accessToken = $token->toJWT();
+        return view('video-conference.video-conference', compact('accessToken', 'roomName'));
         return response()->json(['token' => $token->toJWT()]);
     }
-
-
-     
 }

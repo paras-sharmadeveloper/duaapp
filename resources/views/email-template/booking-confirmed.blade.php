@@ -185,7 +185,11 @@ body {font-family: 'Lato', sans-serif;}
 </div>
 <div style="font-family: inherit; text-align: inherit">
   <span style="font-family: inherit">You can join this meeting from your computer, tablet, or smartphone.<br>
-    {{ $dynamicData['meeting_link'] }}
+    @if(!empty($dynamicData['video_conference_link']))
+    {{ $dynamicData['video_conference_link'] }}
+    @else
+      Meeting Mode : Physical (OFF-LINE)      
+    @endif
 <br>
 <div style="font-family: inherit; text-align: inherit">
   <span style="font-family: inherit">When You vist your location you have to confirm your check in .<br>

@@ -41,7 +41,7 @@ Route::get('/', function () {
     }
 });
 
-
+Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend'); 
 Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
@@ -66,9 +66,11 @@ Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signu
 Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
 Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-
+Route::post('/check-particepent/status',[VideoConferenceController::class, 'CheckParticpentStatus'])->name('checkparticepent-status');
 Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
 Route::post('/detect-liveness',  [HomeController::class,'detectLiveness']);
+Route::post('/ask-to-join/meeting',[VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
+Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
@@ -80,7 +82,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
 
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
-    Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+   
    
  
     Route::get('/video-conference', [VideoConferenceController::class, 'index']);
@@ -92,8 +94,14 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::post('/create-conference/submit',[VideoConferenceController::class, 'createConferencePost'])->name('create-conference');
 
 
-    Route::get('/join-conference/{roomId}', [VideoConferenceController::class, 'joinConference'])->name('join.conference.show'); 
+    Route::get('/join-conference/start', [VideoConferenceController::class, 'StartConferenceShow'])->name('join.conference.show'); 
+    Route::get('/join-conference/meeting/start', [VideoConferenceController::class, 'joinConference'])->name('join.conference'); 
     Route::post('/join-conference/post/{roomId}',[VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
+   
+    Route::post('/visitor/request/list',[VideoConferenceController::class, 'VisitorRequests'])->name('visitor.list');
+    
+    
+    
  
     Route::get('/design', [VideoConferenceController::class, 'design'])->name('design'); 
 

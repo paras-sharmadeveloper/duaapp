@@ -18,5 +18,17 @@ class Vistors extends Model
     {
         return $this->belongsTo(VenueSloting::class, 'slot_id');  
     }
+
+    public function scopeAheadOfVisitor($query)
+    {
+        // Count visitors where meeting_start_at is null (ahead)
+        return $query->whereNull('meeting_start_at')->count();
+    }
+
+    public function scopeAlreadyServed($query)
+    {
+        // Count visitors where meeting_ends_at is not null (already served)
+        return $query->whereNotNull('meeting_ends_at')->count();
+    }
      
 }

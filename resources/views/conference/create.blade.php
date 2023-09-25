@@ -3,46 +3,71 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    @if (count($errors) > 0)
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-    <ul>
-       @foreach ($errors->all() as $error)
-         <li>{{ $error }}</li>
-       @endforeach
-    </ul>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-@endif
+    <style>
+        img.card-img-top {
+            height: 200px;
+            width: 200px;
+            margin: auto;
+        }
+    </style>
+    <div class="container">
+        @if (count($errors) > 0)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
-@if ($message = Session::get('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="bi bi-check-circle me-1"></i>
-    {{ $message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
- 
-@endif
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Create a Conference</div>
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                {{ $message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Create a Conference</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('create-conference') }}">
-                        @csrf
+                    <div class="card-body mt-4">
+                        @foreach ($venues as $venue)
+                            <form method="POST" action="{{ route('join.conference.post', [$venue->room_sid]) }}">
+                                @csrf
 
-                        <div class="form-group">
-                            <label for="roomName">Room Name</label>
-                            <input type="text" class="form-control" id="roomName" name="roomName" required>
-                        </div>
 
-                        <button type="submit" class="btn btn-primary mt-3">Create Conference</button>
-                    </form>
+
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ asset('/assets/theme/img/vedio-call.png') }}" class="card-img-top"
+                                        alt="...">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Online</h5>
+                                        <p class="card-text">
+                                            {{ \Carbon\Carbon::parse($venue->venue_date)->format('d-M-Y') }}</p><br>
+                                        <p class="card-text">
+
+                                            {{ \Carbon\Carbon::parse($venue->slot_starts_at)->format('h:iA') }} -
+                                            {{ \Carbon\Carbon::parse($venue->slot_ends_at)->format('h:iA') }}
+                                        </p>
+                                        <button type="submit" class="btn btn-primary mt-3">Start Conference</button>
+
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="participantName" name="participantName"
+                                    value="{{ $userName }}">
+                                <input type="hidden" class="form-control" id="roomName" name="roomName"
+                                    value="{{ $venue->room_name }}">
+
+                            </form>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
