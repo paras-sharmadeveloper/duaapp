@@ -664,8 +664,9 @@
             startTimer();
 
             function onTimesUp() {
-                alert("times up.. Your Call Ends automatically")
+                
                         $('.call-cut-button').click();
+                        alert("times up.. Your Call Ends automatically")
                 clearInterval(timerInterval);
             }
 
