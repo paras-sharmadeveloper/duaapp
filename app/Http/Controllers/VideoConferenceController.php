@@ -57,10 +57,7 @@ class VideoConferenceController extends Controller
             'enable' => false
         ]);
         
-    }
-
-
-
+    } 
     public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
         $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();

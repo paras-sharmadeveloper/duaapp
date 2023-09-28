@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('content')
+@section('content') 
 <style>   
         body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
         @media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
@@ -12,19 +12,111 @@
             flex: 0 0 auto;
             width: 50% !important;
         }
+        .otp-btn{
+            text-align: center;
+            margin: 12px 0px; 
+        }
+        div#opt-form-confirm {
+            text-align: center;
+        }
+        .cusmhtn {font-size: 12px;}
 
         }
         @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
         .thripist-section img{height:50%;width:50%;border-radius:20%}
 
         .loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
-        .col-lg-6 {
+        /* .col-lg-6 {
             flex: 0 0 auto;
             width: 20%;
-        }
+        } */
         .select2-container{
             width: 100%;
         }
+
+        /* css loader start  */
+        .lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #000;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.btn-cst {
+    padding: 6px 10px;
+}
+        /* css loader ends */
 </style>
     <!-- section -->
     <section>
@@ -73,7 +165,13 @@
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Done</li>
 
-                                    <img src="/assets/loader.gif" alt="" class="loader-img" style="display: none">
+                                    <div id="loader" style="display: none">
+                                    <div class="lds-spinner">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    </div>
+
+                                  
                                   
                             </ul>
                             
@@ -125,7 +223,11 @@
                         <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="type-listing">
-                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                            <div id="loader" style="display: none">
+                                <div class="lds-spinner">
+                                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                </div>
+                            </div>
                         </div>
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
@@ -142,7 +244,11 @@
                         <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
-                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                              <div id="loader" style="display: none">
+                                    <div class="lds-spinner">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    </div>
                         </div>
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
@@ -156,7 +262,11 @@
                         <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
-                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                              <div id="loader" style="display: none">
+                                    <div class="lds-spinner">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    </div>
                         </div> 
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
@@ -175,7 +285,11 @@
                         <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
-                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                              <div id="loader" style="display: none">
+                                    <div class="lds-spinner">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    </div>
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -195,7 +309,11 @@
                         <p class="small text-center">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
-                            <img src="/assets/loader.gif" alt="" class="loader-img">
+                              <div id="loader" style="display: none">
+                                    <div class="lds-spinner">
+                                        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                    </div>
+                                    </div>
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -227,7 +345,7 @@
                         <div class="mb-5">
                             <!-- Final step -->
                             <div class="alert alert-primary text-center" role="alert">
-                                <h5 class="p-4">Finally We are going to submit your information if you want to continue
+                                <h5 class="p-4 cusmhtn">Finally We are going to submit your information if you want to continue
                                     that
                                     please click on the finish button to finish up your Working process.</h5>
                             </div>
@@ -238,20 +356,23 @@
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <div class="row g-3 mb-3">
                                     <div class="col col-md-12">
-                                        <input type="text" class="form-control" name="fname" placeholder="Jhon"
+                                        <input type="text" class="form-control" name="fname" placeholder="Enter your first name"
                                             aria-label="First name">
                                     </div>
                                     <div class="col col-md-12">
-                                        <input type="text" class="form-control" name="lname" placeholder="Deo"
+                                        <input type="text" class="form-control" name="lname" placeholder="Enter your last name"
                                             aria-label="Last name">
                                     </div>
                                 </div>
+                                <div class="row g-3 mb-3">
+                                <div class="col col-md-12">
+                                    <input type="email" class="form-control" name="email"
+                                        placeholder="Enter your email eg:test@example.com" aria-label="Email">
+                                </div> 
+                            </div> 
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-md-12">
-                                        <input type="email" class="form-control" name="email"
-                                            placeholder="test@example.com" aria-label="Email">
-                                    </div> 
+                                    
                                         <div class="col col-lg-5  col-md-12">
 
                                             <select id="country_code" name="country_code" class="js-states form-control">
@@ -264,24 +385,42 @@
 
                                         </div>
                                        
-                                        <div class="col col-lg-7 col-md-12" id="mobile-dib">
+                                        <div class="col col-lg-7 col-md-12" id="mobile-number">
                                             <input type="number" class="form-control" id="mobile" name="mobile"
                                                 placeholder="Enter mobile eg:8884445555" aria-label="Mobile">
                                                 <p> </p>
                                         </div>
-                                        <div id="opt-form-confirm" style="display: none">
-                                            <p></p>
-                                            <button type="button" class="" id="sendOtp">Send OTP</button>
-                                            <img src="/assets/loader.gif" alt="" class="loader-img-otp d-none" style="height: 30px; width:30px !important;">
-                                        </div>
-                                        <div id="opt-form" style="display: none">
-                                            <input type="text" class="form-control"  name="otp" id="otp" placeholder="Enter OTP">
-                                            <p> </p>
-                                            <button type="button" class="" id="submit-otp">Submit</button>
-                                            <img src="/assets/loader.gif" alt="" class="loader-img-otp2 d-none" style="height: 30px; width:30px !important;">
-                                        </div>
+                                        <div class="col col-lg-2 col-md-12" id="opt-form-confirm" style="display: none">
+                                            <button type="button" id="sendOtp" class="btn-cst  btn btn-primary testbtn" type="button" data-loading="Sending OTP" data-success="Success" data-default="Send OTP">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                                                </span>
+                                                <label> Sent OTP</label>
+                                              </button>
+                                              <p></p>
+          
+                                        </div> 
  
                                 </div>
+                                <div id="opt-form" style="display: none">
+                                <div class="row mt-2">
+                                    <div class="col col-lg-5 col-md-12  col-sm-12">
+                                        <input type="text" class="form-control"  name="otp" id="otp" placeholder="Enter OTP">
+                                        <p></p>
+                                    </div>
+                                    <div class="col col-lg-7 col-md-12  col-sm-12 otp-btn">
+                                        <button type="button"  id="submit-otp"  class="btn-cst  btn btn-primary testbtn" type="button" 
+                                        data-loading="Verifying OTP" 
+                                        data-success="Success" 
+                                        data-default="Submit">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                                            </span>
+                                            <label> Submit</label>
+                                          </button> 
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
                                 {{-- <div class="row g-3">
                                     <div class="col col-md-12">
@@ -301,11 +440,10 @@
                                 </div>
 
                                 <div class="form-group row mt-3 selfie">
-                                    <label for="selfie"
-                                        class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label>
+                                    {{-- <label for="selfie" class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label> --}}
 
-                                    <div class="col-md-6">
-                                        <button class="btn btn-outline-success" type="button"   id="start-camera">Take Selfie</button>
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-outline-success btn-cst" type="button"   id="start-camera">Take Selfie</button>
                                        
                                         <!-- Add a camera view area -->
                                         <div id="camera-view" style="display: none;">
@@ -331,18 +469,20 @@
                                     </div>
                                     <div class="col-lg-6 d-flex justify-content-evenly">
                                       
-                                        <button class="btn btn-outline-primary" type="button" style="display: none;"   id="capture-selfie">Capture</button>
+                                        <button class="btn btn-outline-primary btn-cst" type="button" style="display: none;"   id="capture-selfie">Capture</button>
                                     
                                    </div>
                                     <div class="col-lg-6 d-flex justify-content-evenly">
                                        
-                                        <button class="btn btn-outline-info mr-2" type="button" style="display: none;"   id="restart-camera">Restart camera</button>
+                                        <button class="btn btn-outline-info mr-2 btn-cst" type="button" style="display: none;"   id="restart-camera">Restart camera</button>
                                         
                                    </div>
                                    
                                </div>
                                 <!-- /Final step -->
                         </div> 
+
+                       
 
                         
                         <!-- NEXT BUTTON-->
@@ -373,6 +513,10 @@
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+
+        
+       
+ 
           $(".form-business").hide();
         $("#country_code").select2({
             placeholder: "Select country",
@@ -390,7 +534,7 @@
             // next button
             $(".next").on({
                 click: function() {
-                    $(".loader-img").show();
+                    $("#loader").show();
 
                     // select any card
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
@@ -400,7 +544,7 @@
                        
                          $(this).parents(".row").fadeOut("slow", function() {
                           $(this).next(".row").fadeIn(); 
-                          $(".loader-img").hide();
+                          $("#loader").hide();
                          });
 
                     } else {
@@ -412,11 +556,11 @@
             // back button
             $(".back").on({
                 click: function() {
-                    $(".loader-img").show();
+                    $("#loader").show();
                     $("#progressBar .active").last().removeClass("active");
                    // $(this).next(".row").show();
                     $(this).parents(".row").fadeOut("slow", function() {
-                        $(".loader-img").hide();
+                        $("#loader").hide();
                         $(this).prev(".row").fadeIn();
                     });
                 }
@@ -474,12 +618,12 @@
             //     $(`.country-enable-n`).addClass('d-none'); 
             //     $(`.country-enable-${id}`).removeClass('d-none');
             //     return true; 
-            //     $(".loader-img").hide();
+            //     $("#loader").hide();
             // }else if(type == 'date_section'){
                 
             //     $(`.date-enable-n`).addClass('d-none'); 
             //     $(`.date-enable-${id}`).removeClass('d-none');
-            //     $(".loader-img").hide();
+            //     $("#loader").hide();
             //     return true; 
             // } 
 
@@ -495,7 +639,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    $(".loader-img").hide();
+                    $("#loader").hide();
                     if (type == 'get_type') { 
                         var typed = '';
                        
@@ -615,11 +759,12 @@
         }
     </script>
     <script>
+     
         $(document).ready(function() {
             // Add an event listener to the form's submit event
             $('#booking-form').submit(function(event) {
                 event.preventDefault(); // Prevent the default form submission
-                $(".loader-img").show();
+                $("#loader").show();
                 // Serialize the form data
                 var formData = $(this).serialize();
 
@@ -629,14 +774,14 @@
                     type: $(this).attr('method'), // Get the form's HTTP method (POST in this case)
                     data: formData, // Use the serialized form data
                     success: function(response) {
-                        $(".loader-img").hide();
+                        $("#loader").hide();
                         // Handle the success response here (e.g., display a message) 
                         $("#wizardRow").fadeOut(300);
                         $("#successForm").fadeOut(300);
                         $("#successMessage").fadeIn(3000); 
                     },
                     error: function(error) {
-                        $(".loader-img").hide();
+                        $("#loader").hide();
                         if(error.responseJSON.status== false){
                             alert(error.responseJSON.message);
                         }
@@ -796,13 +941,26 @@
            if (phoneNumber.length === 10) {
                $("#submitBtn").hide();
                $("#opt-form-confirm").fadeIn(500);
+               $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
            }else{
                $("#submitBtn").show();
                $("#opt-form-confirm").fadeOut(500);
+               $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
            }
        });
        $("#sendOtp").click(function(){
-           $(".loader-img-otp").removeClass('d-none');
+
+             $this= $(this); 
+ 
+            var loadingText = $this.attr('data-loading');
+            var successText = $this.attr('data-success');
+            var defaultText = $this.attr('data-default');
+
+            $this.find('span').show()
+            $this.find('label').text(loadingText)
+           
+            
+          
            $.ajax({
                url: "{{ route('send-otp') }}",
                type: 'POST',
@@ -812,23 +970,31 @@
 
                },
                success: function(response) {
-                $(this).text('Resent OTP');
-                $(".loader-img-otp").addClass('d-none');
+                $this.find('label').text(successText)
+                $this.find('span').hide()
+                // setTimeout(() => {
+                //     $this.find('label').text(defaultText) 
+                // }, 2500);
+  
                 $("#opt-form").show();  
                 $("#submitBtn").hide(); 
-                $("#opt-form").find('p').text(response.message);
-                   
+                $("#mobile-number").find('p').addClass('text-success').text(response.message);
+                $this.find('label').text("Resend")
+                console.log("heree1")                   
                },
                error: function(xhr) {
-              
-                $("#opt-form-confirm").find('p').text(xhr.responseJSON.message);
+                console.log("heree")
+                $this.find('span').hide()
+                $this.find('label').text(defaultText)
+                $("#mobile-number").find('p').addClass('text-danger').text(xhr.responseJSON.message);
                     
                }
            });
        })
 
        $("#submit-otp").click(function(){
-        $(".loader-img-otp2").removeClass('d-none');
+        $("#loader-otp2").show();
+        
            $("#opt-form").show(); 
            
            $("#submitBtn").hide(); 
@@ -837,15 +1003,15 @@
                type: 'POST',
                data: {  otp: $("#otp").val() },
                success: function(response) {
-                $(".loader-img-otp2").addClass('d-none');
+                $("#loader-otp2").hide(); 
                 $("#opt-form-confirm").hide(); 
                    $("#submitBtn").show(); // Display a success message
                    $("#opt-form").hide(); 
-                   $("#mobile-dib").find('p').addClass('text-success').text('Mobile Number Verified')
+                   $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
                    // You can proceed with form submission here
                },
                error: function(xhr) {
-                $("#opt-form").find('p').text(xhr.responseJSON.error); 
+                $("#opt-form").find('p').addClass('text-danger').text(xhr.responseJSON.error); 
                }
            });
        })
