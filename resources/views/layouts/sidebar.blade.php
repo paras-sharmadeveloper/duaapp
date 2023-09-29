@@ -41,7 +41,7 @@
       </li>
       @endcanany
 
-      @can('user-management-access')
+      @canany('user-management-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#venue-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Venue Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -85,8 +85,8 @@
            
         </ul>
       </li>
-      @endcan 
-      @can('vistor-schduling-access')
+      @endcanany 
+      @canany('vistor-schduling-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#vistor-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Vistor Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -100,8 +100,8 @@
            
         </ul>
       </li>
-      @endcan 
-      @can('site-admin-access')
+      @endcanany
+      @canany('site-admin-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#siteadmin-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -124,9 +124,9 @@
   
         </ul>
       </li>
-      @endcan 
+      @endcanany
 
-       @can('vedio-call-access')
+       @canany('vedio-call-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#video-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Video Conference</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -145,7 +145,7 @@
            
         </ul>
       </li>
-      @endcan 
+      @endcanany
     
 
 

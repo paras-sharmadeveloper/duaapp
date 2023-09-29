@@ -98,18 +98,11 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
     Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');
-   
-    
  
     Route::get('/video-conference', [VideoConferenceController::class, 'index']);
     Route::any('/start-conference', [VideoConferenceController::class, 'startConference']);
-
-
     Route::get('/create-conference',[VideoConferenceController::class, 'createConference'])->name('conference.create');
-
     Route::post('/create-conference/submit',[VideoConferenceController::class, 'createConferencePost'])->name('create-conference');
-
-
     Route::get('/join-conference/start', [VideoConferenceController::class, 'StartConferenceShow'])->name('join.conference.show'); 
     Route::get('/join-conference/meeting/start', [VideoConferenceController::class, 'joinConference'])->name('join.conference'); 
     Route::post('/join-conference/post/{roomId}',[VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
