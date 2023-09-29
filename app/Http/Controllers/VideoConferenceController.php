@@ -203,7 +203,7 @@ class VideoConferenceController extends Controller
         foreach($vistors as $visitor){
             $venueAdresId = $visitor->slot->venue_address_id; 
             $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get()->first();
-            if($venUAdress && $venUAdress->therapist_id->therapist_id == Auth::id()){
+            if($venUAdress && $venUAdress->therapist_id->therapist_id == Auth::user()->id){
                 $dataArr[] = $visitor;
                  $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
             }
