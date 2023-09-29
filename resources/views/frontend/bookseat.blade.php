@@ -33,6 +33,9 @@
         .select2-container{
             width: 100%;
         }
+        .select2-container {
+    width: 100% !important;
+}
 
         /* css loader start  */
         .lds-spinner {
@@ -334,8 +337,8 @@
                             <img src="https://uploads-ssl.webflow.com/5ef0df6b9272f7410180a013/60c0e28575cd7c21701806fd_q1cunpuhbdreMPFRSFLyfUXNzpqv_I5fz_plwv6gV3sMNXwUSPrq88pC2iJijEV7wERnKXtdTA0eE4HvdnntGo9AHAWn-IcMPKV-rZw1v75vlTEoLF4OdNqsRb7C6r7Mvzrm7fe4.png"
                                 class="w-100" id="successImage" alt="success-message">
                             <a href="#" type="button"
-                                class="btn bg-success-color py-2 back-to-wizard position-absolute top-100 start-50 translate-middle text-white">Back
-                                to Wizad Form</a>
+                                class="btn bg-success-color py-2 back-to-wizard position-absolute top-100 start-50 translate-middle text-white">
+                                Back to Booking Page</a>
                         </div>
                         <!-- /success message -->
                     </div>
@@ -487,8 +490,16 @@
                         
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
-                        <button type="submit" id="submitBtn"
-                            class="btn text-white float-end submit-button rounded-3 bg-color-info">Finish</button>
+
+                        <button type="submit"  id="submitBtn"  class="btn text-white float-end submit-button rounded-3 bg-color-info" type="submit" 
+                        data-loading="Submitting..." 
+                        data-success="Done" 
+                        data-default="Finish">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                            </span>
+                            <label> Finish</label>
+                          </button> 
+                         
 
                        
                          
@@ -763,6 +774,13 @@
         $(document).ready(function() {
             // Add an event listener to the form's submit event
             $('#booking-form').submit(function(event) {
+                $this = $("#submitBtn"); 
+                var loadingText = $this.attr('data-loading');
+                var successText = $this.attr('data-success');
+                var defaultText = $this.attr('data-default');
+
+                $this.find('span').show()
+                $this.find('label').text(loadingText)
                 event.preventDefault(); // Prevent the default form submission
                 $("#loader").show();
                 // Serialize the form data
@@ -774,16 +792,25 @@
                     type: $(this).attr('method'), // Get the form's HTTP method (POST in this case)
                     data: formData, // Use the serialized form data
                     success: function(response) {
-                        $("#loader").hide();
-                        // Handle the success response here (e.g., display a message) 
-                        $("#wizardRow").fadeOut(300);
+                        $this.find('span').show()
+                        $this.find('label').text(successText)
+                        setTimeout(() => {
+                            $this.find('label').text(defaultText)
+                            $("#wizardRow").fadeOut(300);
                         $("#successForm").fadeOut(300);
                         $("#successMessage").fadeIn(3000); 
+                        }, 2000);
+                        $("#loader").hide();
+                        // Handle the success response here (e.g., display a message) 
+                        
                     },
                     error: function(error) {
                         $("#loader").hide();
                         if(error.responseJSON.status== false){
-                            alert(error.responseJSON.message);
+                            $this.find('label').text('Opps Error..')
+                        setTimeout(() => {
+                            $this.find('label').text(defaultText)
+                        }, 2000);
                         }
                         if (error.responseJSON && error.responseJSON.errors) {
                             var errors = error.responseJSON.errors;

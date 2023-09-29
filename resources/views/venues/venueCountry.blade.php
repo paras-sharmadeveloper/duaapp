@@ -68,7 +68,7 @@
                     @endif
 
                 </div>
-                <div class="form-group mt-4">
+                {{-- <div class="form-group mt-4">
                     <label for="type">Type</label>
                     <div>
                         <input type="radio" id="on-site" name="type" value="on-site"
@@ -80,7 +80,7 @@
                             {{ isset($venue) && $venue->type === 'virtual' ? 'checked' : '' }} required>
                         <label for="virtual">Virtual</label>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Address Input Fields --> 
 

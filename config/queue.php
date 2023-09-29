@@ -70,6 +70,9 @@ return [
             'block_for' => null,
             'after_commit' => false,
         ],
+        'pusher' => [
+            'driver' => 'sync', 
+        ],
 
     ],
 

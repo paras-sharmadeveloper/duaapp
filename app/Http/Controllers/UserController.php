@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Storage;
+use App\Events\UserStatusUpdated;
+use Illuminate\Support\Facades\Log;
+
+
+
 
 class UserController extends Controller
 {
@@ -20,6 +26,31 @@ class UserController extends Controller
     // {
     //      $this->middleware('permission:user-management-access', ['only' => ['index','store','list','destroy','edit','update']]);
     // }
+
+    public function updateStatus(Request $request)
+    {
+        $user = Auth::user();
+        $status = $request->input('status'); // 'online' or 'offline'
+        
+        // Update user's status in the database (you should have a status field in the users table)
+        $user->status = $status;
+        // $event= event(new UserStatusUpdated($status)); 
+        try {
+            $event=  event(new UserStatusUpdated('hello world'));
+        } catch (\Exception $e) {
+            //throw $th;
+            Log::error("isue in ebve" .$e->getMessage()); 
+        }
+         
+         $user->save();
+        
+        // Broadcast the status update to other users
+        // event(new UserStatusUpdated(auth()->user(), $status));
+
+         
+        
+        return response()->json(['message' => 'Status updated successfully','sbt' => $event]);
+    }
 
    
     public function index(Request $request)

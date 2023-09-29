@@ -16,6 +16,7 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
+use App\Events\MyEvent;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,18 @@ Route::get('/run/queue', function () {
     Artisan::call('db:seed',['--class' => 'AdminSeeder']);
     return 'Scheduled task triggered successfully.';
 });
+
+Route::get('/welcome', function() {
+     return view('welcome'); 
+});
+
+Route::get('/event', function () {
+    
+    $res = event(new MyEvent('hello world'));
+    return  $res; 
+    // return view('welcome');
+});
+
 
 Route::get('/', function () {
     if(Auth::check()){
@@ -72,7 +85,7 @@ Route::post('/detect-liveness',  [HomeController::class,'detectLiveness']);
 Route::post('/ask-to-join/meeting',[VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
 Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions',PermissionController::class);
@@ -80,10 +93,13 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
     Route::resource('visitor',VistorsController::class);
     Route::resource('country',VenueCountryController::class);
 
+    
+    Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
+    Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');
    
-   
+    
  
     Route::get('/video-conference', [VideoConferenceController::class, 'index']);
     Route::any('/start-conference', [VideoConferenceController::class, 'startConference']);
@@ -105,7 +121,6 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
  
     Route::get('/design', [VideoConferenceController::class, 'design'])->name('design'); 
 
-    
-
+   
 
 });

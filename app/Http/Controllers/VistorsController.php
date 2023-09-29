@@ -14,6 +14,7 @@ class VistorsController extends Controller
     {
         
         $vistors = Vistors::with('slot')->get(); 
+        // echo "<pre>"; print_r( $vistors); die; 
         return view('visitor.index',compact('vistors')); 
     }
 

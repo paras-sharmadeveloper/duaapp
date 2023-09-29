@@ -32,8 +32,7 @@ class VenueCountryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'country_name' => 'required',
-            'type' => 'required', 
+            'country_name' => 'required', 
             'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file type and size limits
 
         ]);
@@ -49,8 +48,7 @@ class VenueCountryController extends Controller
 
         $venue = VenueCountry::create([
             'country_name' => $request->input('country_name'),
-            'flag_path' =>  $imageName,
-            'type' => $request->input('type'),
+            'flag_path' =>  $imageName, 
         ]); 
         return redirect()->route('country.index')->with('success', 'Country created successfully');
 
@@ -81,8 +79,7 @@ class VenueCountryController extends Controller
     {
         $venue = VenueCountry::findOrFail($id);
         $request->validate([
-            'country_name' => 'required',
-            'type' => 'required', 
+            'country_name' => 'required', 
 
         ]);
         $imageName  = null;
@@ -96,7 +93,7 @@ class VenueCountryController extends Controller
         $venue->update([
             'country_name' => $request->input('country_name'),
             'flag_path' =>  ($imageName) ? $imageName : $venue->flag_path,
-            'type' => $request->input('type'),
+       
         ]);
         return redirect()->route('country.index')->with('success', 'Country updated successfully');
     }

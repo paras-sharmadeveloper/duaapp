@@ -17,6 +17,8 @@ use Carbon\Carbon;
 class VideoConferenceController extends Controller
 {
     use OtpTrait;
+     
+     
     public function design()
     {
 
@@ -44,6 +46,8 @@ class VideoConferenceController extends Controller
         $this->SendMessage('+91', '8950990009', $message);
 
         $userName = Auth::user()->name;
+        
+
         $roomName = $this->fetchRoomName($room->sid);
         $accessToken = $this->generateAccessToken($roomName, $userName);
         // $room->sid
@@ -122,20 +126,32 @@ class VideoConferenceController extends Controller
         ));
     }
 
+    public function fieldAdminRequest(){
+        return view('site-admin.particpent');
+        
+    }
+
 
     public function StartConferenceShow(Request $request)
     {
         $userId = Auth::user()->id;
         $userName = Auth::user()->name;
         $venues = [];
-        $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
-        // echo "<pre>"; print_r($venues); die; 
+        $role = Auth::user()->roles->pluck('name')->first(); 
+        if($role == 'admin'){
+            $venues =  VenueAddress::where(['type' => 'virtual'])->get();
+        }else{
+            $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
+        }
+       
+       
         return view('conference.create', compact('venues', 'userId', 'userName'));
     }
 
     public function joinConference(Request $request)
     {
         $participants = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
+      
         return view('conference.join', compact('participants'));
     }
 
@@ -235,33 +251,7 @@ class VideoConferenceController extends Controller
         return  $videoConfernce->room_name;
     }
 
-
-
-    public function generate_token(Request $request)
-    {
-        $accountSid = env('TWILIO_SID');
-        $apiKeySid = env('TWILIO_API_KEY_SID');
-        $apiKeySecret = env('TWILIO_API_KEY_SECRET');
-        $identity = uniqid();
-
-        $roomName = "ParasTest9";
-
-        // Create an Access Token
-        $token = new AccessToken(
-            $accountSid,
-            $apiKeySid,
-            $apiKeySecret,
-            3600,
-            $identity
-        );
-
-        // Grant access to Video
-        $grant = new VideoGrant();
-        $grant->setRoom($roomName);
-        $token->addGrant($grant);
-        return response()->json(['token' => $token->toJWT()]);
-    }
-
+ 
     public function index(Request $request)
     {
         $participantIdentity = $request->input('participant_identity');

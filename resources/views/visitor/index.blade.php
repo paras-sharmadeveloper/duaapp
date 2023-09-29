@@ -47,11 +47,14 @@
                     <th>Venue Address</th>
                     <th width="280px">Action</th>
                 </tr>
+                
+                @if(!empty($vistors))
                 @foreach ($vistors as $vistor)
 
                 @php 
-                    $venueAddress =\App\Models\VenueAddress::getAddress($vistor->slot->venue_address_id); 
-                    $venues =\App\Models\Venue::getVenue($venueAddress->venue_id); 
+                   $venueAddress = \App\Models\VenueAddress::getAddress($vistor->slot->venue_address_id);
+                   $venues =  \App\Models\Venue::getVenue($venueAddress->venue_id); 
+                    
                 @endphp 
 
                     <tr>
@@ -75,6 +78,9 @@
                         </td>
                     </tr>
                 @endforeach
+
+                @endif
+                 
             </table>
         </div>
     </div>

@@ -47,8 +47,15 @@
           <i class="bi bi-person"></i><span>Venue Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="venue-nav" 
-        class="{{ ( $currentPath == 'venues.index' || $currentPath == 'venues.show' 
-        || $currentPath == 'venues.edit' || $currentPath == 'country.create' || $currentPath == 'country.edit'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        class="{{ ( $currentPath == 'venues.index' 
+                  || $currentPath == 'venues.show' 
+                  || $currentPath == 'venues.create'
+                  || $currentPath == 'venues.edit' 
+                  || $currentPath == 'country.create' 
+                  || $currentPath == 'country.edit' 
+                  || $currentPath =='country.index'
+                  
+                  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
@@ -57,7 +64,7 @@
             </a>
           </li>
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('country.index') }}" class="{{ ( $currentPath == 'venues.list-country' || $currentPath == 'venues.edit'   ) ? 'active' : '' }}">
+            <a data-href="{{ $currentPath }}" href="{{ route('country.index') }}" class="{{ ( $currentPath == 'country.index' || $currentPath == 'country.edit'   ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>List Venue Country</span>
             </a>
           </li>
@@ -79,7 +86,7 @@
         </ul>
       </li>
       @endcan 
-
+      @can('vistor-schduling-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#vistor-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Vistor Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -93,14 +100,14 @@
            
         </ul>
       </li>
-
-      @can('user-management-access')
+      @endcan 
+      @can('site-admin-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#siteadmin-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="siteadmin-nav" 
-        class="{{ ( $currentPath == 'siteadmin.queue.show'  ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        class="{{ ( $currentPath == 'siteadmin.queue.show'  || $currentPath =='siteadmin.queue.list.request' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
@@ -108,13 +115,18 @@
               <i class="bi bi-circle"></i><span>Show</span>
             </a>
           </li>
-             
-           
+
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.list.request') }}" class="{{ ( $currentPath == 'siteadmin.queue.list.request') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Request List</span>
+            </a>
+          </li>
+  
         </ul>
       </li>
       @endcan 
 
-       @can('user-management-access')
+       @can('vedio-call-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#video-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Video Conference</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -128,14 +140,7 @@
             class="{{ ( $currentPath == 'join.conference.show') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Show</span>
             </a>
-          </li>
-
-          {{-- <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" 
-            class="{{ ( $currentPath == 'siteadmin.queue.show') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Join</span>
-            </a>
-          </li> --}}
+          </li> 
              
            
         </ul>

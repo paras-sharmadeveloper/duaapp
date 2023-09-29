@@ -46,9 +46,11 @@
         }
     </style>
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">Join Meeting </div>
+
+                <button id="update-status" class="btn btn-outline-success" data-status="online">Online</button>
                 @if (count($errors) > 0)
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -111,33 +113,7 @@
 
 
             </div>
-        </div>
-        <div class="col-lg-4">
-            <!-- Blade Template: host.blade.php -->
-
-            <table class="bordered table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="particpents">
-                    @foreach ($participants as $participant)
-                        <tr>
-                            <td>{{ $participant->fname . ' ' . $participant->lname }}</td>
-                            <td>{{ $participant->user_status == 'in-queue' ? 'Waiting' : '' }}</td>
-                            <td><button class="admit-button btn btn-info" data-id="{{ $participant->id }}">Admit</button>
-                                <button class="dismiss-button btn btn-danger"
-                                    data-id="{{ $participant->id }}">Dismiss</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
+        </div> 
 
     </div>
 
@@ -146,8 +122,13 @@
 
 @section('page-script')
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
-
+    
     <script>
+         $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         var accessToken = "{{ Request::get('accessToken') }}";
         var roomName = "{{ Request::get('roomName') }}";
 
@@ -242,11 +223,6 @@
                 });
         }
 
-
-
-
-
-
         function toggleMute(room) {
 
             const localParticipant = room.localParticipant;
@@ -277,10 +253,8 @@
         // Function to disconnect from the video call
         function disconnectFromVideoCall(room) {
             // clearInterval(admissionCheckInterval);
-
             room.disconnect();
         }
-
 
         $('.mute-button').click(function() {
             $(this).toggleClass('btn-danger');
@@ -297,89 +271,30 @@
         })
 
         setTimeout(function() {
-
             $(".alert").fadeOut();
         }, 2500);
 
-
-
-        $(document).ready(function() {
-            // Function to fetch the list of participants
-            function fetchParticipants() {
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('visitor.list') }}", // Replace with the actual route
-                    dataType: "json",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        updateParticipantsList(response.participants);
-                    },
-                    error: function() {
-                        console.error("An error occurred while fetching the participant list.");
-                    },
-                });
-            }
-
-            function updateParticipantsList(participants) {
-
-                var html = '';
-                $.each(participants, function(key, item) {
-
-                    var userStatus = '';
-                    if (item.user_status == 'in-queue') {
-                        userStatus = 'Waiting';
-                    }
-                    html += `<tr>
-                            <td>${item.fname} ${item.lname}</td>
-                            <td> ${userStatus}</td>
-                            <td><button class="admit-button btn btn-info" data-id="${item.id}">Admit</button>
-                                <button class="dismiss-button btn btn-danger"
-                                    data-id="${item.id}">Dismiss</button>
-                            </td>
-                        </tr>`;
-                })
-                $("#particpents").html(html)
-
-            }
-
-            function AdmitRequest(participantId, action) {
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('asktojoin') }}", // Replace with the actual route
-                    data: {
-                        id: participantId,
-                        action: action,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    dataType: "json",
-                    success: function(response) {
-                        // Handle the response from the server
-
-                        // Request successful
-                        alert("Request to join sent successfully.");
-
-                    },
-                    error: function() {
-                        // Request failed
-                        alert("An error occurred while sending the request.");
-                    },
-                });
-            }
-
-            $(document).on("click", ".admit-button", function() {
-                var participantId = $(this).data("id");
-                AdmitRequest(participantId, 'admitted');
-            });
-            $(document).on("click", ".dismiss-button", function() {
-                var participantId = $(this).data("id");
-                AdmitRequest(participantId, 'dismissed');
+        $("#update-status").click(function(){
+            var status = $(this).attr('data-status'); 
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('update.status') }}",
+                data: { 
+                    "status": status
+                },
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) { 
+                    alert("done")
+                },
+                error:function(error){
+                    alert(error)
+                }
             });
 
-            setInterval(() => {
-                fetchParticipants();
-            }, 10000);
-        });
+        })
+ 
     </script>
 @endsection
