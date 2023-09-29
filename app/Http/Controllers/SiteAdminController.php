@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Vistors,VenueSloting,VenueAddress};
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SiteAdminController extends Controller
 {
     //
     public function ShowQueue(){
-        $venueAddress = VenueAddress::get();  
+        $venueAddress = VenueAddress::where(['type' => 'on-site' , 'siteadmin_id' => Auth::id() ])->get();  
         return view('site-admin.select-venue',compact('venueAddress')); 
     }
     public function ShowQueueList(Request $request, $id){
