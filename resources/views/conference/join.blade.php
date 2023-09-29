@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="card-header">Join Meeting </div>
 
-                <button id="update-status" class="btn btn-outline-success" data-status="online">Online</button>
+               
                 @if (count($errors) > 0)
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -108,9 +108,22 @@
                         </div>
 
                     </div>
-
+ 
                 </div>
-
+                <div class="row  mt-5">
+                    <div class="col-lg-12 text-center">
+                        @php 
+                            $status = (\Auth::user()->status == 'online') ? 'offline' : 'online'; 
+                        @endphp
+                        <button id="update-status" 
+                            @if($status == 'offline')
+                            class="btn btn-outline-danger btn-block"                   
+                            @else
+                            class="btn btn-outline-success btn-block"
+                            @endif
+                        data-status="{{  $status }}">{{ ( $status == 'online') ? 'Resume Meeting' : 'Hold Meeting' }}</button>
+                    </div>
+                </div>
 
             </div>
         </div> 
@@ -131,6 +144,7 @@
         });
         var accessToken = "{{ Request::get('accessToken') }}";
         var roomName = "{{ Request::get('roomName') }}";
+        var siteAdmin = "{{ Request::get('side_admin')   }}"
 
         let twillioRoom; // Declare room as a global variable
 
@@ -275,19 +289,31 @@
         }, 2500);
 
         $("#update-status").click(function(){
+            $this = $(this); 
             var status = $(this).attr('data-status'); 
             $.ajax({
                 type: 'POST',
                 url: "{{ route('update.status') }}",
                 data: { 
-                    "status": status
+                    "status": status,
+                    'site_admin_id':siteAdmin
                 },
                 dataType: "json",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) { 
-                    alert("done")
+                    console.log("status",status)
+                    $this.toggleClass("btn-outline-danger btn-outline-success");
+                    if(status == 'online'){
+    
+                        $this.text("Hold Meeting");
+                        $this.attr('data-status','offline')
+                    }else{
+                        $this.text("Resume Meeting");
+                        $this.attr('data-status','online')
+                    }
+                   
                 },
                 error:function(error){
                     alert(error)

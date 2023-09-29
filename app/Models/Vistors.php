@@ -14,10 +14,7 @@ class Vistors extends Model
     {
         return $this->belongsTo(VenueSloting::class, 'slot_id');
     }
-    public function venueSloting()
-    {
-        return $this->belongsTo(VenueSloting::class, 'slot_id');  
-    }
+     
 
     public function scopeAheadOfVisitor($query)
     {

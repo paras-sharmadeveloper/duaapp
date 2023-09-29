@@ -29,5 +29,14 @@ class VenueAddress extends Model
     {
         return $this->belongsTo(User::class,'therapist_id');
     } 
+
+    public function thripist()
+    {
+        return $this->belongsTo(User::class,'therapist_id');
+    } 
+    public function siteadmin()
+    {
+        return $this->belongsTo(User::class,'siteadmin_id');
+    } 
     
 }

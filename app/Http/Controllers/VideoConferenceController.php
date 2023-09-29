@@ -64,6 +64,7 @@ class VideoConferenceController extends Controller
     } 
     public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
+        // echo $bookingId; die; 
         $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();
         if (empty($vistor)) {
             abort(404);
@@ -127,7 +128,8 @@ class VideoConferenceController extends Controller
     }
 
     public function fieldAdminRequest(){
-        return view('site-admin.particpent');
+        $id = Auth::user()->id; 
+        return view('site-admin.particpent',compact('id'));
         
     }
 
@@ -149,7 +151,7 @@ class VideoConferenceController extends Controller
     }
 
     public function joinConference(Request $request)
-    {
+    { 
         $participants = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
       
         return view('conference.join', compact('participants'));
@@ -160,14 +162,16 @@ class VideoConferenceController extends Controller
 
         $userName = $request->input('participantName');
         $roomName = $request->input('roomName');
-        //  echo "<pre>"; print_r($request->all()); die; 
+        $venues =  VenueAddress::where(['room_sid' => $roomId, 'therapist_id' => Auth::user()->id ])->get()->first();
+         
         $accessToken = $this->generateAccessToken($roomName, $userName);
 
         return redirect()->route('join.conference',
         [
             'accessToken' => $accessToken,
             'roomName' => $roomName, 
-            'roomId' => $roomId
+            'roomId' => $roomId,
+            'side_admin' => $venues->siteadmin_id
         ]);
 
         // return redirect()->route('join.conference')->with([
@@ -193,8 +197,17 @@ class VideoConferenceController extends Controller
     {
 
         $id = $request->input('id');
-        $vistors = Vistors::where(['meeting_type' => 'virtual','user_status' => 'in-queue'])->get();  
-        return response()->json(['participants' => $vistors, "status" => true], 200);
+        $vistors = Vistors::with('slot')->where(['meeting_type' => 'virtual','user_status' => 'in-queue'])->get();  
+
+        $dataArr = [];
+        foreach($vistors as $visitor){
+            $venueAdresId = $visitor->slot->venue_address_id; 
+            $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get()->first();
+            $dataArr[] = $visitor;
+            $dataArr['user_info'] =  $venUAdress->thripist; 
+             
+        }
+        return response()->json(['participants' => $dataArr, "status" => true], 200);
     }
 
 

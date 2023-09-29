@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\{
+    User,
+    VenueAddress
+};
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Storage;
-use App\Events\UserStatusUpdated;
+use App\Events\UserNotification;
 use Illuminate\Support\Facades\Log;
 
 
@@ -30,26 +33,17 @@ class UserController extends Controller
     public function updateStatus(Request $request)
     {
         $user = Auth::user();
-        $status = $request->input('status'); // 'online' or 'offline'
-        
-        // Update user's status in the database (you should have a status field in the users table)
-        $user->status = $status;
-        // $event= event(new UserStatusUpdated($status)); 
+        $status = $request->input('status');
+        $site_admin_id = $request->input('site_admin_id'); 
+        $user->status = $status; 
         try {
-            $event=  event(new UserStatusUpdated('hello world'));
+            $event=  event(new UserNotification($status, $site_admin_id));
         } catch (\Exception $e) {
-            //throw $th;
             Log::error("isue in ebve" .$e->getMessage()); 
         }
          
-         $user->save();
-        
-        // Broadcast the status update to other users
-        // event(new UserStatusUpdated(auth()->user(), $status));
-
-         
-        
-        return response()->json(['message' => 'Status updated successfully','sbt' => $event]);
+         $user->save(); 
+        return response()->json(['message' => 'Status updated successfully']);
     }
 
    
