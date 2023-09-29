@@ -199,12 +199,15 @@ class VideoConferenceController extends Controller
         $id = $request->input('id');
         $vistors = Vistors::with('slot')->where(['meeting_type' => 'virtual','user_status' => 'in-queue'])->get();  
 
-        $dataArr = [];
+        $dataArr = []; 
         foreach($vistors as $visitor){
             $venueAdresId = $visitor->slot->venue_address_id; 
             $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get()->first();
-            $dataArr[] = $visitor;
-            $dataArr['user_info'] =  $venUAdress->thripist; 
+            if($venUAdress && $venUAdress->therapist_id->therapist_id == Auth::id()){
+                $dataArr[] = $visitor;
+                 $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+            }
+            
              
         }
         return response()->json(['participants' => $dataArr, "status" => true], 200);
