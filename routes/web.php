@@ -35,6 +35,15 @@ Route::get('/run/queue', function () {
     return 'Scheduled task triggered successfully.';
 });
 
+Route::get('/run/command', function () {
+    $type = request()->type;
+    if($type == 'migrate'){
+        Artisan::call('migrate'); /
+    }    
+    
+    return 'Scheduled task triggered successfully.';
+});
+
 Route::get('/welcome', function () {
     return view('welcome');
 });
