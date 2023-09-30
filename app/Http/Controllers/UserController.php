@@ -89,12 +89,7 @@ class UserController extends Controller
             $input['profile_pic'] = $imageName; 
            // $image->move(public_path('images'), $imageName); 
         }
-        
-             
         $input['password'] = Hash::make($input['password']); 
-       
-         
-    
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
     

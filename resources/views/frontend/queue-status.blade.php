@@ -31,7 +31,7 @@
             </div>
 
             <h3>Serving Time</h3>
-            <p>{{$venueAddress->slot_duration  }} Mint</p>
+            <p>{{ $venueAddress->slot_duration  }} Mint</p>
             <div class="stats">
             <div class="stat-item">
                 <h4>Total Served Token</h4>

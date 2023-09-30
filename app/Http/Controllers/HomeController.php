@@ -271,7 +271,11 @@ class HomeController extends Controller
   public function home()
   {
     $visitos = Vistors::get()->count();
-    return view('home', compact('visitos'));
+    $therapist = Role::where('name', 'therapist')->first();
+    $siteadmin = Role::where('name', 'site-admin')->first();
+    $userCountWiththripistRole = $therapist->users->count();
+    $userCountWithsiteadminRole = $siteadmin->users->count();
+    return view('home', compact('visitos','userCountWiththripistRole','userCountWithsiteadminRole'));
   }
 
 
