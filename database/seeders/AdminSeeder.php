@@ -77,7 +77,8 @@ class AdminSeeder extends Seeder
             'queue-management-access',
             'vedio-call-access',
             'vistor-schduling-access',
-            'site-admin-access	'
+            'site-admin-access',
+            'visitor-booking-access'
         ];
      
         foreach ($permissions as $permission) {

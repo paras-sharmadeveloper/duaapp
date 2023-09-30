@@ -146,6 +146,34 @@
         </ul>
       </li>
       @endcanany
+
+      @canany('visitor-booking-access')
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Visitor Booking</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="visitor-booking-nav" 
+        class="{{ ( $currentPath == 'booking.create'  || $currentPath == 'booking.list'|| $currentPath == 'booking.edit') ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        data-bs-parent="#sidebar-nav">
+           
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('booking.create') }}" 
+            class="{{ ( $currentPath == 'booking.create') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Create</span>
+            </a>
+          </li> 
+
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('booking.list') }}" 
+            class="{{ ( $currentPath == 'booking.list') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>List</span>
+            </a>
+          </li> 
+             
+           
+        </ul>
+      </li>
+      @endcanany
     
 
 

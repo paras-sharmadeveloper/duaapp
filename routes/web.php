@@ -28,39 +28,40 @@ use App\Events\MyEvent;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
-    Artisan::call('db:seed',['--class' => 'AdminSeeder']);
+    Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
     return 'Scheduled task triggered successfully.';
 });
 
-Route::get('/welcome', function() {
-     return view('welcome'); 
+Route::get('/welcome', function () {
+    return view('welcome');
 });
 
 Route::get('/event', function () {
-    
+
     $res = event(new MyEvent('hello world'));
-    return  $res; 
+    return  $res;
     // return view('welcome');
 });
 
 
 Route::get('/', function () {
-    if(Auth::check()){
+    if (Auth::check()) {
         return redirect('home');
-    }else{
+    } else {
         return redirect('login');
     }
 });
 
-Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend'); 
+Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
 Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
-  
+
 Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
 Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
 Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
@@ -79,42 +80,47 @@ Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signu
 Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
 Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-Route::post('/check-particepent/status',[VideoConferenceController::class, 'CheckParticpentStatus'])->name('checkparticepent-status');
+Route::post('/check-particepent/status', [VideoConferenceController::class, 'CheckParticpentStatus'])->name('checkparticepent-status');
 Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
-Route::post('/detect-liveness',  [HomeController::class,'detectLiveness']);
-Route::post('/ask-to-join/meeting',[VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
+Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
+Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
 Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
-Route::group(['middleware' => ['auth'],'prefix' => 'admin'], function() {
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     // Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('permissions',PermissionController::class);
-    Route::resource('venues',VenueController::class);
-    Route::resource('visitor',VistorsController::class);
-    Route::resource('country',VenueCountryController::class);
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('venues', VenueController::class);
+    Route::resource('visitor', VistorsController::class);
+    Route::resource('country', VenueCountryController::class);
 
-    
+
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
     Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');
- 
+
     Route::get('/video-conference', [VideoConferenceController::class, 'index']);
     Route::any('/start-conference', [VideoConferenceController::class, 'startConference']);
-    Route::get('/create-conference',[VideoConferenceController::class, 'createConference'])->name('conference.create');
-    Route::post('/create-conference/submit',[VideoConferenceController::class, 'createConferencePost'])->name('create-conference');
-    Route::get('/join-conference/start', [VideoConferenceController::class, 'StartConferenceShow'])->name('join.conference.show'); 
-    Route::get('/join-conference/meeting/start', [VideoConferenceController::class, 'joinConference'])->name('join.conference'); 
-    Route::post('/join-conference/post/{roomId}',[VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
-   
-    Route::post('/visitor/request/list',[VideoConferenceController::class, 'VisitorRequests'])->name('visitor.list');
-    
-    
-    
- 
-    Route::get('/design', [VideoConferenceController::class, 'design'])->name('design'); 
+    Route::get('/create-conference', [VideoConferenceController::class, 'createConference'])->name('conference.create');
+    Route::post('/create-conference/submit', [VideoConferenceController::class, 'createConferencePost'])->name('create-conference');
+    Route::get('/join-conference/start', [VideoConferenceController::class, 'StartConferenceShow'])->name('join.conference.show');
+    Route::get('/join-conference/meeting/start', [VideoConferenceController::class, 'joinConference'])->name('join.conference');
+    Route::post('/join-conference/post/{roomId}', [VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
 
-   
+    Route::post('/visitor/request/list', [VideoConferenceController::class, 'VisitorRequests'])->name('visitor.list');
 
+
+
+
+    Route::get('/design', [VideoConferenceController::class, 'design'])->name('design');
+
+    Route::get('/booking/create', [VistorsController::class, 'create'])->name('booking.create');
+    Route::post('/booking/store', [VistorsController::class, 'storeOrUpdate'])->name('booking.store');
+    Route::post('/booking/update/{id}', [VistorsController::class, 'storeOrUpdate'])->name('booking.update');
+    Route::get('/bookings/list', [VistorsController::class, 'list'])->name('booking.list');
+    Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit');
+    Route::put('/bookings/update/{id}', [VistorsController::class, 'update'])->name('booking.update');
+    Route::delete('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
 });
 // RMb28cc2048ae67bf97983cab765febaa6
