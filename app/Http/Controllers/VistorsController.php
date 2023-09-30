@@ -61,7 +61,7 @@ class VistorsController extends Controller
         Mail::to($validatedData['email'])->send(new VisitorBookingMail($validatedData));
 
         // Redirect back with a success message
-        return redirect()->route('visitors.create')->with('success', 'Booking ' . ($id ? 'updated' : 'created') . ' successfully!');
+        return redirect()->route('booking.create')->with('success', 'Booking ' . ($id ? 'updated' : 'created') . ' successfully!');
     }
 
 
