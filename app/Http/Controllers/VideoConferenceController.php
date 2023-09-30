@@ -162,7 +162,12 @@ class VideoConferenceController extends Controller
 
         $userName = $request->input('participantName');
         $roomName = $request->input('roomName');
-        $venues =  VenueAddress::where(['room_sid' => $roomId, 'therapist_id' => Auth::user()->id ])->get()->first();
+        $role = Auth::user()->roles->pluck('name')->first(); 
+        if($role == 'admin'){
+            $venues =  VenueAddress::where(['room_sid' => $roomId])->get()->first();
+        }else{
+            $venues =  VenueAddress::where(['room_sid' => $roomId, 'therapist_id' => Auth::user()->id ])->get()->first();
+        }
          
         $accessToken = $this->generateAccessToken($roomName, $userName);
 
