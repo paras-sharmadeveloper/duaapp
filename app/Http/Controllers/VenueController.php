@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venue, VenueSloting, VenueAddress,User};
+use App\Models\{Venue, VenueSloting, VenueAddress,User,Vistors};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
@@ -146,6 +146,7 @@ class VenueController extends Controller
         ]);
 
          if($request->has('update_slots')){
+            
             VenueSloting::where(['venue_address_id' => $id])->delete();
             $this->createVenueTimeSlots($id , $slotDuration);
          }
