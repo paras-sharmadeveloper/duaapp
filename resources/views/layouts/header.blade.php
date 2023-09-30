@@ -52,7 +52,7 @@
 			position: absolute;
 			width: 50%;
 			height: 100%;
-			background: #111;
+			background: #5e6065;
 			transition: .5s cubic-bezier(.77,0,.18,1);
 			transition-delay: .8s;
 		}
