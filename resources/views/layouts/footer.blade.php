@@ -41,6 +41,23 @@ function ShowError(message){
       $("#error-alert").fadeOut(500);
   }, 2500);
 }
+
+$(document).ready(function() {
+	// Users can skip the loading process if they want.
+
+	// Will wait for everything on the page to load.
+	$(window).bind('load', function() {
+		$('.overlay, body').addClass('loaded');
+		setTimeout(function() {
+			$('.overlay').css({'display':'none'})
+		}, 2000)
+	});
+	$('.overlay, body').addClass('loaded');
+	// Will remove overlay after 1min for users cannnot load properly.
+	setTimeout(function() {
+		
+	}, 60000);
+})
 </script>
 </body>
 
