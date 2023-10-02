@@ -31,15 +31,15 @@ return new class extends Migration
             $table->foreign('venue_id')
                   ->references('id')
                   ->on('venues')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
             $table->foreign('therapist_id')
                   ->references('id')
-                  ->on('users'); 
-                //   ->onDelete('cascade');
+                  ->on('users')
+                 ->onDelete('restrict');
             $table->foreign('siteadmin_id')
                 ->references('id')
-                ->on('users'); 
-              //   ->onDelete('cascade');
+                ->on('users')
+               ->onDelete('restrict');
         });
     }
 
