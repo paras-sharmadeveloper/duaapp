@@ -38,8 +38,7 @@
             <table class="datatable table table-striped">
                 <tr>
                     <th>No</th>
-                    <th>Country Name</th>
-                    <th>Type</th>
+                    <th>Country Name</th> 
                     <th width="280px">Action</th>
                 </tr>
                 @foreach ($venues as $venue)
@@ -47,7 +46,7 @@
                         <td>{{ $venue->id }}</td>
                         <td>{{ $venue->country_name }} 
                             <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image"></td>
-                        <td>{{ $venue->type }}</td>
+                 
                         <td>
                             <a href="{{ route('country.edit', $venue->id) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('country.destroy', $venue->id) }}" method="POST"

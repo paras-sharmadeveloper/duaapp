@@ -101,9 +101,9 @@ class VenueCountryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VenueCountry $venueCountry)
-    {
-        $venueCountry->delete(); 
+    public function destroy($id)
+    {   $venue = VenueCountry::findOrFail($id);
+        $venue->delete(); 
         return redirect()->route('country.index')->with('success', 'Country deleted successfully');
     }
 }
