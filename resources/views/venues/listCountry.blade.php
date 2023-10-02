@@ -6,7 +6,7 @@
             <div class="action-top float-end mb-3">
                 <!-- <button type="button" class="btn btn-primary"><i class="bi bi-star me-1"></i> With Text</button> -->
                 <a class="btn btn-outline-primary" href="{{ route('country.create') }}"> <i class="bi bi-plus me-1"></i> New
-                    Venue</a>
+                    Country</a>
             </div>
         </div>
     </div>
@@ -33,12 +33,12 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Manage Venues</h5>
+            <h5 class="card-title">Manage Countries</h5>
 
             <table class="datatable table table-striped">
                 <tr>
                     <th>No</th>
-                    <th>Country Name</th> 
+                    <th>Country</th> 
                     <th width="280px">Action</th>
                 </tr>
                 @foreach ($venues as $venue)

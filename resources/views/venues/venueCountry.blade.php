@@ -85,7 +85,7 @@
                 <!-- Address Input Fields --> 
 
                 <button type="submit"
-                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Venue' : 'Create Venue' }}</button>
+                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Country' : 'Create Country' }}</button>
                 </form>
             </div>
         </div>
