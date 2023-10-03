@@ -484,6 +484,8 @@
                                </div>
                                 <!-- /Final step -->
                         </div> 
+                        <div id="errors">
+                        </div>
 
                        
 
@@ -806,7 +808,9 @@
                     },
                     error: function(error) {
                         $("#loader").hide();
+                       
                         if(error.responseJSON.status== false){
+                            $("#errors").html(error.responseJSON); 
                             $this.find('label').text('Opps Error..')
                         setTimeout(() => {
                             $this.find('label').text(defaultText)
