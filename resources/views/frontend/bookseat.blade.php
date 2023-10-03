@@ -484,8 +484,9 @@
                                </div>
                                 <!-- /Final step -->
                         </div> 
-                        <div id="errors">
-                        </div>
+
+                        <div id="errors"><p> Errors Show here Test </p> </div>
+                        
 
                        
 
@@ -818,6 +819,7 @@
                         }
                         if (error.responseJSON && error.responseJSON.errors) {
                             var errors = error.responseJSON.errors;
+                            $("#errors").html(error.responseJSON.message);
 
                             // Clear any existing error messages
                             $('.alert-danger').remove();
