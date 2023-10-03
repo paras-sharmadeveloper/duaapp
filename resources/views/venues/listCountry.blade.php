@@ -38,29 +38,35 @@
             <table class="datatable table table-striped">
                 <tr>
                     <th>No</th>
-                    <th>Country</th> 
+                    <th>Country</th>
+                    <th>Flag</th>
                     <th width="280px">Action</th>
                 </tr>
+                @php $i=1;@endphp
                 @foreach ($venues as $venue)
                     <tr>
-                        <td>{{ $venue->id }}</td>
-                        <td>{{ $venue->country_name }} 
-                            <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venue->flag_path }}" alt="Flag Image"></td>
-                 
-                        <td>
-                            <a href="{{ route('country.edit', $venue->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('country.destroy', $venue->id) }}" method="POST"
-                                style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
-                            </form>
+                        <td>{{ $i }}</td>
+                        <td class="flag-country asd">
+                            <div class="d-flex justify-content-between">
+                                <span> {{ $venue->country_name }} </span>
+                            </div>
                         </td>
-                    </tr>
-                @endforeach
+        
+        <td>  <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venue->flag_path }}" alt="Flag Image"> </td>
+       <td>
+        <a href="{{ route('country.edit', $venue->id) }}" class="btn btn-primary">Edit</a>
+        <form action="{{ route('country.destroy', $venue->id) }}" method="POST" style="display: inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger"
+                onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
+        </form>
+    </td>
+            </tr>
+            @php $i++;@endphp
+            @endforeach
             </table>
-        </div>
+    </div>
     </div>
 
 

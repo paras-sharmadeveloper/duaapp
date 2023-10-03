@@ -41,7 +41,7 @@
 <table class="datatable table table-striped">
   <tr>
      <th>No</th>
-     <th>Name</th>
+     <th>Roles</th>
      <th width="280px" class="float-end">Action</th>
   </tr>
     @foreach ($roles as $key => $role)

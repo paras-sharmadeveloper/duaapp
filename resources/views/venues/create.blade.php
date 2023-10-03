@@ -127,7 +127,7 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Date </span>
-                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '' , ['class' => 'form-control', 'placeholder' => 'Date']) !!}
+                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '' , ['class' => 'form-control', 'placeholder' => 'Date','min' => date('Y-m-d')]) !!}
 
                     </div>
                 </div>

@@ -37,7 +37,7 @@
             <div class="card-body">
  
                 @if (Route::currentRouteName() == 'country.edit')
-                    <h5 class="card-title">Edit Country</h5>
+                    <h5 class="card-title">Edit</h5>
 
                     {!! Form::model($venue, [
                         'route' => ['country.update', $venue->id],
@@ -46,7 +46,7 @@
                     ]) !!}
                 @else
                     {!! Form::open(['route' => 'country.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                    <h5 class="card-title">Create Country</h5>
+                    <h5 class="card-title">Create</h5>
  
                 @endif
 
@@ -85,7 +85,7 @@
                 <!-- Address Input Fields --> 
 
                 <button type="submit"
-                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Country' : 'Create Country' }}</button>
+                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update' : 'Create' }}</button>
                 </form>
             </div>
         </div>

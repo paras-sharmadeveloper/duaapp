@@ -163,7 +163,7 @@
                                     Step 5</li>
                                 <li id="progressList-5"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
-                                    Step 5</li>
+                                    Step 6</li>
                                 <li id="progressList-6"
                                     class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                     Done</li>

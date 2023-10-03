@@ -45,9 +45,10 @@
                     <th>Type</th>
                     <th width="280px">Action</th>
                 </tr>
+                @php $i=1;@endphp
                 @foreach ($venuesAddress as $venueAdd)
                     <tr>
-                        <td>{{ $venueAdd->id }}</td>
+                        <td>{{ $i }}</td>
                         <td>{{ $venueAdd->venue->country_name }} 
                             <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venueAdd->venue->flag_path }}" alt="Flag Image"></td>
                         <td>{{ $venueAdd->user->name }}</td>
@@ -65,6 +66,7 @@
                             </form>
                         </td>
                     </tr>
+                    @php $i++;@endphp
                 @endforeach
             </table>
         </div>

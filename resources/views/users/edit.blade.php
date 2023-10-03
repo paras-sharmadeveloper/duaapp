@@ -5,6 +5,52 @@
             width: 100%;
             max-width: 700px;
         }
+        .profile-pic {
+  color: transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.profile-pic input {
+  display: none;
+}
+.profile-pic img {
+  position: absolute;
+  object-fit: cover;
+  width: 200px !important;
+  height: 200px !important;
+  box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+  border-radius: 100px;
+  z-index: 0;
+}
+.profile-pic .-label {
+  cursor: pointer;
+  height: 200px;
+  width: 200px;
+}
+.profile-pic:hover .-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  color: #fafafa;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 100px;
+  margin-bottom: 0;
+}
+.profile-pic span {
+  display: inline-flex;
+  padding: 0.2em;
+  height: 2em;
+}
+
+ 
+ 
+        
     </style>
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -53,7 +99,6 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Name</span>
                         {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
                     </div>
-
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
@@ -85,27 +130,32 @@
 
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">profile</span>
-                        <input type="file" name="profile_pic" accept="image/*">
+            </div>
 
-
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <div class="profile-pic">
+                        <label class="-label" for="file">
+                            <span class="glyphicon glyphicon-camera"></span>
+                            <span>Change Image</span>
+                        </label>
+                        <input id="file" type="file"  name="profile_pic" onchange="loadFile(event)" />
+                        @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
+                        <img id="output" src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}"  
+                            alt="Profile Image">
+                         @else
+                        <img id="output" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                             width="200"  alt="Profile Image">
+                        @endif
+                         
                     </div>
-                    @if (Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
-                    <img src="{{ env('AWS_GENERAL_PATH').'images/'.$user->profile_pic }}" class="imgh" alt="Flag Image"
-                        style="height: 100px; width: 100px;">
-                    @else
-                        <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="imgh" alt="Default Image"
-                            style="height: 100px; width: 100px;">
-                    @endif
-                   
-                </div>
+                </div> 
+            </div>  
 
 
 
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Update User</button>
+                <div class="col-12 text-end p-4">
+                    <button class="btn btn-primary" type="submit">Update</button>
                 </div>
             </div>
 
@@ -132,4 +182,10 @@
 
 
 @section('page-script')
+<script>
+    var loadFile = function (event) {
+  var image = document.getElementById("output");
+  image.src = URL.createObjectURL(event.target.files[0]);
+};
+    </script>
 @endsection

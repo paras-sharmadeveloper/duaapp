@@ -2,54 +2,61 @@
 
 
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2> Show User</h2>
-        </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-        </div>
-    </div>
-</div>
 
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Name:</strong>
-            {{ $user->name }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Email:</strong>
-            {{ $user->email }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Roles:</strong>
-            @if(!empty($user->getRoleNames()))
-                @foreach($user->getRoleNames() as $v)
-                    <label class="badge bg-success">{{ $v }}</label>
-                @endforeach
-            @endif
-        </div>
-    </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Assigned Agents:</strong>
-            @if(!empty($user->agents_ids))
-            @php 
-                $agents = ($user->agents_ids == 'all') ? ['all'] : json_decode($user->agents_ids,true); 
-            @endphp
-                @foreach($agents as $v)
-                    <label class="badge bg-success">{{ $v }}</label>
-                @endforeach
-            @endif
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Show User</h5>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
+                            <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
+                                alt="Flag Image" style="height: 100px; width: 100px;">
+                        @else
+                            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                class="imgh" alt="Default Image" style="height: 100px; width: 100px;">
+                        @endif
+                    </div>
+
+
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Name:</strong>
+                        {{ $user->name }}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Email:</strong>
+                        {{ $user->email }}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Roles:</strong>
+                        @if (!empty($user->getRoleNames()))
+                            @foreach ($user->getRoleNames() as $v)
+                                <label class="badge bg-success">{{ $v }}</label>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12 margin-tb text-end">
+
+                <div class="pull-right">
+                    <a class="btn btn-outline-primary" href="{{ route('users.index') }}"> Back</a>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 @endsection

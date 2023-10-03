@@ -21,19 +21,52 @@
         <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="user-nav" class="{{ ( $currentPath == 'users.index' || $currentPath == 'roles.index' || $currentPath == 'permissions.index' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" data-bs-parent="#sidebar-nav">
+        <ul id="user-nav" class="{{ 
+        ( 
+          $currentPath == 'users.index' || 
+          $currentPath == 'roles.index' || 
+          $currentPath == 'users.create' || 
+          $currentPath == 'users.show' || 
+          $currentPath == 'users.edit' || 
+          $currentPath =='permissions.create' || 
+          $currentPath =='permissions.edit'  || 
+          $currentPath =='permissions.index'  || 
+          $currentPath =='permissions.show'  || 
+
+          $currentPath =='roles.index' || 
+          $currentPath =='roles.show' || 
+          $currentPath =='roles.edit' || 
+          $currentPath =='roles.create'
+          
+          
+          ) ? 'nav-content collapse show' : 'nav-content collapse' }}" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{ route('users.index') }}" class="{{ ( $currentPath == 'users.index') ? 'active' : '' }}">
+            <a href="{{ route('users.index') }}" 
+            class="{{ ( 
+              $currentPath == 'users.index' || $currentPath == 'users.edit' || $currentPath == 'users.create' || $currentPath == 'users.show'
+              ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Manage User</span>
             </a>
           </li>
           <li>
-            <a href="{{ route('roles.index') }}"  class="{{ ( $currentPath == 'roles.index') ? 'active' : '' }}">
+            <a href="{{ route('roles.index') }}"  class="{{ ( 
+              $currentPath == 'roles.index' || 
+               $currentPath =='roles.create' ||  
+               $currentPath =='roles.edit' || 
+               $currentPath =='roles.show'
+               
+               ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Manage Role</span>
             </a>
           </li>
           <li>
-            <a href="{{ route('permissions.index') }}" class="{{ ( $currentPath == 'permissions.index') ? 'active' : '' }}">
+            <a href="{{ route('permissions.index') }}" class="{{ ( 
+              $currentPath == 'permissions.index' ||
+              $currentPath == 'permissions.create' || 
+              $currentPath == 'permissions.edit' ||
+              $currentPath == 'permissions.show'
+              
+              ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Manage Permission</span>
             </a>
           </li>
@@ -60,18 +93,18 @@
            
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('country.create') }}" class="{{ ( $currentPath == 'country.create' || $currentPath == 'country.edit'   ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Add Venue Country</span>
+              <i class="bi bi-circle"></i><span>Create Country</span>
             </a>
           </li>
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('country.index') }}" class="{{ ( $currentPath == 'country.index' || $currentPath == 'country.edit'   ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>List Venue Country</span>
+              <i class="bi bi-circle"></i><span>List Country</span>
             </a>
           </li>
           
           <li>
             <a href="{{ route('venues.create') }}" class="{{ ($currentPath == 'venues.edit' || $currentPath == 'venues.create' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Add Venues</span>
+              <i class="bi bi-circle"></i><span>Create Venues</span>
             </a>
           </li>
 
@@ -107,11 +140,15 @@
           <i class="bi bi-person"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="siteadmin-nav" 
-        class="{{ ( $currentPath == 'siteadmin.queue.show'  || $currentPath =='siteadmin.queue.list.request' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
+        class="{{ ( 
+          $currentPath == 'siteadmin.queue.show'  
+          || $currentPath =='siteadmin.queue.list.request'
+           ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" class="{{ ( $currentPath == 'siteadmin.queue.show') ? 'active' : '' }}">
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" 
+            class="{{ ( $currentPath == 'siteadmin.queue.show') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Offline Request List</span>
             </a>
           </li>
