@@ -11,6 +11,8 @@ use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
+use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Stmt\TryCatch;
  
 
 class HomeController extends Controller
@@ -40,92 +42,103 @@ class HomeController extends Controller
   public function BookingSubmit(Request $request)
   {
 
-    $validatedData = $request->validate([
-      'fname' => 'required|string|max:255',
-      'lname' => 'required|string|max:255',
-      'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-      'mobile' => 'required|string|max:255|unique:vistors,phone',
-      'user_question' => 'nullable|string',
-      'selfie' => 'required',
-      'country_code' => 'required'
-    ]);
 
-    $selfieData = $request->input('selfie');
-    $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
 
-    $isUsers = $this->IsRegistredAlready($selfieImage);
 
-    if ($isUsers['status'] == false) {
-      return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
+    try {
+
+      $validatedData = $request->validate([
+        'fname' => 'required|string|max:255',
+        'lname' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
+        'mobile' => 'required|string|max:255|unique:vistors,phone',
+        'user_question' => 'nullable|string',
+        'selfie' => 'required',
+        'country_code' => 'required'
+      ]);
+  
+      $selfieData = $request->input('selfie');
+      $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
+  
+      $isUsers = $this->IsRegistredAlready($selfieImage);
+  
+      if ($isUsers['status'] == false) {
+        return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
+      }
+  
+      $venueSlots = VenueSloting::find($request->input('slot_id'));
+      $venueAddress = $venueSlots->venueAddress;
+      $venue = $venueAddress->venue;
+  
+      $uuid = Str::uuid()->toString();
+      $countryCode = $request->input('country_code');
+      $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
+      $randomString = rand(10, 100); // Generate a random string of 6 characters
+  
+      $bookingNumber = $timestamp . $randomString;
+      // Create a new Vistors record in the database
+      $mobile = $countryCode . $validatedData['mobile'];
+      $booking = new Vistors;
+      $booking->fname = $validatedData['fname'];
+      $booking->lname = $validatedData['lname'];
+      $booking->email = $validatedData['email'];
+      $booking->country_code = '+' . $countryCode;
+      $booking->phone = $validatedData['mobile'];
+      $booking->user_question =  $request->input('user_question', null);
+      $booking->slot_id = $request->input('slot_id');
+      $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
+      $booking->booking_uniqueid = $uuid;
+      $booking->user_ip =   $request->ip();
+      $booking->recognized_code = $isUsers['recognized_code'];
+      $booking->booking_number = $bookingNumber;
+      $booking->meeting_type = $venueAddress->type;
+      
+  
+  
+  
+      // Save the booking record
+      $booking->save();
+  
+     
+  
+      $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
+      $dateTime = Carbon::parse($eventData);
+      $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
+      $dynamicData = [
+        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
+        'first_name' => $validatedData['fname'],
+        'email' => $validatedData['email'],
+        'mobile' =>  '+' . $mobile,
+        'country' =>  $venue->country_name,
+        'event_name' => "1 Minute Online Dua Appointment",
+        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
+        "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
+        "meeting_link" => route('booking.status', [$uuid]),
+        'meeting_cancel_link' => route('book.cancle', [$uuid]),
+        'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
+        'unsubscribe_link' => '',
+        'meeting_date_time' => $formattedDateTime,
+        'meeting_location' => $venueAddress->type,
+        'therapist_name' => $venueAddress->user->name,
+        'booking_number' => $bookingNumber,
+        'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
+      ];
+      if ($venueAddress->type == 'on-site') {
+        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
+    } else {
+        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
+    }
+  
+      SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
+      SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
+  
+      return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
+      
+    } catch (\Exception $e) {
+         Log::error('Booking error'.$e->getMessage()); 
     }
 
-    $venueSlots = VenueSloting::find($request->input('slot_id'));
-    $venueAddress = $venueSlots->venueAddress;
-    $venue = $venueAddress->venue;
-
-    $uuid = Str::uuid()->toString();
-    $countryCode = $request->input('country_code');
-    $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
-    $randomString = rand(10, 100); // Generate a random string of 6 characters
-
-    $bookingNumber = $timestamp . $randomString;
-    // Create a new Vistors record in the database
-    $mobile = $countryCode . $validatedData['mobile'];
-    $booking = new Vistors;
-    $booking->fname = $validatedData['fname'];
-    $booking->lname = $validatedData['lname'];
-    $booking->email = $validatedData['email'];
-    $booking->country_code = '+' . $countryCode;
-    $booking->phone = $validatedData['mobile'];
-    $booking->user_question =  $request->input('user_question', null);
-    $booking->slot_id = $request->input('slot_id');
-    $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
-    $booking->booking_uniqueid = $uuid;
-    $booking->user_ip =   $request->ip();
-    $booking->recognized_code = $isUsers['recognized_code'];
-    $booking->booking_number = $bookingNumber;
-    $booking->meeting_type = $venueAddress->type;
-    
-
-
-
-    // Save the booking record
-    $booking->save();
-
    
-
-    $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
-    $dateTime = Carbon::parse($eventData);
-    $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
-    $dynamicData = [
-      'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
-      'first_name' => $validatedData['fname'],
-      'email' => $validatedData['email'],
-      'mobile' =>  '+' . $mobile,
-      'country' =>  $venue->country_name,
-      'event_name' => "1 Minute Online Dua Appointment",
-      'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
-      "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
-      "meeting_link" => route('booking.status', [$uuid]),
-      'meeting_cancel_link' => route('book.cancle', [$uuid]),
-      'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
-      'unsubscribe_link' => '',
-      'meeting_date_time' => $formattedDateTime,
-      'meeting_location' => $venueAddress->type,
-      'therapist_name' => $venueAddress->user->name,
-      'booking_number' => $bookingNumber,
-      'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
-    ];
-    if ($venueAddress->type == 'on-site') {
-      $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-  } else {
-      $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-  }
-
-    SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
-    SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-
-    return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
   }
 
 

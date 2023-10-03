@@ -485,7 +485,7 @@
                                 <!-- /Final step -->
                         </div> 
 
-                        <div id="errors"><p> Errors Show here Test </p> </div>
+                       
                         
 
                        
