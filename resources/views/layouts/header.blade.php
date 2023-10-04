@@ -279,7 +279,7 @@
 
         <li class="nav-item dropdown pe-3">
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown" data-img="{{ Auth::user()->profile_pic }}">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             @if (!empty(Auth::check()) && Storage::disk('s3_general')->exists('images/' . Auth::user()->profile_pic))
             <img src="{{ env('AWS_GENERAL_PATH').'images/'.Auth::user()->profile_pic }}"  class="rounded-circle">
             @else
