@@ -374,7 +374,7 @@
                                 <div class="row g-3 mb-3">
                                 <div class="col col-md-12">
                                     <input type="email" class="form-control" name="email"
-                                        placeholder="Enter your email eg:test@example.com" aria-label="Email">
+                                        placeholder="Eg:test@example.com" aria-label="Email">
                                 </div> 
                             </div> 
 
