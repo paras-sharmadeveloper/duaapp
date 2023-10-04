@@ -812,20 +812,20 @@
                         if (error.responseJSON && error.responseJSON.errors) {
 
                             $this.find('b').text(defaultText)
+                            $this.find('span').hide()
                             if(error.responseJSON.status== false){
-                                $("#errors").html(error.responseJSON); 
+                                 
                                 $this.find('b').text('Opps Error..')
-                            setTimeout(() => {
-                                $this.find('b').text(defaultText)
-                            }, 2000);
+                                setTimeout(() => {
+                                    $this.find('b').text(defaultText)
+                                }, 2000);
                             }
                             var errors = error.responseJSON.errors;
                             $("#errors").html(error.responseJSON.message);
 
                             // Clear any existing error messages
                             $('.alert-danger').remove();
-
-                            // Loop through the errors and display them near the respective form fields
+                                $(".error").remove(); 
                             $.each(errors, function(field, messages) {
                                 
                                 var inputElement = $('[name="' + field + '"]');
