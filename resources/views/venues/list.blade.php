@@ -57,7 +57,7 @@
                         <td>{{ $venueAdd->type }}</td>
                         <td>
                             <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="delete"
+                            <form action="{{ route('venues.destroy', $venueAdd->id) }}"  
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
