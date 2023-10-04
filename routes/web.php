@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     VenueCountryController,
     BookingController,
     SiteAdminController,
-    VideoConferenceController
+    VideoConferenceController,
+    NotificationController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -120,7 +121,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get.count');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
-
+    Route::delete('/visitor/{id}/delete',[VistorsController::class,'destroy'])->name('visitor.delete');
+   
     // check-available
 
 

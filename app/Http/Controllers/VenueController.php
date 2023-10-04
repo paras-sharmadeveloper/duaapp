@@ -158,8 +158,8 @@ class VenueController extends Controller
 
     public function destroy($id)
     {
-        // VenueSloting::where(['venue_address_id' => $id])->delete(); 
-        $venue = Vistors::findOrFail($id);
+        VenueSloting::where(['venue_address_id' => $id])->delete(); 
+        $venue = VenueAddress::findOrFail($id);
         $venue->delete();
         return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
     }

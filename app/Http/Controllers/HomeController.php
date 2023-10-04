@@ -468,4 +468,9 @@ class HomeController extends Controller
       return response()->json(['error' => 'Invalid OTP'], 422);
     }
   }
+
+  public function destroy($id){
+    Vistors::find($id)->delete(); 
+    return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
+  }
 }
