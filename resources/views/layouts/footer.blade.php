@@ -65,7 +65,8 @@
       var notificationId = $(this).data('id');
       var unreadNotificationCount = $("#notification-count").text();
       var data = {
-        _token : "{{ csrf_token() }}"
+        _token : "{{ csrf_token() }}",
+        read : true
       };
       $.post('/admin/notifications/' + notificationId + '/read', data ,function(response) {
             // Handle the response if needed
