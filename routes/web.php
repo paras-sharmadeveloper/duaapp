@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
 
-    Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get.count');
+    Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
     Route::delete('/visitor/{id}/delete',[VistorsController::class,'destroy'])->name('visitor.delete');
    

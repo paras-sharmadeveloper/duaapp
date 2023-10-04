@@ -30,7 +30,7 @@
 <script type="text/javascript">
  
     $(document).ready(function() {
-
+        getNotificaitons(); 
         Pusher.logToConsole = false;
 
         var pusher = new Pusher('0d51a97603f510fb700e', {
@@ -43,14 +43,14 @@
         channel.bind('booking.notification', function(data) {
           var response = JSON.stringify(data);
             var resp = JSON.parse(response)
-            var html = `<li class="notification-item notification">
-                      <i class="bi bi-exclamation-circle text-warning"></i>
+            var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
+                      <i class="bi bi-check-circle text-success"></i>
                       <div>
                         <h4>Booking Received</h4>
                         <p>${resp.message}</p>
                         <p></p>
                       </div>
-                    </li>`; 
+                    </li><li><hr class="dropdown-divider"></li>`; 
           
             $("#notification-center").append(html); 
 
@@ -68,6 +68,26 @@
         unreadNotificationCount--;
         $('#notification-count').text(unreadNotificationCount).show();
     })
+
+    function getNotificaitons() {
+        $.get("{{ route('notification.get') }}", function(response) {
+            var html = ''; 
+             $.each(response,function(key,item){
+                 html+= `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
+                      <i class="bi bi-check-circle text-success"></i>
+                      <div>
+                        <h4>Booking Received</h4>
+                        <p>${resp.message}</p>
+                        <p></p>
+                      </div>
+                    </li><li><hr class="dropdown-divider"></li>`; 
+          
+           
+
+             })
+             $("#notification-center").html(html); 
+        });
+    }
 
    
  

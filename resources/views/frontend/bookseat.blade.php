@@ -394,7 +394,7 @@
                                        
                                         <div class="col col-lg-7 col-md-12" id="mobile-number">
                                             <input type="number" class="form-control" id="mobile" name="mobile"
-                                                placeholder="Enter mobile eg:8884445555" aria-label="Mobile">
+                                                placeholder="Eg:8884445555" aria-label="Mobile">
                                                 <p> </p>
                                         </div>
                                         <div class="col col-lg-2 col-md-12" id="opt-form-confirm" style="display: none">
