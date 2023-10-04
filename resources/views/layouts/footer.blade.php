@@ -41,6 +41,7 @@
             console.log('Pusher connected');
         });
         channel.bind('booking.notification', function(data) {
+            var unreadNotificationCount = $("#notification-count").text();
           var response = JSON.stringify(data);
             var resp = JSON.parse(response)
             var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
@@ -53,7 +54,8 @@
                     </li><li><hr class="dropdown-divider"></li>`; 
           
             $("#notification-center").append(html); 
-
+            unreadNotificationCount++; 
+            $('#notification-count').text(unreadNotificationCount).show();
 
         });
 
@@ -61,6 +63,7 @@
     
     $(document).on("click",'.notification',function(){
       var notificationId = $(this).data('id');
+      var unreadNotificationCount = $("#notification-count").text();
       $.post('/admin/notifications/' + notificationId + '/read', function(response) {
             // Handle the response if needed
         });
@@ -70,14 +73,16 @@
     })
 
     function getNotificaitons() {
+        var count = 0; 
         $.get("{{ route('notification.get') }}", function(response) {
+            count = response.length; 
             var html = ''; 
              $.each(response,function(key,item){
                  html+= `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
                       <i class="bi bi-check-circle text-success"></i>
                       <div>
                         <h4>Booking Received</h4>
-                        <p>${resp.message}</p>
+                        <p>${item.message}</p>
                         <p></p>
                       </div>
                     </li><li><hr class="dropdown-divider"></li>`; 
@@ -86,6 +91,7 @@
 
              })
              $("#notification-center").html(html); 
+             $("#notification-count").show().text(count); 
         });
     }
 
