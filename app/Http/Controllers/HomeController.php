@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{SendMessage, SendEmail}; 
+use App\Jobs\{SendMessage, SendEmail};
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
- 
+
 
 class HomeController extends Controller
 {
@@ -54,25 +54,25 @@ class HomeController extends Controller
 
 
     try {
- 
+
       $selfieData = $request->input('selfie');
       $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
-  
+
       $isUsers = $this->IsRegistredAlready($selfieImage);
-  
+
       if ($isUsers['status'] == false) {
         return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
       }
-  
+
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
       $venue = $venueAddress->venue;
-  
+
       $uuid = Str::uuid()->toString();
       $countryCode = $request->input('country_code');
       $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
       $randomString = rand(10, 100); // Generate a random string of 6 characters
-  
+
       $bookingNumber = $timestamp . $randomString;
       // Create a new Vistors record in the database
       $mobile = $countryCode . $validatedData['mobile'];
@@ -90,15 +90,8 @@ class HomeController extends Controller
       $booking->recognized_code = $isUsers['recognized_code'];
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
-      
-  
-  
-  
       // Save the booking record
       $booking->save();
-  
-     
-  
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
       $dateTime = Carbon::parse($eventData);
       $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
@@ -123,22 +116,19 @@ class HomeController extends Controller
       ];
       if ($venueAddress->type == 'on-site') {
         $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-    } else {
+      } else {
         $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-    }
-  
+      }
+
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-  
+
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
-      
     } catch (\Exception $e) {
-         Log::error('Booking error'.$e->getMessage()); 
+      Log::error('Booking error' . $e->getMessage());
 
-         return response()->json(['message' =>$e->getMessage()  , "status" => false], 422);
+      return response()->json(['message' => $e->getMessage(), "status" => false], 422);
     }
-
-   
   }
 
 
@@ -288,7 +278,7 @@ class HomeController extends Controller
     $siteadmin = Role::where('name', 'site-admin')->first();
     $userCountWiththripistRole = $therapist->users->count();
     $userCountWithsiteadminRole = $siteadmin->users->count();
-    return view('home', compact('visitos','userCountWiththripistRole','userCountWithsiteadminRole'));
+    return view('home', compact('visitos', 'userCountWiththripistRole', 'userCountWithsiteadminRole'));
   }
 
 

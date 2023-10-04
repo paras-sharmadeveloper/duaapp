@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 @section('content') 
 <style>   
-        body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}.error.country_code{position:absolute;z-index:999;font-size:9px;bottom:-89px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
         @media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
         .thripist-section img {
             height: 30% !important;
@@ -500,7 +500,7 @@
                         data-default="Finish">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
                             </span>
-                            <label> Finish</label>
+                            <b> Finish</b>
                         </button> 
                          
 
@@ -783,7 +783,7 @@
                 var defaultText = $this.attr('data-default');
 
                 $this.find('span').show()
-                $this.find('label').text(loadingText)
+                $this.find('b').text(loadingText)
                 event.preventDefault(); // Prevent the default form submission
                 $("#loader").show();
                 // Serialize the form data
@@ -796,9 +796,9 @@
                     data: formData, // Use the serialized form data
                     success: function(response) {
                         $this.find('span').show()
-                        $this.find('label').text(successText)
+                        $this.find('b').text(successText)
                         setTimeout(() => {
-                            $this.find('label').text(defaultText)
+                            $this.find('b').text(defaultText)
                             $("#wizardRow").fadeOut(300);
                         $("#successForm").fadeOut(300);
                         $("#successMessage").fadeIn(3000); 
@@ -808,16 +808,17 @@
                         
                     },
                     error: function(error) {
-                        $("#loader").hide();
-                       
-                        if(error.responseJSON.status== false){
-                            $("#errors").html(error.responseJSON); 
-                            $this.find('label').text('Opps Error..')
-                        setTimeout(() => {
-                            $this.find('label').text(defaultText)
-                        }, 2000);
-                        }
+                        
                         if (error.responseJSON && error.responseJSON.errors) {
+
+                            $this.find('b').text(defaultText)
+                            if(error.responseJSON.status== false){
+                                $("#errors").html(error.responseJSON); 
+                                $this.find('b').text('Opps Error..')
+                            setTimeout(() => {
+                                $this.find('b').text(defaultText)
+                            }, 2000);
+                            }
                             var errors = error.responseJSON.errors;
                             $("#errors").html(error.responseJSON.message);
 
