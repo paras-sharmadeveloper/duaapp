@@ -655,21 +655,8 @@
             });
         });
 
-        function getAjax(id, type) {
-            console.log("type",type)
-            // if(type == 'city_section'){
-                
-            //     $(`.country-enable-n`).addClass('d-none'); 
-            //     $(`.country-enable-${id}`).removeClass('d-none');
-            //     return true; 
-            //     $("#loader").hide();
-            // }else if(type == 'date_section'){
-                
-            //     $(`.date-enable-n`).addClass('d-none'); 
-            //     $(`.date-enable-${id}`).removeClass('d-none');
-            //     $("#loader").hide();
-            //     return true; 
-            // } 
+        function getAjax(id, type) { 
+           
 
             $.ajax({
                 type: 'POST',
