@@ -830,8 +830,13 @@
                                 
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
-                                inputElement.after('<div class="error '+field+'">' +
-                                messages.join('<br>') + '</div>');
+                                if(field == 'country_code'){
+                                    inputElement.before('<div class="error '+field+'">' + messages.join('<br>') + '</div>');
+                                }else{
+                                    inputElement.after('<div class="error '+field+'">' + messages.join('<br>') + '</div>');
+                                }
+                               
+                               
                             });
                         }
                         // Handle other types of errors here if needed
