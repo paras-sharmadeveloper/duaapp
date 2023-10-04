@@ -125,7 +125,7 @@ class HomeController extends Controller
 
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-      $bookingMessage = "Just recived a booking for". $venue->country_name . "at" . $eventData ."by:".$validatedData['fname'];
+      $bookingMessage = "Just recived a booking for <b> ". $venue->country_name . " </b> at <b> " . $eventData ."</b> by: <br></b>".$validatedData['fname']."</b>";
       Notification::create(['message' => $bookingMessage,'read' =>false]); 
       $event=  event(new BookingNotification($bookingMessage));
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
