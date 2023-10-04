@@ -531,7 +531,7 @@
         
        
  
-          $(".form-business").hide();
+          $(".form-business").show();
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true

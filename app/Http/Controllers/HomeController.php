@@ -42,21 +42,19 @@ class HomeController extends Controller
   public function BookingSubmit(Request $request)
   {
 
-
+    $validatedData = $request->validate([
+      'fname' => 'required|string|max:255',
+      'lname' => 'required|string|max:255',
+      'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
+      'mobile' => 'required|string|max:255|unique:vistors,phone',
+      'user_question' => 'nullable|string',
+      'selfie' => 'required',
+      'country_code' => 'required'
+    ]);
 
 
     try {
-
-      $validatedData = $request->validate([
-        'fname' => 'required|string|max:255',
-        'lname' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-        'mobile' => 'required|string|max:255|unique:vistors,phone',
-        'user_question' => 'nullable|string',
-        'selfie' => 'required',
-        'country_code' => 'required'
-      ]);
-  
+ 
       $selfieData = $request->input('selfie');
       $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
   
