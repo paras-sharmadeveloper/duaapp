@@ -68,7 +68,7 @@
                         <td>{{ $venueAddress->venue_date .' ' .$vistor->slot->slot_time }}</td>
                         <td> {{ $venueAddress->address  }} {{ '('. $venues->country_name .')' }} </td>
                         <td> 
-                            <form action="{{ route('visitor.delete', $vistor->id) }}" method="POST"
+                            <form action="{{ route('visitor.delete', $vistor->id) }}"  
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
