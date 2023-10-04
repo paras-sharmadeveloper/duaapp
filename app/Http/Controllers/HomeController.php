@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
-
+use App\Events\BookingNotification;
 
 class HomeController extends Controller
 {
@@ -120,9 +120,12 @@ class HomeController extends Controller
         $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
       }
 
+      
+
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-
+      $bookingMessage = "Just recived a booking for". $venue->country_name . "at" . $eventData ."by:".$validatedData['fname'];
+      $event=  event(new BookingNotification($bookingMessage));
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
     } catch (\Exception $e) {
       Log::error('Booking error' . $e->getMessage());

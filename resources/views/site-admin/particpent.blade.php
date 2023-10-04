@@ -132,7 +132,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     </div>
 @endsection
@@ -140,54 +140,37 @@
 
 @section('page-script')
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script>
-        const playButton = document.getElementById('playButton');
-        var notificationSound = $("#notification-sound")[0];
+    <script> 
         var id = "{{ $id }}";
         var audioToneUrl = '';
-
         const audioElement = new Audio('https://kahayfaqeer-general-bucket.s3.amazonaws.com/notification1.wav');
 
 
-        $(document).ready(function(){
+        $(document).ready(function() {
 
             Pusher.logToConsole = false;
 
-        var pusher = new Pusher('0d51a97603f510fb700e', {
-            cluster: 'ap2'
-        }); 
-        var channel = pusher.subscribe('site-admin-' + id);
-        pusher.connection.bind('connected', function() {
-            console.log('Pusher connected');
-        });
-        channel.bind('user.notification', function(data) {
+            var pusher = new Pusher('0d51a97603f510fb700e', {
+                cluster: 'ap2'
+            });
+            var channel = pusher.subscribe('site-admin-' + id);
+            pusher.connection.bind('connected', function() {
+                console.log('Pusher connected');
+            });
+            channel.bind('user.notification', function(data) {
 
-            var response = JSON.stringify(data);
-            var resp = JSON.parse(response)
-            if (resp.message == 'online') {
-
-                
-                $("#user-icon").find('span').removeClass('red').addClass('green');
-            } else { 
-                $("#user-icon").find('span').removeClass('green').addClass('red');
-            }
+                var response = JSON.stringify(data);
+                var resp = JSON.parse(response)
+                if (resp.message == 'online') {
+                    $("#user-icon").find('span').removeClass('red').addClass('green');
+                } else {
+                    $("#user-icon").find('span').removeClass('green').addClass('red');
+                }
 
 
-        });
-
-        playButton.addEventListener('click', () => {
-            audioElement.play()
-                .then(() => {
-                    console.log('Audio playback started');
-                })
-                .catch(error => {
-                    console.error('Audio playback error:', error);
-                });
-        });
-
+            }); 
 
         })
-        
     </script>
 
     <script>
@@ -235,7 +218,7 @@
                     $("#text").text(userinfo.status)
                     $("#user-icon").find('span').removeClass('green').addClass('red');
                 }
-                $("#name").text(userinfo.name) 
+                $("#name").text(userinfo.name)
                 delete participants.user_info;
                 if (participants) {
                     $.each(participants, function(key, item) {
@@ -255,7 +238,7 @@
                     })
                 } else {
                     html = '<tr><td></td><td>No Requests</td><td></td> <td></td></tr>';
-                } 
+                }
                 $("#particpents").html(html)
 
             }
@@ -287,7 +270,7 @@
             $(document).on("click", ".admit-button", function() {
                 var participantId = $(this).data("id");
                 setTimeout(() => {
-                        $(this).parents('tr').fadeOut();
+                    $(this).parents('tr').fadeOut();
                 }, 2000);
                 AdmitRequest(participantId, 'admitted');
 
