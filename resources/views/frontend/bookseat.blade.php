@@ -693,7 +693,7 @@
                             if(item.name == 'on-site'){
                                 meetingType = 'Physical';
                             }
-                            typed += `<div class="col col-lg-6 col-md-7">
+                            typed += `<div class="col col-lg-3 col-md-7">
                                 <div class="card text-center h-60 py-2 shadow-sm type-selection" 
                                  data-id="${item.venue_address_id}" 
                                  data-type="${item.name}"> 
@@ -716,7 +716,7 @@
                             if(item.type == 'on-site'){
                                 meetingType = item.name;
                             }
-                            country += `<div class="col col-lg-6 col-md-7">
+                            country += `<div class="col col-lg-3 col-md-7">
                             <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.id}">
                                 <img src="${item.flag_path}" alt="Flag Image"> 
                                 <div class="card-body px-0">
@@ -737,7 +737,7 @@
                             if(item.type == 'on-site'){
                                 meetingType = item.name;
                             }
-                            city += `<div class="col col-lg-6 col-md-7 country-enable-n country-enable-${item.id}">
+                            city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                 <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
@@ -755,7 +755,7 @@
                         var dAte = '';
                         $.each(response.date, function(key, item) { 
                             
-                            dAte += `<div class="col col-lg-6 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
+                            dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                 <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
