@@ -26,8 +26,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 
 @yield('page-script')
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+ 
     $(document).ready(function() {
 
         Pusher.logToConsole = false;
@@ -56,7 +57,7 @@
 
         });
 
-    })
+    }); 
 
 
 
