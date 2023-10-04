@@ -43,7 +43,7 @@
         channel.bind('booking.notification', function(data) {
           var response = JSON.stringify(data);
             var resp = JSON.parse(response)
-            var html = `<li class="notification-item">
+            var html = `<li class="notification-item notification">
                       <i class="bi bi-exclamation-circle text-warning"></i>
                       <div>
                         <h4>Booking Received</h4>
@@ -57,16 +57,20 @@
 
         });
 
-    }); 
+    });
+    
+    $(document).on("click",'.notification',function(){
+      var notificationId = $(this).data('id');
+      $.post('/admin/notifications/' + notificationId + '/read', function(response) {
+            // Handle the response if needed
+        });
+        $(this).remove();
+        unreadNotificationCount--;
+        $('#notification-count').text(unreadNotificationCount).show();
+    })
 
-
-
-
-
-
-
-
-
+   
+ 
     function ShowSuccess(message) {
         $("#success-alert").find('span').text(message);
         $("#success-alert").fadeIn(500);

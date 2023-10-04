@@ -105,6 +105,7 @@ Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail
 Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
 Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
 Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     // Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
@@ -113,6 +114,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('venues', VenueController::class);
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
+
+    Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get.count');
+    Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
+
+    // check-available
 
 
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');

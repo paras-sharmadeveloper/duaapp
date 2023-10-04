@@ -119,6 +119,10 @@
 .btn-cst {
     padding: 6px 10px;
 }
+
+.invalid-slot {
+    border: 2px solid red;
+}
         /* css loader ends */
 </style>
     <!-- section -->
@@ -322,7 +326,7 @@
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm">Next</button>
+                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm" id="slot-next">Next</button>
                         <!-- /NEXT BUTTON-->
                     </div>
                     <!-- /col -->
@@ -502,10 +506,7 @@
                             </span>
                             <b> Finish</b>
                         </button> 
-                         
-
-                       
-                         
+                          
                         </form>
                         <!-- /NEXT BUTTON-->
                     </div>
@@ -540,6 +541,35 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+
+
+
+        $(document).on("click",".checkSlot",function(){
+            $("#slot-next").hide();
+            var id = $(this).attr('data-id');
+            
+            $.ajax({
+                    url: "{{ route('check-available')  }}", // Update the URL to your Laravel endpoint
+                    method: 'POST',
+                    data: { id: id , _token: "{{ csrf_token() }}"},
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response.status ==true){
+                            $("#slot-next").show();
+                        }
+                       
+                    },
+                    error: function(error) {
+                         
+                        $(this).addClass('invalid-slot').fadeOut(1500); 
+                        $("#slot-next").hide();
+                    }
+                });
+
         });
         $(document).ready(function() {
             // hidden things
@@ -742,7 +772,7 @@
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-7">
-                                <div class="card text-center h-10 py-0 shadow-sm slot-capture" data-id="${item.id}">
+                                <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
                                         <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
@@ -937,15 +967,12 @@
                     dataType: 'json',
                     success: function(response) {
                         $("#loader-main").hide()
-                        $("#submitBtn").show();
-                        // Handle the server's re 
-
-                        // You can provide feedback to the user based on the response
+                        $("#submitBtn").show(); 
 
                         $("#submitBtn").show();
                         $("#error").removeClass('danger');
                         $("#error").addClass('success').text("Perfect. You can proceed");
-                        // Liveness detected, show success message
+                     
 
 
                     },
@@ -1019,10 +1046,10 @@
                 $("#submitBtn").hide(); 
                 $("#mobile-number").find('p').addClass('text-success').text(response.message);
                 $this.find('label').text("Resend")
-                console.log("heree1")                   
+                                   
                },
                error: function(xhr) {
-                console.log("heree")
+               
                 $this.find('span').hide()
                 $this.find('label').text(defaultText)
                 $("#mobile-number").find('p').addClass('text-danger').text(xhr.responseJSON.message);

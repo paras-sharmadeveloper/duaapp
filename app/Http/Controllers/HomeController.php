@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User,Notification};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{SendMessage, SendEmail};
@@ -49,7 +49,8 @@ class HomeController extends Controller
       'mobile' => 'required|string|max:255|unique:vistors,phone',
       'user_question' => 'nullable|string',
       'selfie' => 'required',
-      'country_code' => 'required'
+      'country_code' => 'required',
+      'slot_id' => 'required|numeric|unique:vistors,slot_id'
     ]);
 
 
@@ -125,6 +126,7 @@ class HomeController extends Controller
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
       $bookingMessage = "Just recived a booking for". $venue->country_name . "at" . $eventData ."by:".$validatedData['fname'];
+      Notification::create(['message' => $bookingMessage,'read' =>false]); 
       $event=  event(new BookingNotification($bookingMessage));
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
     } catch (\Exception $e) {
@@ -132,6 +134,17 @@ class HomeController extends Controller
 
       return response()->json(['message' => $e->getMessage(), "status" => false], 422);
     }
+  }
+
+
+  public function CheckAvilableSolt(Request $request){
+    $id = $request->input('id');  
+    if (Vistors::where('slot_id', $id)->exists()) {
+          return response()->json(['message' => 'occupied', "status" => false], 422);
+      } else {
+         return response()->json(['message' =>'slot available', "status" => true], 200);
+      }
+    // check-available
   }
 
 
