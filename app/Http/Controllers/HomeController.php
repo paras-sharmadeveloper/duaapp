@@ -134,6 +134,8 @@ class HomeController extends Controller
       
     } catch (\Exception $e) {
          Log::error('Booking error'.$e->getMessage()); 
+
+         return response()->json(['message' =>$e->getMessage()  , "status" => false], 422);
     }
 
    
