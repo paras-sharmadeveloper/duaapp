@@ -52,7 +52,7 @@
                       </div>
                     </li>`; 
           
-            $("#notification-center").appened(html); 
+            $("#notification-center").append(html); 
 
 
         });
