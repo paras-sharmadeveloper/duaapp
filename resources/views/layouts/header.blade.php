@@ -147,7 +147,10 @@
 
 
 
-
+.header-nav .notifications .notification-item {
+  
+    width: 400px !important;
+}
 
 
 </style>
