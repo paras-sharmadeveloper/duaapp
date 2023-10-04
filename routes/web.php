@@ -124,8 +124,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/visitor/{id}/delete',[VistorsController::class,'destroy'])->name('visitor.delete');
    
     // check-available
-
-
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
