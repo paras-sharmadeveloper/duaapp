@@ -64,7 +64,10 @@
     $(document).on("click",'.notification',function(){
       var notificationId = $(this).data('id');
       var unreadNotificationCount = $("#notification-count").text();
-      $.post('/admin/notifications/' + notificationId + '/read', function(response) {
+      var data = {
+        _token = "{{ csrf_token() }}"
+      }
+      $.post('/admin/notifications/' + notificationId + '/read', data ,function(response) {
             // Handle the response if needed
         });
         $(this).remove();
