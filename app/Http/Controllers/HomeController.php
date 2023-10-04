@@ -20,7 +20,7 @@ class HomeController extends Controller
   use OtpTrait;
   public function __construct()
   {
-    //  $this->middleware('auth');
+     $this->middleware('auth');
   }
 
 
