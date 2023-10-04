@@ -68,10 +68,9 @@
                         <td>{{ $venueAddress->venue_date .' ' .$vistor->slot->slot_time }}</td>
                         <td> {{ $venueAddress->address  }} {{ '('. $venues->country_name .')' }} </td>
                         <td> 
-                            <form action="{{ route('visitor.delete', $vistor->id) }}"  
+                            <form action="{{ route('visitor.delete', $vistor->id) }}" method="DELETE"
                                 style="display: inline;">
-                                @csrf
-                                @method('DELETE')
+                                @csrf 
                                 <button type="submit" class="btn btn-danger"
                                     onclick="return confirm('Are you sure you want to delete this venue?')">Delete</button>
                             </form>
