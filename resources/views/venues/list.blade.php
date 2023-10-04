@@ -66,7 +66,7 @@
                             </form>
                         </td>
                     </tr>
-                    @php $i++;@endphp
+                    @php $i++;@endphp 
                 @endforeach
             </table>
         </div>
