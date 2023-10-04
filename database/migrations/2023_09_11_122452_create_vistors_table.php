@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')
             ->references('id')
-            ->on('venues_sloting')->onDelete('restrict');  
+            ->on('venues_sloting')->onDelete('no action');  
             $table->string('meeting_type',60)->nullable(); 
             $table->string('meeting_doneAt',60)->nullable(); 
             $table->text('recognized_code')->nullable(); 
@@ -35,7 +35,6 @@ return new class extends Migration
             $table->enum('is_available',['not_confirmed','confirmed'])->default('not_confirmed'); 
             $table->string('confirmed_at',60)->nullable(); 
             $table->enum('user_status',['in-queue','admitted','dismiss','hold','pause','blocked','no_action'])->default('no_action');
-           
             $table->string('meeting_start_at',60)->nullable(); 
             $table->string('meeting_ends_at',60)->nullable(); 
             $table->timestamps();
