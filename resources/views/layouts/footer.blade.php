@@ -44,7 +44,7 @@
             var unreadNotificationCount = $("#notification-count").text();
           var response = JSON.stringify(data);
             var resp = JSON.parse(response)
-            var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
+            var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
                       <i class="bi bi-check-circle text-success"></i>
                       <div>
                         <h4>Booking Received</h4>
@@ -66,7 +66,8 @@
       var unreadNotificationCount = $("#notification-count").text();
       var data = {
         _token : "{{ csrf_token() }}",
-        read : true
+        read : true,
+        id:notificationId
       };
       $.post('/admin/notifications/' + notificationId + '/read', data ,function(response) {
             // Handle the response if needed
@@ -82,7 +83,7 @@
             count = response.length; 
             var html = ''; 
              $.each(response,function(key,item){
-                 html+= `<li><hr class="dropdown-divider"></li><li class="notification-item notification">
+                 html+= `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
                       <i class="bi bi-check-circle text-success"></i>
                       <div>
                         <h4>Booking Received</h4>
