@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User,Notification};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{SendMessage, SendEmail};
@@ -121,13 +121,11 @@ class HomeController extends Controller
         $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
       }
 
-      
-
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-      $bookingMessage = "Just recived a booking for <b> ". $venue->country_name . " </b> at <b> " . $eventData ."</b> by: <br></b>".$validatedData['fname']."</b>";
-      Notification::create(['message' => $bookingMessage,'read' =>false]); 
-      $event=  event(new BookingNotification($bookingMessage));
+      $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname']." ".$validatedData['lname']."</b>";
+      Notification::create(['message' => $bookingMessage, 'read' => false]);
+      event(new BookingNotification($bookingMessage));
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
     } catch (\Exception $e) {
       Log::error('Booking error' . $e->getMessage());
@@ -137,13 +135,14 @@ class HomeController extends Controller
   }
 
 
-  public function CheckAvilableSolt(Request $request){
-    $id = $request->input('id');  
+  public function CheckAvilableSolt(Request $request)
+  {
+    $id = $request->input('id');
     if (Vistors::where('slot_id', $id)->exists()) {
-          return response()->json(['message' => 'occupied', "status" => false], 422);
-      } else {
-         return response()->json(['message' =>'slot available', "status" => true], 200);
-      }
+      return response()->json(['message' => 'occupied', "status" => false], 422);
+    } else {
+      return response()->json(['message' => 'slot available', "status" => true], 200);
+    }
     // check-available
   }
 
@@ -469,8 +468,9 @@ class HomeController extends Controller
     }
   }
 
-  public function destroy($id){
-    Vistors::find($id)->delete(); 
+  public function destroy($id)
+  {
+    Vistors::find($id)->delete();
     return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
   }
 }
