@@ -64,7 +64,8 @@ class VenueController extends Controller
 
         $roomDetail = []; 
         if($request->input('video_room')){
-            $roomDetail =  $this->createConferencePost($request->input('video_room'));
+            $roomName = str_replace(' ', '_', $request->input('video_room'));
+            $roomDetail =  $this->createConferencePost($roomName);
         }
 
             $venueAddress =   VenueAddress::create([
