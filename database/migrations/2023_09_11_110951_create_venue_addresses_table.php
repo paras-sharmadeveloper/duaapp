@@ -30,13 +30,13 @@ return new class extends Migration
             $table->timestamps(); 
             $table->foreign('venue_id')
                   ->references('id')
-                  ->on('venues');
+                  ->on('venues')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('therapist_id')
                   ->references('id')
-                  ->on('users');
+                  ->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('siteadmin_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

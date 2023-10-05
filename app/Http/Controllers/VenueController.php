@@ -187,13 +187,11 @@ class VenueController extends Controller
             ]);
             $currentTime->addMinute($slotDuration); // Move to the next minute
         }
-
         return response()->json(['message' => 'Time slots created successfully'], 200);
     }
 
         private function createConferencePost($roomName){
-
-             
+            
             $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
 
             $room = $twilio->video->v1->rooms->create([

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')
             ->references('id')
-            ->on('venues_sloting')->onDelete('no action');  
+            ->on('venues_sloting')->onDelete('cascade')->onUpdate('restrict');  
             $table->string('meeting_type',60)->nullable(); 
             $table->string('meeting_doneAt',60)->nullable(); 
             $table->text('recognized_code')->nullable(); 
