@@ -20,6 +20,13 @@
 
 <!-- Template Main JS File -->
 <script src="{{ asset('assets/theme/js/main.js') }}"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 {{-- DataTable Handling --}}
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -34,13 +41,6 @@
 
 
 {{-- DataTable Handling End--}}
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
