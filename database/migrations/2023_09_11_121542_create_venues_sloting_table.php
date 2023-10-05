@@ -18,8 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('venue_address_id')
                   ->references('id')
-                  ->on('venue_addresses')
-                  ->onDelete('restrict');
+                  ->on('venue_addresses');
                   
         });
     }
