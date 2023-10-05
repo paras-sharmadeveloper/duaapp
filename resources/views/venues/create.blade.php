@@ -188,9 +188,11 @@
                     <label class="form-check-label" for="checkbox_id">Check If you also want to Update Slots and Date </label>
                 </div>
                 @endif
-
-                <button type="submit"
-                    class="btn btn-primary mt-4">{{ isset($venue) ? 'Update Venue' : 'Create Venue' }}</button>
+                @if (Route::currentRouteName() == 'venues.edit')
+                <button type="submit" class="btn btn-primary mt-4">{{'Update' }}</button>
+                @else
+                <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
+                @endif
                 </form>
             </div>
         </div>
