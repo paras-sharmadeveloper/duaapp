@@ -141,9 +141,9 @@ class VideoConferenceController extends Controller
         $venues = [];
         $role = Auth::user()->roles->pluck('name')->first(); 
         if($role == 'admin'){
-            $venues =  VenueAddress::where(['type' => 'virtual'])->get()->first();
+            $venues =  VenueAddress::where(['type' => 'virtual'])->get();
         }else{
-            $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get()->first();
+            $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
         }
 
         echo "<pre>"; print_r($venues); die; 
