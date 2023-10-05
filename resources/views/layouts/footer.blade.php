@@ -14,12 +14,12 @@
 <script src="{{ asset('assets/theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/theme/vendor/chart.js/chart.umd.js') }}"></script>
 <script src="{{ asset('assets/theme/vendor/echarts/echarts.min.js') }}"></script>
-<script src="{{ asset('assets/theme/vendor/quill/quill.min.js') }}"></script> 
+<script src="{{ asset('assets/theme/vendor/quill/quill.min.js') }}"></script>
 <script src="{{ asset('assets/theme/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('assets/theme/vendor/php-email-form/validate.js') }}"></script>
 
 <!-- Template Main JS File -->
-<script src="{{ asset('assets/theme/js/main.js?ver=').time() }}"></script>
+<script src="{{ asset('assets/theme/js/main.js?ver=') . time() }}"></script>
 
 
 
@@ -40,36 +40,32 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 
 
-{{-- DataTable Handling End--}}
+{{-- DataTable Handling End --}}
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
-
-
-$(document).ready(function() {
-	//Only needed for the filename of export files.
-	//Normally set in the title tag of your page.
-	document.title='Simple DataTable';
-	// DataTable initialisation
-	$('.table').DataTable(
-		{
-			"dom": '<"dt-buttons"Bf><"clear">lirtp',
-			"paging": true,
-			"autoWidth": true,
-			"buttons": [
-				'colvis',
-				'copyHtml5',
-        'csvHtml5',
-				'excelHtml5',
-        'pdfHtml5',
-				'print'
-			]
-		}
-	);
-});
- 
     $(document).ready(function() {
-        getNotificaitons(); 
+        //Only needed for the filename of export files.
+        //Normally set in the title tag of your page.
+        document.title = 'Simple DataTable';
+        // DataTable initialisation
+        $('.table').DataTable({
+            "dom": '<"dt-buttons"Bf><"clear">lirtp',
+            "paging": true,
+            "autoWidth": true,
+            "buttons": [
+                // 'colvis',
+                // 'copyHtml5',
+                'csvHtml5',
+                // 'excelHtml5',
+                // 'pdfHtml5',
+                // 'print'
+            ]
+        });
+    });
+
+    $(document).ready(function() {
+        getNotificaitons();
         Pusher.logToConsole = false;
 
         var pusher = new Pusher('0d51a97603f510fb700e', {
@@ -81,7 +77,7 @@ $(document).ready(function() {
         });
         channel.bind('booking.notification', function(data) {
             var unreadNotificationCount = $("#notification-count").text();
-          var response = JSON.stringify(data);
+            var response = JSON.stringify(data);
             var resp = JSON.parse(response)
             var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
                       <i class="bi bi-check-circle text-success"></i>
@@ -90,25 +86,25 @@ $(document).ready(function() {
                         <p>${resp.message}</p>
                         <p></p>
                       </div>
-                    </li><li><hr class="dropdown-divider"></li>`; 
-          
-            $("#notification-center").append(html); 
-            unreadNotificationCount++; 
+                    </li><li><hr class="dropdown-divider"></li>`;
+
+            $("#notification-center").append(html);
+            unreadNotificationCount++;
             $('#notification-count').text(unreadNotificationCount).show();
 
         });
 
     });
-    
-    $(document).on("click",'.notification',function(){
-      var notificationId = $(this).data('id');
-      var unreadNotificationCount = $("#notification-count").text();
-      var data = {
-        _token : "{{ csrf_token() }}",
-        read : true,
-        id:notificationId
-      };
-      $.post('/admin/notifications/' + notificationId + '/read', data ,function(response) {
+
+    $(document).on("click", '.notification', function() {
+        var notificationId = $(this).data('id');
+        var unreadNotificationCount = $("#notification-count").text();
+        var data = {
+            _token: "{{ csrf_token() }}",
+            read: true,
+            id: notificationId
+        };
+        $.post('/admin/notifications/' + notificationId + '/read', data, function(response) {
             // Handle the response if needed
         });
         $(this).remove();
@@ -117,30 +113,30 @@ $(document).ready(function() {
     })
 
     function getNotificaitons() {
-        var count = 0; 
+        var count = 0;
         $.get("{{ route('notification.get') }}", function(response) {
-            count = response.length; 
-            var html = ''; 
-             $.each(response,function(key,item){
-                 html+= `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
+            count = response.length;
+            var html = '';
+            $.each(response, function(key, item) {
+                html += `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
                       <i class="bi bi-check-circle text-success"></i>
                       <div>
                         <h4>Booking Received</h4>
                         <p>${item.message}</p>
                         <p></p>
                       </div>
-                    </li><li><hr class="dropdown-divider"></li>`; 
-          
-           
+                    </li><li><hr class="dropdown-divider"></li>`;
 
-             })
-             $("#notification-center").html(html); 
-             $("#notification-count").show().text(count); 
+
+
+            })
+            $("#notification-center").html(html);
+            $("#notification-count").show().text(count);
         });
     }
 
-   
- 
+
+
     function ShowSuccess(message) {
         $("#success-alert").find('span').text(message);
         $("#success-alert").fadeIn(500);
