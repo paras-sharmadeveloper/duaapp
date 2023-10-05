@@ -122,7 +122,7 @@
       @canany('vistor-schduling-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#vistor-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Vistor Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-person"></i><span>Public Booking</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="vistor-nav" class="{{ ( $currentPath == 'visitor.index' ) ? 'nav-content collapse show' : 'nav-content collapse' }}" data-bs-parent="#sidebar-nav">
           <li>
