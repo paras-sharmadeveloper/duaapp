@@ -44,24 +44,26 @@
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        //Only needed for the filename of export files.
-        //Normally set in the title tag of your page.
+    $(document).ready(function() { 
+        
         // document.title = 'Simple DataTable';
         // DataTable initialisation
-        $('.table').DataTable({
-            "dom": '<"dt-buttons"Bf><"clear">lirtp',
-            "paging": true,
-            "autoWidth": true,
-            "buttons": [
-                // 'colvis',
-                // 'copyHtml5',
-                'csvHtml5',
-                // 'excelHtml5',
-                // 'pdfHtml5',
-                // 'print'
-            ]
-        });
+            setTimeout(function(){
+            $('.table').DataTable({
+                "dom": '<"dt-buttons"Bf><"clear">lirtp',
+                "paging": true,
+                "autoWidth": true,
+                "responsive": true,
+                "buttons": [
+                    // 'colvis',
+                    // 'copyHtml5',
+                    'csvHtml5',
+                    'excelHtml5',
+                    // 'pdfHtml5',
+                    // 'print'
+                ]
+            });
+        }, 500);
     });
 
     $(document).ready(function() {
