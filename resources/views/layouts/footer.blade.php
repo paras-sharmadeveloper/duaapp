@@ -49,7 +49,7 @@
         // document.title = 'Simple DataTable';
         // DataTable initialisation
             setTimeout(function(){
-            $('table').DataTable({
+            $('.table-with-buttons').DataTable({
                 "dom": '<"dt-buttons"Bf><"clear">lirtp',
                 "paging": true,
                 "autoWidth": true,

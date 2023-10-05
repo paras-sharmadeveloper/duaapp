@@ -35,7 +35,7 @@
         <div class="card-body">
             <h5 class="card-title">Manage Venues</h5>
 
-            <table class="table table-bordered datatableasd table-striped ">
+            <table class="table table-bordered table-with-buttons table-striped ">
                 <tr>
                     <th>No</th>
                     <th>Country Name</th>

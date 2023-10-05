@@ -36,7 +36,7 @@
            
 
             @if (request()->route()->getName() == 'siteadmin.queue.list')
-                <table class="table table-bordered datatableasd table-striped ">
+                <table class="table table-bordered table-striped" >
                     <thead>
                         <tr>
                             <th scope="col">BookingId</th>
