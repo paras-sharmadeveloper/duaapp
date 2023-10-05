@@ -191,9 +191,8 @@ class VenueController extends Controller
     }
 
         private function createConferencePost($roomName){
-            
-            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
 
+            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
             $room = $twilio->video->v1->rooms->create([
                 'uniqueName' =>  $roomName,
                 'type' => 'peer-to-peer',

@@ -27,7 +27,7 @@
   <link href="{{ asset('assets/theme/vendor/quill/quill.snow.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/theme/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/theme/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/theme/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+  {{-- <link href="{{ asset('assets/theme/vendor/simple-datatables/style.css') }}" rel="stylesheet"> --}}
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/theme/css/style.css') }}?ver={{time()}}" rel="stylesheet">
@@ -36,6 +36,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.css" />
   <link href="{{ asset('assets/theme/css/audioplayer.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+
+
+  {{-- Datatable Css start --}}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css" />
+  {{-- Datatable css Ends --}}
    
 </head> 
 <style>
