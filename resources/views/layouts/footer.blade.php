@@ -19,7 +19,7 @@
 <script src="{{ asset('assets/theme/vendor/php-email-form/validate.js') }}"></script>
 
 <!-- Template Main JS File -->
-<script src="{{ asset('assets/theme/js/main.?var=').time() }}"></script>
+<script src="{{ asset('assets/theme/js/main.js?ver=').time() }}"></script>
 
 
 
