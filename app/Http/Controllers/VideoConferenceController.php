@@ -146,7 +146,7 @@ class VideoConferenceController extends Controller
             $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
         }
 
-        echo "<pre>"; print_r($venues); die; 
+        // echo "<pre>"; print_r($venues); die; 
        
        
         return view('conference.create', compact('venues', 'userId', 'userName'));
