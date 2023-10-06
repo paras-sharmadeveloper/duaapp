@@ -427,7 +427,7 @@ class HomeController extends Controller
       }
 
 
-      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
+      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)->tz($timezone->timezone);
    
       $hoursRemaining = $eventDate->diffInHours($mytime);
        
