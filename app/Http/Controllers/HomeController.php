@@ -442,7 +442,8 @@ class HomeController extends Controller
            'data' => [], 
            'slotab_time' => now()->addHour(24)->format('y-m-d H:i:s'),
            'current_time'=> now()->format('y-m-d H:i:s'),
-           'timezone' => Config::get('app.timezone')
+           'timezone' => Config::get('app.timezone'),
+           'EventStartTime' => $venueAddress->venue_date . $venueAddress->slot_starts_at
       
       
       ]);
