@@ -423,15 +423,15 @@ class HomeController extends Controller
 
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id); 
+      $mytime = Carbon::now()->tz('America/New_York');
       if($request->ip() != '127.0.0.1' || $request->ip() != 'localhost'){
         $userDetail = $this->getIpDetails($request->ip());
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        Config::set('app.timezone', $timezone->timezone);
+        $mytime = Carbon::now()->tz($timezone->timezone);
       }
-      $mytime = Carbon::now()->tz($timezone->timezone);
-      $das = $mytime->addHour(24)->format('Y-m-d H:i:s'); 
-      $currentTime = strtotime(now()->addHour(24)->format('Y-m-d H:i:s'));
+       
+      $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
       $slotsArr = [];
       if ($currentTime >= $EventStartTime) {
@@ -446,7 +446,7 @@ class HomeController extends Controller
            'timezone' => Config::get('app.timezone'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
            'mytime' => $mytime->toDateTimeString(),
-           'add24Hour' =>$das
+           
       
       
       ]);
