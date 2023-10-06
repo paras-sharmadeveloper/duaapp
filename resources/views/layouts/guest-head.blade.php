@@ -32,5 +32,8 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/theme/css/style.css') }}" rel="stylesheet"> 
+ 
+   
+
 </head>
 <body>

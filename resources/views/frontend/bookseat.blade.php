@@ -1,8 +1,19 @@
 @extends('layouts.guest')
 @section('content') 
 <style>   
-        body{background-color:#f2f5f8;font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:3px solid #763cb0}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:200px;width:250px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red}div#error{margin:20px 0}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-        @media (max-width:767px){span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:80px;width:80px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
+    h1,h2,h3,h4,h5,h6,p,li{
+      color: #ffffff; 
+    }
+     
+        body{background-color:rgb(29, 29, 29);font-family:Karla,sans-serif}.select2-container .select2-selection--single{height:38px}.main-content .wizard-form .progressbar-list::before{content:" ";background-color:#9b9b9b;border:10px solid #fff;border-radius:50%;display:block;width:30px;height:30px;margin:9px auto;box-shadow:1px 1px 3px #606060;transition:none}.main-content .wizard-form .progressbar-list::after{content:"";background-color:#9b9b9b;padding:0;position:absolute;top:14px;left:-50%;width:100%;height:2px;margin:9px auto;z-index:-1;transition:.8s}.main-content .wizard-form .progressbar-list.active::after{background-color:#763cb0}.main-content .wizard-form .progressbar-list:first-child::after{content:none}.main-content .wizard-form .progressbar-list.active::before{font-family:"Font Awesome 5 free";content:"\f00c";font-size:11px;font-weight:600;color:#fff;padding:6px;background-color:#763cb0;border:1px solid #763cb0;box-shadow:0 0 0 7.5px rgb(118 60 176 / 11%)}.progressbar-list{color:#6f787d}.active{color:#000}.card img{width:40px;margin:auto}.card{border:3px solid rgb(145 145 145);cursor:pointer}.active-card{color:#763cb0;font-weight:700;border:6px solid #15d92b}.form-check-input:focus{box-shadow:none}.bg-color-info{background-color:#00d69f}.border-color{border-color:#ececec}.btn{padding:16px 30px}.back-to-wizard{transform:translate(-50%,-139%)!important}.bg-success-color{background-color:#87d185}.bg-success-color:focus{box-shadow:0 0 0 .25rem rgb(55 197 20 / 25%)}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:500px;height:500px;overflow:overlay}div#slot-listing h1{width:100%}button.btn:hover{color:#000!important;background-color:grey}.card-title{padding:10px 0 4px;font-size:14px;font-weight:500;color:#012970;font-family:Poppins,sans-serif}.danger,.success{text-align:center;font-size:16px}.card-body{padding:0 17px 0 20px}#selfie-image,video#video{height:250px;width:300px}div#captured-image{margin-bottom:15px}.loader{border:5px solid #3498db;border-top:5px solid transparent;border-radius:50%;width:40px;height:40px;animation:1s linear infinite spin}.loader-main{display:flex;justify-content:center;margin-top:5px}.success{color:green;font-weight:900}.danger,.error{color:red;font-weight:bold}div#error{margin:20px 0}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        @media (max-width:767px){
+            .head label {
+                font-size: 15px !important; 
+                color:#fff !important;
+            }
+            div#loader {text-align: center !important;}
+            .head {  display: inherit !important;margin-top: 10px;}
+            span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:375px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:50px;width:50px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
         .thripist-section img {
             height: 30% !important;
             width: 30% !important;
@@ -22,7 +33,7 @@
         .cusmhtn {font-size: 12px;}
 
         }
-        @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:290px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
+        @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:380px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
         .thripist-section img{height:50%;width:50%;border-radius:20%}
 
         .loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
@@ -58,7 +69,7 @@
   width: 6px;
   height: 18px;
   border-radius: 20%;
-  background: #000;
+  background: #ffffff;
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);
@@ -123,6 +134,104 @@
 .invalid-slot {
     border: 2px solid red;
 }
+
+
+.action-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.action-wrapper p {
+  margin: 0;
+}
+.action-wrapper select {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.wrapper {
+  padding: 25px 35px; 
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.wrapper ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: 0;
+  margin-top: 4.7px;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+.wrapper ul li {
+  position: relative;
+  margin-top: 10px;
+  font-size: 12px;
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  text-align: center;
+  color: #7f8995;
+}
+.wrapper  ul li.d-none {
+  display: none;
+}
+.wrapper  ul li:last-child:after {
+  display: none;
+}
+.wrapper ul li:before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 47%;
+  z-index: 1;
+  height: 8px;
+  width: 8px;
+  background: #19d184;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px white;
+}
+.wrapper ul li:after {
+  content: "";
+  position: absolute;
+  top: -17px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #19d184;
+}
+.wrapper ul li.active ~ li:before {
+  background: #dde2e5;
+}
+.wrapper  ul li.active ~ li:after {
+  background: rgba(221, 226, 229, 0.4);
+}
+.wrapper  ul li.active:before {
+  background-color: #198fd1;
+  box-shadow: 0 0 0 3px rgba(25, 143, 209, 0.2);
+}
+.wrapper ul li.active:after {
+  background: rgba(221, 226, 229, 0.4);
+}
+.head {
+    display: flex;
+    justify-content: space-between;
+}
+.head label {
+    font-size: 26px;
+    font-weight: 700;
+}
+.select2-results__options li {
+    color: #000 !important;
+}
+#sendOtp label{
+    color: #fff;
+}
         /* css loader ends */
 </style>
     <!-- section -->
@@ -134,7 +243,9 @@
 
                 <div class="d-flex justify-content-center py-4">
                     <a href="index.html" class="logoo  d-flex align-items-center wuto">
-                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                        {{-- <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""> --}}
+                        <img src="https://kahayfaqeer.org/assets/kahe-faqeer-white-1.png" alt="">
+                       
                         <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
                     </a>
                 </div>
@@ -143,11 +254,22 @@
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow">
                     
                     <!-- col -->
-                    <div class="col-md-12 text-center">
+                    <div class="col-md-12 text-center wizard-form">
+                        <div class="wrapper">
+                            <ul class="status-line" id="progress-bar">
+                              <li class="active">Sahib-e-Dua</li>
+                              <li>Meeting Type</li>
+                              <li>Country</li>
+                              <li>City</li>
+                              <li>Date</li>
+                              <li>Slot</li>
+                              <li>Finish</li> 
+                            </ul>
+                          </div>
 
                       
                         <!-- wizard -->
-                        <div class="wizard-form py-4 my-2">
+                        {{-- <div class="wizard-form py-4 my-2 d-none">
                             <!-- ul -->
                             <ul id="progressBar" class="progressbar px-lg-5 px-0">
                                 <li id="progressList-0"
@@ -180,11 +302,9 @@
 
                                   
                                   
-                            </ul>
-                            
-                           
+                            </ul> 
                             <!-- /ul -->
-                        </div>
+                        </div> --}}
                         
                         <!-- /wizard -->
                     </div>
@@ -194,8 +314,12 @@
                 <div class="row justify-content-center" id="cardSection">
                        
                     <div class="col-lg-12 col-md-12">
-                        <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
+                            <label></label>
+                        </div>
+                        
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($therapists as $therapist)
@@ -225,9 +349,11 @@
                 <div class="row justify-content-center  form-business">
                    
                     <div class="col-lg-12 col-md-12">
-                        
-                        <h3 class="fw-bold text-center">Select Type</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Type</h3>
+                            <label></label>
+                        </div> 
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="type-listing">
                             <div id="loader" style="display: none">
@@ -236,7 +362,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div> 
@@ -246,9 +372,12 @@
                 <div class="row justify-content-center  form-business" >
                    
                     <div class="col-lg-12 col-md-12">
-                        
-                        <h3 class="fw-bold text-center">Select Country</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Country</h3>
+                            <label></label>
+                        </div>
+                         
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
                               <div id="loader" style="display: none">
@@ -257,7 +386,7 @@
                                     </div>
                                     </div>
                         </div>
-                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button>
                     </div> 
@@ -265,8 +394,11 @@
                 <div class="row justify-content-center form-business">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
-                        <h3 class="fw-bold text-center">Select City</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select City</h3>
+                            <label></label>
+                        </div> 
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
                               <div id="loader" style="display: none">
@@ -276,7 +408,7 @@
                                     </div>
                         </div> 
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info">Next</button>
                         <!-- /NEXT BUTTON-->
@@ -288,8 +420,11 @@
                 <div class="row justify-content-center form-business">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
-                        <h3 class="fw-bold text-center">Select Date</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Event Date</h3>
+                            <label></label>
+                        </div>  
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
                               <div id="loader" style="display: none">
@@ -300,7 +435,7 @@
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info">Next</button>
                         <!-- /NEXT BUTTON-->
@@ -312,8 +447,11 @@
                 <div class="row justify-content-center form-business sloting-main">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12 slot-in">
-                        <h3 class="fw-bold text-center">Select Slot</h3>
-                        <p class="small text-center">Please select at least one card</p>
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Event Slot</h3>
+                            <label></label>
+                        </div>   
+                        <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
                               <div id="loader" style="display: none">
@@ -324,7 +462,7 @@
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-dark text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button"
                             class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm" id="slot-next">Next</button>
                         <!-- /NEXT BUTTON-->
@@ -334,27 +472,31 @@
                 <!-- /row -->
                 <!-- row -->
                 <div class="row justify-content-center py-5 form-business">
-                    <!-- col -->
-                    <div class="col-lg-12 col-md-12" id="successMessage">
-                        <!-- success message -->
-                        <div class="position-relative success-content">
-                            <img src="https://uploads-ssl.webflow.com/5ef0df6b9272f7410180a013/60c0e28575cd7c21701806fd_q1cunpuhbdreMPFRSFLyfUXNzpqv_I5fz_plwv6gV3sMNXwUSPrq88pC2iJijEV7wERnKXtdTA0eE4HvdnntGo9AHAWn-IcMPKV-rZw1v75vlTEoLF4OdNqsRb7C6r7Mvzrm7fe4.png"
-                                class="w-100" id="successImage" alt="success-message">
-                            <a href="#" type="button"
-                                class="btn bg-success-color py-2 back-to-wizard position-absolute top-100 start-50 translate-middle text-white">
-                                Back to Booking Page</a>
-                        </div>
-                        <!-- /success message -->
+
+                    <div class="head mb-4">
+                        <h3 class="fw-bold text-center">Final</h3>
+                        <label></label>
                     </div>
+                    <!-- col -->
+                    {{-- <div class="col-lg-12 col-md-12" id="successMessage">
+                        <header class="site-header" id="header">
+                            <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
+                        </header>
+                        <div class="main-content">
+                            <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
+                            <p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
+                        </div>
+                        
+                    </div> --}}
                     <!-- /col -->
                     <!-- col -->
                     <div class="col-lg-12 col-md-12" id="successForm">
                         <div class="mb-5">
                             <!-- Final step -->
-                            <div class="alert alert-primary text-center" role="alert">
-                                <h5 class="p-4 cusmhtn">Finally We are going to submit your information if you want to continue
+                            <div class="alert alert-primary text-center d-none" role="alert">
+                                {{-- <h5 class="p-4 cusmhtn">Finally We are going to submit your information if you want to continue
                                     that
-                                    please click on the finish button to finish up your Working process.</h5>
+                                    please click on the finish button to finish up your Working process.</h5> --}}
                             </div>
 
                             <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
@@ -362,25 +504,26 @@
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-md-12">
+                                    <div class="col col-md-6">
                                         <input type="text" class="form-control" name="fname" placeholder="Enter your first name"
                                             aria-label="First name">
                                     </div>
-                                    <div class="col col-md-12">
+                                    <div class="col col-md-6">
                                         <input type="text" class="form-control" name="lname" placeholder="Enter your last name"
                                             aria-label="Last name">
                                     </div>
+                                    
                                 </div>
                                 <div class="row g-3 mb-3">
-                                <div class="col col-md-12">
-                                    <input type="email" class="form-control" name="email"
-                                        placeholder="Eg:test@example.com" aria-label="Email">
-                                </div> 
-                            </div> 
+                                    <div class="col col-md-12">
+                                        <input type="email" class="form-control" name="email"
+                                            placeholder="Eg:test@example.com" aria-label="Email">
+                                    </div> 
+                                </div>
+                                
 
-                                <div class="row g-3 mb-3">
-                                    
-                                        <div class="col col-lg-5  col-md-12">
+                                <div class="row g-3 mb-3"> 
+                                        <div class="col col-lg-5  col-md-5">
 
                                             <select id="country_code" name="country_code" class="js-states form-control">
                                                 <option value="">select</option>
@@ -513,6 +656,9 @@
                     <!-- /col -->
                 </div>
             </div>
+            <div id="remeber-steps" class="d-none">
+                <input type="hidden" name="remeber-steps-app" id="remeber-steps-app">
+            </div>
             <!-- /main content -->
         </div>
         <!-- /container -->
@@ -572,36 +718,42 @@
 
         });
         $(document).ready(function() {
-            // hidden things
-           
-            $("#successMessage").hide();
-            // next button
+            
             $(".next").on({
                 click: function() {
+                    
+                   
                     $("#loader").show();
-
-                    // select any card
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
                     if (getValue) {
-                        $("#progressBar").find(".active").next().addClass("active");
-                        $("#alertBox").addClass("d-none");
-                       
-                         $(this).parents(".row").fadeOut("slow", function() {
+                        var oldTitle = $("#remeber-steps-app").val();
+                        
+                        $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
+                        $(this).parents(".row").find(".alertBox").addClass("d-none")
+                        
+                      
+                        $(this).parents(".row").fadeOut("slow", function() {
                           $(this).next(".row").fadeIn(); 
+                          $(this).next(".row").find('.head>label').text(oldTitle)
                           $("#loader").hide();
                          });
+                      
+                        
 
                     } else {
-                        $("#alertBox").removeClass("d-none").find("div").text(
-                            "Please select any card , only then you can move further!");
+                        $("#loader").hide();
+                        $(this).parents(".row").find(".alertBox").removeClass("d-none").text("Please select any card , only then you can move further!")
+                         
+                        // $("alertBox").removeClass("d-none").find("div").text("Please select any card , only then you can move further!");
                     }
                 }
             });
             // back button
             $(".back").on({
-                click: function() {
-                    $("#loader").show();
-                    $("#progressBar .active").last().removeClass("active");
+                click: function() { 
+                    
+                    $("#progress-bar").find(".active").removeClass('active').prev().addClass('active')
+                   
                    // $(this).next(".row").show();
                     $(this).parents(".row").fadeOut("slow", function() {
                         $("#loader").hide();
@@ -620,6 +772,18 @@
             //Active card on click function
 
             $(document).on("click", ".card", function() {
+                var oldTitle = $("#remeber-steps-app").val(); 
+                var title = $(this).find(".card-title").text();
+               
+
+                if(oldTitle == ''){
+                    oldTitle = title; 
+                }else{
+                    oldTitle+= " > "+title; 
+                }
+                $("#remeber-steps-app").val(oldTitle); 
+                 
+                $(this).parents('.justify-content-center').find('.head>label').text(oldTitle); 
                 $(this).toggleClass("active-card");
                 var cardId = $(this).attr('data-id');
 
@@ -774,7 +938,7 @@
                         } else {
                             $("#slot-listing").html("<h1>" + response.message + "</h1>");
                             $(".confirm").hide();
-                            $(".back").hide();
+                            $(".back").show();
                         }
 
 
@@ -818,10 +982,11 @@
                             $this.find('b').text(defaultText)
                             $("#wizardRow").fadeOut(300);
                         $("#successForm").fadeOut(300);
-                        $("#successMessage").fadeIn(3000); 
-                        }, 2000);
+                        },1000);
+                        // 'thankyou-page
+                         
                         $("#loader").hide();
-                        // Handle the success response here (e.g., display a message) 
+                        window.location.href = '/booking/thankyou/'+response.bookingId; 
                         
                     },
                     error: function(error) {

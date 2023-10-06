@@ -9,7 +9,7 @@ use Twilio\Jwt\Grants\VideoGrant;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{VideoConference, Vistors};
+use App\Models\{VideoConference, Vistors,Timezone};
 use Carbon\Carbon;
 
 
@@ -69,14 +69,23 @@ class VideoConferenceController extends Controller
         if (empty($vistor)) {
             abort(404);
         }
+        $mytime = Carbon::now()->tz('America/New_York');
+        if($request->ip() != '127.0.0.1' || $request->ip() != 'localhost'){
+            $userDetail = $this->getIpDetails($request->ip());
+            $countryCode = $userDetail['countryCode'];
+            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+            $mytime = Carbon::now()->tz($timezone->timezone);
+        }
 
         $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
 
+        $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+        
         $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
         $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
         $timeRemaining = $meetingStartTime->diffForHumans(null, true);
-        $isMeetingInProgress = Carbon::now()->gte($meetingStartTime);
-        $currentDateTime = Carbon::now();
+        $isMeetingInProgress = $mytime->gte($meetingStartTime);
+        $currentDateTime = $mytime;
         $isFifteenMinutesRemaining = false;
         //  echo  $meetingStartTime ; die; 
         if ($meetingStartTime->isFuture()) {

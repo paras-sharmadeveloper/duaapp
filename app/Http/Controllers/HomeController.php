@@ -127,7 +127,7 @@ class HomeController extends Controller
       $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
       event(new BookingNotification($bookingMessage));
-      return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
+      return response()->json(['message' => 'Booking submitted successfully', "status" => true , 'bookingId' => $uuid], 200);
     } catch (\Exception $e) {
       Log::error('Booking error' . $e->getMessage());
 
@@ -286,6 +286,12 @@ class HomeController extends Controller
     return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople'));
   }
 
+  public function thankyouPage($id)
+  { 
+    $userBooking = Vistors::where('booking_uniqueid', $id)->first();
+    return view('frontend.thankyou',compact('userBooking'));
+  }
+
 
   public function home()
   {
@@ -296,6 +302,7 @@ class HomeController extends Controller
     $userCountWithsiteadminRole = $siteadmin->users->count();
     return view('home', compact('visitos', 'userCountWiththripistRole', 'userCountWithsiteadminRole'));
   }
+ 
 
 
   public function getAjax(Request $request)
@@ -380,19 +387,7 @@ class HomeController extends Controller
           'type' => $venuesList->type,
           'venue_address_id' => $venuesList->id
         ];
-        // $dataArr['venue_address'][] = [
-        //   'imgUrl' => env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
-        //   'address' => $venuesList->address,
-        //   'slot_start' => Carbon::createFromFormat('H:i:s', $venuesList->slot_starts_at)->format('H:i A'),
-        //   'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
-        //   'venue_address_id' => $venuesList->id,
-        //   'venue_date' => $venuesList->venue_date,
-        //   'state' => $venuesList->state,
-        //   'city' => $venuesList->city,
-        //   'venue_id' => $venuesList->venue->id,
-        //   'type' => $venuesList->type,
-
-        // ];
+        
       }
       // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
@@ -424,7 +419,7 @@ class HomeController extends Controller
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id); 
       $mytime = Carbon::now()->tz('America/New_York');
-      if($request->ip() != '127.0.0.1' || $request->ip() != 'localhost'){
+      if($request->ip() != '127.0.0.1' && $request->ip() != 'localhost'){
         $userDetail = $this->getIpDetails($request->ip());
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
