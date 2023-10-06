@@ -116,7 +116,7 @@
         <div class="col-lg-9">
             <div class="card">
                 <div class="col-lg-12">
-                    <table class="bordered table">
+                    <table class="table-with-buttons table table-responsive cell-border">
                         <thead>
                             <tr>
                                 <th>Name</th>

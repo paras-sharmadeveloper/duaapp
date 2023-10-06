@@ -35,39 +35,45 @@
         <div class="card-body">
             <h5 class="card-title">Manage Venues</h5>
 
-            <table class="table table-bordered table-with-buttons table-striped ">
-                <tr>
-                    <th>No</th>
-                    <th>Country Name</th>
-                    <th>Thripist Name</th>
-                    <th>Venue Address</th>
-                    <th>Venue Deatail</th>
-                    <th>Type</th>
-                    <th width="280px">Action</th>
-                </tr>
-                @php $i=1;@endphp
-                @foreach ($venuesAddress as $venueAdd)
+            <table class="table-with-buttons table table-responsive cell-border">
+                <thead>
                     <tr>
-                        <td>{{ $i }}</td>
-                        <td>{{ $venueAdd->venue->country_name }} 
-                            <img src="{{ env('AWS_GENERAL_PATH').'flags/'.$venueAdd->venue->flag_path }}" alt="Flag Image"></td>
-                        <td>{{ $venueAdd->user->name }}</td>
-                        <td>{{ $venueAdd->address }}</td>
-                        <td>{{ $venueAdd->venue_date }} {{ $venueAdd->starts_at }} - {{ $venueAdd->slot_ends_at }}</td>
-                        <td>{{ $venueAdd->type }}</td>
-                        <td>
-                            <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
-                                style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
-                            </form>
-                        </td>
+                        <th>No</th>
+                        <th>Country Name</th>
+                        <th>Thripist Name</th>
+                        <th>Venue Address</th>
+                        <th>Venue Deatail</th>
+                        <th>Type</th>
+                        <th width="280px">Action</th>
                     </tr>
-                    @php $i++;@endphp
-                @endforeach
+                </thead>
+                <tbody>
+                    @php $i=1;@endphp
+                    @foreach ($venuesAddress as $venueAdd)
+                        <tr>
+                            <td>{{ $i }}</td>
+                            <td>{{ $venueAdd->venue->country_name }} 
+                                <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
+                                    alt="Flag Image">
+                            </td>
+                            <td>{{ $venueAdd->user->name }}</td>
+                            <td>{{ $venueAdd->address }}</td>
+                            <td>{{ $venueAdd->venue_date }} {{ $venueAdd->starts_at }} - {{ $venueAdd->slot_ends_at }}</td>
+                            <td>{{ $venueAdd->type }}</td>
+                            <td>
+                                <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
+                                <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @php $i++;@endphp
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>

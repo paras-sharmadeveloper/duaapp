@@ -35,7 +35,8 @@
         <div class="card-body">
             <h5 class="card-title">Manage Users</h5>
 
-            <table class="datatable table table-striped">
+            <table class="table-with-buttons table table-responsive cell-border" >
+                <thead>
                 <tr>
                     <th>No</th>
                     <th>Name</th>
@@ -43,6 +44,8 @@
                     <th>Roles</th>
                     <th width="280px">Action</th>
                 </tr>
+            </thead>
+            <tbody>
                 @foreach ($data as $key => $user)
                     <tr>
                         <td>{{ ++$i }}</td>
@@ -63,7 +66,9 @@
                             {!! Form::close() !!}
                         </td>
                     </tr>
+                
                 @endforeach
+            </tbody>
             </table>
         </div>
     </div>

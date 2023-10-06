@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venue, VenueSloting, VenueAddress,User,Vistors};
+use App\Models\{Venue, VenueSloting, VenueAddress,User,Vistors,Timezone,Country};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
@@ -20,6 +20,7 @@ class VenueController extends Controller
    
     public function show()
     {
+        
         return view('venues.venueCountry');
     }
  
@@ -168,9 +169,18 @@ class VenueController extends Controller
     {
         $venueAddress = VenueAddress::find($venueId);
 
+        // $timezones = Timezone::join('venues', 'timezone.country_code', '=', 'venues.iso')
+        // ->where(['venues.id' => $venueId])
+        // ->select('timezone.*', 'venues.country_name')
+        // ->get()->first();
+
+        // echo "<pre>"; print_r( $timezones); die; 
+         
+
         if (!$venueAddress) {
             return response()->json(['message' => 'Venue not found'], 404);
         }
+        
 
         // Define start and end times
         $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at);

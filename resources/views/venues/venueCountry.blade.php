@@ -50,12 +50,19 @@
  
                 @endif
 
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Country Name</span>
-                        <input type="text" class="form-control" id="country_name" name="country_name"
-                            value="{{ isset($venue) ? $venue->country_name : '' }}" required>
-                    </div>
+                <div class="col-md-6"> 
+                         
+                        <select id="country_name" name="country_name" class="form-control js-states form-control">
+                            <option value="">select</option>
+                            @foreach ($countryList as $country)
+                                <option value="{{ $country->name }}" data-iso="{{ $country->iso }}"> {{ $country->name }}</option>
+                            @endforeach
+                        </select>
+                        <input type="hidden" name="iso" value="" id="iso">
+                      
+                        {{-- <input type="text" class="form-control" id="country_name" name="country_name"
+                            value="{{ isset($venue) ? $venue->country_name : '' }}" required> --}}
+                 
 
                 </div>
 
@@ -107,5 +114,13 @@
                 $(this).closest('.row').remove();
             });
         });
+
+        $("#country_name").change(function(){
+            $this = $(this); 
+            var iso; 
+            iso = $this.find(":selected").attr('data-iso');
+            $("#iso").val(iso)
+
+        })
     </script>
 @endsection

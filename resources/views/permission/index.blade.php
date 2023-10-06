@@ -38,12 +38,16 @@
             <h5 class="card-title">Manage Permissions</h5>
 
 
-            <table class="datatable table table-striped">
-                <tr>
-                    <th>Name</th>
-                    <th width="280px">Action</th>
-                </tr>
+            <table class="table-with-buttons table table-responsive cell-border">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th width="280px">Action</th>
+                    </tr>
+                </thead>
+               
                 @foreach ($permissions as $key => $permission)
+                <tbody>
                     <tr>
                         <td>{{ $permission->name }}</td>
                         <td>
@@ -61,6 +65,7 @@
 
                         </td>
                     </tr>
+                </tbody>
                 @endforeach
             </table>
 

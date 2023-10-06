@@ -422,7 +422,7 @@ class HomeController extends Controller
 
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id);
-
+      $userDetail = $this->getIpDetails($request->ip()); 
       $currentTime = strtotime(now()->addHour(24)->format('y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date . $venueAddress->slot_starts_at);
 
@@ -472,5 +472,27 @@ class HomeController extends Controller
   {
     Vistors::find($id)->delete();
     return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
+  }
+
+  public function getIpDetails($userIp){
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'http://apiip.net/api/check?ip='.$userIp.'&accessKey=3bc237ee-401e-42e1-bd77-49279b15d27d',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
+
+    $response = curl_exec($curl);
+    $result = json_decode($response,true); 
+    
+
+    curl_close($curl);
+    return $result;
+    echo $response;
   }
 }

@@ -52,16 +52,13 @@
 
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Select Country</span>
-                         <select class="form-control" name="venue_id">
-                            @foreach($countries as $country)
-                            <option value="{{  $country->id }}"
-                                    @if(!empty($venueAddress) && $venueAddress->venue_id == $country->id)
-                                        selected
-                                    @endif
-                                > {{  $country->country_name }}</option>
+                        <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
+                        <select class="form-control" name="venue_id">
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}" @if (!empty($venueAddress) && $venueAddress->venue_id == $country->id) selected @endif>
+                                    {{ $country->country_name }}</option>
                             @endforeach
-                         </select>
+                        </select>
                     </div>
 
                 </div>
@@ -69,38 +66,31 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
-                         <select class="form-control" name="therapist_id">
-                            @foreach($therapists as $therapist)
-                            <option value="{{  $therapist->id }}"
-                                @if(!empty($venueAddress) &&  $venueAddress->therapist_id == $therapist->id)
-                                        selected
-                                    @endif    
-                            > {{  $therapist->name }}</option>
+                        <select class="form-control" name="therapist_id">
+                            @foreach ($therapists as $therapist)
+                                <option value="{{ $therapist->id }}" @if (!empty($venueAddress) && $venueAddress->therapist_id == $therapist->id) selected @endif>
+                                    {{ $therapist->name }}</option>
                             @endforeach
-                         </select>
-                    </div> 
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
-                         <select class="form-control" name="siteadmin_id">
-                            @foreach($siteAdmins as $siteadmin)
-                            <option value="{{  $siteadmin->id }}"
-                                @if(!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id)
-                                        selected
-                                    @endif 
-                                
-                                > {{  $siteadmin->name }}</option>
+                        <select class="form-control" name="siteadmin_id">
+                            @foreach ($siteAdmins as $siteadmin)
+                                <option value="{{ $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
+                                    {{ $siteadmin->name }}</option>
                             @endforeach
-                         </select>
-                    </div> 
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">State </span>
-                        {!! Form::text('state', $venueAddress->state ?? '' , ['class' => 'form-control', 'placeholder' => 'state']) !!}
+                        {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state']) !!}
 
                     </div>
                 </div>
@@ -108,17 +98,21 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">City </span>
-                        {!! Form::text('city', $venueAddress->city ?? '' , ['class' => 'form-control', 'placeholder' => 'city']) !!}
+                        {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
 
                     </div>
                 </div>
 
-                
+
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Venue Addresses</span>
 
-                        {!! Form::textarea('venue_addresses',$venueAddress->address ?? '', ['class' => 'form-control', 'placeholder' => 'Address', 'cols' => 10]) !!}
+                        {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Address',
+                            'cols' => 10,
+                        ]) !!}
 
                     </div>
 
@@ -127,7 +121,11 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Date </span>
-                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '' , ['class' => 'form-control', 'placeholder' => 'Date','min' => date('Y-m-d')]) !!}
+                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Date',
+                            'min' => date('Y-m-d'),
+                        ]) !!}
 
                     </div>
                 </div>
@@ -135,16 +133,19 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Slot Duration</span>
-                        {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '' , ['class' => 'form-control', 'placeholder' => 'Add Slot Duration in Mint']) !!}
+                        {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Add Slot Duration in Mint',
+                        ]) !!}
 
                     </div>
                 </div>
 
-                
+
                 <div class="col-md-6 mt-4 ">
                     <div class="input-group">
                         <span class="input-group-text">starts at</span>
-                        {!! Form::time('venue_starts',$venueAddress->slot_starts_at ?? '', [
+                        {!! Form::time('venue_starts', $venueAddress->slot_starts_at ?? '', [
                             'class' => 'form-control',
                             'placeholder' => 'Starts',
                         ]) !!}
@@ -154,12 +155,15 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">ends at</span>
-                        {!! Form::time('venue_ends', $venueAddress->slot_ends_at ?? '', ['class' => 'form-control', 'placeholder' => 'ends']) !!}
-                        
+                        {!! Form::time('venue_ends', $venueAddress->slot_ends_at ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'ends',
+                        ]) !!}
+
                     </div>
                 </div>
 
-                 
+
 
                 <div class="form-group mt-4">
                     <label for="type">Type</label>
@@ -178,20 +182,24 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Video Room Name</span>
-                        {!! Form::text('video_room', $venueAddress->room_name ?? '', ['class' => 'form-control', 'placeholder' => 'Enter Vedio Room Name']) !!}
-                        
+                        {!! Form::text('video_room', $venueAddress->room_name ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'Enter Vedio Room Name',
+                        ]) !!}
+
                     </div>
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
-                <div class="form-check">
-                    {!! Form::checkbox('update_slots', 'yes',null, ['class' => 'form-check-input', 'id' => 'checkbox_id']) !!}
-                    <label class="form-check-label" for="checkbox_id">Check If you also want to Update Slots and Date </label>
-                </div>
+                    <div class="form-check">
+                        {!! Form::checkbox('update_slots', 'yes', null, ['class' => 'form-check-input', 'id' => 'checkbox_id']) !!}
+                        <label class="form-check-label" for="checkbox_id">Check If you also want to Update Slots and Date
+                        </label>
+                    </div>
                 @endif
                 @if (Route::currentRouteName() == 'venues.edit')
-                <button type="submit" class="btn btn-primary mt-4">{{'Update' }}</button>
+                    <button type="submit" class="btn btn-primary mt-4">{{ 'Update' }}</button>
                 @else
-                <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
+                    <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
                 @endif
                 </form>
             </div>

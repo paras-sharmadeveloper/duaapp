@@ -43,6 +43,7 @@ class AdminSeeder extends Seeder
         ];
         $this->CraeteAllUsers($roles);
         $this->InsertCountryData(); 
+        $this->InsertTimeZone(); 
    
     }
 
@@ -92,4 +93,12 @@ class AdminSeeder extends Seeder
         $sql = file_get_contents($sqlDumpPath);
         DB::unprepared($sql); 
     }
+
+    public function InsertTimeZone(){
+        $sqlDumpPath = __DIR__ . '/timezone.sql';
+        $sql = file_get_contents($sqlDumpPath);
+        DB::unprepared($sql); 
+    }
+
+    
 }

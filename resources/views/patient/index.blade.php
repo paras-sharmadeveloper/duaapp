@@ -35,55 +35,54 @@
         <div class="card-body">
             <h5 class="card-title">Manage Vistors</h5>
 
-            <table class="datatable table table-striped">
-                <tr>
-                    <th>BookingId</th>
-                    <th>UserName</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>UserIp</th>
-                    <th>WhatsApp</th>
-                    <th>Booked Slot</th>
-                    <th>Venue Address</th>
-                    <th width="280px">Action</th>
-                </tr>
-                
-                @if(!empty($vistors))
-                @foreach ($vistors as $vistor)
-
-                @php 
-                   $venueAddress = \App\Models\VenueAddress::getAddress($vistor->slot->venue_address_id);
-                   $venues =  \App\Models\Venue::getVenue($venueAddress->venue_id); 
-                    
-                @endphp 
-
+            <table class="table-with-buttons table table-responsive cell-border">
+                <thead>
                     <tr>
-                        <td>{{ $vistor->booking_uniqueid }}</td>
-                        
-                        <td>{{ $vistor->fname . ' ' .  $vistor->lname }}</td>
-                        <td>{{ $vistor->email }}</td>
-                        <td>{{ $vistor->phone }}</td>
-                        <td>{{ $vistor->user_ip }}</td>
-                        <td>{{ $vistor->is_whatsapp }}</td>
-                        <td>{{ $venueAddress->venue_date .' ' .$vistor->slot->slot_time }}</td>
-                        <td> {{ $venueAddress->address  }} {{ '('. $venues->country_name .')' }} </td>
-                        <td> 
-                            <form action="{{ route('visitor.delete', $vistor->id) }}" 
-                                method="POST"
-                                style="display: inline;">
-                                @csrf 
-                                {{ method_field('DELETE') }}
-                                <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this venue?')">Delete</button>
-                            </form>
-                        </td>
+                        <th>BookingId</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>UserIp</th>
+                        <th>WhatsApp</th>
+                        <th>Booked Slot</th>
+                        <th>Venue Address</th>
+                        <th width="280px">Action</th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody>
+                    @if (!empty($vistors))
+                        @foreach ($vistors as $vistor)
+                            @php
+                                $venueAddress = \App\Models\VenueAddress::getAddress($vistor->slot->venue_address_id);
+                                $venues = \App\Models\Venue::getVenue($venueAddress->venue_id);
+                                
+                            @endphp
 
-                @endif
-                 
+                            <tr>
+                                <td>{{ $vistor->booking_uniqueid }}</td>
+
+                                <td>{{ $vistor->fname . ' ' . $vistor->lname }}</td>
+                                <td>{{ $vistor->email }}</td>
+                                <td>{{ $vistor->phone }}</td>
+                                <td>{{ $vistor->user_ip }}</td>
+                                <td>{{ $vistor->is_whatsapp }}</td>
+                                <td>{{ $venueAddress->venue_date . ' ' . $vistor->slot->slot_time }}</td>
+                                <td> {{ $venueAddress->address }} {{ '(' . $venues->country_name . ')' }} </td>
+                                <td>
+                                    <form action="{{ route('visitor.delete', $vistor->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete this venue?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+
             </table>
         </div>
     </div>
 @endsection
- 

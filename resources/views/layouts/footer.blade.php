@@ -27,44 +27,49 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 {{-- DataTable Handling --}}
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script> 
 
 
 {{-- DataTable Handling End --}}
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() { 
+$(document).ready(function() {
+$("#country_name").select2({
+            placeholder: "Select country",
+            allowClear: true
+        });
+ });
+$(document).ready(function() {
+    $('.table-with-buttons').DataTable( {
+
         
-        // document.title = 'Simple DataTable';
-        // DataTable initialisation
-            setTimeout(function(){
-            $('.table-with-buttons').DataTable({
-                "dom": '<"dt-buttons"Bf><"clear">lirtp',
-                "paging": true,
-                "autoWidth": true,
-                "responsive": true,
-                "buttons": [
-                    // 'colvis',
-                    // 'copyHtml5',
-                    'csvHtml5',
-                    'excelHtml5',
-                    // 'pdfHtml5',
-                    // 'print'
-                ]
-            });
-        }, 500);
-    });
+        dom: 'Bfrtip', 
+		paging: true,
+		autoWidth: true,
+        aoColumnDefs: [
+            { "aTargets": [ 0 ], "bSortable": true },
+            { "aTargets": [ 1 ], "bSortable": true },
+            { "aTargets": [ 2 ], "bSortable": true },
+            { "aTargets": [ 3 ], "bSortable": false }
+        ],
+        buttons: [
+            // 'copy', 
+            'csv', 
+            'excel',
+            // 'pdf', 
+            // 'print'
+        ]
+    } );
+} );
 
     $(document).ready(function() {
         getNotificaitons();

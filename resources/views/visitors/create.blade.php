@@ -31,7 +31,7 @@
         </div>
     @endif
 
-    <div class="col-lg-12">
+    <div class="col-lg-12 py-4">
 
         <div class="card">
             <div class="card-body">

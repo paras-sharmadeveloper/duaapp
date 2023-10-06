@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Venue extends Model
 {
     use HasFactory;
-    protected $fillable = ['country_name', 'address', 'flag_path', 'type'];
+    protected $fillable = ['country_name', 'address', 'flag_path', 'iso'];
 
     static function getVenue($id)
     {
@@ -18,5 +18,10 @@ class Venue extends Model
     public function getAddress()
     {
         return $this->hasMany(VenueAddress::class, 'venue_id');
+    }
+
+    public function getTimezone()
+    {
+        return $this->belongsTo(Venue::class, 'country_name', 'country_code');
     }
 }

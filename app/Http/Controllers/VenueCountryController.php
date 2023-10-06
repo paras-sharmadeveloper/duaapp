@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VenueCountry;
+use App\Models\{VenueCountry,Country};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +23,8 @@ class VenueCountryController extends Controller
      */
     public function create()
     {
-        return view('venues.venueCountry');
+        $countryList = Country::all();
+        return view('venues.venueCountry',compact('countryList'));
     }
 
     /**
@@ -49,6 +50,7 @@ class VenueCountryController extends Controller
         $venue = VenueCountry::create([
             'country_name' => $request->input('country_name'),
             'flag_path' =>  $imageName, 
+            'iso' => $request->input('iso')
         ]); 
         return redirect()->route('country.index')->with('success', 'Country created successfully');
 
@@ -93,6 +95,7 @@ class VenueCountryController extends Controller
         $venue->update([
             'country_name' => $request->input('country_name'),
             'flag_path' =>  ($imageName) ? $imageName : $venue->flag_path,
+            'iso' => $request->input('iso')
        
         ]);
         return redirect()->route('country.index')->with('success', 'Country updated successfully');

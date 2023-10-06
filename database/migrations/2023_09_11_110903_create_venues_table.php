@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('country_name'); 
             $table->string('flag_path')->nullable();
-            $table->enum('type', ['on-site', 'virtual']);
+            $table->string('iso',15)->nullable();
             $table->timestamps();
         });
     }
