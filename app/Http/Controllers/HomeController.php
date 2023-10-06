@@ -436,10 +436,16 @@ class HomeController extends Controller
       $slotsArr = [];
       if ($currentTime >= $EventStartTime) {
         $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id', 'slot_time', 'id']);
-        return response()->json(['status' => true, 'message' => 'Slots are be avilable' ]);
+        return response()->json([
+        'status' => true, 
+        'message' => 'Slots are be avilable',
+        'data' =>  $slotArr
+      ]);
       } else {
         return response()->json(
-          ['status' => false, 'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
+          [
+           'status' => false, 
+           'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
            'data' => [], 
            'slotab_time' => now()->addHour(24)->format('Y-m-d H:i:s'),
            'current_time'=> now()->format('Y-m-d H:i:s'),
