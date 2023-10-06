@@ -427,7 +427,7 @@ class HomeController extends Controller
       }
 
 
-      $eventDate = Carbon::parse("2023-10-09 10:00:00",$timezone->timezone);
+      $eventDate = Carbon::parse("2023-10-08 10:00:00",$timezone->timezone);
    
       $hoursRemaining = $eventDate->diffInHours($mytime);
        
