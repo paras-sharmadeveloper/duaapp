@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{SendMessage, SendEmail};
@@ -14,6 +14,7 @@ use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Events\BookingNotification;
+use Illuminate\Support\Facades\Config;
 
 class HomeController extends Controller
 {
@@ -123,7 +124,7 @@ class HomeController extends Controller
 
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-      $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname']." ".$validatedData['lname']."</b>";
+      $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
       event(new BookingNotification($bookingMessage));
       return response()->json(['message' => 'Booking submitted successfully', "status" => true], 200);
@@ -421,12 +422,17 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slots') {
-      $venueAddress = VenueAddress::find($id);
-      $userDetail = $this->getIpDetails($request->ip()); 
+      $venueAddress = VenueAddress::find($id); 
+      if($request->ip() != '127.0.0.1' || $request->ip() != 'localhost'){
+        $userDetail = $this->getIpDetails($request->ip());
+        $countryCode = $userDetail['countryCode'];
+        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+        Config::set('app.timezone', $timezone->timezone);
+      }
+     
       $currentTime = strtotime(now()->addHour(24)->format('y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date . $venueAddress->slot_starts_at);
-
-
+      $slotsArr = [];
       if ($currentTime >= $EventStartTime) {
         $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id', 'slot_time', 'id']);
         return response()->json(['status' => true, 'message' => 'Slots are be avilable', 'slots' => $slotArr]);
@@ -474,10 +480,11 @@ class HomeController extends Controller
     return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
   }
 
-  public function getIpDetails($userIp){
+  public function getIpDetails($userIp)
+  {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'http://apiip.net/api/check?ip='.$userIp.'&accessKey=3bc237ee-401e-42e1-bd77-49279b15d27d',
+      CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -488,11 +495,20 @@ class HomeController extends Controller
     ));
 
     $response = curl_exec($curl);
-    $result = json_decode($response,true); 
-    
+    $result = json_decode($response, true);
 
     curl_close($curl);
+
+    $data = [
+      'user_ip' => $userIp,
+      'countryName' => $result['countryName'],
+      'regionName' => $result['regionName'],
+      'city' => $result['city'],
+      'postalCode' => $result['postalCode'],
+      'complete_data' => $response
+    ];
+
+    Ipinformation::create($data);
     return $result;
-    echo $response;
   }
 }
