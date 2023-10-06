@@ -419,7 +419,7 @@ class HomeController extends Controller
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id); 
       $mytime = Carbon::now()->tz('America/New_York');
-      if($request->ip() != '127.0.0.1' && $request->ip() != 'localhost'){
+      if($request->ip() != '127.0.0.1'){
         $userDetail = $this->getIpDetails($request->ip());
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
@@ -442,7 +442,7 @@ class HomeController extends Controller
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
            'slots' => [],  
-           'mytime' => $mytime  ,
+           'mytime24' => $mytime->addHour(24)->format('Y-m-d H:i:s'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at
       
       ]);
