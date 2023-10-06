@@ -429,7 +429,7 @@ class HomeController extends Controller
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         Config::set('app.timezone', $timezone->timezone);
       }
-      $mytime = Carbon::now();
+      $mytime = Carbon::now()->tz($timezone->timezone);
       $currentTime = strtotime(now()->addHour(24)->format('Y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
       $slotsArr = [];
