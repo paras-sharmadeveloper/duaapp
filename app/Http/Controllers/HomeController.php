@@ -439,14 +439,14 @@ class HomeController extends Controller
         return response()->json([
         'status' => true, 
         'message' => 'Slots are be avilable',
-        'data' =>  $slotArr
+        'slots' =>  $slotArr
       ]);
       } else {
         return response()->json(
           [
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
-           'data' => [], 
+           'slots' => [], 
            'slotab_time' => now()->addHour(24)->format('Y-m-d H:i:s'),
            'current_time'=> now()->format('Y-m-d H:i:s'),
            'timezone' => Config::get('app.timezone'),
