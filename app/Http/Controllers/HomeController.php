@@ -430,7 +430,7 @@ class HomeController extends Controller
         Config::set('app.timezone', $timezone->timezone);
       }
      
-      $currentTime = strtotime(now()->addHour(24)->format('y-m-d H:i:s'));
+      $currentTime = strtotime(now()->addHour(24)->format('Y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
       $slotsArr = [];
       if ($currentTime >= $EventStartTime) {
@@ -440,8 +440,8 @@ class HomeController extends Controller
         return response()->json(
           ['status' => false, 'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
            'data' => [], 
-           'slotab_time' => now()->addHour(24)->format('y-m-d H:i:s'),
-           'current_time'=> now()->format('y-m-d H:i:s'),
+           'slotab_time' => now()->addHour(24)->format('Y-m-d H:i:s'),
+           'current_time'=> now()->format('Y-m-d H:i:s'),
            'timezone' => Config::get('app.timezone'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at
       
