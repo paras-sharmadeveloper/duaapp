@@ -444,7 +444,7 @@ class HomeController extends Controller
            'current_time'=> now()->format('Y-m-d H:i:s'),
            'timezone' => Config::get('app.timezone'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-           'mytime' => $mytime
+           'mytime' => $mytime->toDateTimeString()
       
       
       ]);
