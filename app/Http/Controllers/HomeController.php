@@ -418,24 +418,24 @@ class HomeController extends Controller
 
     if ($type == 'get_slots') {
       $venueAddress = VenueAddress::find($id); 
-      $mytime = Carbon::now()->tz('America/New_York');
+      $currentTimezone = 'America/New_York'; 
+      
       if($request->ip() != '127.0.0.1'){
         $userDetail = $this->getIpDetails($request->ip());
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $mytime = Carbon::now()->tz($timezone->timezone);
+        $currentTimezone = $timezone->timezone;  
       }
+      $mytime = Carbon::now()->tz($currentTimezone);
+      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at,$currentTimezone);
 
-
-      $eventDate = Carbon::parse("2023-10-07 10:00:00",$timezone->timezone);
-   
       $hoursRemaining = $eventDate->diffInHours($mytime);
        
-      $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-      $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
-      $EventStartTime = strtotime($evntTime);
+      // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+      // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
+      // $EventStartTime = strtotime($evntTime);
       $slotsArr = [];
-      if($currentTime>=$EventStartTime) {
+      if($hoursRemaining<=24) {
         $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id', 'slot_time', 'id']);
           return response()->json([
           'status' => true, 
