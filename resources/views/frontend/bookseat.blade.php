@@ -221,6 +221,7 @@
 .head {
     display: flex;
     justify-content: space-between;
+    color: white;
 }
 .head label {
     font-size: 26px;
@@ -474,7 +475,7 @@
                 <div class="row justify-content-center py-5 form-business">
 
                     <div class="head mb-4">
-                        <h3 class="fw-bold text-center">Final</h3>
+                        {{-- <h3 class="fw-bold text-center">Final</h3> --}}
                         <label></label>
                     </div>
                     <!-- col -->
@@ -657,7 +658,7 @@
                 </div>
             </div>
             <div id="remeber-steps" class="d-none">
-                <input type="hidden" name="remeber-steps-app" id="remeber-steps-app">
+                <input type="hidden" name="remeber-steps-app" id="remeber-steps-app" data-step="1">
             </div>
             <!-- /main content -->
         </div>
@@ -725,7 +726,28 @@
                    
                     $("#loader").show();
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
+
+                    console.log("getValue",getValue)
                     if (getValue) {
+                        var oldTitle = $("#remeber-steps-app").val(); 
+                       
+                        var title = $(this).parents(".row").find(".active-card").find(".title-binding").text();
+
+                        if(oldTitle == ''){
+                            oldTitle = title; 
+                        }else{
+                            oldTitle+= " > " + title; 
+                        } 
+
+                        $(this).parents(".row").find(".head>label").text(oldTitle); 
+                        $("#remeber-steps-app").val(oldTitle); 
+                        
+                        $(this).parents('.justify-content-center').find('.head>label').text(oldTitle); 
+
+
+
+
+
                         var oldTitle = $("#remeber-steps-app").val();
                         
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
@@ -741,6 +763,8 @@
                         
 
                     } else {
+                       
+
                         $("#loader").hide();
                         $(this).parents(".row").find(".alertBox").removeClass("d-none").text("Please select any card , only then you can move further!")
                          
@@ -753,11 +777,20 @@
                 click: function() { 
                     
                     $("#progress-bar").find(".active").removeClass('active').prev().addClass('active')
+
+                    var currentTitle = $('#remeber-steps-app').val();
+                       currentTitle = currentTitle.split(' > ');
+                       currentTitle.pop(); 
+
+                       var newString = currentTitle.join(' > ');
+                       console.log("newString",newString)
+                       $('#remeber-steps-app').val(newString)
                    
                    // $(this).next(".row").show();
                     $(this).parents(".row").fadeOut("slow", function() {
                         $("#loader").hide();
                         $(this).prev(".row").fadeIn();
+                        $(this).prev(".row").find(".head").find("label").text(newString)
                     });
                 }
             });
@@ -772,37 +805,26 @@
             //Active card on click function
 
             $(document).on("click", ".card", function() {
-                var oldTitle = $("#remeber-steps-app").val(); 
-                var title = $(this).find(".card-title").text();
                
-
-                if(oldTitle == ''){
-                    oldTitle = title; 
-                }else{
-                    oldTitle+= " > "+title; 
-                }
-                $("#remeber-steps-app").val(oldTitle); 
-                 
-                $(this).parents('.justify-content-center').find('.head>label').text(oldTitle); 
                 $(this).toggleClass("active-card");
                 var cardId = $(this).attr('data-id');
 
-                if ($(this).hasClass('thripist-section')) {
+                if ($(this).hasClass('thripist-section')) { 
                     getAjax(cardId, 'get_type')
                     // getAjax(cardId, 'get_country')
-                }else if ($(this).hasClass('type-selection')) {
+                }else if ($(this).hasClass('type-selection')) { 
                     getAjax(cardId, 'get_country') 
-               }else if ($(this).hasClass('city-selection')) {
+               }else if ($(this).hasClass('city-selection')) { 
                   
                      getAjax(cardId, 'get_city')
-                } else if ($(this).hasClass('date-selection')) {
+                } else if ($(this).hasClass('date-selection')) { 
                     getAjax(cardId, 'get_date')
                   //  $("#slot_id_booked").val(cardId);
                 } 
-                else if ($(this).hasClass('slot-selection')) {
+                else if ($(this).hasClass('slot-selection')) { 
                     getAjax(cardId, 'get_slots')
                     // $("#slot_id_booked").val(cardId);
-                }else if ($(this).hasClass('slot-capture')) {
+                }else if ($(this).hasClass('slot-capture')) { 
                     // getAjax(cardId, 'get_slots')
                      $("#slot_id_booked").val(cardId);
                 }
