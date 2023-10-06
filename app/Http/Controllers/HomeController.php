@@ -427,7 +427,7 @@ class HomeController extends Controller
       }
 
 
-      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)->tz($timezone->timezone);
+      $eventDate = Carbon::parse("2023-10-09 10:00:00");
    
       $hoursRemaining = $eventDate->diffInHours($mytime);
        
@@ -447,8 +447,7 @@ class HomeController extends Controller
           [
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
-           'slots' => [],  
-           'mytime24' => $mytime->addHour(24)->format('Y-m-d H:i:s'),
+           'slots' => [],   
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
            'eventDate' => $eventDate,
            'hoursRemaining' => $hoursRemaining
