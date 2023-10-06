@@ -425,6 +425,11 @@ class HomeController extends Controller
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         $mytime = Carbon::now()->tz($timezone->timezone);
       }
+
+
+      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
+   
+      $hoursRemaining = $eventDate->diffInHours($mytime);
        
       $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
@@ -445,8 +450,8 @@ class HomeController extends Controller
            'slots' => [],  
            'mytime24' => $mytime->addHour(24)->format('Y-m-d H:i:s'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-           'wEventStartTime' => $EventStartTime,
-           'currentTime' =>  $currentTime
+           'eventDate' => $eventDate,
+           'hoursRemaining' => $hoursRemaining
       
       ]);
       }
