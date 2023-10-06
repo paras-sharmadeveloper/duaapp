@@ -431,7 +431,7 @@ class HomeController extends Controller
       }
      
       $currentTime = strtotime(now()->addHour(24)->format('y-m-d H:i:s'));
-      $EventStartTime = strtotime($venueAddress->venue_date . $venueAddress->slot_starts_at);
+      $EventStartTime = strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
       $slotsArr = [];
       if ($currentTime >= $EventStartTime) {
         $slotArr = VenueSloting::where('venue_address_id', $id)->whereNotIn('id', Vistors::pluck('slot_id')->toArray())->get(['venue_address_id', 'slot_time', 'id']);
@@ -443,7 +443,7 @@ class HomeController extends Controller
            'slotab_time' => now()->addHour(24)->format('y-m-d H:i:s'),
            'current_time'=> now()->format('y-m-d H:i:s'),
            'timezone' => Config::get('app.timezone'),
-           'EventStartTime' => $venueAddress->venue_date . $venueAddress->slot_starts_at
+           'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at
       
       
       ]);
