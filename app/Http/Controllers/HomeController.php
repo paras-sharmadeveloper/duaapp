@@ -446,14 +446,7 @@ class HomeController extends Controller
           [
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
-           'slots' => [], 
-           'slotab_time' => now()->addHour(24)->format('Y-m-d H:i:s'),
-           'current_time'=> now()->format('Y-m-d H:i:s'),
-           'timezone' => Config::get('app.timezone'),
-           'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-           'mytime' => $mytime->toDateTimeString(),
-           
-      
+           'slots' => [],    
       
       ]);
       }
