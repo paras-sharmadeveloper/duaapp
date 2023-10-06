@@ -430,6 +430,7 @@ class HomeController extends Controller
         Config::set('app.timezone', $timezone->timezone);
       }
       $mytime = Carbon::now()->tz($timezone->timezone);
+      $das = $mytime->addHour(24)->format('Y-m-d H:i:s'); 
       $currentTime = strtotime(now()->addHour(24)->format('Y-m-d H:i:s'));
       $EventStartTime = strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at);
       $slotsArr = [];
@@ -444,7 +445,8 @@ class HomeController extends Controller
            'current_time'=> now()->format('Y-m-d H:i:s'),
            'timezone' => Config::get('app.timezone'),
            'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-           'mytime' => $mytime->toDateTimeString()
+           'mytime' => $mytime->toDateTimeString(),
+           'add24Hour' =>$das
       
       
       ]);
