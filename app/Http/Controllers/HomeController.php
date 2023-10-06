@@ -441,7 +441,9 @@ class HomeController extends Controller
           [
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
-           'slots' => [],    
+           'slots' => [],  
+           'mytime' => $mytime  ,
+           'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at
       
       ]);
       }

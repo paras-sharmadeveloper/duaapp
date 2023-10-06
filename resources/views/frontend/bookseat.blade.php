@@ -724,11 +724,12 @@
                 click: function() {
                     
                    
-                    $("#loader").show();
+                    
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
 
-                    console.log("getValue",getValue)
+                   
                     if (getValue) {
+                       
                         var oldTitle = $("#remeber-steps-app").val(); 
                        
                         var title = $(this).parents(".row").find(".active-card").find(".title-binding").text();
@@ -753,7 +754,7 @@
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
                         
-                      
+                        $("#loader").show();
                         $(this).parents(".row").fadeOut("slow", function() {
                           $(this).next(".row").fadeIn(); 
                           $(this).next(".row").find('.head>label').text(oldTitle)
