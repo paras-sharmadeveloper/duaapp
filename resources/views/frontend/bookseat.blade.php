@@ -37,7 +37,7 @@
             background: #f9d20a !important; 
         }
         @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:380px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
-        .thripist-section img{height:50%;width:50%;border-radius:20%}
+        .thripist-section img{height:100%;width:100%;max-height:200px;}
 
         .loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
         /* .col-lg-6 {
@@ -325,7 +325,7 @@
                         
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
+                        <div class="row row-cols-2 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($therapists as $therapist)
                                 <div class="col-lg-3 col-md-4">
                                     <div class="card text-center h-60 py-2 shadow-sm thripist-section"
