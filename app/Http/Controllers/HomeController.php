@@ -340,7 +340,7 @@ class HomeController extends Controller
       return response()->json($dataArr);
     }
     if ($type == 'get_country') {
-      $venuesListArr = VenueAddress::where('therapist_id', $id)
+      $venuesListArr = VenueAddress::where('id', $id)
       ->where(function ($query) use ($newDate) {
           $query->whereDate('venue_date', $newDate)
                 ->orWhereDate('venue_date', date('Y-m-d'));
@@ -366,7 +366,7 @@ class HomeController extends Controller
     }
 
     if ($type == 'get_city') {
-      $venuesListArr = VenueAddress::where('therapist_id', $id)
+      $venuesListArr = VenueAddress::where('id', $id)
       ->where(function ($query) use ($newDate) {
           $query->whereDate('venue_date', $newDate)
                 ->orWhereDate('venue_date', date('Y-m-d'));
