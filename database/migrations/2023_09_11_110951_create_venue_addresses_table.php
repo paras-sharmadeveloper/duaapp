@@ -23,8 +23,8 @@ return new class extends Migration
             $table->time('slot_starts_at_morning');
             $table->time('slot_ends_at_morning');
 
-            $table->time('slot_starts_at_evening');
-            $table->time('slot_ends_at_evening');
+            $table->time('slot_starts_at_evening')->nullable();
+            $table->time('slot_ends_at_evening')->nullable();
 
             $table->enum('type', ['on-site', 'virtual']);
             $table->string('room_name')->nullable();
