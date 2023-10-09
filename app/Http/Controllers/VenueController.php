@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venue, VenueSloting, VenueAddress,User,Vistors,Timezone,Country};
+use App\Models\{Venue, VenueSloting, VenueAddress, User, Vistors, Timezone, Country};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
+use PDO;
 
 class VenueController extends Controller
 {
@@ -16,156 +17,229 @@ class VenueController extends Controller
         $venuesAddress = VenueAddress::all();
         return view('venues.list', compact('venuesAddress'));
     }
- 
-   
+
+
     public function show()
     {
-        
         return view('venues.venueCountry');
     }
- 
+
 
     public function create()
     {
-        $countries = Venue::all();  
+        $countries = Venue::all();
         $therapists = User::whereHas('roles', function ($query) {
             $query->where('name', 'therapist');
-        })->get();  
+        })->get();
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
-        })->get(); 
-        return view('venues.create',compact('countries','therapists','siteAdmins'));
+        })->get();
+        return view('venues.create', compact('countries', 'therapists', 'siteAdmins'));
     }
-     
-    
+
+
     public function store(Request $request)
     {
-        // Validate the request data
+         
 
         $request->validate([
             'venue_id' => 'required',
-            'therapist_id' =>'required',
+            'therapist_id' => 'required',
             'siteadmin_id' => 'required',
             'type' => 'required',
             'venue_date' => 'required',
             'venue_addresses' => 'required',
-            'venue_starts' => 'required',
-            'venue_ends' => 'required', 
+            'slot_starts_at_morning' => 'required',
+            'slot_ends_at_morning' => 'required',
             'city' => 'required',
             'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
- 
+
         ]);
-        
+
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
-        $venueStarts = $request->input('venue_starts');
-        $venueEnds = $request->input('venue_ends'); 
-        $slotDuration = $request->input('slot_duration');  
-
-        $roomDetail = []; 
-        if($request->input('video_room')){
+        $venueStartsMorning = $request->input('slot_starts_at_morning');
+        $venueEndsMorning = $request->input('slot_ends_at_morning');
+        $venueStartsEvening = $request->input('slot_starts_at_evening', null);
+        $venueEndsEvening = $request->input('slot_ends_at_evening', null);
+        $slotDuration = $request->input('slot_duration');
+        $IsRecuureing = $request->input('is_recurring');
+        $recuureingTill = $request->input('recurring_till');
+        $dataArr = [];
+        $dayToSet = [];
+        $roomDetail = [];
+        if ($request->input('video_room')) {
             $roomName = str_replace(' ', '_', $request->input('video_room'));
             $roomDetail =  $this->createConferencePost($roomName);
         }
 
-            $venueAddress =   VenueAddress::create([
-                'city' => $request->input('city'), 
-                'state' =>  $request->input('state',null), 
-                'address' => $venueAdd,
-                'venue_date' => $venueDate,
-                'slot_starts_at' =>  $venueStarts,
-                'slot_ends_at' =>  $venueEnds,
-                'venue_id' => $request->input('venue_id'),
-                'therapist_id' => $request->input('therapist_id'),
-                'siteadmin_id' =>  $request->input('siteadmin_id'),
-                'type' => $request->input('type'),
-                'room_name' =>  (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
-                'room_sid' =>  (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,  
-                'slot_duration' => $slotDuration
-            ]);
-            $this->createVenueTimeSlots($venueAddress->id,$slotDuration);
-         
+        $dataArr = [
+            'city' => $request->input('city'),
+            'state' =>  $request->input('state', null),
+            'address' => $venueAdd,
+            'venue_date' => $venueDate,
+            'slot_starts_at_morning' =>  $venueStartsMorning,
+            'slot_ends_at_morning' =>  $venueEndsMorning,
+            'slot_starts_at_evening' =>  $venueStartsEvening,
+            'slot_ends_at_evening' =>  $venueEndsEvening,
+            'venue_id' => $request->input('venue_id'),
+            'therapist_id' => $request->input('therapist_id'),
+            'siteadmin_id' =>  $request->input('siteadmin_id'),
+            'type' => $request->input('type'),
+            'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
+            'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
+            'slot_duration' => $slotDuration,
+            'recurring_till' => $request->input('recurring_till')
+        ];
+        if (!empty($IsRecuureing)) {
+            foreach ($IsRecuureing as $key => $recuureing) {
+                $dataArr['is_'. $key] = ($recuureing == 'on') ? 1 : 0;
+                 
+                $dayToSet[] = $key; 
+            }
+        }
+
+     
+        if(!empty($dayToSet)){
+           
+            foreach($dayToSet as $day){
+                $futureDates = $this->RecurringDays($recuureingTill,$day);
+            }
+          
+            foreach($futureDates as $dates ){
+                $dataArr['venue_date'] = $dates; 
+                $venueAddress =   VenueAddress::create($dataArr);
+                $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
+            } 
+        }else{
+            $venueAddress =   VenueAddress::create($dataArr);
+            $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
+        }
         return redirect()->route('venues.index')->with('success', 'Venue created successfully');
     }
 
     public function edit($id)
     {
         $venueAddress = VenueAddress::findOrFail($id);
-        $countries = Venue::all();  
+        $countries = Venue::all();
         $therapists = User::whereHas('roles', function ($query) {
             $query->where('name', 'therapist');
-        })->get(); 
+        })->get();
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
-        })->get(); 
+        })->get();
 
-        return view('venues.create', compact('venueAddress','countries','therapists','siteAdmins'));
+        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins'));
     }
 
     public function update(Request $request, $id)
     {
         // Validate the request data
-         
+
         $VenueAddress = VenueAddress::findOrFail($id);
         $request->validate([
             'venue_id' => 'required',
-            'therapist_id' =>'required',
+            'therapist_id' => 'required',
             'siteadmin_id' => 'required',
             'type' => 'required',
             'venue_date' => 'required',
             'venue_addresses' => 'required',
-            'venue_starts' => 'required',
-            'venue_ends' => 'required', 
+            'slot_starts_at_morning' => 'required',
+            'slot_ends_at_morning' => 'required',
             'city' => 'required',
             'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
- 
+
         ]);
-        $roomDetail = []; 
-        if($request->input('video_room')!== $VenueAddress->room_name){
+        $roomDetail = [];
+        if ($request->input('video_room') !== $VenueAddress->room_name) {
             $roomDetail =  $this->createConferencePost($request->input('video_room'));
-        }       
+        }
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
-        $venueStarts = $request->input('venue_starts');
-        $venueEnds = $request->input('venue_ends');
-        $slotDuration = $request->input('slot_duration');  
-        $VenueAddress->update([
-            'city' => $request->input('city'), 
-            'state' =>  $request->input('state',null), 
+
+        $venueStartsMorning = $request->input('slot_starts_at_morning');
+        $venueEndsMorning = $request->input('slot_ends_at_morning');
+        $venueStartsEvening = $request->input('slot_starts_at_evening', null);
+        $venueEndsEvening = $request->input('slot_ends_at_evening', null);
+        $slotDuration = $request->input('slot_duration');
+
+
+        $dataArr = [
+            'city' => $request->input('city'),
+            'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
-            'slot_starts_at' =>  $venueStarts,
-            'slot_ends_at' =>  $venueEnds,
+            'slot_starts_at_morning' =>  $venueStartsMorning,
+            'slot_ends_at_morning' =>  $venueEndsMorning,
+            'slot_starts_at_evening' =>  $venueStartsEvening,
+            'slot_ends_at_evening' =>  $venueEndsEvening,
             'venue_id' => $request->input('venue_id'),
             'therapist_id' => $request->input('therapist_id'),
             'siteadmin_id' =>  $request->input('siteadmin_id'),
             'type' => $request->input('type'),
-            'room_name' =>  (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
-            'room_sid' =>  (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null, 
-            'slot_duration' => $slotDuration
-        ]);
+            'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
+            'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
+            'slot_duration' => $slotDuration,
+            'recurring_till' => $request->input('recurring_till')
+        ];
+ 
+        $VenueAddress->update($dataArr);
 
-         if($request->has('update_slots')){
-            
+        if ($request->has('update_slots')) {
             VenueSloting::where(['venue_address_id' => $id])->delete();
-            $this->createVenueTimeSlots($id , $slotDuration);
-         }
-            
-        
-
+            $this->createVenueTimeSlots($id, $slotDuration);
+        }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
+    }
+
+    private function RecurringDays($tillMonths,$day){
+        $currentDate = Carbon::now();
+        $nextTwoMonths = $currentDate->copy()->addMonths($tillMonths);
+         
+        $mondaysInNextTwoMonths = [];
+
+        while ($currentDate->lte($nextTwoMonths)) {
+            if ($day=='monday' && $currentDate->dayOfWeek === Carbon::MONDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='tuesday' && $currentDate->dayOfWeek === Carbon::TUESDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='wednesday' && $currentDate->dayOfWeek === Carbon::WEDNESDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='thursday' && $currentDate->dayOfWeek === Carbon::THURSDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='friday' && $currentDate->dayOfWeek === Carbon::FRIDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='saturday' && $currentDate->dayOfWeek === Carbon::SATURDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            if ($day=='sunday' && $currentDate->dayOfWeek === Carbon::SUNDAY) {
+                $mondaysInNextTwoMonths[] = $currentDate->copy();
+            }
+            $currentDate->addDay();
+        } 
+        $allDates =[];
+
+        foreach ($mondaysInNextTwoMonths as $monday) {
+            $allDates[] = $monday->format('Y-m-d');  
+        }
+        return  $allDates; 
     }
 
     public function destroy($id)
     {
-       
-        VenueAddress::destroy($id); 
+
+        VenueAddress::destroy($id);
         return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
     }
 
-    protected function createVenueTimeSlots($venueId,$slotDuration)
+    protected function createVenueTimeSlots($venueId, $slotDuration)
     {
         $venueAddress = VenueAddress::find($venueId);
 
@@ -175,18 +249,32 @@ class VenueController extends Controller
         // ->get()->first();
 
         // echo "<pre>"; print_r( $timezones); die; 
-         
+
 
         if (!$venueAddress) {
             return response()->json(['message' => 'Venue not found'], 404);
         }
-        
 
         // Define start and end times
-        $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at);
-        $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at);
+        $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
+        $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
 
+        if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
 
+            $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
+            $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
+
+            $currentTimeT = $startTimeevng;
+            while ($currentTimeT < $endTimeEvn) {
+                $slotTime = $currentTimeT->format('H:i');
+                VenueSloting::create([
+                    'venue_address_id' => $venueId,
+                    'slot_time' => $slotTime,
+                ]);
+                $currentTimeT->addMinute($slotDuration); // Move to the next minute
+            }
+
+        } 
         // Create time slots
         $currentTime = $startTime;
         while ($currentTime < $endTime) {
@@ -200,32 +288,14 @@ class VenueController extends Controller
         return response()->json(['message' => 'Time slots created successfully'], 200);
     }
 
-        private function createConferencePost($roomName){
+    private function createConferencePost($roomName)
+    {
 
-            $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-            $room = $twilio->video->v1->rooms->create([
-                'uniqueName' =>  $roomName,
-                'type' => 'peer-to-peer',
-            ]);
-            return ['room_name' =>$roomName,'room_sid' => $room->sid ]; 
-
-
-
-            // VideoConference::create(['room_name' =>$roomName,'room_sid' => $room->sid ]);
-            // $message = "Hi ,\n Join Meeting here\n".route('join.conference.show',[$room->sid]); 
-            // $this->SendMessage('+91','8950990009',$message); 
-
-            // $userName = Auth::user()->name;   
-            // $roomName = $this->fetchRoomName($room->sid); 
-            // $accessToken = $this->generateAccessToken($roomName,$userName);
-            // $room->sid
-            //  $room->uniqueName $room->type 
-            // return redirect()->route('join.conference.show',[$room->sid])->with([
-            //     'accessToken' => $accessToken,
-            //     'roomName' => $roomName,
-            //     'success' => 'You joined this Meeting',
-            //     'enable' => false,
-            //     'roomId' => $room->sid
-            // ]);  
-        } 
+        $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $room = $twilio->video->v1->rooms->create([
+            'uniqueName' =>  $roomName,
+            'type' => 'peer-to-peer',
+        ]);
+        return ['room_name' => $roomName, 'room_sid' => $room->sid];
+    }
 }

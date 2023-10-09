@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+<style>
+    .form-check-input{
+        cursor: pointer;
+    }
+    </style>
+
+    <div class="row mt-3">
         <div class="col-lg-12 margin-tb">
 
             <div class="action-top float-end mb-3">
@@ -49,7 +55,7 @@
 
                     <form method="POST" action="{{ route('venues.store') }}">
                 @endif
-
+                <div class="row mt-3">        
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
@@ -63,7 +69,7 @@
 
                 </div>
 
-                <div class="col-md-6 mt-4">
+                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
                         <select class="form-control" name="therapist_id">
@@ -74,7 +80,8 @@
                         </select>
                     </div>
                 </div>
-
+                </div>
+                <div class="row mt-3">
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
@@ -94,78 +101,191 @@
 
                     </div>
                 </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">City </span>
+                            {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
 
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">City </span>
-                        {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Venue Addresses</span>
+
+                            {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Address',
+                                'cols' => 10,
+                            ]) !!}
+
+                        </div>
 
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Date </span>
+                            {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Date',
+                                'min' => date('Y-m-d'),
+                            ]) !!}
+
+                        </div>
+                    </div>
 
 
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">Venue Addresses</span>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Slot Duration</span>
+                            {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Add Slot Duration in Mint',
+                            ]) !!}
 
-                        {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'Address',
-                            'cols' => 10,
-                        ]) !!}
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4 ">
+                        <div class="input-group">
+                            <span class="input-group-text">starts at (Morning)</span>
+                            {!! Form::time('slot_starts_at_morning', $venueAddress->slot_starts_at_morning ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Starts',
+                            ]) !!}
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">ends at (Morning)</span>
+                            {!! Form::time('slot_ends_at_morning', $venueAddress->slot_ends_at_morning ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'ends',
+                            ]) !!}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+
+                    <div class="col-md-6 mt-4 ">
+                        <div class="input-group">
+                            <span class="input-group-text">starts at (Evening)</span>
+                            {!! Form::time('slot_starts_at_evening', $venueAddress->slot_starts_at_evening ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Starts',
+                            ]) !!}
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">ends at (Evening)</span>
+                            {!! Form::time('slot_ends_at_evening', $venueAddress->slot_ends_at_evening ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'ends',
+                            ]) !!}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-3 mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="" name="is_recurring[sunday]"
+                            
+                            @if(!empty($venueAddress) && $venueAddress->is_sunday == 1)
+                             checked 
+                            @endif
+                            >
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Every Sunday</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="" name="is_recurring[monday]"
+                            @if(!empty($venueAddress) && $venueAddress->is_monday == 1)
+                             checked 
+                            @endif
+                            
+                            >
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Every Monday</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="tuesday" name="is_recurring[tuesday]"
+                            @if(!empty($venueAddress) && $venueAddress->is_tuesday == 1) checked @endif
+                            >
+                            <label class="form-check-label" for="tuesday">Every Tuesday</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mt-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="wednesday"
+                                name="is_recurring[wednesday]"
+                                @if(!empty($venueAddress) && $venueAddress->is_wednesday == 1) checked @endif    
+                            >
+                            <label class="form-check-label" for="wednesday">Every Wednesday</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-3 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="thursday"
+                                name="is_recurring[thursday]"
+                                @if(!empty($venueAddress) && $venueAddress->is_thursday == 1) checked @endif    
+                                >
+                            <label class="form-check-label" for="thursday">Every Thursday</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="friday" name="is_recurring[friday]"
+                            @if(!empty($venueAddress) && $venueAddress->is_friday == 1) checked @endif 
+                            >
+                            <label class="form-check-label" for="tuesday">Every Friday</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="saturday"
+                                name="is_recurring[saturday]"  @if(!empty($venueAddress) && $venueAddress->is_saturday == 1) checked @endif>
+                            <label class="form-check-label" for="tuesday">Every Saturday</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Recurring Till How many Month ? </span>
+                            {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'ends',
+                            ]) !!}
+
+                        </div>
                     </div>
 
                 </div>
 
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">Date </span>
-                        {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'Date',
-                            'min' => date('Y-m-d'),
-                        ]) !!}
-
-                    </div>
-                </div>
-
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">Slot Duration</span>
-                        {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'Add Slot Duration in Mint',
-                        ]) !!}
-
-                    </div>
-                </div>
-
-
-                <div class="col-md-6 mt-4 ">
-                    <div class="input-group">
-                        <span class="input-group-text">starts at</span>
-                        {!! Form::time('venue_starts', $venueAddress->slot_starts_at ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'Starts',
-                        ]) !!}
-
-                    </div>
-                </div>
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">ends at</span>
-                        {!! Form::time('venue_ends', $venueAddress->slot_ends_at ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'ends',
-                        ]) !!}
-
-                    </div>
-                </div>
 
 
 
-                <div class="form-group mt-4">
+                <div class="row mt-3">
+                <div class="col-md-6  mt-4">
                     <label for="type">Type</label>
                     <div>
                         <input type="radio" id="on-site" name="type" value="on-site"
@@ -188,6 +308,7 @@
                         ]) !!}
 
                     </div>
+                </div>
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
                     <div class="form-check">
@@ -213,13 +334,13 @@
             var venueAddresses = $(".venue-addresses");
             var venuehtml = $("#venue-htm").html();
             $(document).on('click', ".add-address", function() {
-                venueAddresses.append('<div class="row g-3 mt-3">' + venuehtml + '</div>');
+                venueAddresses.append('<div class="row mt-3 g-3 mt-3">' + venuehtml + '</div>');
                 $(".venue-addresses").find('.remove-address').removeClass('d-none');
             })
 
 
             venueAddresses.on("click", ".remove-address", function() {
-                $(this).closest('.row').remove();
+                $(this).closest('.row mt-3').remove();
             });
         });
     </script>

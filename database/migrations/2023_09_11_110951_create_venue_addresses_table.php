@@ -20,12 +20,26 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->text('address');
             $table->date('venue_date'); 
-            $table->time('slot_starts_at');
-            $table->time('slot_ends_at');
+            $table->time('slot_starts_at_morning');
+            $table->time('slot_ends_at_morning');
+
+            $table->time('slot_starts_at_evening');
+            $table->time('slot_ends_at_evening');
+
             $table->enum('type', ['on-site', 'virtual']);
             $table->string('room_name')->nullable();
             $table->string('room_sid')->nullable();
             $table->integer('slot_duration')->default(1);
+
+            $table->integer('is_monday')->default(0);  
+            $table->integer('is_tuesday')->default(0);  
+            $table->integer('is_wednesday')->default(0);  
+            $table->integer('is_thursday')->default(0);  
+            $table->integer('is_friday')->default(0);  
+            $table->integer('is_saturday')->default(0);  
+            $table->integer('is_sunday')->default(0); 
+            $table->integer('recurring_till')->default(0); 
+             
 
             $table->timestamps(); 
             $table->foreign('venue_id')

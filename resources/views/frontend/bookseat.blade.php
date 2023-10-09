@@ -33,6 +33,9 @@
         .cusmhtn {font-size: 12px;}
 
         }
+        .btn.next{
+            background: #f9d20a !important; 
+        }
         @media (min-width:1024px){.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:380px}.error.country_code{bottom:-35px}}figcaption{font-size:10px}
         .thripist-section img{height:50%;width:50%;border-radius:20%}
 
