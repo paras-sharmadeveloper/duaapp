@@ -36,13 +36,16 @@
                     <div class="card-header">Create a Conference</div>
 
                     <div class="card-body mt-4">
+
+                        @php $counter = 0 @endphp
                         @foreach ($venues as $venue)
+                        @if ($counter % 3 == 0)
+                            <div class="row">
+                        @endif
+                        <div class="col-lg-4">
                             <form method="POST" action="{{ route('join.conference.post', [$venue->room_sid]) }}">
-                                @csrf
-
-
-
-                                <div class="card" style="width: 18rem;">
+                                @csrf 
+                                <div class="card"  >
                                     <img src="{{ asset('/assets/theme/img/vedio-call.png') }}" class="card-img-top"
                                         alt="...">
                                     <div class="card-body text-center">
@@ -64,6 +67,11 @@
                                     value="{{ $venue->room_name }}">
 
                             </form>
+                        </div>
+                        @if ($counter % 3 == 2 || $loop->last)
+                    </div>
+                @endif
+                        @php $counter++ @endphp
                         @endforeach
                     </div>
                 </div>

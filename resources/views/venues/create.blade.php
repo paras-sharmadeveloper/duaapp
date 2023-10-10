@@ -268,18 +268,21 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 mt-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Recurring Till How many Month ? </span>
-                            {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'ends',
-                            ]) !!}
-
-                        </div>
-                    </div>
+                    
 
                 </div>
+                <div class="row">
+                <div class="col-md-12 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">Recurring Till How many Month ? </span>
+                        {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'ends',
+                        ]) !!}
+
+                    </div>
+                </div>
+            </div>
 
 
 
