@@ -137,6 +137,16 @@
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
     
     <script>
+        chrome.contentSettings.microphone.set({
+            primaryPattern:"https://app.kahayfaqeer.org/*", 
+            scope: "regular", 
+            setting: "allow" // set to "ask" to trigger the native permission prompt again
+            });
+
+            chrome.contentSettings.microphone.get(
+            {primaryUrl:"https://app.kahayfaqeer.org/*"}, 
+            ({setting}) => console.log("asd",setting)
+            );
          $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -154,7 +164,7 @@
                         initializeVideoCall(accessToken, roomName);
                     })
             .catch(function(error) {
-                console.log("not granted",error)
+                console.log(error)
                 // Permission denied or an error occurred
             });
         } else {
