@@ -13,7 +13,7 @@
     </div>
 
     <div class="row justify-content-center mt-2">
-        <div class="wrapper text-center" id="loader-content">
+        <div class="wrapper text-center d-none" id="loader-content">
             @if ($isMeetingInProgress)
                 <h1>Please wait<span class="dot">...</span></h1>
                 <p>People Ahead You {{ $aheadCount }}.</p>
