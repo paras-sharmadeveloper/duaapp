@@ -151,6 +151,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/bookings/list', [VistorsController::class, 'list'])->name('booking.list');
     Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit');
     Route::put('/bookings/update/{id}', [VistorsController::class, 'update'])->name('booking.update');
-    Route::delete('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
+    Route::post('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
 });
 // RMb28cc2048ae67bf97983cab765febaa6
