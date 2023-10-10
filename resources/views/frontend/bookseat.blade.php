@@ -37,9 +37,15 @@
         }
         @media (min-width:1024px){
             .row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:380px}.error.country_code{bottom:-35px}
-            .head label { font-size: 20px !important;}
+            
         
-        }figcaption{font-size:10px}
+        }
+        @media (min-width: 768px) and (max-width: 1024px){ 
+            .head label { font-size: 20px !important;}
+        }
+        
+        
+        figcaption{font-size:10px}
         .thripist-section img{height:100%;width:100%;max-height:200px;}
 
         .loader-img{height:64px;width:64px!important}#progressBar .w-25{width:14%!important}.row .loader-img{margin:auto}
