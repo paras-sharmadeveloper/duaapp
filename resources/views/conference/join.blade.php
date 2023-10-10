@@ -71,6 +71,17 @@
                     </div>
                 @endif
                 <div class="row d-flex justify-content-evenly" id="camera-div" style="display: none">
+
+                    <div class="col-lg-6 text-center">
+                        <div id="remote-video">
+                            <img class="veio" src="/assets/theme/img/avatar.png">
+                        </div>
+                        <div class="info">
+                            <label for="username"> Participant </label>
+                            <hr>
+                        </div>
+
+                    </div>
                     <div class="col-lg-6 text-center">
                         <div id="local-video">
                             <img class="veio" src="/assets/theme/img/avatar.png">
@@ -98,30 +109,22 @@
                         </div>
 
                     </div>
-                    <div class="col-lg-6 text-center">
-                        <div id="remote-video">
-                            <img class="veio" src="/assets/theme/img/avatar.png">
-                        </div>
-                        <div class="info">
-                            <label for="username"> Participant </label>
-                            <hr>
-                        </div>
-
-                    </div>
+                    
  
                 </div>
                 <div class="row  mt-5">
-                    <div class="col-lg-12 text-center">
+                    <div class="col-lg-12 text-center  py-4">
                         @php 
                             $status = (\Auth::user()->status == 'online') ? 'offline' : 'online'; 
                         @endphp
                         <button id="update-status" 
                             @if($status == 'offline')
-                            class="btn btn-outline-danger btn-block"                   
+                            class="btn btn-outline-success btn-block"                
                             @else
-                            class="btn btn-outline-success btn-block"
+                            class="btn btn-outline-danger btn-block"    
+                           
                             @endif
-                        data-status="{{  $status }}">{{ ( $status == 'online') ? 'Resume Meeting' : 'Hold Meeting' }}</button>
+                        data-status="{{  $status }}">{{ ( $status == 'online') ? 'Hold Meeting' : 'Resume Meeting' }}</button>
                     </div>
                 </div>
 
@@ -155,7 +158,7 @@
                         initializeVideoCall(accessToken, roomName);
                     })
             .catch(function(error) {
-                console.log(error)
+                console.log("error",error)
                 // Permission denied or an error occurred
             });
         } else {

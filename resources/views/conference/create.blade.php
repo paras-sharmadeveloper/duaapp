@@ -33,7 +33,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Create a Conference</div>
+                    <div class="card-header">Start a Conference</div>
 
                     <div class="card-body mt-4">
 
