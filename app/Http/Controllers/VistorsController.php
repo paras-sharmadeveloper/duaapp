@@ -101,9 +101,8 @@ class VistorsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function DeleteNow($id)
     {
-        echo $id; die;
         $booking = Vistors::find($id);
         $booking->delete();
         return redirect()->route('booking.list')->with('success', 'Booking deleted successfully!');

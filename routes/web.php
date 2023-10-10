@@ -122,7 +122,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
-    Route::post('/visitor/{id}/delete',[VistorsController::class,'destroy'])->name('visitor.delete');
+    Route::post('/visitor/{id}/delete',[VistorsController::class,'DeleteNow'])->name('visitor.delete');
    
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
