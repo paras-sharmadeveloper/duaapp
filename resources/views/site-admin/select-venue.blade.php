@@ -52,9 +52,9 @@
                                     $startTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_starts_at)->format('h:i A');
                                     $endTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_ends_at)->format('h:i A');
                                 @endphp
-                                
+                                 <div class="col-lg-4">     
                                 <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}">
-                                    <div class="col-lg-4">
+                                  
                                         <div class="box">
                                             <div class="icon">
                                                 @if (
@@ -78,8 +78,9 @@
                                             <p class="description text-center">{{ $venueAdd->city }}</p>
                                             <p class="description text-center">{{ $venueAdd->address }}</p>
                                         </div>
-                                    </div>
+                                    
                                 </a>
+                            </div>
                                 @if ($counter % 3 == 2 || $loop->last)
                                     </div>
                                 @endif
