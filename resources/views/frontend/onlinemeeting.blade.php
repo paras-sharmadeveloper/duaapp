@@ -7,8 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <div class="d-flex justify-content-center py-4">
         <a href="index.html" class="logoo  d-flex align-items-center wuto">
-            <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-            <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
+            <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""> 
         </a>
     </div>
 
@@ -117,10 +116,7 @@
                         <div class="info">
                             <label for="username"> You </label>
                             <hr>
-                        </div>
-                        
-
-
+                        </div> 
                     </div>
                    
 

@@ -41,16 +41,20 @@
 
                             {{-- <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus.</p> --}}
                         </header>
-
+                        @php $counter = 0 @endphp
                         <div class="row">
                             @foreach ($venueAddress as $venueAdd)
+                            @if ($counter % 3 == 0)
+                                <div class="row">
+                            @endif
                                 @php
                                     
                                     $startTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_starts_at)->format('h:i A');
                                     $endTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_ends_at)->format('h:i A');
                                 @endphp
+                                
                                 <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}">
-                                    <div class="col-md-6 col-lg-4">
+                                    <div class="col-lg-4">
                                         <div class="box">
                                             <div class="icon">
                                                 @if (
@@ -76,9 +80,12 @@
                                         </div>
                                     </div>
                                 </a>
+                                @if ($counter % 3 == 2 || $loop->last)
+                                    </div>
+                                @endif
+                                @php $counter++ @endphp
                             @endforeach
-
-                        </div>
+ 
                     </div>
                 </section>
             @endif
