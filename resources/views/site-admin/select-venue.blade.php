@@ -64,8 +64,7 @@
                                                         class="imgh" alt="Flag Image" style="height: 65px; width: 65px;">
                                                 @else
                                                     <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                                        class="imgh" alt="Default Image"
-                                                        style="height: 65px; width: 65px;">
+                                                        class="imgh" alt="Default Image" >
                                                 @endif
                                                 {{-- <i class="fa fa-briefcase service-icon" style="color: #c59c35;"></i> --}}
                                             </div>
@@ -160,9 +159,7 @@
             padding-top: 12px;
             display: inline-block;
             text-align: center;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px
+            border-radius: 50%; 
         }
 
         #services .icon .service-icon {
