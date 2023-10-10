@@ -137,20 +137,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/join-conference/start', [VideoConferenceController::class, 'StartConferenceShow'])->name('join.conference.show');
     Route::get('/join-conference/meeting/start', [VideoConferenceController::class, 'joinConference'])->name('join.conference');
     Route::post('/join-conference/post/{roomId}', [VideoConferenceController::class, 'joinConferencePost'])->name('join.conference.post');
-
     Route::post('/visitor/request/list', [VideoConferenceController::class, 'VisitorRequests'])->name('visitor.list');
-
-
-
-
     Route::get('/design', [VideoConferenceController::class, 'design'])->name('design');
-
     Route::get('/booking/create', [VistorsController::class, 'create'])->name('booking.create');
     Route::post('/booking/store', [VistorsController::class, 'storeOrUpdate'])->name('booking.store');
     Route::post('/booking/update/{id}', [VistorsController::class, 'storeOrUpdate'])->name('booking.update');
     Route::get('/bookings/list', [VistorsController::class, 'list'])->name('booking.list');
-    Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit');
-    Route::put('/bookings/update/{id}', [VistorsController::class, 'update'])->name('booking.update');
+    Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit'); 
     Route::post('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
 });
 // RMb28cc2048ae67bf97983cab765febaa6
