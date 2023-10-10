@@ -144,12 +144,19 @@
         });
         var accessToken = "{{ Request::get('accessToken') }}";
         var roomName = "{{ Request::get('roomName') }}";
-        var siteAdmin = "{{ Request::get('side_admin')   }}"
+        var siteAdmin = "{{ Request::get('side_admin') }}"
 
         let twillioRoom; // Declare room as a global variable
 
         if (accessToken && roomName) {
-            initializeVideoCall(accessToken, roomName);
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(function(stream) {
+                        initializeVideoCall(accessToken, roomName);
+                    })
+            .catch(function(error) {
+                console.log("not granted",error)
+                // Permission denied or an error occurred
+            });
         } else {
             console.error('Access token or room name is missing.');
         }
