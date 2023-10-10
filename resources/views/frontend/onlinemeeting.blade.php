@@ -13,7 +13,7 @@
     </div>
 
     <div class="row justify-content-center mt-2">
-        <div class="wrapper text-center d-none" id="loader-content">
+        <div class="wrapper text-center" id="loader-content">
             @if ($isMeetingInProgress)
                 <h1>Please wait<span class="dot">...</span></h1>
                 <p>People Ahead You {{ $aheadCount }}.</p>
@@ -569,11 +569,11 @@
         })
 
         setTimeout(function() {
-            if (isMeetingHaveFifiten) {
+            // if (isMeetingHaveFifiten) {
                 $("#main-content").fadeIn();
                 $("body").css("background-color", "#f6f9ff");
                 $("#loader-content").fadeOut();
-            }
+            // }
             $(".alert").fadeOut();
 
         }, 1000);
