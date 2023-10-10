@@ -94,13 +94,13 @@ class VideoConferenceController extends Controller
             $isFifteenMinutesRemaining = ($interval->i <= 15) ? true : false;
             // Check if the meeting is already in progress
             // $isMeetingInProgress = false;
-            $isMeetingInProgress = true;
+            $isMeetingInProgress = false;
         } else if ($currentDateTime->isAfter($meetingEndsTime)) {
             // Meeting has already passed, display an error message
             $timeRemaining = "The meeting has already taken place.";
             // You can redirect or display the error message as needed.
             // $isMeetingInProgress = false;
-            $isMeetingInProgress = true;
+            $isMeetingInProgress = false;
         } else {
             $isFifteenMinutesRemaining = true;
             // The meeting is already in progress
