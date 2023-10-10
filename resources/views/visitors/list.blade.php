@@ -25,10 +25,12 @@
                             <td>{{ $booking->visit_datetime }}</td>
                             <td>
                                 <a href="{{ route('booking.edit', ['id' => $booking->id]) }}" class="btn btn-primary">Edit</a>
+
+                               
                                 <form action="{{ route('booking.delete', ['id' => $booking->id]) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
-                                    @method('DELETE')
+                                @method('delete')
                                     <button type="submit" class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
                                 </form>
