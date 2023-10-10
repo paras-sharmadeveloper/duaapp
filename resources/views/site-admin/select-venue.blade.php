@@ -57,11 +57,10 @@
                                   
                                         <div class="box">
                                             <div class="icon">
-                                                @if (
-                                                    !empty($venueAdd->user->profile_pic) &&
+                                                @if (!empty($venueAdd->user->profile_pic) &&
                                                         Storage::disk('s3_general')->exists('images/' . $venueAdd->user->profile_pic))
                                                     <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $venueAdd->user->profile_pic }}"
-                                                        class="imgh" alt="Flag Image" style="height: 65px; width: 65px;">
+                                                        class="imgh" alt="Flag Image">
                                                 @else
                                                     <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                                                         class="imgh" alt="Default Image" >
