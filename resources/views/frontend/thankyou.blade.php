@@ -1,5 +1,12 @@
 @extends('layouts.guest')
 @section('content') 
+<style>
+    body {
+    font-family: "Open Sans", sans-serif;
+    background: rgb(29, 29, 29) !important;
+    color: #444444;
+}
+</style>
 <div class="vh-100 d-flex justify-content-center align-items-center">
     <div class="col-md-12">
         <div class="border border-3 border-success"></div>
