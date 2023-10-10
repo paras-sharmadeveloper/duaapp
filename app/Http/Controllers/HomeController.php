@@ -506,6 +506,36 @@ class HomeController extends Controller
     Vistors::find($id)->delete();
     return redirect()->route('venues.index')->with('success', 'Venue deleted successfully');
   }
+  public function getIpDetails($userIp)
+  {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
 
+    $response = curl_exec($curl);
+    $result = json_decode($response, true);
+
+    curl_close($curl);
+
+    $data = [
+      'user_ip' => $userIp,
+      'countryName' => $result['countryName'],
+      'regionName' => $result['regionName'],
+      'city' => $result['city'],
+      'postalCode' => $result['postalCode'],
+      'complete_data' => $response
+    ];
+
+    Ipinformation::create($data);
+    return $result;
+  }
  
 }
