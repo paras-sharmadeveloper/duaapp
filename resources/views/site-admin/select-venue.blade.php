@@ -77,9 +77,10 @@
                                                 </strong></span>
                                             <p class="description text-center">{{ $venueAdd->city }}</p>
                                             <p class="description text-center">{{ $venueAdd->address }}</p>
+                                            <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}" class="btn btn-outline-info text-center">Start</a>
                                         </div>
                                     
-                                        <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}" class="btn btn-outline-info">Start</a>
+                                        
                             </div>
                                 @if ($counter % 3 == 2 || $loop->last)
                                     </div>
