@@ -15,9 +15,8 @@
             .head {  display: inherit !important;margin-top: 10px;}
             span.select2.select2-container.select2-container--default{width:100%!important;flex:auto!important}.col{flex-shrink:0!important;flex:auto}.row.justify-content-center.form-business.sloting-main .sloting-inner{max-height:375px}.selfie{text-align:center}.p-4{padding:.5rem!important}.card{margin-bottom:20px}.logoo img{height:50px;width:50px}.mt-4{margin-top:.5rem!important}.error.country_code{font-size:14px;bottom:-20px}.row .loader-img{margin:17px!important}
         .thripist-section img {
-            height: 30% !important;
-            width: 30% !important;
-            border-radius: 20%;
+            height: 100% !important;
+            width: 100% !important; 
         }
         .col-lg-6 {
             flex: 0 0 auto;
@@ -325,7 +324,7 @@
                         
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-2 row-cols-lg-3 g-4 pb-2 border-bottom">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($therapists as $therapist)
                                 <div class="col-lg-3 col-md-4">
                                     <div class="card text-center h-60 py-2 shadow-sm thripist-section"
@@ -527,7 +526,7 @@
                                 
 
                                 <div class="row g-3 mb-3"> 
-                                        <div class="col col-lg-5  col-md-5">
+                                        <div class="col col-lg-5  col-md-6">
 
                                             <select id="country_code" name="country_code" class="js-states form-control">
                                                 <option value="">select</option>
@@ -539,7 +538,7 @@
 
                                         </div>
                                        
-                                        <div class="col col-lg-7 col-md-12" id="mobile-number">
+                                        <div class="col col-lg-7 col-md-6" id="mobile-number">
                                             <input type="number" class="form-control" id="mobile" name="mobile"
                                                 placeholder="Eg:8884445555" aria-label="Mobile">
                                                 <p> </p>
@@ -948,7 +947,7 @@
                         var html = '';
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
-                                html += `<div class="col col-lg-3 col-md-7">
+                                html += `<div class="col col-lg-3 col-md-6">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
