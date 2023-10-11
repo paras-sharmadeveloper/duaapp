@@ -14,6 +14,7 @@
             box-sizing: border-box;
             font-family: poppins, sans-serif
         }
+        body{ background-color: rgb(29, 29, 29); }
 
         .active {
             opacity: 1;
