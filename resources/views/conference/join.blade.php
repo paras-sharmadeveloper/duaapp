@@ -153,14 +153,14 @@
         let twillioRoom; // Declare room as a global variable
 
         if (accessToken && roomName) {
-            navigator.mediaDevices.getUserMedia({ video: true ,audio:true})
-            .then(function(stream) {
+            // navigator.mediaDevices.getUserMedia({ video: true ,audio:true})
+            // .then(function(stream) {
                         initializeVideoCall(accessToken, roomName);
-                    })
-            .catch(function(error) {
-                console.log("error",error)
-                // Permission denied or an error occurred
-            });
+                    // })
+            // .catch(function(error) {
+            //     console.log("error",error)
+            //     // Permission denied or an error occurred
+            // });
         } else {
             console.error('Access token or room name is missing.');
         }
