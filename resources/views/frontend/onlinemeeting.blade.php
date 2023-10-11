@@ -333,7 +333,7 @@
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
         var intervalId = setInterval(function() {
-            checkParticipantStatus(visitorId); conosle.log("ok"); 
+            checkParticipantStatus(visitorId); console.log("ok"); 
             // if (checkParticipantStatus(visitorId)) {
             //     clearInterval(intervalId); // Clear the interval when the condition is met
             // }
