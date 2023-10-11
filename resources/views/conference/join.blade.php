@@ -110,6 +110,8 @@
     /* Tablet styles */
 
     @media screen and (max-width: 767px) {
+
+        .you { background: transparent !important;}
          
         .container {
             margin-left: 0 !important;
@@ -142,7 +144,7 @@
     /* Mobile styles */
 
     @media screen and (max-width: 480px) {
-       
+        .you { background: transparent !important;}
 
         .col-1 .contarols img {
             margin: 10px 5px !important;
