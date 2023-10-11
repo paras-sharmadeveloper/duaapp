@@ -1,6 +1,12 @@
 @extends('layouts.guest')
 
 @section('content')
+<div class="d-flex justify-content-center py-4">
+    <a href="index.html" class="logoo  d-flex align-items-center wuto">
+        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+    </a>
+</div>
+
     <style>
         * {
             margin: 0;
@@ -218,8 +224,8 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
-                <span class="text-danger counter-span" style="display: none">Call auto disconect when time
-                    ends</span>
+                <span class="text-danger counter-span" style="display: none">
+                    Call auto disconect when time ends</span>
             </div>
         </div>
 
@@ -321,13 +327,7 @@
                     console.error("An error occurred while fetching the participant list.");
                 },
             });
-        }
-
-
-
-
-
-
+        } 
         $("#asktojoin").click(function() {
 
             $.ajax({
@@ -342,17 +342,12 @@
                     // Handle the response from the server
 
                     $("#action-btns").show();
-                    $("#asktojoin").hide();
-
-                    // Request successful
+                    $(".asktojoin").hide(); 
                     alert("Request to join sent successfully.");
-                    $("#response").text(
-                        "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
-                    );
+                    $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request");
 
                 },
-                error: function() {
-                    // Request failed
+                error: function() { 
                     alert("An error occurred while sending the request.");
                 },
             });
