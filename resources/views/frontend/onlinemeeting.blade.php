@@ -4,9 +4,7 @@
     <style>
        *{margin:0;padding:0;box-sizing:border-box;font-family:poppins,sans-serif}.active{opacity:1;background:#4d6181}.invite,.joined,.you{background:#182842;border-radius:15px;color:#fff}.container{margin-left:10px;padding:0 2.5%}.top-icons{display:flex;align-items:center;justify-content:flex-end;padding:25px 0}.invite,.joined{padding:10px 35px}.top-icons img{width:25px;margin-left:40px;cursor:pointer}.row{margin-top:15px;display:flex;justify-content:space-between}.col-1{flex-basis:65%}.col-2{flex-basis:33%}.host-img,video{width:100%;border-radius:15px}.contarols{display:flex;align-items:center;justify-content:center}.contarols img{width:40px;cursor:pointer;transition:transform .5s}.invite,.invite img,.joined div{margin-top:20px}.contarols .call-icon{width:70px}.contarols img:hover{transform:translateY(-10px)}.joined div{grid-template-columns:auto auto auto;grid-gap:20px}.joined img{width:100%;border-radius:10px;cursor:pointer}.you{padding:30px 40px 50px}@media screen and (max-width:767px){.you{background:0 0!important}.container{margin-left:0!important;padding:0 5%!important}.row{flex-direction:column!important}.col-1,.col-2{width:100%!important}.contarols{width:row!important}.contarols img{width:30px!important;margin:2px 8px!important}.contarols .call-icon{width:50px!important}}@media screen and (max-width:480px){.col-1 .contarols img,.contarols img{margin:10px 5px!important}.you{background:0 0!important}.contarols img{width:20px!important}.joined img{width:100%!important}}.inactive{display:none}.active{display:block!important}div#append-pending-list{display:flex;justify-content:space-between}
     </style>
-
-    <div class="headedd">
-        <div class="container-fluid">
+ 
             <div class="top-iconsa"> 
             </div>
             <div class="wrapper text-center" id="loader-content">
@@ -78,8 +76,7 @@
                 </div>
 
             </div>
-        </div>
-    </div>
+         
 @endsection
 
 

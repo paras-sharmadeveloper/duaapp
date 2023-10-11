@@ -1,6 +1,6 @@
 @include('layouts.guest-head')
 <main>
-    <div class="container">
+    <div class="container-fluid">
 
       @yield('content')
 
