@@ -195,7 +195,7 @@
         @endif
     </div>
 
-    <div class="row">
+    <div class="row asktojoin">
         @if ($vistor->user_status == 'no_action')
             <div class="col-lg-12 text-center mt-5">
                 <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
