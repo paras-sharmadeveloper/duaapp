@@ -215,6 +215,14 @@
 
     <div class="row" id="main-content" style="display: none">
 
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
+                <span class="text-danger counter-span" style="display: none">Call auto disconect when time
+                    ends</span>
+            </div>
+        </div>
+
         <div class="col-1 you">
             <div id="remote-video">
                 <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
