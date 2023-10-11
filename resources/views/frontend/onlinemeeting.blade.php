@@ -2,81 +2,250 @@
 
 @section('content')
     <style>
-       *{margin:0;padding:0;box-sizing:border-box;font-family:poppins,sans-serif}.active{opacity:1;background:#4d6181}.invite,.joined,.you{background:#182842;border-radius:15px;color:#fff}.container{margin-left:10px;padding:0 2.5%}.top-icons{display:flex;align-items:center;justify-content:flex-end;padding:25px 0}.invite,.joined{padding:10px 35px}.top-icons img{width:25px;margin-left:40px;cursor:pointer}.row{margin-top:15px;display:flex;justify-content:space-between}.col-1{flex-basis:65%}.col-2{flex-basis:33%}.host-img,video{width:100%;border-radius:15px}.contarols{display:flex;align-items:center;justify-content:center}.contarols img{width:40px;cursor:pointer;transition:transform .5s}.invite,.invite img,.joined div{margin-top:20px}.contarols .call-icon{width:70px}.contarols img:hover{transform:translateY(-10px)}.joined div{grid-template-columns:auto auto auto;grid-gap:20px}.joined img{width:100%;border-radius:10px;cursor:pointer}.you{padding:30px 40px 50px}@media screen and (max-width:767px){.you{background:0 0!important}.container{margin-left:0!important;padding:0 5%!important}.row{flex-direction:column!important}.col-1,.col-2{width:100%!important}.contarols{width:row!important}.contarols img{width:30px!important;margin:2px 8px!important}.contarols .call-icon{width:50px!important}}@media screen and (max-width:480px){.col-1 .contarols img,.contarols img{margin:10px 5px!important}.you{background:0 0!important}.contarols img{width:20px!important}.joined img{width:100%!important}}.inactive{display:none}.active{display:block!important}div#append-pending-list{display:flex;justify-content:space-between}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: poppins, sans-serif
+        }
+
+        .active {
+            opacity: 1;
+            background: #4d6181
+        }
+
+        .invite,
+        .joined,
+        .you {
+            background: #182842;
+            border-radius: 15px;
+            color: #fff
+        }
+
+        .container {
+            margin-left: 10px;
+            padding: 0 2.5%
+        }
+
+        .top-icons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 25px 0
+        }
+
+        .invite,
+        .joined {
+            padding: 10px 35px
+        }
+
+        .top-icons img {
+            width: 25px;
+            margin-left: 40px;
+            cursor: pointer
+        }
+
+        .row {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .col-1 {
+            flex-basis: 65%
+        }
+
+        .col-2 {
+            flex-basis: 33%
+        }
+
+        .host-img,
+        video {
+            width: 100%;
+            border-radius: 15px
+        }
+
+        .contarols {
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .contarols img {
+            width: 40px;
+            cursor: pointer;
+            transition: transform .5s
+        }
+
+        .invite,
+        .invite img,
+        .joined div {
+            margin-top: 20px
+        }
+
+        .contarols .call-icon {
+            width: 70px
+        }
+
+        .contarols img:hover {
+            transform: translateY(-10px)
+        }
+
+        .joined div {
+            grid-template-columns: auto auto auto;
+            grid-gap: 20px
+        }
+
+        .joined img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer
+        }
+
+        .you {
+            padding: 30px 40px 50px
+        }
+
+        @media screen and (max-width:767px) {
+            .you {
+                background: 0 0 !important
+            }
+
+            .container {
+                margin-left: 0 !important;
+                padding: 0 5% !important
+            }
+
+            .row {
+                flex-direction: column !important
+            }
+
+            .col-1,
+            .col-2 {
+                width: 100% !important
+            }
+
+            .contarols {
+                width: row !important
+            }
+
+            .contarols img {
+                width: 30px !important;
+                margin: 2px 8px !important
+            }
+
+            .contarols .call-icon {
+                width: 50px !important
+            }
+        }
+
+        @media screen and (max-width:480px) {
+            .you,video {padding: 20px 20px 30px !important;}
+            div#local-video { text-align: center !important;}
+            div#local-video img,video {height: 200px !important;width: 200px !important;}
+                .col-1 .contarols img,
+            .contarols img {
+                margin: 10px 5px !important
+            }
+
+            .you {
+                background: 0 0 !important
+            }
+
+            .contarols img {
+                width: 20px !important
+            }
+
+            .joined img {
+                width: 100% !important
+            }
+        }
+
+        .inactive {
+            display: none
+        }
+
+        .active {
+            display: block !important
+        }
+
+        div#append-pending-list {
+            display: flex;
+            justify-content: space-between
+        }
     </style>
- 
-            <div class="top-iconsa"> 
+
+    <div class="top-iconsa">
+    </div>
+    <div class="wrapper text-center" id="loader-content">
+        @if ($isMeetingInProgress)
+            <h1>Please wait<span class="dot">...</span></h1>
+            <p>People Ahead You {{ $aheadCount }}.</p>
+            <p>People Served {{ $servedCount }}.</p>
+            servedCount
+            <p>Approx time will be : {{ $estimatedWaitTime }} Minutes </p>
+            <div class="icons">
+                <a href=""><i class="fa fa-twitter"></i></a>
+                <a href=""><i class="fa fa-youtube-play"></i></a>
+                <a href=""><i class="fa fa-paper-plane"></i></a>
             </div>
-            <div class="wrapper text-center" id="loader-content">
-                @if ($isMeetingInProgress)
-                    <h1>Please wait<span class="dot">...</span></h1>
-                    <p>People Ahead You {{ $aheadCount }}.</p>
-                    <p>People Served {{ $servedCount }}.</p>
-                    servedCount
-                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes </p>
-                    <div class="icons">
-                        <a href=""><i class="fa fa-twitter"></i></a>
-                        <a href=""><i class="fa fa-youtube-play"></i></a>
-                        <a href=""><i class="fa fa-paper-plane"></i></a>
-                    </div>
-                @else
-                    <p>Meeting Start In .</p>
-                    <h1>{{ $timeRemaining }}<span class="dot">...</span></h1>
-                @endif
-            </div> 
+        @else
+            <p>Meeting Start In .</p>
+            <h1>{{ $timeRemaining }}<span class="dot">...</span></h1>
+        @endif
+    </div>
 
-            <div class="row">
-                @if ($vistor->user_status == 'no_action')
-                    <div class="col-lg-12 text-center mt-5">
-                        <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
-                            Ask To Join
-                        </button>
-                        <div>
-                            <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
-                        </div>
-                    </div>
-                @endif
-              
-            </div>
-
-
-            <div class="row" id="main-content" style="display: none">
-               
-                <div class="col-1 you">
-                    <div id="remote-video">
-                        <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
-                    </div> 
+    <div class="row">
+        @if ($vistor->user_status == 'no_action')
+            <div class="col-lg-12 text-center mt-5">
+                <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
+                    Ask To Join
+                </button>
+                <div>
+                    <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
                 </div>
+            </div>
+        @endif
 
-                <div class="col-2">
-                    <div class="joined">
-                        <p>You</p>
-                        <div>
-                            <div id="local-video">
-                                <img src="https://i.postimg.cc/WzFnG0QG/people-1.png">
-                            </div>
-                        </div>
-                        <div class="contarols">
-                            <button class="btn btn-default local-vedio mute-button">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
+    </div>
+
+
+    <div class="row" id="main-content" style="display: none">
+
+        <div class="col-1 you">
+            <div id="remote-video">
+                <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="joined">
+                <p>You</p>
+                <div>
+                    <div id="local-video">
+                        <img src="https://i.postimg.cc/WzFnG0QG/people-1.png">
+                    </div>
+                </div>
+                <div class="contarols">
+                    <button class="btn btn-default local-vedio mute-button">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
                         </button>
                         <button class="btn
-                                    btn-default local-vedio camera-toggle-button">
-                                <img class="camera-off" style="display: none"
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nO2XP0rEQBSHv429YOkJBIu18gjaaeMRBMFacNlCtBH2BFZJZ2EpNha23kHQE4ggtoJkJDADw9skM5OZuFH3wa9JZvI+fm/+vMAy/kjsARkDiQtAAcUQoPY1jFG+aKgRcCWgikVC7QKnwKvDqRFwCEw8dASsd4G5FhBSEmoLeHPMMXoHth35M+mMz4fzCKjHFpgD4MR+MBUTZ5buHFBjMV7KzPtscOUSKPXuntvqSr4gfqHb8+xYBW6b8rYBxULVAW0AT+JdEFAMlASqboGPmjUWDIROXgQenvZYs15UKqAuUE277hm4SQEUWr46mHtgrS1vKFCIU/Y5VeqymTFJgXydGltQpT6bVvoC6gLVW8lCyyevmaSLOpVTSbZ9X1C9APmWbxN4+SkgX6daL1e7/Xjw7AQnDk09Os/G9mOn5YhXiVV3eM41aD4trIrQlwdU7V1YOXXm6ABngTrWTX7uAfW/f7HQyaVT1c8pQ3HqnIFEplvZZfz++AbfcHqN26mzZAAAAABJRU5ErkJggg==">
+                            btn-default local-vedio camera-toggle-button">
+                        <img class="camera-off" style="display: none"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nO2XP0rEQBSHv429YOkJBIu18gjaaeMRBMFacNlCtBH2BFZJZ2EpNha23kHQE4ggtoJkJDADw9skM5OZuFH3wa9JZvI+fm/+vMAy/kjsARkDiQtAAcUQoPY1jFG+aKgRcCWgikVC7QKnwKvDqRFwCEw8dASsd4G5FhBSEmoLeHPMMXoHth35M+mMz4fzCKjHFpgD4MR+MBUTZ5buHFBjMV7KzPtscOUSKPXuntvqSr4gfqHb8+xYBW6b8rYBxULVAW0AT+JdEFAMlASqboGPmjUWDIROXgQenvZYs15UKqAuUE277hm4SQEUWr46mHtgrS1vKFCIU/Y5VeqymTFJgXydGltQpT6bVvoC6gLVW8lCyyevmaSLOpVTSbZ9X1C9APmWbxN4+SkgX6daL1e7/Xjw7AQnDk09Os/G9mOn5YhXiVV3eM41aD4trIrQlwdU7V1YOXXm6ABngTrWTX7uAfW/f7HQyaVT1c8pQ3HqnIFEplvZZfz++AbfcHqN26mzZAAAAABJRU5ErkJggg==">
                             <img class="camera-on"
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB4ElEQVR4nO2XzStEURjGf0L52khsJIWVKKVQilkoxT+hWEw+QvmYrFiQLSvZzI7sWFhoFrITs5liRyglG5GyQNHVe+vtdL/M3Gmo+9SzuPe8nefpnPfc81yIEKGwqAOmgEUXxqSuCphW7xeA5rDNDAJPwJcHX6V2xmFsP0wzC8CnTPwIpAymlbCFFuBAjR8Bw2GZmVVip0C9Q03MMJRX3InQDlDmUhOaoWKgDeg3xJqBAaEttCVb58QtVdcNlP/WSBEQB57VREkZawTefZrXjx/ABlAR1FDcYYKEjFUD1zkasrkbdJvsldkDagkXFcCcMtVpjNcAfbpF2lRx2GY0LkVjQp5LgSXgTd6feJ2IYflWpBSTHqcqCI5FYxloADIOW9rkZmjfpQc6QjI0qnp1W83f7mbIOuYrwLriSA5mTEPlcgd2SA/5GsoHjpUhjciQjWiF/t0KnYjG2l8xdCsaz5I2C24oY3xkk3JxF/zY3yi9B2DsLzR1HHhxuJparcIu9SJwgMoCZ6IxL8/WBXuotO+BEsTEh1EcNnpV6rRisMaQhMGfm97GpnJ64fBbk/LhuEd0OVVmzu1V8EOlxMtso+lVgOiSzuZv1YqXk0bsWPfhKtDjEV0Ssk1WQowQgXzjG1/gIsAGld8bAAAAAElFTkSuQmCC">
-                            </button>
-                            <button class="btn btn-default  local-vedio call-cut-button">
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVR4nO2Uv2sUQRTHx1/EnyiIhtxMEI4UIpIELu/dGZTNvdnogfkLLBQEKyPBQgNpDhFs7PzRWFpaCcrsHSfE6sp0WpjCThSLwL5JRKKurEjIXTZ7e0cud8V+4DW7y3c+++bNCJGSktLH+KXxUz7hOd+dcFZdLDDlR3/oiez3ycljXV98rXjhjNV4nQlfWIKPrGHdagy2L/jKhBVLuGCLOLYjEkEud8BquMGE9fjFkxR8sC7cCkojAx3JWBeuWA3LzcFMuMSED9mFa9bFq76bvxhuVVg+4aXwWfju3zeES1vECD5xESl5V4TYwwSPtvvToFA4lDirNDIQlcGEv63Ge4lkLOHzuNavOqjaGfq4LNbwODbAEj5pOQvF5AManrhWeazhQXR3ymJv65ODAbugkwrZaRhvmUdo4zpUjg0gfN/OHbPijJ2IHOyN7uAf1nAn/q8I5qNlYPGb4xxNKtMkVY+UofxcohBLeL+xrfA2cJyDokOC6dEjlvBdowzOthXCGu8y4U/W8DK8IDuV2ZCayR1mgtesYc1qvCm6gSfllKdU0FBSTnVlsVRoJ/DSLYvAKFU2StX+V90o9aWp6pvel0W3qWUyJ42Uy1tOV1MZKT9XBwdPi92gMjR01pNyJUbIryp1XuwmZnj4slFqPULmVyWTmRG9oKLUbITQbdFLjJTPNs3NU9FrXgmxzyj1xpOyuijEftEP1LLZ42H12iMlpS/5C763Se/evbgOAAAAAElFTkSuQmCC">
-                            </button> 
-                        </div>
-                    </div>
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB4ElEQVR4nO2XzStEURjGf0L52khsJIWVKKVQilkoxT+hWEw+QvmYrFiQLSvZzI7sWFhoFrITs5liRyglG5GyQNHVe+vtdL/M3Gmo+9SzuPe8nefpnPfc81yIEKGwqAOmgEUXxqSuCphW7xeA5rDNDAJPwJcHX6V2xmFsP0wzC8CnTPwIpAymlbCFFuBAjR8Bw2GZmVVip0C9Q03MMJRX3InQDlDmUhOaoWKgDeg3xJqBAaEttCVb58QtVdcNlP/WSBEQB57VREkZawTefZrXjx/ABlAR1FDcYYKEjFUD1zkasrkbdJvsldkDagkXFcCcMtVpjNcAfbpF2lRx2GY0LkVjQp5LgSXgTd6feJ2IYflWpBSTHqcqCI5FYxloADIOW9rkZmjfpQc6QjI0qnp1W83f7mbIOuYrwLriSA5mTEPlcgd2SA/5GsoHjpUhjciQjWiF/t0KnYjG2l8xdCsaz5I2C24oY3xkk3JxF/zY3yi9B2DsLzR1HHhxuJparcIu9SJwgMoCZ6IxL8/WBXuotO+BEsTEh1EcNnpV6rRisMaQhMGfm97GpnJ64fBbk/LhuEd0OVVmzu1V8EOlxMtso+lVgOiSzuZv1YqXk0bsWPfhKtDjEV0Ssk1WQowQgXzjG1/gIsAGld8bAAAAAElFTkSuQmCC">
+                    </button>
+                    <button class="btn btn-default  local-vedio call-cut-button">
+                        <img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVR4nO2Uv2sUQRTHx1/EnyiIhtxMEI4UIpIELu/dGZTNvdnogfkLLBQEKyPBQgNpDhFs7PzRWFpaCcrsHSfE6sp0WpjCThSLwL5JRKKurEjIXTZ7e0cud8V+4DW7y3c+++bNCJGSktLH+KXxUz7hOd+dcFZdLDDlR3/oiez3ycljXV98rXjhjNV4nQlfWIKPrGHdagy2L/jKhBVLuGCLOLYjEkEud8BquMGE9fjFkxR8sC7cCkojAx3JWBeuWA3LzcFMuMSED9mFa9bFq76bvxhuVVg+4aXwWfju3zeES1vECD5xESl5V4TYwwSPtvvToFA4lDirNDIQlcGEv63Ge4lkLOHzuNavOqjaGfq4LNbwODbAEj5pOQvF5AManrhWeazhQXR3ymJv65ODAbugkwrZaRhvmUdo4zpUjg0gfN/OHbPijJ2IHOyN7uAf1nAn/q8I5qNlYPGb4xxNKtMkVY+UofxcohBLeL+xrfA2cJyDokOC6dEjlvBdowzOthXCGu8y4U/W8DK8IDuV2ZCayR1mgtesYc1qvCm6gSfllKdU0FBSTnVlsVRoJ/DSLYvAKFU2StX+V90o9aWp6pvel0W3qWUyJ42Uy1tOV1MZKT9XBwdPi92gMjR01pNyJUbIryp1XuwmZnj4slFqPULmVyWTmRG9oKLUbITQbdFLjJTPNs3NU9FrXgmxzyj1xpOyuijEftEP1LLZ42H12iMlpS/5C763Se/evbgOAAAAAElFTkSuQmCC">
+                    </button>
                 </div>
-
             </div>
-         
+        </div>
+
+    </div>
 @endsection
 
 
@@ -96,17 +265,17 @@
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
         var intervalId = setInterval(function() {
-             
-            checkParticipantStatus(visitorId,intervalId);
+
+            checkParticipantStatus(visitorId, intervalId);
         }, 2500);
         if (accessToken && roomName) {
             console.log("yer");
-            checkParticipantStatus(visitorId,intervalId);
+            checkParticipantStatus(visitorId, intervalId);
         } else {
             console.error('Access token or room name is missing.');
         }
 
-        function checkParticipantStatus(visitorId,intervalId) {
+        function checkParticipantStatus(visitorId, intervalId) {
 
             $.ajax({
                 type: "POST",
@@ -131,9 +300,11 @@
                         $("#response").text("Please place a request so admin approve your request").show();
                     } else {
 
-                        $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request").show();
+                        $("#response").text(
+                            "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
+                            ).show();
 
-                    } 
+                    }
                 },
                 error: function() {
                     console.error("An error occurred while fetching the participant list.");
@@ -166,7 +337,7 @@
                     alert("Request to join sent successfully.");
                     $("#response").text(
                         "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
-                        );
+                    );
 
                 },
                 error: function() {
@@ -216,7 +387,7 @@
                             if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
                                 .length > 0) {
                                 remoteVideo
-                            .empty(); // Remove content if both video and audio tags are found
+                                    .empty(); // Remove content if both video and audio tags are found
                             }
 
                             //   $("#remote-video").empty(); 
@@ -239,7 +410,7 @@
                                 if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
                                     .length > 0) {
                                     remoteVideo
-                                .empty(); // Remove content if both video and audio tags are found
+                                        .empty(); // Remove content if both video and audio tags are found
                                 }
                                 $("#remote-video").find('img').hide();
 
