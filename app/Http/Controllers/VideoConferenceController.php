@@ -172,7 +172,7 @@ class VideoConferenceController extends Controller
 
     public function joinConferencePost(Request $request, $roomId)
     {
-
+        $waitingQueue = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
         $userName = $request->input('participantName');
         $roomName = $request->input('roomName');
         $role = Auth::user()->roles->pluck('name')->first(); 
@@ -189,7 +189,8 @@ class VideoConferenceController extends Controller
             'accessToken' => $accessToken,
             'roomName' => $roomName, 
             'roomId' => $roomId,
-            'side_admin' => $venues->siteadmin_id
+            'side_admin' => $venues->siteadmin_id,
+            'waitingQueue' => $waitingQueue
         ]);
 
         // return redirect()->route('join.conference')->with([
