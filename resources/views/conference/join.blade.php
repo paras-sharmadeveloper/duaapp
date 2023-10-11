@@ -170,9 +170,7 @@
             console.error('Access token or room name is missing.');
         }
 
-        function initializeVideoCall(token, roomName) {
-            console.log("accessToken",token)
-            console.log("roomName",roomName)
+        function initializeVideoCall(token, roomName) { 
             const localVideoContainer = document.getElementById('local-video');
             const remoteVideoContainer = document.getElementById('remote-video');
             // const videoChatWindow = document.getElementById('video-chat-window');

@@ -192,7 +192,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        if(response.participants){
+                        if(response.participants.length  > 0){
                             updateParticipantsList(response.participants);
                         }
                        
