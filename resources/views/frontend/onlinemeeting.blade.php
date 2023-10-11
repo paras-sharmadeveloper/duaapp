@@ -33,12 +33,15 @@
                         <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
                             Ask To Join
                         </button>
+                        <div>
+                            <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
+                        </div>
                     </div>
                 @endif
-                <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
+              
             </div>
 
-            
+
             <div class="row" id="main-content" style="display: none">
                
                 <div class="col-1 you">
