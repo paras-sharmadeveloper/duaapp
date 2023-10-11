@@ -229,7 +229,7 @@
                     room.participants.forEach(participant => {
                         participant.on('trackSubscribed', track => {
                             console.log("3")
-                            // if (track.isEnabled) {
+                             if (track.isEnabled) {
                             //     if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
                             //     .length > 0) {
                             //     remoteVideo.empty(); // Remove content if both video and audio tags are found
