@@ -153,6 +153,12 @@
         let twillioRoom; // Declare room as a global variable
 
         if (accessToken && roomName) {
+            navigator.mediaDevices.getUserMedia({
+                video: true
+            }).then(
+            stream => (video.srcObject = stream),
+            err => console.log("err",err)
+            );
             // navigator.mediaDevices.getUserMedia({ video: true ,audio:true})
             // .then(function(stream) {
                         initializeVideoCall(accessToken, roomName);
