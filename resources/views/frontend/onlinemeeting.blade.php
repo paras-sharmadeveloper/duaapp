@@ -26,6 +26,19 @@
                     <h1>{{ $timeRemaining }}<span class="dot">...</span></h1>
                 @endif
             </div> 
+
+            <div class="row">
+                @if ($vistor->user_status == 'no_action')
+                    <div class="col-lg-12 text-center mt-5">
+                        <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
+                            Ask To Join
+                        </button>
+                    </div>
+                @endif
+                <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
+            </div>
+
+            
             <div class="row" id="main-content" style="display: none">
                
                 <div class="col-1 you">
