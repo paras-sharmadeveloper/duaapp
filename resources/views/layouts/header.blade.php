@@ -158,7 +158,9 @@
   
     width: 400px !important;
 } */
-
+ul#notification-center {
+    width: 300px;
+}
 
 </style>
 
