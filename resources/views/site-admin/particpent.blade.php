@@ -192,7 +192,10 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        updateParticipantsList(response.participants);
+                        if(response.participants){
+                            updateParticipantsList(response.participants);
+                        }
+                       
                     },
                     error: function() {
                         console.error("An error occurred while fetching the participant list.");
