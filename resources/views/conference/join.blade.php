@@ -98,7 +98,10 @@
         border-radius: 10px;
         cursor: pointer;
     }
-    video { width: 100%;}
+    video {
+    width: 100%;
+    border-radius: 15px;
+}
 
     .you {
         background: #182842;
