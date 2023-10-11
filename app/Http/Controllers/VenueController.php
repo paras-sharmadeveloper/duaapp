@@ -65,7 +65,7 @@ class VenueController extends Controller
         $venueEndsEvening = $request->input('slot_ends_at_evening', null);
         $slotDuration = $request->input('slot_duration');
         $IsRecuureing = $request->input('is_recurring');
-        $recuureingTill = $request->input('recurring_till');
+        $recuureingTill = $request->input('recurring_till',0);
         $dataArr = [];
         $dayToSet = [];
         $roomDetail = [];
@@ -90,7 +90,7 @@ class VenueController extends Controller
             'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
-            'recurring_till' => $request->input('recurring_till',0)
+            'recurring_till' => $recuureingTill
         ];
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
