@@ -73,16 +73,6 @@
                 <div class="row d-flex justify-content-evenly" id="camera-div" style="display: none">
 
                     <div class="col-lg-6 text-center">
-                        <div id="remote-video">
-                            <img class="veio" src="/assets/theme/img/avatar.png">
-                        </div>
-                        <div class="info">
-                            <label for="username"> Participant </label>
-                            <hr>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-6 text-center">
                         <div id="local-video">
                             <img class="veio" src="/assets/theme/img/avatar.png">
                         </div>
@@ -109,6 +99,17 @@
                         </div>
 
                     </div>
+                    <div class="col-lg-6 text-center">
+                        <div id="remote-video">
+                            <img class="veio" src="/assets/theme/img/avatar.png">
+                        </div>
+                        <div class="info">
+                            <label for="username"> Participant </label>
+                            <hr>
+                        </div>
+
+                    </div>
+                   
                     
  
                 </div>
@@ -250,7 +251,7 @@
                     });
                 })
                 .catch(function(error) {
-                    console.error('Unable to connect:', error.message);
+                    console.error('Unable to connect:', error);
                 });
         }
 
