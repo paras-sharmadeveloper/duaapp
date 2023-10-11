@@ -110,7 +110,9 @@
             .you {
                 background: 0 0 !important
             }
-
+            video{
+                width: 100% !important;
+            }
             .container {
                 margin-left: 0 !important;
                 padding: 0 5% !important
