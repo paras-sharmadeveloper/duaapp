@@ -8,16 +8,7 @@
         }
 
         @media (max-width: 767px) {
-            #local-video video {
-                height: 150px;
-                max-height: 200px;
-            }
-
-            #remote-video video {
-                height: 250px;
-                max-height: 300px;
-
-            }
+            
 
             div#local-video img,
             #remote-video img {
