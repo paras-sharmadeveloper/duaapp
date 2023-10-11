@@ -166,6 +166,8 @@
         }
 
         function initializeVideoCall(token, roomName) {
+            console.log("accessToken",token)
+            console.log("roomName",roomName)
             const localVideoContainer = document.getElementById('local-video');
             const remoteVideoContainer = document.getElementById('remote-video');
             // const videoChatWindow = document.getElementById('video-chat-window');
