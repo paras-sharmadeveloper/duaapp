@@ -333,9 +333,10 @@
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
         var intervalId = setInterval(function() {
-            if (checkParticipantStatus(visitorId)) {
-                clearInterval(intervalId); // Clear the interval when the condition is met
-            }
+            checkParticipantStatus(visitorId); conosle.log("ok"); 
+            // if (checkParticipantStatus(visitorId)) {
+            //     clearInterval(intervalId); // Clear the interval when the condition is met
+            // }
         }, 2500);
         if (accessToken && roomName) {
             console.log("yer");
@@ -355,7 +356,7 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    if (response.is_admit == true) {
+                    if (response.is_admit) {
                         var roomName = response.roomDetails.room_name;
                         var accessToken = response.roomDetails.accessToken;
                         initializeVideoCall(accessToken, roomName)
