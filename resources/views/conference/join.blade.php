@@ -100,6 +100,13 @@
     }
     video { width: 100%;}
 
+    .you {
+        background: #182842;
+        border-radius: 15px;
+        padding: 30px 40px 50px;
+        color: #fff;
+    }
+
     /* Tablet styles */
 
     @media screen and (max-width: 767px) {
@@ -159,7 +166,7 @@
             <!-- <img src="https://i.postimg.cc/Pqy2TXWw/menu.png"> -->
         </div>
         <div class="row">
-            <div class="col-1">
+            <div class="col-1 you">
                 <div id="local-video">
                     <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
                 </div>
