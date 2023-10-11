@@ -264,6 +264,14 @@
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.18.0/twilio-video.min.js"></script>
 
     <script>
+
+
+$(document).ready(function(){
+    fetchParticipants();
+            setInterval(() => {
+                fetchParticipants();
+            }, 10000);
+}); 
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
