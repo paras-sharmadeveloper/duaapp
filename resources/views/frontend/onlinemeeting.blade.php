@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <div class="d-flex justify-content-center py-4">
         <a href="index.html" class="logoo  d-flex align-items-center wuto">
-            <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""> 
+            <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
         </a>
     </div>
 
@@ -38,7 +38,8 @@
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
-                            <span class="text-danger counter-span" style="display: none">Call auto disconect when time ends</span>
+                            <span class="text-danger counter-span" style="display: none">Call auto disconect when time
+                                ends</span>
                         </div>
                     </div>
                 </div>
@@ -51,15 +52,8 @@
                                 Ask To Join
                             </button>
                         </div>
-                   
-                   
                     @endif
-                    <span id="response"  
-                    @if(empty($vistor->user_status))
-                    style="display:none"; 
-                    @endif
-                    
-                    ></span>
+                    <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
                 </div>
                 @if (count($errors) > 0)
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -89,14 +83,14 @@
                         <div class="info">
                             <label for="username"> Participant </label>
                             <hr>
-                        </div> 
+                        </div>
                     </div>
                     <div class="action-button text-center" id="action-btns" style="display: none">
                         <button class="btn btn-default local-vedio mute-button">
-                            <img
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
                         </button>
-                        <button class="btn btn-default local-vedio camera-toggle-button">
+                        <button class="btn
+                                btn-default local-vedio camera-toggle-button">
                             <img class="camera-off" style="display: none"
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nO2XP0rEQBSHv429YOkJBIu18gjaaeMRBMFacNlCtBH2BFZJZ2EpNha23kHQE4ggtoJkJDADw9skM5OZuFH3wa9JZvI+fm/+vMAy/kjsARkDiQtAAcUQoPY1jFG+aKgRcCWgikVC7QKnwKvDqRFwCEw8dASsd4G5FhBSEmoLeHPMMXoHth35M+mMz4fzCKjHFpgD4MR+MBUTZ5buHFBjMV7KzPtscOUSKPXuntvqSr4gfqHb8+xYBW6b8rYBxULVAW0AT+JdEFAMlASqboGPmjUWDIROXgQenvZYs15UKqAuUE277hm4SQEUWr46mHtgrS1vKFCIU/Y5VeqymTFJgXydGltQpT6bVvoC6gLVW8lCyyevmaSLOpVTSbZ9X1C9APmWbxN4+SkgX6daL1e7/Xjw7AQnDk09Os/G9mOn5YhXiVV3eM41aD4trIrQlwdU7V1YOXXm6ABngTrWTX7uAfW/f7HQyaVT1c8pQ3HqnIFEplvZZfz++AbfcHqN26mzZAAAAABJRU5ErkJggg==">
                             <img class="camera-on"
@@ -116,9 +110,9 @@
                         <div class="info">
                             <label for="username"> You </label>
                             <hr>
-                        </div> 
+                        </div>
                     </div>
-                   
+
 
                 </div>
 
@@ -314,10 +308,11 @@
             font-weight: 600;
             letter-spacing: 0.3px;
         }
+
         span.text-danger {
-    font-size: 26px;
-    font-weight: 600;
-}
+            font-size: 26px;
+            font-weight: 600;
+        }
     </style>
 @endsection
 
@@ -366,16 +361,18 @@
                         initializeVideoCall(accessToken, roomName)
 
                         timer();
-                        postAjax(response.visitor.id,'start'); 
+                        postAjax(response.visitor.id, 'start');
                         clearInterval(intervalId);
-                        $("#response").hide(); 
-                        $("#remote-video").find('p').hide(); 
-                    }else if (response.visitor.user_status == null) {
+                        $("#response").hide();
+                        $("#remote-video").find('p').hide();
+                    } else if (response.visitor.user_status == null) {
                         $("#response").text("Please place a request so admin approve your request").show();
                     } else {
 
-                        $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request").show();
-                         
+                        $("#response").text(
+                            "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
+                            ).show();
+
                     }
 
                     // 
@@ -421,7 +418,9 @@
 
                     // Request successful
                     alert("Request to join sent successfully.");
-                    $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request");
+                    $("#response").text(
+                        "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
+                        );
 
                 },
                 error: function() {
@@ -453,10 +452,10 @@
                             $(".action-button").show();
                             $("#local-video").find('img').hide();
                             if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio").length > 0) {
-                                        remoteVideo.empty(); // Remove content if both video and audio tags are found
-                                }
-                                $("#remote-video").find('img').hide();
-                            
+                                remoteVideo.empty(); // Remove content if both video and audio tags are found
+                            }
+                            $("#remote-video").find('img').hide();
+
                             const track = publication.track;
                             const localMediaContainer = document.createElement('div');
                             localMediaContainer.appendChild(track.attach());
@@ -468,32 +467,36 @@
                     });
                     room.on('participantConnected', participant => {
                         participant.on('trackSubscribed', track => {
-                            if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio").length > 0) {
-                                        remoteVideo.empty(); // Remove content if both video and audio tags are found
-                                }
-                            
-                          //   $("#remote-video").empty(); 
+                            if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
+                                .length > 0) {
+                                remoteVideo
+                            .empty(); // Remove content if both video and audio tags are found
+                            }
+
+                            //   $("#remote-video").empty(); 
                             $("#remote-video").find('img').hide();
                             remoteVideoContainer.appendChild(track.attach());
                         });
 
                         participant.tracks.forEach(publication => {
-                         
-                            if (publication.isSubscribed) { 
+
+                            if (publication.isSubscribed) {
                                 const track = publication.track;
                                 remoteVideoContainer.appendChild(track.attach());
                             }
                         });
                     });
                     room.participants.forEach(participant => {
-                        participant.on('trackSubscribed', track => { 
-                            if (track.isEnabled) { 
+                        participant.on('trackSubscribed', track => {
+                            if (track.isEnabled) {
 
-                                if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio").length > 0) {
-                                        remoteVideo.empty(); // Remove content if both video and audio tags are found
+                                if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
+                                    .length > 0) {
+                                    remoteVideo
+                                .empty(); // Remove content if both video and audio tags are found
                                 }
                                 $("#remote-video").find('img').hide();
-                                 
+
                                 remoteVideoContainer.appendChild(track.attach());
                             }
 
@@ -541,7 +544,7 @@
 
         // Function to disconnect from the video call
         function disconnectFromVideoCall(room) {
-          
+
             room.disconnect();
         }
 
@@ -557,179 +560,178 @@
         })
         $('.call-cut-button').click(function() {
             $(this).toggleClass('btn-danger');
-            postAjax(visitorId,'end'); 
+            postAjax(visitorId, 'end');
             disconnectFromVideoCall(twillioRoom);
         })
 
         setTimeout(function() {
             // if (isMeetingHaveFifiten) {
-                $("#main-content").fadeIn();
-                $("body").css("background-color", "#f6f9ff");
-                $("#loader-content").fadeOut();
+            $("#main-content").fadeIn();
+            $("body").css("background-color", "#f6f9ff");
+            $("#loader-content").fadeOut();
             // }
             $(".alert").fadeOut();
 
         }, 1000);
 
 
-        function postAjax(id,type){
+        function postAjax(id, type) {
 
-                var url = "{{ route('siteadmin.queue.vistor.update', ['id' => ':id']) }}";
-                url = url.replace(':id', id);
+            var url = "{{ route('siteadmin.queue.vistor.update', ['id' => ':id']) }}";
+            url = url.replace(':id', id);
 
-                $.ajax({ 
-                    url: url,
-                    type: "POST",
-                    data:{
-                        type:type,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response); 
-                    },
-                    error: function(xhr, status, error) { 
-                        console.error(error);
-                    }
-                });
-
-                }
-
-
-
-        function timer(){
-
-
-
-        if ($('#revese-timer').length) {
-
-            const FULL_DASH_ARRAY = 283;
-            const WARNING_THRESHOLD = 20;
-            const ALERT_THRESHOLD = 15;
-
-            const COLOR_CODES = {
-                info: {
-                    color: "green"
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    type: type,
+                    _token: "{{ csrf_token() }}"
                 },
-                warning: {
-                    color: "orange",
-                    threshold: WARNING_THRESHOLD
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
                 },
-                alert: {
-                    color: "red",
-                    threshold: ALERT_THRESHOLD
+                error: function(xhr, status, error) {
+                    console.error(error);
                 }
-            };
+            });
+
+        }
 
 
-            var Minute = $('#revese-timer').data('minute');
-            var Seconds = Math.round(60 * Minute);
-            const TIME_LIMIT = Seconds;
-            let timePassed = 0;
-            let timeLeft = TIME_LIMIT;
-            let timerInterval = null;
-            let remainingPathColor = COLOR_CODES.info.color;
 
-            document.getElementById("revese-timer").innerHTML = `
-<div class="base-timer">
-  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-      <path
-        id="base-timer-path-remaining"
-        stroke-dasharray="283"
-        class="base-timer__path-remaining ${remainingPathColor}"
-        d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
-      ></path>
-    </g>
-  </svg>
-  <span id="base-timer-label" class="base-timer__label">${formatTime(
-    timeLeft
-  )}</span>
-</div>
-`;
+        function timer() {
 
-            startTimer();
 
-            function onTimesUp() {
-                
-                        $('.call-cut-button').click();
-                        alert("times up.. Your Call Ends automatically")
-                clearInterval(timerInterval);
-            }
 
-            function startTimer() {
-                $(".counter-span").show();
-                timerInterval = setInterval(() => {
-                    timePassed = timePassed += 1;
-                    timeLeft = TIME_LIMIT - timePassed;
-                    document.getElementById("base-timer-label").innerHTML = formatTime(
-                        timeLeft
-                    );
-                    setCircleDasharray();
-                    setRemainingPathColor(timeLeft);
+            if ($('#revese-timer').length) {
 
-                    if (timeLeft === 0) {
-                       
-                        onTimesUp();
+                const FULL_DASH_ARRAY = 283;
+                const WARNING_THRESHOLD = 20;
+                const ALERT_THRESHOLD = 15;
+
+                const COLOR_CODES = {
+                    info: {
+                        color: "green"
+                    },
+                    warning: {
+                        color: "orange",
+                        threshold: WARNING_THRESHOLD
+                    },
+                    alert: {
+                        color: "red",
+                        threshold: ALERT_THRESHOLD
                     }
-                }, 1000);
-            }
+                };
 
-            function formatTime(time) {
-                const minutes = Math.floor(time / 60);
-                let seconds = time % 60;
 
-                if (seconds < 10) {
-                    seconds = `0${seconds}`;
+                var Minute = $('#revese-timer').data('minute');
+                var Seconds = Math.round(60 * Minute);
+                const TIME_LIMIT = Seconds;
+                let timePassed = 0;
+                let timeLeft = TIME_LIMIT;
+                let timerInterval = null;
+                let remainingPathColor = COLOR_CODES.info.color;
+
+                document.getElementById("revese-timer").innerHTML = `
+                <div class="base-timer">
+                <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <g class="base-timer__circle">
+                    <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                    <path
+                        id="base-timer-path-remaining"
+                        stroke-dasharray="283"
+                        class="base-timer__path-remaining ${remainingPathColor}"
+                        d="
+                        M 50, 50
+                        m -45, 0
+                        a 45,45 0 1,0 90,0
+                        a 45,45 0 1,0 -90,0
+                        "
+                    ></path>
+                    </g>
+                </svg>
+                <span id="base-timer-label" class="base-timer__label">${formatTime(
+                    timeLeft
+                )}</span>
+                </div>`;
+
+                startTimer();
+
+                function onTimesUp() {
+
+                    $('.call-cut-button').click();
+                    alert("times up.. Your Call Ends automatically")
+                    clearInterval(timerInterval);
                 }
 
-                return `${minutes}:${seconds}`;
-            }
+                function startTimer() {
+                    $(".counter-span").show();
+                    timerInterval = setInterval(() => {
+                        timePassed = timePassed += 1;
+                        timeLeft = TIME_LIMIT - timePassed;
+                        document.getElementById("base-timer-label").innerHTML = formatTime(
+                            timeLeft
+                        );
+                        setCircleDasharray();
+                        setRemainingPathColor(timeLeft);
 
-            function setRemainingPathColor(timeLeft) {
-                const {
-                    alert,
-                    warning,
-                    info
-                } = COLOR_CODES;
-                if (timeLeft <= alert.threshold) {
-                    document
-                        .getElementById("base-timer-path-remaining")
-                        .classList.remove(warning.color);
-                    document
-                        .getElementById("base-timer-path-remaining")
-                        .classList.add(alert.color);
-                } else if (timeLeft <= warning.threshold) {
-                    document
-                        .getElementById("base-timer-path-remaining")
-                        .classList.remove(info.color);
-                    document
-                        .getElementById("base-timer-path-remaining")
-                        .classList.add(warning.color);
+                        if (timeLeft === 0) {
+
+                            onTimesUp();
+                        }
+                    }, 1000);
                 }
-            }
 
-            function calculateTimeFraction() {
-                const rawTimeFraction = timeLeft / TIME_LIMIT;
-                return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+                function formatTime(time) {
+                    const minutes = Math.floor(time / 60);
+                    let seconds = time % 60;
+
+                    if (seconds < 10) {
+                        seconds = `0${seconds}`;
                     }
 
-                    function setCircleDasharray() {
-                        const circleDasharray = `${(
-            calculateTimeFraction() * FULL_DASH_ARRAY
-        ).toFixed(0)} 283`;
+                    return `${minutes}:${seconds}`;
+                }
+
+                function setRemainingPathColor(timeLeft) {
+                    const {
+                        alert,
+                        warning,
+                        info
+                    } = COLOR_CODES;
+                    if (timeLeft <= alert.threshold) {
                         document
                             .getElementById("base-timer-path-remaining")
-                            .setAttribute("stroke-dasharray", circleDasharray);
+                            .classList.remove(warning.color);
+                        document
+                            .getElementById("base-timer-path-remaining")
+                            .classList.add(alert.color);
+                    } else if (timeLeft <= warning.threshold) {
+                        document
+                            .getElementById("base-timer-path-remaining")
+                            .classList.remove(info.color);
+                        document
+                            .getElementById("base-timer-path-remaining")
+                            .classList.add(warning.color);
                     }
-
                 }
-    }
+
+                function calculateTimeFraction() {
+                    const rawTimeFraction = timeLeft / TIME_LIMIT;
+                    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+                }
+
+                function setCircleDasharray() {
+                    const circleDasharray = `${(
+            calculateTimeFraction() * FULL_DASH_ARRAY
+        ).toFixed(0)} 283`;
+                    document
+                        .getElementById("base-timer-path-remaining")
+                        .setAttribute("stroke-dasharray", circleDasharray);
+                }
+
+            }
+        }
     </script>
 @endsection

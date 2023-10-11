@@ -1297,6 +1297,9 @@ function convertDateToCustomFormat(inputDate) {
 }
 
 function stopCamera() {
+    var startCameraButton = $('#start-camera');
+    var captureSelfieButton = $('#capture-selfie');
+    var restartCameraButton = $('#restart-camera');
     // Get the video element
     var video = document.getElementById('camera-view');
 
@@ -1311,6 +1314,7 @@ function stopCamera() {
 
     // Hide the camera view
     $("#camera-view").hide();
+    
 
     // Hide the "Capture Selfie" and "Restart Camera" buttons, and show the "Start Camera" button
     startCameraButton.show();
