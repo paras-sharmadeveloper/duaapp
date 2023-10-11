@@ -182,8 +182,7 @@
                     video: true,
                     audio: true,
                     name: roomName,
-                })
-                .then(function(room) {
+                }).then(function(room) {
 
                     twillioRoom = room;
                     const localParticipant = room.localParticipant;
@@ -207,11 +206,9 @@
 
                         participant.on('trackSubscribed', track => {
                             console.log("1")
-                            if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
-                                .length > 0) {
-                                remoteVideo
-                            .empty(); // Remove content if both video and audio tags are found
-                            }
+                            // if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio") .length > 0) {
+                            //     remoteVideo.empty(); 
+                            // }
                             $("#remote-video").find('img').hide();
                             remoteVideoContainer.appendChild(track.attach());
                         });
@@ -232,11 +229,11 @@
                     room.participants.forEach(participant => {
                         participant.on('trackSubscribed', track => {
                             console.log("3")
-                            if (track.isEnabled) {
-                                if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
-                                .length > 0) {
-                                remoteVideo.empty(); // Remove content if both video and audio tags are found
-                            }
+                            // if (track.isEnabled) {
+                            //     if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
+                            //     .length > 0) {
+                            //     remoteVideo.empty(); // Remove content if both video and audio tags are found
+                            // }
                                
                                 $("#remote-video").find('img').hide();
                                 remoteVideoContainer.appendChild(track.attach());
