@@ -283,19 +283,6 @@
 
         });
 
-        function playSound() {
-            notificationSound.play()
-                .then(() => {
-                    // Sound played successfully
-                })
-                .catch(error => {
-                    console.error('Error playing sound:', error);
-                });
-        }
-
-
-        playButton.addEventListener('click', () => {
-            playSound();
-        });
+     
     </script>
 @endsection
