@@ -46,7 +46,7 @@
    
 </head> 
 <style>
- .overlay {
+ /* .overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -157,21 +157,20 @@
 .header-nav .notifications .notification-item {
   
     width: 400px !important;
-}
+} */
 
 
 </style>
 
 <body >
-  <div class="overlay">
+  {{-- <div class="overlay">
     <div class="overlayDoor"></div>
     <div class="overlayContent">
       <div class="loader">
         <div class="inner"></div>
-      </div>
-      {{-- <div class="skip">SKIP</div> --}}
+      </div> 
     </div>
-  </div>
+  </div> --}}
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
