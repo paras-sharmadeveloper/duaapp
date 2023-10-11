@@ -144,7 +144,8 @@
         @media screen and (max-width:480px) {
             .you,video {padding: 20px 20px 30px !important;}
             div#local-video { text-align: center !important;}
-            div#local-video img,video {height: 200px !important;width: 200px !important;}
+            div#local-video img {height: 200px !important;width: 200px !important;}
+            div#remote-video video {max-height: 400px !important; }
                 .col-1 .contarols img,
             .contarols img {
                 margin: 10px 5px !important
