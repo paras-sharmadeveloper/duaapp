@@ -244,7 +244,7 @@ class VideoConferenceController extends Controller
     {
 
         $id = $request->input('id');
-        $vistor = Vistors::find($id)->get();
+        $vistor = Vistors::find($id);
         $roomDetails = []; 
         $admitted=false;
         if($vistor->user_status == 'admitted'){
