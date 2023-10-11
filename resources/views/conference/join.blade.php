@@ -98,6 +98,7 @@
         border-radius: 10px;
         cursor: pointer;
     }
+    video { width: 100%;}
 
     /* Tablet styles */
 
@@ -271,6 +272,7 @@
                             $("#local-video").find('img').hide();
                             const track = publication.track;
                             const localMediaContainer = document.createElement('div');
+                            
                             localMediaContainer.appendChild(track.attach());
                             localVideoContainer.appendChild(localMediaContainer);
                         } else {
