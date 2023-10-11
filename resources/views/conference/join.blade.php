@@ -206,9 +206,9 @@
 
                         participant.on('trackSubscribed', track => {
                             console.log("1")
-                            // if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio") .length > 0) {
-                            //     remoteVideo.empty(); 
-                            // }
+                            if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio") .length > 0) {
+                                remoteVideo.empty(); 
+                            }
                             $("#remote-video").find('img').hide();
                             remoteVideoContainer.appendChild(track.attach());
                         });
@@ -230,10 +230,10 @@
                         participant.on('trackSubscribed', track => {
                             console.log("3")
                              if (track.isEnabled) {
-                            //     if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
-                            //     .length > 0) {
-                            //     remoteVideo.empty(); // Remove content if both video and audio tags are found
-                            // }
+                                if (remoteVideo.find("video").length > 0 && remoteVideo.find("audio")
+                                .length > 0) {
+                                remoteVideo.empty(); // Remove content if both video and audio tags are found
+                            }
                                
                                 $("#remote-video").find('img').hide();
                                 remoteVideoContainer.appendChild(track.attach());

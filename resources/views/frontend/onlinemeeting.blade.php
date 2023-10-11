@@ -360,7 +360,7 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    if (response.is_admit) {
+                    if (response.is_admit == true) {
                         var roomName = response.roomDetails.room_name;
                         var accessToken = response.roomDetails.accessToken;
                         initializeVideoCall(accessToken, roomName)

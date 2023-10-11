@@ -1013,6 +1013,7 @@
                     success: function(response) {
                         $this.find('span').show()
                         $this.find('b').text(successText)
+                        stopCamera(); 
                         setTimeout(() => {
                             $this.find('b').text(defaultText)
                             $("#wizardRow").fadeOut(300);
@@ -1293,6 +1294,28 @@ function convertDateToCustomFormat(inputDate) {
 
     var formattedDate = day + "-" + monthNames[parseInt(month, 10) - 1] + "-" + year;
     return formattedDate;
+}
+
+function stopCamera() {
+    // Get the video element
+    var video = document.getElementById('camera-view');
+
+    // Pause the video
+    if (video.srcObject) {
+        var tracks = video.srcObject.getTracks();
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+        video.srcObject = null;
+    }
+
+    // Hide the camera view
+    $("#camera-view").hide();
+
+    // Hide the "Capture Selfie" and "Restart Camera" buttons, and show the "Start Camera" button
+    startCameraButton.show();
+    captureSelfieButton.hide();
+    restartCameraButton.hide();
 }
    
    </script>
