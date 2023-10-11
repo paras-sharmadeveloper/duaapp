@@ -13,13 +13,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: poppins, sans-serif
-        }
-        body{ background-color: rgb(29, 29, 29); }
+        } 
 
         .active {
             opacity: 1;
             background: #4d6181
         }
+        
 
         .invite,
         .joined,
@@ -114,6 +114,10 @@
         }
 
         @media screen and (max-width:767px) {
+            .logoo img{
+            height: 80px !important;
+            width: 90px !important;
+        }
             .you {
                 background: 0 0 !important
             }
@@ -149,6 +153,10 @@
         }
 
         @media screen and (max-width:480px) {
+            .logoo img{
+            height: 80px !important;
+            width: 90px !important;
+        }
             .you,video {padding: 20px 20px 30px !important;}
             div#local-video { text-align: center !important;}
             div#local-video img {height: 200px !important;width: 200px !important;}
@@ -182,6 +190,61 @@
         div#append-pending-list {
             display: flex;
             justify-content: space-between
+        }
+        .base-timer {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: auto;
+        }
+
+        .base-timer__svg {
+            transform: scaleX(-1);
+        }
+
+        .base-timer__circle {
+            fill: none;
+            stroke: none;
+        }
+
+        .base-timer__path-elapsed {
+            stroke-width: 6px;
+            stroke: #efefef;
+        }
+
+        .base-timer__path-remaining {
+            stroke-width: 4px;
+            stroke-linecap: round;
+            transform: rotate(90deg);
+            transform-origin: center;
+            transition: 1s linear all;
+            fill-rule: nonzero;
+            stroke: currentColor;
+        }
+
+        .base-timer__path-remaining.green {
+            color: #39b37d;
+        }
+
+        .base-timer__path-remaining.orange {
+            color: orange;
+        }
+
+        .base-timer__path-remaining.red {
+            color: red;
+        }
+
+        .base-timer__label {
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
     </style>
 
