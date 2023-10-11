@@ -90,7 +90,7 @@ class VenueController extends Controller
             'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
-            'recurring_till' => $request->input('recurring_till')
+            'recurring_till' => $request->input('recurring_till',0)
         ];
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {

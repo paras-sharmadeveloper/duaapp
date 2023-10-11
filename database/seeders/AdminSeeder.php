@@ -37,9 +37,9 @@ class AdminSeeder extends Seeder
         $user->assignRole([$role->id]);
         $roles = [ 
             'therapist',
-            'patient', 
+            // 'patient', 
             'site-admin', 
-            'visitor'
+            // 'visitor'
         ];
         $this->CraeteAllUsers($roles);
         $this->InsertCountryData(); 
@@ -50,9 +50,16 @@ class AdminSeeder extends Seeder
     public function CraeteAllUsers($roles){
 
         foreach($roles as $role){
+            $roleName =$role.' User'; 
+            if($role == 'therapist'){
+              $roleName =   'Qibla Syed Sarfraz Ahmed Shah Sahab'; 	
+            }
+            if($role == 'site-admin'){
+                $roleName =   'Ahmad Ali'; 	
+            }
 
             $user = User::create([
-                'name' => $role.' User', 
+                'name' => $roleName, 
                 'email' => $role.'@gmail.com',
                 'password' => bcrypt('123456'), 
                 'email_verified_at' => date('Y-m-d H:i:s'),
