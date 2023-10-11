@@ -137,7 +137,7 @@
 
 
 @section('page-script')
-    <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
+<script src="https://media.twiliocdn.com/sdk/js/video/releases/2.18.0/twilio-video.min.js"></script>
     
     <script>
            
