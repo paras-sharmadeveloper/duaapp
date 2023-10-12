@@ -380,7 +380,7 @@
             $(document).on("click", ".admit-button", function() {
                 var participantId = $(this).data("id");
                 setTimeout(() => {
-                    $(this).parents('tr').fadeOut();
+                    $(this).parents('.friend-box').fadeOut();
                 }, 2000);
                 AdmitRequest(participantId, 'admitted');
 
