@@ -268,8 +268,8 @@
             channel.bind('siteadmin.status.notification', function(data) {
               
                 var response = JSON.stringify(data);
-                var resp = JSON.parse(response)
-                console.log("re",resp)
+                var resp = JSON.parse(JSON.stringify(response))
+                
                 if (resp.message == 'online') {
                     $("#user-status").text(resp.message)
                     $("#user-status").removeClass('level-danger').addClass('level-success');
