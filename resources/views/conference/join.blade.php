@@ -8,7 +8,10 @@
             box-sizing: border-box;
             font-family: 'poppins', sans-serif;
         }
-        div#remote-video video {max-height: 622px;}
+
+        div#remote-video video {
+            max-height: 622px;
+        }
 
         /* Common styles for all devices */
 
@@ -65,7 +68,7 @@
         .contarols {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
         }
 
         .contarols img {
@@ -175,15 +178,16 @@
         .active {
             display: block !important;
         }
+
         div#append-pending-list {
-    display: flex;
-    justify-content: space-between;
-}
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 
     <div class="headedd">
         <div class="container-fluid">
-            <div class="top-iconsa"> 
+            <div class="top-iconsa">
             </div>
             <div class="row">
                 <div class="col-2">
@@ -195,30 +199,48 @@
                             </div>
                         </div>
                         <div class="contarols">
-                            <button class="btn btn-default local-vedio mute-button">
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
-                        </button>
-                        <button class="btn
-                                    btn-default local-vedio camera-toggle-button">
-                                <img class="camera-off" style="display: none"
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nO2XP0rEQBSHv429YOkJBIu18gjaaeMRBMFacNlCtBH2BFZJZ2EpNha23kHQE4ggtoJkJDADw9skM5OZuFH3wa9JZvI+fm/+vMAy/kjsARkDiQtAAcUQoPY1jFG+aKgRcCWgikVC7QKnwKvDqRFwCEw8dASsd4G5FhBSEmoLeHPMMXoHth35M+mMz4fzCKjHFpgD4MR+MBUTZ5buHFBjMV7KzPtscOUSKPXuntvqSr4gfqHb8+xYBW6b8rYBxULVAW0AT+JdEFAMlASqboGPmjUWDIROXgQenvZYs15UKqAuUE277hm4SQEUWr46mHtgrS1vKFCIU/Y5VeqymTFJgXydGltQpT6bVvoC6gLVW8lCyyevmaSLOpVTSbZ9X1C9APmWbxN4+SkgX6daL1e7/Xjw7AQnDk09Os/G9mOn5YhXiVV3eM41aD4trIrQlwdU7V1YOXXm6ABngTrWTX7uAfW/f7HQyaVT1c8pQ3HqnIFEplvZZfz++AbfcHqN26mzZAAAAABJRU5ErkJggg==">
-                            <img class="camera-on"
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB4ElEQVR4nO2XzStEURjGf0L52khsJIWVKKVQilkoxT+hWEw+QvmYrFiQLSvZzI7sWFhoFrITs5liRyglG5GyQNHVe+vtdL/M3Gmo+9SzuPe8nefpnPfc81yIEKGwqAOmgEUXxqSuCphW7xeA5rDNDAJPwJcHX6V2xmFsP0wzC8CnTPwIpAymlbCFFuBAjR8Bw2GZmVVip0C9Q03MMJRX3InQDlDmUhOaoWKgDeg3xJqBAaEttCVb58QtVdcNlP/WSBEQB57VREkZawTefZrXjx/ABlAR1FDcYYKEjFUD1zkasrkbdJvsldkDagkXFcCcMtVpjNcAfbpF2lRx2GY0LkVjQp5LgSXgTd6feJ2IYflWpBSTHqcqCI5FYxloADIOW9rkZmjfpQc6QjI0qnp1W83f7mbIOuYrwLriSA5mTEPlcgd2SA/5GsoHjpUhjciQjWiF/t0KnYjG2l8xdCsaz5I2C24oY3xkk3JxF/zY3yi9B2DsLzR1HHhxuJparcIu9SJwgMoCZ6IxL8/WBXuotO+BEsTEh1EcNnpV6rRisMaQhMGfm97GpnJ64fBbk/LhuEd0OVVmzu1V8EOlxMtso+lVgOiSzuZv1YqXk0bsWPfhKtDjEV0Ssk1WQowQgXzjG1/gIsAGld8bAAAAAElFTkSuQmCC">
-                            </button>
-                            <button class="btn btn-default  local-vedio call-cut-button">
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVR4nO2Uv2sUQRTHx1/EnyiIhtxMEI4UIpIELu/dGZTNvdnogfkLLBQEKyPBQgNpDhFs7PzRWFpaCcrsHSfE6sp0WpjCThSLwL5JRKKurEjIXTZ7e0cud8V+4DW7y3c+++bNCJGSktLH+KXxUz7hOd+dcFZdLDDlR3/oiez3ycljXV98rXjhjNV4nQlfWIKPrGHdagy2L/jKhBVLuGCLOLYjEkEud8BquMGE9fjFkxR8sC7cCkojAx3JWBeuWA3LzcFMuMSED9mFa9bFq76bvxhuVVg+4aXwWfju3zeES1vECD5xESl5V4TYwwSPtvvToFA4lDirNDIQlcGEv63Ge4lkLOHzuNavOqjaGfq4LNbwODbAEj5pOQvF5AManrhWeazhQXR3ymJv65ODAbugkwrZaRhvmUdo4zpUjg0gfN/OHbPijJ2IHOyN7uAf1nAn/q8I5qNlYPGb4xxNKtMkVY+UofxcohBLeL+xrfA2cJyDokOC6dEjlvBdowzOthXCGu8y4U/W8DK8IDuV2ZCayR1mgtesYc1qvCm6gSfllKdU0FBSTnVlsVRoJ/DSLYvAKFU2StX+V90o9aWp6pvel0W3qWUyJ42Uy1tOV1MZKT9XBwdPi92gMjR01pNyJUbIryp1XuwmZnj4slFqPULmVyWTmRG9oKLUbITQbdFLjJTPNs3NU9FrXgmxzyj1xpOyuijEftEP1LLZ42H12iMlpS/5C763Se/evbgOAAAAAElFTkSuQmCC">
-                            </button> 
+                            <div class="inner1">
+                                <button class="btn btn-default local-vedio mute-button">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3XsUocURQA0CMW6VYWVyeQSq0MUQQLIRDyB4mlfoBgoYVNPiGkTGMKiX9h4wfYiIUmgaSws4i7nSKkCoaBCTwGd2bMru8tmAsDy+Vx93Bn5t03/I+HjUns4RjbEsdTfMcVDnCLldSYLl7gSQHaSoHJ8A09LAT5HLSTCtMtYZKAsgCT3yYpQVkNJiooa4CJBsoaYoYKGsc63uND6fqBSzxvUGdooP2i2F3XT8w3rDM00C98wliQWyz+4O096pRBM5jts3YCy1WF3pVyr4r88gCgvPPXeFla18EpLmKD2jjBDV5X5KKBwm7knXoT/C53LRoo7MptXWceJagzSresPWoP9W7Na3/+Lxvj6gCgZ5jrs7aFpX6FPleMjl6DodoPNNBwXasYrr2GqCjHj2l8veP8nAx0H1TUI+w0vtSgoh/yp2pQST6DpipQSUB/UWej8qEY7rZnweF/ogBtShidYFge4neDreHBo4WPOMJGaoxHEX8AoZKkhPAxXggAAAAASUVORK5CYII=">
+                                </button>
+                                <button class="btn
+                                        btn-default local-vedio camera-toggle-button">
+                                    <img class="camera-off" style="display: none"
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAABfklEQVR4nO2XP0rEQBSHv429YOkJBIu18gjaaeMRBMFacNlCtBH2BFZJZ2EpNha23kHQE4ggtoJkJDADw9skM5OZuFH3wa9JZvI+fm/+vMAy/kjsARkDiQtAAcUQoPY1jFG+aKgRcCWgikVC7QKnwKvDqRFwCEw8dASsd4G5FhBSEmoLeHPMMXoHth35M+mMz4fzCKjHFpgD4MR+MBUTZ5buHFBjMV7KzPtscOUSKPXuntvqSr4gfqHb8+xYBW6b8rYBxULVAW0AT+JdEFAMlASqboGPmjUWDIROXgQenvZYs15UKqAuUE277hm4SQEUWr46mHtgrS1vKFCIU/Y5VeqymTFJgXydGltQpT6bVvoC6gLVW8lCyyevmaSLOpVTSbZ9X1C9APmWbxN4+SkgX6daL1e7/Xjw7AQnDk09Os/G9mOn5YhXiVV3eM41aD4trIrQlwdU7V1YOXXm6ABngTrWTX7uAfW/f7HQyaVT1c8pQ3HqnIFEplvZZfz++AbfcHqN26mzZAAAAABJRU5ErkJggg==">
+                                     <img class="camera-on"
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB4ElEQVR4nO2XzStEURjGf0L52khsJIWVKKVQilkoxT+hWEw+QvmYrFiQLSvZzI7sWFhoFrITs5liRyglG5GyQNHVe+vtdL/M3Gmo+9SzuPe8nefpnPfc81yIEKGwqAOmgEUXxqSuCphW7xeA5rDNDAJPwJcHX6V2xmFsP0wzC8CnTPwIpAymlbCFFuBAjR8Bw2GZmVVip0C9Q03MMJRX3InQDlDmUhOaoWKgDeg3xJqBAaEttCVb58QtVdcNlP/WSBEQB57VREkZawTefZrXjx/ABlAR1FDcYYKEjFUD1zkasrkbdJvsldkDagkXFcCcMtVpjNcAfbpF2lRx2GY0LkVjQp5LgSXgTd6feJ2IYflWpBSTHqcqCI5FYxloADIOW9rkZmjfpQc6QjI0qnp1W83f7mbIOuYrwLriSA5mTEPlcgd2SA/5GsoHjpUhjciQjWiF/t0KnYjG2l8xdCsaz5I2C24oY3xkk3JxF/zY3yi9B2DsLzR1HHhxuJparcIu9SJwgMoCZ6IxL8/WBXuotO+BEsTEh1EcNnpV6rRisMaQhMGfm97GpnJ64fBbk/LhuEd0OVVmzu1V8EOlxMtso+lVgOiSzuZv1YqXk0bsWPfhKtDjEV0Ssk1WQowQgXzjG1/gIsAGld8bAAAAAElFTkSuQmCC">
+                                </button>
+                                <button class="btn btn-default  local-vedio call-cut-button">
+                                    <img
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVR4nO2Uv2sUQRTHx1/EnyiIhtxMEI4UIpIELu/dGZTNvdnogfkLLBQEKyPBQgNpDhFs7PzRWFpaCcrsHSfE6sp0WpjCThSLwL5JRKKurEjIXTZ7e0cud8V+4DW7y3c+++bNCJGSktLH+KXxUz7hOd+dcFZdLDDlR3/oiez3ycljXV98rXjhjNV4nQlfWIKPrGHdagy2L/jKhBVLuGCLOLYjEkEud8BquMGE9fjFkxR8sC7cCkojAx3JWBeuWA3LzcFMuMSED9mFa9bFq76bvxhuVVg+4aXwWfju3zeES1vECD5xESl5V4TYwwSPtvvToFA4lDirNDIQlcGEv63Ge4lkLOHzuNavOqjaGfq4LNbwODbAEj5pOQvF5AManrhWeazhQXR3ymJv65ODAbugkwrZaRhvmUdo4zpUjg0gfN/OHbPijJ2IHOyN7uAf1nAn/q8I5qNlYPGb4xxNKtMkVY+UofxcohBLeL+xrfA2cJyDokOC6dEjlvBdowzOthXCGu8y4U/W8DK8IDuV2ZCayR1mgtesYc1qvCm6gSfllKdU0FBSTnVlsVRoJ/DSLYvAKFU2StX+V90o9aWp6pvel0W3qWUyJ42Uy1tOV1MZKT9XBwdPi92gMjR01pNyJUbIryp1XuwmZnj4slFqPULmVyWTmRG9oKLUbITQbdFLjJTPNs3NU9FrXgmxzyj1xpOyuijEftEP1LLZ42H12iMlpS/5C763Se/evbgOAAAAAElFTkSuQmCC">
+                                </button>
+                            </div>
+                            <div class="inner2"> 
+                                    @php 
+                                       // $status = (\Auth::user()->status == 'online') ? 'offline' : 'online'; 
+                                        $status = empty(\Auth::user()->status) ? 'online' : \Auth::user()->status; 
+                                    @endphp
+                                    <button id="update-status" 
+                                        @if($status == 'offline')
+                                        class="btn btn-outline-success btn-block"                
+                                        @else
+                                        class="btn btn-outline-danger btn-block"    
+                                       
+                                        @endif
+                                    data-status="{{  ($status == 'online') ?'offline':'online' }}">{{ ( $status == 'online') ? 'Hold Meeting' : 'Resume Meeting' }}</button>
+                                 
+                            </div>
+                            
                         </div>
                     </div>
 
                     <div class="invite">
                         <p class="text-center">People In Queue</p>
                         <div class="append" id="append-pending-list">
-                            
+
                         </div>
-                         
-                        
+
+
                     </div>
                 </div>
                 <div class="col-1 you">
@@ -239,14 +261,12 @@
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.18.0/twilio-video.min.js"></script>
 
     <script>
-
-
-$(document).ready(function(){
-    fetchParticipants();
+        $(document).ready(function() {
+            fetchParticipants();
             setInterval(() => {
                 fetchParticipants();
             }, 10000);
-}); 
+        });
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -356,6 +376,7 @@ $(document).ready(function(){
                     });
                 })
                 .catch(function(error) {
+                    alert("Please check that your Camera is not busy with some other application or Properly connected.Try again!")
                     console.error('Unable to connect:', error);
                 });
         }
@@ -445,7 +466,6 @@ $(document).ready(function(){
 
         })
 
-
         function fetchParticipants() {
             $.ajax({
                 type: "post",
@@ -455,8 +475,10 @@ $(document).ready(function(){
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    if (response.participants) {
+                    if (response.status) {
                         updateParticipantsList(response.participants);
+                    } else {
+                        $("#append-pending-list").html('<p>No Pending Request</p>');
                     }
 
                 },
@@ -494,7 +516,7 @@ $(document).ready(function(){
                         userStatus = 'Waiting';
                     }
 
-                    html+=` <div id="pending-list${item.id}" class="text-center" >
+                    html += ` <div id="pending-list${item.id}" class="text-center" >
                                 <img  src="data:image/png;base64,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">
                                 <div class="button-container">
                                     <p> ${item.fname} </p>
@@ -503,8 +525,8 @@ $(document).ready(function(){
                                     <button class="btn btn-outline-danger dismiss-button" data-id="${item.id}" style="font-size:10px"><i
                                             class="fa fa-ban"></i></button>
                                 </div>
-                            </div>`; 
-                     
+                            </div>`;
+
                 })
             } else {
                 html = '<p>No Request</p>';
@@ -525,7 +547,7 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function(response) {
 
-                    $("#pending-list"+participantId),fadeOut(); 
+                    $("#pending-list" + participantId), fadeOut();
                     // Handle the response from the server
 
                     // Request successful
@@ -542,7 +564,8 @@ $(document).ready(function(){
         $(document).on("click", ".admit-button", function() {
             var participantId = $(this).data("id");
             setTimeout(() => {
-                $(this).parents('tr').fadeOut();
+                $("pending-list"+participantId).fadeOut();
+                // $(this).parents('tr').fadeOut();
             }, 2000);
             AdmitRequest(participantId, 'admitted');
 

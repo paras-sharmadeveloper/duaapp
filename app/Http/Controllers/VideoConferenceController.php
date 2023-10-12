@@ -237,7 +237,7 @@ class VideoConferenceController extends Controller
             
              
         }
-        return response()->json(['participants' => $dataArr, "status" => true], 200);
+        return response()->json(['participants' => $dataArr, "status" => (!empty($dataArr)) ? true : false ], 200);
     }
 
 
