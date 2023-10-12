@@ -93,6 +93,7 @@ class HomeController extends Controller
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
+      $slotDuration = $venueAddress->slot_duration;
       $dateTime = Carbon::parse($eventData);
       $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
       $dynamicData = [
@@ -101,7 +102,7 @@ class HomeController extends Controller
         'email' => $validatedData['email'],
         'mobile' =>  '+' . $mobile,
         'country' =>  $venue->country_name,
-        'event_name' => "1 Minute Online Dua Appointment",
+        'event_name' => $slotDuration ." Minute Online Dua Appointment",
         'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
         "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
         "meeting_link" => route('booking.status', [$uuid]),
@@ -115,10 +116,10 @@ class HomeController extends Controller
         'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
       ];
       if ($venueAddress->type == 'on-site') {
-        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-      } else {
-        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-      }
+          $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
+        } else {
+          $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
+        }
 
       SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
