@@ -245,6 +245,9 @@
 #sendOtp label{
     color: #fff;
 }
+label.form-check-label {
+    color: #fff;
+}
         /* css loader ends */
 </style>
     <!-- section -->
@@ -1183,6 +1186,7 @@
     </script>
 
 <script>
+    document.title = "KahayFaqeer.com |Booking Form"
     $(document).ready(function() {
        $('#mobile').on('input', function() {
            // Get the value of the phone input
