@@ -75,8 +75,8 @@ $(document).ready(function() {
         getNotificaitons();
         Pusher.logToConsole = false;
 
-        var pusher = new Pusher('0d51a97603f510fb700e', {
-            cluster: 'ap2'
+        var pusher = new Pusher(env('PUSHER_JS_KEY'), {
+                cluster: env('PUSHER_JS_CLUSTER')
         });
         var channel = pusher.subscribe('booking-notification-admin');
         pusher.connection.bind('connected', function() {

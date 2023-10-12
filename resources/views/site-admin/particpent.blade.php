@@ -242,15 +242,16 @@
     <script>
         var id = "{{ $id }}";
         var audioToneUrl = '';
+        
         const audioElement = new Audio('https://kahayfaqeer-general-bucket.s3.amazonaws.com/notification1.wav');
 
 
         $(document).ready(function() {
 
-            Pusher.logToConsole = false;
-
-            var pusher = new Pusher('0d51a97603f510fb700e', {
-                cluster: 'ap2'
+            Pusher.logToConsole = true;
+            console.log("pusherKey",env('PUSHER_JS_KEY'))
+            var pusher = new Pusher(env('PUSHER_JS_KEY'), {
+                cluster: env('PUSHER_JS_CLUSTER')
             });
             var channel = pusher.subscribe('site-admin-' + id);
             pusher.connection.bind('connected', function() {
