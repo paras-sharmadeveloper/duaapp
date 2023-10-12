@@ -34,4 +34,7 @@
 
 @endsection
 @section('page-script') 
+<script>
+    document.title = "KahayFaqeer.com | Booking Thankyou";
+  </script>
 @endsection

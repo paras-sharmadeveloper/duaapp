@@ -1186,7 +1186,7 @@ label.form-check-label {
     </script>
 
 <script>
-    document.title = "KahayFaqeer.com |Booking Form"
+    document.title = "KahayFaqeer.com |Booking Form";
     $(document).ready(function() {
        $('#mobile').on('input', function() {
            // Get the value of the phone input

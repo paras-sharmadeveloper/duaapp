@@ -1,7 +1,9 @@
 @extends('layouts.guest')
 
 @section('content')
-
+<style>
+  body{background-color:rgb(29, 29, 29);font-family:Karla,sans-serif}
+</style>
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
          
@@ -109,5 +111,7 @@
         </div>
 
       </section> 
- 
+      <script>
+        document.title = "KahayFaqeer.com| Reschdule Booking";
+      </script>
 @endsection

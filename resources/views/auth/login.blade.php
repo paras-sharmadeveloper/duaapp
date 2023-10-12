@@ -114,5 +114,7 @@
                 </div>
   </div><!-- End Basic Modal-->
 
- 
+  <script>
+    document.title = "KahayFaqeer.com| App Login";
+  </script>
 @endsection

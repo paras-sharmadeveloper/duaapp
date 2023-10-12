@@ -64,3 +64,6 @@
 }
   
 </style>
+<script>
+  document.title = "KahayFaqeer.com | 404";
+</script>

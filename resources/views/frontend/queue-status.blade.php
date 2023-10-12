@@ -300,3 +300,7 @@ h1.text-center {
 }
 </style>
 @endsection
+
+<script>
+    document.title = "KahayFaqeer.com | Queue Status";
+  </script>

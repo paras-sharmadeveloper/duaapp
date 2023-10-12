@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-
+ 
 @section('content')
 <div class="d-flex justify-content-center py-4">
     <a href="index.html" class="logoo  d-flex align-items-center wuto">
@@ -8,6 +8,7 @@
 </div>
 
     <style>
+        body{background-color:rgb(29, 29, 29);font-family:Karla,sans-serif}
         * {
             margin: 0;
             padding: 0;
@@ -331,6 +332,9 @@
 
 
 @section('page-script')
+  <script>
+    document.title = "KahayFaqeer.com| Online Meeting";
+  </script>
     <script>
         document.addEventListener("touchstart", function() {}, true);
     </script>

@@ -139,6 +139,8 @@
 
 
 @section('page-script')
+
+    <script> document.title = "KahayFaqeer.com| Participant";</script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script> 
         var id = "{{ $id }}";
