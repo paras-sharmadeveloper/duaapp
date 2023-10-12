@@ -309,7 +309,7 @@
                 var html = '';
                 var userinfo = participants.user_info;
                 var status = '';
-                if(userinfo.status == null || userinfo.status == ''){
+                if(userinfo.status == null || userinfo.status == '' || || userinfo.status == 'online'){
                     status = 'online'
                     $("#user-status").text(status)
                     $("#user-status").removeClass('level-danger').addClass('level-success');
