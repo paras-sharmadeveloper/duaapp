@@ -42,6 +42,8 @@
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script type="text/javascript">
+let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
+let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
 $(document).ready(function() {
 $("#country_name").select2({
             placeholder: "Select country",
@@ -75,8 +77,8 @@ $(document).ready(function() {
         getNotificaitons();
         Pusher.logToConsole = false;
 
-        var pusher = new Pusher(env('PUSHER_JS_KEY'), {
-                cluster: env('PUSHER_JS_CLUSTER')
+        var pusher = new Pusher(pusherKey, {
+                cluster: pusherKeyCluster
         });
         var channel = pusher.subscribe('booking-notification-admin');
         pusher.connection.bind('connected', function() {

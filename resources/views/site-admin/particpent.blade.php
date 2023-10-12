@@ -237,6 +237,7 @@
 @section('page-script')
     <script>
         document.title = "KahayFaqeer.com| Participant";
+        
     </script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
@@ -249,9 +250,9 @@
         $(document).ready(function() {
 
             Pusher.logToConsole = true;
-            console.log("pusherKey",env('PUSHER_JS_KEY'))
-            var pusher = new Pusher(env('PUSHER_JS_KEY'), {
-                cluster: env('PUSHER_JS_CLUSTER')
+            console.log("pusherKey",pusherKey)
+            var pusher = new Pusher(pusherKey, {
+                cluster: pusherKeyCluster
             });
             var channel = pusher.subscribe('site-admin-' + id);
             pusher.connection.bind('connected', function() {
