@@ -281,10 +281,7 @@
 
 
             });
-            setInterval(() => {
-                console.log("alive")
-            pusherConnection.send(JSON.stringify({ type: 'ping' }));
-            }, 15000);
+            
 
         })
     </script>
