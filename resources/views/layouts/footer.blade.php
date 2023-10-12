@@ -75,16 +75,17 @@ $(document).ready(function() {
 
     $(document).ready(function() {
         getNotificaitons();
-        Pusher.logToConsole = false;
+        BookingPusher.logToConsole = false;
 
-        var pusher = new Pusher(pusherKey, {
+        var BookingPusher = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
         });
-        var channel = pusher.subscribe('booking-notification-admin');
-        pusher.connection.bind('connected', function() {
-            console.log('Pusher connected');
+        
+        var BookingNotficationChannel = BookingPusher.subscribe('booking-notification-admin');
+        BookingPusher.connection.bind('connected', function() {
+            console.log('Pusher connected',BookingNotficationChannel);
         });
-        channel.bind('booking.notification', function(data) {
+        BookingNotficationChannel.bind('booking.notification', function(data) {
             var unreadNotificationCount = $("#notification-count").text();
             var response = JSON.stringify(data);
             var resp = JSON.parse(response)

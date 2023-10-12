@@ -268,7 +268,7 @@
             channel.bind('siteadmin.status.notification', function(data) {
               
                 var response = JSON.stringify(data);
-                var resp = JSON.parse(JSON.stringify(response))
+                var resp = JSON.parse(response)
                 
                 if (resp.message == 'online') {
                     $("#user-status").text(resp.message)
