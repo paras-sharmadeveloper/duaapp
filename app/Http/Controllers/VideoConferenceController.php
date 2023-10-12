@@ -140,7 +140,14 @@ class VideoConferenceController extends Controller
 
     public function fieldAdminRequest(){
         $id = Auth::user()->id; 
-        return view('site-admin.particpent',compact('id'));
+        $role = Auth::user()->roles->pluck('name')->first(); 
+        if($role == 'admin'){
+            $venueAddress = VenueAddress::with('thripist')->get()->first(); 
+        }else{
+            $venueAddress = VenueAddress::where(['siteadmin_id' => $id])->with('thripist')->get()->first(); 
+        }
+        
+        return view('site-admin.particpent',compact('id','venueAddress'));
         
     }
 

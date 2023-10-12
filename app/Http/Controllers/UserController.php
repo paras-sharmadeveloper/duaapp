@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Events\UserNotification;
 use Illuminate\Support\Facades\Log;
@@ -35,23 +35,23 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $status = $request->input('status');
-        $site_admin_id = $request->input('site_admin_id'); 
-        $user->status = $status; 
+        $site_admin_id = $request->input('site_admin_id');
+        $user->status = $status;
         try {
-            $event=  event(new UserNotification($status, $site_admin_id));
+            $event =  event(new UserNotification($status, $site_admin_id));
         } catch (\Exception $e) {
-            Log::error("isue in ebve" .$e->getMessage()); 
+            Log::error("isue in ebve" . $e->getMessage());
         }
-         
-         $user->save(); 
+
+        $user->save();
         return response()->json(['message' => 'Status updated successfully']);
     }
 
-   
+
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
+        $data = User::orderBy('id', 'DESC')->paginate(5);
+        return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -60,8 +60,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $roles = Role::pluck('name', 'name')->all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -71,31 +71,31 @@ class UserController extends Controller
     {
 
         $post = $request->all();
-       
-            $this->validate($request, [
+
+        $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required',
-             
-           ]);
-        
-    
+
+        ]);
+
+
         $input = $request->all();
 
         if ($request->hasFile('profile_pic')) {
             $image = $request->file('profile_pic');
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
-            $input['profile_pic'] = $imageName; 
-           // $image->move(public_path('images'), $imageName); 
+            $input['profile_pic'] = $imageName;
+            // $image->move(public_path('images'), $imageName); 
         }
-        $input['password'] = Hash::make($input['password']); 
+        $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-    
+
         return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+            ->with('success', 'User created successfully');
     }
 
     /**
@@ -103,8 +103,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-       $user = User::find($id);
-        return view('users.show',compact('user'));
+        $user = User::find($id);
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -113,9 +113,9 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->first(); 
-        return view('users.edit',compact('user','roles','userRole'));
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->first();
+        return view('users.edit', compact('user', 'roles', 'userRole'));
     }
 
     /**
@@ -124,19 +124,18 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $post = $request->all();
-            $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required|email', 
-                'roles' => 'required', 
-          ]);
-        
-    
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'roles' => 'required',
+        ]);
+
+
         $input = $request->all();
-        if(!empty($input['password'])){ 
+        if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
-           
-        }else{
-            $input = Arr::except($input,array('password'));    
+        } else {
+            $input = Arr::except($input, array('password'));
         }
 
         if ($request->hasFile('profile_pic')) {
@@ -144,20 +143,20 @@ class UserController extends Controller
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
             $input['profile_pic'] = $imageName;
-          // $image->move(public_path('images'), $imageName); 
+            // $image->move(public_path('images'), $imageName); 
         }
 
-       
-         
-    
+
+
+
         $user = User::find($id);
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-    
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
         $user->assignRole($request->input('roles'));
-    
+
         return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -167,6 +166,6 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+            ->with('success', 'User deleted successfully');
     }
 }

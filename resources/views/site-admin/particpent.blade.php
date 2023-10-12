@@ -2,147 +2,244 @@
 
 @section('content')
     <style>
-        .avatar {
-            overflow: hidden;
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
+
+        * {
+            box-sizing: border-box;
         }
 
-        .user-icon {
-            font-size: 2em;
-            /* change font size should change size of icon */
-            float: left;
-            margin: 1em;
-            /* remove this line to avoid float/margin */
+        .friend-list {
+            font-family: "Montserrat", sans-serif;
         }
 
-        .user-icon {
-            border-radius: 4em;
-            border: 1px solid skyblue;
-            height: 6em;
-            width: 6em;
-            background: none;
-            padding: 0.1em;
-        }
-
-        .user-icon::before {
-            content: " ";
-            display: block;
-            height: 2em;
-            width: 2em;
-            background: skyblue;
+        .friend-list .friend-box {
             position: relative;
-            left: 2em;
-            top: 0.8em;
-            border-radius: 2em;
+            display: inline-block;
+            width: 500px;
+            height: 140px;
+            background-color: #eee;
+            margin: 20px;
+            border-radius: 10px;
         }
 
-        .user-icon::after {
-            content: " ";
-            display: block;
-            height: 2em;
-            width: 4em;
-            background: skyblue;
+        .friend-list .friend-profile {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -20px;
+            border-radius: 50%;
+            height: 70px;
+            width: 70px;
+            background-size: cover;
+            background-position: center;
+            border: 3px rgba(255, 255, 255, 0.7) solid;
+            box-shadow: 0px 0px 15px #aaa;
+        }
+
+        .friend-list .name-box {
+            text-align: center;
+            position: absolute;
+            top: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            color: #4F7091;
+            font-size: 18px;
+        }
+
+        .friend-list .user-name-box {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .friend-list .level-indicator {
+            background-color: #00a5db;
+            color: #fff;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+        }
+
+        .friend-requests {
+            font-family: "Montserrat", sans-serif;
+            text-align: center;
+        }
+
+        .friend-requests .friend-box {
             position: relative;
-            left: 1em;
-            top: 1em;
-            border-radius: 2em 2em 0 0;
+            display: inline-block;
+            width: 300px;
+            height: 140px;
+            background-color: #eee;
+            margin: 20px;
+            border-radius: 10px;
         }
 
-        .red,
-        .amber,
-        .green {
-            display: block;
-            height: 0em;
-            width: 0em;
-            background: none;
+        .friend-requests .friend-profile {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            border-radius: 50%;
+            height: 70px;
+            width: 70px;
+            background-size: cover;
+            background-position: center;
+            border: 3px rgba(255, 255, 255, 0.7) solid;
+            box-shadow: 0px 0px 15px #aaa;
+        }
+
+        .friend-requests .name-box {
+            text-align: left;
+            position: absolute;
+            top: 20px;
+            left: 90px;
+            width: 200px;
+            color: #4F7091;
+            font-size: 18px;
+        }
+
+        .friend-requests .user-name-box {
+            position: absolute;
+            top: 50px;
+            left: 90px;
+            width: 200px;
+            text-align: left;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .friend-requests .request-btn-row {
+            position: absolute;
+            left: 10px;
+            width: calc(100% - 20px);
+            bottom: 10px;
+            text-align: center;
+        }
+
+        .friend-requests .request-btn-row .friend-request {
+            width: 35%;
+            margin: 5px 5%;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .friend-requests .request-btn-row .decline-request {
+            background-color: #FF6666;
+            color: #fff;
+        }
+
+        .friend-requests .request-btn-row .decline-request:hover {
+            background-color: #993333;
+        }
+
+        .friend-requests .request-btn-row .accept-request {
+            background-color: #41c764;
+            color: #fff;
+        }
+
+        .friend-requests .request-btn-row .accept-request:hover {
+            background-color: #419764;
+        }
+
+        .friend-requests .request-btn-row .fr-request-pending {
             position: relative;
-            left: 3em;
-            top: -2em;
+            top: -10px;
+            color: #17406f;
+            font-weight: bold;
+        }
+
+        .friend-requests .request-btn-row.disappear {
+            display: none;
+        }
+
+        .friend-requests {
+            border: 3px dotted black;
+            padding: 100px;
         }
 
 
-        .red::after,
-        .amber::after,
-        .green::after {
-            content: " ";
-            display: block;
-            height: 1em;
-            width: 1em;
+        @media (max-width:767px) {
+            .friend-requests {
+                border: 3px dotted black;
+                padding: 0 !important;
+            }
+
+            .friend-list {
+                text-align: center !important;
+            }
+            .friend-list .friend-box {
             position: relative;
-            left: 1.4em;
-            top: 0em;
+            display: inline-block;
+            width: 310px;
+            height: 140px;
+            background-color: #eee;
+            margin: 20px;
+            border-radius: 10px;
+        }
         }
 
-        .amber::after {
-            height: 0;
-            width: 0;
-            border: .58em solid transparent;
-            /* for eq Triangle  ratio is 1:1.16. 1.16/2=~.58 */
-            border-bottom: 1em solid orange;
-            border-top: 0em;
-            /* important for positioning */
-        }
+        @media (min-width:1024px) {
 
-
-        .red::after {
-            background: red;
+            .friend-requests {
+                border: 3px solid black;
+                padding: 0px !important;
+            }
         }
-
-        .green::after {
-            background: green;
-            border-radius: 1em;
-        }
-
-        .font18 {
-            font-size: 18px
-        }
+        .friend-list {
+    text-align: center;
+}
+.level-success {
+    background: green !important;
+}
+.level-danger {
+    background: red !important;
+}
     </style>
-
-
-    <div class="row justify-content-center">
-        <div class="col-lg-3 text-center">
-
-            <div class="avatar d-flex justify-content-center">
-                <div class="user-icon" id="user-icon">
-                    <span class="green"> </span>
-                </div>
-
-            </div>
-            <div class="info">
-                <p class=" badge badge-success text-bg-dark" id="name">Online</p><br>
-                <span class="text-success badge badge-success" id="text">Online</span>
-            </div>
-
+    <div class="friend-list">
+        @if (!empty($venueAddress))
+        <div class="friend-box">
+            @if (!empty($venueAddress->thripist->profile_pic) && Storage::disk('s3_general')->exists('images/' .$venueAddress->thripist->profile_pic))
+            <div class="friend-profile" style="background-image: url({{ env('AWS_GENERAL_PATH') . 'images/' . $venueAddress->thripist->profile_pic}});"></div>
+                @else
+                <div class="friend-profile" style="background-image: url(https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg);"></div>
+            @endif
+            <div class="friend-profile"
+                style="background-image: url({{ env('AWS_GENERAL_PATH') . 'images/' . $venueAddress->thripist->profile_pic}});"></div>
+            <div class="name-box">{{ ($venueAddress) ? $venueAddress->thripist->name: "" }}</div>
+            <div class="user-name-box d-none">{{ $venueAddress->thripist->name }}</div>
+            @if(!empty( $venueAddress->thripist->status ))
+               <div class="level-indicator mt-2">{{  $venueAddress->thripist->status }}</div>
+            @else
+               <div id="user-status" class="level-indicator level-success mt-2 user-status">Online</div>
+            @endif
+           
         </div>
-        <div class="col-lg-9">
-            <div class="card">
-                <div class="col-lg-12">
-                    <table class="table-with-buttons table table-responsive cell-border">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="particpents">
-
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
-
+    <div class="friend-requests">
+        <div class="friend-box No-request"> <div class="name-box"> No Request Yet Received</div> </div>
     </div>
 @endsection
 
 
 @section('page-script')
-
-    <script> document.title = "KahayFaqeer.com| Participant";</script>
+    <script>
+        document.title = "KahayFaqeer.com| Participant";
+    </script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script> 
+    <script>
         var id = "{{ $id }}";
         var audioToneUrl = '';
         const audioElement = new Audio('https://kahayfaqeer-general-bucket.s3.amazonaws.com/notification1.wav');
@@ -164,13 +261,16 @@
                 var response = JSON.stringify(data);
                 var resp = JSON.parse(response)
                 if (resp.message == 'online') {
-                    $("#user-icon").find('span').removeClass('red').addClass('green');
+                    $("#user-status").text(resp.message)
+                    $("#user-status").removeClass('level-danger').addClass('level-success');
                 } else {
-                    $("#user-icon").find('span').removeClass('green').addClass('red');
+                    $("#user-status").text(resp.message)
+                    $("#user-status").removeClass('level-success').addClass('level-danger');
+                     
                 }
 
 
-            }); 
+            });
 
         })
     </script>
@@ -194,10 +294,9 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        if(response.participants){
+                        if (response.participants) {
                             updateParticipantsList(response.participants);
                         }
-                       
                     },
                     error: function() {
                         console.error("An error occurred while fetching the participant list.");
@@ -217,12 +316,14 @@
                 // }
 
                 if (userinfo.status == 'online') {
-                    $("#text").text(userinfo.status)
-                    $("#user-icon").find('span').removeClass('red').addClass('green');
+                    $("#user-status").text(userinfo.status)
+                    $("#user-status").removeClass('level-danger').addClass('level-success');
                 } else {
-                    $("#text").text(userinfo.status)
-                    $("#user-icon").find('span').removeClass('green').addClass('red');
+                    $("#user-status").text(userinfo.status)
+                    $("#user-status").removeClass('level-success').addClass('level-danger');
+                     
                 }
+ 
                 $("#name").text(userinfo.name)
                 delete participants.user_info;
                 if (participants) {
@@ -232,17 +333,21 @@
                         if (item.user_status == 'in-queue') {
                             userStatus = 'Waiting';
                         }
-                        html += `<tr>
-                            <td>${item.fname} ${item.lname}</td>
-                            <td> ${userStatus}</td>
-                            <td><button class="admit-button btn btn-info" data-id="${item.id}">Admit</button>
-                                <button class="dismiss-button btn btn-danger"
-                                    data-id="${item.id}">Dismiss</button>
-                            </td>
-                        </tr>`;
+                        html+=`<div class="friend-box">
+                                <div class="friend-profile" style="background-image: url(https://img.icons8.com/ios/50/user--v1.png);"></div>
+                                <div class="name-box">${item.fname} ${item.lname}</div>
+                                <div class="user-name-box">@${item.fname} sent you a request.</div>
+                                <div class="request-btn-row" data-username="sadrabbit534">
+                                    <button class="friend-request accept-request admit-button"
+                                    data-id="${item.id}">Accept</button>
+                                    <button class="friend-request decline-request dismiss-button"
+                                    data-id="${item.id}">Decline</button>
+                                </div>
+                        </div>`;
+                        
                     })
                 } else {
-                    html = '<tr><td></td><td>No Requests</td><td></td> <td></td></tr>';
+                    html = '<div class="friend-box"><div class="friend-box No-request"> <div class="name-box"> No Request Yet Received</div> </div></div>';
                 }
                 $("#particpents").html(html)
 
@@ -287,7 +392,5 @@
 
 
         });
-
-     
     </script>
 @endsection
