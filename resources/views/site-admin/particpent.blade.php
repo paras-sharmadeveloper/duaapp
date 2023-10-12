@@ -308,21 +308,19 @@
 
                 var html = '';
                 var userinfo = participants.user_info;
-                // var userProfile = userinfo.profile_pic;
-                // if(userProfile){
-                //     $(this).find('img').attr('src',imagePath+userProfile);
-                // }else{
-                //     $(this).find('span > img').attr('src',defaultPath);
-                // }
-
-                if (userinfo.status == 'online') {
-                    $("#user-status").text(userinfo.status)
+                var status = '';
+                if(userinfo.status == null || userinfo.status == ''){
+                    status = 'online'
+                    $("#user-status").text(status)
                     $("#user-status").removeClass('level-danger').addClass('level-success');
-                } else {
-                    $("#user-status").text(userinfo.status)
+                }else{
+                    status = userinfo.status
+                    $("#user-status").text(status)
                     $("#user-status").removeClass('level-success').addClass('level-danger');
-                     
+
                 }
+
+               
  
                 $("#name").text(userinfo.name)
                 delete participants.user_info;
