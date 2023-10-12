@@ -75,7 +75,7 @@ $(document).ready(function() {
 
     $(document).ready(function() {
         getNotificaitons();
-        BookingPusher.logToConsole = false;
+        Pusher.logToConsole = false;
 
         var BookingPusher = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
