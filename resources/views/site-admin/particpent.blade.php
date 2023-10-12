@@ -257,12 +257,12 @@
 
         $(document).ready(function() {
 
-            Pusher.logToConsole = true; 
-            var pusher = new Pusher(pusherKey, {
+            pusherConnection.logToConsole = true; 
+            var pusherConnection = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
             });
-            var channel = pusher.subscribe('site-admin-' + id);
-            pusher.connection.bind('connected', function() {
+            var channel = pusherConnection.subscribe('site-admin-' + id);
+            pusherConnection.connection.bind('connected', function() {
                 console.log('Pusher connected');
             });
             channel.bind('siteadmin.status.notification', function(data) {
@@ -281,6 +281,10 @@
 
 
             });
+            setInterval(() => {
+                console.log("alive")
+            pusherConnection.send(JSON.stringify({ type: 'ping' }));
+            }, 30000);
 
         })
     </script>
