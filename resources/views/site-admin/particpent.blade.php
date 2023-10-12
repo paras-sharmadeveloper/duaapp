@@ -257,9 +257,10 @@
                 console.log('Pusher connected');
             });
             channel.bind('user.notification', function(data) {
-
+              
                 var response = JSON.stringify(data);
                 var resp = JSON.parse(response)
+                console.log("re",resp)
                 if (resp.message == 'online') {
                     $("#user-status").text(resp.message)
                     $("#user-status").removeClass('level-danger').addClass('level-success');
@@ -294,7 +295,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        if (response.participants) {
+                        if (response.status) {
                             updateParticipantsList(response.participants);
                         }
                     },
