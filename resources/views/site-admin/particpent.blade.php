@@ -228,7 +228,7 @@
         </div>
         @endif
     </div>
-    <div class="friend-requests">
+    <div class="friend-requests" id="particpents">
         <div class="friend-box No-request"> <div class="name-box"> No Request Yet Received</div> </div>
     </div>
 @endsection
