@@ -220,7 +220,7 @@
             <div class="name-box">{{ ($venueAddress) ? $venueAddress->thripist->name: "" }}</div>
             <div class="user-name-box d-none">{{ $venueAddress->thripist->name }}</div>
             @if(!empty( $venueAddress->thripist->status ))
-               <div class="level-indicator mt-2">{{  $venueAddress->thripist->status }}</div>
+               <div id="user-status" class="level-indicator level-success mt-2 user-status">{{  $venueAddress->thripist->status }}</div>
             @else
                <div id="user-status" class="level-indicator level-success mt-2 user-status">Online</div>
             @endif
@@ -236,7 +236,7 @@
 
 @section('page-script')
     <script>
-        document.title = "KahayFaqeer.com| Participant";
+        document.title = "KahayFaqeer.com | Participant";
         
     </script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
