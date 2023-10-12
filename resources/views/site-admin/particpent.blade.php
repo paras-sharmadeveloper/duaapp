@@ -220,7 +220,15 @@
             <div class="name-box">{{ ($venueAddress) ? $venueAddress->thripist->name: "" }}</div>
             <div class="user-name-box d-none">{{ $venueAddress->thripist->name }}</div>
             @if(!empty( $venueAddress->thripist->status ))
-               <div id="user-status" class="level-indicator level-success mt-2 user-status">{{  $venueAddress->thripist->status }}</div>
+               <div id="user-status" 
+
+               @if($venueAddress->thripist->status == 'online')
+                  class="level-indicator level-success mt-2 user-status"
+               @else
+                  class="level-indicator level-danger mt-2 user-status"
+               @endif
+               
+              >{{  $venueAddress->thripist->status }}</div>
             @else
                <div id="user-status" class="level-indicator level-success mt-2 user-status">Online</div>
             @endif
