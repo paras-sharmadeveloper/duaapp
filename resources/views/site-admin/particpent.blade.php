@@ -257,7 +257,7 @@
 
         $(document).ready(function() {
 
-            pusherConnection.logToConsole = true; 
+            pusher.logToConsole = true; 
             var pusher = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
             });
