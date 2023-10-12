@@ -48,7 +48,7 @@ trait OtpTrait
         $usePhone, // User's phone number
         [
           'from' => config('services.twilio.phone'),
-          'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\Thanks,\Team Kahay Faqeer."
+          'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
         ]
       );
       return ['message' => 'OTP Sent successfully', 'status' => true];
