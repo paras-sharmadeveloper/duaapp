@@ -32,7 +32,7 @@ class UserNotification implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'user.notification';  
+        return 'siteadmin.status.notification';  
     }
 
      

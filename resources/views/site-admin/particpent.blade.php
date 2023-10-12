@@ -257,8 +257,7 @@
 
         $(document).ready(function() {
 
-            Pusher.logToConsole = true;
-            console.log("pusherKey",pusherKey)
+            Pusher.logToConsole = true; 
             var pusher = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
             });
@@ -266,7 +265,7 @@
             pusher.connection.bind('connected', function() {
                 console.log('Pusher connected');
             });
-            channel.bind('user.notification', function(data) {
+            channel.bind('siteadmin.status.notification', function(data) {
               
                 var response = JSON.stringify(data);
                 var resp = JSON.parse(response)
