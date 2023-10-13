@@ -536,7 +536,7 @@ class HomeController extends Controller
       'countryName' => $result['countryName'],
       'regionName' => $result['regionName'],
       'city' => $result['city'],
-      'postalCode' => $result['postalCode'],
+      'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
       'complete_data' => $response
     ];
 
