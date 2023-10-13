@@ -856,7 +856,7 @@ label.form-check-label {
         });
 
         function getAjax(id, type) { 
-            $("#loader").show();
+        
 
             $.ajax({
                 type: 'POST',
@@ -870,10 +870,12 @@ label.form-check-label {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    $("#loader").hide();
+                  
                     if (type == 'get_type') { 
+
                         var typed = '';
                        
+                        $("#type-listing").append(appendLoader()); 
                         $.each(response.type, function(key, item) {
 
                             var meetingType = 'Online';
@@ -891,13 +893,14 @@ label.form-check-label {
                                 </div>
                             </div>`;
                         })
-                        $("#type-listing").html(typed).find(".loader").hide(); 
+                        $("#type-listing").html(typed); 
  
                     }
 
 
                     if (type == 'get_country') {
                         var country = '';
+                        $("#country-listing").append(appendLoader()); 
                         $.each(response.country, function(key, item) {
                             var meetingType = 'Online';
                             if(item.type == 'on-site'){
@@ -913,12 +916,13 @@ label.form-check-label {
                             </div>
                         </div>`;
                         })
-                        $("#country-listing").html(country).find(".loader").hide(); 
+                        $("#country-listing").html(country); 
 
                     }
                     if (type == 'get_city') { 
                        
                         var city = '';
+                        $("#city-listing").append(appendLoader());
                         $.each(response.city, function(key, item) {
                             var meetingType = 'Online';
                             if(item.type == 'on-site'){
@@ -934,12 +938,13 @@ label.form-check-label {
                                 </div>
                             </div>`;
                        })
-                       $("#city-listing").html(city).find(".loader").hide(); 
+                       $("#city-listing").html(city); 
 
                     }
                     if (type == 'get_date') {  
 
                         var dAte = '';
+                        $("#date-listing").append(appendLoader());
                         $.each(response.date, function(key, item) { 
                             
                             dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
@@ -956,6 +961,7 @@ label.form-check-label {
                     
                     if (type == 'get_slots') {
                         var html = '';
+                        $("#slot-listing").append(appendLoader());
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-6">
@@ -1323,6 +1329,12 @@ function stopCamera() {
     captureSelfieButton.hide();
     restartCameraButton.hide();
 }
-   
+   function appendLoader(){
+    return `<div id="loadera" class="loader">
+                                <div class="lds-spinner">
+                                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                </div>
+            </div>`; 
+   }
    </script>
 @endsection
