@@ -372,7 +372,7 @@ label.form-check-label {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="type-listing">
-                            <div id="loader" style="display: none">
+                            <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                 </div>
@@ -396,7 +396,7 @@ label.form-check-label {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
-                              <div id="loader" style="display: none">
+                              <div id="loader" style="display: none"  class="loader">
                                     <div class="lds-spinner">
                                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                     </div>
@@ -417,7 +417,7 @@ label.form-check-label {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
-                              <div id="loader" style="display: none">
+                              <div id="loader" style="display: none"  class="loader">
                                     <div class="lds-spinner">
                                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                     </div>
@@ -443,7 +443,7 @@ label.form-check-label {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
-                              <div id="loader" style="display: none">
+                              <div id="loader" style="display: none"  class="loader">
                                     <div class="lds-spinner">
                                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                     </div>
@@ -470,7 +470,7 @@ label.form-check-label {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
-                              <div id="loader" style="display: none">
+                              <div id="loader" style="display: none"  class="loader">
                                     <div class="lds-spinner">
                                         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                     </div>
@@ -766,8 +766,8 @@ label.form-check-label {
                         
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
+                        $(this).next(".row").find(".loader").show();
                         
-                        $("#loader").show();
                         $(this).parents(".row").fadeOut("slow", function() {
                           $(this).next(".row").fadeIn(); 
                           $(this).next(".row").find('.head>label').text(oldTitle)
@@ -891,7 +891,7 @@ label.form-check-label {
                                 </div>
                             </div>`;
                         })
-                        $("#type-listing").html(typed); 
+                        $("#type-listing").html(typed).find(".loader").hide(); 
  
                     }
 
@@ -913,7 +913,7 @@ label.form-check-label {
                             </div>
                         </div>`;
                         })
-                        $("#country-listing").html(country); 
+                        $("#country-listing").html(country).find(".loader").hide(); 
 
                     }
                     if (type == 'get_city') { 
@@ -934,7 +934,7 @@ label.form-check-label {
                                 </div>
                             </div>`;
                        })
-                       $("#city-listing").html(city); 
+                       $("#city-listing").html(city).find(".loader").hide(); 
 
                     }
                     if (type == 'get_date') {  
@@ -951,7 +951,7 @@ label.form-check-label {
                                 </div>
                             </div>`;
                         })
-                        $("#date-listing").html(dAte);
+                        $("#date-listing").html(dAte).find(".loader").hide();
                     } 
                     
                     if (type == 'get_slots') {
@@ -968,7 +968,7 @@ label.form-check-label {
                                 </div>
                                 </div>`;
                             });
-                            $("#slot-listing").html(html);
+                            $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
                             $(".back").show();
                         } else {
