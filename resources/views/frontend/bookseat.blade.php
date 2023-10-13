@@ -767,6 +767,8 @@ label.form-check-label {
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
                         $(this).next(".row").find(".loader").show();
+
+                        $(this).next(".row").find(".row").append(appendLoader()); 
                         
                         $(this).parents(".row").fadeOut("slow", function() {
                           $(this).next(".row").fadeIn(); 
