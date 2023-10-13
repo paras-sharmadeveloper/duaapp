@@ -766,7 +766,7 @@ label.form-check-label {
                         
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass('active');
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
-                        $(this).next(".row").find(".loader").show();
+                         
 
                         $(this).next(".row").find(".row").append(appendLoader()); 
                         
@@ -877,7 +877,7 @@ label.form-check-label {
 
                         var typed = '';
                        
-                        $("#type-listing").append(appendLoader()); 
+                        $("#type-listing").html(appendLoader()); 
                         $.each(response.type, function(key, item) {
 
                             var meetingType = 'Online';
@@ -902,7 +902,7 @@ label.form-check-label {
 
                     if (type == 'get_country') {
                         var country = '';
-                        $("#country-listing").append(appendLoader()); 
+                        $("#country-listing").html(appendLoader()); 
                         $.each(response.country, function(key, item) {
                             var meetingType = 'Online';
                             if(item.type == 'on-site'){
@@ -924,7 +924,7 @@ label.form-check-label {
                     if (type == 'get_city') { 
                        
                         var city = '';
-                        $("#city-listing").append(appendLoader());
+                        $("#city-listing").html(appendLoader());
                         $.each(response.city, function(key, item) {
                             var meetingType = 'Online';
                             if(item.type == 'on-site'){
@@ -946,7 +946,7 @@ label.form-check-label {
                     if (type == 'get_date') {  
 
                         var dAte = '';
-                        $("#date-listing").append(appendLoader());
+                        $("#date-listing").html(appendLoader());
                         $.each(response.date, function(key, item) { 
                             
                             dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
@@ -963,7 +963,7 @@ label.form-check-label {
                     
                     if (type == 'get_slots') {
                         var html = '';
-                        $("#slot-listing").append(appendLoader());
+                        $("#slot-listing").html(appendLoader());
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-6">
@@ -1332,7 +1332,7 @@ function stopCamera() {
     restartCameraButton.hide();
 }
    function appendLoader(){
-    return `<div id="loadera" class="loader">
+    return `<div id="loader" class="loader">
                                 <div class="lds-spinner">
                                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                                 </div>
