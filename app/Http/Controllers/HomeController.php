@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Events\BookingNotification;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -430,14 +431,16 @@ class HomeController extends Controller
                 ->orWhereDate('venue_date', date('Y-m-d'));
       })
       ->get()->first();
-      $currentTimezone = 'America/New_York'; 
+    
       
-      if($request->ip() != '127.0.0.1'){
-        $userDetail = $this->getIpDetails($request->ip());
-        $countryCode = $userDetail['countryCode'];
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;  
-      }
+      if (App::environment('production')) {
+          $userDetail = $this->getIpDetails($request->ip());
+          $countryCode = $userDetail['countryCode'];
+          $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+          $currentTimezone = $timezone->timezone;  
+       }else{
+          $currentTimezone = 'America/New_York'; 
+       }
       $mytime = Carbon::now()->tz($currentTimezone);
       $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at,$currentTimezone);
       $hoursRemaining = $eventDate->diffInHours($mytime);
@@ -462,6 +465,7 @@ class HomeController extends Controller
            'status' => false, 
            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
            'slots' => [],   
+           'app' =>App::environment('production')
           //  'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
           //  'eventDate' => $eventDate, 
       
