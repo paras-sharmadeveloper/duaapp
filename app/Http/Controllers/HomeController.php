@@ -533,9 +533,9 @@ class HomeController extends Controller
 
     $data = [
       'user_ip' => $userIp,
-      'countryName' => $result['countryName'],
-      'regionName' => $result['regionName'],
-      'city' => $result['city'],
+      'countryName' => (isset($result['countryName'])) ? $result['countryName'] : null,
+      'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
+      'city' => (isset($result['city'])) ? $result['city'] : null,
       'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
       'complete_data' => $response
     ];
