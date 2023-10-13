@@ -738,8 +738,6 @@ label.form-check-label {
             $(".next").on({
                 click: function() {
                     
-                   
-                    
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
 
                    
@@ -858,7 +856,7 @@ label.form-check-label {
         });
 
         function getAjax(id, type) { 
-           
+            $("#loader").show();
 
             $.ajax({
                 type: 'POST',
