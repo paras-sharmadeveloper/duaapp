@@ -457,7 +457,8 @@ class HomeController extends Controller
           return response()->json([
           'status' => true, 
           'message' => 'Slots are be avilable',
-          'slots' =>  $slotArr
+          'slots' =>  $slotArr,
+          'app' =>App::environment('production')
         ]);
       } else {
         return response()->json(
