@@ -133,18 +133,17 @@ class BookingController extends Controller
 
         // Get the user's slot time
         $userSlot = VenueSloting::find($userBooking->slot_id);
-        $userSlotTime = $userSlot->slot_starts_at_morning;  
-        $userSlotTimeEvng = $userSlot->slot_starts_at_evening;  
-        
+        $userSlotTime = $userSlot->slot_time;  
         // Assuming 'time' is the column where you store the slot time
         $venueAddress = VenueAddress::find($userSlot->venue_address_id);
         // Calculate the start of slots
-        $startTime = $venueAddress->slot_starts_at;
+        $startTimemrg = $venueAddress->slot_starts_at_morning; 
+        
 
         // Count bookings from the start time until the user's slot time
-        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTime, $userSlotTime,$userSlotTimeEvng) {
-            $query->where('slot_time', '>=', $startTime)
-                ->where('slot_time', '<', $userSlotTime)->orWhere('slot_time', '<', $userSlotTimeEvng);
+        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg,$userSlotTime) {
+            $query->where('slot_time', '>=', $startTimemrg)
+                ->where('slot_time', '<', $userSlotTime);
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
         return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople'));
