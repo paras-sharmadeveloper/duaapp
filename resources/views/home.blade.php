@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Visiors <span>Total Vistors</span></h5>
+                  <h5 class="card-title">Vistors <span>Total Vistors</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Thripist <span>Total thripist</span></h5>
+                  <h5 class="card-title">Sahib-e-Dua<span>Total Sahib-e-Dua</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">

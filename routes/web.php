@@ -13,7 +13,8 @@ use App\Http\Controllers\{
     BookingController,
     SiteAdminController,
     VideoConferenceController,
-    NotificationController
+    NotificationController,
+    AgGridManagement
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -33,6 +34,13 @@ use App\Events\MyEvent;
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
+    return 'Scheduled task triggered successfully.';
+});
+
+
+Route::get('/config/clear', function () {
+    Artisan::call('config:clear'); // Replace with the name of your custom command
+    Artisan::call('config:cache');
     return 'Scheduled task triggered successfully.';
 });
 
@@ -119,6 +127,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('venues', VenueController::class);
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
+    
+    Route::post('/grid/fetch/booking', [AgGridManagement::class,'getDataMessageLog'])->name('fetch.bookings');
 
     Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');

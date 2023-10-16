@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Vistors,VenueSloting,VenueAddress};
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
-
+ 
 class BookingController extends Controller
 {
     use OtpTrait;
