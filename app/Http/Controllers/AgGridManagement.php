@@ -28,11 +28,20 @@ class AgGridManagement extends Controller
             'user_status' => 'vistors',
             'meeting_start_at' => 'vistors',
             'meeting_ends_at' => 'vistors', 
+            'country_name' => 'venues',
+            'address' => 'venue_addresses',
+            'venue_date' => 'venue_addresses',
+            'slot_time' => 'venues_sloting',
+            'name' => 'users'
+
+
         ];
 
         $query = DB::table('vistors')
         ->join('venues_sloting', 'venues_sloting.id', '=', 'vistors.slot_id')
-        ->join('venue_addresses', 'venue_addresses.id', '=', 'venues_sloting.venue_address_id');
+        ->join('venue_addresses', 'venue_addresses.id', '=', 'venues_sloting.venue_address_id')
+        ->join('users', 'users.id', '=', 'venue_addresses.therapist_id')
+        ->join('venues', 'venue_addresses.venue_id', '=', 'venues.id');
 
     // Build an array of select expressions based on the mapping
     $selectExpressions = [];

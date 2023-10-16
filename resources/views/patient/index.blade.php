@@ -61,6 +61,8 @@
 @section('page-script')
 <script>
     var licenseKey = "{{ env('AG_GRID_KEY') }}"
+
+   
     const columnDefs = [{
             headerName: 'BookingId',
             field: 'booking_number',
@@ -71,6 +73,59 @@
             enablePivot: true,
             sort: 'desc',
             filter: "agNumberColumnFilter"
+        },
+
+        {
+            headerName: 'Venue Country',
+            field: 'country_name',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
+
+        {
+            headerName: 'Venue Address',
+            field: 'address',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
+
+        {
+            headerName: 'Venue Date',
+            field: 'venue_date',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
+        {
+            headerName: 'Slot Time',
+            field: 'slot_time',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
+        {
+            headerName: 'Therapist Name',
+            field: 'name',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
         },
          
         {
@@ -96,7 +151,7 @@
         },
         {
             headerName: 'Phone',
-            field: 'Phone',
+            field: 'phone',
             enableValue: true,
             enableRowGroup: true,
             floatingFilter: true,
@@ -169,7 +224,8 @@
             floatingFilter: true,
             pivot: true,
             enablePivot: true,
-            filter: "agTextColumnFilter"
+            filter: "agTextColumnFilter",
+             
         },
 
         {
