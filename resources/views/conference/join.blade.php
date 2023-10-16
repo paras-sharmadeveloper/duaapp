@@ -190,6 +190,11 @@
             <div class="top-iconsa">
             </div>
             <div class="row">
+                <div class="col-1 you">
+                    <div id="remote-video">
+                        <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
+                    </div> 
+                </div>
                 <div class="col-2">
                     <div class="joined">
                         <p>You</p>
@@ -243,13 +248,7 @@
 
                     </div>
                 </div>
-                <div class="col-1 you">
-                    <div id="remote-video">
-                        <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
-                    </div>
-
-
-                </div>
+                
 
             </div>
         </div>
