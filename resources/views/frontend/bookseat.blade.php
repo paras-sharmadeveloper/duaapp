@@ -573,6 +573,12 @@
             right: 4px;
             height: 28px !important;
         }
+        label {
+    color: white;
+}
+button#sendOtp {
+    margin-top: 30px;
+}
 
 
         /* css loader ends */
@@ -914,11 +920,14 @@
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <div class="row g-3 mb-3">
+                                   
                                     <div class="col col-md-6">
+                                        <label class="mb-2"> First Name </label>
                                         <input type="text" class="form-control" name="fname"
                                             placeholder="Enter your first name" aria-label="First name">
                                     </div>
                                     <div class="col col-md-6">
+                                        <label class="mb-2"> Last Name </label>
                                         <input type="text" class="form-control" name="lname"
                                             placeholder="Enter your last name" aria-label="Last name">
                                     </div>
@@ -926,6 +935,7 @@
                                 </div>
                                 <div class="row g-3 mb-3">
                                     <div class="col col-md-12">
+                                        <label class="mb-2"> Email</label>
                                         <input type="email" class="form-control" name="email"
                                             placeholder="Eg:test@example.com" aria-label="Email">
                                     </div>
@@ -934,7 +944,7 @@
 
                                 <div class="row g-3 mb-3">
                                     <div class="col col-lg-5  col-md-6">
-
+                                        <label class="mb-2"> Country Code </label>
                                         <select id="country_code" name="country_code" class="js-states form-control">
                                             <option value="">select</option>
                                             @foreach ($countryList as $country)
@@ -946,12 +956,14 @@
                                     </div>
 
                                     <div class="col col-lg-7 col-md-6" id="mobile-number">
+                                        <label class="mb-2"> Mobile (Preferred WhatsApp) </label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
                                         <p> </p>
                                     </div>
                                     <div class="col col-lg-2 col-md-12" id="opt-form-confirm" style="display: none">
-                                        <button type="button" id="sendOtp" class="btn-cst  btn btn-primary testbtn"
+                                        <label></label>
+                                        <button type="button" id="sendOtp" class="btn-cst m btn btn-primary testbtn"
                                             type="button" data-loading="Sending OTP" data-success="Success"
                                             data-default="Send OTP">
                                             <span class="spinner-border spinner-border-sm" role="status"
@@ -1048,6 +1060,8 @@
 
                                 </div>
                                 <!-- /Final step -->
+                               
+        
                         </div>
 
 
@@ -1055,7 +1069,10 @@
 
 
 
-
+                        <div class="disclaimer">
+                            <p style="font-size:12px">We do not store your image. Our system only processes your facial fingerprint real-time to check if you are a human. By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact you about your appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.</p>
+                        </div>
+                        
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
 
@@ -1067,8 +1084,9 @@
                             </span>
                             <b> Finish</b>
                         </button>
-
+                        
                         </form>
+                        
                         <!-- /NEXT BUTTON-->
                     </div>
                     <!-- /col -->
@@ -1666,8 +1684,7 @@
 
                         $("#opt-form").show();
                         $("#submitBtn").hide();
-                        $("#mobile-number").find('p').addClass('text-success').text(response
-                            .message);
+                        $("#mobile-number").find('p').removeClass('text-danger').addClass('text-success').text(response.message);
                         $this.find('label').text("Resend")
 
                     },
@@ -1675,7 +1692,7 @@
 
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
-                        $("#mobile-number").find('p').addClass('text-danger').text(xhr
+                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
                             .responseJSON.message);
 
                     }
