@@ -317,7 +317,7 @@
         .thripist-section img {
             height: 100%;
             width: 100%;
-            max-height: 200px;
+            /* max-height: 200px; */
         }
 
         .loader-img {
