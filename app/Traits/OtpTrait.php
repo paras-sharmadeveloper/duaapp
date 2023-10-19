@@ -41,8 +41,19 @@ trait OtpTrait
       );
       $usePhone = "+".$country.$mobile;
       if (strpos($country, '+') !== false) {
-        $usePhone = $country.$mobile;
+         $usePhone = $country.$mobile;
+       // $usePhone = 'whatsapp:'.$country.$mobile;
       }
+      $usePhone = 'whatsapp:'.$country.$mobile;
+
+    //   $twilio->messages->create(
+    //     $usePhone,
+    //     [
+    //         'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'), // Replace with your Twilio WhatsApp number
+    //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
+    //     ]
+    // );
+      // TWILIO_WHATSAPP_PHONE
   
       $twilio->messages->create(
         $usePhone, // User's phone number
