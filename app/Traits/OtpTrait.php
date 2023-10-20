@@ -41,10 +41,11 @@ trait OtpTrait
       );
       $usePhone = "+".$country.$mobile;
       if (strpos($country, '+') !== false) {
-         $usePhone = $country.$mobile;
-       // $usePhone = 'whatsapp:'.$country.$mobile;
+        // $usePhone = $country.$mobile;
+        $usePhone = 'whatsapp:'.$country.$mobile;
       }
-      $usePhone = 'whatsapp:'.$country.$mobile;
+      $usePhone = 'whatsapp:+'.$country.$mobile;
+    //  echo  $usePhone; die; 
 
       //   $twilio->messages->create(
       //     $usePhone,
@@ -53,8 +54,8 @@ trait OtpTrait
       //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
       //     ]
       // );
-      // TWILIO_WHATSAPP_PHONE
-      $message = $otp." is your verification code. For your security, do not share this code."; 
+      $verificationCode = $otp;  
+      $message = "*$verificationCode* is your verification code. For your security, do not share this code.";
       $twilio->messages->create(
         $usePhone, // User's phone number
         [
@@ -62,6 +63,11 @@ trait OtpTrait
           'body' => $message
         ]
       );
+     
+     
+ 
+
+       
       return ['message' => 'OTP Sent successfully', 'status' => true];
     }
 
