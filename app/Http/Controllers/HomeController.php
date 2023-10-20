@@ -124,41 +124,76 @@ class HomeController extends Controller
       $cancelBooking = route('book.cancle', [$uuid]);
       $reschduleBooking = route('book.reschdule', [$uuid]);
 
-      $message = <<<EOT
-              Hi {$validatedData['fname']},
-              Your dua appointment is confirmed as below:
+      // $message = <<<EOT
+      //         Hi {$validatedData['fname']},
+      //         Your dua appointment is confirmed as below:
 
-              Appointment ID:
-              {$bookingNumber}
+      //         Appointment ID:
+      //         {$bookingNumber}
 
-              Sahib-e-Dua:
-              {$venueAddress->thripist->name}
+      //         Sahib-e-Dua:
+      //         {$venueAddress->thripist->name}
 
-              Appointment duration:
-              {$venueAddress->slot_duration} Minutes
+      //         Appointment duration:
+      //         {$venueAddress->slot_duration} Minutes
 
-              Venue:
-              {$venueAddress->venue_date}
+      //         Venue:
+      //         {$venueAddress->venue_date}
 
-              Venue location:
-              {$venueAddress->address}
+      //         Venue location:
+      //         {$venueAddress->address}
 
-              Your appointment status link:
-              {$appointMentStatus}
+      //         Your appointment status link:
+      //         {$appointMentStatus}
 
-              When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
-              {$confirmSpot}
+      //         When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+      //         {$confirmSpot}
 
-              In case you want to reschedule your appointment, please click the link below:
-              {$reschduleBooking}
+      //         In case you want to reschedule your appointment, please click the link below:
+      //         {$reschduleBooking}
 
-              If you want to only cancel your appointment, please click the link below:
-              {$cancelBooking}
+      //         If you want to only cancel your appointment, please click the link below:
+      //         {$cancelBooking}
 
-              For your convenience, please visit only 15 minutes before your appointment.
+      //         For your convenience, please visit only 15 minutes before your appointment.
 
-              KahayFaqeer.org
-              EOT; 
+      //         KahayFaqeer.org
+      //         EOT; .
+
+
+      $message = "Hi {$validatedData['fname']},
+            Your dua appointment is confirmed as below:
+
+            Appointment ID:
+            {$bookingNumber}
+
+            Sahib-e-Dua:
+            {$venueAddress->thripist->name}
+
+            Appointment duration:
+            {$venueAddress->slot_duration} Minutes
+
+            Venue:
+            {$venueAddress->venue_date}
+
+            Venue location:
+            {$venueAddress->address}
+
+            Your appointment status link:
+            {$appointMentStatus}
+
+            When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+            {$confirmSpot}
+
+            In case you want to reschedule your appointment, please click the link below:
+            {$reschduleBooking}
+
+            If you want to only cancel your appointment, please click the link below:
+            {$cancelBooking}
+
+            For your convenience, please visit only 15 mins before your appointment.
+
+            KahayFaqeer.org";
       if ($venueAddress->type == 'on-site') {
         // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
         
