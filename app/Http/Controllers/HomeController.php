@@ -116,19 +116,60 @@ class HomeController extends Controller
         'booking_number' => $bookingNumber,
         'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
       ];
-      $message = "Hi " . $validatedData['fname'] . ",\n" .
-      "Your dua appointment is confirmed as below:\n" .
-      "Appointment ID :\n" . $bookingNumber . "\n" .
-      "Sahib-e-Dua:\n" . $venueAddress->thripist->name . "\n" .
-      "Appointment duration:\n" . $venueAddress->slot_duration . " Minutes\n" .
-      "Venue:\n" . $venueAddress->venue_date . "\n" .
-      "Venue location:\n" . $venueAddress->address . "\n" .
-      "Your appointment status link:\n" . route('booking.status', [$uuid]) . "\n" .
-      "When you visit the dua place, you need to enter into the virtual queue by clicking below link:\n" . route('booking.status', [$uuid]) . "\n" .
-      "In case you want to reschedule your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
-      "If you want to only cancel your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
-      "For your convenience, please visit only 15 minutes before your appointment.\n" .
-      "KahayFaqeer.org";
+
+      $appointMentStatus = route('booking.status', [$uuid]); 
+      $confirmSpot = route('booking.confirm-spot'); 
+      $cancelBooking = route('book.cancle', [$uuid]);
+      $reschduleBooking = route('book.reschdule', [$uuid]);
+
+      $message = <<<EOT
+              Hi {$validatedData['fname']},
+              Your dua appointment is confirmed as below:
+
+              Appointment ID:
+              {$bookingNumber}
+
+              Sahib-e-Dua:
+              {$venueAddress->thripist->name}
+
+              Appointment duration:
+              {$venueAddress->slot_duration} Minutes
+
+              Venue:
+              {$venueAddress->venue_date}
+
+              Venue location:
+              {$venueAddress->address}
+
+              Your appointment status link:
+              {$appointMentStatus}
+
+              When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+              {$confirmSpot}
+
+              In case you want to reschedule your appointment, please click the link below:
+              {$reschduleBooking}
+
+              If you want to only cancel your appointment, please click the link below:
+              {$cancelBooking}
+
+              For your convenience, please visit only 15 minutes before your appointment.
+
+              KahayFaqeer.org
+              EOT;
+      // $message = "Hi " . $validatedData['fname'] . ",\n" .
+      // "Your dua appointment is confirmed as below:\n" .
+      // "Appointment ID :\n" . $bookingNumber . "\n" .
+      // "Sahib-e-Dua:\n" . $venueAddress->thripist->name . "\n" .
+      // "Appointment duration:\n" . $venueAddress->slot_duration . " Minutes\n" .
+      // "Venue:\n" . $venueAddress->venue_date . "\n" .
+      // "Venue location:\n" . $venueAddress->address . "\n" .
+      // "Your appointment status link:\n" . route('booking.status', [$uuid]) . "\n" .
+      // "When you visit the dua place, you need to enter into the virtual queue by clicking below link:\n" . route('booking.status', [$uuid]) . "\n" .
+      // "In case you want to reschedule your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
+      // "If you want to only cancel your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
+      // "For your convenience, please visit only 15 minutes before your appointment.\n" .
+      // "KahayFaqeer.org";
       if ($venueAddress->type == 'on-site') {
         // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
         
