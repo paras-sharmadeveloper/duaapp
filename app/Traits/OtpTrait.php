@@ -53,9 +53,8 @@ trait OtpTrait
       //         'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'), // Replace with your Twilio WhatsApp number
       //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
       //     ]
-      // );
-      $verificationCode = $otp;  
-      $message = "*$verificationCode* is your verification code. For your security, do not share this code.";
+      // );   
+      $message = "*$otp* is your verification code. For your security, do not share this code.";
       $twilio->messages->create(
         $usePhone, // User's phone number
         [
@@ -63,10 +62,7 @@ trait OtpTrait
           'body' => $message
         ]
       );
-     
-     
- 
-
+      
        
       return ['message' => 'OTP Sent successfully', 'status' => true];
     }
