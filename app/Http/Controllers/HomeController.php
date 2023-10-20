@@ -144,20 +144,16 @@ class HomeController extends Controller
               Your appointment status link:
               {$appointMentStatus}
 
-              When you visit the dua place, you need to enter into the virtual 
-              queue by clicking the link below:
+              When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
               {$confirmSpot}
 
-              In case you want to reschedule your appointment, please click the link 
-              below:
+              In case you want to reschedule your appointment, please click the link below:
               {$reschduleBooking}
 
-              If you want to only cancel your appointment, please click the link 
-              below:
+              If you want to only cancel your appointment, please click the link below:
               {$cancelBooking}
 
-              For your convenience, please visit only 15 minutes before your 
-              appointment.
+              For your convenience, please visit only 15 minutes before your appointment.
 
               KahayFaqeer.org
               EOT;
