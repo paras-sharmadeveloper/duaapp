@@ -59,7 +59,7 @@ trait OtpTrait
       $twilio->messages->create(
         $usePhone, // User's phone number
         [
-          'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'),
+          'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
           'body' => $message
         ]
       );
