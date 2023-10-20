@@ -1421,9 +1421,9 @@ button#sendOtp {
                     }
 
                     var oldTitle = $("#remeber-steps-app").val();
-                    console.log("nextBtn",nextBtn)
+                   
                     nextBtn.parents(".row").fadeOut("slow", function() {
-                        console.log("here")
+                      
                         $(this).next(".row").fadeIn();
                         $(this).next(".row").find('.head>label').text(oldTitle)
                             
