@@ -123,41 +123,43 @@ class HomeController extends Controller
       $confirmSpot = route('booking.confirm-spot');
       $cancelBooking = route('book.cancle', [$uuid]);
       $reschduleBooking = route('book.reschdule', [$uuid]);
-
-          $message = "Hi {$validatedData['fname']},
-          Your dua appointment is confirmed as below:
-
-          Appointment ID:
-          {$bookingNumber}
-
-          Sahib-e-Dua:
-          {$venueAddress->thripist->name}
-
-          Appointment duration:
-          {$venueAddress->slot_duration} Minutes
-
-          Venue:
-          {$venueAddress->venue_date}
-
-          Venue location:
-          {$venueAddress->address}
-
-          Your appointment status link:
-          {$appointMentStatus}
-
-          When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
-          {$confirmSpot}
-
-          In case you want to reschedule your appointment, please click the link below:
-          {$reschduleBooking}
-
-          If you want to only cancel your appointment, please click the link below:
-          {$cancelBooking}
-
-          For your convenience, please visit only 15 mins before your appointment.
-
-          KahayFaqeer.org";
-
+      $name = $validatedData['fname']; 
+      $therapistName = $venueAddress->thripist->name; 
+      $message = <<<EOT
+      Hi $name,
+      Your dua appointment is confirmed as below:
+      
+      Appointment ID:
+      $bookingNumber
+      
+      Sahib-e-Dua:
+      $therapistName
+      
+      Appointment duration:
+      $venueAddress->slot_duration Minutes
+      
+      Venue:
+      $venueAddress->venue_date
+      
+      Venue location:
+      $venueAddress->address
+      
+      Your appointment status link:
+      $appointMentStatus
+      
+      When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+      $confirmSpot
+      
+      In case you want to reschedule your appointment, please click the link below:
+      $reschduleBooking
+      
+      If you want to only cancel your appointment, please click the link below:
+      $cancelBooking
+      
+      For your convenience, please visit only 15 mins before your appointment.
+      
+      KahayFaqeer.org
+      EOT;
 
 
 
