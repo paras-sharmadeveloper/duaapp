@@ -48,15 +48,19 @@ class SendMessage implements ShouldQueue
                 config('services.twilio.sid'), 
                 config('services.twilio.token')
             );
+
+        
+
             if($this->is_whatsapp == 'yes'){
+
                
-               $twilioClient->messages->create(
-                   "+".$this->messageSendTo, 
-                   [
-                       'from' => config('services.twilio.phone'), 
-                       'body' => $this->message
-                   ]
-               );
+                $twilioClient->messages->create(
+                    "whatsapp:+".$this->messageSendTo,  // User's phone number
+                    [
+                      'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
+                      'body' => $this->message
+                    ]
+                );
    
                // $twilioClient->messages->create(
                //     "whatsapp:" . "+".$this->messageSendTo, 
@@ -66,13 +70,20 @@ class SendMessage implements ShouldQueue
                //     ]
                // );
             }else{
-               $twilioClient->messages->create(
-                   "+".$this->messageSendTo, 
-                   [
-                       'from' => config('services.twilio.phone'), 
-                       'body' => $this->message
-                   ]
-               );
+                $twilioClient->messages->create(
+                    "whatsapp:+".$this->messageSendTo,  // User's phone number
+                    [
+                      'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
+                      'body' => $this->message
+                    ]
+                  );
+            //    $twilioClient->messages->create(
+            //        "whatsapp:+".$this->messageSendTo, 
+            //        [
+            //            'from' => config('services.twilio.phone'), 
+            //            'body' => $this->message
+            //        ]
+            //    );
             }
             Vistors::find($this->visitorId)->update(['sms_sent_at' => date('y-m-d H:i:s')]); 
             // Your job's code here
