@@ -50,6 +50,7 @@ class HomeController extends Controller
       'mobile' => 'required|string|max:255|unique:vistors,phone',
       'user_question' => 'nullable|string',
       'selfie' => 'required',
+      'otp' => 'required',
       'country_code' => 'required',
       'slot_id' => 'required|numeric|unique:vistors,slot_id'
     ]);
