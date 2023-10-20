@@ -36,8 +36,9 @@ class HomeController extends Controller
     $VenueList = Venue::all();
     $countryList = Country::all();
     $therapists = $therapistRole->users;
+    $timezones = Timezone::all(); 
 
-    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists'));
+    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists','timezones'));
   }
   public function BookingSubmit(Request $request)
   {
@@ -156,20 +157,7 @@ class HomeController extends Controller
               For your convenience, please visit only 15 minutes before your appointment.
 
               KahayFaqeer.org
-              EOT;
-      // $message = "Hi " . $validatedData['fname'] . ",\n" .
-      // "Your dua appointment is confirmed as below:\n" .
-      // "Appointment ID :\n" . $bookingNumber . "\n" .
-      // "Sahib-e-Dua:\n" . $venueAddress->thripist->name . "\n" .
-      // "Appointment duration:\n" . $venueAddress->slot_duration . " Minutes\n" .
-      // "Venue:\n" . $venueAddress->venue_date . "\n" .
-      // "Venue location:\n" . $venueAddress->address . "\n" .
-      // "Your appointment status link:\n" . route('booking.status', [$uuid]) . "\n" .
-      // "When you visit the dua place, you need to enter into the virtual queue by clicking below link:\n" . route('booking.status', [$uuid]) . "\n" .
-      // "In case you want to reschedule your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
-      // "If you want to only cancel your appointment, please click below:\n" . route('booking.status', [$uuid]) . "\n" .
-      // "For your convenience, please visit only 15 minutes before your appointment.\n" .
-      // "KahayFaqeer.org";
+              EOT; 
       if ($venueAddress->type == 'on-site') {
         // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
         
@@ -507,9 +495,7 @@ class HomeController extends Controller
       // $EventStartTime = strtotime($evntTime);
       $slotsArr = [];
       if($hoursRemaining<=24 || $hoursRemaining>24) {
-        
-
-
+         
         $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
@@ -517,13 +503,22 @@ class HomeController extends Controller
 
         $slotsDataArr = []; 
 
-        foreach($slotArr as $myslot){
-          $slotsDataArr[] = Carbon::now()->tz($currentTimezone); 
+        foreach($slotArr as $k => $myslot){
+          $venueDate = $venueAddress->venue_date. ' ' .$myslot->slot_time; 
+         
+          $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
+          $carbonSlot->setTimezone($currentTimezone);
+          $slotsDataArr[$k] =$myslot;
+          // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
+          $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');  
+          
         }
           return response()->json([
           'status' => true, 
           'message' => 'Slots are be avilable',
-          'slots' =>  $slotArr,
+          'slots' =>  $slotsDataArr,
+          'slots2ad' => $slotsDataArr,
+          'timezone' => $currentTimezone,
           'app' =>App::environment('production')
         ]);
       } else {

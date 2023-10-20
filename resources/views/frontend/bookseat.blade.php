@@ -579,7 +579,11 @@
 button#sendOtp {
     margin-top: 30px;
 }
-
+div#slot-information-user {
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly
+}
 
         /* css loader ends */
     </style>
@@ -846,6 +850,15 @@ button#sendOtp {
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
+                        <div id="slot-information-user">
+                             <label> Your Current Timezone:</label>
+                             <select class="change-timezone form-control" name="timezone">
+                                    @foreach($timezones as $timezone)
+                                    <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}</option>
+                                    @endforeach
+                             </select>
+                        </div>
+
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
@@ -1403,6 +1416,7 @@ button#sendOtp {
                                 </div>
                                 </div>`;
                             });
+                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
                             $(".back").show();
