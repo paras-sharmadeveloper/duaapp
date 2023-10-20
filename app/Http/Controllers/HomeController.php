@@ -116,13 +116,49 @@ class HomeController extends Controller
         'booking_number' => $bookingNumber,
         'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
       ];
+      $message = "Hi ".$validatedData['fname'].",\n
+                    Your dua appointment is confirmed as below:
+                    \n
+                    Appointment ID : \n
+                     ".$bookingNumber."
+                    \n
+                    Sahib-e-Dua:\n
+                    ".$venueAddress->thripist->name."
+                    \n
+                    Appointment duration:\n
+                     ".$venueAddress->slot_duration." Minutes
+                    \n
+                    Venue:
+                    ".$venueAddress->venue_date."
+                    \n
+                    Venue location:\n
+                   ".$venueAddress->address."
+                    \n
+                    Your appointment status link:\n
+                    ".route('booking.status', [$uuid])."
+                    \n
+                    When you visit the dua place, you need to enter into virtual queue by clicking below link:\n
+                    ".route('booking.status', [$uuid])."
+                    \n
+                    In case you want to reschedule your appointment, please click below:\n
+                    ".route('booking.status', [$uuid])."
+                    \n
+                    If you want to only cancel your appointment, please click below:\n
+                    ".route('booking.status', [$uuid])."
+                    \n
+                    For your convenience, please visit only 15 mins before your appointment.\n
+                    
+                    KahayFaqeer.org";
       if ($venueAddress->type == 'on-site') {
-          $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
+        // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
+        
+
+          
         } else {
           $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
         }
 
-      SendMessage::dispatch($mobile, $Mobilemessage, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
+      SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
       $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
@@ -450,10 +486,19 @@ class HomeController extends Controller
       // $EventStartTime = strtotime($evntTime);
       $slotsArr = [];
       if($hoursRemaining<=24 || $hoursRemaining>24) {
+        
+
+
         $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
         ->get(['venue_address_id', 'slot_time', 'id']);
+
+        $slotsDataArr = []; 
+
+        foreach($slotArr as $myslot){
+          $slotsDataArr[] = Carbon::now()->tz($currentTimezone); 
+        }
           return response()->json([
           'status' => true, 
           'message' => 'Slots are be avilable',
