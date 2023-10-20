@@ -125,6 +125,7 @@ class HomeController extends Controller
       $reschduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname']; 
       $therapistName = $venueAddress->thripist->name; 
+      
       $message = <<<EOT
       Hi $name,
       Your dua appointment is confirmed as below:
