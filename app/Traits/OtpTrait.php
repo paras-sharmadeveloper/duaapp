@@ -46,20 +46,20 @@ trait OtpTrait
       }
       $usePhone = 'whatsapp:'.$country.$mobile;
 
-    //   $twilio->messages->create(
-    //     $usePhone,
-    //     [
-    //         'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'), // Replace with your Twilio WhatsApp number
-    //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
-    //     ]
-    // );
+      //   $twilio->messages->create(
+      //     $usePhone,
+      //     [
+      //         'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'), // Replace with your Twilio WhatsApp number
+      //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
+      //     ]
+      // );
       // TWILIO_WHATSAPP_PHONE
-  
+      $message = $otp." is your verification code. For your security, do not share this code."; 
       $twilio->messages->create(
         $usePhone, // User's phone number
         [
-          'from' => config('services.twilio.phone'),
-          'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
+          'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'),
+          'body' => $message
         ]
       );
       return ['message' => 'OTP Sent successfully', 'status' => true];
