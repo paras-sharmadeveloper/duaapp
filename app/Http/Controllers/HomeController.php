@@ -24,7 +24,7 @@ class HomeController extends Controller
   {
     //  $this->middleware('auth');
   }
- 
+
   /**
    * Show the application dashboard.
    *
@@ -36,9 +36,9 @@ class HomeController extends Controller
     $VenueList = Venue::all();
     $countryList = Country::all();
     $therapists = $therapistRole->users;
-    $timezones = Timezone::all(); 
+    $timezones = Timezone::all();
 
-    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists','timezones'));
+    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones'));
   }
   public function BookingSubmit(Request $request)
   {
@@ -105,7 +105,7 @@ class HomeController extends Controller
         'email' => $validatedData['email'],
         'mobile' =>  '+' . $mobile,
         'country' =>  $venue->country_name,
-        'event_name' => $slotDuration ." Minute Online Dua Appointment",
+        'event_name' => $slotDuration . " Minute Online Dua Appointment",
         'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
         "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
         "meeting_link" => route('booking.status', [$uuid]),
@@ -119,96 +119,64 @@ class HomeController extends Controller
         'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
       ];
 
-      $appointMentStatus = route('booking.status', [$uuid]); 
-      $confirmSpot = route('booking.confirm-spot'); 
+      $appointMentStatus = route('booking.status', [$uuid]);
+      $confirmSpot = route('booking.confirm-spot');
       $cancelBooking = route('book.cancle', [$uuid]);
       $reschduleBooking = route('book.reschdule', [$uuid]);
 
-      // $message = <<<EOT
-      //         Hi {$validatedData['fname']},
-      //         Your dua appointment is confirmed as below:
+          $message = "Hi {$validatedData['fname']},
+          Your dua appointment is confirmed as below:
 
-      //         Appointment ID:
-      //         {$bookingNumber}
+          Appointment ID:
+          {$bookingNumber}
 
-      //         Sahib-e-Dua:
-      //         {$venueAddress->thripist->name}
+          Sahib-e-Dua:
+          {$venueAddress->thripist->name}
 
-      //         Appointment duration:
-      //         {$venueAddress->slot_duration} Minutes
+          Appointment duration:
+          {$venueAddress->slot_duration} Minutes
 
-      //         Venue:
-      //         {$venueAddress->venue_date}
+          Venue:
+          {$venueAddress->venue_date}
 
-      //         Venue location:
-      //         {$venueAddress->address}
+          Venue location:
+          {$venueAddress->address}
 
-      //         Your appointment status link:
-      //         {$appointMentStatus}
+          Your appointment status link:
+          {$appointMentStatus}
 
-      //         When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
-      //         {$confirmSpot}
+          When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+          {$confirmSpot}
 
-      //         In case you want to reschedule your appointment, please click the link below:
-      //         {$reschduleBooking}
+          In case you want to reschedule your appointment, please click the link below:
+          {$reschduleBooking}
 
-      //         If you want to only cancel your appointment, please click the link below:
-      //         {$cancelBooking}
+          If you want to only cancel your appointment, please click the link below:
+          {$cancelBooking}
 
-      //         For your convenience, please visit only 15 minutes before your appointment.
+          For your convenience, please visit only 15 mins before your appointment.
 
-      //         KahayFaqeer.org
-      //         EOT; .
+          KahayFaqeer.org";
 
 
-      $message = "Hi {$validatedData['fname']},
-            Your dua appointment is confirmed as below:
 
-            Appointment ID:
-            {$bookingNumber}
 
-            Sahib-e-Dua:
-            {$venueAddress->thripist->name}
 
-            Appointment duration:
-            {$venueAddress->slot_duration} Minutes
-
-            Venue:
-            {$venueAddress->venue_date}
-
-            Venue location:
-            {$venueAddress->address}
-
-            Your appointment status link:
-            {$appointMentStatus}
-
-            When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
-            {$confirmSpot}
-
-            In case you want to reschedule your appointment, please click the link below:
-            {$reschduleBooking}
-
-            If you want to only cancel your appointment, please click the link below:
-            {$cancelBooking}
-
-            For your convenience, please visit only 15 mins before your appointment.
-
-            KahayFaqeer.org";
       if ($venueAddress->type == 'on-site') {
         // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-        
 
-          
-        } else {
-          $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-        }
+
+
+      } else {
+        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
+      }
 
       SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
       $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
       event(new BookingNotification($bookingMessage));
-      return response()->json(['message' => 'Booking submitted successfully', "status" => true , 'bookingId' => $uuid], 200);
+      return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
     } catch (\Exception $e) {
       Log::error('Booking error' . $e->getMessage());
 
@@ -363,9 +331,9 @@ class HomeController extends Controller
   }
 
   public function thankyouPage($id)
-  { 
+  {
     $userBooking = Vistors::where('booking_uniqueid', $id)->first();
-    return view('frontend.thankyou',compact('userBooking'));
+    return view('frontend.thankyou', compact('userBooking'));
   }
 
 
@@ -378,7 +346,7 @@ class HomeController extends Controller
     $userCountWithsiteadminRole = $siteadmin->users->count();
     return view('home', compact('visitos', 'userCountWiththripistRole', 'userCountWithsiteadminRole'));
   }
- 
+
 
 
   public function getAjax(Request $request)
@@ -404,14 +372,14 @@ class HomeController extends Controller
       return response()->json($dataArr);
     }
     if ($type == 'get_type') {
-     
+
 
       $addRess = VenueAddress::where('therapist_id', $id)
-      // ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //           ->orWhereDate('venue_date', date('Y-m-d'));
-      // })
-      ->get();
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get();
       $dataArr = [];
       foreach ($addRess as $venuesList) {
         $dataArr['type'][] = [
@@ -424,11 +392,11 @@ class HomeController extends Controller
     }
     if ($type == 'get_country') {
       $venuesListArr = VenueAddress::where('id', $id)
-      // ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //           ->orWhereDate('venue_date', date('Y-m-d'));
-      // })
-      ->get(); 
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $countryName = $venuesList->venue->country_name;
@@ -440,7 +408,7 @@ class HomeController extends Controller
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'type' => $venuesList->type,
           'id' => $venuesList->id
-        ]; 
+        ];
       }
       $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
@@ -450,11 +418,11 @@ class HomeController extends Controller
 
     if ($type == 'get_city') {
       $venuesListArr = VenueAddress::where('id', $id)
-      // ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //           ->orWhereDate('venue_date', date('Y-m-d'));
-      // })
-      ->get();
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $cityName = $venuesList->city;
@@ -468,7 +436,6 @@ class HomeController extends Controller
           'type' => $venuesList->type,
           'venue_address_id' => $venuesList->id
         ];
-        
       }
       // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
@@ -476,14 +443,14 @@ class HomeController extends Controller
       return response()->json($dataArr);
     }
     if ($type == 'get_date') {
- 
 
-       $venuesListArr = VenueAddress::where('id', $id)
-      // ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //           ->orWhereDate('venue_date', date('Y-m-d'));
-      // })
-      ->get();
+
+      $venuesListArr = VenueAddress::where('id', $id)
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $venue_date = $venuesList->venue_date;
@@ -504,70 +471,70 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slots') {
-    //  $venueAddress = VenueAddress::find($id); 
+      //  $venueAddress = VenueAddress::find($id); 
 
       $venueAddress =  VenueAddress::where('id', $id)
-      // ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //           ->orWhereDate('venue_date', date('Y-m-d'));
-      // })
-      ->get()->first();
-    
-      
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get()->first();
+
+
       if (App::environment('production')) {
-          $userDetail = $this->getIpDetails($request->ip());
-          $countryCode = $userDetail['countryCode'];
-          $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-          $currentTimezone = $timezone->timezone;  
-       }else{
-          $currentTimezone = 'America/New_York'; 
-       }
+        $userDetail = $this->getIpDetails($request->ip());
+        $countryCode = $userDetail['countryCode'];
+        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+        $currentTimezone = $timezone->timezone;
+      } else {
+        $currentTimezone = 'America/New_York';
+      }
       $mytime = Carbon::now()->tz($currentTimezone);
-      $eventDate = Carbon::parse($venueAddress->venue_date .' '. $venueAddress->slot_starts_at,$currentTimezone);
+      $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
       $hoursRemaining = $eventDate->diffInHours($mytime);
 
       // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
       // $EventStartTime = strtotime($evntTime);
       $slotsArr = [];
-      if($hoursRemaining<=24 || $hoursRemaining>24) {
-         
+      if ($hoursRemaining <= 24 || $hoursRemaining > 24) {
+
         $slotArr = VenueSloting::where('venue_address_id', $id)
-        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-        ->orderBy('slot_time', 'ASC')
-        ->get(['venue_address_id', 'slot_time', 'id']);
+          ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+          ->orderBy('slot_time', 'ASC')
+          ->get(['venue_address_id', 'slot_time', 'id']);
 
-        $slotsDataArr = []; 
+        $slotsDataArr = [];
 
-        foreach($slotArr as $k => $myslot){
-          $venueDate = $venueAddress->venue_date. ' ' .$myslot->slot_time; 
-         
+        foreach ($slotArr as $k => $myslot) {
+          $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
+
           $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
           $carbonSlot->setTimezone($currentTimezone);
-          $slotsDataArr[$k] =$myslot;
+          $slotsDataArr[$k] = $myslot;
           // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
-          $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');  
-          
+          $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');
         }
-          return response()->json([
-          'status' => true, 
+        return response()->json([
+          'status' => true,
           'message' => 'Slots are be avilable',
           'slots' =>  $slotsDataArr,
           'slots2ad' => $slotsDataArr,
           'timezone' => $currentTimezone,
-          'app' =>App::environment('production')
+          'app' => App::environment('production')
         ]);
       } else {
         return response()->json(
           [
-           'status' => false, 
-           'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
-           'slots' => [],   
-           'app' =>App::environment('production')
-          //  'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-          //  'eventDate' => $eventDate, 
-      
-      ]);
+            'status' => false,
+            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
+            'slots' => [],
+            'app' => App::environment('production')
+            //  'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
+            //  'eventDate' => $eventDate, 
+
+          ]
+        );
       }
     }
   }
@@ -640,5 +607,4 @@ class HomeController extends Controller
     Ipinformation::create($data);
     return $result;
   }
- 
 }
