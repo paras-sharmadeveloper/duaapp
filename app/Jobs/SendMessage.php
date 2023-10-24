@@ -49,6 +49,8 @@ class SendMessage implements ShouldQueue
                 config('services.twilio.token')
             );
 
+           
+            
         
 
             if($this->is_whatsapp == 'yes'){
@@ -62,13 +64,7 @@ class SendMessage implements ShouldQueue
                     ]
                 );
    
-            //    $twilioClient->messages->create(
-            //        "+".$this->messageSendTo, 
-            //        [
-            //            'from' => config('services.twilio.whatsapp'), 
-            //            'body' => $this->message
-            //        ]
-            //    );
+            
             }else{
                 $twilioClient->messages->create(
                     "whatsapp:+".$this->messageSendTo,  // User's phone number
@@ -77,13 +73,7 @@ class SendMessage implements ShouldQueue
                       'body' => $this->message
                     ]
                   );
-            //    $twilioClient->messages->create(
-            //        "+".$this->messageSendTo, 
-            //        [
-            //            'from' => config('services.twilio.phone'), 
-            //            'body' => $this->message
-            //        ]
-            //    );
+             
             }
             Vistors::find($this->visitorId)->update(['sms_sent_at' => date('y-m-d H:i:s')]); 
             // Your job's code here

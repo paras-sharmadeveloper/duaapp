@@ -122,9 +122,11 @@ class HomeController extends Controller
       $appointMentStatus = route('booking.status', [$uuid]);
       $confirmSpot = route('booking.confirm-spot');
       $cancelBooking = route('book.cancle', [$uuid]);
-      $reschduleBooking = route('book.reschdule', [$uuid]);
+      $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname']; 
       $therapistName = $venueAddress->thripist->name; 
+
+     
       
       $message = <<<EOT
       Hi $name,
@@ -152,7 +154,7 @@ class HomeController extends Controller
       $confirmSpot
       
       In case you want to reschedule your appointment, please click the link below:
-      $reschduleBooking
+      $rescheduleBooking
       
       If you want to only cancel your appointment, please click the link below:
       $cancelBooking
@@ -160,19 +162,16 @@ class HomeController extends Controller
       For your convenience, please visit only 15 mins before your appointment.
       
       KahayFaqeer.org
-      EOT;
+      EOT; 
 
+      // $message = "Hi $name,\nYour dua appointment is confirmed as below:\n\nAppointment ID :\n$bookingNumber\n\nSahib-e-Dua:\n$therapistName\n\nAppointment duration:\n$venueAddress->slot_duration Minutes\n\nVenue:\n$venueAddress->venue_date\n\nVenue location:\n$venueAddress->address\n\nYour appointment status link:\n$appointMentStatus\n\nWhen you visit the dua place, you need to enter into virtual queue by clicking the link below:\n$confirmSpot\n\nIn case you want to reschedule your appointment, please click the link below:\n$rescheduleBooking\n\nIf you want to only cancel your appointment, please click the link below:\n$cancelBooking\n\nFor your convenience, please visit only 15 mins before your appointment.\n\nKahayFaqeer.org";
+      
+      // if ($venueAddress->type == 'on-site') {
+      //   // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
 
-
-
-      if ($venueAddress->type == 'on-site') {
-        // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-
-
-
-      } else {
-        $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-      }
+      // } else {
+      //   $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
+      // }
 
       SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
@@ -348,6 +347,68 @@ class HomeController extends Controller
     $userCountWiththripistRole = $therapist->users->count();
     $userCountWithsiteadminRole = $siteadmin->users->count();
     return view('home', compact('visitos', 'userCountWiththripistRole', 'userCountWithsiteadminRole'));
+  }
+
+  public function getTimzoneAjax(Request $request){
+   
+      //  $venueAddress = VenueAddress::find($id); 
+       $id = $request->input('id'); 
+       $timezone = $request->input('timezone'); 
+
+      $venueAddress =  VenueAddress::where('id', $id)
+        // ->where(function ($query) use ($newDate) {
+        //     $query->whereDate('venue_date', $newDate)
+        //           ->orWhereDate('venue_date', date('Y-m-d'));
+        // })
+        ->get()->first(); 
+
+
+      $mytime = Carbon::now()->tz($timezone);
+      $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $timezone);
+      $hoursRemaining = $eventDate->diffInHours($mytime);
+
+      // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+      // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
+      // $EventStartTime = strtotime($evntTime);
+      $slotsArr = [];
+      if ($hoursRemaining <= 24 || $hoursRemaining > 24) {
+
+        $slotArr = VenueSloting::where('venue_address_id', $id)
+          ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+          ->orderBy('slot_time', 'ASC')
+          ->get(['venue_address_id', 'slot_time', 'id']);
+
+        $slotsDataArr = [];
+
+        foreach ($slotArr as $k => $myslot) {
+          $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
+
+          $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
+          $carbonSlot->setTimezone($timezone);
+          $slotsDataArr[$k] = $myslot;
+          // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
+          $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($timezone)->format('H:i:s');
+        }
+        return response()->json([
+          'status' => true,
+          'message' => 'Slots are be avilable',
+          'slots' =>  $slotsDataArr,
+          'slots2ad' => $slotsDataArr,
+          'timezone' => $timezone,
+          'app' => App::environment('production')
+        ]);
+      } else {
+        return response()->json(
+          [
+            'status' => false,
+            'message' => 'Slots will be avilable only before 24 Hours of Event. Thanks for your Patience',
+            'slots' => [],
+            'app' => App::environment('production') 
+
+          ]
+        );
+      }
+
   }
 
 

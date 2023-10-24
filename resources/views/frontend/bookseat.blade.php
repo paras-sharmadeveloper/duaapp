@@ -582,9 +582,13 @@ button#sendOtp {
 div#slot-information-user {
     padding: 10px;
     display: flex;
-    justify-content: space-evenly
+    justify-content: space-between;
+    margin: 30px 0;
 }
-
+#slot-information-user select.change-timezone.form-control,#slot-information-user .select2-container {
+    width: 20% !important;
+    z-index: 99999999;
+}
         /* css loader ends */
     </style>
     <!-- section -->
@@ -852,7 +856,8 @@ div#slot-information-user {
                         <!-- cards -->
                         <div id="slot-information-user">
                              <label> Your Current Timezone:</label>
-                             <select class="change-timezone form-control" name="timezone">
+                             <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
+                                
                                     @foreach($timezones as $timezone)
                                     <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}</option>
                                     @endforeach
@@ -1124,6 +1129,11 @@ div#slot-information-user {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
         $(".form-business").hide();
+        
+        $("#timezone").select2({
+            placeholder: "Your Preferred Timezone",
+            allowClear: true
+        });
         $("#country_code").select2({
             placeholder: "Select country",
             allowClear: true
@@ -1198,6 +1208,7 @@ div#slot-information-user {
                             getAjax(cardId, 'get_date', $this)
                             //  $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-selection')) {
+                            $("#slot-information-user").attr('data-id',cardId);
                             getAjax(cardId, 'get_slots', $this)
                             // $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-capture')) {
@@ -1526,6 +1537,60 @@ div#slot-information-user {
                     }
                 });
             });
+        });
+
+
+        $(".change-timezone").change(function(){
+            
+            $this = $(this); 
+            var timezone = $this.find("option:selected").val();
+            var id = $("#slot-information-user").attr('data-id'); 
+            $.ajax({
+                    url: "{{ route('get-slots-timezone') }}",
+                    type: 'POST',
+                    data: {
+                        timezone: timezone,
+                        id: id,
+
+                    },
+                    success: function(response) {
+                        
+                        var html = '';
+                        $("#slot-listing").html(appendLoader());
+                        if (response.status) {
+                            $.each(response.slots, function(key, item) {
+                                html += `<div class="col col-lg-3 col-md-6">
+                                <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
+                                    
+                                    <div class="card-body px-0">
+                                        <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
+                                        <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
+                                        
+                                    </div>
+                                </div>
+                                </div>`;
+                            });
+                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
+                            $("#slot-listing").html(html).find(".loader").hide();
+                            $(".confirm").show();
+                            $(".back").show(); 
+                        } else {
+                            $("#slot-listing").html("<h1>" + response.message + "</h1>");
+                            $(".confirm").hide();
+                            $(".back").show();
+                           
+                        } 
+
+                    },
+                    error: function(xhr) {
+ 
+                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
+                            .responseJSON.message);
+
+                    }
+                });
+
+
         });
     </script>
 

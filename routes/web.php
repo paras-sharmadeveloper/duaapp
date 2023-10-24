@@ -87,6 +87,8 @@ Route::get('/', function () {
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
 Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
+Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
+
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
@@ -98,7 +100,7 @@ Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmati
 
 Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
 Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
-Route::any('/book/reschdule/{id}', [BookingController::class, 'BookingReschdule'])->name('book.reschdule');
+Route::any('/book/reschedule/{id}', [BookingController::class, 'BookingReschdule'])->name('book.reschdule');
 Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
