@@ -354,10 +354,10 @@ class HomeController extends Controller
        $timezone = $request->input('timezone'); 
 
       $venueAddress =  VenueAddress::where('id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get()->first(); 
 
 
@@ -437,10 +437,10 @@ class HomeController extends Controller
 
 
       $addRess = VenueAddress::where('therapist_id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get();
       $dataArr = [];
       foreach ($addRess as $venuesList) {
@@ -454,10 +454,10 @@ class HomeController extends Controller
     }
     if ($type == 'get_country') {
       $venuesListArr = VenueAddress::where('id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
@@ -480,10 +480,10 @@ class HomeController extends Controller
 
     if ($type == 'get_city') {
       $venuesListArr = VenueAddress::where('id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
@@ -508,10 +508,10 @@ class HomeController extends Controller
 
 
       $venuesListArr = VenueAddress::where('id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
@@ -536,10 +536,10 @@ class HomeController extends Controller
       //  $venueAddress = VenueAddress::find($id); 
 
       $venueAddress =  VenueAddress::where('id', $id)
-        // ->where(function ($query) use ($newDate) {
-        //     $query->whereDate('venue_date', $newDate)
-        //           ->orWhereDate('venue_date', date('Y-m-d'));
-        // })
+        ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+                  ->orWhereDate('venue_date', date('Y-m-d'));
+        })
         ->get()->first();
 
 
