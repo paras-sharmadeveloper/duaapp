@@ -40,7 +40,20 @@ class BookingController extends Controller
 
             $result = $this->VerifyOtp($otp);
             if ($result['status']) {
-                $message = "Your Booking (" . $vistor->booking_uniqueid . ") has been Succssfully Cancelled. \n You can Book Your Slot Again at here " . route('book.show') . "\nThanks\n Team KahayFaqeer";
+                $url = route('booking.status',[$vistor->booking_uniqueid]); 
+                $date = date('Y-m-d H:i:s A'); 
+                $message =<<<EOT
+                Hi $vistor->fname,
+
+                Your appointment ref # $vistor->booking_number on $date has been successfully cancelled. 
+
+                You can book a new appointment again by clicking below link:
+                $url
+
+                Thanks
+                KahayFaqeer.org
+                EOT;
+                // $message = "Your Booking (" . $vistor->booking_uniqueid . ") has been Succssfully Cancelled. \n You can Book Your Slot Again at here " . route('book.show') . "\nThanks\n Team KahayFaqeer";
                 $this->SendMessage($vistor->country_code, $vistor->phone, $message);
                 if (Vistors::where(['booking_uniqueid' => $id])->delete()) {
                     Storage::disk('s3')->delete($$vistor->recognized_code);
@@ -111,8 +124,21 @@ class BookingController extends Controller
             $otp = $request->input('otp'); 
             $result = $this->VerifyOtp($otp);
             if ($result['status']) {
+                $url = route('booking.status',[$visitor->booking_uniqueid]); 
+                $date = date('Y-m-d H:i:s A'); 
                 Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed','confirmed_at' => date('Y-m-d H:i:s') ]); 
-                $message = "Hi ".$visitor->fname.",\nYour Booking " . $visitor->booking_number . " has been Succssfully Confirmed. \nYou can Wait for Number. \nYou can check  you Status here\n" .route('booking.status',[$visitor->booking_uniqueid]) ."\nThanks\nTeam\nKahayFaqeer";
+                $message =<<<EOT
+                Hi $visitor->fname,
+
+                Your appointment ref # $visitor->booking_number on $date has been successfully cancelled. 
+
+                You can book a new appointment again by clicking below link:
+                $url
+
+                Thanks
+                KahayFaqeer.org
+                EOT;
+                // $message = "Hi ".$visitor->fname.",\nYour Booking " . $visitor->booking_number . " has been Succssfully Confirmed. \nYou can Wait for Number. \nYou can check  you Status here\n" .route('booking.status',[$visitor->booking_uniqueid]) ."\nThanks\nTeam\nKahayFaqeer";
                 $this->SendMessage($visitor->country_code, $visitor->phone, $message);
         
                 return redirect()->back()->with(['success' => 'Your booking has been Confirmed Successfully']);
