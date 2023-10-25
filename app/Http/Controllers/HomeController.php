@@ -125,14 +125,20 @@ class HomeController extends Controller
       $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname']; 
       $therapistName = $venueAddress->thripist->name; 
-
-     
+      
+     if ($venueAddress->type == 'on-site') {
+        $location = $venueAddress->address .'at Dua Ghar Physical Meeting';
+         
+      } else {
+        $location = 'Online Meeting';
+        
+      }
       
       $message = <<<EOT
       Hi $name,
       Your dua appointment is confirmed as below:
       
-      Appointment ID:
+      Appointment ID : 
       $bookingNumber
       
       Sahib-e-Dua:
@@ -145,36 +151,28 @@ class HomeController extends Controller
       $venueAddress->venue_date
       
       Venue location:
-      $venueAddress->address
+      $location
       
-      Your appointment status link:
+      Your appointment status link: 
       $appointMentStatus
       
-      When you visit the dua place, you need to enter into the virtual queue by clicking the link below:
+      When you visit the dua place, you need to enter into virtual queue by clicking below link:
       $confirmSpot
       
-      In case you want to reschedule your appointment, please click the link below:
+      In case you want to reschedule your appointment, please click below:
       $rescheduleBooking
       
-      If you want to only cancel your appointment, please click the link below:
+      If you want to only cancel your appointment, please click below:
       $cancelBooking
       
       For your convenience, please visit only 15 mins before your appointment.
       
       KahayFaqeer.org
       EOT; 
+ 
 
-      // $message = "Hi $name,\nYour dua appointment is confirmed as below:\n\nAppointment ID :\n$bookingNumber\n\nSahib-e-Dua:\n$therapistName\n\nAppointment duration:\n$venueAddress->slot_duration Minutes\n\nVenue:\n$venueAddress->venue_date\n\nVenue location:\n$venueAddress->address\n\nYour appointment status link:\n$appointMentStatus\n\nWhen you visit the dua place, you need to enter into virtual queue by clicking the link below:\n$confirmSpot\n\nIn case you want to reschedule your appointment, please click the link below:\n$rescheduleBooking\n\nIf you want to only cancel your appointment, please click the link below:\n$cancelBooking\n\nFor your convenience, please visit only 15 mins before your appointment.\n\nKahayFaqeer.org";
-      
-      // if ($venueAddress->type == 'on-site') {
-      //   // $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nHere is your Booking Status link:\n" . route('booking.status', [$uuid]) . ".\nWhen you visit the place, you can confirm your booking at this link:\n" . route('booking.confirm-spot') . "\nThanks,\nTeam Kahay Faqeer.";
-
-      // } else {
-      //   $Mobilemessage  = "Hi " . $validatedData['fname'] . ",\nYour Booking Confirmed with us.\nBookID: " . $bookingNumber . "\nYou are Booking At: " . $formattedDateTime . "\nOn the below link, you can Join your Meeting:\n" . route('join.conference.frontend', [$uuid]) . "\nThank you,\nTeam Kahay Faqeer.";
-      // }
-
-      SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
-      SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
+      SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('database');
+      SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('database');
       $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
       event(new BookingNotification($bookingMessage));
