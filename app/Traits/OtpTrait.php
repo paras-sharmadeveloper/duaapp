@@ -45,26 +45,23 @@ trait OtpTrait
         $usePhone = 'whatsapp:'.$country.$mobile;
       }
       $usePhone = 'whatsapp:+'.$country.$mobile;
-    //  echo  $usePhone; die; 
-
-      //   $twilio->messages->create(
-      //     $usePhone,
-      //     [
-      //         'from' => 'whatsapp:'.env('TWILIO_WHATSAPP_PHONE'), // Replace with your Twilio WhatsApp number
-      //         'body' => "Your OTP is: $otp .\nOtp will be Expire in 10 minutes\nThanks,\nTeam Kahay Faqeer."
-      //     ]
-      // );   
+        
       $message = "*$otp* is your verification code. For your security, do not share this code.";
-      $twilio->messages->create(
-        $usePhone, // User's phone number
-        [
-          'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
-          'body' => $message
-        ]
-      );
       
-       
-      return ['message' => 'OTP Sent successfully', 'status' => true];
+      try {
+        $twilio->messages->create(
+          $usePhone, // User's phone number
+          [
+            'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
+            'body' => $message
+          ]
+        );
+        return ['message' => 'OTP Sent successfully', 'status' => true];
+      } catch (\Exception $e) {
+        //throw $th;
+        return ['message' => 'Check You Mobile Number Again Or This Number Must be on WhatsApp', 'status' => false];
+      }
+        
     }
 
 
@@ -81,15 +78,23 @@ public function SendMessage($country_code,$mobile,$message)
       if (strpos($country, '+') !== false) {
         $usePhone = $country.$mobile;
       }
+
+      try {
+        $twilio->messages->create(
+          $usePhone, // User's phone number
+          [
+            'from' => config('services.twilio.phone'),
+            'body' => $message
+          ]
+        );
+        return ['message' => 'Message Sent Successfully', 'status' => true];
+      } catch (\Exception $e) {
+        //throw $th;
+        return ['message' => 'Check You Mobile Number Again Or This Number Must be on WhatsApp', 'status' => false];
+      }
   
-      $twilio->messages->create(
-        $usePhone, // User's phone number
-        [
-          'from' => config('services.twilio.phone'),
-          'body' => $message
-        ]
-      );
-      return ['message' => 'Message Sent Successfully', 'status' => true];
+      
+      
     }
 
 }
