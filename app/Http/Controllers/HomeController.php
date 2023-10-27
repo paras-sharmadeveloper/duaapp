@@ -36,8 +36,8 @@ class HomeController extends Controller
     $VenueList = Venue::all();
     $countryList = Country::all();
     $therapists = $therapistRole->users;
-    $timezones = Timezone::all();
-
+    $timezones = Country::with('timezones')->get();
+     
     return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones'));
   }
   public function BookingSubmit(Request $request)
@@ -111,10 +111,14 @@ class HomeController extends Controller
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
       $slotDuration = $venueAddress->slot_duration;
+      $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone')); 
       $dateTime = Carbon::parse($eventData);
       $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
+      $userTimezoneFormat = $userTimeZone->format('l F j, Y ⋅ g:i a') . ' – ' . $userTimeZone->addMinutes(30)->format('g:ia');
       $dynamicData = [
         'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
+        'userTime' => $userTimezoneFormat,
+        'userTz' => $request->input('timezone'),
         'first_name' => $validatedData['fname'],
         'email' => $validatedData['email'],
         'mobile' =>  '+' . $mobile,
@@ -142,9 +146,11 @@ class HomeController extends Controller
       
      if ($venueAddress->type == 'on-site') {
         $location = $venueAddress->address .'at Dua Ghar Physical Meeting';
-         
+        $confirmSpot = route('booking.confirm-spot');
       } else {
         $location = 'Online Meeting';
+        $confirmSpot = route('join.conference.frontend',[$uuid]);
+        
         
       }
       
@@ -594,8 +600,7 @@ class HomeController extends Controller
         return response()->json([
           'status' => true,
           'message' => 'Slots are be avilable',
-          'slots' =>  $slotsDataArr,
-          'slots2ad' => $slotsDataArr,
+          'slots' =>  $slotsDataArr, 
           'timezone' => $currentTimezone,
           'app' => App::environment('production')
         ]);

@@ -586,7 +586,7 @@ div#slot-information-user {
     margin: 30px 0;
 }
 #slot-information-user select.change-timezone.form-control,#slot-information-user .select2-container {
-    width: 20% !important;
+    width: 30% !important;
     z-index: 99999999;
 }
 #slot-information-user .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -869,9 +869,11 @@ div#slot-information-user {
                         <div id="slot-information-user">
                              <label> Your Current Timezone:</label>
                              <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
-                                
-                                    @foreach($timezones as $timezone)
-                                    <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}</option>
+                                    
+                                    @foreach($timezones as $country)
+                                        @foreach($country->timezones as $timezone)
+                                            <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }} ({{ $country->nicename }})</option>
+                                        @endforeach
                                     @endforeach
                              </select>
                         </div>
@@ -1091,12 +1093,8 @@ div#slot-information-user {
                                 <!-- /Final step -->
                                
         
-                        </div>
-
-
-
-
-
+                        </div> 
+                        <input type="hidden" name="timezone" id="timezone-hidden">
 
                         <div class="disclaimer">
                             <p style="font-size:12px">We do not store your image. Our system only processes your facial fingerprint real-time to check if you are a human. By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact you about your appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.</p>
@@ -1439,6 +1437,7 @@ div#slot-information-user {
                                 </div>`;
                             });
                             $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
+                            $("#timezone-hidden").val(response.timezone)
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
                             $(".back").show();
@@ -1581,7 +1580,9 @@ div#slot-information-user {
                                 </div>
                                 </div>`;
                             });
+                             
                             $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
+                            $("#timezone-hidden").val(response.timezone)
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
                             $(".back").show(); 
@@ -1591,6 +1592,7 @@ div#slot-information-user {
                             $(".back").show();
                            
                         } 
+                        
 
                     },
                     error: function(xhr) {

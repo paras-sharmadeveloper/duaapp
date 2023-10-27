@@ -173,6 +173,9 @@ body {font-family: 'Lato', sans-serif;}
       <tr>
         <td style="padding:0px 20px 10px 20px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="font-size: 16px; font-family: inherit">{{  $dynamicData['meeting_date_time'] }}(Gulf Standard Time)</span></div><div></div></div></td>
       </tr>
+      <tr>
+        <td style="padding:0px 20px 10px 20px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="font-size: 16px; font-family: inherit">{{  $dynamicData['userTime'] }}(>{{  $dynamicData['userTz'] }})</span></div><div></div></div></td>
+      </tr>
     </tbody>
   </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="ef0f9e06-1b02-4b22-b5e8-dc8f6bb9b3b1.1.1" data-mc-module-version="2019-10-22">
     <tbody>
