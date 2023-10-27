@@ -1037,14 +1037,13 @@ div#slot-information-user {
                                     </div>
 
                                 </div> --}}
-                                <div class="form-check mt-4">
+                                {{-- <div class="form-check mt-4">
                                     <input class="form-check-input" type="checkbox" name="is_whatsapp"
                                         id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        {{-- I agree to the terms and conditions --}}
+                                    <label class="form-check-label" for="flexCheckDefault"> 
                                         This number is on whatsapp ?
                                     </label>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group row mt-3 selfie">
                                     {{-- <label for="selfie" class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label> --}}
