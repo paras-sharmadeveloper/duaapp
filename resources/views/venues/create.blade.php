@@ -119,7 +119,8 @@
                             {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Address',
-                                'cols' => 10,
+                                'cols' => 5,
+                                'rows' => 2
                             ]) !!}
 
                         </div>
@@ -272,12 +273,22 @@
 
                 </div>
                 <div class="row">
-                <div class="col-md-12 mt-4">
+                <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Recurring Till How many Month ? </span>
                         {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
                             'class' => 'form-control',
                             'placeholder' => 'ends',
+                        ]) !!}
+
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4">
+                    <div class="input-group">
+                        <span class="input-group-text">User Rejoin After Days? </span>
+                        {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? '', [
+                            'class' => 'form-control',
+                            'placeholder' => 'rejoin_venue_after',
                         ]) !!}
 
                     </div>

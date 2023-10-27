@@ -39,6 +39,8 @@ return new class extends Migration
             $table->integer('is_saturday')->default(0);  
             $table->integer('is_sunday')->default(0); 
             $table->integer('recurring_till')->default(0); 
+            $table->integer('rejoin_venue_after')->default(0); 
+            
              
 
             $table->timestamps(); 

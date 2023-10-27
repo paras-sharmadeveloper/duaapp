@@ -54,6 +54,7 @@ class VenueController extends Controller
             'city' => 'required',
             'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
+            'rejoin_venue_after' => 'required'
 
         ]);
 
@@ -66,6 +67,9 @@ class VenueController extends Controller
         $slotDuration = $request->input('slot_duration');
         $IsRecuureing = $request->input('is_recurring');
         $recuureingTill = $request->input('recurring_till',0);
+        $rejoin_venue_after = $request->input('rejoin_venue_after',0);
+
+
         $dataArr = [];
         $dayToSet = [];
         $roomDetail = [];
@@ -90,7 +94,8 @@ class VenueController extends Controller
             'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
-            'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0
+            'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
+            'rejoin_venue_after' => $rejoin_venue_after
         ];
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
@@ -150,6 +155,7 @@ class VenueController extends Controller
             'city' => 'required',
             'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
+            'rejoin_venue_after' => 'required'
 
         ]);
         $roomDetail = [];
@@ -164,7 +170,7 @@ class VenueController extends Controller
         $venueStartsEvening = $request->input('slot_starts_at_evening', null);
         $venueEndsEvening = $request->input('slot_ends_at_evening', null);
         $slotDuration = $request->input('slot_duration');
-
+        $rejoin_venue_after = $request->input('rejoin_venue_after',0);
 
         $dataArr = [
             'city' => $request->input('city'),
@@ -182,7 +188,8 @@ class VenueController extends Controller
             'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
-            'recurring_till' => $request->input('recurring_till')
+            'recurring_till' => $request->input('recurring_till'),
+            'rejoin_venue_after' => $rejoin_venue_after
         ];
  
         $VenueAddress->update($dataArr);

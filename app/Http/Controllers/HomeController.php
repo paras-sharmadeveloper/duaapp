@@ -46,14 +46,18 @@ class HomeController extends Controller
     $validatedData = $request->validate([
       'fname' => 'required|string|max:255',
       'lname' => 'required|string|max:255',
-      'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-      'mobile' => 'required|string|max:255|unique:vistors,phone',
+     // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
+      //'mobile' => 'required|string|max:255|unique:vistors,phone',
+      'email' => 'required|email|max:255', // Check for duplicate email
+      'mobile' => 'required|string|max:255',
       'user_question' => 'nullable|string',
       'selfie' => 'required',
       'otp' => 'required',
       'country_code' => 'required',
       'slot_id' => 'required|numeric|unique:vistors,slot_id'
     ]);
+     
+    
 
 
     try {
@@ -62,14 +66,24 @@ class HomeController extends Controller
       $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
 
       $isUsers = $this->IsRegistredAlready($selfieImage);
+      $venueSlots = VenueSloting::find($request->input('slot_id'));
+      $venueAddress = $venueSlots->venueAddress;
+      $venue = $venueAddress->venue;
+
+      $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
+      if ($user) {
+        $recordAge = $user->created_at->diffInDays(now()); 
+        if($recordAge < $venueAddress->rejoin_venue_after){
+           return response()->json(['message' => 'You already Booked a seat Before '.$recordAge.' Day You can Rejoin only After '.$venueAddress->rejoin_venue_after.' ', "status" => false], 406);
+        }
+      }
 
       if ($isUsers['status'] == false) {
         return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
       }
 
-      $venueSlots = VenueSloting::find($request->input('slot_id'));
-      $venueAddress = $venueSlots->venueAddress;
-      $venue = $venueAddress->venue;
+      
+
 
       $uuid = Str::uuid()->toString();
       $countryCode = $request->input('country_code');
@@ -352,7 +366,7 @@ class HomeController extends Controller
       //  $venueAddress = VenueAddress::find($id); 
        $id = $request->input('id'); 
        $timezone = $request->input('timezone'); 
-
+       $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
       $venueAddress =  VenueAddress::where('id', $id)
         ->where(function ($query) use ($newDate) {
             $query->whereDate('venue_date', $newDate)
