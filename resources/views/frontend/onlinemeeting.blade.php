@@ -1,20 +1,18 @@
 @extends('layouts.guest')
  
 @section('content')
-<div class="d-flex justify-content-center py-4">
-    <a href="index.html" class="logoo  d-flex align-items-center wuto">
-        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-    </a>
-</div>
+
+
+
+
+        <div class="d-flex justify-content-center py-4">
+            <a href="index.html" class="logoo  d-flex align-items-center wuto">
+                <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+            </a>
+        </div>
 
     <style>
-        body{background-color:rgb(29, 29, 29);font-family:Karla,sans-serif}
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: poppins, sans-serif
-        } 
+       
 
         .active {
             opacity: 1;
@@ -44,7 +42,7 @@
 
         .invite,
         .joined {
-            padding: 10px 35px
+            padding: 10px 5px
         }
 
         .top-icons img {
@@ -111,16 +109,29 @@
         }
 
         .you {
-            padding: 30px 40px 50px
+            /* padding: 30px 40px 50px */
         }
+        .joined p {
+    font-size: 25px;
+    text-align: center;
+}
 
         @media screen and (max-width:767px) {
-            .logoo img{
-            height: 80px !important;
-            width: 90px !important;
-        }
+            .joined p {font-size: 28px;text-align: center;}
+                .logoo img{
+                height: 80px !important;
+                width: 90px !important;
+            }
+            .container-fluid {
+                padding: 0px 20px !important;
+                flex-direction: column;
+            }
             .you {
-                background: 0 0 !important
+                background: 0 0 !important; 
+                order: 2;
+            }
+            .recipient{
+                flex: 1;   order: 1;
             }
             video{
                 width: 100% !important;
@@ -247,11 +258,19 @@
             font-weight: 600;
             letter-spacing: 0.3px;
         }
+
+.asktojoin-main {
+    text-align: center;
+}
+button#asktojoin { 
+    padding: 20px 100px;
+    cursor: pointer;
+}
+
     </style>
 
-    <div class="top-iconsa">
-    </div>
-    <div class="wrapper text-center" id="loader-content">
+    
+    {{-- <div class="wrapper text-center" id="loader-content">
         @if ($isMeetingInProgress)
             <h1>Please wait<span class="dot">...</span></h1>
             <p>People Ahead You {{ $aheadCount }}.</p>
@@ -267,45 +286,30 @@
             <p>Meeting Start In .</p>
             <h1>{{ $timeRemaining }}<span class="dot">...</span></h1>
         @endif
-    </div>
+    </div> --}}
 
-    <div class="row asktojoin">
-        @if ($vistor->user_status == 'no_action')
-            <div class="col-lg-12 text-center mt-5">
-                <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor->id }}">
-                    Ask To Join
-                </button>
-                <div>
-                    <span id="response" @if (empty($vistor->user_status)) style="display:none"; @endif></span>
-                </div>
-            </div>
-        @endif
-
-    </div>
+    
 
 
-    <div class="row" id="main-content" style="display: none">
+    <div class="row" id="main-content">
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12 text-center">
                 <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
                 <span class="text-danger counter-span" style="display: none">
                     Call auto disconect when time ends</span>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="col-1 you">
-            <div id="remote-video">
-                <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
-            </div>
-        </div>
+        
 
-        <div class="col-2">
+        <div class="col-lg-6  you">
             <div class="joined">
                 <p>You</p>
                 <div>
                     <div id="local-video">
-                        <img src="https://i.postimg.cc/WzFnG0QG/people-1.png">
+                        <video id="video" playsinline autoplay></video>
+                        {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
                 </div>
                 <div class="contarols">
@@ -326,6 +330,37 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-6 asktojoin-main" >
+
+            <div class="asktojoin">
+                <h3> Ready to join?</h3>
+
+                
+                @if (!empty($vistor) && $vistor->user_status == 'no_action')
+                    <div class="col-lg-12 text-center mt-5">
+                        <button class="btn btn-primary" id="asktojoin" data-id="{{ ($vistor) ?  $vistor->id : 0 }}" >
+                            Ask To Join
+                        </button>
+                        <div class="text alert alert-info mt-2 asktojoin-response" style="display: none">
+                            Please Wait While Host Approve Your Request 
+                        </div>
+                    </div> 
+                    @else 
+                    
+                    <div class="text alert alert-info mt-2 asktojoin-response" style="display: none">
+                        Please Wait While Host Approve Your Request 
+                    </div>
+                @endif
+        
+            </div>
+            
+             
+        </div>
+        <div class="col-lg-6 recipient" style="display: none" >
+            <div id="remote-video">
+                <img src="https://i.postimg.cc/521rVkhD/image.png" class="host-img">
+            </div>
+        </div>
 
     </div>
 @endsection
@@ -334,6 +369,8 @@
 @section('page-script')
   <script>
     document.title = "KahayFaqeer.com| Online Meeting";
+
+
   </script>
     <script>
         document.addEventListener("touchstart", function() {}, true);
@@ -343,22 +380,25 @@
     <script src="https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
 
     <script>
+
+
         var accessToken = "{{ $accessToken }}";
         var roomName = "{{ $roomName }}";
         var isMeetingHaveFifiten = "{{ $isFifteenMinutesRemaining }}"
-        var visitorId = "{{ $vistor->id }}"
+        var visitorId = "{{ ($vistor) ? $vistor->id : 0 }}"
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
         var intervalId = setInterval(function() {
-
             checkParticipantStatus(visitorId, intervalId);
         }, 2500);
-        if (accessToken && roomName) {
-            console.log("yer");
+        if (accessToken && roomName) { 
             checkParticipantStatus(visitorId, intervalId);
         } else {
             console.error('Access token or room name is missing.');
         }
+         
+
+         
 
         function checkParticipantStatus(visitorId, intervalId) {
 
@@ -372,6 +412,8 @@
                 },
                 success: function(response) {
                     if (response.is_admit) {
+                        $(".asktojoin-main").hide()
+                        $(".recipient").show(); 
                         var roomName = response.roomDetails.room_name;
                         var accessToken = response.roomDetails.accessToken;
                         initializeVideoCall(accessToken, roomName)
@@ -379,17 +421,12 @@
                         timer();
                         postAjax(response.visitor.id, 'start');
                         clearInterval(intervalId);
-                        $("#response").hide();
+                       
                         $("#remote-video").find('p').hide();
-                    } else if (response.visitor.user_status == null) {
-                        $("#response").text("Please place a request so admin approve your request").show();
-                    } else {
-
-                        $("#response").text(
-                            "You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request"
-                            ).show();
-
-                    }
+                        $(".asktojoin-response").text(response.message).show()
+                    }else{
+                        $(".asktojoin-response").text(response.message).show()
+                    }  
                 },
                 error: function() {
                     console.error("An error occurred while fetching the participant list.");
@@ -410,9 +447,11 @@
                     // Handle the response from the server
 
                     $("#action-btns").show();
-                    $(".asktojoin").hide(); 
+                    $(this).hide(); 
+                    $(".asktojoin-response").show(); 
+
                     alert("Request to join sent successfully.");
-                    $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request");
+                   //  $("#response").text("You are in Waiting List. Please stay on the page will be auto connect when Host Admit Your Request");
 
                 },
                 error: function() { 
@@ -561,7 +600,7 @@
             $("body").css("background-color", "#f6f9ff");
             $("#loader-content").fadeOut();
             // }
-            $(".alert").fadeOut();
+            // $(".alert").fadeOut();
 
         }, 1000);
 

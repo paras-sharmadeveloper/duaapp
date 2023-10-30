@@ -65,37 +65,53 @@ class VideoConferenceController extends Controller
     public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
         // echo $bookingId; die; 
+       
         $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();
-        if (empty($vistor)) {
-            abort(404);
-        }
+        $venueAddress = []; 
+        $estimatedWaitTime = $aheadCount = $servedCount = $timePerSlot = 0 ; 
+        // if (empty($vistor)) {
+        //     abort(404);
+        // }
         $mytime = Carbon::now()->tz('America/New_York');
-        if($request->ip() != '127.0.0.1' || $request->ip() != 'localhost'){
+        if($request->ip() != '127.0.0.1' && $request->ip() != 'localhost'){
+            // echo "asd".$request->ip(); die; 
             $userDetail = $this->getIpDetails($request->ip());
             $countryCode = $userDetail['countryCode'];
             $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
             $mytime = Carbon::now()->tz($timezone->timezone);
         }
+ 
 
-        $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+        if(!empty($vistor)) {
 
-        $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-        
-        $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
-        $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
-        $timeRemaining = $meetingStartTime->diffForHumans(null, true);
-        $isMeetingInProgress = $mytime->gte($meetingStartTime);
+            $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+
+            $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+            
+            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
+            $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
+            $timeRemaining = $meetingStartTime->diffForHumans(null, true);
+            $isMeetingInProgress = $mytime->gte($meetingStartTime);
+
+            $vistorName = $vistor->fname . ' ' . $vistor->lname;
+            $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
+            $servedCount = Vistors::where(['meeting_type' => 'virtual'])->alreadyServed();
+            $timePerSlot =  $venueAddress->slot_duration; // Time duration for each slot (in minutes)
+            $estimatedWaitTime = $aheadCount * $timePerSlot;
+
+        }
+       
         $currentDateTime = $mytime;
         $isFifteenMinutesRemaining = false;
         //  echo  $meetingStartTime ; die; 
-        if ($meetingStartTime->isFuture()) {
+        if (!empty($meetingStartTime) && $meetingStartTime->isFuture()) {
             $interval = $currentDateTime->diff($meetingStartTime);
             $timeRemaining = $interval->format('%D days %h hours and %i minutes');
             $isFifteenMinutesRemaining = ($interval->i <= 15) ? true : false;
             // Check if the meeting is already in progress
             // $isMeetingInProgress = false;
             $isMeetingInProgress = false;
-        } else if ($currentDateTime->isAfter($meetingEndsTime)) {
+        } else if (!empty($meetingEndsTime) &&  $currentDateTime->isAfter($meetingEndsTime)) {
             // Meeting has already passed, display an error message
             $timeRemaining = "The meeting has already taken place.";
             // You can redirect or display the error message as needed.
@@ -111,16 +127,14 @@ class VideoConferenceController extends Controller
 
 
        
-        $vistorName = $vistor->fname . ' ' . $vistor->lname;
+       
         $roomName =  ''; $accessToken =''; 
         // $roomName =   $venueAddress->room_name;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
 
-        $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
-        $servedCount = Vistors::where(['meeting_type' => 'virtual'])->alreadyServed();
+       
 
-        $timePerSlot =  $venueAddress->slot_duration; // Time duration for each slot (in minutes)
-        $estimatedWaitTime = $aheadCount * $timePerSlot;
+       
 
         return view('frontend.onlinemeeting', compact(
             'venueAddress',
@@ -255,22 +269,28 @@ class VideoConferenceController extends Controller
         $vistor = Vistors::find($id);
         $roomDetails = []; 
         $admitted=false;
-        if($vistor->user_status == 'admitted'){
+        if(!empty($vistor) && $vistor->user_status == 'admitted'){
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
             $roomDetails['room_name'] = $venueAddress->room_name;
             $vistorName = $vistor->fname . ' ' . $vistor->lname; 
             $roomDetails['accessToken'] = $this->generateAccessToken($venueAddress->room_name, $vistorName);
             $admitted=true;
+            return response()->json(['message' => 'You request submitted successfully. Please Wait While Host Approve Your Request', 
+                "status" => true,
+                'visitor' => $vistor,
+                'is_admit' => $admitted,
+                'roomDetails' => $roomDetails
+            ], 200);
+        }else{
+            return response()->json(['message' => 'You request submitted successfully. Please Wait While Host Approve Your Request', 
+            "status" => false, 
+            "is_admit" => $admitted
+        ], 200);
         }
        
         // $roomName =   ;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
-        return response()->json(['message' => 'You request submitted successfully. Lets Wait for Host to approve your request', 
-        "status" => true,
-        'visitor' => $vistor,
-         'is_admit' => $admitted,
-        'roomDetails' => $roomDetails
-    ], 200);
+       
     }
 
 

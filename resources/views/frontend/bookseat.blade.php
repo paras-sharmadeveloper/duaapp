@@ -696,7 +696,7 @@ div#slot-information-user {
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="type-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="type-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -738,7 +738,7 @@ div#slot-information-user {
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="country-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="country-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -778,7 +778,7 @@ div#slot-information-user {
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="city-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -820,7 +820,7 @@ div#slot-information-user {
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom" id="date-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -878,7 +878,7 @@ div#slot-information-user {
                              </select>
                         </div>
 
-                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner" id="slot-listing">
+                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner" id="slot-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -1132,10 +1132,7 @@ div#slot-information-user {
 @endsection
 
 @section('page-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Select2 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+   
     <script>
         $(".form-business").hide();
         
@@ -1327,6 +1324,10 @@ div#slot-information-user {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
+ 
+                    if(response.length  == 0){
+                       alert("No Records Found")
+                    }
                     
                     if (type == 'get_type') {
 
@@ -1454,7 +1455,7 @@ div#slot-information-user {
 
 
                     }
-
+                    nextBtn.find('span').hide()
                     var oldTitle = $("#remeber-steps-app").val();
                    
                     nextBtn.parents(".row").fadeOut("slow", function() {
@@ -1873,10 +1874,28 @@ div#slot-information-user {
 
         function appendLoader() {
             return `<div id="loader" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                                </div>
+                <div class="lds-spinner">
+                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                </div>
             </div>`;
         }
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "60000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+            }
     </script>
 @endsection
