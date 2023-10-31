@@ -60,3 +60,6 @@
 
     </div>
 @endsection
+@section('page-script')
+<script>document.title = 'User Show'; </script>
+@endsection

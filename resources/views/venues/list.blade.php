@@ -58,7 +58,7 @@
                             </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->address }}</td>
-                            <td>{{ $venueAdd->venue_date }} {{ $venueAdd->starts_at }} - {{ $venueAdd->slot_ends_at }}</td>
+                            <td>{{ $venueAdd->venue_date }}  </td>
                             <td>{{ $venueAdd->type }}</td>
                             <td>
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
@@ -69,6 +69,7 @@
                                     <button type="submit" class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
                                 </form>
+                                <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">Book Slot</a>
                             </td>
                         </tr>
                         @php $i++;@endphp
@@ -81,4 +82,7 @@
 
 
 
+@endsection
+@section('page-script')
+<script>document.title = 'Venue List'; </script>
 @endsection

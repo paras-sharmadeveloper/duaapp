@@ -89,6 +89,8 @@ Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
 
+
+
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
@@ -135,7 +137,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
     Route::delete('/visitor/{id}/delete',[VistorsController::class,'DeleteNow'])->name('visitor.delete');
-   
+    Route::get('/book/{venueId}/add', [HomeController::class, 'bookingAdmin'])->name('book.add');
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');

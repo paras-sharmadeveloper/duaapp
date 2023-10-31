@@ -77,3 +77,6 @@
 
 
 @endsection
+@section('page-script')
+<script>document.title = 'User List'; </script>
+@endsection

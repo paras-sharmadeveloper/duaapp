@@ -79,3 +79,6 @@
 
 
 @endsection
+@section('page-script')
+<script>document.title = 'List Countries'; </script>
+@endsection

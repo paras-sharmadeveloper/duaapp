@@ -358,4 +358,6 @@
             });
         });
     </script>
+    <script>document.title = 'Venue Booking'; </script>
 @endsection
+

@@ -188,4 +188,5 @@
   image.src = URL.createObjectURL(event.target.files[0]);
 };
     </script>
+    <script>document.title = 'Edit User'; </script>
 @endsection

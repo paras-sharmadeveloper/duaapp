@@ -36,7 +36,6 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Create New User</h5>
-             
 
               {!! Form::open(array('route' => 'users.store','method'=>'POST' , 'class' =>'row g-3','enctype' => "multipart/form-data")) !!}
             
@@ -95,5 +94,5 @@
 @endsection
 @section('page-script')
 
- 
+<script>document.title = 'Add User'; </script>
 @endsection

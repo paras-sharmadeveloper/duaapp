@@ -36,62 +36,60 @@
             @if (request()->route()->getName() == 'siteadmin.queue.show')
                 <section class="services section-bg" id="services">
                     <div class="container">
-                        <header class="section-header">
-                            <h3>Venues</h3>
 
-                            {{-- <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus.</p> --}}
-                        </header>
                         @php $counter = 0 @endphp
                         <div class="row">
                             @foreach ($venueAddress as $venueAdd)
-                            @if ($counter % 3 == 0)
-                                <div class="row">
-                            @endif
+                                @if ($counter % 3 == 0)
+                                    <div class="row">
+                                @endif
                                 @php
-                                    
+
                                     $startTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_starts_at)->format('h:i A');
                                     $endTimeFormatted = \Carbon\Carbon::parse($venueAdd->slot_ends_at)->format('h:i A');
                                 @endphp
-                                 <div class="col-lg-4">     
-                               
-                                  
-                                        <div class="box">
-                                            <div class="icon">
-                                                @if (!empty($venueAdd->user->profile_pic) &&
-                                                        Storage::disk('s3_general')->exists('images/' . $venueAdd->user->profile_pic))
-                                                    <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $venueAdd->user->profile_pic }}"
-                                                        class="imgh" alt="Flag Image">
-                                                @else
-                                                    <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                                        class="imgh" alt="Default Image" >
-                                                @endif
-                                                {{-- <i class="fa fa-briefcase service-icon" style="color: #c59c35;"></i> --}}
-                                            </div>
-                                            <h4 class="title">{{ $venueAdd->user->name }}</h4>
-                                            <h2 class="sub-title">{{ $venueAdd->venue_date }}</h2>
-                                            <h3 class="sub-title">{{ $startTimeFormatted }} - {{ $endTimeFormatted }}</h3>
-                                            <span class="sr"><strong>{{ $venueAdd->venue->country_name }}
-                                                    ({{ $venueAdd->state }})
-                                                </strong></span>
-                                            <p class="description text-center">{{ $venueAdd->city }}</p>
-                                            <p class="description text-center">{{ $venueAdd->address }}</p>
-                                            <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}" class="btn btn-outline-info text-center">Start</a>
-                                        </div>
-                                    
-                                        
-                            </div>
-                                @if ($counter % 3 == 2 || $loop->last)
-                                    </div>
-                                @endif
-                                @php $counter++ @endphp
-                            @endforeach
- 
-                    </div>
-                </section>
-            @endif
+                                <div class="col-lg-4">
 
-             
+
+                                    <div class="box">
+                                        <div class="icon">
+                                            @if (
+                                                !empty($venueAdd->user->profile_pic) &&
+                                                    Storage::disk('s3_general')->exists('images/' . $venueAdd->user->profile_pic))
+                                                <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $venueAdd->user->profile_pic }}"
+                                                    class="imgh" alt="Flag Image">
+                                            @else
+                                                <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                                    class="imgh" alt="Default Image">
+                                            @endif
+                                            {{-- <i class="fa fa-briefcase service-icon" style="color: #c59c35;"></i> --}}
+                                        </div>
+                                        <h4 class="title">{{ $venueAdd->user->name }}</h4>
+                                        <h2 class="sub-title">{{ $venueAdd->venue_date }}</h2>
+                                        <h3 class="sub-title">{{ $startTimeFormatted }} - {{ $endTimeFormatted }}</h3>
+                                        <span class="sr"><strong>{{ $venueAdd->venue->country_name }}
+                                                ({{ $venueAdd->state }})
+                                            </strong></span>
+                                        <p class="description text-center">{{ $venueAdd->city }}</p>
+                                        <p class="description text-center">{{ $venueAdd->address }}</p>
+                                        <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}"
+                                            class="btn btn-outline-info text-center">Start</a>
+                                    </div>
+
+
+                                </div>
+                                @if ($counter % 3 == 2 || $loop->last)
+                        </div>
+            @endif
+            @php $counter++ @endphp
+            @endforeach
+
         </div>
+        </section>
+        @endif
+
+
+    </div>
     </div>
     </div>
     <style>
@@ -158,7 +156,7 @@
             padding-top: 12px;
             display: inline-block;
             text-align: center;
-            border-radius: 50%; 
+            border-radius: 50%;
         }
 
         #services .icon .service-icon {
@@ -193,4 +191,3 @@
     </style>
 
 @endsection
-  

@@ -123,4 +123,5 @@
 
         })
     </script>
-@endsection
+    <script>document.title = 'Add/Edit Countries'; </script>
+@endsection 
