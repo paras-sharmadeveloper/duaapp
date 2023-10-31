@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\TryCatch;
 use App\Events\BookingNotification;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -717,5 +718,13 @@ class HomeController extends Controller
 
     Ipinformation::create($data);
     return $result;
+  }
+
+  public  function deleteRows(Request $request)
+  {
+      $post = $request->all();
+      $query = DB::table($post['table_name']);
+      $query->whereIn('id', $post['idsToDelete'])->delete();
+      return ['success' => 1, 'message' => 'deleted'];
   }
 }

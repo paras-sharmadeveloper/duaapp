@@ -18,11 +18,13 @@
 <div class="py-12">
     <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            
             <div class="p-6 text-gray-900 dark:text-gray-100">
+               
 
-                {{-- <div class="mt-4 d-flex justify-content-end mb-3">
-                    <button onclick="deleteModel()" class="btn btn-danger">Delete Selected Rows</button>
-                </div> --}}
+                <div class="mt-1 d-flex justify-content-end mb-1 d-flex mx-3">
+                    <button onclick="deleteModel()" type="button" class="btn btn-danger ml-6 mr-3 mt-3 mb-3"> Delete Selected rows</button>
+                </div>
 
                 <!-- start Ag-Grid container -->
                 <div id="ag-grid" class="ag-theme-alpine-dark" style="height:800px;"></div>
@@ -72,7 +74,9 @@
             pivot: true,
             enablePivot: true,
             sort: 'desc',
-            filter: "agNumberColumnFilter"
+            filter: "agNumberColumnFilter",
+            checkboxSelection:true
+            
         },
 
         {
@@ -277,13 +281,17 @@
             pivot: true,
             enablePivot: true,
             filter: "agTextColumnFilter"
+        }, 
+        {
+            headerName: 'BookingId',
+            field: 'id',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true,
+            filter: "agTextColumnFilter"
         },
-
-        
-         
-        
-
-
         // Add more columns as needed
     ];
 
@@ -450,7 +458,60 @@
         gridOptions.api.setServerSideDatasource(datasource);
     }
 
+    function deleteModel() {
+      var selected = gridOptions.api.getSelectedRows();
+    if(selected.length > 0){
+ 
+    $('#del-model').modal('show'); 
+    }else{
+        alert('Please select row to delete');  
+    }
+ 
+  }
 
+  function  DeleteRows() {
+    var table = 'vistors'; 
+    var confirm = $("#confirm-delete").val(); 
+
+    if(confirm == ''){
+        $(".eror").text('Please write confirm delete'); 
+        return false; 
+    }
+
+    if(confirm === 'confirm delete'){
+
+      var selected = gridOptions.api.getSelectedRows();
+      console.log("selected",selected)
+      var ids = [];
+      for (var i = 0; i < selected.length ; i++ ) {
+        ids[i] = selected[i]['id']; 
+       
+      }  
+
+       $.ajax({
+         type:'get', 
+         dataType: "json", 
+         url:"{{ route('delete-row') }}"+'?table_name='+table, 
+         data: { idsToDelete : ids },
+
+         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+         success:function(response){
+             alert(" Row Deleted Successfully")
+            // toastr.success('Row Deleted', "Success");  
+            $('#del-model').modal('hide');  
+          },
+          error: function(e) {
+            // toastr.error('failed', "falied to load");  
+            $('#del-model').modal('hide');   
+          },
+     });
+
+    }else{
+        $(".eror").text('write correctly.. spelling mistake'); 
+        return false; 
+    } 
+       
+  }
 
 
 </script>

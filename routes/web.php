@@ -138,6 +138,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
     Route::delete('/visitor/{id}/delete',[VistorsController::class,'DeleteNow'])->name('visitor.delete');
     Route::get('/book/{venueId}/add', [HomeController::class, 'bookingAdmin'])->name('book.add');
+    Route::any('delete-row', [HomeController::class, 'deleteRows'])->name('delete-row'); 
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');

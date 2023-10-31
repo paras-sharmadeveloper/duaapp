@@ -11,6 +11,7 @@ class AgGridManagement extends Controller
     public function getDataMessageLog(Request $request)
     {
         $columnToTableMapping = [ 
+            'id' => 'vistors',
             'fname' => 'vistors',
             'lname' => 'vistors',
             'email' => 'vistors',
