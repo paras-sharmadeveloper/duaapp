@@ -204,6 +204,9 @@
         }
 
         @media (max-width:767px) {
+            .container-fluid{
+                padding: 0px !important; 
+            }
             .head label {
                 font-size: 15px !important;
                 color: #fff !important;
