@@ -1496,9 +1496,6 @@ div#slot-information-user {
                 },
                 success: function(response) {
  
-                    if(response.length  == 0){
-                       alert("No Records Found")
-                    }
                     
                     if (type == 'get_type') {
 
