@@ -28,19 +28,12 @@ class HomeController extends Controller
 
   public function bookingAdmin($id)
   {
-    $slots= VenueSloting::where(['venue_address_id' => $id])->get(); 
-    $countries = Country::all(); 
-    return view('admin-booking',compact('id','slots','countries'));
+    $slots = VenueSloting::where(['venue_address_id' => $id])->get();
+    $countries = Country::all();
+    return view('admin-booking', compact('id', 'slots', 'countries'));
   }
 
   
-
-
-  /**
-   * Show the application dashboard.
-   *
-   * @return \Illuminate\Contracts\Support\Renderable
-   */
   public function index()
   {
     $therapistRole = Role::where('name', 'therapist')->first();
@@ -48,47 +41,47 @@ class HomeController extends Controller
     $countryList = Country::all();
     $therapists = $therapistRole->users;
     $timezones = Country::with('timezones')->get();
-
     return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones'));
   }
+
   public function BookingSubmit(Request $request)
   {
-    $from = $request->input('from','null'); 
-    $vaildation = []; 
-    if($from == 'admin'){
+    $from = $request->input('from', 'null');
+    $vaildation = [];
+    if ($from == 'admin') {
 
       $vaildation =  [
         'fname' => 'required|string|max:255',
-        'lname' => 'required|string|max:255', 
-        'email' => 'required|email|max:255',  
+        'lname' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
         'mobile' => 'required|string|max:255',
-        'user_question' => 'nullable|string',  
+        'user_question' => 'nullable|string',
         'country_code' => 'required',
         'slot_id' => 'required|numeric|unique:vistors,slot_id'
-     ];
-
-    }else{
+      ];
+    } else {
 
       $vaildation =  [
-          'fname' => 'required|string|max:255',
-          'lname' => 'required|string|max:255',
-          // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-          //'mobile' => 'required|string|max:255|unique:vistors,phone',
-          'email' => 'required|email|max:255', // Check for duplicate email
-          'mobile' => 'required|string|max:255',
-          'user_question' => 'nullable|string',
-          'selfie' => 'required',
-          'otp' => 'required',
-          'country_code' => 'required',
-          'slot_id' => 'required|numeric|unique:vistors,slot_id'
-      ]; 
-
+        'fname' => 'required|string|max:255',
+        'lname' => 'required|string|max:255',
+        // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
+        //'mobile' => 'required|string|max:255|unique:vistors,phone',
+        'email' => 'required|email|max:255', // Check for duplicate email
+        'mobile' => 'required|string|max:255',
+        'user_question' => 'nullable|string',
+        'selfie' => 'required',
+        'otp' => 'required',
+        'country_code' => 'required',
+        'slot_id' => 'required|numeric|unique:vistors,slot_id'
+      ];
     }
     $validatedData = $request->validate($vaildation);
- 
+
     try {
-      $selfieData = ""; $selfieImage = "";  $isUsers =[]; 
-      if($from != 'admin'){
+      $selfieData = "";
+      $selfieImage = "";
+      $isUsers = [];
+      if ($from != 'admin') {
         $selfieData = $request->input('selfie');
         $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
         $isUsers = $this->IsRegistredAlready($selfieImage);
@@ -221,13 +214,11 @@ class HomeController extends Controller
       $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $bookingMessage, 'read' => false]);
       event(new BookingNotification($bookingMessage));
-      if($from == 'admin'){
-        return redirect()->back()->with('success', 'Booking created successfully'); 
-        
-      }else{
+      if ($from == 'admin') {
+        return redirect()->back()->with('success', 'Booking created successfully');
+      } else {
         return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
       }
-      
     } catch (\Exception $e) {
       Log::error('Booking error' . $e->getMessage());
 
@@ -410,7 +401,7 @@ class HomeController extends Controller
         $query->whereDate('venue_date', $newDate)
           ->orWhereDate('venue_date', date('Y-m-d'));
       })
-     ->get()->first();
+      ->get()->first();
 
 
     $mytime = Carbon::now()->tz($timezone);
@@ -483,13 +474,12 @@ class HomeController extends Controller
       }
 
       return response()->json([
-        'status' => !(empty($dataArr)) ? true : false ,
+        'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr
       ]);
- 
     }
     if ($type == 'get_type') {
- 
+
       $addRess = VenueAddress::where('therapist_id', $id)
         // ->where(function ($query) use ($newDate) {
         //   $query->whereDate('venue_date', $newDate)
@@ -497,7 +487,7 @@ class HomeController extends Controller
         // })
         ->get();
       $dataArr = [];
-      foreach ($addRess as $venuesList) { 
+      foreach ($addRess as $venuesList) {
         $eventDate = Carbon::parse($venuesList->venue_date . ' ' . $venuesList->slot_starts_at);
         $dataArr['type'][] = [
           'name' => $venuesList->type,
@@ -508,7 +498,7 @@ class HomeController extends Controller
         ];
       }
       return response()->json([
-        'status' => !(empty($dataArr)) ? true : false ,
+        'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr
       ]);
     }
@@ -536,7 +526,7 @@ class HomeController extends Controller
 
 
       return response()->json([
-        'status' => !(empty($dataArr)) ? true : false ,
+        'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr
       ]);
     }
@@ -566,7 +556,7 @@ class HomeController extends Controller
 
 
       return response()->json([
-        'status' => !(empty($dataArr)) ? true : false ,
+        'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr
       ]);
     }
@@ -594,7 +584,7 @@ class HomeController extends Controller
         ];
       }
       return response()->json([
-        'status' => !(empty($dataArr)) ? true : false ,
+        'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr
       ]);
     }
@@ -612,31 +602,30 @@ class HomeController extends Controller
         ->get()->first();
 
 
-          if (App::environment('production')) {
-            $userDetail = $this->getIpDetails($request->ip());
-            $countryCode = $userDetail['countryCode'];
-            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-            $currentTimezone = $timezone->timezone;
-          } else {
-            $currentTimezone = 'America/New_York';
-          }
+      if (App::environment('production')) {
+        $userDetail = $this->getIpDetails($request->ip());
+        $countryCode = $userDetail['countryCode'];
+        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+        $currentTimezone = $timezone->timezone;
+      } else {
+        $currentTimezone = 'America/New_York';
+      }
 
-          if(!empty($venueAddress)){
-            $mytime = Carbon::now()->tz($currentTimezone);
-            $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
-            $hoursRemaining = $eventDate->diffInHours($mytime);
-          }else{
+      if (!empty($venueAddress)) {
+        $mytime = Carbon::now()->tz($currentTimezone);
+        $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
+        $hoursRemaining = $eventDate->diffInHours($mytime);
+      } else {
 
-            return response()->json([
-              'status' => false,
-              'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',  
-              'timezone' => $currentTimezone,
-              'app' => App::environment('production'),
-              'slots' => [],
-            ]);
+        return response()->json([
+          'status' => false,
+          'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
+          'timezone' => $currentTimezone,
+          'app' => App::environment('production'),
+          'slots' => [],
+        ]);
+      }
 
-          }
-      
 
       // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
@@ -755,9 +744,9 @@ class HomeController extends Controller
 
   public  function deleteRows(Request $request)
   {
-      $post = $request->all();
-      $query = DB::table($post['table_name']);
-      $query->whereIn('id', $post['idsToDelete'])->delete();
-      return ['success' => 1, 'message' => 'deleted'];
+    $post = $request->all();
+    $query = DB::table($post['table_name']);
+    $query->whereIn('id', $post['idsToDelete'])->delete();
+    return ['success' => 1, 'message' => 'deleted'];
   }
 }

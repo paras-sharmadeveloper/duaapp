@@ -59,7 +59,7 @@
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->address }}</td>
                             <td>{{ $venueAdd->venue_date }}  </td>
-                            <td>{{ $venueAdd->type }}</td>
+                            <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td>
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
