@@ -658,24 +658,35 @@ div#slot-information-user {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
-                            @foreach ($therapists as $therapist)
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-                                    <div class="card text-center h-60  shadow-sm thripist-section"
-                                        data-id="{{ $therapist->id }}">
-                                        @if (!empty($therapist->profile_pic))
-                                            <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $therapist->profile_pic }}"
-                                                alt="Profile">
-                                        @else
-                                            <img src="{{ asset('assets/theme/img/avatar.png') }}">
-                                        @endif
-                                        {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
-                                        <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
-                                            <p class="card-text">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    @foreach ($therapists as $i => $therapist)
+                                        <div 
+                                        @if($i==0) 
+                                           class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item active" 
+                                        
+                                        @else 
+                                        
+                                           class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item "
+                                        @endif>
+                                            <div class="card text-center h-60  shadow-sm thripist-section"
+                                                data-id="{{ $therapist->id }}">
+                                                @if (!empty($therapist->profile_pic))
+                                                    <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $therapist->profile_pic }}"
+                                                        alt="Profile">
+                                                @else
+                                                    <img src="{{ asset('assets/theme/img/avatar.png') }}">
+                                                @endif
+                                                {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
+                                                <div class="card-body px-0">
+                                                    <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
+                                                    <p class="card-text">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                                    @endforeach
+                            </div>
+                         </div>
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
