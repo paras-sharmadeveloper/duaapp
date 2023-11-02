@@ -626,6 +626,7 @@
 
         .slick-slide {
             max-width: 300px !important;
+            width: 280px !important;
         }
 
         /* css loader ends */
@@ -1948,7 +1949,7 @@
             $('.carousel').slick({
                 slidesToShow: 2,
                 dots: true,
-                centerMode: true,
+                // centerMode: true,
                 responsive: [{
                         breakpoint: 1200,
                         settings: {
