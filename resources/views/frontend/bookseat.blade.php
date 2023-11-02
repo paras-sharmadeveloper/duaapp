@@ -641,9 +641,9 @@ div#slot-information-user {
 .arrow-ribbon {
   background: #090909;
   color: #FFF;
-  padding: 7px 12px;
+  padding: 4px 4px;
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   right: -1px;
 }
 .arrow-ribbon:before {
