@@ -320,7 +320,7 @@
         .thripist-section img {
             height: 100%;
             width: 100%;
-            /* max-height: 200px; */
+            max-height: 300px; 
         }
 
         .loader-img {
@@ -660,7 +660,7 @@ div#slot-information-user {
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             @foreach ($therapists as $therapist)
                                 <div class="col-lg-3 col-md-4">
-                                    <div class="card text-center h-60 py-2 shadow-sm thripist-section"
+                                    <div class="card text-center h-60  shadow-sm thripist-section"
                                         data-id="{{ $therapist->id }}">
                                         @if (!empty($therapist->profile_pic))
                                             <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $therapist->profile_pic }}"
