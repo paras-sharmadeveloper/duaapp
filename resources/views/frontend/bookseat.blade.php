@@ -1945,11 +1945,11 @@
         $(document).on('ready', function() {
 
             $(".carousel").slick({
-                dots: false,
+                dots: true,
                 infinite: true,
-                slidesToShow: 6,
-                slidesToScroll: 6,
-                autoplay: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                autoplay: false,
                 autoplaySpeed: 2000,
 
                 pauseOnHover: true,
