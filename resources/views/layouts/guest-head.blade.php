@@ -36,6 +36,9 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/theme/css/style.css') }}" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick-theme.min.css" rel="stylesheet">
 
 
 
