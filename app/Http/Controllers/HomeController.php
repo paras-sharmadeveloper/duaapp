@@ -494,11 +494,12 @@ class HomeController extends Controller
         ->get();
       $dataArr = [];
       foreach ($addRess as $venuesList) { 
+        $eventDate = Carbon::parse($venuesList->venue_date . ' ' . $venuesList->slot_starts_at);
         $dataArr['type'][] = [
           'name' => $venuesList->type,
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'venue_address_id' => $venuesList->id,
-          'day_left' =>  Carbon::now()->diffInHours($venuesList->venue_date)
+          'day_left' =>  Carbon::now()->diffInHours($eventDate)
 
         ];
       }
@@ -656,7 +657,8 @@ class HomeController extends Controller
             'status' => false,
             'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
             'slots' => [],
-            'app' => App::environment('production')
+            'app' => App::environment('production'),
+            'hoursRemaining' => $hoursRemaining
             //  'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
             //  'eventDate' => $eventDate, 
 
