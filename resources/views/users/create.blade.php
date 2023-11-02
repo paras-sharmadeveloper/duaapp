@@ -70,12 +70,25 @@
                          {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!}
                    </div>
                 </div> 
-                <div class="col-md-6">
-                  <div class="input-group">
-                      <span class="input-group-text" id="inputGroupPrepend2">Upload Profile</span>
-                      <input type="file" name="profile_pic" accept="image/*">
-                 </div>
-              </div> 
+                <div class="row">
+                  <div class="col-md-12 d-flex justify-content-center">
+                      <div class="profile-pic">
+                          <label class="-label" for="file">
+                              <span class="glyphicon glyphicon-camera"></span>
+                              <span>Change Image</span>
+                          </label>
+                          <input id="file" type="file"  name="profile_pic" onchange="loadFile(event)" />
+                          @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
+                          <img id="output" src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}"  
+                              alt="Profile Image">
+                           @else
+                          <img id="output" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                               width="200"  alt="Profile Image">
+                          @endif
+                           
+                      </div>
+                  </div> 
+              </div>  
                 
 
                 <div class="col-12">
@@ -88,11 +101,24 @@
           </div>
     </div>
 
- 
+    <style>
+      img.imgh {
+          border-radius: 50%;
+          position: absolute;
+          top: 60%;
+          right: 22%;
+      }
+  </style>
 
  
 @endsection
 @section('page-script')
 
-<script>document.title = 'Add User'; </script>
+<script>
+ var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+document.title = 'Add User'; </script>
 @endsection
