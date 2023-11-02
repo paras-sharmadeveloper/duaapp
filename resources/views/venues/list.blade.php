@@ -50,6 +50,11 @@
                 <tbody>
                     @php $i=1;@endphp
                     @foreach ($venuesAddress as $venueAdd)
+
+                    @php
+                        $dateToConvert = \Carbon\Carbon::createFromFormat('Y-m-d', $venueAdd->venue_date);
+                        $formattedDate = $dateToConvert->format('d-M-Y');
+                    @endphp
                         <tr>
                             <td>{{ $i }}</td>
                             <td>{{ $venueAdd->venue->country_name }} 
@@ -58,7 +63,7 @@
                             </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->address }}</td>
-                            <td>{{ $venueAdd->venue_date }}  </td>
+                            <td>{{ $formattedDate }}  </td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td>
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
