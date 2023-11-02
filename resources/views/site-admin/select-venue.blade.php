@@ -93,6 +93,7 @@
     </div>
     </div>
     <style>
+        .box img { max-height: 120px;}
         #services .box,
         .section-header h3 {
             position: relative;
