@@ -1432,7 +1432,7 @@ div#slot-information-user {
             // back button
             $(".back").on({
                 click: function() {
-
+                    $(".next").show(); 
                     $("#progress-bar").find(".active").removeClass('active').prev().addClass('active')
 
                     var currentTitle = $('#remeber-steps-app').val();
