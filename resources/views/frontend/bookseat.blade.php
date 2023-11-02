@@ -1517,7 +1517,7 @@ div#slot-information-user {
                                  data-type="${item.name}"> 
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
-                                        <div class="arrow-ribbon">${item.day_left} Hours Left</div>
+                                        <div class="arrow-ribbon">${item.day_left} Days Left</div>
                                         <h5 class="card-title title-binding">${meetingType}</h5>
                                     </div>
                                 </div>
