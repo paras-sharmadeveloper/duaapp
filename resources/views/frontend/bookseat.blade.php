@@ -682,7 +682,7 @@
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom carousel">
+                        <div class="row row-cols-1 row-cols-lg-12 g-4 pb-2 border-bottom carousel">
 
                             @foreach ($therapists as $therapist)
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
@@ -1953,14 +1953,14 @@
                 responsive: [{
                         breakpoint: 1200,
                         settings: {
-                            slidesToShow: 2,
+                            slidesToShow: 3,
                             slidesToScroll: 1,
                         },
                     },
                     {
                         breakpoint: 600,
                         settings: {
-                            slidesToShow: 2,
+                            slidesToShow: 3,
                             slidesToScroll: 2,
                         },
                     },
