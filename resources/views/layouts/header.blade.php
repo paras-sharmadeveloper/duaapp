@@ -12,8 +12,7 @@
   <meta content="" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Favicons -->
-  <link href="{{ asset('assets/theme/theme/img/favicon.ico') }}" rel="icon">
-  <link href="{{ asset('assets/theme/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon"> 
   
   
   <!-- Google Fonts -->
@@ -46,118 +45,7 @@
    
 </head> 
 <style>
- /* .overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 100000000;
-	.overlayDoor {
-		&:before, &:after {
-			content: "";
-			position: absolute;
-			width: 50%;
-			height: 100%;
-			background: #5e6065;
-			transition: .5s cubic-bezier(.77,0,.18,1);
-			transition-delay: .8s;
-		}
-		&:before {
-			left: 0;
-		}
-		&:after {
-			right: 0;
-		}
-	}
-	&.loaded {
-		.overlayDoor {
-			&:before {
-				left: -50%;
-			}
-			&:after {
-				right: -50%;
-			}
-		}
-		.overlayContent {
-			opacity: 0;
-			margin-top: -15px;
-		}
-	}
-	.overlayContent {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		transition: .5s cubic-bezier(.77,0,.18,1);
-		.skip {
-			display: block;
-			width: 130px;
-			text-align: center;
-			margin: 50px auto 0;
-			cursor: pointer;
-			color: #fff;
-			font-family: 'Nunito';
-			font-weight: 700;
-			padding: 12px 0;
-			border: 2px solid #fff;
-			border-radius: 3px;
-			transition: 0.2s ease;
-			&:hover {
-				background: #ddd;
-				color: #444;
-				border-color: #ddd;
-			}
-		}
-	}
-}
-.loader {
-	width: 128px;
-	height: 128px;
-	border: 3px solid #fff;
-	border-bottom: 3px solid transparent;
-	border-radius: 50%;
-	position: relative;
-	animation: spin 1s linear infinite;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	.inner {
-		width: 64px;
-		height: 64px;
-		border: 3px solid transparent;
-		border-top: 3px solid #fff;
-		border-radius: 50%;
-		animation: spinInner 1s linear infinite;
-	}
-}
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-@keyframes spinInner {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(-720deg);
-	}
-}
-
-
-
-
-.header-nav .notifications .notification-item {
   
-    width: 400px !important;
-} */
 ul#notification-center {
     width: 300px;
 }
@@ -314,26 +202,7 @@ ul#notification-center {
                 <span>My Profile</span>
               </a>
             </li>
-            {{-- <li>
-              <hr class="dropdown-divider">
-            </li> --}}
-
-            {{-- <li>
-              <a class="dropdown-item d-flex align-items-center"  href="#">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li> --}}
-            {{-- <li>
-              <hr class="dropdown-divider">
-            </li> --}}
-
-            {{-- <li>
-              <a class="dropdown-item d-flex align-items-center"  href="#">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li> --}}
+             
             <li>
               <hr class="dropdown-divider">
             </li>
