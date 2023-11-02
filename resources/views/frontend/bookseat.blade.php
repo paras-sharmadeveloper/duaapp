@@ -1440,7 +1440,6 @@ div#slot-information-user {
                     currentTitle.pop();
 
                     var newString = currentTitle.join(' > ');
-                    console.log("newString", newString)
                     $('#remeber-steps-app').val(newString)
 
                     // $(this).next(".row").show();
