@@ -287,6 +287,12 @@
             .cusmhtn {
                 font-size: 12px;
             }
+            .card.text-center.h-60.shadow-sm.thripist-section img {
+                max-height: 180px !important;
+            }
+            .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
+                width: 50% !important;
+            }
 
         }
 
