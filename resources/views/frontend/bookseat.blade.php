@@ -1503,7 +1503,7 @@ div#slot-information-user {
                     if (type == 'get_type') {
 
                         var typed = '';
-
+                        if (response.status) {
                         $("#type-listing").html(appendLoader());
                         $.each(response.type, function(key, item) {
 
@@ -1523,6 +1523,9 @@ div#slot-information-user {
                                 </div>
                             </div>`;
                         })
+                    }else{
+                        typed = '<p> No Data Found </p>';   
+                    }
                         $("#type-listing").html(typed);
                         nextBtn.find('b').text(defaultText)
 
@@ -1531,6 +1534,7 @@ div#slot-information-user {
 
                     if (type == 'get_country') {
                         var country = '';
+                    if (response.status) {
                         $("#country-listing").html(appendLoader());
                         $.each(response.country, function(key, item) {
                             var meetingType = 'Online';
@@ -1547,6 +1551,9 @@ div#slot-information-user {
                             </div>
                         </div>`;
                         })
+                    }else{
+                        country = '<p> No Data Found </p>'; 
+                    }
                         $("#country-listing").html(country);
                         nextBtn.find('b').text(defaultText)
 
@@ -1554,6 +1561,7 @@ div#slot-information-user {
                     if (type == 'get_city') {
 
                         var city = '';
+                        if (response.status) { 
                         $("#city-listing").html(appendLoader());
                         $.each(response.city, function(key, item) {
                             var meetingType = 'Online';
@@ -1570,27 +1578,42 @@ div#slot-information-user {
                                 </div>
                             </div>`;
                         })
-                        $("#city-listing").html(city);
-                        nextBtn.find('b').text(defaultText)
+                       
+                       
+                    }else{
+                        city ='<p> No Data Found</p>'
+                    }
+                   
+                    $("#city-listing").html(city);
+                    nextBtn.find('b').text(defaultText)
 
                     }
                     if (type == 'get_date') {
 
                         var dAte = '';
-                        $("#date-listing").html(appendLoader());
-                        $.each(response.date, function(key, item) {
 
-                            dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
-                                <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                                    <img src="${item.flag_path}" alt="Flag Image"> 
-                                    <div class="card-body px-0">
-                                        <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                        if (response.status) { 
+
+                            $("#date-listing").html(appendLoader());
+                            $.each(response.date, function(key, item) {
+
+                                dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
+                                    <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
+                                        <img src="${item.flag_path}" alt="Flag Image"> 
+                                        <div class="card-body px-0">
+                                            <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`;
-                        })
-                        $("#date-listing").html(dAte);
+                                </div>`;
+                            })
+                            
+                        }else{
+                            dAte = "<p> No Data Found</p>"; 
+                        }
                         nextBtn.find('b').text(defaultText)
+                        $("#date-listing").html(dAte);
+                        
+                        
                     }
 
                     if (type == 'get_slots') {

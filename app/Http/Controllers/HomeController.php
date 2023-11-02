@@ -410,7 +410,7 @@ class HomeController extends Controller
         $query->whereDate('venue_date', $newDate)
           ->orWhereDate('venue_date', date('Y-m-d'));
       })
-      ->get()->first();
+     ->get()->first();
 
 
     $mytime = Carbon::now()->tz($timezone);
@@ -482,7 +482,11 @@ class HomeController extends Controller
         ];
       }
 
-      return response()->json($dataArr);
+      return response()->json([
+        'status' => !(empty($dataArr)) ? true : false ,
+        'data' => $dataArr
+      ]);
+ 
     }
     if ($type == 'get_type') {
  
@@ -503,7 +507,10 @@ class HomeController extends Controller
 
         ];
       }
-      return response()->json($dataArr);
+      return response()->json([
+        'status' => !(empty($dataArr)) ? true : false ,
+        'data' => $dataArr
+      ]);
     }
     if ($type == 'get_country') {
       $venuesListArr = VenueAddress::where('id', $id)
@@ -528,7 +535,10 @@ class HomeController extends Controller
       $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
 
-      return response()->json($dataArr);
+      return response()->json([
+        'status' => !(empty($dataArr)) ? true : false ,
+        'data' => $dataArr
+      ]);
     }
 
     if ($type == 'get_city') {
@@ -555,7 +565,10 @@ class HomeController extends Controller
       // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
 
-      return response()->json($dataArr);
+      return response()->json([
+        'status' => !(empty($dataArr)) ? true : false ,
+        'data' => $dataArr
+      ]);
     }
     if ($type == 'get_date') {
 
@@ -580,7 +593,10 @@ class HomeController extends Controller
           'venue_address_id' => $venuesList->id
         ];
       }
-      return response()->json($dataArr);
+      return response()->json([
+        'status' => !(empty($dataArr)) ? true : false ,
+        'data' => $dataArr
+      ]);
     }
 
 
