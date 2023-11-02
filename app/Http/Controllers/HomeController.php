@@ -611,7 +611,7 @@ class HomeController extends Controller
           }else{
 
             return response()->json([
-              'status' => true,
+              'status' => false,
               'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',  
               'timezone' => $currentTimezone,
               'app' => App::environment('production'),
