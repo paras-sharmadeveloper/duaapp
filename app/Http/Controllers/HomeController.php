@@ -486,7 +486,7 @@ class HomeController extends Controller
     }
     if ($type == 'get_type') {
 
-
+      $today = Carbon::now();
       $addRess = VenueAddress::where('therapist_id', $id)
         // ->where(function ($query) use ($newDate) {
         //   $query->whereDate('venue_date', $newDate)
@@ -495,10 +495,12 @@ class HomeController extends Controller
         ->get();
       $dataArr = [];
       foreach ($addRess as $venuesList) {
+        $targetDate = Carbon::create($venuesList->venue_date);
         $dataArr['type'][] = [
           'name' => $venuesList->type,
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
-          'venue_address_id' => $venuesList->id
+          'venue_address_id' => $venuesList->id,
+          'day_left' => $today->diffInDays($targetDate)
         ];
       }
       return response()->json($dataArr);
@@ -594,17 +596,28 @@ class HomeController extends Controller
         ->get()->first();
 
 
-      if (App::environment('production')) {
-        $userDetail = $this->getIpDetails($request->ip());
-        $countryCode = $userDetail['countryCode'];
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;
-      } else {
-        $currentTimezone = 'America/New_York';
-      }
-      $mytime = Carbon::now()->tz($currentTimezone);
-      $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
-      $hoursRemaining = $eventDate->diffInHours($mytime);
+          if (App::environment('production')) {
+            $userDetail = $this->getIpDetails($request->ip());
+            $countryCode = $userDetail['countryCode'];
+            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+            $currentTimezone = $timezone->timezone;
+          } else {
+            $currentTimezone = 'America/New_York';
+          }
+
+          if(!empty($venueAddress)){
+            $mytime = Carbon::now()->tz($currentTimezone);
+            $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
+            $hoursRemaining = $eventDate->diffInHours($mytime);
+          }else{
+
+            return response()->json([
+              'status' => true,
+              'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',  
+            ]);
+
+          }
+      
 
       // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
