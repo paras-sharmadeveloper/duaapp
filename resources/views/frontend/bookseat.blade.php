@@ -686,6 +686,14 @@ div#slot-information-user {
                                         </div>
                                     @endforeach
                             </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                              </button>
+                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                              </button>
                          </div>
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
