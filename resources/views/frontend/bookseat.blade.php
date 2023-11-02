@@ -338,9 +338,9 @@
         }
 
         /* .col-lg-6 {
-                        flex: 0 0 auto;
-                        width: 20%;
-                    } */
+                    flex: 0 0 auto;
+                    width: 20%;
+                } */
         .select2-container {
             width: 100%;
         }
@@ -903,8 +903,7 @@
                                 @foreach ($timezones as $country)
                                     @foreach ($country->timezones as $timezone)
                                         <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
-                                            ({{ $country->nicename }})
-                                        </option>
+                                            ({{ $country->nicename }})</option>
                                     @endforeach
                                 @endforeach
                             </select>
@@ -1941,47 +1940,38 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
+        
 
-        $(document).on('ready', function() {
 
-            $(".carousel").slick({
+
+        $(document).ready(function() {
+            $('.carousel').slick({
+                slidesToShow: 2,
                 dots: true,
-                infinite: true,
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                autoplay: false,
-                autoplaySpeed: 2000,
-
-                pauseOnHover: true,
-
+                centerMode: true,
                 responsive: [{
-                        breakpoint: 1024,
+                        breakpoint: 1200,
                         settings: {
-                            slidesToShow: 5,
-                            slidesToScroll: 5,
-                        }
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                        },
                     },
                     {
                         breakpoint: 600,
                         settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 3
-                        }
+                            slidesToShow: 2,
+                            slidesToScroll: 2,
+                        },
                     },
                     {
                         breakpoint: 480,
                         settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2
+                            slidesToShow: 1,
+                            slidesToScroll: 1
                         }
                     }
-
-                ]
-
-
+                ],
             });
         });
-
- 
     </script>
 @endsection
