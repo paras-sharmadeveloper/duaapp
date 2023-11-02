@@ -1502,7 +1502,7 @@ div#slot-information-user {
                         var typed = '';
                         if (response.status) {
                         $("#type-listing").html(appendLoader());
-                        $.each(response.type, function(key, item) {
+                        $.each(response.data.type, function(key, item) {
 
                             var meetingType = 'Online';
                             if (item.name == 'on-site') {
@@ -1533,7 +1533,7 @@ div#slot-information-user {
                         var country = '';
                     if (response.status) {
                         $("#country-listing").html(appendLoader());
-                        $.each(response.country, function(key, item) {
+                        $.each(response.data.country, function(key, item) {
                             var meetingType = 'Online';
                             if (item.type == 'on-site') {
                                 meetingType = item.name;
@@ -1560,7 +1560,7 @@ div#slot-information-user {
                         var city = '';
                         if (response.status) { 
                         $("#city-listing").html(appendLoader());
-                        $.each(response.city, function(key, item) {
+                        $.each(response.data.city, function(key, item) {
                             var meetingType = 'Online';
                             if (item.type == 'on-site') {
                                 meetingType = item.name;
@@ -1592,7 +1592,7 @@ div#slot-information-user {
                         if (response.status) { 
 
                             $("#date-listing").html(appendLoader());
-                            $.each(response.date, function(key, item) {
+                            $.each(response.data.date, function(key, item) {
 
                                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                     <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
