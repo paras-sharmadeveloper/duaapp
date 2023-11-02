@@ -604,6 +604,14 @@ div#slot-information-user {
  
     height: 50px !important; 
 }
+.carousel{
+  width:90%;
+  margin:0px auto;
+}
+.wrapper .slick-dots li button:before {
+  font-size:20px;
+  color:white;
+}
         /* css loader ends */
     </style>
     <!-- section -->
