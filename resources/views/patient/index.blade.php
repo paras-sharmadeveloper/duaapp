@@ -496,7 +496,8 @@
 
          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
          success:function(response){
-             alert(" Row Deleted Successfully")
+             alert("Row Deleted Successfully")
+             location.reload()
             // toastr.success('Row Deleted', "Success");  
             $('#del-model').modal('hide');  
           },
