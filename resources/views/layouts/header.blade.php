@@ -13,6 +13,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Favicons -->
   <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon"> 
+    <link href="{{ asset('assets/theme/img/logo.png')}}" rel="icon">
+    <link href="{{ asset('assets/theme/img/logo.png') }} " rel="apple-touch-icon">
   
   
   <!-- Google Fonts -->
