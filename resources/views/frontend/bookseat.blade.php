@@ -657,8 +657,8 @@ div#slot-information-user {
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
-                            <div class="carousel">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom carousel">
+                            
                             @foreach ($therapists as $therapist)
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
                                     <div class="card text-center h-60  shadow-sm thripist-section"
@@ -677,7 +677,7 @@ div#slot-information-user {
                                     </div>
                                 </div>
                             @endforeach
-                        </div>
+                         
                     </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
