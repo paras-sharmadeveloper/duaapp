@@ -28,9 +28,12 @@ class HomeController extends Controller
 
   public function bookingAdmin($id)
   {
-    $slots = VenueSloting::where(['venue_address_id' => $id])->get();
+    $slots = VenueSloting::where(['venue_address_id' => $id])
+    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+    ->get();
     $countries = Country::all();
-    return view('admin-booking', compact('id', 'slots', 'countries'));
+    $venueAddress = VenueAddress::find($id);
+    return view('admin-booking', compact('id', 'slots', 'countries','venueAddress'));
   }
 
   

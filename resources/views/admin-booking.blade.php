@@ -1,5 +1,21 @@
 @extends('layouts.app')
 @section('content')
+<style>
+.tr-overlay {
+    width: 100%;
+    background-color: #333;
+    overflow: hidden;
+    margin: 30px 0px;
+    text-align: center;
+}
+
+.wrapper {
+  height: auto;
+}
+.tr-overlay .container {
+    color: white;
+}
+</style>
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -36,6 +52,21 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Create Manual Booking</h5>
+                <div class="tr-overlay">
+                    <div class="wrapper">
+                    <div class="container">
+                  
+                      <h4> About Venue</h4>
+                      <p>{{ $venueAddress->thripist->name }} </p>
+                      <p>{{ $venueAddress->venue_date }} </p> 
+                      <p>{{ $venueAddress->address }} </p>
+                      <p>{{ $venueAddress->venue->country_name }} </p>
+                    </div>
+                    
+                    </div>
+                    </div>
+
+               
 
                 {!! Form::open([
                     'route' => 'booking.submit',
