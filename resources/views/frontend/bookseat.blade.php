@@ -204,9 +204,10 @@
         }
 
         @media (max-width:767px) {
-            .container-fluid{
-                padding: 0px !important; 
+            .container-fluid {
+                padding: 0px !important;
             }
+
             .head label {
                 font-size: 15px !important;
                 color: #fff !important;
@@ -320,7 +321,7 @@
         .thripist-section img {
             height: 100%;
             width: 100%;
-            max-height: 300px; 
+            max-height: 300px;
         }
 
         .loader-img {
@@ -337,9 +338,9 @@
         }
 
         /* .col-lg-6 {
-                flex: 0 0 auto;
-                width: 20%;
-            } */
+                    flex: 0 0 auto;
+                    width: 20%;
+                } */
         .select2-container {
             width: 100%;
         }
@@ -576,34 +577,43 @@
             right: 4px;
             height: 28px !important;
         }
+
         label {
-    color: white;
-}
-button#sendOtp {
-    margin-top: 30px;
-}
-div#slot-information-user {
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    margin: 30px 0;
-}
-#slot-information-user select.change-timezone.form-control,#slot-information-user .select2-container {
-    width: 30% !important;
-    z-index: 99999999;
-}
-#slot-information-user .select2-container--default .select2-selection--single .select2-selection__rendered {
- 
-    line-height: 50px !important;
-}
-#slot-information-user .select2-container--default .select2-selection--single .select2-selection__arrow {
-  
-    top: 12px !important; 
-}
-#slot-information-user .select2-container .select2-selection--single {
- 
-    height: 50px !important; 
-}
+            color: white;
+        }
+
+        button#sendOtp {
+            margin-top: 30px;
+        }
+
+        div#slot-information-user {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+
+        #slot-information-user select.change-timezone.form-control,
+        #slot-information-user .select2-container {
+            width: 30% !important;
+            z-index: 99999999;
+        }
+
+        #slot-information-user .select2-container--default .select2-selection--single .select2-selection__rendered {
+
+            line-height: 50px !important;
+        }
+
+        #slot-information-user .select2-container--default .select2-selection--single .select2-selection__arrow {
+
+            top: 12px !important;
+        }
+
+        #slot-information-user .select2-container .select2-selection--single {
+
+            height: 50px !important;
+        }
+
         /* css loader ends */
     </style>
     <!-- section -->
@@ -661,14 +671,12 @@ div#slot-information-user {
                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     @foreach ($therapists as $i => $therapist)
-                                        <div 
-                                        @if($i==0) 
-                                           class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item active" 
+                                        <div
+                                            @if ($i == 0) class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item active" 
                                         
                                         @else 
                                         
-                                           class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item "
-                                        @endif>
+                                           class="col-xs-6 col-sm-4 col-md-4 col-lg-3 carousel-item " @endif>
                                             <div class="card text-center h-60  shadow-sm thripist-section"
                                                 data-id="{{ $therapist->id }}">
                                                 @if (!empty($therapist->profile_pic))
@@ -685,16 +693,18 @@ div#slot-information-user {
                                             </div>
                                         </div>
                                     @endforeach
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                              </button>
-                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                              </button>
-                         </div>
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
@@ -819,7 +829,8 @@ div#slot-information-user {
                             </div>
                         </div>
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button"
+                            class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -889,18 +900,21 @@ div#slot-information-user {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div id="slot-information-user">
-                             <label> Your Current Timezone:</label>
-                             <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
-                                    
-                                    @foreach($timezones as $country)
-                                        @foreach($country->timezones as $timezone)
-                                            <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }} ({{ $country->nicename }})</option>
-                                        @endforeach
+                            <label> Your Current Timezone:</label>
+                            <select class="change-timezone form-control" name="timezone" class="js-states form-control"
+                                id="timezone">
+
+                                @foreach ($timezones as $country)
+                                    @foreach ($country->timezones as $timezone)
+                                        <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
+                                            ({{ $country->nicename }})</option>
                                     @endforeach
-                             </select>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner" id="slot-listing">
+                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner"
+                            id="slot-listing">
                             <div id="loader" style="display: none" class="loader">
                                 <div class="lds-spinner">
                                     <div></div>
@@ -974,7 +988,7 @@ div#slot-information-user {
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <div class="row g-3 mb-3">
-                                   
+
                                     <div class="col col-md-6">
                                         <label class="mb-2"> First Name </label>
                                         <input type="text" class="form-control" name="fname"
@@ -1113,15 +1127,22 @@ div#slot-information-user {
 
                                 </div>
                                 <!-- /Final step -->
-                               
-        
-                        </div> 
+
+
+                        </div>
                         <input type="hidden" name="timezone" id="timezone-hidden">
 
                         <div class="disclaimer">
-                            <p style="font-size:12px">We do not store your image. Our system only processes your facial fingerprint real-time to check if you are a human. By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact you about your appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.</p>
+                            <p style="font-size:12px">We do not store your image. Our system only processes your facial
+                                fingerprint real-time to check if you are a human. By submitting this form, you agree by
+                                your electronic signature to the Privacy Policy, Terms of Service and give your prior
+                                expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact
+                                you about your appointment notifications by telephone calls, emails, and text messages to
+                                the number and email address you provided above. You agree and understand that your consent
+                                is not a condition of purchase of any goods or services and that you may revoke your consent
+                                at any time. You understand that standard message and data rates may apply.</p>
                         </div>
-                        
+
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
 
@@ -1133,9 +1154,9 @@ div#slot-information-user {
                             </span>
                             <b> Finish</b>
                         </button>
-                        
+
                         </form>
-                        
+
                         <!-- /NEXT BUTTON-->
                     </div>
                     <!-- /col -->
@@ -1154,10 +1175,9 @@ div#slot-information-user {
 @endsection
 
 @section('page-script')
-   
     <script>
         $(".form-business").hide();
-        
+
         $("#timezone").select2({
             placeholder: "Your Preferred Timezone",
             allowClear: true
@@ -1222,7 +1242,7 @@ div#slot-information-user {
                         var title = $(this).parents(".row").find(".active-card").find(".title-binding")
                             .text();
                         var cardId = $(this).parents(".row").find(".active-card").attr("data-id");
-                        var event = $(this).parents(".row").find(".active-card"); 
+                        var event = $(this).parents(".row").find(".active-card");
 
                         if (event.hasClass('thripist-section')) {
                             getAjax(cardId, 'get_type', $this)
@@ -1236,7 +1256,7 @@ div#slot-information-user {
                             getAjax(cardId, 'get_date', $this)
                             //  $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-selection')) {
-                            $("#slot-information-user").attr('data-id',cardId);
+                            $("#slot-information-user").attr('data-id', cardId);
                             getAjax(cardId, 'get_slots', $this)
                             // $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-capture')) {
@@ -1244,9 +1264,9 @@ div#slot-information-user {
                             $this.parents(".row").fadeOut("slow", function() {
                                 $(this).next(".row").fadeIn();
                                 $(this).next(".row").find('.head>label').text(oldTitle)
-                                    
-                            }); 
-                        } 
+
+                            });
+                        }
 
 
                         if (oldTitle == '') {
@@ -1260,13 +1280,13 @@ div#slot-information-user {
 
                         $(this).parents('.justify-content-center').find('.head>label').text(oldTitle);
 
-                       
+
 
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass(
                             'active');
-                            
+
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
- 
+
 
                     } else {
 
@@ -1325,14 +1345,14 @@ div#slot-information-user {
             });
         });
 
-        function getAjax(id, type,nextBtn) {
+        function getAjax(id, type, nextBtn) {
 
-                 var loadingText = nextBtn.attr('data-loading');
-                var successText = nextBtn.attr('data-success');
-                var defaultText = nextBtn.attr('data-default');
+            var loadingText = nextBtn.attr('data-loading');
+            var successText = nextBtn.attr('data-success');
+            var defaultText = nextBtn.attr('data-default');
 
-                nextBtn.find('span').show()
-                nextBtn.find('b').text(loadingText)
+            nextBtn.find('span').show()
+            nextBtn.find('b').text(loadingText)
 
             $.ajax({
                 type: 'POST',
@@ -1346,11 +1366,11 @@ div#slot-information-user {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
- 
-                    if(response.length  == 0){
-                       alert("No Records Found")
+
+                    if (response.length == 0) {
+                        alert("No Records Found")
                     }
-                    
+
                     if (type == 'get_type') {
 
                         var typed = '';
@@ -1459,7 +1479,8 @@ div#slot-information-user {
                                 </div>
                                 </div>`;
                             });
-                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
+                            $("#slot-information-user").find('label').text("Your Current Timezone:" + response
+                                .timezone);
                             $("#timezone-hidden").val(response.timezone)
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
@@ -1471,7 +1492,7 @@ div#slot-information-user {
                             $(".back").show();
                             nextBtn.find('b').text('error')
                             setTimeout(() => {
-                                nextBtn.find('b').text(defaultText) 
+                                nextBtn.find('b').text(defaultText)
                             }, 2500);
                         }
 
@@ -1479,13 +1500,13 @@ div#slot-information-user {
                     }
                     nextBtn.find('span').hide()
                     var oldTitle = $("#remeber-steps-app").val();
-                   
+
                     nextBtn.parents(".row").fadeOut("slow", function() {
-                      
+
                         $(this).next(".row").fadeIn();
                         $(this).next(".row").find('.head>label').text(oldTitle)
-                            
-                        });
+
+                    });
 
 
                 }
@@ -1573,26 +1594,26 @@ div#slot-information-user {
         });
 
 
-        $(".change-timezone").change(function(){
-            
-            $this = $(this); 
-            var timezone = $this.find("option:selected").val();
-            var id = $("#slot-information-user").attr('data-id'); 
-            $.ajax({
-                    url: "{{ route('get-slots-timezone') }}",
-                    type: 'POST',
-                    data: {
-                        timezone: timezone,
-                        id: id,
+        $(".change-timezone").change(function() {
 
-                    },
-                    success: function(response) {
-                        
-                        var html = '';
-                        $("#slot-listing").html(appendLoader());
-                        if (response.status) {
-                            $.each(response.slots, function(key, item) {
-                                html += `<div class="col col-lg-3 col-md-6">
+            $this = $(this);
+            var timezone = $this.find("option:selected").val();
+            var id = $("#slot-information-user").attr('data-id');
+            $.ajax({
+                url: "{{ route('get-slots-timezone') }}",
+                type: 'POST',
+                data: {
+                    timezone: timezone,
+                    id: id,
+
+                },
+                success: function(response) {
+
+                    var html = '';
+                    $("#slot-listing").html(appendLoader());
+                    if (response.status) {
+                        $.each(response.slots, function(key, item) {
+                            html += `<div class="col col-lg-3 col-md-6">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
@@ -1602,29 +1623,31 @@ div#slot-information-user {
                                     </div>
                                 </div>
                                 </div>`;
-                            });
-                             
-                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
-                            $("#timezone-hidden").val(response.timezone)
-                            $("#slot-listing").html(html).find(".loader").hide();
-                            $(".confirm").show();
-                            $(".back").show(); 
-                        } else {
-                            $("#slot-listing").html("<h1>" + response.message + "</h1>");
-                            $(".confirm").hide();
-                            $(".back").show();
-                           
-                        } 
-                        
+                        });
 
-                    },
-                    error: function(xhr) {
- 
-                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
-                            .responseJSON.message);
+                        $("#slot-information-user").find('label').text("Your Current Timezone:" +
+                            response.timezone);
+                        $("#timezone-hidden").val(response.timezone)
+                        $("#slot-listing").html(html).find(".loader").hide();
+                        $(".confirm").show();
+                        $(".back").show();
+                    } else {
+                        $("#slot-listing").html("<h1>" + response.message + "</h1>");
+                        $(".confirm").hide();
+                        $(".back").show();
 
                     }
-                });
+
+
+                },
+                error: function(xhr) {
+
+                    $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger')
+                        .text(xhr
+                            .responseJSON.message);
+
+                }
+            });
 
 
         });
@@ -1799,7 +1822,8 @@ div#slot-information-user {
 
                         $("#opt-form").show();
                         $("#submitBtn").hide();
-                        $("#mobile-number").find('p').removeClass('text-danger').addClass('text-success').text(response.message);
+                        $("#mobile-number").find('p').removeClass('text-danger').addClass(
+                            'text-success').text(response.message);
                         $this.find('label').text("Resend")
 
                     },
@@ -1807,7 +1831,8 @@ div#slot-information-user {
 
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
-                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
+                        $("#mobile-number").find('p').removeClass('text-success').addClass(
+                            'text-danger').text(xhr
                             .responseJSON.message);
 
                     }
@@ -1918,6 +1943,46 @@ div#slot-information-user {
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
-            }
+        }
+
+
+        /* full page carousel */
+        $(document).ready(function() {
+            $('.carousel').carousel({
+                pause: "false"
+            });
+            $('.carousel').css({
+                'margin': 0,
+                'width': $(window).outerWidth(),
+                'height': $(window).outerHeight()
+            });
+            //$('.carousel-inner').css({'z-index': 0});
+            $('.carousel .carousel-item').css({
+                'position': 'fixed',
+                'width': '100%',
+                'height': '100%'
+            });
+            // $('.carousel-inner div.itemimg').each(function() {
+            //     varimgSrc = $(this).attr('src');
+            //     $(this).parent().css({
+            //         'background': 'url(' + imgSrc + ') center center no-repeat',
+            //         '-webkit-background-size': '100% ',
+            //         '-moz-background-size': '100%',
+            //         '-o-background-size': '100%',
+            //         'background-size': '100%',
+            //         '-webkit-background-size': 'cover',
+            //         '-moz-background-size': 'cover',
+            //         '-o-background-size': 'cover',
+            //         'background-size': 'cover'
+            //     });
+            //     $(this).remove();
+            // });
+            $(window).on('resize', function() {
+                $('.carousel').css({
+                    'width': $(window).outerWidth(),
+                    'height': $(window).outerHeight()
+                });
+            });
+        });
     </script>
 @endsection
