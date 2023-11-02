@@ -485,8 +485,7 @@ class HomeController extends Controller
       return response()->json($dataArr);
     }
     if ($type == 'get_type') {
-
-      $today = Carbon::now();
+ 
       $addRess = VenueAddress::where('therapist_id', $id)
         // ->where(function ($query) use ($newDate) {
         //   $query->whereDate('venue_date', $newDate)
@@ -494,13 +493,13 @@ class HomeController extends Controller
         // })
         ->get();
       $dataArr = [];
-      foreach ($addRess as $venuesList) {
-        $targetDate = Carbon::create($venuesList->venue_date);
+      foreach ($addRess as $venuesList) { 
         $dataArr['type'][] = [
           'name' => $venuesList->type,
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'venue_address_id' => $venuesList->id,
-          'day_left' => $today->diffInDays($targetDate)
+          'day_left' =>  Carbon::now()->diffInDays($venuesList->venue_date)
+
         ];
       }
       return response()->json($dataArr);
