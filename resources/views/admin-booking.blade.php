@@ -61,6 +61,7 @@
                       <p>{{ $venueAddress->venue_date }} </p> 
                       <p>{{ $venueAddress->address }} </p>
                       <p>{{ $venueAddress->venue->country_name }} </p>
+                      <p> <span class="badge badge-success"> {{ ($venueAddress->type == 'on-site') ? 'Physical' : 'Online' }} </span> </p>
                     </div>
                     
                     </div>
