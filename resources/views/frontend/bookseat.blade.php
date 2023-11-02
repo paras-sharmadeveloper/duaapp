@@ -610,6 +610,168 @@ div#slot-information-user {
  
     height: 50px !important; 
 }
+
+/* .box {
+	border: 1px solid #CCC;
+	padding: 40px 25px;
+	background: #FFF;
+	max-width: 400px;
+	position: relative;
+	border-radius: 3px;
+    margin: 30px auto;
+} */
+.box.ofh {
+  overflow: hidden;
+}
+/* Ribbon 1 */
+.top-cross-ribbon {
+	background: #090909;
+	padding: 7px 50px;
+	color: #FFF;
+	position: absolute;
+	top: 0;
+	right: -50px;
+	transform: rotate(45deg);
+	border: 1px dashed #FFF;
+	box-shadow: 0 0 0 3px #090909;
+	margin: 5px;
+}
+
+/* Ribbon 2*/
+.arrow-ribbon {
+  background: #090909;
+  color: #FFF;
+  padding: 7px 12px;
+  position: absolute;
+  bottom: 0px;
+  right: -1px;
+}
+.arrow-ribbon:before {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    content: "";
+    left: -12px;
+    border-top: 15px solid transparent;
+    border-right: 12px solid #090909;
+    border-bottom: 15px solid transparent;
+    width: 0;
+}
+
+/* Ribbon 3 */
+.bottom-ribbon {
+  background: #090909;
+  color: #FFF;
+  padding: 7px 50px;
+  position: absolute;
+  bottom: 10px;
+  right: -1px;
+  border-radius: 20px 0 0 20px;
+}
+.bottom-ribbon:after {
+  position: absolute;
+  right: -25px;
+  top: -18px;
+  bottom: 0;
+  z-index: 9999;
+  content: "";
+  border-bottom: 43px solid #090909;
+  border-left: 38px solid transparent;
+  border-right: 20px solid transparent;
+  width: 42px;
+  z-index: -1;
+}
+
+/*Ribbon 4 */
+.half-circle-ribbon {
+  background: #090909;
+  color: #FFF;
+  height: 60px;
+  width: 60px;
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 10px;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  flex-direction: row;
+  border-radius: 0 0 0 100%;
+  border: 1px dashed #FFF;
+  box-shadow: 0 0 0 3px #EA4335;
+}
+
+/* Ribbon 5 */
+.cross-shadow-ribbon {
+  position: absolute;
+  background: #090909;
+  top: -15px;
+  padding: 10px;
+  margin-left: 15px;
+  color: #FFF;
+  border-radius: 0 0 2px 2px;
+}
+.cross-shadow-ribbon:before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 15px solid #090909;
+  border-left: 15px solid transparent;
+}
+
+/* Ribbon 6 */
+.cover-ribbon {
+  height: 115px;
+  width: 115px;
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  overflow: hidden;
+}
+.cover-ribbon .cover-ribbon-inside {
+  background: #090909;
+  color: #FFF;
+  transform: rotate(45deg);
+  position: absolute;
+  right: -35px;
+  top: 15px;
+  padding: 10px;
+  min-width: 127px;
+  text-align: center;
+}
+.cover-ribbon .cover-ribbon-inside:before {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid #090909;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  top: 35px;
+  transform: rotate(-45deg);
+}
+.cover-ribbon .cover-ribbon-inside:after {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-left: 10px solid #090909;
+  border-bottom: 7px solid transparent;
+  position: absolute;
+  left: 95%;
+  right: 0;
+  top: 34px;
+  bottom: 0;
+  content: "";
+  transform: rotate(-45deg);
+}
         /* css loader ends */
     </style>
     <!-- section -->
@@ -1350,12 +1512,13 @@ div#slot-information-user {
                             if (item.name == 'on-site') {
                                 meetingType = 'Physical';
                             }
-                            typed += `<div class="col col-lg-3 col-md-7">
+                            typed += `<div class="col col-lg-3 col-md-7 box">
                                 <div class="card text-center h-60 py-2 shadow-sm type-selection" 
                                  data-id="${item.venue_address_id}" 
                                  data-type="${item.name}"> 
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
+                                        <div class="arrow-ribbon">${item.day_left} Day Left</div>
                                         <h5 class="card-title title-binding">${meetingType}</h5>
                                     </div>
                                 </div>
