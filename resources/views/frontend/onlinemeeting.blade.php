@@ -442,7 +442,7 @@
                         $("#remote-video").find('p').hide();
                         $(".asktojoin-response").text(response.message).show()
                     } else {
-                        $(".asktojoin-response").text(response.message).show()
+                        $(".asktojoin-response").text(response.message).hide()
                     }
                 },
                 error: function() {
