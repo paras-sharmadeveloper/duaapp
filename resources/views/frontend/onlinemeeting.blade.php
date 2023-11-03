@@ -362,8 +362,8 @@
                 @if($timeRemaining>=0)
 
                 <div class="text alert alert-warning mt-2">
-                    <h3> Meeting Join Button will be enabled before 15 mint</h3>
-                    <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong>Hours.</p>
+                    <h3> Meeting Join Button will be enabled before 15 minutes.</h3>
+                    <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong> Hours.</p>
                     @if($timeRemaining<=1 && $timeRemaining > 0)
                       <p> Minutes Left <strong>  {{ $minuteDifference }}</strong></p>
                     @endif
