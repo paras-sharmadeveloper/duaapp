@@ -328,7 +328,10 @@
                 <p>You</p>
                 <div>
                     <div id="local-video"> 
-                        <button class="access-camera btn btn-secondary" > Start Camera </button>
+                        <div class="text-center py-4 access-camera-div">
+                            <button class="access-camera btn btn-secondary" > Start Camera </button>
+                        </div>
+                        
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
                 </div>
@@ -421,7 +424,10 @@
                             // Assign the camera stream to a video element
                             var cameraFeed = document.getElementById('local-video');
                             cameraFeed.srcObject = stream;
-                            $(this).hide();
+                            const localMediaContainer = document.createElement('div');
+                            localMediaContainer.appendChild(track.attach());
+                            cameraFeed.appendChild(localMediaContainer);
+                            $(".access-camera-div").hide();
                         })
                         .catch(function(error) {
                             $(this).show();
