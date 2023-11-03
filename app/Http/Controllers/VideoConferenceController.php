@@ -88,7 +88,7 @@ class VideoConferenceController extends Controller
             
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
             $venueDateTme = $venueAddress->venue_date .' '.$vistor->slot->slot_time; 
-            $meetingStartTime = Carbon::parse($venueAddress->venue_date .' '.$vistor->slot->slot_time)->tz($userTimeZone);
+            $meetingStartTime = Carbon::create($venueDateTme)->tz($userTimeZone);
             $timeRemaining = $mytime->diffForHumans($meetingStartTime);
 
             // $timeRemaining = $meetingStartTime->diffForHumans(null, true);
