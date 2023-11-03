@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col-sm-12 ">
           <div class="col-sm-10 col-sm-offset-1  text-center">
-            <div class="four_zero_four_bg1">
+            <div class="four_zero_four_bg">
               <h1 class="text-center ">404</h1>
   
             </div>
@@ -11,11 +11,19 @@
             <div class="contant_box_404">
               <h2 class="h2">
                 {{ $message  }}
+                @if(session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+             @endif
+             @if(session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+             @endif 
+              
                
-              </h2>
-  
-              <p> Look like you're lost</p>
-  
+              </h2> 
               <a href="{{ route('book.show') }}" class="link_404">Book Seat</a>
             </div>
           </div>
@@ -24,6 +32,10 @@
     </div>
   </section>
 <style>
+  body {
+    background-color: rgb(29, 29, 29);
+    font-family: Karla, sans-serif;
+}
   .page_404 {
   padding: 40px 0;
   background: #fff;
@@ -38,12 +50,11 @@
 }
 
 .four_zero_four_bg {
-  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
-  height: 400px;
-  background-position: center;
-  background-repeat: no-repeat
+    background-image: url('https://i.postimg.cc/WzpmyBzX/logo-1.jpg');
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-
 .four_zero_four_bg h1 {
   font-size: 80px;
 }

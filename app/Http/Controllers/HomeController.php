@@ -168,58 +168,21 @@ class HomeController extends Controller
       $therapistName = $venueAddress->thripist->name;
       $userSlot = VenueSloting::find($request->input('slot_id')); 
       $venueString =  $venueAddress->venue_date  .' At.'. date("g:i A", strtotime($userSlot->slot_time)) ; 
+      $slot_duration = $venueAddress->slot_duration; 
       if ($venueAddress->type == 'on-site') {
         $location = $venueAddress->address . 'at Dua Ghar Physical Meeting';
         $confirmSpot = route('booking.confirm-spot');
       } else {
         $location = 'Online Meeting';
         $confirmSpot = route('join.conference.frontend', [$uuid]);
-      }
-
-      
-
-      $message = <<<EOT
-      Hi $name,
-      Your dua appointment is confirmed as below:
-      
-      Appointment ID : 
-      $bookingNumber
-      
-      Sahib-e-Dua:
-      $therapistName
-      
-      Appointment duration:
-      $venueAddress->slot_duration Minutes
-      
-      Venue:
-      $venueString 
-      
-      Venue location:
-      $location
-      
-      Your appointment status link: 
-      $appointMentStatus
-      
-      When you visit the dua place, you need to enter into virtual queue by clicking below link:
-      $confirmSpot
-      
-      In case you want to reschedule your appointment, please click below:
-      $rescheduleBooking
-      
-      If you want to only cancel your appointment, please click below:
-      $cancelBooking
-      
-      For your convenience, please visit only 15 mins before your appointment.
-      
-      KahayFaqeer.org
-      EOT;
-
-
+      } 
+      //WhatsApp Template 
+      $message = $this->bookingMessageTemplate($name,$therapistName,$location,$bookingNumber,$venueString,$slot_duration,$rescheduleBooking,$cancelBooking,$confirmSpot,$appointMentStatus); 
       SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
-      $bookingMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
-      Notification::create(['message' => $bookingMessage, 'read' => false]);
-      event(new BookingNotification($bookingMessage));
+      $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
+      Notification::create(['message' => $NotificationMessage, 'read' => false]);
+      event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
         return redirect()->back()->with('success', 'Booking created successfully');
       } else {
@@ -231,6 +194,8 @@ class HomeController extends Controller
       return response()->json(['message' => $e->getMessage(), "status" => false], 422);
     }
   }
+
+  
 
 
   public function CheckAvilableSolt(Request $request)
@@ -754,5 +719,44 @@ class HomeController extends Controller
     $query = DB::table($post['table_name']);
     $query->whereIn('id', $post['idsToDelete'])->delete();
     return ['success' => 1, 'message' => 'deleted'];
+  }
+
+  private function bookingMessageTemplate($name,$therapistName,$location,$bookingNumber,$venueString,$slot_duration,$rescheduleBooking,$cancelBooking,$confirmSpot,$appointMentStatus){
+    $message = <<<EOT
+      Hi $name,
+      Your dua appointment is confirmed as below:
+      
+      Appointment ID : 
+      $bookingNumber
+      
+      Sahib-e-Dua:
+      $therapistName
+      
+      Appointment duration:
+      $slot_duration Minutes
+      
+      Venue:
+      $venueString 
+      
+      Venue location:
+      $location
+      
+      Your appointment status link: 
+      $appointMentStatus
+      
+      When you visit the dua place, you need to enter into virtual queue by clicking below link:
+      $confirmSpot
+      
+      In case you want to reschedule your appointment, please click below:
+      $rescheduleBooking
+      
+      If you want to only cancel your appointment, please click below:
+      $cancelBooking
+      
+      For your convenience, please visit only 15 mins before your appointment.
+      
+      KahayFaqeer.org
+      EOT;
+      return $message; 
   }
 }
