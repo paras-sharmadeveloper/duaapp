@@ -44,7 +44,7 @@ trait OtpTrait
         // $usePhone = $country.$mobile;
         $usePhone = 'whatsapp:'.$country.$mobile;
       }
-      $usePhone = 'whatsapp:+'.$country.$mobile;
+      
         
       $message = "*$otp* is your verification code. For your security, do not share this code.";
       
