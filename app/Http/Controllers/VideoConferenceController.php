@@ -69,9 +69,9 @@ class VideoConferenceController extends Controller
         $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();
         $venueAddress = []; 
         $estimatedWaitTime = $aheadCount = $servedCount = $timePerSlot = 0 ; 
-        // if (empty($vistor)) {
-        //     abort(404);
-        // }
+        if (empty($vistor)) {
+            abort(404);
+        }
        
         
  

@@ -39,6 +39,7 @@ return new class extends Migration
             $table->enum('user_status',['in-queue','admitted','dismiss','hold','pause','blocked','no_action'])->default('no_action');
             $table->string('meeting_start_at',60)->nullable(); 
             $table->string('meeting_ends_at',60)->nullable(); 
+            $table->string('user_timezone',155)->nullable(); 
             $table->timestamps();
 
         });
