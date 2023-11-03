@@ -359,7 +359,7 @@
             <div class="asktojoin">
                 
 
-                @if($timeRemaining>=0 || $minuteDifference >=0)
+                @if($timeRemaining > 0 || $minuteDifference > 0)
 
                     <div class="text alert alert-warning mt-2">
                         <h3> Meeting Join Button will be enabled before 15 minutes.</h3>
@@ -372,14 +372,11 @@
                         <p> As Per Your Selected Timezome <strong> {{  $userTimeZone }}</strong></p> 
                     </div>
 
-                @else 
-
-                <div class="text alert alert-danger mt-2">
-                    <h3>Ohh! You Missed the Meeting</h3>
-                    <p> Meeting Already Passed Try Next Time </p>
-                </div>
-
-
+                @else  
+                    <div class="text alert alert-danger mt-2">
+                        <h3>Ohh! You Missed the Meeting</h3>
+                        <p> Meeting Already Passed Try Next Time </p>
+                    </div> 
                 @endif
 
                
