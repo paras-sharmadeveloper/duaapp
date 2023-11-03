@@ -289,7 +289,7 @@ class VideoConferenceController extends Controller
             return response()->json(['message' => 'You request submitted successfully. Please Wait While Host Approve Your Request', 
             "status" => false, 
             "is_admit" => $admitted,
-            "user_status" => $vistor->user_status
+            "user_status" => ($vistor) ?  $vistor->user_status : ''
         ], 200);
         }
        
