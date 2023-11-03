@@ -363,7 +363,7 @@
                     Total Time remaining in Meeting {{  $timeRemaining }}
                     <p>Approx time will be : {{ $estimatedWaitTime }} Minutes {{ $userTimeZone }}</p>
                     <p>  asdas {{ $venueDateTme }}</p>
-                    <p> Current Time : {{  $mytime->format('d-y-m H:is') }}
+                    <p> Current Time : {{  $mytime->format('Y-m-d H:i:s') }}
                 </div>
 
 
