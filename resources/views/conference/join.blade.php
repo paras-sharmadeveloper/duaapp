@@ -546,7 +546,7 @@
                 dataType: "json",
                 success: function(response) {
 
-                    $("#pending-list" + participantId), fadeOut();
+                    $("#pending-list" + participantId).fadeOut();
                     // Handle the response from the server
 
                     // Request successful
