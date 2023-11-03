@@ -328,10 +328,10 @@
                 <p>You</p>
                 <div>
                     <div id="local-video"> 
-                        {{-- <div class="text-center py-4 access-camera-div">
+                        <div class="text-center py-4 access-camera-div">
                             <button class="access-camera btn btn-secondary" > Start Camera </button>
                             <video id="video-local" autoplay playsinline style="display: none"></video>
-                        </div> --}}
+                        </div>
                         
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
@@ -418,28 +418,28 @@
         }
 
 
-        // $(".access-camera").click(function(){
-        //     $this = $(this)
-        //     var video = document.getElementById('video-local');
-        //     navigator.mediaDevices.getUserMedia({
-        //                 video: true,
-        //                 audio:true
-        //             })
-        //             .then(function(stream) {
-        //                 video.srcObject = stream;
-        //                 $("#video-local").show()
+        $(".access-camera").click(function(){
+            $this = $(this)
+            var video = document.getElementById('video-local');
+            navigator.mediaDevices.getUserMedia({
+                        video: true,
+                        audio:true
+                    })
+                    .then(function(stream) {
+                        video.srcObject = stream;
+                        $("#video-local").show()
 
-        //                 // When the stream is loaded, start playing the video
-        //                 video.onloadedmetadata = function(e) {
-        //                     video.play(); 
-        //                     $this.hide(); 
-        //                 };
+                        // When the stream is loaded, start playing the video
+                        video.onloadedmetadata = function(e) {
+                            video.play(); 
+                            $this.hide(); 
+                        };
                         
-        //             })
-        //             .catch(function(error) {
-        //                 console.error('Error accessing camera:', error);
-        //     });
-        // })
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing camera:', error);
+            });
+        })
 
 
 
