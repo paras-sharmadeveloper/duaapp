@@ -87,6 +87,9 @@ class VideoConferenceController extends Controller
             // $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone);
             $meetingStartTime =  Carbon::parse($eventDate, $userTimeZone);
             $timeRemaining = $meetingStartTime->diffInHours($mytime);
+            if($meetingStartTime->isPast()){
+                $timeRemaining = '-'. $timeRemaining; 
+            }
             // $timeRemaining = $mytime->diffInHours($meetingStartTime); 
 
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
