@@ -9,7 +9,7 @@ use Twilio\Jwt\Grants\VideoGrant;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{VideoConference, Vistors,Timezone , Ipinformation};
+use App\Models\{VideoConference, Vistors, Timezone, Ipinformation};
 use Carbon\Carbon;
 
 
@@ -17,8 +17,8 @@ use Carbon\Carbon;
 class VideoConferenceController extends Controller
 {
     use OtpTrait;
-     
-     
+
+
     public function design()
     {
 
@@ -46,13 +46,13 @@ class VideoConferenceController extends Controller
         $this->SendMessage('+91', '8950990009', $message);
 
         $userName = Auth::user()->name;
-        
+
 
         $roomName = $this->fetchRoomName($room->sid);
         $accessToken = $this->generateAccessToken($roomName, $userName);
         // $room->sid
         //  $room->uniqueName $room->type
-        
+
         return redirect()->route('join.conference.show', [
             'roomSid' => $room->sid,
             'accessToken' => $accessToken,
@@ -60,36 +60,49 @@ class VideoConferenceController extends Controller
             'success' => 'You joined this Meeting',
             'enable' => false
         ]);
-        
-    } 
+    }
     public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
         // echo $bookingId; die; 
-       
-        $vistor = Vistors::where(['booking_uniqueid' => $bookingId,'meeting_start_at' => null])->get()->first();
-        $venueAddress = []; 
-        $estimatedWaitTime = $aheadCount = $servedCount = $timePerSlot = 0 ; 
+
+        $vistor = Vistors::where(['booking_uniqueid' => $bookingId, 'meeting_start_at' => null])->get()->first();
+        $venueAddress = [];
+        $estimatedWaitTime = $aheadCount = $servedCount = $timePerSlot = 0;
         if (empty($vistor)) {
             abort(404);
         }
-       
-        
- 
 
-        if(!empty($vistor)) {
+
+
+
+        if (!empty($vistor)) {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
-            $userTimeZone = $vistor->user_timezone; 
+            $userTimeZone = $vistor->user_timezone;
             $mytime = Carbon::now()->tz('America/New_York');
-            if(!empty($userTimeZone)){
+            if (!empty($userTimeZone)) {
                 $mytime = Carbon::now()->tz($userTimeZone);
             }
 
-            
-            
+
+            // $timeRemaining = [];
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-            $venueDateTme = $venueAddress->venue_date .' '.$vistor->slot->slot_time; 
+            $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
+
+            // $userTimeZone = "Asia/Kolkata";
+            // $mytime = Carbon::now()->tz($userTimeZone);
+            // $venueDateTme = '2023-11-04 10:00:00'; 
             $meetingStartTime = Carbon::create($venueDateTme)->tz($userTimeZone);
-            $timeRemaining = $mytime->diffForHumans($meetingStartTime);
+            // $timeRemaining = $mytime->diffForHumans($meetingStartTime);
+            $timeDifference = $meetingStartTime->diff($mytime);
+            $days = $timeDifference->days;
+            $hours = $timeDifference->h;
+            $minutes = $timeDifference->i;
+            // $timeRemaining['days'] = $timeDifference->days;
+            // $timeRemaining['hours'] = $timeDifference->h;
+            // $timeRemaining['minutes'] = $timeDifference->i;
+            $timeRemaining = sprintf('%02d:%02d %s', $hours, $minutes, $hours >= 12 ? 'PM' : 'AM');
+
+
 
             // $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
@@ -98,15 +111,15 @@ class VideoConferenceController extends Controller
             $servedCount = Vistors::where(['meeting_type' => 'virtual'])->alreadyServed();
             $timePerSlot =  $venueAddress->slot_duration; // Time duration for each slot (in minutes)
             $estimatedWaitTime = $aheadCount * $timePerSlot;
-
         }
-        
+
         //  echo  $meetingStartTime ; die;  
-        $roomName =  ''; $accessToken =''; 
+        $roomName =  '';
+        $accessToken = '';
         // $roomName =   $venueAddress->room_name;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
 
-        
+
 
         return view('frontend.onlinemeeting', compact(
             'venueAddress',
@@ -114,25 +127,26 @@ class VideoConferenceController extends Controller
             'accessToken',
             'aheadCount',
             'servedCount',
-            'estimatedWaitTime', 
-            'timeRemaining', 
+            'estimatedWaitTime',
+            'timeRemaining',
             'vistor',
             'timePerSlot',
-            'userTimeZone','venueDateTme'
+            'userTimeZone',
+            'venueDateTme'
         ));
     }
 
-    public function fieldAdminRequest(){
-        $id = Auth::user()->id; 
-        $role = Auth::user()->roles->pluck('name')->first(); 
-        if($role == 'admin'){
-            $venueAddress = VenueAddress::with('thripist')->get()->first(); 
-        }else{
-            $venueAddress = VenueAddress::where(['siteadmin_id' => $id])->with('thripist')->get()->first(); 
+    public function fieldAdminRequest()
+    {
+        $id = Auth::user()->id;
+        $role = Auth::user()->roles->pluck('name')->first();
+        if ($role == 'admin') {
+            $venueAddress = VenueAddress::with('thripist')->get()->first();
+        } else {
+            $venueAddress = VenueAddress::where(['siteadmin_id' => $id])->with('thripist')->get()->first();
         }
-        
-        return view('site-admin.particpent',compact('id','venueAddress'));
-        
+
+        return view('site-admin.particpent', compact('id', 'venueAddress'));
     }
 
 
@@ -141,23 +155,23 @@ class VideoConferenceController extends Controller
         $userId = Auth::user()->id;
         $userName = Auth::user()->name;
         $venues = [];
-        $role = Auth::user()->roles->pluck('name')->first(); 
-        if($role == 'admin'){
+        $role = Auth::user()->roles->pluck('name')->first();
+        if ($role == 'admin') {
             $venues =  VenueAddress::where(['type' => 'virtual'])->get();
-        }else{
+        } else {
             $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
         }
 
         // echo "<pre>"; print_r($venues); die; 
-       
-       
+
+
         return view('conference.create', compact('venues', 'userId', 'userName'));
     }
 
     public function joinConference(Request $request)
-    { 
+    {
         $participants = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
-      
+
         return view('conference.join', compact('participants'));
     }
 
@@ -166,23 +180,25 @@ class VideoConferenceController extends Controller
         $waitingQueue = Vistors::where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
         $userName = $request->input('participantName');
         $roomName = $request->input('roomName');
-        $role = Auth::user()->roles->pluck('name')->first(); 
-        if($role == 'admin'){
+        $role = Auth::user()->roles->pluck('name')->first();
+        if ($role == 'admin') {
             $venues =  VenueAddress::where(['room_sid' => $roomId])->get()->first();
-        }else{
-            $venues =  VenueAddress::where(['room_sid' => $roomId, 'therapist_id' => Auth::user()->id ])->get()->first();
+        } else {
+            $venues =  VenueAddress::where(['room_sid' => $roomId, 'therapist_id' => Auth::user()->id])->get()->first();
         }
-         
+
         $accessToken = $this->generateAccessToken($roomName, $userName);
 
-        return redirect()->route('join.conference',
-        [
-            'accessToken' => $accessToken,
-            'roomName' => $roomName, 
-            'roomId' => $roomId,
-            'side_admin' => $venues->siteadmin_id,
-            'waitingQueue' => $waitingQueue
-        ]);
+        return redirect()->route(
+            'join.conference',
+            [
+                'accessToken' => $accessToken,
+                'roomName' => $roomName,
+                'roomId' => $roomId,
+                'side_admin' => $venues->siteadmin_id,
+                'waitingQueue' => $waitingQueue
+            ]
+        );
 
         // return redirect()->route('join.conference')->with([
         //     'accessToken' => $accessToken,
@@ -198,7 +214,7 @@ class VideoConferenceController extends Controller
     {
 
         $id = $request->input('id');
-        $type =  $request->input('action','in-queue'); 
+        $type =  $request->input('action', 'in-queue');
         $visor = Vistors::find($id)->update(['user_status' =>  $type]);
         return response()->json(['message' => 'You request submitted successfully. Lets Wait for Host to approve your request', "status" => true], 200);
     }
@@ -207,35 +223,34 @@ class VideoConferenceController extends Controller
     {
 
         $id = $request->input('id');
-        $vistors = Vistors::with('slot')->where(['meeting_type' => 'virtual','user_status' => 'in-queue'])->get();  
+        $vistors = Vistors::with('slot')->where(['meeting_type' => 'virtual', 'user_status' => 'in-queue'])->get();
 
-        $dataArr = []; 
-        foreach($vistors as $visitor){
-            $venueAdresId = $visitor->slot->venue_address_id; 
+        $dataArr = [];
+        foreach ($vistors as $visitor) {
+            $venueAdresId = $visitor->slot->venue_address_id;
             $venUAdress = VenueAddress::with('thripist')->where(['id' => $venueAdresId])->get()->first();
 
-            $role = Auth::user()->roles->pluck('name')->first(); 
-            if($role == 'admin'){
+            $role = Auth::user()->roles->pluck('name')->first();
+            if ($role == 'admin') {
                 $dataArr[] = $visitor;
-                $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-            }elseif($role == 'therapist' && $venUAdress->therapist_id == Auth::user()->id){
+                $dataArr['user_info'] =  ($venUAdress) ? $venUAdress->thripist : "";
+            } elseif ($role == 'therapist' && $venUAdress->therapist_id == Auth::user()->id) {
                 $dataArr[] = $visitor;
-                $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-            }else{
-                if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
+                $dataArr['user_info'] =  ($venUAdress) ? $venUAdress->thripist : "";
+            } else {
+                if (!empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id) {
                     $dataArr[] = $visitor;
-                     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+                    $dataArr['user_info'] =  ($venUAdress) ? $venUAdress->thripist : "";
                 }
             }
-           
-            
-             
         }
-        return response()->json(['participants' => $dataArr, 
-       // "venUAdress" => $venUAdress , 
-        //"authId" =>  Auth::user()->id,
-       // 'siteadmin' => $venUAdress->siteadmin_id,
-        "status" => (!empty($dataArr)) ? true : false ], 200);
+        return response()->json([
+            'participants' => $dataArr,
+            // "venUAdress" => $venUAdress , 
+            //"authId" =>  Auth::user()->id,
+            // 'siteadmin' => $venUAdress->siteadmin_id,
+            "status" => (!empty($dataArr)) ? true : false
+        ], 200);
     }
 
 
@@ -244,31 +259,33 @@ class VideoConferenceController extends Controller
 
         $id = $request->input('id');
         $vistor = Vistors::find($id);
-        $roomDetails = []; 
-        $admitted=false;
-        if(!empty($vistor) && $vistor->user_status == 'admitted'){
+        $roomDetails = [];
+        $admitted = false;
+        if (!empty($vistor) && $vistor->user_status == 'admitted') {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
             $roomDetails['room_name'] = $venueAddress->room_name;
-            $vistorName = $vistor->fname . ' ' . $vistor->lname; 
+            $vistorName = $vistor->fname . ' ' . $vistor->lname;
             $roomDetails['accessToken'] = $this->generateAccessToken($venueAddress->room_name, $vistorName);
-            $admitted=true;
-            return response()->json(['message' => 'You request submitted successfully. Please Wait While Host Approve Your Request', 
+            $admitted = true;
+            return response()->json([
+                'message' => 'You request submitted successfully. Please Wait While Host Approve Your Request',
                 "status" => true,
                 'visitor' => $vistor,
                 'is_admit' => $admitted,
                 'roomDetails' => $roomDetails
             ], 200);
-        }else{
-            return response()->json(['message' => 'You request submitted successfully. Please Wait While Host Approve Your Request', 
-            "status" => false, 
-            "is_admit" => $admitted,
-            "user_status" => ($vistor) ?  $vistor->user_status : ''
-        ], 200);
+        } else {
+            return response()->json([
+                'message' => 'You request submitted successfully. Please Wait While Host Approve Your Request',
+                "status" => false,
+                "is_admit" => $admitted,
+                "user_status" => ($vistor) ?  $vistor->user_status : ''
+            ], 200);
         }
-       
+
         // $roomName =   ;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
-       
+
     }
 
 
@@ -299,7 +316,7 @@ class VideoConferenceController extends Controller
         return  $videoConfernce->room_name;
     }
 
- 
+
     public function index(Request $request)
     {
         $participantIdentity = $request->input('participant_identity');
@@ -352,33 +369,33 @@ class VideoConferenceController extends Controller
     }
     public function getIpDetails($userIp)
     {
-      $curl = curl_init();
-      curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-      ));
-  
-      $response = curl_exec($curl);
-      $result = json_decode($response, true);
-  
-      curl_close($curl);
-  
-      $data = [
-        'user_ip' => $userIp,
-        'countryName' => $result['countryName'],
-        'regionName' => $result['regionName'],
-        'city' => $result['city'],
-        'postalCode' => $result['postalCode'],
-        'complete_data' => $response
-      ];
-  
-      Ipinformation::create($data);
-      return $result;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+        $result = json_decode($response, true);
+
+        curl_close($curl);
+
+        $data = [
+            'user_ip' => $userIp,
+            'countryName' => $result['countryName'],
+            'regionName' => $result['regionName'],
+            'city' => $result['city'],
+            'postalCode' => $result['postalCode'],
+            'complete_data' => $response
+        ];
+
+        Ipinformation::create($data);
+        return $result;
     }
 }
