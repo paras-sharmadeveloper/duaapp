@@ -24,7 +24,7 @@ class SiteAdminController extends Controller
         if($request->ajax()){
             $venueSloting = VenueSloting::with('visitors')
             ->where(['venue_address_id' => $id])
-            ->has('visitors') // Include only records with visitors
+            ->has('visitors','venueAddress') // Include only records with visitors
             ->get();
             // $venueSloting = VenueSloting::with('visitors')->where(['venue_address_id' => $id])->get(); 
             return response()->json(['success' => true , 'data' => $venueSloting],200); 

@@ -140,7 +140,7 @@ class BookingController extends Controller
             if ($result['status']) {
                 $url = route('booking.status',[$visitor->booking_uniqueid]); 
                 $date = date('Y-m-d H:i:s A'); 
-                Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed','confirmed_at' => date('Y-m-d H:i:s') ]); 
+                Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed','confirmed_at' => date('Y-m-d H:i:s')]); 
                 $message =<<<EOT
                 Hi $visitor->fname,
 

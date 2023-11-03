@@ -51,7 +51,7 @@
                     <div class="col-12"> 
                          <label for="yourPassword" class="form-label">Enter You Mobile/Email/BookingId</label>
                         <input id="booking_number" type="booking_number" class="form-control @error('booking_number') is-invalid @enderror" name="booking_number" 
-                          value="{{  session()->get('booking_number')  }}" 
+                          value="{{ session()->get('booking_number') }}" 
                           required autocomplete="booking_number" 
                           autofocus>
                          @error('booking_number')
