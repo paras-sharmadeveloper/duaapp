@@ -207,7 +207,7 @@ class VideoConferenceController extends Controller
         $id = $request->input('id');
         $type =  $request->input('action', 'in-queue');
         $visor = Vistors::find($id)->update(['user_status' =>  $type]);
-        return response()->json(['message' => 'You request submitted successfully. Lets Wait for Host to approve your request', "status" => true], 200);
+        return response()->json(['message' => 'Your Request in Queue Please Wait While Admin Approved Your Request.', "status" => true], 200);
     }
 
     public function VisitorRequests(Request $request)
