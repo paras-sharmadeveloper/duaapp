@@ -314,13 +314,13 @@
 
     <div class="row" id="main-content">
 
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-md-12 text-center">
                 <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
                 <span class="text-danger counter-span" style="display: none">
                     Call auto disconect when time ends</span>
             </div>
-        </div> --}}
+        </div>
 
 
 
@@ -328,8 +328,7 @@
             <div class="joined">
                 <p>You</p>
                 <div>
-                    <div id="local-video">
-                        <video id="video" playsinline autoplay></video>
+                    <div id="local-video"> 
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
                 </div>
