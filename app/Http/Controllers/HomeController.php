@@ -166,7 +166,8 @@ class HomeController extends Controller
       $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname'];
       $therapistName = $venueAddress->thripist->name;
-
+      $userSlot = VenueSloting::find($request->input('slot_id')); 
+      $venueString =  $venueAddress->venue_date  .' At.'. date("g:i A", strtotime($userSlot->slot_time)) ; 
       if ($venueAddress->type == 'on-site') {
         $location = $venueAddress->address . 'at Dua Ghar Physical Meeting';
         $confirmSpot = route('booking.confirm-spot');
@@ -174,6 +175,8 @@ class HomeController extends Controller
         $location = 'Online Meeting';
         $confirmSpot = route('join.conference.frontend', [$uuid]);
       }
+
+      
 
       $message = <<<EOT
       Hi $name,
@@ -189,7 +192,7 @@ class HomeController extends Controller
       $venueAddress->slot_duration Minutes
       
       Venue:
-      $venueAddress->venue_date
+      $venueString 
       
       Venue location:
       $location

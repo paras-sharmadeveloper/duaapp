@@ -25,14 +25,16 @@ class BookingController extends Controller
                 $country = $vistor->country_code;
                 $otp = $this->SendOtp($phone, $country);
                 if ($otp['status']) {
-                    return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $request->input('booking_number') ]);
+                    return redirect()->back()
+                    ->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $request->input('booking_number') ]);
                 } else {
-                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 'enable' => false, 
+                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 
+                    'enable' => false, 
                     'booking_number' => $request->input('booking_number')
                 ]);
                 }
             } else {
-                return redirect()->back()->with(['error' => 'Mobile Number not matched']);
+                return redirect()->back()->with(['error' => 'Mobile Number not matched','enable' => false]);
             }
         } else if ($request->has('_token') &&  $currentRoute == 'book.cancle.otp') {
 

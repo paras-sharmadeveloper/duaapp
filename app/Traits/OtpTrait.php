@@ -74,16 +74,16 @@ public function SendMessage($country_code,$mobile,$message)
         config('services.twilio.sid'),
         config('services.twilio.token')
       );
-      $usePhone = "+".$country.$mobile;
+      $usePhone = "whatsapp:+".$country.$mobile;
       if (strpos($country, '+') !== false) {
-        $usePhone = $country.$mobile;
+        $usePhone = 'whatsapp:'.$country.$mobile;
       }
 
       try {
         $twilio->messages->create(
           $usePhone, // User's phone number
           [
-            'from' => config('services.twilio.phone'),
+            'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
             'body' => $message
           ]
         );
