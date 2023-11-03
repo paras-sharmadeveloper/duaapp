@@ -314,7 +314,7 @@
     <div class="row" id="main-content">
 
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center revese-timer-main mb-3">
                 <div id="revese-timer" data-minute="{{ $timePerSlot }}"></div>
                 <span class="text-danger counter-span" style="display: none">
                     Call auto disconect when time ends</span>
