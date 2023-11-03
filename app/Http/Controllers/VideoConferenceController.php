@@ -101,9 +101,7 @@ class VideoConferenceController extends Controller
         // $roomName =   $venueAddress->room_name;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
 
-       
-
-       
+        
 
         return view('frontend.onlinemeeting', compact(
             'venueAddress',
@@ -112,8 +110,7 @@ class VideoConferenceController extends Controller
             'aheadCount',
             'servedCount',
             'estimatedWaitTime', 
-            'timeRemaining',
-            'isFifteenMinutesRemaining',
+            'timeRemaining', 
             'vistor',
             'timePerSlot'
 
