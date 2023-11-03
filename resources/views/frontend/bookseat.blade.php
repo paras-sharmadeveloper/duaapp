@@ -1709,9 +1709,7 @@ div#slot-information-user {
                     },
                     error: function(error,xhr) {
 
-                        if(xhr.status == 406){
-                            alert("You have already register")
-                        }
+                         console.log("error",error)
 
                         if (error.responseJSON && error.responseJSON.errors) {
 
