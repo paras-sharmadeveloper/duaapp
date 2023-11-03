@@ -409,7 +409,7 @@
     <script>
         var accessToken = "{{ $accessToken }}";
         var roomName = "{{ $roomName }}";
-        var isMeetingHaveFifiten = "{{ $isFifteenMinutesRemaining }}"
+        // var isMeetingHaveFifiten = "{{ $isFifteenMinutesRemaining }}"
         var visitorId = "{{ $vistor ? $vistor->id : 0 }}"
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
