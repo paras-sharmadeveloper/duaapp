@@ -158,7 +158,10 @@
             
             var startTime = new Date().getTime();
             var totalTime = duration * 60000;
+            var timeInter = duration * 1000 ; 
             var endTime = startTime + totalTime; // 1 minute in milliseconds
+            console.log("endTime",endTime)
+            console.log("timeInter",timeInter)
             postAjax(id,'start'); 
             $(this).prop("disabled",true);
             // Update the timer every second
@@ -172,12 +175,12 @@
                    //  
                 } else { 
                     
-                    var seconds = Math.floor(remainingTime / 1000) % 60;
-                    var minutes = Math.floor(remainingTime / 1000 / 60);
+                    var seconds = Math.floor(remainingTime / timeInter) % 60;
+                    var minutes = Math.floor(remainingTime / timeInter / 60);
                     $("#timer"+id).text(seconds + "s");
                     // $("#timer").text(minutes + "m " + seconds + "s");
                 }
-            }, 1000);
+            }, timeInter);
         })
         $(document).on("click",".stop",function(){
             clearInterval(timerInterval);
