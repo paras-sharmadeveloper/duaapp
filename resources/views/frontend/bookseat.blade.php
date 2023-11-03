@@ -832,7 +832,7 @@ div#slot-information-user {
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
                             
                             @foreach ($therapists as $therapist)
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm thripist-section"
                                         data-id="{{ $therapist->id }}">
                                         @if (!empty($therapist->profile_pic))
