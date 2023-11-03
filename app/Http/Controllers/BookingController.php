@@ -53,7 +53,7 @@ class BookingController extends Controller
                 $mytime = Carbon::now()->tz($currentTimezone);
                 $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $slotTime, $currentTimezone);
 
-                $url = route('booking.status',[$vistor->booking_uniqueid]); 
+                $url = route('book.show'); 
                 $date = date('Y-m-d H:i:s A'); 
 
                 $message =<<<EOT
