@@ -87,10 +87,10 @@ class VideoConferenceController extends Controller
             
             
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $vistor->slot->slot_time)->tz($userTimeZone);
-            $hourDifference = $mytime->diffInHours($meetingStartTime);
+            $meetingStartTime = Carbon::parse($venueAddress->venue_date .' '.$vistor->slot->slot_time)->tz($userTimeZone);
+            $timeRemaining = $mytime->diffInHours($meetingStartTime);
 
-            $timeRemaining = $meetingStartTime->diffForHumans(null, true);
+            // $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
             $vistorName = $vistor->fname . ' ' . $vistor->lname;
             $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
