@@ -441,8 +441,9 @@
 
                         $("#remote-video").find('p').hide();
                         $(".asktojoin-response").text(response.message).show()
-                    } else {
-                        $(".asktojoin-response").text(response.message).hide()
+                    } else if(response.user_status == 'in-queue'){
+                        $("#asktojoin").hide();
+                        $(".asktojoin-response").text(response.message).show()
                     }
                 },
                 error: function() {
