@@ -330,6 +330,7 @@
                     <div id="local-video"> 
                         <div class="text-center py-4 access-camera-div">
                             <button class="access-camera btn btn-secondary" > Start Camera </button>
+                            <video id="video-local" autoplay playsinline></video>
                         </div>
                         
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
@@ -418,24 +419,21 @@
 
 
         $(".access-camera").click(function(){
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia({ video: true })
-                        .then(function(stream) {
-                            // Assign the camera stream to a video element
-                            var cameraFeed = document.getElementById('local-video');
-                           //  cameraFeed.srcObject = stream;
-                            const localMediaContainer = document.createElement('div');
-                            localMediaContainer.appendChild(stream);
-                            cameraFeed.appendChild(localMediaContainer);
-                            $(".access-camera-div").hide();
-                        })
-                        .catch(function(error) {
-                            $(this).show();
-                            alert('Error accessing the camera:', error);
-                        });
-                } else {
-                    alert('Camera is not supported in this browser');
-                }
+            var video = document.getElementById('video-local');
+            navigator.mediaDevices.getUserMedia({
+                        video: true
+                    })
+                    .then(function(stream) {
+                        video.srcObject = stream;
+
+                        // When the stream is loaded, start playing the video
+                        video.onloadedmetadata = function(e) {
+                            video.play(); 
+                        };
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing camera:', error);
+            });
         })
 
 
