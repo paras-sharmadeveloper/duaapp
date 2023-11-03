@@ -292,6 +292,16 @@
             enablePivot: true,
             filter: "agTextColumnFilter"
         },
+        {
+            headerName: 'BookingFrom',
+            field: 'user_question',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true,
+            filter: "agTextColumnFilter"
+        },
         // Add more columns as needed
     ];
 
