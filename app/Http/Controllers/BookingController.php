@@ -168,7 +168,8 @@ class BookingController extends Controller
         $userBooking = Vistors::where('booking_uniqueid', $id)->first();
 
         if (!$userBooking) {
-            abort(404); 
+            $message = "Not found.";
+            return view('frontend.not-found', compact('message'));
         }
 
         // Get the user's slot time
