@@ -258,7 +258,12 @@ class VideoConferenceController extends Controller
             
              
         }
-        return response()->json(['participants' => $dataArr, "venUAdress" => $venUAdress , "status" => (!empty($dataArr)) ? true : false ], 200);
+        return response()->json(['participants' => $dataArr, 
+        "venUAdress" => $venUAdress , 
+        "authId" =>  Auth::user()->id,
+        'siteadmin' => $venUAdress->siteadmin_id,
+        
+        "status" => (!empty($dataArr)) ? true : false ], 200);
     }
 
 
