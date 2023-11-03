@@ -249,7 +249,7 @@ class VideoConferenceController extends Controller
                 $dataArr[] = $visitor;
                 $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
             }else{
-                if($venUAdress && $venUAdress->siteadmin_id == Auth::user()->id){
+                if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
                     $dataArr[] = $visitor;
                      $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
                 }
@@ -258,7 +258,7 @@ class VideoConferenceController extends Controller
             
              
         }
-        return response()->json(['participants' => $dataArr, "status" => (!empty($dataArr)) ? true : false ], 200);
+        return response()->json(['participants' => $dataArr, "venUAdress" => $venUAdress , "status" => (!empty($dataArr)) ? true : false ], 200);
     }
 
 
