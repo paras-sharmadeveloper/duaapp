@@ -425,7 +425,7 @@
                             var cameraFeed = document.getElementById('local-video');
                            //  cameraFeed.srcObject = stream;
                             const localMediaContainer = document.createElement('div');
-                            localMediaContainer.appendChild(track.attach());
+                            localMediaContainer.appendChild(stream);
                             cameraFeed.appendChild(localMediaContainer);
                             $(".access-camera-div").hide();
                         })
