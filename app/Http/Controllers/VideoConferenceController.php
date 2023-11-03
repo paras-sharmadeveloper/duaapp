@@ -242,18 +242,18 @@ class VideoConferenceController extends Controller
         $dataArr = []; 
         foreach($vistors as $visitor){
             $venueAdresId = $visitor->slot->venue_address_id; 
-            $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get();
+            $venUAdress = VenueAddress::with('thripist')->where(['id' => $venueAdresId])->get();
 
             $role = Auth::user()->roles->pluck('name')->first(); 
-            if($role == 'admin'){
-                $dataArr[] = $visitor;
-                $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-            }else{
-                if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
-                    $dataArr[] = $visitor;
-                     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-                }
-            }
+            // if($role == 'admin'){
+            //     $dataArr[] = $visitor;
+            //     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+            // }else{
+            //     if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
+            //         $dataArr[] = $visitor;
+            //          $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+            //     }
+            // }
            
             
              
