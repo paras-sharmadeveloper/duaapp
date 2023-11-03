@@ -360,6 +360,11 @@
             <div class="asktojoin">
                 <h3> Ready to join?</h3>
 
+                <div class="text alert alert-info mt-2 asktojoin-response">
+                    Total Time remaining in Meeting {{  $timeRemaining }}
+                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes </p>
+                </div>
+
 
                 @if (!empty($vistor) && $vistor->user_status == 'no_action')
                     <div class="col-lg-12 text-center mt-5">

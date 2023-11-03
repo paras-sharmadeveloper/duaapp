@@ -72,21 +72,20 @@ class VideoConferenceController extends Controller
         // if (empty($vistor)) {
         //     abort(404);
         // }
-        $mytime = Carbon::now()->tz('America/New_York');
-        if($request->ip() != '127.0.0.1' && $request->ip() != 'localhost'){
-            // echo "asd".$request->ip(); die; 
-            $userDetail = $this->getIpDetails($request->ip());
-            $countryCode = $userDetail['countryCode'];
-            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-            $mytime = Carbon::now()->tz($timezone->timezone);
-        }
+       
+        
  
 
         if(!empty($vistor)) {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+            $mytime = Carbon::now()->tz('America/New_York');
+            if($venueAddress->user_timezone){
+                $mytime = Carbon::now()->tz($venueAddress->user_timezone);
+            }
+            
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
-            $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
+            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->venueSloting->slot_time);
+          
             $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
             $vistorName = $vistor->fname . ' ' . $vistor->lname;
@@ -96,34 +95,8 @@ class VideoConferenceController extends Controller
             $estimatedWaitTime = $aheadCount * $timePerSlot;
 
         }
-       
-        $currentDateTime = $mytime;
-        $isFifteenMinutesRemaining = false;
-        //  echo  $meetingStartTime ; die; 
-        if (!empty($meetingStartTime) && $meetingStartTime->isFuture()) {
-            $interval = $currentDateTime->diff($meetingStartTime);
-            $timeRemaining = $interval->format('%D days %h hours and %i minutes');
-            $isFifteenMinutesRemaining = ($interval->i <= 15) ? true : false;
-            // Check if the meeting is already in progress
-            // $isMeetingInProgress = false;
-            $isMeetingInProgress = false;
-        } else if (!empty($meetingEndsTime) &&  $currentDateTime->isAfter($meetingEndsTime)) {
-            // Meeting has already passed, display an error message
-            $timeRemaining = "The meeting has already taken place.";
-            // You can redirect or display the error message as needed.
-            // $isMeetingInProgress = false;
-            $isMeetingInProgress = false;
-        } else {
-            $isFifteenMinutesRemaining = true;
-            // The meeting is already in progress
-            $timeRemaining = "Meeting is in progress"; // You can customize this message
-            $isMeetingInProgress = true;
-        }
-
-
-
-       
-       
+        
+        //  echo  $meetingStartTime ; die;  
         $roomName =  ''; $accessToken =''; 
         // $roomName =   $venueAddress->room_name;
         // $accessToken = $this->generateAccessToken($venueAddress->room_name, $vistorName);
@@ -138,8 +111,7 @@ class VideoConferenceController extends Controller
             'accessToken',
             'aheadCount',
             'servedCount',
-            'estimatedWaitTime',
-            'isMeetingInProgress',
+            'estimatedWaitTime', 
             'timeRemaining',
             'isFifteenMinutesRemaining',
             'vistor',
