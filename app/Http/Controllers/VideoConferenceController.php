@@ -245,15 +245,15 @@ class VideoConferenceController extends Controller
             $venUAdress = VenueAddress::with('thripist')->where(['id' => $venueAdresId])->get()->first();
 
             $role = Auth::user()->roles->pluck('name')->first(); 
-            // if($role == 'admin'){
-            //     $dataArr[] = $visitor;
-            //     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-            // }else{
-            //     if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
-            //         $dataArr[] = $visitor;
-            //          $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
-            //     }
-            // }
+            if($role == 'admin'){
+                $dataArr[] = $visitor;
+                $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+            }else{
+                if( !empty($venUAdress) && $venUAdress->siteadmin_id == Auth::user()->id){
+                    $dataArr[] = $visitor;
+                     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+                }
+            }
            
             
              
@@ -261,7 +261,7 @@ class VideoConferenceController extends Controller
         return response()->json(['participants' => $dataArr, 
         "venUAdress" => $venUAdress , 
         "authId" =>  Auth::user()->id,
-        'siteadmin' => $venUAdress,
+        'siteadmin' => $venUAdress->siteadmin_id,
         "status" => (!empty($dataArr)) ? true : false ], 200);
     }
 
