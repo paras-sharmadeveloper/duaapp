@@ -95,7 +95,7 @@ class HomeController extends Controller
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
         $rejoin = $venueAddress->rejoin_venue_after; 
-        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') {
+        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') { 
           return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
         }else{
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
