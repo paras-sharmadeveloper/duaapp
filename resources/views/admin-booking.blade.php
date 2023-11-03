@@ -109,7 +109,7 @@
                         {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-2">
                   <div class="input-group">
                    
                     <select class="form-control js-states "  name="country_code" id="country_code">
@@ -119,7 +119,7 @@
                     </select>
                   </div>
               </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Phone</span>
                         {!! Form::text('mobile', null, ['placeholder' => 'Phone', 'class' => 'form-control']) !!}
