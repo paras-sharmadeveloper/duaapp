@@ -330,7 +330,7 @@
                     <div id="local-video"> 
                         <div class="text-center py-4 access-camera-div">
                             <button class="access-camera btn btn-secondary" > Start Camera </button>
-                            <video id="video-local" autoplay playsinline></video>
+                            <video id="video-local" autoplay playsinline style="display: none"></video>
                         </div>
                         
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
@@ -425,6 +425,7 @@
                     })
                     .then(function(stream) {
                         video.srcObject = stream;
+                        $("#video-local").show()
 
                         // When the stream is loaded, start playing the video
                         video.onloadedmetadata = function(e) {
