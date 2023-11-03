@@ -100,7 +100,7 @@
                                 <td> ${badgeHtml}</td>
                                 <td class="action-td">
                                     
-                                    <button type="button" class="btn btn-success start ${none}" data-id="${visitor.id}"><div id="timer${visitor.id}">Start</div></button>
+                                    <button type="button" class="btn btn-success start ${none}" data-minutes="${slot.venue_address.slot_duration}" data-id="${visitor.id}"><div id="timer${visitor.id}">Start</div></button>
                                     <button type="button" class="btn btn-danger stop ${none}" data-id="${visitor.id}">Stop</button>
                                     <button type="button" class="btn btn-info hold d-none ${none}">Hold</button>
                                     <span class="badge bg-info ${nonetimer}"> total time : ${timeinSec} Sec </span>
@@ -154,9 +154,11 @@
         var timerInterval; 
         $(document).on("click",".start",function(){
             var id = $(this).attr('data-id'); 
-
+            var duration = $(this).attr('data-minutes');
+            
             var startTime = new Date().getTime();
-            var endTime = startTime + 60000; // 1 minute in milliseconds
+            var totalTime = duration * 60000;
+            var endTime = startTime + totalTime; // 1 minute in milliseconds
             postAjax(id,'start'); 
             $(this).prop("disabled",true);
             // Update the timer every second
