@@ -51,10 +51,10 @@ class BookingController extends Controller
                 $veneueAddressId = $vistor->venueSloting->venue_address_id; 
                 $venueAddress = VenueAddress::find($veneueAddressId);
                 $mytime = Carbon::now()->tz($currentTimezone);
-                $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $slotTime, $currentTimezone);
+                $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $slotTime, $currentTimezone)->format('d-M-Y g:i A');
 
                 $url = route('book.show'); 
-                $date = date('Y-m-d H:i:s A'); 
+                $date = date('Y-m-d H:i A'); 
 
                 $message =<<<EOT
                 Hi $vistor->fname,
