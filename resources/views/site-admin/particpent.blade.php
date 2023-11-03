@@ -392,11 +392,13 @@
                     $(this).parents('.friend-box').fadeOut();
                 }, 2000);
                 AdmitRequest(participantId, 'admitted');
+                $(this).attr("disabled","disabled"); 
 
             });
             $(document).on("click", ".dismiss-button", function() {
                 var participantId = $(this).data("id");
                 AdmitRequest(participantId, 'dismissed');
+                $(this).attr("disabled","disabled"); 
             });
 
 
