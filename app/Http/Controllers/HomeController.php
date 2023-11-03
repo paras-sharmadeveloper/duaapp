@@ -103,7 +103,7 @@ class HomeController extends Controller
       }
 
       if (!empty($isUsers) && $isUsers['status'] == false) {
-        return response()->json(['message' => 'You already Booked a seat', "status" => false], 406);
+        return response()->json(['message' => 'You already Booked a seat', 'isUser' => $isUsers , "status" => false], 406);
       }
 
 
