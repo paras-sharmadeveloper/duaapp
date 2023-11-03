@@ -91,7 +91,7 @@ class VideoConferenceController extends Controller
             // $userTimeZone = "Asia/Kolkata";
             // $mytime = Carbon::now()->tz($userTimeZone);
             // $venueDateTme = '2023-11-04 10:00:00'; 
-            $meetingStartTime = Carbon::parse($venueDateTme)->tz($userTimeZone);
+            $meetingStartTime = Carbon::create($venueDateTme)->tz($userTimeZone);
             // $timeRemaining = $mytime->diffForHumans($meetingStartTime);
             $timeRemaining = $meetingStartTime->diffInHours($mytime);
             
@@ -129,7 +129,7 @@ class VideoConferenceController extends Controller
             'vistor',
             'timePerSlot',
             'userTimeZone',
-            'venueDateTme'
+            'venueDateTme','mytime'
         ));
     }
 
