@@ -92,7 +92,7 @@ class VideoConferenceController extends Controller
             // $mytime = Carbon::now()->tz($userTimeZone);
             // $venueDateTme = '2023-11-04 10:00:00'; 
             $venueDateTime = '2023-11-04 10:00:00'; 
-            $meetingStartTime = Carbon::create($venueDateTme)->tz($userTimeZone);
+            $meetingStartTime = Carbon::parse($venueDateTme);
             // $timeRemaining = $mytime->diffForHumans($meetingStartTime);
             $timeRemaining = $meetingStartTime->diffInHours($mytime);
             
