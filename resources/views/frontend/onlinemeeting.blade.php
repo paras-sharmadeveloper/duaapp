@@ -22,8 +22,7 @@
             color: #fff
         }
 
-        .container {
-            margin-left: 10px;
+        .container { 
             padding: 0 2.5%
         }
 
@@ -360,9 +359,9 @@
             <div class="asktojoin">
                 <h3> Ready to join?</h3>
 
-                <div class="text alert alert-info mt-2 asktojoin-response">
+                <div class="text alert alert-warning mt-2">
                     Total Time remaining in Meeting {{  $timeRemaining }}
-                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes </p>
+                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes {{ $userTimeZone }}</p>
                 </div>
 
 

@@ -78,13 +78,16 @@ class VideoConferenceController extends Controller
 
         if(!empty($vistor)) {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
+            $userTimeZone = $venueAddress->user_timezone; 
             $mytime = Carbon::now()->tz('America/New_York');
-            if($venueAddress->user_timezone){
-                $mytime = Carbon::now()->tz($venueAddress->user_timezone);
+            if(!empty($userTimeZone)){
+                $mytime = Carbon::now()->tz($userTimeZone);
             }
+
+            
             
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $vistor->slot->slot_time);
+            $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $vistor->slot->slot_time)->tz($userTimeZone);
           
             $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
@@ -112,8 +115,8 @@ class VideoConferenceController extends Controller
             'estimatedWaitTime', 
             'timeRemaining', 
             'vistor',
-            'timePerSlot'
-
+            'timePerSlot',
+            'userTimeZone' 
         ));
     }
 
