@@ -94,7 +94,8 @@ class HomeController extends Controller
       $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
-        if ($recordAge < $venueAddress->rejoin_venue_after && $from != 'admin') {
+        $rejoin = $venueAddress->rejoin_venue_after; 
+        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') {
           return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
         }else{
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
