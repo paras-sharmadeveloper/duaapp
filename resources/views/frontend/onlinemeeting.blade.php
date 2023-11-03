@@ -430,6 +430,7 @@
                         video.onloadedmetadata = function(e) {
                             video.play(); 
                         };
+                        $(this).hide(); 
                     })
                     .catch(function(error) {
                         console.error('Error accessing camera:', error);
@@ -451,6 +452,7 @@
                 },
                 success: function(response) {
                     if (response.is_admit) {
+                        $(".access-camera-div").hide()
                         $(".asktojoin-main").hide()
                         $(".recipient").show();
                         var roomName = response.roomDetails.room_name;
