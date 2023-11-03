@@ -94,13 +94,12 @@ class VideoConferenceController extends Controller
             $meetingStartTime = Carbon::create($venueDateTme)->tz($userTimeZone);
             // $timeRemaining = $mytime->diffForHumans($meetingStartTime);
             $timeDifference = $meetingStartTime->diff($mytime);
-            $days = $timeDifference->days;
-            $hours = $timeDifference->h;
-            $minutes = $timeDifference->i;
+            $daysRemaining = $timeDifference->days;
+            $hoursRemaining = $timeDifference->h;
             // $timeRemaining['days'] = $timeDifference->days;
             // $timeRemaining['hours'] = $timeDifference->h;
             // $timeRemaining['minutes'] = $timeDifference->i;
-            $timeRemaining = sprintf('%02d:%02d %s', $hours, $minutes, $hours >= 12 ? 'PM' : 'AM');
+            $timeRemaining = "Days left: $daysRemaining days and Hours left: $hoursRemaining hours";
 
 
 
