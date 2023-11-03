@@ -39,7 +39,7 @@ trait OtpTrait
         config('services.twilio.sid'),
         config('services.twilio.token')
       );
-      $usePhone = "+".$country.$mobile;
+      $usePhone = "whatsapp:+".$country.$mobile;
       if (strpos($country, '+') !== false) {
         // $usePhone = $country.$mobile;
         $usePhone = 'whatsapp:'.$country.$mobile;
