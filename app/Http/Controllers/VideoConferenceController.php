@@ -83,9 +83,9 @@ class VideoConferenceController extends Controller
                 $mytime = Carbon::now()->tz($userTimeZone);
             } 
             $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
-           $eventDate = '2023-11-03 23:11:00';
-                //  $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone);
-             $meetingStartTime =  Carbon::parse($eventDate, $userTimeZone);
+           //$eventDate = '2023-11-03 23:11:00';
+             $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone);
+             //$meetingStartTime =  Carbon::parse($eventDate, $userTimeZone);
             $timeRemaining = $meetingStartTime->diffInHours($mytime);
             $minuteDifference = $meetingStartTime->diffInMinutes($mytime);
             if($meetingStartTime->isPast()){
