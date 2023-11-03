@@ -359,18 +359,18 @@
             <div class="asktojoin">
                 
 
-                @if($timeRemaining>=0)
+                @if($timeRemaining>=0 || $minuteDifference >=0)
 
-                <div class="text alert alert-warning mt-2">
-                    <h3> Meeting Join Button will be enabled before 15 minutes.</h3>
-                   
-                    @if($timeRemaining<=1 && $timeRemaining >= 0)
-                      <p> Minutes Left <strong>  {{ $minuteDifference }}</strong></p>
-                    @else
-                    <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong> Hours.</p>
-                    @endif
-                    <p> As Per Your Selected Timezome <strong> {{  $userTimeZone }}</strong></p> 
-                </div>
+                    <div class="text alert alert-warning mt-2">
+                        <h3> Meeting Join Button will be enabled before 15 minutes.</h3>
+                    
+                        @if($timeRemaining<=1 && $timeRemaining >= 0)
+                        <p> Minutes Left <strong>  {{ $minuteDifference }}</strong></p>
+                        @else
+                        <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong> Hours.</p>
+                        @endif
+                        <p> As Per Your Selected Timezome <strong> {{  $userTimeZone }}</strong></p> 
+                    </div>
 
                 @else 
 
@@ -385,7 +385,7 @@
                
 
 
-                @if (!empty($vistor) && $vistor->user_status == 'no_action' && $minuteDifference <=15 && $timeRemaining >= 0)
+                @if (!empty($vistor) && $vistor->user_status == 'no_action' && $minuteDifference <=15 && $minuteDifference >= 0)
                     <div class="col-lg-12 text-center mt-5">
                         <h3> Ready to join?</h3>
                         <button class="btn btn-primary mt-2" id="asktojoin" data-id="{{ $vistor ? $vistor->id : 0 }}">
