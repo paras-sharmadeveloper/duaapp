@@ -776,6 +776,11 @@ div#slot-information-user {
   content: "";
   transform: rotate(-45deg);
 }
+div#errors {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
         /* css loader ends */
     </style>
     <!-- section -->
