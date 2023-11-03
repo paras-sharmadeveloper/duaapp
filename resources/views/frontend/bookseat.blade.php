@@ -309,9 +309,8 @@
                 bottom: -35px
             }
             .thripist-section img {
-            height: 100%;
-            width: 100%;
-            max-height: 264px; 
+             
+            max-height: 264px !important; 
         }
 
 
