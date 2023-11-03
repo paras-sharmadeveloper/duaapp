@@ -328,6 +328,7 @@
                 <p>You</p>
                 <div>
                     <div id="local-video"> 
+                        <button class="access-camera btn btn-secondary" > Start Camera </button>
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
                 </div>
@@ -411,6 +412,25 @@
         } else {
             console.error('Access token or room name is missing.');
         }
+
+
+        $(".access-camera").click(function(){
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function(stream) {
+                            // Assign the camera stream to a video element
+                            var cameraFeed = document.getElementById('local-video');
+                            cameraFeed.srcObject = stream;
+                            $(this).hide();
+                        })
+                        .catch(function(error) {
+                            $(this).show();
+                            alert('Error accessing the camera:', error);
+                        });
+                } else {
+                    alert('Camera is not supported in this browser');
+                }
+        })
 
 
 
