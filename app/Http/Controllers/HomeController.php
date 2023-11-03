@@ -131,6 +131,8 @@ class HomeController extends Controller
       $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : null;
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
+      $booking->user_timezone = $request->input('timezone',null);
+      
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;

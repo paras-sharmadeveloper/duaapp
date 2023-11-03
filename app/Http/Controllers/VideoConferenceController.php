@@ -83,16 +83,12 @@ class VideoConferenceController extends Controller
  
 
         if(!empty($vistor)) {
-
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
-
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-            
             $meetingStartTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at);
             $meetingEndsTime = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_ends_at);
             $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
-
             $vistorName = $vistor->fname . ' ' . $vistor->lname;
             $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
             $servedCount = Vistors::where(['meeting_type' => 'virtual'])->alreadyServed();

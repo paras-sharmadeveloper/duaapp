@@ -41,7 +41,7 @@ return new class extends Migration
             $table->integer('recurring_till')->default(0); 
             $table->integer('rejoin_venue_after')->default(0); 
             
-             
+            $table->string('user_timezone',155)->nullable(); 
 
             $table->timestamps(); 
             $table->foreign('venue_id')
