@@ -1265,6 +1265,7 @@ div#slot-information-user {
                                             style="display: none;" id="restart-camera">Restart camera</button>
 
                                     </div>
+                                    <div id="errors"></div>
 
                                 </div>
                                 <!-- /Final step -->
@@ -1709,11 +1710,15 @@ div#slot-information-user {
                     },
                     error: function(error,xhr) {
 
-                         console.log("error",error)
+                         console.log("error",error.status)
 
-                        if (error.responseJSON && error.responseJSON.errors) {
+                         if(error.status == 406 ){
+                            $("#errors").html(error.responseJSON.message);
+                         }
+                         $this.find('b').text(defaultText)
+                        if (error.responseJSON || error.responseJSON.errors) {
 
-                            $this.find('b').text(defaultText)
+                            $this.find('b').text(defaultText) 
                             $this.find('span').hide()
                             if (error.responseJSON.status == false) {
 
@@ -1742,8 +1747,7 @@ div#slot-information-user {
 
 
                             });
-                        }
-                        // Handle other types of errors here if needed
+                        } 
                     }
                 });
             });
