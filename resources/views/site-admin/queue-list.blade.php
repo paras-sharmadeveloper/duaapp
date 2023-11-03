@@ -33,10 +33,10 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Manage Queue</h5>
-           
+
 
             @if (request()->route()->getName() == 'siteadmin.queue.list')
-                <table class="table-with-buttons-no table table-responsive cell-border" >
+                <table class="table-with-buttons-no table table-responsive cell-border">
                     <thead>
                         <tr>
                             <th scope="col">BookingId</th>
@@ -57,11 +57,14 @@
     </div>
 
 @endsection
-@section('page-script') 
+@section('page-script')
     <script>
-        getData(); 
-        setInterval(function () {getData(); }, 15000);
-        var url = "{{ route('siteadmin.queue.list',[request()->route('id')]) }}";
+        getData();
+        setInterval(function() {
+            getData();
+        }, 15000);
+        var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}";
+
         function getData() {
             $.ajax({
                 url: url,
@@ -71,28 +74,34 @@
                     var html = '';
                     $.each(response.data, function(key, slot) {
                         $.each(slot.visitors, function(k, visitor) {
-                            var timeinSec=0; 
-                            var none='';
-                            var nonetimer='';
+                            var timeinSec = 0;
+                            var none = '';
+                            var nonetimer = '';
                             if (visitor.is_available === 'confirmed') {
-                               
+
                                 var confirmedAt = new Date(visitor.confirmed_at);
-                                var formattedDate = formatDateTime(confirmedAt); 
+                                var formattedDate = formatDateTime(confirmedAt);
                                 var badgeHtml = '<span class="badge bg-success"> Confirmed (' +
                                     formattedDate + ')</span>';
                             } else {
-                                none ='d-none'; 
-                                nonetimer ='d-none'; 
+                                none = 'd-none';
+                                nonetimer = 'd-none';
                                 var badgeHtml =
                                     '<span class="badge bg-danger"> Not Confirmed </span>';
                             }
-                            
-                            if (visitor.meeting_start_at != null && visitor.meeting_ends_at != null) {
-                                none = 'd-none'; 
-                                timeinSec =  timeDiff(visitor.meeting_start_at,visitor.meeting_ends_at); 
-                            }else{
-                                nonetimer ='d-none'; 
-                            } 
+
+                            if (visitor.meeting_start_at != null && visitor.meeting_ends_at !=
+                                null) {
+                                none = 'd-none';
+                                var timeDifference = timeDiff(visitor.meeting_start_at, visitor.meeting_ends_at, slot.venue_address.slot_duration);
+
+                                var hours = timeDifference.hours;
+                                var minutes = timeDifference.minutes;
+                                var seconds = timeDifference.seconds;
+                                // timeinSec = timeDiff(visitor.meeting_start_at, visitor.meeting_ends_at, slot.venue_address.slot_duration);
+                            } else {
+                                nonetimer = 'd-none';
+                            }
                             html += `<tr>
                                 <th scope="row">${visitor.booking_number }</th>
                                 <td>${visitor.fname}  ${visitor.lname}</td>
@@ -103,15 +112,15 @@
                                     <button type="button" class="btn btn-success start ${none}" data-minutes="${slot.venue_address.slot_duration}" data-id="${visitor.id}"><div id="timer${visitor.id}">Start</div></button>
                                     <button type="button" class="btn btn-danger stop ${none}" data-id="${visitor.id}">Stop</button>
                                     <button type="button" class="btn btn-info hold d-none ${none}">Hold</button>
-                                    <span class="badge bg-info ${nonetimer}"> total time : ${timeinSec} Sec </span>
+                                    <span class="badge bg-info ${nonetimer}"> total time : ${minutes} minutes ${seconds} Sec </span>
                                 </td>
                                 </tr>`;
-                           });
+                        });
 
                     });
-                    $("#tbody").html(html) 
+                    $("#tbody").html(html)
                 },
-                error: function(xhr, status, error) { 
+                error: function(xhr, status, error) {
                     console.error(error);
                 }
             });
@@ -151,101 +160,105 @@
             const time12 = `${hour12.toString().padStart(2, '0')}:${minute} ${period}`;
             return time12;
         }
-        var timerInterval; 
-        $(document).on("click",".start",function(){
-            var id = $(this).attr('data-id'); 
-            var duration = $(this).attr('data-minutes');
-            
+        var timerInterval;
+        $(document).on("click", ".start", function() {
+            var id = $(this).attr('data-id');
+            var duration = parseInt($(this).attr('data-minutes')); // Parse the value as an integer
+
             var startTime = new Date().getTime();
             var totalTime = duration * 60000;
-            var timeInter = duration * 1000 ; 
-            var endTime = startTime + totalTime; // 1 minute in milliseconds
-            console.log("endTime",endTime)
-            console.log("timeInter",timeInter)
-            postAjax(id,'start'); 
-            $(this).prop("disabled",true);
+            var timeInterval = duration * 1000;
+            var endTime = startTime + totalTime;
+
+            postAjax(id, 'start');
+            $(this).prop("disabled", true);
+
             // Update the timer every second
+            var timerInterval;
+
             timerInterval = setInterval(function() {
                 var currentTime = new Date().getTime();
                 var remainingTime = endTime - currentTime;
 
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
-                    $("#timer"+id).text("Time's up!");
-                   //  
-                } else { 
-                    
-                    var seconds = Math.floor(remainingTime / timeInter) % 60;
-                    var minutes = Math.floor(remainingTime / timeInter / 60);
-                    $("#timer"+id).text(seconds + "s");
-                    // $("#timer").text(minutes + "m " + seconds + "s");
+                    $("#timer" + id).text("Time's up!");
+                } else {
+                    var seconds = Math.floor(remainingTime / 1000) % 60;
+                    var minutes = Math.floor(remainingTime / 1000 / 60);
+                    $("#timer" + id).text(minutes + "m " + seconds + "s");
                 }
-            }, timeInter);
-        })
-        $(document).on("click",".stop",function(){
-            clearInterval(timerInterval);
-            var id = $(this).attr('data-id'); 
-            $(this).parents(".action-td").find(".start").prop("disabled",true); 
-            $(this).prop("disabled",true); 
-            $(this).parents(".action-td").find(".hold").prop("disabled",true); 
-            // $("#timer"+id).;
-            postAjax(id,'end');
+            }, 1000);
         });
-        $(document).on("click",".hold",function(){
+        $(document).on("click", ".stop", function() {
             clearInterval(timerInterval);
-            var id = $(this).attr('data-id'); 
-            $(this).parents(".action-td").find(".start").prop("disabled",true); 
-            $(this).text("Resume"); 
+            var id = $(this).attr('data-id');
+            $(this).parents(".action-td").find(".start").prop("disabled", true);
+            $(this).prop("disabled", true);
+            $(this).parents(".action-td").find(".hold").prop("disabled", true);
+            // $("#timer"+id).;
+            postAjax(id, 'end');
+        });
+        $(document).on("click", ".hold", function() {
+            clearInterval(timerInterval);
+            var id = $(this).attr('data-id');
+            $(this).parents(".action-td").find(".start").prop("disabled", true);
+            $(this).text("Resume");
             $(this).removeClass("hode").addClass('resume');
-            $(this).parents(".action-td").find(".stop").prop("disabled",true); 
+            $(this).parents(".action-td").find(".stop").prop("disabled", true);
             // $("#timer"+id).;
             // postAjax(id,'end');
         });
 
-        $(document).on("click",".resume",function(){
+        $(document).on("click", ".resume", function() {
             clearInterval(timerInterval);
-            var id = $(this).attr('data-id'); 
-            $(this).parents(".action-td").find(".start").prop("disabled",false); 
-            $(this).text("Hold"); 
+            var id = $(this).attr('data-id');
+            $(this).parents(".action-td").find(".start").prop("disabled", false);
+            $(this).text("Hold");
             $(this).removeClass("resume").addClass('hold');
-            $(this).parents(".action-td").find(".stop").prop("disabled",false); 
+            $(this).parents(".action-td").find(".stop").prop("disabled", false);
             // $("#timer"+id).;
             // postAjax(id,'end');
         });
 
-        function postAjax(id,type){
+        function postAjax(id, type) {
 
             var url = "{{ route('siteadmin.queue.vistor.update', ['id' => ':id']) }}";
             url = url.replace(':id', id);
-           
-            $.ajax({ 
+
+            $.ajax({
                 url: url,
                 type: "POST",
-                data:{
-                    type:type,
+                data: {
+                    type: type,
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: "json",
                 success: function(response) {
-                    console.log(response); 
+                    console.log(response);
                 },
-                error: function(xhr, status, error) { 
+                error: function(xhr, status, error) {
                     console.error(error);
                 }
             });
 
         }
 
-        function timeDiff(startTimeStr,endTimeStr){
+        function timeDiff(startTimeStr, endTimeStr, duration) {
+            var seconds = duration * 1000;
             var startTime = new Date(startTimeStr);
             var endTime = new Date(endTimeStr);
             var timeDifference = endTime - startTime;
-            var hours = Math.floor(timeDifference / (1000 * 60 * 60));
-            var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-            return seconds; 
+            
+            var hours = Math.floor(timeDifference / (seconds * 60 * 60));
+            var minutes = Math.floor((timeDifference % (seconds * 60 * 60)) / (seconds * 60));
+            var remainingSeconds = Math.floor((timeDifference % (seconds * 60)) / seconds);
+            
+            return {
+                hours: hours,
+                minutes: minutes,
+                seconds: remainingSeconds
+            };
         }
-
-       
-    </script> 
+    </script>
 @endsection
