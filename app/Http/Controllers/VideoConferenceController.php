@@ -247,9 +247,9 @@ class VideoConferenceController extends Controller
             $role = Auth::user()->roles->pluck('name')->first(); 
             if($role == 'admin'){
                 $dataArr[] = $visitor;
-                     $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
+                $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
             }else{
-                if($venUAdress && $venUAdress->therapist_id->therapist_id == Auth::user()->id){
+                if($venUAdress && $venUAdress->siteadmin_id == Auth::user()->id){
                     $dataArr[] = $visitor;
                      $dataArr['user_info'] =  ( $venUAdress) ? $venUAdress->thripist :""; 
                 }
