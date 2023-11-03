@@ -360,10 +360,7 @@
                 <h3> Ready to join?</h3>
 
                 <div class="text alert alert-warning mt-2">
-                    Total Time remaining in Meeting {{  $timeRemaining }}
-                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes {{ $userTimeZone }}</p>
-                    <p>  asdas {{ $venueDateTme }}</p>
-                    <p> Current Time : {{  $mytime->format('Y-m-d H:i:s') }}
+                    Total Time remaining in Meeting {{  $timeRemaining }} Hours As Per Your Selected Timezome {{  $userTimeZone }} 
                 </div>
 
 

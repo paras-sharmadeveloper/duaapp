@@ -81,26 +81,13 @@ class VideoConferenceController extends Controller
             $mytime = Carbon::now()->tz('America/New_York');
             if (!empty($userTimeZone)) {
                 $mytime = Carbon::now()->tz($userTimeZone);
-            }
-
-
-            // $timeRemaining = [];
-            // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+            } 
             $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
- 
-            $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone);
-            $timeRemaining = $mytime->diffInHours($meetingStartTime);
+            $eventDate = '2023-11-03 10:00:00';
+            // $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone);
+            $meetingStartTime =  Carbon::parse($eventDate, $userTimeZone);
+            $timeRemaining = $mytime->diffInHours($meetingStartTime); 
 
-            // $timeRemaining = $mytime->diffForHumans($meetingStartTime);
-            // $timeRemaining = $meetingStartTime->diffInHours($mytime);
-            
-            // $timeRemaining['days'] = $timeDifference->days;
-            // $timeRemaining['hours'] = $timeDifference->h;
-            // $timeRemaining['minutes'] = $timeDifference->i; 
-
-
-
-            // $timeRemaining = $meetingStartTime->diffForHumans(null, true);
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
             $vistorName = $vistor->fname . ' ' . $vistor->lname;
             $aheadCount = Vistors::where(['meeting_type' => 'virtual'])->aheadOfVisitor();
