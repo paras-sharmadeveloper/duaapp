@@ -419,6 +419,7 @@
 
 
         $(".access-camera").click(function(){
+            $this = $(this)
             var video = document.getElementById('video-local');
             navigator.mediaDevices.getUserMedia({
                         video: true
@@ -430,8 +431,9 @@
                         // When the stream is loaded, start playing the video
                         video.onloadedmetadata = function(e) {
                             video.play(); 
+                            $this.hide(); 
                         };
-                        $(this).hide(); 
+                        
                     })
                     .catch(function(error) {
                         console.error('Error accessing camera:', error);
