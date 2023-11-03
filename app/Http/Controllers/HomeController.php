@@ -11,10 +11,8 @@ use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
-use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Stmt\TryCatch;
-use App\Events\BookingNotification;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log; 
+use App\Events\BookingNotification; 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
@@ -574,7 +572,12 @@ class HomeController extends Controller
 
 
       if (App::environment('production')) {
-        $userDetail = $this->getIpDetails($request->ip());
+        $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+        if(!empty($ipInfo)){
+          $userDetail = json_decode($ipInfo['complete_data'], true);
+        }else{
+          $userDetail = $this->getIpDetails($request->ip());
+        } 
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         $currentTimezone = $timezone->timezone;

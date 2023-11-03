@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Vistors,VenueSloting,VenueAddress};
+use App\Models\{Vistors,VenueSloting,VenueAddress,Ipinformation,Timezone};
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
- 
+use Illuminate\Support\Carbon;
 class BookingController extends Controller
 {
     use OtpTrait;
@@ -39,15 +39,27 @@ class BookingController extends Controller
         } else if ($request->has('_token') &&  $currentRoute == 'book.cancle.otp') {
 
             $otp = $request->input('otp');
-
             $result = $this->VerifyOtp($otp);
+
             if ($result['status']) {
+                $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+                $userDetail = json_decode($ipInfo['complete_data'], true);
+                $slotTime =  $vistor->venueSloting->slot_time; 
+                $countryCode = $userDetail['countryCode'];
+                $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+                $currentTimezone = $timezone->timezone;
+                $veneueAddressId = $vistor->venueSloting->venue_address_id; 
+                $venueAddress = VenueAddress::find($veneueAddressId);
+                $mytime = Carbon::now()->tz($currentTimezone);
+                $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $slotTime, $currentTimezone);
+
                 $url = route('booking.status',[$vistor->booking_uniqueid]); 
                 $date = date('Y-m-d H:i:s A'); 
+
                 $message =<<<EOT
                 Hi $vistor->fname,
 
-                Your appointment ref # $vistor->booking_number on $date has been successfully cancelled. 
+                Your appointment ref # $vistor->booking_number on $eventDate has been successfully cancelled. 
 
                 You can book a new appointment again by clicking below link:
                 $url
