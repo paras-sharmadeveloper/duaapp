@@ -85,7 +85,7 @@ class VideoConferenceController extends Controller
 
 
             // $timeRemaining = [];
-            $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+            // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
             $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
 
             // $userTimeZone = "Asia/Kolkata";
