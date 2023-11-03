@@ -56,7 +56,7 @@ class BookingController extends Controller
                 // $message = "Your Booking (" . $vistor->booking_uniqueid . ") has been Succssfully Cancelled. \n You can Book Your Slot Again at here " . route('book.show') . "\nThanks\n Team KahayFaqeer";
                 $this->SendMessage($vistor->country_code, $vistor->phone, $message);
                 if (Vistors::where(['booking_uniqueid' => $id])->delete()) {
-                    Storage::disk('s3')->delete($$vistor->recognized_code);
+                    Storage::disk('s3')->delete($vistor->recognized_code);
                 }
 
                 return redirect()->back()->with(['success' => 'Your booking Cancelled Successfully', 'book_seat' => true]);
