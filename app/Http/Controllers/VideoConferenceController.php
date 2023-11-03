@@ -242,7 +242,7 @@ class VideoConferenceController extends Controller
         $dataArr = []; 
         foreach($vistors as $visitor){
             $venueAdresId = $visitor->slot->venue_address_id; 
-            $venUAdress = VenueAddress::with('thripist')->where(['id' => $venueAdresId])->get();
+            $venUAdress = VenueAddress::with('thripist')->where(['id' => $venueAdresId])->get()->first();
 
             $role = Auth::user()->roles->pluck('name')->first(); 
             // if($role == 'admin'){
