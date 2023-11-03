@@ -359,17 +359,26 @@
             <div class="asktojoin">
                 <h3> Ready to join?</h3>
 
+                @if($timeRemaining>=0)
+
                 <div class="text alert alert-warning mt-2">
-                    <h3> Meeting Join Button will be enabled before 15mint</h3>
-                    @if($timeRemaining>=0)
+                    <h3> Meeting Join Button will be enabled before 15 mint</h3>
                     <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong>Hours.</p>
                     <p> Minutes Left {{ $minuteDifference }}</p>
-                    <p> As Per Your Selected Timezome {{  $userTimeZone }}  </p>
-                    @else
-                        <p> Meeting Already Passed Try Next Time </p>
-                    @endif
-                     
+                    <p> As Per Your Selected Timezome {{  $userTimeZone }}  </p> 
                 </div>
+
+                @else 
+
+                <div class="text alert alert-danger mt-2">
+                    <h3>Ohh! You Missed the Meeting</h3>
+                    <p> Meeting Already Passed Try Next Time </p>
+                </div>
+
+
+                @endif
+
+               
 
 
                 @if (!empty($vistor) && $vistor->user_status == 'no_action' && $minuteDifference <=15)
