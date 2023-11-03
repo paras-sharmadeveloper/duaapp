@@ -386,7 +386,7 @@
                 @if (!empty($vistor) && $vistor->user_status == 'no_action' && $minuteDifference <=15)
                     <div class="col-lg-12 text-center mt-5">
                         <h3> Ready to join?</h3>
-                        <button class="btn btn-primary" id="asktojoin" data-id="{{ $vistor ? $vistor->id : 0 }}">
+                        <button class="btn btn-primary mt-2" id="asktojoin" data-id="{{ $vistor ? $vistor->id : 0 }}">
                             Ask To Join
                         </button>
                         <div class="text alert alert-info mt-2 asktojoin-response" style="display: none">
