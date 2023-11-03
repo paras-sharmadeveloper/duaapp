@@ -267,8 +267,8 @@ class HomeController extends Controller
         } else {
           return ['message' => 'You already Registered with us', 'status' => false];
         }
-      } catch (\Throwable $th) {
-        return ['message' => 'There is some error in uploading your pic', 'status' => false];
+      } catch (\Exception $e) {
+        return ['message' => $e->getMessage(), 'status' => false];
       }
     } else {
       Storage::disk('s3')->put($objectKey, $selfieImage);
