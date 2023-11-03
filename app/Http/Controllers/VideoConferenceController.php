@@ -87,6 +87,7 @@ class VideoConferenceController extends Controller
             
             
             $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
+            $venueDateTme = $venueAddress->venue_date .' '.$vistor->slot->slot_time; 
             $meetingStartTime = Carbon::parse($venueAddress->venue_date .' '.$vistor->slot->slot_time)->tz($userTimeZone);
             $timeRemaining = $mytime->diffInHours($meetingStartTime);
 
@@ -117,7 +118,7 @@ class VideoConferenceController extends Controller
             'timeRemaining', 
             'vistor',
             'timePerSlot',
-            'userTimeZone' 
+            'userTimeZone','venueDateTme'
         ));
     }
 

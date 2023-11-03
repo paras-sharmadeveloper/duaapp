@@ -362,7 +362,7 @@
                 <div class="text alert alert-warning mt-2">
                     Total Time remaining in Meeting {{  $timeRemaining }}
                     <p>Approx time will be : {{ $estimatedWaitTime }} Minutes {{ $userTimeZone }}</p>
-                    <p>Approx time will be : {{ $estimatedWaitTime }} Minutes {{ $userTimeZone }}</p>
+                    <p>  asdas {{ $venueDateTme }}</p>
                 </div>
 
 
