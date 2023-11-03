@@ -308,6 +308,11 @@
             .error.country_code {
                 bottom: -35px
             }
+            .thripist-section img {
+            height: 100%;
+            width: 100%;
+            max-height: 264px; 
+        }
 
 
         }
@@ -1702,7 +1707,11 @@ div#slot-information-user {
                         window.location.href = '/booking/thankyou/' + response.bookingId;
 
                     },
-                    error: function(error) {
+                    error: function(error,xhr) {
+
+                        if(xhr.status == 406){
+                            alert("You have already register")
+                        }
 
                         if (error.responseJSON && error.responseJSON.errors) {
 
