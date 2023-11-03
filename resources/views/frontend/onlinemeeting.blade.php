@@ -102,9 +102,8 @@
             cursor: pointer
         }
 
-        .you {
-            /* padding: 30px 40px 50px */
-        }
+        .you video {  max-height: 650px;}
+        div#remote-video video {max-height: 780px; }
 
         .joined p {
             font-size: 25px;
