@@ -78,7 +78,7 @@ class VideoConferenceController extends Controller
 
         if(!empty($vistor)) {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
-            $userTimeZone = $venueAddress->user_timezone; 
+            $userTimeZone = $vistor->user_timezone; 
             $mytime = Carbon::now()->tz('America/New_York');
             if(!empty($userTimeZone)){
                 $mytime = Carbon::now()->tz($userTimeZone);
