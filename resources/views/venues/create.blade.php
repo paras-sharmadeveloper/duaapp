@@ -316,10 +316,12 @@
                 <div class="col-md-6 mt-4">
                     <div class="input-group">
                         <span class="input-group-text">Video Room Name</span>
-                        {!! Form::text('video_room', $venueAddress->room_name ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'Enter Vedio Room Name',
-                        ]) !!}
+                        <input type="text" id="video_room" 
+                        class="form-control" 
+                        name="video_room" 
+                        value="{{ $venueAddress->room_name ?? '' }}"
+                        placeholder = 'Enter Vedio Room Name' >
+                             
 
                     </div>
                 </div>
