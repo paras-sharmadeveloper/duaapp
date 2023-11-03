@@ -242,7 +242,7 @@ class VideoConferenceController extends Controller
         $dataArr = []; 
         foreach($vistors as $visitor){
             $venueAdresId = $visitor->slot->venue_address_id; 
-            $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get()->first();
+            $venUAdress = VenueAddress::with('thripist')->find($venueAdresId)->get();
 
             $role = Auth::user()->roles->pluck('name')->first(); 
             if($role == 'admin'){
@@ -262,7 +262,6 @@ class VideoConferenceController extends Controller
         "venUAdress" => $venUAdress , 
         "authId" =>  Auth::user()->id,
         'siteadmin' => $venUAdress->siteadmin_id,
-        
         "status" => (!empty($dataArr)) ? true : false ], 200);
     }
 
