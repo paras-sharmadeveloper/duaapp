@@ -423,7 +423,7 @@
                         .then(function(stream) {
                             // Assign the camera stream to a video element
                             var cameraFeed = document.getElementById('local-video');
-                            cameraFeed.srcObject = stream;
+                           //  cameraFeed.srcObject = stream;
                             const localMediaContainer = document.createElement('div');
                             localMediaContainer.appendChild(track.attach());
                             cameraFeed.appendChild(localMediaContainer);
