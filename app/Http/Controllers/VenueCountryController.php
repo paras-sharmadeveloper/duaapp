@@ -70,8 +70,9 @@ class VenueCountryController extends Controller
     public function edit(VenueCountry $venueCountry,$id)
     {
         $venue = VenueCountry::findOrFail($id);
+        $countryList = Country::all();
        
-        return view('venues.venueCountry', compact('venue'));
+        return view('venues.venueCountry', compact('venue','countryList'));
     }
 
     /**
