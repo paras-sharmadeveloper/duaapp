@@ -55,7 +55,11 @@
                         <select id="country_name" name="country_name" class="form-control js-states form-control">
                             <option value="">select</option>
                             @foreach ($countryList as $country)
-                                <option value="{{ $country->name }}" data-iso="{{ $country->iso }}"> {{ $country->name }}</option>
+                                <option value="{{ $country->name }}" 
+                                    @if(isset( $venue ) && $venue->country_name == $country->name)
+                                        selected
+                                    @endif
+                                    data-iso="{{ $country->iso }}"> {{ $country->name }}</option>
                             @endforeach
                         </select>
                         <input type="hidden" name="iso" value="" id="iso">
