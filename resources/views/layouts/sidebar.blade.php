@@ -149,14 +149,13 @@
            
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" 
-            class="{{ ( $currentPath == 'siteadmin.queue.show' ||  $currentPath =='siteadmin.queue.list.request') ? 'active' : '' }}">
+            class="{{ ( $currentPath == 'siteadmin.queue.show' ||  $currentPath == 'siteadmin.queue.list' ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Offline Request List</span>
             </a>
           </li>
 
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.list.request') }}" 
-            class="{{ ( $currentPath == 'siteadmin.queue.list.request') ? 'active' : '' }}">
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.list.request') }}" class="{{ ( $currentPath == 'siteadmin.queue.list.request') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Online Request List</span>
             </a>
           </li>
