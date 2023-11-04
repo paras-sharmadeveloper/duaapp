@@ -141,17 +141,19 @@ class BookingController extends Controller
                 $url = route('booking.status',[$visitor->booking_uniqueid]); 
                 $date = date('Y-m-d H:i:s A'); 
                 Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed','confirmed_at' => date('Y-m-d H:i:s')]); 
+
                 $message =<<<EOT
-                Hi $visitor->fname,
+                Hi  $visitor->fname,
 
-                Your appointment ref # $visitor->booking_number on $date has been successfully cancelled. 
+                Your appointment ref # $visitor->booking_number on $date has been successfully confirmed. 
 
-                You can book a new appointment again by clicking below link:
+                You can now check your status by clicking below link:
                 $url
 
                 Thanks
                 KahayFaqeer.org
                 EOT;
+                
                 // $message = "Hi ".$visitor->fname.",\nYour Booking " . $visitor->booking_number . " has been Succssfully Confirmed. \nYou can Wait for Number. \nYou can check  you Status here\n" .route('booking.status',[$visitor->booking_uniqueid]) ."\nThanks\nTeam\nKahayFaqeer";
                 $this->SendMessage($visitor->country_code, $visitor->phone, $message);
         

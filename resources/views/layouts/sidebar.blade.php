@@ -142,13 +142,14 @@
         <ul id="siteadmin-nav" 
         class="{{ ( 
           $currentPath == 'siteadmin.queue.show'  
-          || $currentPath =='siteadmin.queue.list.request'
+          || $currentPath =='siteadmin.queue.list.request' 
+          || $currentPath == 'siteadmin.queue.list'
            ) ? 'nav-content collapse show' : 'nav-content collapse' }}" 
         data-bs-parent="#sidebar-nav">
            
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" 
-            class="{{ ( $currentPath == 'siteadmin.queue.show') ? 'active' : '' }}">
+            class="{{ ( $currentPath == 'siteadmin.queue.show' ||  $currentPath == 'siteadmin.queue.list' || $currentPath =='siteadmin.queue.list.request') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Offline Request List</span>
             </a>
           </li>

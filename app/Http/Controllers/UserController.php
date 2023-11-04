@@ -50,7 +50,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
+        $data = User::orderBy('id', 'DESC')->get();
         return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -144,11 +144,7 @@ class UserController extends Controller
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
             $input['profile_pic'] = $imageName;
             // $image->move(public_path('images'), $imageName); 
-        }
-
-
-
-
+        } 
         $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();
