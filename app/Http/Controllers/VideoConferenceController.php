@@ -91,12 +91,11 @@ class VideoConferenceController extends Controller
             if($meetingStartTime->isPast()){
                 $timeRemaining = '-'. $timeRemaining; 
             }
-            if ($mytime->isPast()) {
-                // If the event is in the past, make the minute difference negative
+            if ($mytime->isPast()) { 
                 $minuteDifference = '-'.$minuteDifference;
             }
 
-            echo "minuteDifference". $minuteDifference;
+            echo "minuteDifference". $minuteDifference . $mytime->isPast();
             echo "<br>"; 
             echo "timeRemaining". $timeRemaining; 
             echo "<br>";
