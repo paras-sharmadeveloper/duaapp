@@ -96,6 +96,17 @@ class VideoConferenceController extends Controller
                 $minuteDifference = '-'.$minuteDifference;
             }
 
+            echo "minuteDifference". $minuteDifference;
+            echo "<br>"; 
+            echo "timeRemaining". $timeRemaining; 
+            echo "<br>";
+            echo "meetingStartTime". $meetingStartTime; 
+            echo "<br>";
+            echo "mytime". $mytime; 
+            echo "<br>";
+            echo "timezone". $userTimeZone; 
+            die; 
+
             // $timeRemaining = $mytime->diffInHours($meetingStartTime); 
 
             $isMeetingInProgress = $mytime->gte($meetingStartTime);
