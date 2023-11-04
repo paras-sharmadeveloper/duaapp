@@ -35,7 +35,7 @@
         <div class="card-body">
             <h5 class="card-title">Manage Users</h5>
 
-            <table class="table-with-button1s table table-responsive cell-border" >
+            <table class="table-with-buttons table table-responsive cell-border" >
                 <thead>
                 <tr>
                     <th>No</th>
