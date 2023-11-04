@@ -96,7 +96,7 @@ class VideoConferenceController extends Controller
             }
 
             echo "minuteDifference". $minuteDifference . $mytime->isPast();
-            echo "<br>"; 
+            echo "<br>". $mytime->isFuture(); 
             echo "timeRemaining". $timeRemaining; 
             echo "<br>";
             echo "meetingStartTime". $meetingStartTime; 
