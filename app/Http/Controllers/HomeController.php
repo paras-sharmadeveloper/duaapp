@@ -478,6 +478,7 @@ class HomeController extends Controller
       }
     }
     $newArr = [];
+    $existingIds = [];
     foreach($dataArr  as $data){
       if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
         $newArr[] = $data;
