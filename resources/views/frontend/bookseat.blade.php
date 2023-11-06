@@ -1,6 +1,5 @@
 @extends('layouts.guest')
-@section('content')
-<script>  $(".form-business").hide(); </script>
+@section('content') 
     <style>
         h1,
         h2,
@@ -833,7 +832,7 @@ div#errors {
                 </div>
 
 
-                <div class="row justify-content-center form-business" id="cardSection">
+                <div class="row justify-content-center form-business" id="cardSection" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -875,7 +874,7 @@ div#errors {
                     </div> 
                 </div>
 
-                <div class="row justify-content-center  form-business">
+                <div class="row justify-content-center  form-business" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -916,7 +915,7 @@ div#errors {
                 </div>
 
                 <!-- row -->
-                <div class="row justify-content-center  form-business">
+                <div class="row justify-content-center  form-business" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -957,7 +956,7 @@ div#errors {
                         </button>
                     </div>
                 </div>
-                <div class="row justify-content-center form-business">
+                <div class="row justify-content-center form-business" style="display: none">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -999,7 +998,7 @@ div#errors {
                 </div>
                 <!-- /col -->
 
-                <div class="row justify-content-center form-business">
+                <div class="row justify-content-center form-business" style="display: none">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -1045,7 +1044,7 @@ div#errors {
                 </div>
 
                 <!-- row -->
-                <div class="row justify-content-center form-business sloting-main">
+                <div class="row justify-content-center form-business sloting-main" style="display: none">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12 slot-in">
                         <div class="head mb-4">
@@ -1107,7 +1106,7 @@ div#errors {
                 </div>
                 <!-- /row -->
                 <!-- row -->
-                <div class="row justify-content-center py-5 form-business">
+                <div class="row justify-content-center py-5 form-business" style="display: none">
 
                     <div class="head mb-4">
                         {{-- <h3 class="fw-bold text-center">Final</h3> --}}
