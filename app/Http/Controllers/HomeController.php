@@ -73,6 +73,7 @@ class HomeController extends Controller
         'selfie' => 'required',
         'otp' => 'required',
         'country_code' => 'required',
+        'otp-verified' => 'required',
         'slot_id' => 'required|numeric|unique:vistors,slot_id'
       ];
     }

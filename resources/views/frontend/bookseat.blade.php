@@ -280,6 +280,10 @@
             .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
                 width: 50% !important;
             }
+            button#sendOtp {
+                margin-top: 30px;
+                float: none !important; 
+            }
 
         }
 
@@ -578,6 +582,7 @@
 }
 button#sendOtp {
     margin-top: 30px;
+    float: right; 
 }
 div#slot-information-user {
     padding: 10px;
@@ -1098,8 +1103,10 @@ div#errors {
                                         <label class="mb-2"> Mobile (Preferred WhatsApp) </label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
+                                        <input type="hidden" name="otp-verified" value="" id="otp-verified">
                                         <p> </p>
                                     </div>
+                                   
                                     <div class="col col-lg-2 col-md-12" id="opt-form-confirm" style="display: none">
                                         <label></label>
                                         <button type="button" id="sendOtp" class="btn-cst m btn btn-primary testbtn"
@@ -2006,13 +2013,13 @@ div#errors {
                         $("#opt-form-confirm").hide();
                         $("#submitBtn").show(); // Display a success message
                         $("#opt-form").hide();
-                        $("#mobile-number").find('p').addClass('text-success').text(
-                            'Mobile Number Verified')
+                        $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
+                        $("#otp-verified").val('verified'); 
                         // You can proceed with form submission here
                     },
                     error: function(xhr) {
-                        $("#opt-form").find('p').addClass('text-danger').text(xhr.responseJSON
-                            .error);
+                        $("#otp-verified").val('');
+                        $("#opt-form").find('p').addClass('text-danger').text(xhr.responseJSON.error);
                     }
                 });
             })
