@@ -428,6 +428,10 @@ class HomeController extends Controller
   public function getTheripistByIp(Request $request)
   {
     $dataArr = [];
+
+    $therapistRole = Role::where('name', 'therapist')->first();
+  
+    $therapists = $therapistRole->users;
     // if (App::environment('production')) {
     $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
     if (!empty($ipInfo)) {
@@ -442,6 +446,9 @@ class HomeController extends Controller
     $venueAddress = VenueAddress::get();
     $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
     $currentTimezone = $timezone->timezone;
+
+
+
 
     if (!empty($venueAddress)) {
       foreach ($venueAddress as $venueAdd) {
@@ -471,10 +478,15 @@ class HomeController extends Controller
       }
     }
 
+    foreach($dataArr  as $data){
+      $dataArr[] = array_filter($data); 
+    }
+
     return response()->json([
       'status' => !(empty($dataArr)) ? true : false,
-      'data' => array_filter ($dataArr),
-      'userDetail' => $userDetail, 'countryId' => $countryId
+      'data' => array_filter($dataArr),
+      'userDetail' => $userDetail, 
+      'countryId' => $countryId,
     ]);
   }
 
