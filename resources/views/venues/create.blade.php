@@ -341,7 +341,7 @@
                         <label> Venue Avilable Country </label>
                             <div class="wrapper">
                               <button class="form-control toggle-next ellipsis" type="button">
-                                @if(count($savedCountries) == 239) All Selected @else Select Countries @endif</button>
+                                @if(is_array($savedCountries) && count($savedCountries) == 239) All Selected @else Select Countries @endif</button>
                               <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">
@@ -353,7 +353,7 @@
                                         <label>
                                             <input type="checkbox" value="0" class="ckkBox all" 
 
-                                            @if(count($savedCountries) == 239)
+                                            @if(is_array($savedCountries) && count($savedCountries) == 239)
                                                 checked
                                             @endif                                    
                                             />
