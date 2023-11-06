@@ -1335,10 +1335,12 @@ div#errors {
                     type: 'Post', // Get the form's HTTP method (POST in this case)
                     // data: formData, // Use the serialized form data
                     success: function(response) { 
+                        $("#slot-information-user").find('label').text("Your Current Timezone:"+response.currentTimezone); 
+                        $("#timezone-hidden").val(response.currentTimezone)
                         if(response.status){
                             $.each(response.data, function(key, item) { 
                                 var img = ''; 
-                              
+                               
                                 if(item.profile_pic){
                                     var fullImg = imagePath + item.profile_pic; 
                                     img = `<img src="${fullImg}">`;

@@ -472,10 +472,8 @@ class HomeController extends Controller
     }   
     return response()->json([
       'status' => !(empty($newArr)) ? true : false,
-      'data' => $newArr,
-      'data2' => $dataArr,
-      'userDetail' => $userDetail, 
-      'countryId' => $countryId,
+      'data' => $newArr, 
+      'currentTimezone' => $currentTimezone
     ]);
 
 
@@ -622,6 +620,7 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slots') {
+      $currentTimezone = $request->input('timezone','America/New_York'); 
       //  $venueAddress = VenueAddress::find($id); 
 
       $venueAddress =  VenueAddress::where('id', $id)
@@ -632,19 +631,19 @@ class HomeController extends Controller
         ->get()->first();
 
 
-      if (App::environment('production')) {
-        $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-        if (!empty($ipInfo)) {
-          $userDetail = json_decode($ipInfo['complete_data'], true);
-        } else {
-          $userDetail = $this->getIpDetails($request->ip());
-        }
-        $countryCode = $userDetail['countryCode'];
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;
-      } else {
-        $currentTimezone = 'America/New_York';
-      }
+      // if (App::environment('production')) {
+      //   $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+      //   if (!empty($ipInfo)) {
+      //     $userDetail = json_decode($ipInfo['complete_data'], true);
+      //   } else {
+      //     $userDetail = $this->getIpDetails($request->ip());
+      //   }
+      //   $countryCode = $userDetail['countryCode'];
+      //   $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+      //   $currentTimezone = $timezone->timezone;
+      // } else {
+      //   $currentTimezone = 'America/New_York';
+      // }
 
       if (!empty($venueAddress)) {
         $mytime = Carbon::now()->tz($currentTimezone);

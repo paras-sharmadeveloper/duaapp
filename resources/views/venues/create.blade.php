@@ -345,9 +345,7 @@
                               <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">
-
-                              
-                                
+ 
                                 <div class="inner-wrap">
                                     <div class="main-list">
                                         <label>
