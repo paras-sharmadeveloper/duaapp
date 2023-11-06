@@ -473,7 +473,7 @@ class HomeController extends Controller
 
     return response()->json([
       'status' => !(empty($dataArr)) ? true : false,
-      'data' => $dataArr,
+      'data' => array_filter ($dataArr),
       'userDetail' => $userDetail, 'countryId' => $countryId
     ]);
   }
