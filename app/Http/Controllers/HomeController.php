@@ -446,10 +446,7 @@ class HomeController extends Controller
     $venueAddress = VenueAddress::get();
     $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
     $currentTimezone = $timezone->timezone;
-
-
-
-
+ 
     if (!empty($venueAddress)) {
       foreach ($venueAddress as $venueAdd) {
 
@@ -465,7 +462,7 @@ class HomeController extends Controller
             'type' => 1 ,
             'venue_available_country' => $venue_available_country
           ];
-        } else if ($venue_available_country == 0) {
+        }else if ($venue_available_country == 0) {
           $dataArr[] = [
             'id' => $thripist->id,
             'name' => $thripist->name,

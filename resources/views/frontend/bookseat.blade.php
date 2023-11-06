@@ -839,7 +839,7 @@ div#errors {
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
 
-                            <label>TRest</label>
+                            <label></label>
                         </div>
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
