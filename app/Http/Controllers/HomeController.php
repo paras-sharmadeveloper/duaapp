@@ -458,7 +458,7 @@ class HomeController extends Controller
             $thripist = $venueAdd->thripist; 
             $dataArr['id'] = $thripist->id;
             $dataArr['name'] = $thripist->name;
-            $dataArr['profile_pic'] = $thripist->profile_pic;
+            $dataArr['profile_pic'] = $thripist->profile_pic; 
             $dataArr['currentTimezone'] = $currentTimezone;
             $dataArr['else'] = 'no';
           }
