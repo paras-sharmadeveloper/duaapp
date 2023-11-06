@@ -335,16 +335,18 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-4">
+                        @php 
+                        $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : 0; 
+                        @endphp
                         <label> Venue Avilable Country </label>
                             <div class="wrapper">
-                              <button class="form-control toggle-next ellipsis" type="button">Select Countries</button>
+                              <button class="form-control toggle-next ellipsis" type="button">
+                                @if(count($savedCountries) == 239) All Selected @else Select Countries @endif</button>
                               <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">
 
-                                @php 
-                                   $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : 0; 
-                                @endphp
+                              
                                 
                                 <div class="inner-wrap">
                                     <div class="main-list">
