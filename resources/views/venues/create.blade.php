@@ -336,7 +336,7 @@
                     </div>
                     <div class="col-md-4 mt-4">
                         @php 
-                        $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : 0; 
+                        $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : []; 
                         @endphp
                         <label> Venue Avilable Country </label>
                             <div class="wrapper">
@@ -408,6 +408,7 @@
 @endsection
 @section('page-script')
     <script type="text/javascript">
+    var CurrentPage = "{{ Route::currentRouteName() }}"
         $(document).ready(function() {
             var addAddressButton = $(".add-address");
             var venueAddresses = $(".venue-addresses");
@@ -440,9 +441,7 @@
             });
 
             $('.all').change(function() {
-                $this = $(this); 
-                console.log("isChecked",$this.is(':checked'))
-
+                $this = $(this);   
                 if($this.is(':checked')){
 
                     $(".inner-wrap .ckkBox").each(function(item,key){
@@ -460,10 +459,7 @@
 
                     }) 
                 } 
-                setCheckboxSelectLabels();
-                
-               // toggleCheckedAll(this);
-               //  setCheckboxSelectLabels();
+                setCheckboxSelectLabels(); 
             });
 
         });
@@ -482,6 +478,9 @@
                         var numberOfChecked = $(wrapper).find('input.val:checkbox:checked').length;
                         if (numberOfChecked >= 8) {
                             btnText = numberOfChecked + ' ' + label + ' selected';
+                        }
+                        if (numberOfChecked == 239) {
+                            btnText = 'All Countries selected';
                         }
                         $(button).text(btnText);
                         prevText = btnText + ', ';
@@ -527,6 +526,14 @@
             });
     </script>
     <script>
-        document.title = 'Venue Booking';
+        if(CurrentPage == 'venues.create'){
+            $(".inner-wrap .ckkBox").each(function(item,key){
+                
+                    $(this).prop('checked', true)
+                 
+
+            }) 
+        }
+        document.title = (CurrentPage == 'venues.edit') ? 'Edit Venue Booking' :  'Create Venue Booking';
     </script>
 @endsection
