@@ -40,7 +40,7 @@ return new class extends Migration
             $table->integer('is_sunday')->default(0); 
             $table->integer('recurring_till')->default(0); 
             $table->integer('rejoin_venue_after')->default(0); 
-             
+            $table->json('venue_available_country')->nullable(); 
             $table->timestamps(); 
             $table->foreign('venue_id')
                   ->references('id')

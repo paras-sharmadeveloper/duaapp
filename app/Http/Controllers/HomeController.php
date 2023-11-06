@@ -452,7 +452,8 @@ class HomeController extends Controller
         }
         return response()->json([
           'status' => !(empty($dataArr)) ? true : false,
-          'data' => $dataArr
+          'data' => $dataArr,
+          'userDetail' => $userDetail
         ]);
       
     // } else {
