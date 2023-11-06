@@ -1354,7 +1354,8 @@ div#errors {
                     }
                 });
 
-                $("#cardSection").removeClass('form-business')
+                $("#cardSection").show()
+                $("#wizardRow").show()
 
                 $("#thripist-main").html(html)
 

@@ -445,7 +445,7 @@ class HomeController extends Controller
        
         foreach($venueAddress as $venueAdd){
 
-          if((!empty($venueAdd->venue_available_country) || $venueAdd->venue_available_country != 0) &&   $countryId->id == $venueAdd['venue_id'] ){
+          if((!empty($venueAdd->venue_available_country) || $venueAdd->venue_available_country != 0) &&  $countryId->id == $venueAdd->venue_id ){
 
             $thripist = $venueAdd->thripist; 
             $dataArr['id'] = $thripist->id;
