@@ -448,19 +448,24 @@ class HomeController extends Controller
           if((!empty($venueAdd->venue_available_country) || $venueAdd->venue_available_country != 0) &&  $countryId->id == $venueAdd->venue_id ){
 
             $thripist = $venueAdd->thripist; 
-            $dataArr[]['id'] = $thripist->id;
-            $dataArr[]['name'] = $thripist->name;
-            $dataArr[]['profile_pic'] = $thripist->profile_pic;
-            $dataArr[]['currentTimezone'] = $currentTimezone;
-            $dataArr[]['if'] = 'yes';
+            $dataArr[] = [
+              'id' => $thripist->id,
+              'name' => $thripist->name, 
+              'profile_pic' => $thripist->profile_pic,
+              'currentTimezone' =>  $currentTimezone,
+              'type' => 1
+            ];
 
           }else {
             $thripist = $venueAdd->thripist; 
-            $dataArr[]['id'] = $thripist->id;
-            $dataArr[]['name'] = $thripist->name;
-            $dataArr[]['profile_pic'] = $thripist->profile_pic;
-            $dataArr[]['currentTimezone'] = $currentTimezone; 
-            $dataArr[]['else'] = 'no';
+            $dataArr[] = [
+              'id' => $thripist->id,
+              'name' => $thripist->name, 
+              'profile_pic' => $thripist->profile_pic,
+              'currentTimezone' =>  $currentTimezone,
+              'type' => 2
+            ];
+           
           }
           
         }

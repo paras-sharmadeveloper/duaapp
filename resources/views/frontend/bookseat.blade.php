@@ -1354,6 +1354,7 @@ div#errors {
                     }
                 });
 
+                $("#booknowStart").hide(); 
                 $("#cardSection").show()
                 $("#wizardRow").show()
 
