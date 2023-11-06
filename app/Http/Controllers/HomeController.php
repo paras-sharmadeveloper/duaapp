@@ -476,23 +476,23 @@ class HomeController extends Controller
           ];
         }
       }
-    }
+    } 
     $newArr = [];
     $existingIds = [];
-    foreach($dataArr  as $data){
-      if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
-        $newArr[] = $data;
-        $existingIds[] = $data['id'];
-    }
-      
+      foreach($dataArr  as $data){
+        if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
+          $newArr[] = $data;
+          $existingIds[] = $data['id'];
+      } 
     }   
-
     return response()->json([
       'status' => !(empty($newArr)) ? true : false,
       'data' => $newArr,
       'userDetail' => $userDetail, 
       'countryId' => $countryId,
     ]);
+
+
   }
 
 
