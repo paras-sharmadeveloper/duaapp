@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('content')
+<script>  $(".form-business").hide(); </script>
     <style>
         h1,
         h2,

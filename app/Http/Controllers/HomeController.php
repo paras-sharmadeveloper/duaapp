@@ -446,7 +446,7 @@ class HomeController extends Controller
           foreach($venueAddress as $venueAdd){ 
             $thripist = $venueAdd->thripist; 
             $venue_available_country =  json_decode($venueAdd->venue_available_country); 
-            if(count($venue_available_country) > 0 &&  in_array($countryId->id,$venue_available_country)){
+            if(is_array($venue_available_country) &&  in_array($countryId->id,$venue_available_country)){
               $dataArr[] = [
                 'id' => $thripist->id,
                 'name' => $thripist->name, 
