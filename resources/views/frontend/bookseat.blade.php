@@ -1558,7 +1558,8 @@ div#errors {
                 url: "{{ route('booking.ajax') }}",
                 data: {
                     "id": id,
-                    "type": type
+                    "type": type,
+                    "timezone" : $("#timezone-hidden").val()
                 },
                 dataType: "json",
                 headers: {
