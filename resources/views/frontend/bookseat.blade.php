@@ -1323,6 +1323,8 @@ div#errors {
    
     <script>
         $(".form-business").hide();
+        var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}"; 
+        var NoImage =  "{{ asset('assets/theme/img/avatar.png') }}"; 
 
 
         $("#startBooking").click(function(){
@@ -1335,9 +1337,17 @@ div#errors {
                        console.log("status",response.status)
                         if(response.status){
                             $.each(response.data, function(key, item) { 
+                                var img = ''; 
+                              
+                                if(item.profile_pic){
+                                    var fullImg = imagePath + '/' + item.profile_pic; 
+                                    img = `<img src="${fullImg}">`;
+                                }else{
+                                    img = '<img src="/assets/theme/img/avatar.png">';
+                                }
                                 html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
-                                         <img src="/assets/theme/img/avatar.png">                                      
+                                                ${img}                           
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">${item.name}</h5>
                                             <p class="card-text">
