@@ -433,8 +433,7 @@ class HomeController extends Controller
         $userDetail = json_decode($ipInfo['complete_data'], true);
       }else{
         $userDetail = $this->getIpDetails($request->ip());
-      } 
-      // echo "<pre>"; print_r($request->ip()); die;  
+      }  
         $countryCode = $userDetail['countryCode'];
         $countryName = ucwords($userDetail['countryName']); 
         $countryId = Country::where(['nicename' => $countryName])->first(); 
@@ -442,48 +441,41 @@ class HomeController extends Controller
         $venueAddress = VenueAddress::get(); 
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         $currentTimezone = $timezone->timezone;
-       
-        foreach($venueAddress as $venueAdd){
 
-          if((!empty($venueAdd->venue_available_country) || $venueAdd->venue_available_country != 0) &&  $countryId->id == $venueAdd->venue_id ){
-
+        if(!empty($venueAddress)){
+          foreach($venueAddress as $venueAdd){ 
             $thripist = $venueAdd->thripist; 
-            $dataArr[] = [
-              'id' => $thripist->id,
-              'name' => $thripist->name, 
-              'profile_pic' => $thripist->profile_pic,
-              'currentTimezone' =>  $currentTimezone,
-              'type' => 1
-            ];
+            $venue_available_country =  json_decode($venueAdd->venue_available_country); 
+            if(count($venue_available_country) > 0 &&  in_array($countryId->id,$venue_available_country)){
+              $dataArr[] = [
+                'id' => $thripist->id,
+                'name' => $thripist->name, 
+                'profile_pic' => $thripist->profile_pic,
+                'currentTimezone' =>  $currentTimezone,
+                'type' => 1
+              ]; 
+            }else if($venue_available_country == 0 ||empty($venue_available_country)){
+              $dataArr[] = [
+                'id' => $thripist->id,
+                'name' => $thripist->name, 
+                'profile_pic' => $thripist->profile_pic,
+                'currentTimezone' =>  $currentTimezone,
+                'type' => 2
+              ]; 
+            }
+              
+                
+            }
 
-          }else {
-            $thripist = $venueAdd->thripist; 
-            $dataArr[] = [
-              'id' => $thripist->id,
-              'name' => $thripist->name, 
-              'profile_pic' => $thripist->profile_pic,
-              'currentTimezone' =>  $currentTimezone,
-              'type' => 2
-            ];
            
-          }
-          
-        }
+
+        } 
+        
         return response()->json([
           'status' => !(empty($dataArr)) ? true : false,
           'data' => $dataArr,
           'userDetail' => $userDetail,'countryId' => $countryId
-        ]);
-      
-    // } else {
-    //   $currentTimezone = 'America/New_York';
-    // }
-
-    // return response()->json([
-    //   'status' => !(empty($dataArr)) ? true : false,
-    //   'data' => $dataArr
-    // ]);
-
+        ]); 
 
 
   }
