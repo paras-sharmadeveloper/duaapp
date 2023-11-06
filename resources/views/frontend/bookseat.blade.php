@@ -1103,7 +1103,7 @@ div#errors {
                                         <label class="mb-2"> Mobile (Preferred WhatsApp) </label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
-                                        <input type="hidden" name="otp-verified" value="" id="otp-verified">
+                                        
                                         <p> </p>
                                     </div>
                                    
@@ -1127,6 +1127,7 @@ div#errors {
                                         <div class="col col-lg-5 col-md-12  col-sm-12">
                                             <input type="text" class="form-control" name="otp" id="otp"
                                                 placeholder="Enter OTP">
+                                            <input type="hidden" name="otp-verified" value="" id="otp-verified">
                                             <p></p>
                                         </div>
                                         <div class="col col-lg-7 col-md-12  col-sm-12 otp-btn">
@@ -1741,11 +1742,13 @@ div#errors {
                                 if (field == 'country_code') {
                                     inputElement.before('<div class="error ' + field +
                                         '">' + messages.join('<br>') + '</div>');
+                                }else  if (field == 'otp-verified') {
+                                    inputElement.after('<div class="error ' + field + '">Submit your OTP to get verified</div>');
                                 } else {
                                     inputElement.after('<div class="error ' + field +
                                         '">' + messages.join('<br>') + '</div>');
                                 }
-
+                                
 
                             });
                         } 
