@@ -465,7 +465,7 @@ class HomeController extends Controller
             'type' => 1 ,
             'venue_available_country' => $venue_available_country
           ];
-        } else if ($venue_available_country == 0 || empty($venue_available_country)) {
+        } else if ($venue_available_country == 0) {
           $dataArr[] = [
             'id' => $thripist->id,
             'name' => $thripist->name,
