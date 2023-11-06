@@ -283,7 +283,7 @@
 
         }
 
-        .btn.next {
+        .btn.next,#startBooking {
             background: #f9d20a !important;
         }
 
