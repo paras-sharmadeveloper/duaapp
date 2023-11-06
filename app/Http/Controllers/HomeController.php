@@ -459,7 +459,7 @@ class HomeController extends Controller
             'name' => $thripist->name,
             'profile_pic' => $thripist->profile_pic,
             'currentTimezone' =>  $currentTimezone,
-            'type' => 1 ,
+            'type' => 'recommended',
             'venue_available_country' => $venue_available_country
           ];
         }else if ($venue_available_country == 0) {
@@ -468,7 +468,7 @@ class HomeController extends Controller
             'name' => $thripist->name,
             'profile_pic' => $thripist->profile_pic,
             'currentTimezone' =>  $currentTimezone,
-            'type' => 2,
+            'type' => 'other',
             'venue_available_country' => $venue_available_country
           ];
         }

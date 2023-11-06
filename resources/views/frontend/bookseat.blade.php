@@ -847,7 +847,7 @@ div#errors {
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripist-main">
                             
                             @foreach ($therapists as $therapist)
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
+                                {{-- <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm thripist-section"
                                         data-id="{{ $therapist->id }}">
                                         @if (!empty($therapist->profile_pic))
@@ -856,13 +856,13 @@ div#errors {
                                         @else
                                             <img src="{{ asset('assets/theme/img/avatar.png') }}">
                                         @endif
-                                        {{-- <i class="fas fa-building card-img-top mx-auto img-light fs-1 pb-1"></i> --}}
+                                        
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
                                             <p class="card-text">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endforeach
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
