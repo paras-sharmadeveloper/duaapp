@@ -1334,8 +1334,7 @@ div#errors {
                     url: "{{ route('booking.get.users') }}", // Get the form's action URL
                     type: 'Post', // Get the form's HTTP method (POST in this case)
                     // data: formData, // Use the serialized form data
-                    success: function(response) {
-                       console.log("status",response.status)
+                    success: function(response) { 
                         if(response.status){
                             $.each(response.data, function(key, item) { 
                                 var img = ''; 
@@ -1358,8 +1357,7 @@ div#errors {
                             });
 
 
-                        }
-                        console.log("html",html)
+                        } 
                         $("#booknowStart").hide(); 
                         $("#cardSection").show()
                         $("#wizardRow").show()

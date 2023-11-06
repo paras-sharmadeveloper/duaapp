@@ -11,8 +11,8 @@ use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
-use Illuminate\Support\Facades\Log; 
-use App\Events\BookingNotification; 
+use Illuminate\Support\Facades\Log;
+use App\Events\BookingNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
@@ -27,14 +27,14 @@ class HomeController extends Controller
   public function bookingAdmin($id)
   {
     $slots = VenueSloting::where(['venue_address_id' => $id])
-    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-    ->get();
+      ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+      ->get();
     $countries = Country::all();
     $venueAddress = VenueAddress::find($id);
-    return view('admin-booking', compact('id', 'slots', 'countries','venueAddress'));
+    return view('admin-booking', compact('id', 'slots', 'countries', 'venueAddress'));
   }
 
-  
+
   public function index()
   {
     $therapistRole = Role::where('name', 'therapist')->first();
@@ -94,16 +94,16 @@ class HomeController extends Controller
       $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
-        $rejoin = $venueAddress->rejoin_venue_after; 
-        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') { 
+        $rejoin = $venueAddress->rejoin_venue_after;
+        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') {
           return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
-        }else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin'){
+        } else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin') {
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
         }
       }
 
       if (!empty($isUsers) && $isUsers['status'] == false) {
-        return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers , "status" => false], 406);
+        return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
       }
 
 
@@ -131,8 +131,8 @@ class HomeController extends Controller
       $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : null;
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
-      $booking->user_timezone = $request->input('timezone',null);
-      
+      $booking->user_timezone = $request->input('timezone', null);
+
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
@@ -169,18 +169,18 @@ class HomeController extends Controller
       $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname'];
       $therapistName = $venueAddress->thripist->name;
-      $userSlot = VenueSloting::find($request->input('slot_id')); 
-      $venueString =  $venueAddress->venue_date  .' At.'. date("g:i A", strtotime($userSlot->slot_time)) ; 
-      $slot_duration = $venueAddress->slot_duration; 
+      $userSlot = VenueSloting::find($request->input('slot_id'));
+      $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
+      $slot_duration = $venueAddress->slot_duration;
       if ($venueAddress->type == 'on-site') {
         $location = $venueAddress->address . 'at Dua Ghar Physical Meeting';
         $confirmSpot = route('booking.confirm-spot');
       } else {
         $location = 'Online Meeting';
         $confirmSpot = route('join.conference.frontend', [$uuid]);
-      } 
+      }
       //WhatsApp Template 
-      $message = $this->bookingMessageTemplate($name,$therapistName,$location,$bookingNumber,$venueString,$slot_duration,$rescheduleBooking,$cancelBooking,$confirmSpot,$appointMentStatus); 
+      $message = $this->bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus);
       SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onConnection('sqs');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onConnection('sqs');
       $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
@@ -198,7 +198,7 @@ class HomeController extends Controller
     }
   }
 
-  
+
 
 
   public function CheckAvilableSolt(Request $request)
@@ -208,7 +208,7 @@ class HomeController extends Controller
       return response()->json(['message' => 'occupied', "status" => false], 422);
     } else {
       return response()->json(['message' => 'slot available', "status" => true], 200);
-    } 
+    }
   }
 
 
@@ -425,59 +425,57 @@ class HomeController extends Controller
   }
 
 
-  public function getTheripistByIp(Request $request){
+  public function getTheripistByIp(Request $request)
+  {
     $dataArr = [];
     // if (App::environment('production')) {
-      $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-      if(!empty($ipInfo)){
-        $userDetail = json_decode($ipInfo['complete_data'], true);
-      }else{
-        $userDetail = $this->getIpDetails($request->ip());
-      }  
-        $countryCode = $userDetail['countryCode'];
-        $countryName = ucwords($userDetail['countryName']); 
-        $countryId = Country::where(['nicename' => $countryName])->first(); 
+    $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+    if (!empty($ipInfo)) {
+      $userDetail = json_decode($ipInfo['complete_data'], true);
+    } else {
+      $userDetail = $this->getIpDetails($request->ip());
+    }
+    $countryCode = $userDetail['countryCode'];
+    $countryName = ucwords($userDetail['countryName']);
+    $countryId = Country::where(['nicename' => $countryName])->first();
 
-        $venueAddress = VenueAddress::get(); 
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;
+    $venueAddress = VenueAddress::get();
+    $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+    $currentTimezone = $timezone->timezone;
 
-        if(!empty($venueAddress)){
-          foreach($venueAddress as $venueAdd){ 
-            $thripist = $venueAdd->thripist; 
-            $venue_available_country =  json_decode($venueAdd->venue_available_country); 
-            if(is_array($venue_available_country) &&  in_array($countryId->id,$venue_available_country)){
-              $dataArr[] = [
-                'id' => $thripist->id,
-                'name' => $thripist->name, 
-                'profile_pic' => $thripist->profile_pic,
-                'currentTimezone' =>  $currentTimezone,
-                'type' => 1
-              ]; 
-            }else if($venue_available_country == 0 ||empty($venue_available_country)){
-              $dataArr[] = [
-                'id' => $thripist->id,
-                'name' => $thripist->name, 
-                'profile_pic' => $thripist->profile_pic,
-                'currentTimezone' =>  $currentTimezone,
-                'type' => 2
-              ]; 
-            }
-              
-                
-            }
+    if (!empty($venueAddress)) {
+      foreach ($venueAddress as $venueAdd) {
 
-           
+        $thripist = $venueAdd->thripist;
+        $venue_available_country =  json_decode($venueAdd->venue_available_country);
 
-        } 
-        
-        return response()->json([
-          'status' => !(empty($dataArr)) ? true : false,
-          'data' => $dataArr,
-          'userDetail' => $userDetail,'countryId' => $countryId
-        ]); 
+        if (is_array($venue_available_country) &&  in_array($countryId->id, $venue_available_country)) {
+          $dataArr[] = [
+            'id' => $thripist->id,
+            'name' => $thripist->name,
+            'profile_pic' => $thripist->profile_pic,
+            'currentTimezone' =>  $currentTimezone,
+            'type' => 1 ,
+            'venue_available_country' => $venue_available_country
+          ];
+        } else if ($venue_available_country == 0 || empty($venue_available_country)) {
+          $dataArr[] = [
+            'id' => $thripist->id,
+            'name' => $thripist->name,
+            'profile_pic' => $thripist->profile_pic,
+            'currentTimezone' =>  $currentTimezone,
+            'type' => 2,
+            'venue_available_country' => $venue_available_country
+          ];
+        }
+      }
+    }
 
-
+    return response()->json([
+      'status' => !(empty($dataArr)) ? true : false,
+      'data' => $dataArr,
+      'userDetail' => $userDetail, 'countryId' => $countryId
+    ]);
   }
 
 
@@ -633,11 +631,11 @@ class HomeController extends Controller
 
       if (App::environment('production')) {
         $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-        if(!empty($ipInfo)){
+        if (!empty($ipInfo)) {
           $userDetail = json_decode($ipInfo['complete_data'], true);
-        }else{
+        } else {
           $userDetail = $this->getIpDetails($request->ip());
-        } 
+        }
         $countryCode = $userDetail['countryCode'];
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         $currentTimezone = $timezone->timezone;
@@ -784,7 +782,8 @@ class HomeController extends Controller
     return ['success' => 1, 'message' => 'deleted'];
   }
 
-  private function bookingMessageTemplate($name,$therapistName,$location,$bookingNumber,$venueString,$slot_duration,$rescheduleBooking,$cancelBooking,$confirmSpot,$appointMentStatus){
+  private function bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus)
+  {
     $message = <<<EOT
       Hi $name,
       Your dua appointment is confirmed as below:
@@ -820,6 +819,6 @@ class HomeController extends Controller
       
       KahayFaqeer.org
       EOT;
-      return $message; 
+    return $message;
   }
 }
