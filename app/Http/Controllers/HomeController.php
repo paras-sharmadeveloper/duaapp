@@ -208,8 +208,7 @@ class HomeController extends Controller
       return response()->json(['message' => 'occupied', "status" => false], 422);
     } else {
       return response()->json(['message' => 'slot available', "status" => true], 200);
-    }
-    // check-available
+    } 
   }
 
 
@@ -423,6 +422,50 @@ class HomeController extends Controller
         ]
       );
     }
+  }
+
+
+  public function getTheripistByIp(Request $request){
+    $dataArr = [];
+    // if (App::environment('production')) {
+      $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+      if(!empty($ipInfo)){
+        $userDetail = json_decode($ipInfo['complete_data'], true);
+      }else{
+        $userDetail = $this->getIpDetails($request->ip());
+      } 
+      echo "<pre>"; print_r($request->ip()); die; 
+        $countryCode = $userDetail['countryCode'];
+        $countryName = ucwords($userDetail['countryName']); 
+        $countryId = Country::where(['nicename' => $countryName])->first(); 
+
+        $venueAddress = VenueAddress::where(['venue_id' => $countryId]) ->get(); 
+        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+        $currentTimezone = $timezone->timezone;
+       
+        foreach($venueAddress as $venueAdd){
+          $thripist = $venueAdd->thripist; 
+          $dataArr['id'] = $thripist->id;
+          $dataArr['name'] = $thripist->name;
+          $dataArr['profile_pic'] = $thripist->profile_pic;
+          $dataArr['currentTimezone'] = $currentTimezone;
+        }
+        return response()->json([
+          'status' => !(empty($dataArr)) ? true : false,
+          'data' => $dataArr
+        ]);
+      
+    // } else {
+    //   $currentTimezone = 'America/New_York';
+    // }
+
+    // return response()->json([
+    //   'status' => !(empty($dataArr)) ? true : false,
+    //   'data' => $dataArr
+    // ]);
+
+
+
   }
 
 

@@ -800,7 +800,7 @@ div#errors {
                 </div>
 
 
-                <div class="row justify-content-center pt-0 p-4" id="wizardRow">
+                <div class="row justify-content-center pt-0 p-4" id="wizardRow" style="display: none">
 
                     <!-- col -->
                     <div class="col-md-12 text-center wizard-form">
@@ -821,20 +821,28 @@ div#errors {
                         <!-- /wizard -->
                     </div>
                 </div>
+                <div class="row justify-content-center" id="booknowStart">
+
+                    <div class="col-lg-12 col-md-12">
+                         
+                        <div class="row row-cols-3 d-flex justify-content-center">
+                            <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button>
+                        </div>
+                </div>
 
 
-                <div class="row justify-content-center" id="cardSection">
+                <div class="row justify-content-center form-business" id="cardSection">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
 
-                            <label></label>
+                            <label>TRest</label>
                         </div>
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripist-main">
                             
                             @foreach ($therapists as $therapist)
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
@@ -861,11 +869,8 @@ div#errors {
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button>
-                        {{-- <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button> --}}
-                    </div>
-                    <!-- col -->
+                        </button> 
+                    </div> 
                 </div>
 
                 <div class="row justify-content-center  form-business">
@@ -1317,6 +1322,43 @@ div#errors {
    
     <script>
         $(".form-business").hide();
+
+
+        $("#startBooking").click(function(){
+            var html = ''; 
+            $.ajax({
+                    url: "{{ route('booking.get.users') }}", // Get the form's action URL
+                    type: 'Post', // Get the form's HTTP method (POST in this case)
+                    // data: formData, // Use the serialized form data
+                    success: function(response) {
+                       
+                        if(response.status){
+                            $.each(response.data, function(key, item) { 
+                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col"><div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
+                                         <img src="/assets/theme/img/avatar.png">                                      
+                                        <div class="card-body px-0">
+                                            <h5 class="card-title title-binding">${item.name}</h5>
+                                            <p class="card-text">
+                                        </p></div>
+                                    </div></div>`;
+
+                            });
+
+                        }
+                       
+
+                    },
+                    error: function(error,xhr) {
+
+                         
+                    }
+                });
+
+                $("#cardSection").removeClass('form-business')
+
+                $("#thripist-main").html(html)
+
+        })
         
         $("#timezone").select2({
             placeholder: "Your Preferred Timezone",
@@ -1486,7 +1528,7 @@ div#errors {
 
         function getAjax(id, type,nextBtn) {
 
-                 var loadingText = nextBtn.attr('data-loading');
+                var loadingText = nextBtn.attr('data-loading');
                 var successText = nextBtn.attr('data-success');
                 var defaultText = nextBtn.attr('data-default');
 

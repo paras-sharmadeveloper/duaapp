@@ -1,10 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .form-check-input{
-        cursor: pointer;
-    }
+    <style>
+        .form-check-input {
+            cursor: pointer;
+        }
+
+        .ellipsis {
+            text-overflow: ellipsis;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .apply-selection {
+            display: none;
+            width: 100%;
+            margin: 0;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .apply-selection .ajax-link {
+            display: none;
+        }
+
+        .checkboxes {
+            margin: 0;
+            display: none;
+            border: 1px solid #ccc;
+            border-top: 0;
+        }
+
+        .checkboxes .inner-wrap {
+            padding: 5px 10px;
+            max-height: 140px;
+            overflow: auto;
+        }
+        .inner-wrap label {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
     </style>
 
     <div class="row mt-3">
@@ -55,52 +91,52 @@
 
                     <form method="POST" action="{{ route('venues.store') }}">
                 @endif
-                <div class="row mt-3">        
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
-                        <select class="form-control" name="venue_id">
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->id }}" @if (!empty($venueAddress) && $venueAddress->venue_id == $country->id) selected @endif>
-                                    {{ $country->country_name }}</option>
-                            @endforeach
-                        </select>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
+                            <select class="form-control" name="venue_id">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}" @if (!empty($venueAddress) && $venueAddress->venue_id == $country->id) selected @endif>
+                                        {{ $country->country_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
 
-                </div>
-
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
-                        <select class="form-control" name="therapist_id">
-                            @foreach ($therapists as $therapist)
-                                <option value="{{ $therapist->id }}" @if (!empty($venueAddress) && $venueAddress->therapist_id == $therapist->id) selected @endif>
-                                    {{ $therapist->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
+                            <select class="form-control" name="therapist_id">
+                                @foreach ($therapists as $therapist)
+                                    <option value="{{ $therapist->id }}" @if (!empty($venueAddress) && $venueAddress->therapist_id == $therapist->id) selected @endif>
+                                        {{ $therapist->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="row mt-3">
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
-                        <select class="form-control" name="siteadmin_id">
-                            @foreach ($siteAdmins as $siteadmin)
-                                <option value="{{ $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
-                                    {{ $siteadmin->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
+                            <select class="form-control" name="siteadmin_id">
+                                @foreach ($siteAdmins as $siteadmin)
+                                    <option value="{{ $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
+                                        {{ $siteadmin->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">State </span>
-                        {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state']) !!}
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">State </span>
+                            {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state']) !!}
 
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
@@ -120,7 +156,7 @@
                                 'class' => 'form-control',
                                 'placeholder' => 'Address',
                                 'cols' => 5,
-                                'rows' => 2
+                                'rows' => 2,
                             ]) !!}
 
                         </div>
@@ -203,30 +239,21 @@
                     <div class="col-md-3 mt-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="" name="is_recurring[sunday]"
-                            
-                            @if(!empty($venueAddress) && $venueAddress->is_sunday == 1)
-                             checked 
-                            @endif
-                            >
+                                @if (!empty($venueAddress) && $venueAddress->is_sunday == 1) checked @endif>
                             <label class="form-check-label" for="flexSwitchCheckDefault">Every Sunday</label>
                         </div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="" name="is_recurring[monday]"
-                            @if(!empty($venueAddress) && $venueAddress->is_monday == 1)
-                             checked 
-                            @endif
-                            
-                            >
+                                @if (!empty($venueAddress) && $venueAddress->is_monday == 1) checked @endif>
                             <label class="form-check-label" for="flexSwitchCheckDefault">Every Monday</label>
                         </div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="tuesday" name="is_recurring[tuesday]"
-                            @if(!empty($venueAddress) && $venueAddress->is_tuesday == 1) checked @endif
-                            >
+                                @if (!empty($venueAddress) && $venueAddress->is_tuesday == 1) checked @endif>
                             <label class="form-check-label" for="tuesday">Every Tuesday</label>
                         </div>
                     </div>
@@ -234,9 +261,7 @@
                     <div class="col-md-3 mt-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="wednesday"
-                                name="is_recurring[wednesday]"
-                                @if(!empty($venueAddress) && $venueAddress->is_wednesday == 1) checked @endif    
-                            >
+                                name="is_recurring[wednesday]" @if (!empty($venueAddress) && $venueAddress->is_wednesday == 1) checked @endif>
                             <label class="form-check-label" for="wednesday">Every Wednesday</label>
                         </div>
                     </div>
@@ -245,86 +270,122 @@
                 <div class="row mt-3">
                     <div class="col-md-3 mt-4">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="thursday"
-                                name="is_recurring[thursday]"
-                                @if(!empty($venueAddress) && $venueAddress->is_thursday == 1) checked @endif    
-                                >
+                            <input class="form-check-input" type="checkbox" id="thursday" name="is_recurring[thursday]"
+                                @if (!empty($venueAddress) && $venueAddress->is_thursday == 1) checked @endif>
                             <label class="form-check-label" for="thursday">Every Thursday</label>
                         </div>
                     </div>
                     <div class="col-md-3 mt-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="friday" name="is_recurring[friday]"
-                            @if(!empty($venueAddress) && $venueAddress->is_friday == 1) checked @endif 
-                            >
+                                @if (!empty($venueAddress) && $venueAddress->is_friday == 1) checked @endif>
                             <label class="form-check-label" for="tuesday">Every Friday</label>
                         </div>
                     </div>
 
                     <div class="col-md-3 mt-4">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="saturday"
-                                name="is_recurring[saturday]"  @if(!empty($venueAddress) && $venueAddress->is_saturday == 1) checked @endif>
+                            <input class="form-check-input" type="checkbox" id="saturday" name="is_recurring[saturday]"
+                                @if (!empty($venueAddress) && $venueAddress->is_saturday == 1) checked @endif>
                             <label class="form-check-label" for="tuesday">Every Saturday</label>
                         </div>
                     </div>
 
-                    
+
 
                 </div>
                 <div class="row">
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">Recurring Till How many Month ? </span>
-                        {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'ends',
-                        ]) !!}
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Recurring Till How many Month ? </span>
+                            {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'ends',
+                            ]) !!}
 
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">User Rejoin After Days? </span>
+                            {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'rejoin_venue_after',
+                            ]) !!}
+
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">User Rejoin After Days? </span>
-                        {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? '', [
-                            'class' => 'form-control',
-                            'placeholder' => 'rejoin_venue_after',
-                        ]) !!}
-
-                    </div>
-                </div>
-            </div>
 
 
 
 
                 <div class="row mt-3">
-                <div class="col-md-6  mt-4">
-                    <label for="type">Type</label>
-                    <div>
-                        <input type="radio" id="on-site" name="type" value="on-site"
-                            {{ isset($venueAddress) && $venueAddress->type === 'on-site' ? 'checked' : '' }} required>
-                        <label for="on-site">Physical (On Site)</label>
+                    <div class="col-md-4  mt-4">
+                        <label for="type">Type</label>
+                        <div>
+                            <input type="radio" id="on-site" name="type" value="on-site"
+                                {{ isset($venueAddress) && $venueAddress->type === 'on-site' ? 'checked' : '' }} required>
+                            <label for="on-site">Physical (On Site)</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="virtual" name="type" value="virtual"
+                                {{ isset($venueAddress) && $venueAddress->type === 'virtual' ? 'checked' : '' }} required>
+                            <label for="virtual">Online (Virtual)</label>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="virtual" name="type" value="virtual"
-                            {{ isset($venueAddress) && $venueAddress->type === 'virtual' ? 'checked' : '' }} required>
-                        <label for="virtual">Online (Virtual)</label>
-                    </div>
-                </div>
+                    <div class="col-md-4 mt-4">
+                        <label> Venue Avilable Country </label>
+                            <div class="wrapper">
+                              <button class="form-control toggle-next ellipsis" type="button">All countries</button>
+                              <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
-                <div class="col-md-6 mt-4">
-                    <div class="input-group">
-                        <span class="input-group-text">Video Room Name</span>
-                        <input type="text" id="video_room" 
-                        class="form-control" 
-                        name="video_room" 
-                        value="{{ $venueAddress->room_name ?? '' }}"
-                        placeholder = 'Enter Vedio Room Name' >
-                             
+                                <input type="text" class="form-control" id="search-in" placeholder="search">
 
+                                @php 
+                                   $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : 0; 
+                                @endphp
+                                
+                                <div class="inner-wrap">
+                                    <div class="main-list">
+                                        <label>
+                                            <input type="checkbox" value="0" class="ckkBox all" 
+
+                                            @if($savedCountries == 0)
+                                                checked
+                                            @endif                                    
+                                            />
+                                            <span>All Countries</span>
+                                        </label>  
+                                    </div>
+                                  @foreach ($venueCountry as $country)
+                                   <div class="main-list">
+                                        <label>
+                                            <input type="checkbox" value="{{ $country->id }}" class="ckkBox val" 
+                                            @if(is_array($savedCountries) && in_array($country->id,$savedCountries))
+                                            checked 
+                                            @endif
+                                            
+                                            name="venue_available_country[]" />
+                                            <span>{{ $country->nicename }}</span>
+                                        </label>
+                                   </div>
+                                  @endforeach
+                                  
+                                </div>
+                              </div>
+                            </div> 
                     </div>
-                </div>
+
+                    <div class="col-md-4 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Video Room Name</span>
+                            <input type="text" id="video_room" class="form-control" name="video_room"
+                                value="{{ $venueAddress->room_name ?? '' }}" placeholder = 'Enter Vedio Room Name'>
+
+
+                        </div>
+                    </div>
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
                     <div class="form-check">
@@ -359,7 +420,81 @@
                 $(this).closest('.row mt-3').remove();
             });
         });
-    </script>
-    <script>document.title = 'Venue Booking'; </script>
-@endsection
 
+        $(function() {
+
+            setCheckboxSelectLabels();
+
+            $('.toggle-next').click(function() {
+                $(this).next('.checkboxes').slideToggle(400);
+            });
+
+            $('.ckkBox').change(function() {
+                toggleCheckedAll(this);
+                setCheckboxSelectLabels();
+            });
+
+        });
+
+        function setCheckboxSelectLabels(elem) {
+            var wrappers = $('.wrapper');
+            $.each(wrappers, function(key, wrapper) {
+                var checkboxes = $(wrapper).find('.ckkBox');
+                var label = $(wrapper).find('.checkboxes').attr('data-id');
+                var prevText = '';
+                $.each(checkboxes, function(i, checkbox) {
+                    var button = $(wrapper).find('button');
+                    if ($(checkbox).prop('checked') == true) {
+                        var text = $(checkbox).next().html();
+                        var btnText = prevText + text;
+                        var numberOfChecked = $(wrapper).find('input.val:checkbox:checked').length;
+                        if (numberOfChecked >= 8) {
+                            btnText = numberOfChecked + ' ' + label + ' selected';
+                        }
+                        $(button).text(btnText);
+                        prevText = btnText + ', ';
+                    }
+                });
+            });
+        }
+
+        function toggleCheckedAll(checkbox) {
+            var apply = $(checkbox).closest('.wrapper').find('.apply-selection');
+            apply.fadeIn('slow');
+
+            var val = $(checkbox).closest('.checkboxes').find('.val');
+            var all = $(checkbox).closest('.checkboxes').find('.all');
+            var ckkBox = $(checkbox).closest('.checkboxes').find('.ckkBox');
+
+            if (!$(ckkBox).is(':checked')) {
+                $(all).prop('checked', true);
+                return;
+            }
+
+            if ($(checkbox).hasClass('all')) {
+                $(val).prop('checked', false);
+            } else {
+                $(all).prop('checked', false);
+            }
+        }
+
+        $("#search-in").on("keyup", function () {
+                var text = $(this).val().toLowerCase();
+
+                console.log("text", text);
+
+                $(".main-list > label").each(function () {
+                    var title = $(this).text().toLowerCase(); // Get the text of the whole label
+
+                    if (!title.includes(text)) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+    </script>
+    <script>
+        document.title = 'Venue Booking';
+    </script>
+@endsection

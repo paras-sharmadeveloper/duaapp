@@ -34,14 +34,16 @@ class VenueController extends Controller
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
         })->get();
-        return view('venues.create', compact('countries', 'therapists', 'siteAdmins'));
+
+        $venueCountry = Country::all(); 
+        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry'));
     }
 
 
     public function store(Request $request)
     {
-         
 
+        
         $request->validate([
             'venue_id' => 'required',
             'therapist_id' => 'required',
@@ -68,6 +70,8 @@ class VenueController extends Controller
         $IsRecuureing = $request->input('is_recurring');
         $recuureingTill = $request->input('recurring_till',0);
         $rejoin_venue_after = $request->input('rejoin_venue_after',0);
+        $venue_available_country = json_encode($request->input('venue_available_country',0));
+        
 
 
         $dataArr = [];
@@ -95,7 +99,8 @@ class VenueController extends Controller
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
-            'rejoin_venue_after' => $rejoin_venue_after
+            'rejoin_venue_after' => $rejoin_venue_after,
+            'venue_available_country' => $venue_available_country
         ];
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
@@ -134,8 +139,8 @@ class VenueController extends Controller
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
         })->get();
-
-        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins'));
+        $venueCountry = Country::all(); 
+        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry'));
     }
 
     public function update(Request $request, $id)
@@ -171,6 +176,7 @@ class VenueController extends Controller
         $venueEndsEvening = $request->input('slot_ends_at_evening', null);
         $slotDuration = $request->input('slot_duration');
         $rejoin_venue_after = $request->input('rejoin_venue_after',0);
+        $venue_available_country = json_encode($request->input('venue_available_country',0));
 
         $dataArr = [
             'city' => $request->input('city'),
@@ -189,7 +195,8 @@ class VenueController extends Controller
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => $request->input('recurring_till'),
-            'rejoin_venue_after' => $rejoin_venue_after
+            'rejoin_venue_after' => $rejoin_venue_after,
+            'venue_available_country' => $venue_available_country
         ];
  
         $VenueAddress->update($dataArr);
