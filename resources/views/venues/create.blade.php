@@ -338,10 +338,10 @@
                         @php 
                         $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : []; 
                         @endphp
-                        <label> Venue Avilable Country </label>
+                        <label> Venue Available Country </label>
                             <div class="wrapper">
                               <button class="form-control toggle-next ellipsis" type="button">
-                                @if(is_array($savedCountries) && count($savedCountries) == 239) All Selected @else Select Countries @endif</button>
+                                @if(is_array($savedCountries) && count($savedCountries) == 239) All Countries Selected @else Select Countries @endif</button>
                               <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">

@@ -428,10 +428,7 @@ class HomeController extends Controller
   public function getTheripistByIp(Request $request)
   {
     $dataArr = [];
-
-    $therapistRole = Role::where('name', 'therapist')->first();
-  
-    $therapists = $therapistRole->users;
+ 
     // if (App::environment('production')) {
     $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
     if (!empty($ipInfo)) {
