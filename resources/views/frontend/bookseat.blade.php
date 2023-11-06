@@ -829,6 +829,7 @@ div#errors {
                             <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button>
                         </div>
                 </div>
+                </div>
 
 
                 <div class="row justify-content-center form-business" id="cardSection">
@@ -1331,10 +1332,11 @@ div#errors {
                     type: 'Post', // Get the form's HTTP method (POST in this case)
                     // data: formData, // Use the serialized form data
                     success: function(response) {
-                       
+                       console.log("status",response.status)
                         if(response.status){
                             $.each(response.data, function(key, item) { 
-                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col"><div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
+                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
+                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
                                          <img src="/assets/theme/img/avatar.png">                                      
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">${item.name}</h5>
@@ -1344,7 +1346,15 @@ div#errors {
 
                             });
 
+
                         }
+                        console.log("html",html)
+                        $("#booknowStart").hide(); 
+                        $("#cardSection").show()
+                        $("#wizardRow").show()
+
+                        $("#thripist-main").html(html)
+
                        
 
                     },
@@ -1354,11 +1364,7 @@ div#errors {
                     }
                 });
 
-                $("#booknowStart").hide(); 
-                $("#cardSection").show()
-                $("#wizardRow").show()
-
-                $("#thripist-main").html(html)
+               
 
         })
         
