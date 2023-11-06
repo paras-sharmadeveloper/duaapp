@@ -479,12 +479,12 @@ class HomeController extends Controller
     }
     $newArr = [];
     foreach($dataArr  as $data){
-      $newArr[] = array_filter($data); 
+      $newArr[] = array_unique($data); 
     }   
 
     return response()->json([
       'status' => !(empty($newArr)) ? true : false,
-      'data' => array_filter($newArr),
+      'data' => $newArr,
       'userDetail' => $userDetail, 
       'countryId' => $countryId,
     ]);
