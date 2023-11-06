@@ -477,14 +477,14 @@ class HomeController extends Controller
         }
       }
     }
-
+    $newArr = [];
     foreach($dataArr  as $data){
-      $dataArr[] = array_filter($data); 
-    }
+      $newArr[] = array_filter($data); 
+    }   
 
     return response()->json([
-      'status' => !(empty($dataArr)) ? true : false,
-      'data' => array_filter($dataArr),
+      'status' => !(empty($newArr)) ? true : false,
+      'data' => array_filter($newArr),
       'userDetail' => $userDetail, 
       'countryId' => $countryId,
     ]);
