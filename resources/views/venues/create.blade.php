@@ -337,7 +337,7 @@
                     <div class="col-md-4 mt-4">
                         <label> Venue Avilable Country </label>
                             <div class="wrapper">
-                              <button class="form-control toggle-next ellipsis" type="button">All countries</button>
+                              <button class="form-control toggle-next ellipsis" type="button">Select Countries</button>
                               <div class="checkboxes" id="checkboxes" data-id="countries"> 
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">
@@ -351,7 +351,7 @@
                                         <label>
                                             <input type="checkbox" value="0" class="ckkBox all" 
 
-                                            @if($savedCountries == 0)
+                                            @if(count($savedCountries) == 239)
                                                 checked
                                             @endif                                    
                                             />
@@ -430,8 +430,38 @@
             });
 
             $('.ckkBox').change(function() {
+                $this = $(this); 
+                
+                
                 toggleCheckedAll(this);
+                 setCheckboxSelectLabels();
+            });
+
+            $('.all').change(function() {
+                $this = $(this); 
+                console.log("isChecked",$this.is(':checked'))
+
+                if($this.is(':checked')){
+
+                    $(".inner-wrap .ckkBox").each(function(item,key){
+                        if($(this).hasClass('val')){
+                            $(this).prop('checked', true)
+                        }
+
+                    })
+                   
+                }else{
+                    $(".inner-wrap .ckkBox").each(function(item,key){
+                        if($(this).hasClass('val')){
+                            $(this).prop('checked', false)
+                        }
+
+                    }) 
+                } 
                 setCheckboxSelectLabels();
+                
+               // toggleCheckedAll(this);
+               //  setCheckboxSelectLabels();
             });
 
         });
