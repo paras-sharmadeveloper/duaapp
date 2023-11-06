@@ -439,21 +439,35 @@ class HomeController extends Controller
         $countryName = ucwords($userDetail['countryName']); 
         $countryId = Country::where(['nicename' => $countryName])->first(); 
 
-        $venueAddress = VenueAddress::where(['venue_id' => $countryId]) ->get(); 
+        $venueAddress = VenueAddress::get(); 
         $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
         $currentTimezone = $timezone->timezone;
        
         foreach($venueAddress as $venueAdd){
-          $thripist = $venueAdd->thripist; 
-          $dataArr['id'] = $thripist->id;
-          $dataArr['name'] = $thripist->name;
-          $dataArr['profile_pic'] = $thripist->profile_pic;
-          $dataArr['currentTimezone'] = $currentTimezone;
+
+          if((!empty($venueAdd->venue_available_country) || $venueAdd->venue_available_country != 0) &&   $countryId['id'] == $venueAdd['venue_id'] ){
+
+            $thripist = $venueAdd->thripist; 
+            $dataArr['id'] = $thripist->id;
+            $dataArr['name'] = $thripist->name;
+            $dataArr['profile_pic'] = $thripist->profile_pic;
+            $dataArr['currentTimezone'] = $currentTimezone;
+            $dataArr['if'] = 'yes';
+
+          }else {
+            $thripist = $venueAdd->thripist; 
+            $dataArr['id'] = $thripist->id;
+            $dataArr['name'] = $thripist->name;
+            $dataArr['profile_pic'] = $thripist->profile_pic;
+            $dataArr['currentTimezone'] = $currentTimezone;
+            $dataArr['else'] = 'no';
+          }
+          
         }
         return response()->json([
           'status' => !(empty($dataArr)) ? true : false,
           'data' => $dataArr,
-          'userDetail' => $userDetail
+          'userDetail' => $userDetail,'countryId' => $countryId
         ]);
       
     // } else {
