@@ -1696,6 +1696,7 @@ div#errors {
                     type: $(this).attr('method'), // Get the form's HTTP method (POST in this case)
                     data: formData, // Use the serialized form data
                     success: function(response) {
+                        $("#errors").html(''); 
                         $this.find('span').show()
                         $this.find('b').text(successText)
                         stopCamera();
@@ -1708,6 +1709,7 @@ div#errors {
 
                         $("#loader").hide();
                         window.location.href = '/booking/thankyou/' + response.bookingId;
+                        
 
                     },
                     error: function(error,xhr) {
@@ -1715,7 +1717,7 @@ div#errors {
                          console.log("error",error.status)
 
                          if(error.status == 406 ){
-                            $("#errors").html(error.responseJSON.message);
+                            $("#errors").html(error.responseJSON.message).show();
                          }
                          $this.find('b').text(defaultText)
                         if (error.responseJSON || error.responseJSON.errors) {
