@@ -479,7 +479,11 @@ class HomeController extends Controller
     }
     $newArr = [];
     foreach($dataArr  as $data){
-      $newArr[] = array_unique($data); 
+      if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
+        $newArr[] = $data;
+        $existingIds[] = $data['id'];
+    }
+      
     }   
 
     return response()->json([
