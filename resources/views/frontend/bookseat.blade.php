@@ -1341,7 +1341,7 @@ div#errors {
                                 var img = ''; 
                               
                                 if(item.profile_pic){
-                                    var fullImg = imagePath + '/' + item.profile_pic; 
+                                    var fullImg = imagePath + item.profile_pic; 
                                     img = `<img src="${fullImg}">`;
                                 }else{
                                     img = '<img src="/assets/theme/img/avatar.png">';
