@@ -163,20 +163,7 @@
             margin-bottom: 15px
         }
 
-        .loader {
-            border: 5px solid #3498db;
-            border-top: 5px solid transparent;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: 1s linear infinite spin
-        }
-
-        .loader-main {
-            display: flex;
-            justify-content: center;
-            margin-top: 5px
-        }
+       
 
         .success {
             color: green;
@@ -826,7 +813,15 @@ div#errors {
                     <div class="col-lg-12 col-md-12">
                          
                         <div class="row row-cols-3 d-flex justify-content-center">
-                            <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button>
+                            <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info"
+                                id="startBooking"
+                                data-loading="Loading..." data-success="Done" data-default="Next">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                    style="display:none">
+                                </span>
+                                <b> Start Booking </b>
+                            </button> 
+                            {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
                         </div>
                 </div>
                 </div>
@@ -884,22 +879,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="type-listing">
-                            <div id="loader" style="display: none" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
@@ -926,22 +906,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="country-listing">
-                            <div id="loader" style="display: none" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+                          
                         </div>
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         {{-- <button type="button"
@@ -966,22 +931,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
-                            <div id="loader" style="display: none" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+                           
                         </div>
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
@@ -1008,22 +958,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
-                            <div id="loader" style="display: none" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -1066,22 +1001,7 @@ div#errors {
                         </div>
 
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner" id="slot-listing">
-                            <div id="loader" style="display: none" class="loader">
-                                <div class="lds-spinner">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -1329,6 +1249,13 @@ div#errors {
 
         $("#startBooking").click(function(){
             var html = ''; 
+
+            var loadingText = $(this).attr('data-loading');
+                var successText = $(this).attr('data-success');
+                var defaultText = $(this).attr('data-default');
+
+                $(this).find('span').show()
+                $(this).find('b').text(loadingText)
             $.ajax({
                     url: "{{ route('booking.get.users') }}", // Get the form's action URL
                     type: 'Post', // Get the form's HTTP method (POST in this case)
@@ -1337,6 +1264,8 @@ div#errors {
                         $("#slot-information-user").find('label').text("Your Current Timezone:"+response.currentTimezone); 
                         $("#timezone-hidden").val(response.currentTimezone)
                         if(response.status){
+                            $(this).find('span').hide()
+                            $(this).find('b').text(defaultText)
                             $.each(response.data, function(key, item) { 
                                 var img = ''; 
                                
@@ -1359,9 +1288,9 @@ div#errors {
 
 
                         } 
-                        $("#booknowStart").hide(); 
-                        $("#cardSection").show()
-                        $("#wizardRow").show()
+                        $("#booknowStart").fadeOut(); 
+                        $("#cardSection").fadeIn(500)
+                        $("#wizardRow").fadeIn(500)
 
                         $("#thripist-main").html(html)
 
