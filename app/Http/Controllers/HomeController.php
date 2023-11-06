@@ -434,7 +434,7 @@ class HomeController extends Controller
       }else{
         $userDetail = $this->getIpDetails($request->ip());
       } 
-      echo "<pre>"; print_r($request->ip()); die;  
+      // echo "<pre>"; print_r($request->ip()); die;  
         $countryCode = $userDetail['countryCode'];
         $countryName = ucwords($userDetail['countryName']); 
         $countryId = Country::where(['nicename' => $countryName])->first(); 
