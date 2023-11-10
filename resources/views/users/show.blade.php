@@ -11,7 +11,7 @@
             <div class="card-body">
                 <h5 class="card-title">Show User</h5>
                 <div class="row">
-                    <div class="col-xs-3 col-sm-3 col-md-3">
+                    <div class="col-xs-3 col-sm-3 col-md-3 text-center">
                         @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
                             <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
                                 alt="Flag Image" style="height: 100px; width: 100px;">
@@ -25,11 +25,11 @@
                             <strong>Name:</strong>
                             {{ $user->name }}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <strong>Email:</strong>
                             {{ $user->email }}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <strong>Roles:</strong>
                             @if (!empty($user->getRoleNames()))
                                 @foreach ($user->getRoleNames() as $v)
