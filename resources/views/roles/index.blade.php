@@ -43,7 +43,7 @@
                   <tr>
                       <th>No</th>
                       <th>Roles</th>
-                      <th width="280px" class="float-end">Action</th>
+                      <th>Action</th>
                   </tr>
               </thead>
               <tbody>
