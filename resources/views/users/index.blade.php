@@ -39,6 +39,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>Profile Pic </th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Roles</th>
@@ -49,6 +50,15 @@
                 @foreach ($data as $key => $user)
                     <tr>
                         <td>{{ ++$i }}</td>
+                        <td><div class="col-xs-12 col-sm-12 col-md-12">
+                            @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
+                                <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
+                                    alt="Flag Image" style="height: 100px; width: 100px;">
+                            @else
+                                <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                                    class="imgh" alt="Default Image" style="height: 100px; width: 100px;">
+                            @endif
+                        </div>  </td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
