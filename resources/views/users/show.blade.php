@@ -14,10 +14,10 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 text-center">
                         @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
                             <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
-                                alt="Flag Image" style="height: 100px; width: 100px;">
+                                alt="Flag Image" style="height: 100px; width: 100px;border-radius:50%;">
                         @else
                             <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                class="imgh" alt="Default Image" style="height: 100px; width: 100px;">
+                                class="imgh" alt="Default Image" style="height: 100px; width: 100px;border-radius:50%;">
                         @endif
                     </div>  
                     <div class="col-xs-9 col-sm-9 col-md-9">
