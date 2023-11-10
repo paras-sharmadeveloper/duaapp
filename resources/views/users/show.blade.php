@@ -11,7 +11,7 @@
             <div class="card-body">
                 <h5 class="card-title">Show User</h5>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-3 col-sm-3 col-md-3">
                         @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
                             <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
                                 alt="Flag Image" style="height: 100px; width: 100px;">
@@ -20,29 +20,27 @@
                                 class="imgh" alt="Default Image" style="height: 100px; width: 100px;">
                         @endif
                     </div>  
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <strong>Name:</strong>
-                        {{ $user->name }}
+                    <div class="col-xs-9 col-sm-9 col-md-9">
+                        <div class="form-group">
+                            <strong>Name:</strong>
+                            {{ $user->name }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Email:</strong>
+                            {{ $user->email }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Roles:</strong>
+                            @if (!empty($user->getRoleNames()))
+                                @foreach ($user->getRoleNames() as $v)
+                                    <label class="badge bg-success">{{ $v }}</label>
+                                @endforeach
+                            @endif
+                        </div>
+                        
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <strong>Email:</strong>
-                        {{ $user->email }}
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <strong>Roles:</strong>
-                        @if (!empty($user->getRoleNames()))
-                            @foreach ($user->getRoleNames() as $v)
-                                <label class="badge bg-success">{{ $v }}</label>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
+                 
 
             </div>
         </div>
