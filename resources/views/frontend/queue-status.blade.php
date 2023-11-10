@@ -304,6 +304,6 @@ h1.text-center {
 <script>
     document.title = "KahayFaqeer.com | Queue Status";
     window.setTimeout( function() {
-  window.location.reload();
-}, 30000);
+    window.location.reload();
+    }, 30000);
 </script>
