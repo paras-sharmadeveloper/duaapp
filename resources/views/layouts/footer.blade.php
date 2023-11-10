@@ -59,7 +59,7 @@ $(document).ready(function() {
 		autoWidth: true,
         aoColumnDefs: [
             { "aTargets": [ 0 ], "bSortable": true },
-            { "aTargets": [ 1 ], "bSortable": true },
+            // { "aTargets": [ 1 ], "bSortable": true },
             // { "aTargets": [ 2 ], "bSortable": true },
             // { "aTargets": [ 3 ], "bSortable": false }
         ],
