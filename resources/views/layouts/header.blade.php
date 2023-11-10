@@ -90,7 +90,7 @@ ul#notification-center {
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown notification-bell">
+        <li class="nav-item dropdown notification-bell d-none">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
