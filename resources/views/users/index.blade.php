@@ -50,7 +50,7 @@
                 @foreach ($data as $key => $user)
                     <tr>
                         <td>{{ ++$i }}</td>
-                        <td><div class="col-xs-12 col-sm-12 col-md-12">
+                        <td><div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
                                 <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}" class="imgh"
                                     alt="Flag Image" style="height: 100px; width: 100px;">
