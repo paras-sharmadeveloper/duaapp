@@ -40,7 +40,7 @@
                     <tr>
                         <th>No</th>
                         <th>Country Name</th>
-                        <th>Thripist Name</th>
+                        <th>Sahib-e-Dua Name</th>
                         <th>Venue Address</th>
                         <th>Venue Deatail</th>
                         <th>Type</th>

@@ -107,7 +107,7 @@
 
                     <div class="col-md-6">
                         <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend2">Select Thripist</span>
+                            <span class="input-group-text" id="inputGroupPrepend2">Select Sahib-e-Dua</span>
                             <select class="form-control" name="therapist_id">
                                 @foreach ($therapists as $therapist)
                                     <option value="{{ $therapist->id }}" @if (!empty($venueAddress) && $venueAddress->therapist_id == $therapist->id) selected @endif>

@@ -122,7 +122,7 @@
             filter: "agTextColumnFilter"
         },
         {
-            headerName: 'Therapist Name',
+            headerName: 'Sahib-e-Dua Name',
             field: 'name',
             enableValue: true,
             enableRowGroup: true,
