@@ -21,12 +21,12 @@
             <h2 class="orng">Event Date : {{ date("d-M-Y", strtotime($venueAddress->venue_date))  }}</h4>
             <h2 class="text-primary">Token Number</h2>
             <div class="ahead-number">
-               AheadYou #{{ sprintf("%03s", $aheadPeople)  }}
+               Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
             </div>
             <div class="queue-number">
-              YouAt.  #{{ sprintf("%03s", $aheadPeople+1)  }}
+              Your Token # {{ sprintf("%03s", $aheadPeople+1)  }}
               <br>
-             <span>YourSlotTime. {{ date("g:i A", strtotime($userSlot->slot_time)) }}
+             <span>Your Appointment Time : {{ date("g:i A", strtotime($userSlot->slot_time)) }}
                   </span>
             </div>
 
@@ -303,4 +303,7 @@ h1.text-center {
 
 <script>
     document.title = "KahayFaqeer.com | Queue Status";
-  </script>
+    window.setTimeout( function() {
+  window.location.reload();
+}, 30000);
+</script>
