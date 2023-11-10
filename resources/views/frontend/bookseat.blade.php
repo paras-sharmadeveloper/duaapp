@@ -1295,6 +1295,8 @@ div#errors {
                             });
 
 
+                        }else{
+                            html=`<div class="col-lg-12 text-center"><p> No Venue Created yet </p> </div>`;
                         } 
                         $("#booknowStart").fadeOut(); 
                         $("#cardSection").fadeIn(500)
