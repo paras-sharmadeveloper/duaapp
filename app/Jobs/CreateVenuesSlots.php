@@ -31,7 +31,7 @@ class CreateVenuesSlots implements ShouldQueue
     public function handle(): void
     {
         
-        $venueAddress = VenueAddress::where('id', $this->venueId)->get();
+        $venueAddress = VenueAddress::find($this->venueId);
 
         // $timezones = Timezone::join('venues', 'timezone.country_code', '=', 'venues.iso')
         // ->where(['venues.id' => $venueId])
@@ -44,6 +44,8 @@ class CreateVenuesSlots implements ShouldQueue
 
             $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
             $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
+
+            // if evening has set then 
     
             if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
     
@@ -62,6 +64,7 @@ class CreateVenuesSlots implements ShouldQueue
     
             } 
             // Create time slots
+            // if morning has set then 
             $currentTime = $startTime;
             while ($currentTime < $endTime) {
                 $slotTime = $currentTime->format('H:i');
