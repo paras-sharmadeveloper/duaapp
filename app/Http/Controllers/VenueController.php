@@ -113,6 +113,9 @@ class VenueController extends Controller
         if(!empty($dayToSet)){
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
+                CreateVenuesSlots::dispatch($venueAddress->id, $slotDuration)
+                    ->onQueue('create-slots')
+                    ->onConnection('database');
                 
             }
             CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
