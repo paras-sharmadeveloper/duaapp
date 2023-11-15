@@ -402,20 +402,30 @@ class HomeController extends Controller
 
       $slotsDataArr = [];
 
-      foreach ($slotArr as $k => $myslot) {
-        $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
+      $iso =  $venueAddress->venue->iso; 
+        $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+        $countryTz =  $venueTimezone->timezone;
 
-        $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
-        $carbonSlot->setTimezone($timezone);
+      foreach ($slotArr as $k => $myslot) {
+
+
+        $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
+        $carbonSlot = Carbon::parse($venueDate, $countryTz); // IST timezone
+        $carbonSlot->timezone($timezone);
+
+        // $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
+        // $carbonSlot->setTimezone($timezone);
         $slotsDataArr[$k] = $myslot;
         // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
-        $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($timezone)->format('H:i:s');
+
+        $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s'); 
+
+        // $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($timezone)->format('H:i:s');
       }
       return response()->json([
         'status' => true,
         'message' => 'Slots are be avilable',
-        'slots' =>  $slotsDataArr,
-        'slots2ad' => $slotsDataArr,
+        'slots' =>  $slotsDataArr, 
         'timezone' => $timezone,
         'app' => App::environment('production')
       ]);
