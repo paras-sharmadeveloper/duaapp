@@ -113,8 +113,9 @@ class VenueController extends Controller
         if(!empty($dayToSet)){
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
-                CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
+                
             }
+            CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
             // foreach($dayToSet as $day){
             //     $futureDates = $this->RecurringDays($recuureingTill,$day);
             // }
