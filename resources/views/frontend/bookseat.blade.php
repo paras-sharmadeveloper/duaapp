@@ -1431,7 +1431,7 @@ div#errors {
 
                         var typed = '';
                         if (response.status) {
-                        $("#type-listing").html(appendLoader());
+                      
                         $.each(response.data.type, function(key, item) {
 
                             var meetingType = 'Online';
@@ -1462,7 +1462,7 @@ div#errors {
                     if (type == 'get_country') {
                         var country = '';
                     if (response.status) {
-                        $("#country-listing").html(appendLoader());
+                       
                         $.each(response.data.country, function(key, item) {
                             var meetingType = 'Online';
                             if (item.type == 'on-site') {
@@ -1489,7 +1489,7 @@ div#errors {
 
                         var city = '';
                         if (response.status) { 
-                        $("#city-listing").html(appendLoader());
+                        
                         $.each(response.data.city, function(key, item) {
                             var meetingType = 'Online';
                             if (item.type == 'on-site') {
@@ -1521,7 +1521,7 @@ div#errors {
 
                         if (response.status) { 
 
-                            $("#date-listing").html(appendLoader());
+                          
                             $.each(response.data.date, function(key, item) {
 
                                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
@@ -1545,7 +1545,7 @@ div#errors {
 
                     if (type == 'get_slots') {
                         var html = '';
-                        $("#slot-listing").html(appendLoader());
+                        
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-6">
@@ -1698,7 +1698,7 @@ div#errors {
                     success: function(response) {
                         
                         var html = '';
-                        $("#slot-listing").html(appendLoader());
+                       
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-6">
@@ -2009,13 +2009,7 @@ div#errors {
             restartCameraButton.hide();
         }
 
-        function appendLoader() {
-            return `<div id="loader" class="loader">
-                <div class="lds-spinner">
-                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                </div>
-            </div>`;
-        }
+        
 
         toastr.options = {
             "closeButton": true,
