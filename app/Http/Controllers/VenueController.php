@@ -199,7 +199,7 @@ class VenueController extends Controller
 
         if ($request->has('update_slots')) {
             VenueSloting::where(['venue_address_id' => $id])->delete();
-            CreateVenuesSlots::dispatch($id,  $slotDuration)->onConnection('database');
+            CreateVenuesSlots::dispatch($id ,  $slotDuration)->onQueue('create-slots')->onConnection('database');
             // $this->createVenueTimeSlots($id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
