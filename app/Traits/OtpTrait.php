@@ -34,7 +34,7 @@ trait OtpTrait
         $validatedData['subject'] = 'KahayFaqeer verification code. For your security, do not share this code.'; 
         $validatedData['otp'] = $otp; 
         // Send email
-        Mail::to($mobile)->send(new UserOtp($validatedData));
+        Mail::to($email)->send(new UserOtp($validatedData));
         
         $status['email'] = true;
       }
