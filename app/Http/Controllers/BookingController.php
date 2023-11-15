@@ -21,9 +21,17 @@ class BookingController extends Controller
         $currentRoute = $request->route()->getName();
         if ($request->has('_token') &&  $currentRoute == 'book.cancle') {
             $phone = $request->input('phone');
+            
+
+            $userDetail = [];
             if ($vistor->phone  == $phone) {
+                $userDetail['country_code'] = $vistor->country_code;
+                $userDetail['mobile'] =  $vistor->phone;
+                $userDetail['email'] =   $vistor->email;
                 $country = $vistor->country_code;
-                $otp = $this->SendOtp($phone, $country);
+                $isMobile=true;
+                $isEmail = true;
+                $otp = $this->SendOtp($userDetail,$isMobile,$isEmail);
                 if ($otp['status']) {
                     return redirect()->back()
                     ->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $request->input('booking_number') ]);
@@ -120,7 +128,14 @@ class BookingController extends Controller
         if ($request->has('_token') &&  $currentRoute == 'booking.confirm-spot.post') {
                $phone = $visitor->phone;
                 $country = $visitor->country_code;
-                $otp = $this->SendOtp($phone, $country);
+                // $otp = $this->SendOtp($phone, $country);
+                $userDetail['country_code'] = $visitor->country_code;
+                $userDetail['mobile'] =  $visitor->phone;
+                $userDetail['email'] =   $visitor->email;
+                // $country = $visitor->country_code;
+                $isMobile=true;
+                $isEmail = true;
+                $otp = $this->SendOtp($userDetail,$isMobile,$isEmail);
                 if ($otp['status']) {
                     return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 
                     'enable' => true, 
