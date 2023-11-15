@@ -45,8 +45,8 @@ class CreateVenuesSlots implements ShouldQueue
     
             if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
     
-                $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
-                $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
+                $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening)->tz($timeZone);
+                $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening)->tz($timeZone);
     
                 $currentTimeT = $startTimeevng;
                 while ($currentTimeT < $endTimeEvn) {
