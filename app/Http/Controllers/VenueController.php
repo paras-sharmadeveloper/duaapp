@@ -116,17 +116,7 @@ class VenueController extends Controller
                 
             }
             CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
-            // foreach($dayToSet as $day){
-            //     $futureDates = $this->RecurringDays($recuureingTill,$day);
-            // }
-            // CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onConnection('database');
-          
-            // foreach($futureDates as $dates ){
-            //     $dataArr['venue_date'] = $dates; 
-            //     $venueAddress =   VenueAddress::create($dataArr);
-            //     CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onConnection('database');
-            //     // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
-            // } 
+             
         }else{
             $venueAddress =   VenueAddress::create($dataArr);
             CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onQueue('create-slots')->onConnection('database');
