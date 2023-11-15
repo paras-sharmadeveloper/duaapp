@@ -23,23 +23,23 @@ trait OtpTrait
     }
     
 
-    public function SendOtp($mobile,$country_code,$isMobile=true,$isEmail = false)
+    public function SendOtp($userDetail,$isMobile=true,$isEmail = false)
     { 
-      $country = $country_code;
-      $mobile = $mobile;
+      $country = $userDetail['country_code'];
+      $mobile = $userDetail['mobile'];
+      $email = $userDetail['email'];
       $otp = $this->generateOtp(); 
+      $status = [];
       if($isEmail){
         $validatedData['subject'] = 'KahayFaqeer verification code. For your security, do not share this code.'; 
         $validatedData['otp'] = $otp; 
         // Send email
         Mail::to($mobile)->send(new UserOtp($validatedData));
-        return ['message' => 'OTP Sent successfully', 'status' => true];
+        
+        $status['email'] = true;
       }
       if($isMobile){
-
-        // Store the OTP in the session for verification
-  
-      // Send the OTP via Twilio
+ 
             $twilio = new TwilioClient(
               config('services.twilio.sid'),
               config('services.twilio.token')
@@ -61,13 +61,15 @@ trait OtpTrait
                   'body' => $message
                 ]
               );
-              return ['message' => 'OTP Sent successfully', 'status' => true];
+              $status['mobile'] = true;
+              // return ['message' => 'OTP Sent successfully', 'status' => true];
             } catch (\Exception $e) {
               //throw $th;
               return ['message' => 'Check You Mobile Number Again Or This Number Must be on WhatsApp', 'status' => false];
             }
 
       } 
+      return ['message' => 'OTP Sent successfully', 'status' => true];
     }
     private function generateOtp(){
       $otp = rand(10000, 99999);

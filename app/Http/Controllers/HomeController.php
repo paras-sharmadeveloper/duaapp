@@ -530,6 +530,7 @@ class HomeController extends Controller
         //   $query->whereDate('venue_date', $newDate)
         //     ->orWhereDate('venue_date', date('Y-m-d'));
         // })
+        ->orderBy('venue_date', 'asc')
         ->get();
 
       }
@@ -740,14 +741,20 @@ class HomeController extends Controller
 
     $request->validate([
       'email' => 'required|string|max:255|unique:vistors,email',
+      'mobile' => 'required|string|max:255|unique:vistors,phone',
       'country_code' => 'required'
     ]);
 
     $country = $request->input('country_code');
     $mobile = $request->input('mobile');
     $email = $request->input('email');
+    $userDetail['country_code'] = $country;
+    $userDetail['mobile'] = $request->input('mobile');
+    $userDetail['email'] =  $request->input('email');
+    $isMobile=true;
+    $isEmail = true;
     // $this->SendOtp($mobile,$country,$isMobile=true,$isEmail = false); 
-    $result =  $this->SendOtp($email,$country,$isMobile=false,$isEmail = true);
+    $result =  $this->SendOtp($userDetail,$isMobile,$isEmail);
 
     if ($result['status']) {
       return response()->json(['message' => 'Please check your email for OTP. If not Recived then check Spam Email.', 'status' => true]);
