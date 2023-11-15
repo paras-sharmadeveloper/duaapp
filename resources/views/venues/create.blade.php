@@ -308,7 +308,7 @@
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">User Rejoin After Days? </span>
-                            {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? '', [
+                            {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'rejoin_venue_after',
                                 'value' => 0
