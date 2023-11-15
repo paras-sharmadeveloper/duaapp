@@ -583,7 +583,7 @@
                                                                 data-muid="4e838cf3-9892-4a6d-94d6-170e474d21e5">
                                                                 <p style="font-size:12px; line-height:20px;"><a
                                                                         class="Unsubscribe--unsubscribeLink"
-                                                                        href="{{ $dynamicData['unsubscribe_link'] }}"
+                                                                        href="#"
                                                                         target="_blank" style="">Unsubscribe</a>
                                                                 </p>
                                                             </div>
