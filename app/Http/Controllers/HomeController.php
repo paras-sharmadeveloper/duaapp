@@ -647,6 +647,7 @@ class HomeController extends Controller
 
     if ($type == 'get_slots') {
       $currentTimezone = $request->input('timezone','America/New_York'); 
+      $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
       //  $venueAddress = VenueAddress::find($id); 
 
       $venueAddress =  VenueAddress::where('id', $id)
