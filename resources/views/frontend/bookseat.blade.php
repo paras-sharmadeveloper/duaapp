@@ -913,7 +913,7 @@ div#errors {
                         <div id="slot-information-user">
                              <label> Your Current Timezone:</label>
                              <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
-                                    
+                                    <option> Select Timezone </option>
                                     @foreach($timezones as $country)
                                         @foreach($country->timezones as $timezone)
                                             <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }} ({{ $country->nicename }})</option>
