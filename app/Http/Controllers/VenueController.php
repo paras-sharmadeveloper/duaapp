@@ -101,6 +101,7 @@ class VenueController extends Controller
             'rejoin_venue_after' => $rejoin_venue_after,
             'venue_available_country' => $venue_available_country
         ];
+       
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
                 $dataArr['is_'. $key] = ($recuureing == 'on') ? 1 : 0;
@@ -111,6 +112,7 @@ class VenueController extends Controller
 
      
         if(!empty($dayToSet)){
+            $venueAddress = VenueAddress::create($dataArr);
             CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
             // foreach($dayToSet as $day){
             //     $futureDates = $this->RecurringDays($recuureingTill,$day);
