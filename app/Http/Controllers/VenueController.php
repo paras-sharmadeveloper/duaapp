@@ -128,7 +128,7 @@ class VenueController extends Controller
             CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onQueue('create-slots')->onConnection('database');
             // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
-        return redirect()->route('venues.index')->with('success', 'Venue created successfully');
+        return redirect()->route('venues.index')->with('success', 'Venue Creating In backend . Please wait for few seconds');
     }
 
     public function edit($id)
