@@ -30,7 +30,8 @@ class CreateVenuesSlots implements ShouldQueue
      */
     public function handle(): void
     {
-        $venueAddress = VenueAddress::find($this->venueId);
+        
+        $venueAddress = VenueAddress::where('id', $this->venueId)->get();
 
         // $timezones = Timezone::join('venues', 'timezone.country_code', '=', 'venues.iso')
         // ->where(['venues.id' => $venueId])
