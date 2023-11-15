@@ -71,10 +71,7 @@ class VideoConferenceController extends Controller
         if (empty($vistor)) {
             abort(404);
         }
-
-
-
-
+ 
         if (!empty($vistor)) {
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
             $userTimeZone = $vistor->user_timezone;

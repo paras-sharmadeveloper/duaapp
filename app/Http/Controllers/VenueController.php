@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
-use PDO;
-
+use PDO; 
+use App\Jobs\{CreateVenuesSlots,CreateFutureDateVenues}; 
 class VenueController extends Controller
 {
     public function index()
@@ -43,7 +43,6 @@ class VenueController extends Controller
     public function store(Request $request)
     {
 
-        
         $request->validate([
             'venue_id' => 'required',
             'therapist_id' => 'required',
@@ -112,19 +111,22 @@ class VenueController extends Controller
 
      
         if(!empty($dayToSet)){
-           
-            foreach($dayToSet as $day){
-                $futureDates = $this->RecurringDays($recuureingTill,$day);
-            }
+            CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill,$slotDuration)->onQueue('create-future-dates')->onConnection("database"); 
+            // foreach($dayToSet as $day){
+            //     $futureDates = $this->RecurringDays($recuureingTill,$day);
+            // }
+            // CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onConnection('database');
           
-            foreach($futureDates as $dates ){
-                $dataArr['venue_date'] = $dates; 
-                $venueAddress =   VenueAddress::create($dataArr);
-                $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
-            } 
+            // foreach($futureDates as $dates ){
+            //     $dataArr['venue_date'] = $dates; 
+            //     $venueAddress =   VenueAddress::create($dataArr);
+            //     CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onConnection('database');
+            //     // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
+            // } 
         }else{
             $venueAddress =   VenueAddress::create($dataArr);
-            $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
+            CreateVenuesSlots::dispatch($venueAddress->id ,  $slotDuration)->onQueue('create-slots')->onConnection('database');
+            // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue created successfully');
     }
@@ -203,7 +205,8 @@ class VenueController extends Controller
 
         if ($request->has('update_slots')) {
             VenueSloting::where(['venue_address_id' => $id])->delete();
-            $this->createVenueTimeSlots($id, $slotDuration);
+            CreateVenuesSlots::dispatch($id,  $slotDuration)->onConnection('database');
+            // $this->createVenueTimeSlots($id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
     }
