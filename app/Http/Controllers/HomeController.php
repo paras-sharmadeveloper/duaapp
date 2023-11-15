@@ -743,8 +743,10 @@ class HomeController extends Controller
     // ]);
 
     $request->validate([
-      'email' => 'required|string|max:255|unique:vistors,email',
-      'mobile' => 'required|string|max:255|unique:vistors,phone',
+      'email' => 'required|string|max:255',
+      'mobile' => 'required|string|max:255',
+      // 'email' => 'required|string|max:255|unique:vistors,email',
+      // 'mobile' => 'required|string|max:255|unique:vistors,phone',
       'country_code' => 'required'
     ]);
 
