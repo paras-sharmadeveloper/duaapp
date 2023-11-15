@@ -311,6 +311,7 @@
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'rejoin_venue_after',
+                                'value' => 0
                             ]) !!}
 
                         </div>
