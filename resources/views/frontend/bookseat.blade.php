@@ -1945,7 +1945,7 @@ div#errors {
                         $("#opt-form-confirm").hide();
                         $("#submitBtn").show(); // Display a success message
                         $("#opt-form").hide(); 
-                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').('text-success').text('One-time password (OTP) Verified');  
+                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass('text-success').text('One-time password (OTP) Verified');  
                        // $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
                         $("#otp-verified").val('verified'); 
                         // You can proceed with form submission here
