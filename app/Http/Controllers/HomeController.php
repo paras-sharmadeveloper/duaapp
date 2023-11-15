@@ -541,7 +541,8 @@ class HomeController extends Controller
           'name' => $venuesList->type,
           'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'venue_address_id' => $venuesList->id,
-          'day_left' =>  Carbon::now()->diffInDays($eventDate)
+          // 'day_left' =>  Carbon::now()->diffInDays($eventDate)
+          'day_left' =>  $eventDate->format('d-M-Y')
 
         ];
       }
