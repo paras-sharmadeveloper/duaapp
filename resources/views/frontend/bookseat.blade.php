@@ -1024,9 +1024,8 @@ div#errors {
                                         
                                         <p> </p>
                                     </div>
-                                   
+                                    <div id="otpVerifiedMessage" class="text-center"><p></p></div>
                                     
-
                                 </div>
                                 <div class="row g-3 mb-3">
                                     <div class="col col-lg-12 col-md-12 text-center" id="opt-form-confirm" style="display: none">
@@ -1730,7 +1729,7 @@ div#errors {
                     },
                     error: function(xhr) {
                         // email-contaniner
-                        $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
                         // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
 
                     }
@@ -1912,7 +1911,7 @@ div#errors {
 
                         $("#opt-form").show();
                         $("#submitBtn").hide();
-                        $("#mobile-number").find('p').removeClass('text-danger').addClass('text-success').text(response.message);
+                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass('text-success').text(response.message);
                         $this.find('label').text("Resend")
 
                     },
@@ -1920,7 +1919,8 @@ div#errors {
 
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
-                        $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        // $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
                         // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
                         //     .responseJSON.message);
 
@@ -1944,8 +1944,8 @@ div#errors {
                         $("#loader-otp2").hide();
                         $("#opt-form-confirm").hide();
                         $("#submitBtn").show(); // Display a success message
-                        $("#opt-form").hide();
-                        $("#email-contaniner").find('p').addClass('text-success').text('Email Verified') 
+                        $("#opt-form").hide(); 
+                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').('text-success').text('One-time password (OTP) Verified');  
                        // $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
                         $("#otp-verified").val('verified'); 
                         // You can proceed with form submission here
