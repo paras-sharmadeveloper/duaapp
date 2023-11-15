@@ -105,7 +105,6 @@ class VenueController extends Controller
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
                 $dataArr['is_'. $key] = ($recuureing == 'on') ? 1 : 0;
-                 
                 $dayToSet[] = $key; 
             }
         }
