@@ -86,11 +86,15 @@ class HomeController extends Controller
       if ($from != 'admin') {
         $selfieData = $request->input('selfie');
         $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
-        $isUsers = $this->IsRegistredAlready($selfieImage);
+        
       }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
       $venue = $venueAddress->venue;
+
+      if($venueAddress->rejoin_venue_after > 0){
+        $isUsers = $this->IsRegistredAlready($selfieImage);
+      }
 
       $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
       if ($user) {
@@ -101,6 +105,7 @@ class HomeController extends Controller
         } else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin') {
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
         }
+       
       }
 
       if (!empty($isUsers) && $isUsers['status'] == false) {
