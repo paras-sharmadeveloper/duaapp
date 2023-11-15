@@ -191,6 +191,12 @@
         }
 
         @media (max-width:767px) {
+            #booknowStart{
+                margin-top: 50% !important; 
+            }
+            #startBooking {
+                width: 100% !important;
+            }
             .container-fluid{
                 padding: 0px !important; 
             }
@@ -274,9 +280,9 @@
             .cusmhtn {
                 font-size: 12px;
             }
-            .card.text-center.h-60.shadow-sm.thripist-section img {
+            /* .card.text-center.h-60.shadow-sm.thripist-section img {
                 max-height: 180px !important;
-            }
+            } */
             .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
                 width: 50% !important;
             }
@@ -299,10 +305,10 @@
             .error.country_code {
                 bottom: -35px
             }
-            .thripist-section img {
+            /* .thripist-section img {
              
             max-height: 264px !important; 
-        }
+        } */
 
 
         }
@@ -321,7 +327,7 @@
         .thripist-section img {
             height: 100%;
             width: 100%;
-            max-height: 300px; 
+            /* max-height: 300px;  */
         }
 
         .loader-img {
@@ -350,99 +356,12 @@
         }
 
         /* css loader start  */
-        .lds-spinner {
-            color: official;
-            display: inline-block;
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
+        
 
-        .lds-spinner div {
-            transform-origin: 40px 40px;
-            animation: lds-spinner 1.2s linear infinite;
-        }
-
-        .lds-spinner div:after {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 3px;
-            left: 37px;
-            width: 6px;
-            height: 18px;
-            border-radius: 20%;
-            background: #ffffff;
-        }
-
-        .lds-spinner div:nth-child(1) {
-            transform: rotate(0deg);
-            animation-delay: -1.1s;
-        }
-
-        .lds-spinner div:nth-child(2) {
-            transform: rotate(30deg);
-            animation-delay: -1s;
-        }
-
-        .lds-spinner div:nth-child(3) {
-            transform: rotate(60deg);
-            animation-delay: -0.9s;
-        }
-
-        .lds-spinner div:nth-child(4) {
-            transform: rotate(90deg);
-            animation-delay: -0.8s;
-        }
-
-        .lds-spinner div:nth-child(5) {
-            transform: rotate(120deg);
-            animation-delay: -0.7s;
-        }
-
-        .lds-spinner div:nth-child(6) {
-            transform: rotate(150deg);
-            animation-delay: -0.6s;
-        }
-
-        .lds-spinner div:nth-child(7) {
-            transform: rotate(180deg);
-            animation-delay: -0.5s;
-        }
-
-        .lds-spinner div:nth-child(8) {
-            transform: rotate(210deg);
-            animation-delay: -0.4s;
-        }
-
-        .lds-spinner div:nth-child(9) {
-            transform: rotate(240deg);
-            animation-delay: -0.3s;
-        }
-
-        .lds-spinner div:nth-child(10) {
-            transform: rotate(270deg);
-            animation-delay: -0.2s;
-        }
-
-        .lds-spinner div:nth-child(11) {
-            transform: rotate(300deg);
-            animation-delay: -0.1s;
-        }
-
-        .lds-spinner div:nth-child(12) {
-            transform: rotate(330deg);
-            animation-delay: 0s;
-        }
-
-        @keyframes lds-spinner {
-            0% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
+        .row .no-data {
+            width: 100% !important;
+            text-align: center;
+            font-size: 26px;
         }
 
         .btn-cst {
@@ -516,7 +435,7 @@
             z-index: 1;
             height: 8px;
             width: 8px;
-            background: #19d184;
+            background: #000000;
             border-radius: 50%;
             box-shadow: 0 0 0 2px white;
         }
@@ -528,7 +447,7 @@
             left: 50%;
             width: 100%;
             height: 2px;
-            background: #19d184;
+            background: #FFEB3B;
         }
 
         .wrapper ul li.active~li:before {
@@ -540,7 +459,7 @@
         }
 
         .wrapper ul li.active:before {
-            background-color: #198fd1;
+            background-color: #0c0c0c;
             box-shadow: 0 0 0 3px rgba(25, 143, 209, 0.2);
         }
 
@@ -577,13 +496,11 @@
             right: 4px;
             height: 28px !important;
         }
-        label {
-    color: white;
-}
-button#sendOtp {
+        label {color: white;}
+/* button#sendOtp {
     margin-top: 30px;
     float: right; 
-}
+} */
 div#slot-information-user {
     padding: 10px;
     display: flex;
@@ -1081,13 +998,13 @@ div#errors {
                                     <div class="col col-md-12">
                                         <label class="mb-2"> Email</label>
                                         <input type="email" class="form-control" name="email"
-                                            placeholder="Eg:test@example.com" aria-label="Email">
+                                            placeholder="Eg:test@example.com" aria-label="Email" id="email">
                                     </div>
                                 </div>
 
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-lg-5  col-md-6">
+                                    <div class="col col-lg-6  col-md-6">
                                         <label class="mb-2"> Country Code </label>
                                         <select id="country_code" name="country_code" class="js-states form-control">
                                             <option value="">select</option>
@@ -1099,7 +1016,7 @@ div#errors {
 
                                     </div>
 
-                                    <div class="col col-lg-7 col-md-6" id="mobile-number">
+                                    <div class="col col-lg-6 col-md-6" id="mobile-number">
                                         <label class="mb-2"> Mobile (Preferred WhatsApp) </label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
@@ -1107,7 +1024,11 @@ div#errors {
                                         <p> </p>
                                     </div>
                                    
-                                    <div class="col col-lg-2 col-md-12" id="opt-form-confirm" style="display: none">
+                                    
+
+                                </div>
+                                <div class="row g-3 mb-3">
+                                    <div class="col col-lg-12 col-md-12" id="opt-form-confirm" style="display: none">
                                         <label></label>
                                         <button type="button" id="sendOtp" class="btn-cst m btn btn-primary testbtn"
                                             type="button" data-loading="Sending OTP" data-success="Success"
@@ -1120,7 +1041,6 @@ div#errors {
                                         <p></p>
 
                                     </div>
-
                                 </div>
                                 <div id="opt-form" style="display: none">
                                     <div class="row mt-2">
@@ -1283,7 +1203,7 @@ div#errors {
                                 }else{
                                     img = '<img src="/assets/theme/img/avatar.png">';
                                 }
-                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
+                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
                                     <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
                                                 ${img}                           
                                         <div class="card-body px-0">
@@ -1531,7 +1451,7 @@ div#errors {
                             </div>`;
                         })
                     }else{
-                        typed = '<p> No Data Found </p>';   
+                        typed = '<p class="no-data"> No Data Found </p>';   
                     }
                         $("#type-listing").html(typed);
                         nextBtn.find('b').text(defaultText)
@@ -1559,7 +1479,7 @@ div#errors {
                         </div>`;
                         })
                     }else{
-                        country = '<p> No Data Found </p>'; 
+                        country = '<p class="no-data"> No Data Found </p>';  
                     }
                         $("#country-listing").html(country);
                         nextBtn.find('b').text(defaultText)
@@ -1588,7 +1508,7 @@ div#errors {
                        
                        
                     }else{
-                        city ='<p> No Data Found</p>'
+                        city ='<p class="no-data"> No Data Found </p>'; 
                     }
                    
                     $("#city-listing").html(city);
@@ -1615,7 +1535,7 @@ div#errors {
                             })
                             
                         }else{
-                            dAte = "<p> No Data Found</p>"; 
+                            dAte = '<p class="no-data"> No Data Found </p>'; 
                         }
                         nextBtn.find('b').text(defaultText)
                         $("#date-listing").html(dAte);
@@ -1951,11 +1871,13 @@ div#errors {
                 if (phoneNumber.length === 10) {
                     $("#submitBtn").hide();
                     $("#opt-form-confirm").fadeIn(500);
-                    $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
+                    // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
+                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
                 } else {
                     $("#submitBtn").show();
                     $("#opt-form-confirm").fadeOut(500);
-                    $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
+                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+                    // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
                 }
             });
             $("#sendOtp").click(function() {
@@ -1977,6 +1899,7 @@ div#errors {
                     data: {
                         country_code: $("#country_code").val(),
                         mobile: $("#mobile").val(),
+                        email: $("#email").val(),
 
                     },
                     success: function(response) {

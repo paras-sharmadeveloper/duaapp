@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Mail;
-
+ 
 use Illuminate\Bus\Queueable; 
 use Illuminate\Mail\Mailable; 
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use SendGrid;
-use SendGrid\Mail\Mail; 
+use SendGrid\Mail\Mail;    
 
-class VisitorBookingMail extends Mailable
+class UserOtp extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,14 +29,14 @@ class VisitorBookingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Visitor Booking Mail',
+            subject: 'KahayFaqeer verification code. For your security, do not share this code.',
         );
     }
 
     public function build()
     {
-        return $this->view('email-template.visitor-booking')
-                    ->subject('Visitor Booking Confirmation')
+        return $this->view('email-template.user-otp')
+                    ->subject('KahayFaqeer verification code. For your security, do not share this code.')
                     ->with(['bookingData' => $this->dynamicData]);
     }
 
@@ -63,7 +63,4 @@ class VisitorBookingMail extends Mailable
         }
          
     }
-
 }
-
-     

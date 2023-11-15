@@ -100,6 +100,7 @@
 
                     </div>
                 </div>
+                <span class="text-center text-warning mt-1" > Recommended  Size <strong class="text-info">300 X 300</strong> Pixel </span>
             </div>
 
 

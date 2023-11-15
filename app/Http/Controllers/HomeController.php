@@ -430,13 +430,18 @@ class HomeController extends Controller
   {
     $dataArr = [];
  
-    // if (App::environment('production')) {
-    $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-    if (!empty($ipInfo)) {
-      $userDetail = json_decode($ipInfo['complete_data'], true);
-    } else {
-      $userDetail = $this->getIpDetails($request->ip());
+    if (App::environment('production')) {
+        $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+        if (!empty($ipInfo)) {
+          $userDetail = json_decode($ipInfo['complete_data'], true);
+        } else {
+          $userDetail = $this->getIpDetails($request->ip());
+        }
+    }else{
+      $userDetail['countryCode'] = 'IN'; 
+      $userDetail['countryName'] = 'India'; 
     }
+  // echo "<pre>"; print_r($userDetail); die;  
     $countryCode = $userDetail['countryCode'];
     $countryName = ucwords($userDetail['countryName']);
     $countryId = Country::where(['nicename' => $countryName])->first();
@@ -487,6 +492,7 @@ class HomeController extends Controller
     $type = $request->input('type');
     $id = $request->input('id');
     $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    $newDate15Day = date('Y-m-d', strtotime(date('Y-m-d') . ' +15 day'));
     if ($type == 'venue_address') {
       $venuesListArr = VenueAddress::where(['venue_id' => $id])->get()->all();
       $dataArr = [];
@@ -508,13 +514,26 @@ class HomeController extends Controller
       ]);
     }
     if ($type == 'get_type') {
-
-      $addRess = VenueAddress::where('therapist_id', $id)
+      // return ['today' => $newDate, 'wde' => $newDate15Day]; 
+      if (App::environment('production')) { 
+        $addRess = VenueAddress::where('therapist_id', $id)
+        ->where(function ($query) use ($newDate,$newDate15Day) {
+            $query->whereDate('venue_date', '>=', $newDate)
+                  ->whereDate('venue_date', '<=', $newDate15Day);
+        })
+        ->get();
+      }else{
+        $addRess = VenueAddress::where('therapist_id', $id)
         // ->where(function ($query) use ($newDate) {
         //   $query->whereDate('venue_date', $newDate)
         //     ->orWhereDate('venue_date', date('Y-m-d'));
         // })
         ->get();
+
+      }
+      
+
+      
       $dataArr = [];
       foreach ($addRess as $venuesList) {
         $eventDate = Carbon::parse($venuesList->venue_date . ' ' . $venuesList->slot_starts_at);
@@ -711,18 +730,25 @@ class HomeController extends Controller
   public function SendOtpUser(Request $request)
   {
 
-    $validatedData = $request->validate([
-      'mobile' => 'required|string|max:255|unique:vistors,phone',
+    // $request->validate([
+    //   'mobile' => 'required|string|max:255|unique:vistors,phone',
+    //   'country_code' => 'required'
+    // ]);
+
+    $request->validate([
+      'email' => 'required|string|max:255|unique:vistors,email',
       'country_code' => 'required'
     ]);
 
     $country = $request->input('country_code');
     $mobile = $request->input('mobile');
-
-    $result =  $this->SendOtp($mobile, $country);
+    $email = $request->input('email');
+    // $this->SendOtp($mobile,$country,$isMobile=true,$isEmail = false); 
+    $result =  $this->SendOtp($email,$country,$isMobile=false,$isEmail = true);
 
     if ($result['status']) {
-      return response()->json(['message' => 'OTP Sent successfully', 'status' => true]);
+      return response()->json(['message' => 'Please check your email for OTP. If not Recived then check Spam Email.', 'status' => true]);
+      // return response()->json(['message' => 'OTP Sent successfully', 'status' => true]);
     } else {
       return response()->json(['message' => 'OTP failed to sent', 'status' => false]);
     }
