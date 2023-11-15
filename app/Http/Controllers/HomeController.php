@@ -491,7 +491,8 @@ class HomeController extends Controller
   {
     $type = $request->input('type');
     $id = $request->input('id');
-    $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    // $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    $newDate = date('Y-m-d');
     $newDate15Day = date('Y-m-d', strtotime(date('Y-m-d') . ' +15 day'));
     if ($type == 'venue_address') {
       $venuesListArr = VenueAddress::where(['venue_id' => $id])->get()->all();
