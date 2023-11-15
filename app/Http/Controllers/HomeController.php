@@ -678,9 +678,7 @@ class HomeController extends Controller
       // }
 
       if (!empty($venueAddress)) {
-        $iso =  $venueAddress->venue->iso; 
-        $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-        $countryTz =  $venueTimezone->timezone; 
+        
 
         $mytime = Carbon::now()->tz($currentTimezone);
         $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
@@ -709,15 +707,20 @@ class HomeController extends Controller
           ->get(['venue_address_id', 'slot_time', 'id']);
 
         $slotsDataArr = [];
+        $iso =  $venueAddress->venue->iso; 
+        $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+        $countryTz =  $venueTimezone->timezone; 
 
         foreach ($slotArr as $k => $myslot) {
           $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
 
-          $carbonSlot = Carbon::parse($venueDate, $currentTimezone); // IST timezone
-          $carbonSlot->setTimezone($currentTimezone);
+          $carbonSlot = Carbon::parse($venueDate, $countryTz); // IST timezone
+          $carbonSlot->timezone($currentTimezone);
+          // $carbonSlot->setTimezone($currentTimezone);
           $slotsDataArr[$k] = $myslot;
           // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
-          $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');
+          $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s'); 
+          // $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');
         }
         return response()->json([
           'status' => true,
