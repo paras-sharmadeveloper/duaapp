@@ -161,6 +161,8 @@ class HomeController extends Controller
         'meeting_location' => $venueAddress->type,
         'therapist_name' => $venueAddress->user->name,
         'booking_number' => $bookingNumber,
+        'slotDuration' => $slotDuration,
+        'venue_address' => $venueAddress->address,
         'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
       ];
 
