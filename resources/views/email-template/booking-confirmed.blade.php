@@ -258,8 +258,8 @@
                                                                                 <div
                                                                                     style="font-family: inherit; text-align: center">
                                                                                     <span
-                                                                                        style="font-size: 16px; font-family: inherit">{{ $dynamicData['meeting_date_time'] }}(Gulf
-                                                                                        Standard Time)</span>
+                                                                                        style="font-size: 16px; font-family: inherit">
+                                                                                        {{ $dynamicData['meeting_date_time'] }}(Gulf Standard Time)</span>
                                                                                 </div>
                                                                                 <div></div>
                                                                             </div>
@@ -273,7 +273,8 @@
                                                                                 <div
                                                                                     style="font-family: inherit; text-align: center">
                                                                                     <span
-                                                                                        style="font-size: 16px; font-family: inherit">{{ $dynamicData['userTime'] }}({{ $dynamicData['userTz'] }})</span>
+                                                                                        style="font-size: 16px; font-family: inherit">
+                                                                                        {{ $dynamicData['userTime'] }}({{ $dynamicData['userTz'] }})</span>
                                                                                 </div>
                                                                                 <div></div>
                                                                             </div>
@@ -328,8 +329,7 @@
                                                                                         @else
                                                                                             Meeting Mode : Physical
                                                                                             (OFF-LINE)
-                                                                                            <br>
-                                                                                            {{ $dynamicData['venue_address'] }}
+                                                                                            
                                                                                     @endif
                                                                                     <br>
                                                                                     <div
