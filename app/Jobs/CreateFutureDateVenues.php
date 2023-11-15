@@ -41,7 +41,7 @@ class CreateFutureDateVenues implements ShouldQueue
         }
         foreach($futureDates as $date ){
             $this->dataArr['venue_date'] = $date; 
-            if (!VenueAddress::whereDate('venue_date', $date)->exists()) {
+            if (!VenueAddress::whereDate('venue_date', $date)->where('venue_id',$this->dataArr['venue_id'])->exists()) {
                 // VenueAddress for the date does not exist, so create a new record
                 $venueAddress = VenueAddress::create($this->dataArr);
                 CreateVenuesSlots::dispatch($venueAddress->id, $this->slotDuration)
