@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Models\{VenueSloting, VenueAddress,Timezone};
+use App\Models\{VenueSloting, VenueAddress};
 use Carbon\Carbon;
 class CreateVenuesSlots implements ShouldQueue
 {
@@ -34,19 +34,16 @@ class CreateVenuesSlots implements ShouldQueue
         $venueAddress = VenueAddress::find($this->venueId); 
 
         if (!empty($venueAddress)) {
-            $iso = $venueAddress->venue->iso; 
-            $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-            $timeZone = (!empty($venueTimezone->timezone)) ? $venueTimezone->timezone : 'America/New_York'; 
 
-            $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning)->tz($timeZone);
-            $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning)->tz($timeZone);
+            $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
+            $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
 
             // if evening has set then 
     
             if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
     
-                $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening)->tz($timeZone);
-                $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening)->tz($timeZone);
+                $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
+                $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
     
                 $currentTimeT = $startTimeevng;
                 while ($currentTimeT < $endTimeEvn) {
