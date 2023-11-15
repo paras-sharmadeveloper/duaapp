@@ -402,7 +402,7 @@ class HomeController extends Controller
 
       $slotsDataArr = [];
 
-      $iso =  $venueAddress->venue->iso; 
+        $iso =  $venueAddress->venue->iso; 
         $venueTimezone = Timezone::where(['country_code' => $iso])->first();
         $countryTz =  $venueTimezone->timezone;
 

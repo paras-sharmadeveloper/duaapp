@@ -1729,7 +1729,7 @@ div#errors {
                     },
                     error: function(xhr) {
                         // email-contaniner
-                        $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        // $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
                         // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
 
                     }
