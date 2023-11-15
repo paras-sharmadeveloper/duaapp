@@ -994,11 +994,12 @@ div#errors {
                                     </div>
 
                                 </div>
-                                <div class="row g-3 mb-3">
+                                <div class="row g-3 mb-3" id="email-contaniner">
                                     <div class="col col-md-12">
                                         <label class="mb-2"> Email</label>
                                         <input type="email" class="form-control" name="email"
                                             placeholder="Eg:test@example.com" aria-label="Email" id="email">
+                                            <p> </p>
                                     </div>
                                 </div>
 
@@ -1728,9 +1729,9 @@ div#errors {
 
                     },
                     error: function(xhr) {
- 
-                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
-                            .responseJSON.message);
+                        // email-contaniner
+                        $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
 
                     }
                 });
@@ -1919,8 +1920,9 @@ div#errors {
 
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
-                        $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
-                            .responseJSON.message);
+                        $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
+                        //     .responseJSON.message);
 
                     }
                 });
@@ -1943,7 +1945,8 @@ div#errors {
                         $("#opt-form-confirm").hide();
                         $("#submitBtn").show(); // Display a success message
                         $("#opt-form").hide();
-                        $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
+                        $("#email-contaniner").find('p').addClass('text-success').text('Email Verified') 
+                       // $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
                         $("#otp-verified").val('verified'); 
                         // You can proceed with form submission here
                     },
