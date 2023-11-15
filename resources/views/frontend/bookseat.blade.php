@@ -1029,7 +1029,7 @@ div#errors {
 
                                 </div>
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-lg-12 col-md-12" id="opt-form-confirm" style="display: none">
+                                    <div class="col col-lg-12 col-md-12 text-center" id="opt-form-confirm" style="display: none">
                                         <label></label>
                                         <button type="button" id="sendOtp" class="btn-cst m btn btn-primary testbtn"
                                             type="button" data-loading="Sending OTP" data-success="Success"
