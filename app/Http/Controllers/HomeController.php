@@ -663,21 +663,25 @@ class HomeController extends Controller
         ->get()->first();
 
 
-      if (App::environment('production')) {
-        $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-        if (!empty($ipInfo)) {
-          $userDetail = json_decode($ipInfo['complete_data'], true);
-        } else {
-          $userDetail = $this->getIpDetails($request->ip());
-        }
-        $countryCode = $userDetail['countryCode'];
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;
-      } else {
-        $currentTimezone = 'America/New_York';
-      }
+      // if (App::environment('production')) {
+      //   $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+      //   if (!empty($ipInfo)) {
+      //     $userDetail = json_decode($ipInfo['complete_data'], true);
+      //   } else {
+      //     $userDetail = $this->getIpDetails($request->ip());
+      //   }
+      //   $countryCode = $userDetail['countryCode'];
+      //   $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+      //   $currentTimezone = $timezone->timezone;
+      // } else {
+      //   $currentTimezone = 'America/New_York';
+      // }
 
       if (!empty($venueAddress)) {
+        $iso =  $venueAddress->venue->iso; 
+        $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+        $countryTz =  $venueTimezone->timezone; 
+
         $mytime = Carbon::now()->tz($currentTimezone);
         $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
         $hoursRemaining = $eventDate->diffInHours($mytime);
@@ -709,7 +713,7 @@ class HomeController extends Controller
         foreach ($slotArr as $k => $myslot) {
           $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
 
-          $carbonSlot = Carbon::parse($venueDate, 'Asia/Kolkata'); // IST timezone
+          $carbonSlot = Carbon::parse($venueDate, $currentTimezone); // IST timezone
           $carbonSlot->setTimezone($currentTimezone);
           $slotsDataArr[$k] = $myslot;
           // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
