@@ -522,6 +522,7 @@ class HomeController extends Controller
             $query->whereDate('venue_date', '>=', $newDate)
                   ->whereDate('venue_date', '<=', $newDate15Day);
         })
+        ->orderBy('venue_date', 'asc')
         ->get();
       }else{
         $addRess = VenueAddress::where('therapist_id', $id)
