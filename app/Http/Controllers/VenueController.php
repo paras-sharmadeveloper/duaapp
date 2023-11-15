@@ -198,7 +198,10 @@ class VenueController extends Controller
         $VenueAddress->update($dataArr);
 
         if ($request->has('update_slots')) {
-            VenueSloting::where(['venue_address_id' => $id])->delete();
+            if( VenueSloting::where(['venue_address_id' => $id])->exists()){
+                VenueSloting::where(['venue_address_id' => $id])->delete();
+            }
+            
             CreateVenuesSlots::dispatch($id,$slotDuration)->onQueue('create-slots')->onConnection('database');
             // $this->createVenueTimeSlots($id, $slotDuration);
         }
