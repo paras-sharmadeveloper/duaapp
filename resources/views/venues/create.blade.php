@@ -294,8 +294,15 @@
 
 
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mt-4">
+                <div class="row mt-3">
+                    <div class="col-md-2 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="selfie_verification" name="selfie_verification"
+                                @if (!empty($venueAddress) && $venueAddress->selfie_verification == 1) checked @endif>
+                            <label class="form-check-label" for="tuesday">Selfie Verification</label>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Recurring Till How many Month ? </span>
                             {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
@@ -305,7 +312,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-5 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">User Rejoin After Days? </span>
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [

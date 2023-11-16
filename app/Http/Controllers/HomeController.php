@@ -69,13 +69,15 @@ class HomeController extends Controller
         //'mobile' => 'required|string|max:255|unique:vistors,phone',
         'email' => 'required|email|max:255', // Check for duplicate email
         'mobile' => 'required|string|max:255',
-        'user_question' => 'nullable|string',
-        'selfie' => 'required',
+        'user_question' => 'nullable|string', 
         'otp' => 'required',
         'country_code' => 'required',
         'otp-verified' => 'required',
         'slot_id' => 'required|numeric|unique:vistors,slot_id'
       ];
+      if($request->input('selfie_required') == 'yes'){
+         $vaildation['selfie'] =   'required'; 
+      }
     }
     $validatedData = $request->validate($vaildation);
 
@@ -700,6 +702,7 @@ class HomeController extends Controller
           'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
           'timezone' => $currentTimezone,
           'app' => App::environment('production'),
+          'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'slots' => [],
         ]);
       }
@@ -737,6 +740,7 @@ class HomeController extends Controller
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
           'timezone' => $currentTimezone,
+          'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);
       } else {

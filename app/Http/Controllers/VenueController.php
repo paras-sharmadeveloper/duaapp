@@ -98,6 +98,7 @@ class VenueController extends Controller
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
+            'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
             'venue_available_country' => $venue_available_country
         ];
@@ -194,6 +195,7 @@ class VenueController extends Controller
             'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => $request->input('recurring_till'),
+            'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
             'venue_available_country' => $venue_available_country
         ];

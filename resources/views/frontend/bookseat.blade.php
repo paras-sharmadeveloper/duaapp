@@ -1005,7 +1005,7 @@ div#errors {
 
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-lg-6  col-md-6">
+                                    <div class="col col-lg-6  col-md-6" id="countryCodeDiv">
                                         <label class="mb-2"> Country Code </label>
                                         <select id="country_code" name="country_code" class="js-states form-control">
                                             <option value="">select</option>
@@ -1082,7 +1082,7 @@ div#errors {
                                     </label>
                                 </div> --}}
 
-                                <div class="form-group row mt-3 selfie">
+                                <div class="form-group row mt-3 selfie" id="make-selfie-area">
                                     {{-- <label for="selfie" class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label> --}}
 
                                     <div class="col-md-12 text-center">
@@ -1131,6 +1131,8 @@ div#errors {
         
                         </div> 
                         <input type="hidden" name="timezone" id="timezone-hidden">
+                        <input type="hidden" name="selfie_required" id="selfie_required" value="yes">
+                        
 
                         <div class="disclaimer">
                             <p style="font-size:12px">We do not store your image. Our system only processes your facial fingerprint real-time to check if you are a human. By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact you about your appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.</p>
@@ -1545,6 +1547,13 @@ div#errors {
 
                     if (type == 'get_slots') {
                         var html = '';
+                        if(response.selfie){
+                            $("#selfie_required").val('yes')
+                            $("#make-selfie-area").show();
+                        }else{
+                            $("#make-selfie-area").hide();
+                            $("#selfie_required").val('no') 
+                        }
                         
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
@@ -1585,7 +1594,7 @@ div#errors {
                         $(this).next(".row").fadeIn();
                         $(this).next(".row").find('.head>label').text(oldTitle)
                             
-                        });
+                    });
 
 
                 }
@@ -1664,8 +1673,9 @@ div#errors {
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 if (field == 'country_code') {
-                                    inputElement.before('<div class="error ' + field +
-                                        '">' + messages.join('<br>') + '</div>');
+                                    $("#countryCodeDiv").find('.error').remove(); 
+                                    $("#countryCodeDiv").last().append('<div class="error ' + field + '">' + messages.join('<br>') + '</div>'); 
+                                  //  inputElement.before();
                                 }else  if (field == 'otp-verified') {
                                     inputElement.after('<div class="error ' + field + '">Submit your OTP to get verified</div>');
                                 } else {

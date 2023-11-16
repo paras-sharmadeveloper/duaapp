@@ -140,12 +140,12 @@ class BookingController extends Controller
                 if ($otp['status']) {
                     return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 
                     'enable' => true, 
-                    'booking_number' => $request->input('booking_number')
+                    'booking_number' => $bookingId
                 ]);
                 } else {
                     return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 
                     'enable' => false, 
-                    'booking_number' => $request->input('booking_number')
+                    'booking_number' => $bookingId
                    ]);
                 }
              
