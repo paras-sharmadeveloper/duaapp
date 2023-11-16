@@ -78,7 +78,7 @@ class VideoConferenceController extends Controller
             $iso =  $venueAddress->venue->iso; 
             $venuesATimezone = Timezone::where(['country_code' => $iso])->first();
             $venueTimezone =  $venuesATimezone->timezone;
-            $userTimeZone =  $venueAddress->user_timezone;
+            $userTimeZone =  $vistor->user_timezone;
 
 
 
