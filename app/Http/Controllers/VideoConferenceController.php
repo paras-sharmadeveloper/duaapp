@@ -84,7 +84,7 @@ class VideoConferenceController extends Controller
             // $userTimeZone = $vistor->user_timezone;
             $mytime = Carbon::now()->tz('America/New_York');
             if (!empty($userTimeZone)) {
-                $mytime = Carbon::now()->tz($userTimeZone);
+                $mytime = Carbon::now()->timezone($userTimeZone);
             } 
             $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
  
@@ -103,16 +103,16 @@ class VideoConferenceController extends Controller
                         
             // echo "Time Remaining in Hours: $timeRemaining hours, Time Remaining in Minutes: $minuteDifference minutes";
 
-            // echo "minuteDifference". $minuteDifference . $mytime->isPast();
-            // echo "<br>". $mytime->isFuture(); 
-            // echo "timeRemaining". $timeRemaining; 
-            // echo "<br>";
-            // echo "meetingStartTime". $meetingStartTime; 
-            // echo "<br>";
-            // echo "mytime". $mytime; 
-            // echo "<br>";
-            // echo "timezone". $userTimeZone; 
-            // die; 
+            echo "minuteDifference". $minuteDifference . $mytime->isPast();
+            echo "<br>". $mytime->isFuture(); 
+            echo "timeRemaining". $timeRemaining; 
+            echo "<br>";
+            echo "meetingStartTime". $meetingStartTime; 
+            echo "<br>";
+            echo "mytime". $mytime; 
+            echo "<br>";
+            echo "timezone". $userTimeZone; 
+            die; 
 
             // $timeRemaining = $mytime->diffInHours($meetingStartTime); 
 
