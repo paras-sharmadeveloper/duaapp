@@ -64,7 +64,7 @@
                             </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->address }}</td>
-                            <td>{{ $formattedDate }}({{ $weekDay }})  </td>
+                            <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td>
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
