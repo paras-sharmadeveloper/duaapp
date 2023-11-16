@@ -47,8 +47,8 @@
                                     $venueDate = \Carbon\Carbon::parse($venueAdd->venue_date)->format('d-M-y');
                                     $startTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_starts_at_morning)->format('h:i A');
                                     $endTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_ends_at_morning)->format('h:i A');
-                                    $startTimeFormattedEvg = \Carbon\Carbon::parse($venueAdd->slot_starts_at_evening)->format('h:i A');
-                                    $endTimeFormattedEvg = \Carbon\Carbon::parse($venueAdd->slot_ends_at_evening)->format('h:i A');
+                                    $startTimeFormattedEvg = ($venueAdd->slot_starts_at_evening) ? \Carbon\Carbon::parse($venueAdd->slot_starts_at_evening)->format('h:i A') : '';
+                                    $endTimeFormattedEvg = ($venueAdd->slot_ends_at_evening)?\Carbon\Carbon::parse($venueAdd->slot_ends_at_evening)->format('h:i A'):'';
                                 @endphp
                                 <div class="col-lg-4">
 
@@ -68,8 +68,10 @@
                                         </div>
                                         <h4 class="title">{{ $venueAdd->user->name }}</h4>
                                         <h2 class="sub-title">{{ $venueDate }}</h2>
-                                        <h4 class="sub-title">Morning {{ $startTimeFormattedMrg }} - {{ $endTimeFormattedMrg }}</h4>
-                                        <h4 class="sub-title">Evening {{ $startTimeFormattedEvg }} - {{ $endTimeFormattedEvg }}</h4>
+                                        <h6 class="sub-title">Morning {{ $startTimeFormattedMrg }} - {{ $endTimeFormattedMrg }}</h6>
+                                        @if($startTimeFormattedEvg)
+                                        <h6 class="sub-title">Evening {{ $startTimeFormattedEvg }} - {{ $endTimeFormattedEvg }}</h6>
+                                        @endif
                                         <span class="sr"><strong>{{ $venueAdd->venue->country_name }}
                                                 ({{ $venueAdd->state }})
                                             </strong></span>
