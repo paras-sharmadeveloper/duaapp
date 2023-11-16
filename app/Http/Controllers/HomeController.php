@@ -156,13 +156,13 @@ class HomeController extends Controller
       $countryTz =  $venueTimezone->timezone;
 
       $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $carbonSlotVenue = Carbon::parse($venueDate,$countryTz); 
-      $carbonSlot = Carbon::parse($venueDate); // IST timezone
-      $carbonSlotVenue->timezone($countryTz); 
+      $currentContryTimezone = Carbon::parse($venueDate,$countryTz); 
+      $currentContryTimezone->timezone($countryTz); 
 
-      $userSelectedTimezone =  $carbonSlot->timezone($request->input('timezone')); 
+      $userSelectedTimezone = Carbon::parse($venueDate,$countryTz);  
+      $userSelectedTimezone->timezone($request->input('timezone')); 
 
-      $formattedDateTime = $carbonSlotVenue->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlotVenue->addMinutes(30)->format('g:ia');
+      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
       $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
       $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
