@@ -76,8 +76,9 @@ class VideoConferenceController extends Controller
             $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
 
             $iso =  $venueAddress->venue->iso; 
-            $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-            $userTimeZone =  $venueTimezone->timezone;
+            $venuesATimezone = Timezone::where(['country_code' => $iso])->first();
+            $venueTimezone =  $venuesATimezone->timezone;
+            $userTimeZone =  $venueAddress->user_timezone;
 
 
 
@@ -87,11 +88,9 @@ class VideoConferenceController extends Controller
                 $mytime = Carbon::now()->timezone($userTimeZone);
             } 
             $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
- 
-        
-          
-            $meetingStartTime =  Carbon::parse($venueDateTme, $userTimeZone); 
-            $meetingStartTime->timezone($userTimeZone);
+
+            $meetingStartTime =  Carbon::parse($venueDateTme, $venueTimezone); 
+            $meetingStartTime->timezone($venueTimezone);
             $timeRemaining = $meetingStartTime->diffInHours($mytime);
             $minuteDifference = $meetingStartTime->diffInMinutes($mytime);
 
