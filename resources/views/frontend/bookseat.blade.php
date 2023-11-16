@@ -1868,7 +1868,7 @@ div#errors {
                 phoneNumber = phoneNumber.replace(/\D/g, '');
 
                 // Check if the phone number has reached 10 digits
-                if (phoneNumber.length === 8 || phoneNumber.length >= 8 ) {
+                if (phoneNumber.length === 5 || phoneNumber.length >= 5 ) {
                     $("#submitBtn").hide();
                     $("#opt-form-confirm").fadeIn(500);
                     // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
