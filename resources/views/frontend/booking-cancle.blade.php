@@ -54,7 +54,7 @@
                     <div class="col-12"> 
                          <label for="yourPassword" class="form-label">Enter You Mobile Number Here</label>
                         <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" 
-                          value="{{ (session()->has('booking_number')) ? session()->get('booking_number') : ''  }}" 
+                          value="{{ old('phone') }}" 
                           required autocomplete="phone" 
                           autofocus>
                          @error('phone')
