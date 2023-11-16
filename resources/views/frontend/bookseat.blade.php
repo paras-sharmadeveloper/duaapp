@@ -197,6 +197,7 @@
             div#type-listing,#country-listing,#city-listing,#date-listing {
                 max-height: 340px;
                 overflow-x: scroll;
+                height: 280px;
             }
             .row.justify-content-center.form-business.sloting-main .sloting-inner{
                 height: 200px !important;
