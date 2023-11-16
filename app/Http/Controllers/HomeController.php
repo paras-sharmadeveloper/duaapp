@@ -162,7 +162,7 @@ class HomeController extends Controller
 
       $formattedDateTime = $carbonSlotVenue->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlotVenue->addMinutes(30)->format('g:ia');
       $userTimezoneFormat = $carbonSlot->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlot->addMinutes(30)->format('g:ia');
-
+      $userLocationTime = 'As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
       $dynamicData = [
         'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
@@ -173,7 +173,7 @@ class HomeController extends Controller
         'mobile' =>  '+' . $mobile,
         'country' =>  $venue->country_name,
         'event_name' => $slotDuration . " Minute Online Dua Appointment",
-        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At. ' .   $formattedDateTime   : "Online Video Call",
+        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
         "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
         "meeting_link" => route('booking.status', [$uuid]),
         'meeting_cancel_link' => route('book.cancle', [$uuid]),

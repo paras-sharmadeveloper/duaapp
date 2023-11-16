@@ -274,7 +274,7 @@
                                                                                     style="font-family: inherit; text-align: center">
                                                                                     <span
                                                                                         style="font-size: 16px; font-family: inherit">
-                                                                                        {{ $dynamicData['userTime'] }}({{ $dynamicData['userTz'] }})</span>
+                                                                                        {{ $dynamicData['userTime'] }}(As Per Selected Timezone : {{ $dynamicData['userTz'] }})</span>
                                                                                 </div>
                                                                                 <div></div>
                                                                             </div>
