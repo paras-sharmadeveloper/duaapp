@@ -194,6 +194,20 @@
             #booknowStart{
                 margin-top: 50% !important; 
             }
+            div#type-listing,#country-listing,#city-listing,#date-listing {
+                max-height: 340px;
+                overflow-x: scroll;
+            }
+            .row.justify-content-center.form-business.sloting-main .sloting-inner{
+                height: 200px !important;
+                max-height: 330px !important;
+                overflow: overlay;
+            }
+            
+ 
+                div#mobile-number label { 
+                    font-size: 12px !important; 
+                }
             #startBooking {
                 width: 100% !important;
             }
