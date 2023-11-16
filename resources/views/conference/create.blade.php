@@ -42,6 +42,14 @@
                         @if ($counter % 3 == 0)
                             <div class="row">
                         @endif
+
+                        @php
+                            $venueDate = \Carbon\Carbon::parse($venue->venue_date)->format('d-M-Y');
+                            $startTimeFormattedMrg = \Carbon\Carbon::parse($venue->slot_starts_at_morning)->format('h:i A');
+                            $endTimeFormattedMrg = \Carbon\Carbon::parse($venue->slot_ends_at_morning)->format('h:i A');
+                            $startTimeFormattedEvg = ($venue->slot_starts_at_evening) ? \Carbon\Carbon::parse($venue->slot_starts_at_evening)->format('h:i A') : '';
+                            $endTimeFormattedEvg = ($venue->slot_ends_at_evening)?\Carbon\Carbon::parse($venue->slot_ends_at_evening)->format('h:i A'):'';
+                        @endphp
                         <div class="col-lg-4">
                             <form method="POST" action="{{ route('join.conference.post', [$venue->room_sid]) }}">
                                 @csrf 
@@ -52,11 +60,10 @@
                                         <h5 class="card-title">Online</h5>
                                         <p class="card-text">
                                             {{ \Carbon\Carbon::parse($venue->venue_date)->format('d-M-Y') }}</p><br>
-                                        <p class="card-text">
-
-                                            {{ \Carbon\Carbon::parse($venue->slot_starts_at)->format('h:iA') }} -
-                                            {{ \Carbon\Carbon::parse($venue->slot_ends_at)->format('h:iA') }}
-                                        </p>
+                                            <h6 class="sub-title">Morning {{ $startTimeFormattedMrg }} - {{ $endTimeFormattedMrg }}</h6>
+                                            @if($startTimeFormattedEvg)
+                                            <h6 class="sub-title">Evening {{ $startTimeFormattedEvg }} - {{ $endTimeFormattedEvg }}</h6>
+                                            @endif
                                         <button type="submit" class="btn btn-primary mt-3">Start Conference</button>
 
                                     </div>
