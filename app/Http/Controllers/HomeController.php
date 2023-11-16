@@ -179,17 +179,22 @@ class HomeController extends Controller
       $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname'];
       $therapistName = $venueAddress->thripist->name;
+
+
+
+
       $userSlot = VenueSloting::find($request->input('slot_id'));
-      $venueDateTme = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $venueStartTime =  Carbon::parse($venueDateTme, $request->input('timezone')); 
-      $venueStartTime->timezone($request->input('timezone'));
+
+      $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
+      $carbonSlot = Carbon::parse($venueDate); // IST timezone
+      $carbonSlot->timezone($request->input('timezone')); 
 
       // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
 
-      $venueString = $venueStartTime->format('d-M-y g:i A'); 
+      $venueString = $carbonSlot->format('d-M-Y g:i A'); 
       $slot_duration = $venueAddress->slot_duration;
       if ($venueAddress->type == 'on-site') {
-        $location = $venueAddress->address . 'at Dua Ghar Physical Meeting';
+        $location = $venueAddress->address;
         $confirmSpot = route('booking.confirm-spot');
       } else {
         $location = 'Online Meeting';
