@@ -147,8 +147,23 @@ class HomeController extends Controller
       $slotDuration = $venueAddress->slot_duration;
       $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
       $dateTime = Carbon::parse($eventData);
-      $formattedDateTime = $dateTime->format('l F j, Y ⋅ g:i a') . ' – ' . $dateTime->addMinutes(30)->format('g:ia');
-      $userTimezoneFormat = $userTimeZone->format('l F j, Y ⋅ g:i a') . ' – ' . $userTimeZone->addMinutes(30)->format('g:ia');
+      
+
+      $userSlot = VenueSloting::find($request->input('slot_id'));
+      $iso = $venue->iso; 
+
+      $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+      $countryTz =  $venueTimezone->timezone;
+
+      $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
+      $carbonSlotVenue = Carbon::parse($venueDate,$countryTz); // IST timezone
+
+      $carbonSlot =  $carbonSlotVenue->timezone($request->input('timezone')); 
+
+      $formattedDateTime = $carbonSlotVenue->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlotVenue->addMinutes(30)->format('g:ia');
+      $userTimezoneFormat = $carbonSlot->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlot->addMinutes(30)->format('g:ia');
+
+
       $dynamicData = [
         'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
         'userTime' => $userTimezoneFormat,
@@ -183,15 +198,7 @@ class HomeController extends Controller
 
 
 
-      $userSlot = VenueSloting::find($request->input('slot_id'));
-      $iso = $venue->iso; 
-
-      $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-      $countryTz =  $venueTimezone->timezone;
-
-      $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $carbonSlot = Carbon::parse($venueDate,$countryTz); // IST timezone
-      $carbonSlot->timezone($request->input('timezone')); 
+      
 
       // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
 
