@@ -13,7 +13,8 @@ class SiteAdminController extends Controller
     public function ShowQueue(){
         $role = Auth::user()->roles->pluck('name')->first(); 
         if($role == 'admin'){
-            $venueAddress = VenueAddress::where(['type' =>'on-site'])->get();  
+            $venueAddress = VenueAddress::where(['type' =>'on-site'])->orderBy('venue_date','asc')
+            ->get();  
         }else{
             $venueAddress = VenueAddress::where(['type' =>'on-site','siteadmin_id'=>Auth::user()->id])->get();  
         }

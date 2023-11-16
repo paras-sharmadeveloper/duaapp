@@ -44,7 +44,7 @@
                                     <div class="row">
                                 @endif
                                 @php
-                                    $venueDate = \Carbon\Carbon::parse($venueAdd->venue_date)->format('d-M-y');
+                                    $venueDate = \Carbon\Carbon::parse($venueAdd->venue_date)->format('d-M-Y');
                                     $startTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_starts_at_morning)->format('h:i A');
                                     $endTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_ends_at_morning)->format('h:i A');
                                     $startTimeFormattedEvg = ($venueAdd->slot_starts_at_evening) ? \Carbon\Carbon::parse($venueAdd->slot_starts_at_evening)->format('h:i A') : '';
