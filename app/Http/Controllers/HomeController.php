@@ -186,8 +186,8 @@ class HomeController extends Controller
       $userSlot = VenueSloting::find($request->input('slot_id'));
 
       $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $carbonSlot = Carbon::parse($venueDate); // IST timezone
-      $carbonSlot->timezone($request->input('timezone')); 
+      $carbonSlot = Carbon::parse($venueDate,$request->input('timezone')); // IST timezone
+       
 
       // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
 
