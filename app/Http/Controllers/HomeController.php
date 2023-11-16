@@ -167,7 +167,7 @@ class HomeController extends Controller
       $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
       $dynamicData = [
-        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . '('.$countryTz.')',
+        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
         'userTime' => $userTimezoneFormat,
         'venueTz' => $countryTz,
         'userTz' => $request->input('timezone'),

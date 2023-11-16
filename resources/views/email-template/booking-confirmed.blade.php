@@ -259,7 +259,7 @@
                                                                                     style="font-family: inherit; text-align: center">
                                                                                     <span
                                                                                         style="font-size: 16px; font-family: inherit">
-                                                                                        {{ $dynamicData['meeting_date_time'] }}(Gulf Standard Time)</span>
+                                                                                        {{ $dynamicData['meeting_date_time'] }}({{ $dynamicData['venueTz'] }})</span>
                                                                                 </div>
                                                                                 <div></div>
                                                                             </div>
