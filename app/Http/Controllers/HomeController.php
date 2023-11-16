@@ -156,17 +156,20 @@ class HomeController extends Controller
       $countryTz =  $venueTimezone->timezone;
 
       $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $carbonSlotVenue = Carbon::parse($venueDate,$countryTz); // IST timezone
+      $carbonSlotVenue = Carbon::parse($venueDate,$countryTz); 
+      $carbonSlot = Carbon::parse($venueDate); // IST timezone
+      $carbonSlotVenue->timezone($countryTz); 
 
-      $carbonSlot =  $carbonSlotVenue->timezone($request->input('timezone')); 
+      $userSelectedTimezone =  $carbonSlot->timezone($request->input('timezone')); 
 
       $formattedDateTime = $carbonSlotVenue->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlotVenue->addMinutes(30)->format('g:ia');
-      $userTimezoneFormat = $carbonSlot->format('l F j, Y ⋅ g:i a') . ' – ' . $carbonSlot->addMinutes(30)->format('g:ia');
-      $userLocationTime = 'As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
+      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
+      $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
       $dynamicData = [
-        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . ' (Gulf Standard Time)',
+        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $formattedDateTime . '('.$countryTz.')',
         'userTime' => $userTimezoneFormat,
+        'venueTz' => $countryTz,
         'userTz' => $request->input('timezone'),
         'first_name' => $validatedData['fname'],
         'email' => $validatedData['email'],
