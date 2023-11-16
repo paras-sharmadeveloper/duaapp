@@ -183,7 +183,7 @@ class BookingController extends Controller
     public function CustomerBookingStatus(Request $request,$id)
     {
 
-        $userBooking = Vistors::where('booking_uniqueid', $id)->first();
+        $userBooking = Vistors::where('booking_uniqueid', $id)->get();
 
         if (!$userBooking) {
             $message = "Not found.";

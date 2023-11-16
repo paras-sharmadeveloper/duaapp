@@ -190,6 +190,7 @@
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
                     $("#timer" + id).text("Time's up!");
+                    postAjax(id, 'end'); 
                 } else {
                     var seconds = Math.floor(remainingTime / 1000) % 60;
                     var minutes = Math.floor(remainingTime / 1000 / 60);
