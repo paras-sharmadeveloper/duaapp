@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('venue_address_id'); // Foreign key to venue_addresses
             $table->time('slot_time');
+            $table->string('token_id')->nullable();
             $table->timestamps();
             $table->foreign('venue_address_id')
                   ->references('id')

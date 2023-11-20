@@ -47,13 +47,13 @@ class VenueController extends Controller
             'venue_id' => 'required',
             'therapist_id' => 'required',
             'siteadmin_id' => 'required',
-            'type' => 'required',
+            // 'type' => 'required',
             'venue_date' => 'required',
             'venue_addresses' => 'required',
             'slot_starts_at_morning' => 'required',
             'slot_ends_at_morning' => 'required',
             'city' => 'required',
-            'video_room' => 'required_if:type,virtual',
+            // 'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
             'rejoin_venue_after' => 'required'
 
@@ -75,11 +75,11 @@ class VenueController extends Controller
 
         $dataArr = [];
         $dayToSet = [];
-        $roomDetail = [];
-        if ($request->input('video_room')) {
-            $roomName = str_replace(' ', '_', $request->input('video_room'));
-            $roomDetail =  $this->createConferencePost($roomName);
-        }
+        // $roomDetail = [];
+        // if ($request->input('video_room')) {
+        //     $roomName = str_replace(' ', '_', $request->input('video_room'));
+        //     $roomDetail =  $this->createConferencePost($roomName);
+        // }
 
         $dataArr = [
             'city' => $request->input('city'),
@@ -93,9 +93,9 @@ class VenueController extends Controller
             'venue_id' => $request->input('venue_id'),
             'therapist_id' => $request->input('therapist_id'),
             'siteadmin_id' =>  $request->input('siteadmin_id'),
-            'type' => $request->input('type'),
-            'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
-            'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
+            'type' => $request->input('type','on-site'),
+            //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
+            //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
@@ -152,21 +152,21 @@ class VenueController extends Controller
             'venue_id' => 'required',
             'therapist_id' => 'required',
             'siteadmin_id' => 'required',
-            'type' => 'required',
+            // 'type' => 'required',
             'venue_date' => 'required',
             'venue_addresses' => 'required',
             'slot_starts_at_morning' => 'required',
             'slot_ends_at_morning' => 'required',
             'city' => 'required',
-            'video_room' => 'required_if:type,virtual',
+            // 'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
             'rejoin_venue_after' => 'required'
 
         ]);
-        $roomDetail = [];
-        if ($request->input('video_room') !== $VenueAddress->room_name) {
-            $roomDetail =  $this->createConferencePost($request->input('video_room'));
-        }
+        // $roomDetail = [];
+        // if ($request->input('video_room') !== $VenueAddress->room_name) {
+        //     $roomDetail =  $this->createConferencePost($request->input('video_room'));
+        // }
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
 
@@ -190,9 +190,9 @@ class VenueController extends Controller
             'venue_id' => $request->input('venue_id'),
             'therapist_id' => $request->input('therapist_id'),
             'siteadmin_id' =>  $request->input('siteadmin_id'),
-            'type' => $request->input('type'),
-            'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
-            'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
+            'type' => $request->input('type','on-site'),
+            //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
+            //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
             'recurring_till' => $request->input('recurring_till'),
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,

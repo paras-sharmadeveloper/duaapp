@@ -295,14 +295,14 @@
 
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-2 mt-4">
+                    {{-- <div class="col-md-2 mt-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="selfie_verification" name="selfie_verification"
                                 @if (!empty($venueAddress) && $venueAddress->selfie_verification == 1) checked @endif>
                             <label class="form-check-label" for="tuesday">Selfie Verification</label>
                         </div>
-                    </div>
-                    <div class="col-md-5 mt-4">
+                    </div> --}}
+                    <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Recurring Till How many Month ? </span>
                             {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
@@ -312,7 +312,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-5 mt-4">
+                    <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">User Rejoin After Days? </span>
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
@@ -322,13 +322,9 @@
 
                         </div>
                     </div>
-                </div>
-
-
-
-
+                </div> 
                 <div class="row mt-3">
-                    <div class="col-md-4  mt-4">
+                    {{-- <div class="col-md-4  mt-4">
                         <label for="type">Type</label>
                         <div>
                             <input type="radio" id="on-site" name="type" value="on-site"
@@ -340,8 +336,8 @@
                                 {{ isset($venueAddress) && $venueAddress->type === 'virtual' ? 'checked' : '' }} required>
                             <label for="virtual">Online (Virtual)</label>
                         </div>
-                    </div>
-                    <div class="col-md-4 mt-4">
+                    </div> --}}
+                    <div class="col-md-6 mt-4">
                         @php 
                         $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : []; 
                         @endphp
@@ -384,7 +380,7 @@
                             </div> 
                     </div>
 
-                    <div class="col-md-4 mt-4">
+                    {{-- <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Video Room Name</span>
                             <input type="text" id="video_room" class="form-control" name="video_room"
@@ -392,7 +388,7 @@
 
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
                     <div class="form-check">

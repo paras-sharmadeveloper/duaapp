@@ -165,7 +165,7 @@
       @endcanany
 
        @canany('vedio-call-access')
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#video-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Video Conference</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -182,7 +182,7 @@
              
            
         </ul>
-      </li>
+      </li> --}}
       @endcanany
 
       @canany('visitor-booking-access')

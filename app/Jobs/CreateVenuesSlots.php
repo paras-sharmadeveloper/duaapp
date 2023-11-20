@@ -46,26 +46,33 @@ class CreateVenuesSlots implements ShouldQueue
                 $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
     
                 $currentTimeT = $startTimeevng;
+                $tokenId = 1; 
                 while ($currentTimeT < $endTimeEvn) {
                     $slotTime = $currentTimeT->format('H:i');
                     VenueSloting::create([
                         'venue_address_id' => $this->venueId,
                         'slot_time' => $slotTime,
+                        'token_id' => $tokenId,
                     ]);
-                    $currentTimeT->addMinute($this->slotDuration); // Move to the next minute
+                    $currentTimeT->addMinute($this->slotDuration);
+                    $tokenId++; 
+                    // Move to the next minute
                 }
     
             } 
             // Create time slots
             // if morning has set then 
             $currentTime = $startTime;
+            $tokenId = 1; 
             while ($currentTime < $endTime) {
                 $slotTime = $currentTime->format('H:i');
                 VenueSloting::create([
                     'venue_address_id' => $this->venueId,
                     'slot_time' => $slotTime,
+                    'token_id' => $tokenId,
                 ]);
                 $currentTime->addMinute($this->slotDuration); // Move to the next minute
+                $tokenId++; 
             }
              
         }

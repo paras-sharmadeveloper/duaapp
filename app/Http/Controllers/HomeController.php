@@ -75,9 +75,9 @@ class HomeController extends Controller
         'otp-verified' => 'required',
         'slot_id' => 'required|numeric|unique:vistors,slot_id'
       ];
-      if($request->input('selfie_required') == 'yes'){
-         $vaildation['selfie'] =   'required'; 
-      }
+      // if($request->input('selfie_required') == 'yes'){
+      //    $vaildation['selfie'] =   'required'; 
+      // }
     }
     $validatedData = $request->validate($vaildation);
 
@@ -92,6 +92,7 @@ class HomeController extends Controller
       }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
+      $tokenId = $venueSlots->token_id; 
       $venue = $venueAddress->venue;
 
       if($venueAddress->rejoin_venue_after > 0){
@@ -119,10 +120,11 @@ class HomeController extends Controller
 
       $uuid = Str::uuid()->toString();
       $countryCode = $request->input('country_code');
-      $timestamp = Carbon::now()->format('YmdHis'); // Current timestamp
-      $randomString = rand(10, 100); // Generate a random string of 6 characters
+      $timestamp = Carbon::now()->format('Yis'); // Current timestamp
+      $randomString = rand(2, 100); // Generate a random string of 6 characters
 
-      $bookingNumber = $timestamp . $randomString;
+      // $bookingNumber = $timestamp . $randomString;
+      $bookingNumber =  $tokenId; 
       // Create a new Vistors record in the database
       $mobile = $countryCode . $validatedData['mobile'];
       $booking = new Vistors;
@@ -139,16 +141,13 @@ class HomeController extends Controller
       $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : null;
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
-      $booking->user_timezone = $request->input('timezone', null);
-
+      $booking->user_timezone = $request->input('timezone', null); 
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
       $slotDuration = $venueAddress->slot_duration;
       $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
       $dateTime = Carbon::parse($eventData);
-      
-
       $userSlot = VenueSloting::find($request->input('slot_id'));
       $iso = $venue->iso; 
 
@@ -177,7 +176,7 @@ class HomeController extends Controller
         'country' =>  $venue->country_name,
         'event_name' => $slotDuration . " Minute Online Dua Appointment",
         'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
-        "spot_confirmation" => route('booking.confirm-spot', [$uuid]),
+        'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
         "meeting_link" => route('booking.status', [$uuid]),
         'meeting_cancel_link' => route('book.cancle', [$uuid]),
         'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
@@ -197,11 +196,6 @@ class HomeController extends Controller
       $rescheduleBooking = route('book.reschdule', [$uuid]);
       $name = $validatedData['fname'];
       $therapistName = $venueAddress->thripist->name;
-
-
-
-
-      
 
       // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
       $whatsappTims = Carbon::parse($venueDate,$countryTz); // IST timezone

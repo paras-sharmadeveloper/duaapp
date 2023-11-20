@@ -1097,18 +1097,14 @@ div#errors {
                                     </label>
                                 </div> --}}
 
-                                <div class="form-group row mt-3 selfie" id="make-selfie-area">
-                                    {{-- <label for="selfie" class="col-md-4 col-form-label text-md-right">{{ __('Selfie') }}</label> --}}
+                                {{-- <div class="form-group row mt-3 selfie" id="make-selfie-area"> 
 
                                     <div class="col-md-12 text-center">
                                         <button class="btn btn-outline-success btn-cst" type="button"
-                                            id="start-camera">Take Selfie</button>
-
-                                        <!-- Add a camera view area -->
+                                            id="start-camera">Take Selfie</button> 
                                         <div id="camera-view" style="display: none;">
                                             <video id="video" autoplay playsinline></video>
-                                        </div>
-                                        <!-- Display the captured image -->
+                                        </div> 
                                         <div id="captured-image" style="display: none;">
 
                                             <img id="selfie-image" src="" alt="Captured Selfie">
@@ -1120,8 +1116,8 @@ div#errors {
 
                                     </div>
 
-                                </div>
-                                <div class="row">
+                                </div> --}}
+                                {{-- <div class="row">
                                     <div class="loader-main" id="loader-main" style="display: none">
                                         <div class="loader mb-3"></div>
 
@@ -1140,13 +1136,12 @@ div#errors {
                                     </div>
                                     <div id="errors"></div>
 
-                                </div>
-                                <!-- /Final step -->
+                                </div>  --}}
                                
         
                         </div> 
                         <input type="hidden" name="timezone" id="timezone-hidden">
-                        <input type="hidden" name="selfie_required" id="selfie_required" value="yes">
+                        {{-- <input type="hidden" name="selfie_required" id="selfie_required" value="yes"> --}}
                         
 
                         <div class="disclaimer">
@@ -1563,11 +1558,11 @@ div#errors {
                     if (type == 'get_slots') {
                         var html = '';
                         if(response.selfie){
-                            $("#selfie_required").val('yes')
+                            // $("#selfie_required").val('yes')
                             $("#make-selfie-area").show();
                         }else{
                             $("#make-selfie-area").hide();
-                            $("#selfie_required").val('no') 
+                            // $("#selfie_required").val('no') 
                         }
                         
                         if (response.status) {
