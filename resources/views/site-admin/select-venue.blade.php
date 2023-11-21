@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+<style>
+  
+.table-wrapper {
+    width: 100%;
+    /* max-width: 500px; */
+    overflow-x: auto;
+  }
+
+</style>
     <div class="row">
         <div class="col-lg-12 margin-tb">
 
@@ -30,170 +39,121 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+        
+ 
+
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Manage Queue</h5>
+            <div class="action d-flex justify-content-between">
+                <h5 class="card-title">Manage Queue</h5>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <input type="text" name="" id="search" class="form-control" placeholder="search">
+                    </div>
+                </div>
+            </div>
+            
             @if (request()->route()->getName() == 'siteadmin.queue.show')
-                <section class="services section-bg" id="services">
-                    <div class="container">
 
-                        @php $counter = 0 @endphp
-                        <div class="row">
-                            @foreach ($venueAddress as $venueAdd)
-                                @if ($counter % 3 == 0)
-                                    <div class="row">
-                                @endif
-                                @php
-                                    $venueDate = \Carbon\Carbon::parse($venueAdd->venue_date)->format('d-M-Y');
-                                    $startTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_starts_at_morning)->format('h:i A');
-                                    $endTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_ends_at_morning)->format('h:i A');
-                                    $startTimeFormattedEvg = ($venueAdd->slot_starts_at_evening) ? \Carbon\Carbon::parse($venueAdd->slot_starts_at_evening)->format('h:i A') : '';
-                                    $endTimeFormattedEvg = ($venueAdd->slot_ends_at_evening)?\Carbon\Carbon::parse($venueAdd->slot_ends_at_evening)->format('h:i A'):'';
-                                @endphp
-                                <div class="col-lg-4">
+            <div class="row">
+ 
+                <div class="col-xl-12  users-list-header">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="tokn">
+                                    <span class="fw-bold rounded-circle text-center">Sr.No</span>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">Venue Info</p>
+                                </div>
+                                <span class="fw-bold">Venue Date</span>
+                                <span class="fw-bold">Action</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
 
-                                    <div class="box">
-                                        <div class="icon">
-                                            @if (
-                                                !empty($venueAdd->user->profile_pic) &&
-                                                    Storage::disk('s3_general')->exists('images/' . $venueAdd->user->profile_pic))
-                                                <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $venueAdd->user->profile_pic }}"
-                                                    class="imgh" alt="Flag Image">
-                                            @else
-                                                <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                                                    class="imgh" alt="Default Image">
-                                            @endif
-                                            {{-- <i class="fa fa-briefcase service-icon" style="color: #c59c35;"></i> --}}
-                                        </div>
-                                        <h4 class="title">{{ $venueAdd->user->name }}</h4>
-                                        <h2 class="sub-title">{{ $venueDate }}</h2>
+                @php $i=0; @endphp
+                @foreach ($venueAddress as $venueAdd)
+                @php
+                    $venueDate = \Carbon\Carbon::parse($venueAdd->venue_date)->format('d-M-Y');
+                    $startTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_starts_at_morning)->format('h:i A');
+                    $endTimeFormattedMrg = \Carbon\Carbon::parse($venueAdd->slot_ends_at_morning)->format('h:i A');
+                    $startTimeFormattedEvg = ($venueAdd->slot_starts_at_evening) ? \Carbon\Carbon::parse($venueAdd->slot_starts_at_evening)->format('h:i A') : '';
+                    $endTimeFormattedEvg = ($venueAdd->slot_ends_at_evening)?\Carbon\Carbon::parse($venueAdd->slot_ends_at_evening)->format('h:i A'):'';
+                @endphp
+                <div class="col-xl-12 mb-1 users-list">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="token">
+                                    <span class="rounded-circle text-center h6">{{ ++$i }}</span>
+                                </div>
+                                <div class="ms-3">
+                                     
+                                    <p class="fw-bold mb-1 h6"> 
+                                        {{ $venueAdd->user->name }}
                                         <h6 class="sub-title">Morning {{ $startTimeFormattedMrg }} - {{ $endTimeFormattedMrg }}</h6>
                                         @if($startTimeFormattedEvg)
                                         <h6 class="sub-title">Evening {{ $startTimeFormattedEvg }} - {{ $endTimeFormattedEvg }}</h6>
                                         @endif
-                                        <span class="sr"><strong>{{ $venueAdd->venue->country_name }}
-                                                ({{ $venueAdd->state }})
-                                            </strong></span>
-                                        <p class="description text-center">{{ $venueAdd->city }}</p>
-                                        <p class="description text-center">{{ $venueAdd->address }}</p>
-                                        <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}"
-                                            class="btn btn-outline-info text-center">Start</a>
-                                    </div>
-
-
+                                    </p>
+                                    
+                                        
+                                   
                                 </div>
-                                @if ($counter % 3 == 2 || $loop->last)
+                                <p class="text-muted mb-0 h6"> {{ $venueDate }}</p>
+                                <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}"
+                                    class="btn btn-info text-center">Start</a>
+                                {{-- <span class="badge rounded-pill badge-success h2">Active</span> --}}
+                                {{-- <span class="badge badge-warning rounded-pill d-inline h2">Awating..</span> --}}
+                            </div>
                         </div>
-            @endif
-            @php $counter++ @endphp
-            @endforeach
 
-        </div>
-        </section>
+                    </div>
+                </div>
+                @endforeach
+                 
+                 
+             </div> 
+ 
+
         @endif
 
 
     </div>
-    </div>
-    </div>
-    <style>
-        .box img { max-height: 120px;}
-        #services .box,
-        .section-header h3 {
-            position: relative;
-            text-align: center
-        }
+    </div> 
 
-        #services .box,
-        section {
-            overflow: hidden
-        }
+@endsection
 
-        a {
-            color: #444
-        }
+@section('page-script')
+<script>
+    $(document).ready(function() {
+        // Add an input event listener to the search input
+        $("#search").on("input", function() {
+            // Get the search input value
+            var searchText = $(this).val().toLowerCase();
 
-        .container {
-            max-width: 1320px
-        }
+            // Loop through each card
+            $(".users-list .card").each(function() {
+                // Get the text content of each card
+                var cardText = $(this).text().toLowerCase();
 
-        .section-header h3 {
-            font-size: 36px;
-            color: #413e66;
-            font-weight: 700;
-            font-family: Montserrat, sans-serif
-        }
-
-        .section-header p {
-            text-align: center;
-            margin: auto;
-            font-size: 15px;
-            padding-bottom: 60px;
-            color: #535074;
-            width: 50%
-        }
-
-        @media (max-width:767px) {
-            .section-header p {
-                width: 100%
-            }
-        }
-
-        #services {
-            padding: 60px 0 40px
-        }
-
-        #services .box {
-            padding: 30px;
-            border-radius: 10px;
-            margin: 0 10px 40px;
-            background: #fff;
-            box-shadow: 0 10px 29px 0 rgba(68, 88, 144, .1);
-            transition: .3s ease-in-out
-        }
-
-        #services .box:hover {
-            transform: scale(1.1)
-        }
-
-        #services .icon {
-            margin: 0 auto 15px;
-            padding-top: 12px;
-            display: inline-block;
-            text-align: center;
-            border-radius: 50%;
-        }
-
-        #services .icon .service-icon {
-            font-size: 36px;
-            line-height: 1
-        }
-
-        #services .title {
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 18px
-        }
-
-        #services .title a {
-            color: #111
-        }
-
-        #services .box:hover .title a {
-            color: #c59c35
-        }
-
-        #services .box:hover .title a:hover {
-            text-decoration: none
-        }
-
-        #services .description {
-            font-size: 14px;
-            line-height: 28px;
-            margin-bottom: 0;
-            text-align: left
-        }
-    </style>
-
+                // Check if the card text contains the search text
+                if (cardText.includes(searchText)) {
+                    // Show the card if it matches
+                    $(this).show();
+                } else {
+                    // Hide the card if it doesn't match
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
 @endsection

@@ -1640,7 +1640,7 @@ div#errors {
                         $("#errors").html(''); 
                         $this.find('span').show()
                         $this.find('b').text(successText)
-                        stopCamera();
+                        // stopCamera();
                         setTimeout(() => {
                             $this.find('b').text(defaultText)
                             $("#wizardRow").fadeOut(300);

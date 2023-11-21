@@ -30,9 +30,14 @@ class SiteAdminController extends Controller
             // $venueSloting = VenueSloting::with('visitors')->where(['venue_address_id' => $id])->get(); 
             return response()->json(['success' => true , 'data' => $venueSloting],200); 
         }
+        $venueSloting = VenueSloting::with('visitors','venueAddress')
+            ->where(['venue_address_id' => $id])
+            ->has('visitors') // Include only records with visitors
+            ->get();
+            // echo "<pre>"; print_r($venueSloting); die; 
        
  
-        return view('site-admin.queue-list'); 
+        return view('site-admin.queue-list',compact('venueSloting')); 
     }
 
     public function VisitorUpdate(Request $request, $id){
@@ -44,6 +49,14 @@ class SiteAdminController extends Controller
         }
         Vistors::find($id)->update([$col => date('Y-m-d H:i:s')]);
         return response()->json(['success' => true]); 
+    }
+
+    public function WaitingQueueShow(Request $request,$id){
+        // $venueadd = VenueSloting::where([
+        //     'venue_address_id' => $id
+        // ])->get(); 
+        
+        return view('frontend.waiting-queue'); 
     }
 
     

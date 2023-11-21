@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .main-data {
+    max-height: 100vh;
+    overflow: auto;
+}
+</style>
     <div class="row">
         <div class="col-lg-12 margin-tb">
 
@@ -39,11 +45,114 @@
     @endif 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Manage Queue</h5>
+            <div class="action d-flex justify-content-between">
+                <h5 class="card-title">Manage Users</h5>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <input type="text" name="" id="search" class="form-control" placeholder="search">
+                    </div>
+                </div>
+            </div>
 
 
             @if (request()->route()->getName() == 'siteadmin.queue.list')
-                <table class="table-with-buttons-no table table-responsive cell-border">
+
+
+
+            <div class="row main-data">
+ 
+                <div class="col-xl-12  users-list-header">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="tokn">
+                                    <span class="fw-bold rounded-circle text-center">Sr.No</span>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">User Info</p>
+                                </div> 
+                                <span class="fw-bold">Action</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                @php $i=0;   
+                @endphp
+               
+                @foreach ($venueSloting as $visitoddr)
+                @foreach ($visitoddr->visitors as $visitor)
+                @php  
+                //   $visitor = $visitoddr->visitors;  
+                // echo "<pre>"; print_r($visitoddr->venueAddress); die; 
+                @endphp
+                <div class="col-xl-12 mb-1 users-list">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="token">
+                                    <span class="rounded-circle text-center h6">{{ ++$i }}</span>
+                                </div>
+                                <div class="ms-3">
+                                     
+                                    <p class="fw-bold mb-1 h6"> 
+                                        {{ $visitor['fname'] }} {{ $visitor['lname'] }}
+                                        <h6 class="sub-title"> Mobile : {{ $visitor['phone'] }}</h6>
+                                        <h6 class="sub-title"> Email : {{ $visitor['email'] }}</h6>
+                                        <h6 class="sub-title"> TokenNo : {{ $visitor['booking_number'] }}</h6> 
+                                    </p>
+                                    
+                                        
+                                   
+                                </div>
+                                <div class="info text-end" s>
+                                    <button type="button" class="btn btn-info verify mb-2" 
+                                        data-minutes="{{ $visitoddr->venueAddress->slot_duration }}" 
+                                        data-id="{{ $visitor->id }}">
+                                        <div id="timer{{ $visitor->id }}">Verify User </div>
+                                    </button>
+                                    <button type="button" class="btn btn-success start mb-2 " 
+                                        data-minutes="{{ $visitoddr->venueAddress->slot_duration }}" 
+                                        data-id="{{ $visitor->id }}">
+                                        <div id="timer{{ $visitor->id }}">Start</div>
+                                    </button>
+                                </div> 
+                                 
+                                {{-- <span class="badge rounded-pill badge-success h2">Active</span> --}}
+                                {{-- <span class="badge badge-warning rounded-pill d-inline h2">Awating..</span> --}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @endforeach
+                @endforeach
+                  
+             </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <table class="table-with-buttons-no table table-responsive cell-border d-none">
                     <thead>
                         <tr>
                             <th scope="col">BookingId</th>
@@ -64,7 +173,33 @@
     </div>
 
 @endsection
+ 
+
 @section('page-script')
+<script>
+    $(document).ready(function() {
+        // Add an input event listener to the search input
+        $("#search").on("input", function() {
+            // Get the search input value
+            var searchText = $(this).val().toLowerCase();
+
+            // Loop through each card
+            $(".users-list .card").each(function() {
+                // Get the text content of each card
+                var cardText = $(this).text().toLowerCase();
+
+                // Check if the card text contains the search text
+                if (cardText.includes(searchText)) {
+                    // Show the card if it matches
+                    $(this).show();
+                } else {
+                    // Hide the card if it doesn't match
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script> 
     <script>
         getData();
         setInterval(function() {

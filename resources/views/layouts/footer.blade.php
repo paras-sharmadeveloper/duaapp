@@ -57,6 +57,7 @@ $(document).ready(function() {
         dom: 'Bfrtip', 
 		paging: true,
 		autoWidth: true,
+        responsive: true,
         aoColumnDefs: [
             { "aTargets": [ 0 ], "bSortable": true },
             // { "aTargets": [ 1 ], "bSortable": true },

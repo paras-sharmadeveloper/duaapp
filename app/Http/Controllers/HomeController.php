@@ -722,7 +722,7 @@ class HomeController extends Controller
           'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
           'timezone' => $currentTimezone,
           'app' => App::environment('production'),
-          'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
+          // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'slots' => [],
         ]);
       }
@@ -760,7 +760,7 @@ class HomeController extends Controller
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
           'timezone' => $currentTimezone,
-          'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
+          // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);
       } else {
@@ -879,7 +879,7 @@ class HomeController extends Controller
       Your dua appointment is confirmed as below:
       
       Appointment ID : 
-      $bookingNumber
+      #$bookingNumber
       
       Sahib-e-Dua:
       $therapistName

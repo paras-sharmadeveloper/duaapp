@@ -5,9 +5,6 @@
     padding: 0px 80px;
 }
 </style>
- 
-    <div class="container"> 
-      @yield('content') 
-    </div>
+    @yield('content') 
   </main><!-- End #main -->
 @include('layouts.guest-foot')
