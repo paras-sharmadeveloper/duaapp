@@ -19,9 +19,6 @@ class Vistors extends Model
         return $this->belongsTo(VenueSloting::class, 'slot_id');
     }
 
-    
-     
-
     public function scopeAheadOfVisitor($query)
     {
         // Count visitors where meeting_start_at is null (ahead)

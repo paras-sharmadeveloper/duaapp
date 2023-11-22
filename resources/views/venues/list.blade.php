@@ -44,7 +44,7 @@
                         <th>Venue Address</th>
                         <th>Venue Deatail</th>
                         <th>Type</th>
-                        <th width="280px">Action</th>
+                        <th width="400px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,7 @@
                             <td>{{ $venueAdd->address }}</td>
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
-                            <td>
+                            <td class="d-flex cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
                                     style="display: inline;">
@@ -76,6 +76,7 @@
                                         onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
                                 </form>
                                 <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">Book Slot</a>
+                                <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">Copy Link</button>
                             </td>
                         </tr>
                         @php $i++;@endphp
@@ -85,7 +86,11 @@
         </div>
     </div>
 
-
+<style>
+    td.d-flex.cdt {
+        padding: 14px; 
+}
+</style>
 
 
 @endsection

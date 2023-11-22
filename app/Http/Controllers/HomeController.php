@@ -85,19 +85,21 @@ class HomeController extends Controller
       $selfieData = "";
       $selfieImage = "";
       $isUsers = [];
-      if ($from != 'admin') {
-        $selfieData = $request->input('selfie');
-        $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
+      // if ($from != 'admin') {
+      //   $selfieData = $request->input('selfie');
+      //   $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
         
-      }
+      // }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
-      $tokenId = $venueSlots->token_id; 
+      // $tokenId = $venueSlots->token_id; 
+      $tokenId =str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT); 
+       
       $venue = $venueAddress->venue;
 
-      if($venueAddress->rejoin_venue_after > 0){
-        $isUsers = $this->IsRegistredAlready($selfieImage);
-      }
+      // if($venueAddress->rejoin_venue_after > 0){
+      //   $isUsers = $this->IsRegistredAlready($selfieImage);
+      // }
 
       $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
       if ($user) {
@@ -760,6 +762,7 @@ class HomeController extends Controller
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
           'timezone' => $currentTimezone,
+          'asd' => 'pf',
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);

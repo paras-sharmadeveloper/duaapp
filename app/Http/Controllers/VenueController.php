@@ -10,6 +10,7 @@ use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
 use PDO; 
 use App\Jobs\{CreateVenuesSlots,CreateFutureDateVenues}; 
+use Illuminate\Support\Facades\Storage;
 class VenueController extends Controller
 {
     public function index()
@@ -80,9 +81,22 @@ class VenueController extends Controller
         //     $roomName = str_replace(' ', '_', $request->input('video_room'));
         //     $roomDetail =  $this->createConferencePost($roomName);
         // }
+        $imageName  = null;
+        if ($request->hasFile('city_image')) {
+            $image = $request->file('city_image');
+            $imageName = time() . 'city_image.' . $image->getClientOriginalExtension();
+            Storage::disk('s3_general')->put('city_image/' . $imageName, file_get_contents($image));
+            // $image->move(public_path('/flags'), $imageName); 
+            
+        } 
 
+        $country = Venue::find($request->input('venue_id')); 
+        
+        $timezone = Timezone::where(['country_code' => $country->iso])->first(); 
+        
         $dataArr = [
             'city' => $request->input('city'),
+            'city_image' =>  $imageName ,
             'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
@@ -100,7 +114,8 @@ class VenueController extends Controller
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
-            'venue_available_country' => $venue_available_country
+            'venue_available_country' => $venue_available_country,
+            'timezone' => $timezone->timezone
         ];
        
         if (!empty($IsRecuureing)) {
@@ -163,10 +178,21 @@ class VenueController extends Controller
             'rejoin_venue_after' => 'required'
 
         ]);
+        $country = Venue::find($request->input('venue_id')); 
+
+        $timezone = Timezone::where(['country_code' => $country->iso])->first(); 
         // $roomDetail = [];
         // if ($request->input('video_room') !== $VenueAddress->room_name) {
         //     $roomDetail =  $this->createConferencePost($request->input('video_room'));
         // }
+        $imageName = $VenueAddress->city_image; 
+        if ($request->hasFile('city_image')) {
+            $image = $request->file('city_image');
+            $imageName = time() . 'city_image.' . $image->getClientOriginalExtension();
+            Storage::disk('s3_general')->put('city_image/' . $imageName, file_get_contents($image));
+            // $image->move(public_path('/flags'), $imageName); 
+            
+        } 
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
 
@@ -180,6 +206,7 @@ class VenueController extends Controller
 
         $dataArr = [
             'city' => $request->input('city'),
+            'city_image' =>  $imageName ,
             'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
@@ -197,7 +224,8 @@ class VenueController extends Controller
             'recurring_till' => $request->input('recurring_till'),
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
-            'venue_available_country' => $venue_available_country
+            'venue_available_country' => $venue_available_country,
+            'timezone' => $timezone->timezone
         ];
  
         $VenueAddress->update($dataArr);

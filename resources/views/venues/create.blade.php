@@ -139,15 +139,22 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-3 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">City </span>
                             {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
 
-                        </div>
+                        </div> 
                     </div>
-
-
+                    
+                    <div class="col-md-3 mt-4"> 
+                        <input type="file" class="form-control" id="city_image" name="city_image" value="sad">
+                         
+                            @if (isset( $venueAddress->city_image ) && Storage::disk('s3_general')->exists('city_image/' . $venueAddress->city_image))
+                            <img src="{{ env('AWS_GENERAL_PATH').'city_image/'.$venueAddress->city_image }}" alt="Flag Image" style="height: 100px;margin-top:10px ">
+                            @endif
+ 
+                    </div>
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Venue Addresses</span>
@@ -163,6 +170,11 @@
 
                     </div>
                 </div>
+                     
+                  
+
+
+                     
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
                         <div class="input-group">

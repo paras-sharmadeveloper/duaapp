@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Vistors,VenueSloting,VenueAddress};
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,29 +35,62 @@ class SiteAdminController extends Controller
             ->where(['venue_address_id' => $id])
             ->has('visitors') // Include only records with visitors
             ->get();
-            // echo "<pre>"; print_r($venueSloting); die; 
+             
        
  
         return view('site-admin.queue-list',compact('venueSloting')); 
     }
 
     public function VisitorUpdate(Request $request, $id){
-        
+        $update =[];
+        $vistor = Vistors::find($id); 
+
+        $timezone = $vistor->venueSloting->venueAddress->timezone; 
+        $currentTime = Carbon::parse(date('Y-m-d H:i:s')); 
+        $now = $currentTime->timezone($timezone); 
+         
         if($request->input('type') == 'start'){
-            $col ='meeting_start_at';
-        }else{
-            $col ='meeting_ends_at';
+            $update = [
+                'meeting_start_at' =>$now->format('Y-m-d H:i:s'),
+                'user_status' => 'in-meeting'
+            ]; 
+             
+        }else if($request->input('type') == 'end'){
+            $update = [
+                'meeting_ends_at' => $now->format('Y-m-d H:i:s'),
+                'user_status' => 'meeting-end'
+            ];
+            
+        }else if($request->input('type') == 'verify'){
+            $update = [
+                'confirmed_at' => $now->format('Y-m-d H:i:s'),
+                'user_status' => 'admitted',
+                'is_available' => 'confirmed'
+            ];
+           
         }
-        Vistors::find($id)->update([$col => date('Y-m-d H:i:s')]);
+        $vistor->update( $update);
         return response()->json(['success' => true]); 
     }
 
     public function WaitingQueueShow(Request $request,$id){
-        // $venueadd = VenueSloting::where([
-        //     'venue_address_id' => $id
-        // ])->get(); 
+
+        $visitors = Vistors::join('venues_sloting', 'vistors.slot_id', '=', 'venues_sloting.id')
+           ->join('venue_addresses', 'venues_sloting.venue_address_id', '=', 'venue_addresses.id')
+            ->where(['venues_sloting.venue_address_id' => $id])
+            ->select('vistors.*', 'venues_sloting.*','venue_addresses.*')
+            ->orderBy('venues_sloting.slot_time', 'asc')
+            ->get();
         
-        return view('frontend.waiting-queue'); 
+            if($request->ajax()){
+                return response()->json(['status' => true , 'data' => $visitors]); 
+            }
+
+            //echo "<pre>"; print_r( $visitors); die; 
+    
+   
+        
+        return view('frontend.waiting-queue',compact('visitors')); 
     }
 
     
