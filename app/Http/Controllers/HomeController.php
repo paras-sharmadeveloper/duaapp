@@ -616,7 +616,10 @@ class HomeController extends Controller
           'id' => $venuesList->id
         ];
       }
-      $dataArr['country'] = !(empty($dataArr)) ? array_unique($dataArr['country'], SORT_REGULAR) : '';
+      if(!(empty($dataArr))){
+        $dataArr['country'] =   array_unique($dataArr['country'], SORT_REGULAR);
+      }
+      
 
 
       return response()->json([
