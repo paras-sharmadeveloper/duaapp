@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('siteadmin_id');
             $table->string('state')->nullable();
             $table->string('city')->nullable();
+            $table->string('city_image')->nullable();
             $table->text('address');
             $table->date('venue_date'); 
             $table->time('slot_starts_at_morning');
@@ -41,6 +42,7 @@ return new class extends Migration
             $table->integer('recurring_till')->default(0); 
             $table->integer('rejoin_venue_after')->default(0); 
             $table->integer('selfie_verification')->default(1); 
+            $table->string('timezone')->nullable();
             
             $table->json('venue_available_country')->nullable(); 
             $table->timestamps(); 
