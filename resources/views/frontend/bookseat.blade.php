@@ -731,7 +731,7 @@ div#errors {
                         <div class="wrapper">
                             <ul class="status-line" id="progress-bar">
                                 <li class="active">Sahib-e-Dua</li>
-                                <li>Meeting Type</li>
+                                {{-- <li>Meeting Type</li> --}}
                                 <li>Country</li>
                                 <li>City</li>
                                 <li>Date</li>
@@ -806,7 +806,7 @@ div#errors {
                     </div> 
                 </div>
 
-                <div class="row justify-content-center  form-business" style="display: none">
+                {{-- <div class="row justify-content-center  form-business" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -825,11 +825,9 @@ div#errors {
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button>
-                        {{-- <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button> --}}
+                        </button> 
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- row -->
                 <div class="row justify-content-center  form-business" style="display: none">
@@ -1216,7 +1214,7 @@ div#errors {
                                     img = '<img src="/assets/theme/img/avatar.png">';
                                 }
                                 html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
-                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
+                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.venueaddId}">
                                                 ${img}                           
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">${item.name}</h5>
@@ -1316,7 +1314,9 @@ div#errors {
                         var event = $(this).parents(".row").find(".active-card"); 
 
                         if (event.hasClass('thripist-section')) {
-                            getAjax(cardId, 'get_type', $this)
+                            // getAjax(cardId, 'get_country', $this)
+                            // getAjax(cardId, 'get_type', $this)
+                            getAjax(cardId, 'get_country', $this)
                             // getAjax(cardId, 'get_country')
                         } else if (event.hasClass('type-selection')) {
                             getAjax(cardId, 'get_country', $this)
@@ -1439,36 +1439,36 @@ div#errors {
                 success: function(response) {
  
                     
-                    if (type == 'get_type') {
+                    // if (type == 'get_type') {
 
-                        var typed = '';
-                        if (response.status) {
+                    //     var typed = '';
+                    //     if (response.status) {
                       
-                        $.each(response.data.type, function(key, item) {
+                    //     $.each(response.data.type, function(key, item) {
 
-                            var meetingType = 'Online';
-                            if (item.name == 'on-site') {
-                                meetingType = 'Physical';
-                            }
-                            typed += `<div class="col col-lg-3 col-md-7 box">
-                                <div class="card text-center h-60 py-2 shadow-sm type-selection" 
-                                 data-id="${item.venue_address_id}" 
-                                 data-type="${item.name}"> 
-                                    <img src="${item.flag_path}" alt="Flag Image"> 
-                                    <div class="card-body px-0">
-                                        <div class="arrow-ribbon">${item.day_left}</div>
-                                        <h5 class="card-title title-binding">${meetingType}</h5>
-                                    </div>
-                                </div>
-                            </div>`;
-                        })
-                    }else{
-                        typed = '<p class="no-data"> No Data Found </p>';   
-                    }
-                        $("#type-listing").html(typed);
-                        nextBtn.find('b').text(defaultText)
+                    //         var meetingType = 'Online';
+                    //         if (item.name == 'on-site') {
+                    //             meetingType = 'Physical';
+                    //         }
+                    //         typed += `<div class="col col-lg-3 col-md-7 box">
+                    //             <div class="card text-center h-60 py-2 shadow-sm type-selection" 
+                    //              data-id="${item.venue_address_id}" 
+                    //              data-type="${item.name}"> 
+                    //                 <img src="${item.flag_path}" alt="Flag Image"> 
+                    //                 <div class="card-body px-0">
+                    //                     <div class="arrow-ribbon">${item.day_left}</div>
+                    //                     <h5 class="card-title title-binding">${meetingType}</h5>
+                    //                 </div>
+                    //             </div>
+                    //         </div>`;
+                    //     })
+                    // }else{
+                    //     typed = '<p class="no-data"> No Data Found </p>';   
+                    // }
+                    //     $("#type-listing").html(typed);
+                    //     nextBtn.find('b').text(defaultText)
 
-                    }
+                    // }
 
 
                     if (type == 'get_country') {
@@ -1503,10 +1503,10 @@ div#errors {
                         if (response.status) { 
                         
                         $.each(response.data.city, function(key, item) {
-                            var meetingType = 'Online';
+                            var meetingType = 'Online'; 
                             if (item.type == 'on-site') {
                                 meetingType = item.name;
-                            }
+                            } 
                             city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                 <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
                                     <img src="${item.flag_path}" alt="Flag Image"> 

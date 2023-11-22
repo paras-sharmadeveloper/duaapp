@@ -78,6 +78,7 @@ class SiteAdminController extends Controller
         $visitors = Vistors::join('venues_sloting', 'vistors.slot_id', '=', 'venues_sloting.id')
            ->join('venue_addresses', 'venues_sloting.venue_address_id', '=', 'venue_addresses.id')
             ->where(['venues_sloting.venue_address_id' => $id])
+            ->where(['vistors.meeting_ends_at' => null])
             ->select('vistors.*', 'venues_sloting.*','venue_addresses.*')
             ->orderBy('venues_sloting.slot_time', 'asc')
             ->get();

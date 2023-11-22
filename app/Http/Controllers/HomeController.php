@@ -504,6 +504,7 @@ class HomeController extends Controller
             'profile_pic' => $thripist->profile_pic,
             'currentTimezone' =>  $currentTimezone,
             'type' => 'recommended',
+            'venueaddId' => $venueAdd->id,
             'venue_available_country' => $venue_available_country
           ];
         } 
@@ -639,7 +640,8 @@ class HomeController extends Controller
 
         $dataArr['city'][] = [
           'name' => $cityName,
-          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($venuesList->venue->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->venue->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+        
           'id' => $venuesList->venue->id,
           'type' => $venuesList->type,
           'venue_address_id' => $venuesList->id
@@ -671,7 +673,7 @@ class HomeController extends Controller
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
-          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($venuesList->venue->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->venue->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'id' => $venuesList->venue->id,
           'venue_address_id' => $venuesList->id
         ];

@@ -223,7 +223,7 @@
                                 isConfirmed = true; 
                                 var confirmedAt = new Date(visitor.confirmed_at);
                                 var formattedDate = formatDateTime(confirmedAt);
-                                 confirmedHtml = '<span class="badge bg-success">Confirmed</span>';
+                                 confirmedHtml = '<span class="badge bg-success">'+visitor.user_status+'</span>';
                             } else {
                                 none = 'd-none';
                                 nonetimer = 'd-none';
@@ -288,6 +288,12 @@
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" ${btnprop}>
                                                     <div id="timer${visitor.id}">${btnText}</div>
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger stop mb-2 stop${visitor.id} ${none}" 
+                                                data-minutes="${slot.venue_address.slot_duration}"
+                                                data-id="${visitor.id}" >
+                                                    <div id="timer${visitor.id}">Stop</div>
                                                 </button>
                                                 
                                             </div>  

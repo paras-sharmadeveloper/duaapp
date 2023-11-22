@@ -41,7 +41,12 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/theme/css/custom.css') }}" rel="stylesheet">
-     
+     <style>
+        .logoo img {
+            height: 140px;
+            width: 150px;
+        }
+     </style>
 
 
 
