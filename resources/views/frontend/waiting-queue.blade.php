@@ -149,7 +149,7 @@ td, th {
 
         
     <script>
-         
+          speakTokenNumber(9696);
         var url = "{{ route('waiting-queue', request()->id) }}";
         getList();
         setInterval(() => {
