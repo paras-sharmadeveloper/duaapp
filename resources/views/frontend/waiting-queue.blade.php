@@ -226,9 +226,10 @@ function getList() {
                     if (!consoleLogged) {
                         console.log("One time");
                         playNotificationTune() 
-                        setInterval(() => {
-                            speakTokenNumber(item.booking_number) 
+                        setTimeout(() => {
+                            speakTokenNumber(item.booking_number)  
                         }, 1000);
+                         
  
                         
                         consoleLogged = true; // Set the variable to true after triggering console.log
@@ -255,8 +256,7 @@ function getList() {
 }
 
 
-        function formatTime(timeValue) {
-            console.log(timeValue)
+        function formatTime(timeValue) { 
             // Create a Date object by combining the date part with the time value
             var date = new Date(timeValue);
 
