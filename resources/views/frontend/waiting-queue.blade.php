@@ -163,7 +163,7 @@ td, th {
         $(".get-started").fadeOut()
         setInterval(() => {
             getList(); 
-        }, 2500);
+        }, 5000);
  
     }
 
@@ -223,6 +223,12 @@ function getList() {
                     // Check if console.log has not been triggered
                     if (!consoleLogged) {
                         console.log("One time");
+                        playNotificationTune() 
+                        setInterval(() => {
+                            speakTokenNumber(item.booking_number) 
+                            }, 1000);
+ 
+                        
                         consoleLogged = true; // Set the variable to true after triggering console.log
                     }
 
