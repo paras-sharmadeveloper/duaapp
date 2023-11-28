@@ -118,7 +118,7 @@ td, th {
             </audio>
             
             <!-- Add a button to start the token system -->
-            <button onclick="startTokenSystem()">Start Token System</button>
+            <button onclick="startTokenSystem()" id="btnas">Start Token System</button>
             <div class="col-lg-12 col-md-12 col-sm-12 first_part">
                 <table>
                     <thead>
@@ -145,7 +145,13 @@ td, th {
 @endsection
 
 @section('page-script')
+
+
+        
     <script>
+        $(document).ready(function(){
+                $("#btnas").click()
+        })
         var url = "{{ route('waiting-queue', request()->id) }}";
         getList();
         setInterval(() => {
@@ -156,13 +162,7 @@ td, th {
 
     function startTokenSystem() {
         // Play the notification tune
-        playNotificationTune();
-
-        // Speak the active token number
-        speakTokenNumber(tokenCounter);
-
-        // Increment the token counter for the next token
-        tokenCounter++;
+        playNotificationTune();  
     }
 
     function playNotificationTune() {
