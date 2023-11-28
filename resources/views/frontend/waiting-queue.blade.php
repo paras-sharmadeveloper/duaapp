@@ -185,7 +185,7 @@ td, th {
 
         function getList() {
             var html = '';
-            let previousStatus = null;
+            let tunePlayed = false;
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
                 method: 'GET',
@@ -202,14 +202,17 @@ td, th {
                             className = 'meeting-awating';
                             textName = 'Awating..'; 
                             meeting_start_at = '00:00:00';  
+                            tunePlayed = false; 
                         } else if (item.user_status == 'admitted') {
                             className = 'admitted-active';
                             textName = 'Waiting'; 
                             meeting_start_at = '00:00:00';  
+                            tunePlayed = false; 
                         } else if (item.user_status == 'meeting-end') {
                             className = 'meetingend-active';
                             textName = 'Meeting End'; 
                             meeting_start_at = '00:00:00';  
+                            tunePlayed = false; 
                         } else if (item.user_status == 'in-meeting') {
                              
                             className = 'meetingstart-active';
@@ -217,16 +220,8 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                            if (previousStatus !== 'in-meeting' || previousStatus !== item.user_status) {
-                                console.log("Condition met. Playing notification tone.");
-                                playNotificationTune();
-                                speakTokenNumber(item.booking_number);
-                            } else {
-                                console.log("Condition not met. Not playing notification tone.");
-                            }
-                        }
-                        
-                        
+                            tunePlayed = true;  
+                        } 
                          
                         html+=`<tr class="${className}">
                                 <td class="no_one">${item.booking_number}</td>
@@ -234,12 +229,15 @@ td, th {
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
 
-                        ;
+                        previousStatus = item.user_status;
                         
                         
                     }) 
+                    if(tunePlayed){
+                        console.log("true")
+                        playNotificationTune(); speakTokenNumber(item.booking_number);
+                    }
                     $("#current-user-listing").html(html) 
-                    previousStatus = item.user_status
                 },
                 error: function(error) {
 
