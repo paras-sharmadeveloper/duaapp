@@ -91,6 +91,16 @@ tr th {
     height: 100vh;
     width: 100%;
 }
+.meetingstart-active td {
+    background-color: #00FF00;
+}
+.meetingend-active td {
+    background-color: #ff0000;
+    display: none
+}
+.meeting-awating td{
+    /* background-color: antiquewhite */
+}
 
 
  
@@ -110,9 +120,11 @@ td, th {
                             <th class="no_two">Room</th>
                             <th class="no_two">Status</th>
                         </tr>
+                        
                     </thead>
+                    
                     <tbody id="current-user-listing">
-                         
+                        
                     </tbody>
                     
                 </table>
@@ -150,27 +162,27 @@ td, th {
                     $.each(response.data, function(i, item) {
                         var className,textName,tokenNumber,meeting_start_at=''; 
                         if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
-                            className = 'badge rounded-pill badge-warning h2';
+                            className = 'meeting-awating';
                             textName = 'Awating..'; 
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'admitted') {
-                            className = 'badge rounded-pill badge-info h2';
+                            className = 'admitted-active';
                             textName = 'confirmed'; 
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'meeting-end') {
-                            className = 'badge rounded-pill badge-info h2';
+                            className = 'meetingend-active';
                             textName = 'Meeting End'; 
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'in-meeting') {
-                            className = 'badge rounded-pill badge-success h2';
+                            className = 'meetingstart-active';
                             textName = 'In Meeting'; 
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
                         }
-                        html+=`<tr>
+                        html+=`<tr class="${className}">
                                 <td class="no_one">${item.booking_number}</td>
-                                <td class="no_two">1</td>
+                                <td class="no_two">${item.fname} ${item.lname}</td>
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
                         
