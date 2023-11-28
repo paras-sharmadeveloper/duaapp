@@ -218,11 +218,11 @@ td, th {
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
                             if (previousStatus !== 'in-meeting' || previousStatus !== item.user_status) {
-                                console.log("In meetinbg Pla")
-                                startTokenSystem();
-                                // playNotificationTune();
-                                
-                                // speakTokenNumber(item.booking_number);
+                                console.log("Condition met. Playing notification tone.");
+                                playNotificationTune();
+                                speakTokenNumber(item.booking_number);
+                            } else {
+                                console.log("Condition not met. Not playing notification tone.");
                             }
                         }
                         
@@ -234,7 +234,7 @@ td, th {
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
 
-                            previousStatus = item.user_status;
+                        previousStatus = item.user_status;
                         
                         
                     }) 
