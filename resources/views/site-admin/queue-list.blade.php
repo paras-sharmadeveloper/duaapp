@@ -218,7 +218,7 @@
                             var none = '';
                             var nonetimer = '';
                             var isConfirmed = false; 
-                            var confirmedHtml , badgeHtml = ''; 
+                            var confirmedHtml='' , badgeHtml = ''; 
                             if (visitor.is_available === 'confirmed' || visitor.confirmed_at!==null ) {
                                 isConfirmed = true; 
                                 var confirmedAt = new Date(visitor.confirmed_at);
