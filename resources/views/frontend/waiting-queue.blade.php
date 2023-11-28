@@ -227,10 +227,13 @@ td, th {
                                 console.log("true",notificationPlayed);
                                 playNotificationTune();
                                 speakTokenNumber(item.booking_number);
-                                notificationPlayed  = true; // Set to true to avoid playing the tune again
-                            }
-                             
                                 
+                            } 
+
+                            notificationPlayed = true; 
+
+                            console.log("true2",notificationPlayed);
+
                          
                              
                         } 
