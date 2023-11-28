@@ -223,7 +223,7 @@ td, th {
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
 
-                            if (!notificationPlayed) {
+                            if (notificationPlayed === false) {
                                 console.log("true",notificationPlayed);
                                 playNotificationTune();
                                 speakTokenNumber(item.booking_number);
