@@ -112,7 +112,7 @@ td, th {
     </style>
       <div class="container-fluid" id="curt-token" data-ring=""  data-token="">
         <div class="row">
-            <audio id="notificationTune" style="display: none">
+            <audio id="notificationTune" >
                 <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
                 Your browser does not support the audio tag.
             </audio>
@@ -219,9 +219,10 @@ td, th {
                             $("#active-time").text(formatTime(item.meeting_start_at))
                             if (previousStatus !== 'in-meeting' || previousStatus !== item.user_status) {
                                 console.log("In meetinbg Pla")
-                                playNotificationTune();
-
-                                speakTokenNumber(item.booking_number);
+                                startTokenSystem();
+                                // playNotificationTune();
+                                
+                                // speakTokenNumber(item.booking_number);
                             }
                         }
                         
