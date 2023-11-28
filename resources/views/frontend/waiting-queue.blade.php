@@ -1,82 +1,163 @@
 @extends('layouts.guest')
 @section('content')
     <style>
-        .a {
-            width: 55%;
-        }
 
-        .b {
-            width: 40%;
-        }
+         body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: 'Roboto'; */
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-        .b .card {
-            height: 100vh;
-        }
+.container-fluid{
+    padding: 0px
+}
+.main {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
 
-        .token span {
-            /* border: 1px solid; */
-            padding: 10px;
-            /* font-size: 28px; */
-            font-weight: bold;
-        }
+table {
+    height: 100%;
+    caption-side: bottom;
+    border-collapse: separate;
+}
+table {
+    height: 100%;
+    caption-side: bottom;
+    border-collapse: separate;
+    width: 100%;
+}
 
-        .users-list-header .card {
-            background-color: #00BCD4;
-            color: #fff;
-        }
+tbody,
+td,
+tfoot,
+thead,
+tr {
+    line-height: 1;
+    border-radius: 12px;
+    background-color: #ffffff;
+    text-align: center;
+    font-size: 6rem;
+    font-weight: 500;
+    color: #080808;
+    padding: 20px;
+}
+th {
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+    font-size: 5rem;
+    font-weight: 500;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+tr th {
+    font-weight: bold;
+}
 
-        .curnt-token-runing {
-            font-size: 11rem;
-        }
+.row>* {
+    padding: 0;
+}
+.first_part{
+    /* width: 100%; */
+}
+/* .no_one{
+    width: 60%;
+    max-width: 100%;
+}
+.no_two{
+    width: 40%;
+    max-width: 100%;
+} */
+.heading h2 {
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #249fed;
+    background-color: #ffffff;
+    margin: 0px;
+    padding: 24px 0px;
+    text-align: center;
+}
+.bg_image {
+    position: relative;
+    background-image: url(../images/city.jpg);
+    background-repeat: repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
 
-        .users-list span {
-            font-size: 1.6rem;
-        }
+
+ 
+td, th {
+    border: 1px solid;
+    border-radius: 12px;
+    font-weight: bold;
+}
     </style>
-    <div class="container-fluid d-flex justify-content-around mt-4">
-        <div class="a">
-            <div class="row">
-
-
-                <div class="col-xl-12 mb-4 users-list-header">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-
-                                <div class="tokn">
-                                    <span class="fw-bold rounded-circle text-center">Token</span>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">UserInfo</p>
-                                </div>
-                                <span class="fw-bold">Status</span>
-                                <span class="fw-bold">Booked Time </span>
-                                <span class="fw-bold">Estimated Time</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div id="current-user-listing">
-                 
-               </div>
-
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 first_part">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="no_one">Token No.</th>
+                            <th class="no_two">Room</th>
+                            <th class="no_two">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="current-user-listing">
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+    
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+    
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+                        <tr>
+                            <td class="no_one">B233</td>
+                            <td class="no_two">3</td>
+                            <td class="no_two"></td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
             </div>
+            <!-- <div class="col-lg-8 col-md-8 col-sm-12 second_part">
+                <div class="heading"><h2>nmc <strong>royal hospital</strong></h2></div>
+                <div class="bg_image"></div>
+            </div> -->
         </div>
-        <div class="b">
-            <div class="row">
-                <div class="col-xl-12 mb-4 current-token">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h2 class="card-title text-center">Active Token</h5>
-                                <p class="curnt-token-time" id="active-time"> 00:00:00 </p>
-                                <span class="curnt-token-runing badge badge-success" id="active-token"> 00 </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 @endsection
 
@@ -123,28 +204,33 @@
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
                         }
+                        html+=`<tr>
+                            <td class="no_one">${item.token_id}</td>
+                            <td class="no_two">1</td>
+                            <td class="no_two">${textName}</td>
+                        </tr`; 
                         
-                        html += `<div class="col-xl-12 mb-4 users-list">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="token">
-                                            <span class="rounded-circle text-center h2">${item.token_id}</span>
-                                        </div>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1 h2">${item.fname} ${item.lname} d</p>
-                                            <p class="text-muted mb-0 h6">${item.email}</p>
-                                            <p class="text-muted mb-0 h6">${item.phone}</p>
-                                        </div>
+                        // html += `<div class="col-xl-12 mb-4 users-list">
+                        //     <div class="card">
+                        //         <div class="card-body">
+                        //             <div class="d-flex justify-content-between align-items-center">
+                        //                 <div class="token">
+                        //                     <span class="rounded-circle text-center h2">${item.token_id}</span>
+                        //                 </div>
+                        //                 <div class="ms-3">
+                        //                     <p class="fw-bold mb-1 h2">${item.fname} ${item.lname} d</p>
+                        //                     <p class="text-muted mb-0 h6">${item.email}</p>
+                        //                     <p class="text-muted mb-0 h6">${item.phone}</p>
+                        //                 </div>
 
-                                        <span class="${className}">${textName}</span>
-                                        <span class="badge badge-warning rounded-pill d-inline h1" id="estimated-time-2">${formatTime(item.venue_date+ ' ' +item.slot_time)} </span>
-                                        <span class="badge badge-warning rounded-pill d-inline h2">${item.slot_duration} Minute</span> 
-                                    </div>
-                                </div>
+                        //                 <span class="${className}">${textName}</span>
+                        //                 <span class="badge badge-warning rounded-pill d-inline h1" id="estimated-time-2">${formatTime(item.venue_date+ ' ' +item.slot_time)} </span>
+                        //                 <span class="badge badge-warning rounded-pill d-inline h2">${item.slot_duration} Minute</span> 
+                        //             </div>
+                        //         </div>
 
-                            </div>
-                        </div>`;
+                        //     </div>
+                        // </div>`;
                         console.log("item", item.slot_time)
                     })
                     $("#current-user-listing").html(html)
