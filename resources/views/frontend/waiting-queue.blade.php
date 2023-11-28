@@ -146,10 +146,9 @@ td, th {
 
 @section('page-script')
 
-
-        
-    <script>
-          speakTokenNumber(9696);
+    
+;
+    <script> 
         var url = "{{ route('waiting-queue', request()->id) }}";
         getList();
         setInterval(() => {
@@ -157,7 +156,9 @@ td, th {
         }, 2500);
 
         let tokenCounter = 1;
-
+        $(window).on('load', function() { 
+    playNotificationOnLoad();
+})
     function startTokenSystem() {
         // Play the notification tune
         playNotificationTune();  
@@ -234,14 +235,12 @@ td, th {
                                 <td class="no_two">${textName}</td>
                             </tr>`;  
                             var isPlayed =  $("#curt-token").attr('data-played')
-                    var IsPlayedId =  $("#curt-token").attr('data-id')
+                            var IsPlayedId =  $("#curt-token").attr('data-id')
 
-                    if (isPlayed === 'not-played' && IsPlayedId == item.id ) { 
-                                 
-                            playNotificationTune();
-                            speakTokenNumber(bookingNumber);
-                           
-                        }
+                            if (isPlayed === 'not-played' && IsPlayedId == item.id ) {                   
+                                    playNotificationTune();
+                                    speakTokenNumber(bookingNumber);                         
+                            }
                             
                        
                         
