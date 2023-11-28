@@ -244,7 +244,6 @@ function getList() {
                             <td class="no_two">${textName}</td>
                         </tr>`;
             })
-
             $("#current-user-listing").html(html)
         },
         error: function(error) {
