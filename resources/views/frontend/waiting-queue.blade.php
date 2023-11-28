@@ -116,7 +116,7 @@ td, th {
             transform: translateX(-50%);
         }
     </style>
-      <div class="container-fluid" id="curt-token" data-played=""  data-id="">
+      <div class="container-fluid" id="curt-token" data-soundon="yes">
         <div class="row align-items-end">
             <audio id="notificationTune" >
                 <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3"> 
@@ -141,7 +141,7 @@ td, th {
                 </table>
             </div>
             <div class="row fixed-bottom">
-                <div class="btn btn-info btn py-2 sound-on">Sound On</div>
+                {{-- <div class="btn btn-info btn py-2 sound-on">Sound On</div> --}}
             </div>
              
         </div>
@@ -160,18 +160,23 @@ td, th {
         $(".sound-on").click(function(){
      
             $(this).text(function(i, text){
-                return text === "Sound On" ? "Sound Off" : "Sound On";
+                if(text == 'Sound On'){
+                    $("#curt-token").attr("data-soundon",'yes');
+                    return text = "Sound Off";
+                }else{
+                    $("#curt-token").attr("data-soundon",'no');
+                    return text = "Sound On";
+                    
+                } 
+              
+               
             });
 
             // Toggle class
             $(this).toggleClass("sound-on sound-off");
         })
         let tokenCounter = 1;
-        $(window).on('load', function() { 
-            $("#curt-token").click(); 
-            console.log("clicked")
-        })
-        speakTokenNumber(10)
+        
     function startTokenSystem() {
         // Play the notification tune
         playNotificationTune();  
@@ -208,9 +213,7 @@ td, th {
                 },
                   
                 dataType: 'json',
-                success: function(response) {
-                    let bookingNumber = 0; 
-                    let previousStatus = 'not-played';
+                success: function(response) { 
                     $.each(response.data, function(i, item) {
 
                         var tonePlayed = $("tr-"+item.id).attr('data-tone'); 
@@ -237,33 +240,16 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                            previousStatus ='played';
-                            previousStatusId =item.id; 
-                            bookingNumber = item.booking_number; 
+                         
                         }  
                          
                         html+=`<tr class="${className}" >
                                 <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">${item.fname} ${item.lname}</td>
                                 <td class="no_two">${textName}</td>
-                            </tr>`;  
-                            var isPlayed =  $("#curt-token").attr('data-played')
-                            var IsPlayedId =  $("#curt-token").attr('data-id')
-
-                            if (isPlayed === 'not-played' && IsPlayedId == item.id ) {                   
-                                    playNotificationTune();
-                                    speakTokenNumber(bookingNumber);                         
-                            }
-                            
-                       
-                        
+                            </tr>`;    
                     })  
-
-                   
-
-
-                    $("#curt-token").attr('data-played',previousStatus)
-                    $("#curt-token").attr('data-id',previousStatusId)
+ 
                    
                     $("#current-user-listing").html(html)     
                 },
