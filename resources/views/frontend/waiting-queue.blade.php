@@ -110,9 +110,9 @@ td, th {
     font-weight: bold;
 }
     </style>
-      <div class="container-fluid" data-ring="ringed" >
+      <div class="container-fluid" id="curt-token" data-ring=""  data-token="">
         <div class="row">
-            <audio id="notificationTune">
+            <audio id="notificationTune" style="display: none">
                 <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
                 Your browser does not support the audio tag.
             </audio>
@@ -185,6 +185,7 @@ td, th {
 
         function getList() {
             var html = '';
+            let previousStatus = null;
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
                 method: 'GET',
@@ -192,6 +193,7 @@ td, th {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
+                  
                 dataType: 'json',
                 success: function(response) {
                     $.each(response.data, function(i, item) {
@@ -209,48 +211,31 @@ td, th {
                             textName = 'Meeting End'; 
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'in-meeting') {
+                             
                             className = 'meetingstart-active';
                             textName = 'Meeting Started'; 
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
+                            if (previousStatus !== 'in-meeting' || previousStatus !== item.user_status) {
+                                
+                                speakTokenNumber(item.booking_number);
+                            }
                         }
+                        
+                        
                          
                         html+=`<tr class="${className}">
                                 <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">${item.fname} ${item.lname}</td>
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
+
+                            previousStatus = item.user_status;
                         
-                        // html += `<div class="col-xl-12 mb-4 users-list">
-                        //     <div class="card">
-                        //         <div class="card-body">
-                        //             <div class="d-flex justify-content-between align-items-center">
-                        //                 <div class="token">
-                        //                     <span class="rounded-circle text-center h2">${item.token_id}</span>
-                        //                 </div>
-                        //                 <div class="ms-3">
-                        //                     <p class="fw-bold mb-1 h2">${item.fname} ${item.lname} d</p>
-                        //                     <p class="text-muted mb-0 h6">${item.email}</p>
-                        //                     <p class="text-muted mb-0 h6">${item.phone}</p>
-                        //                 </div>
-
-                        //                 <span class="${className}">${textName}</span>
-                        //                 <span class="badge badge-warning rounded-pill d-inline h1" id="estimated-time-2">${formatTime(item.venue_date+ ' ' +item.slot_time)} </span>
-                        //                 <span class="badge badge-warning rounded-pill d-inline h2">${item.slot_duration} Minute</span> 
-                        //             </div>
-                        //         </div>
-
-                        //     </div>
-                        // </div>`;
-                        console.log("item", item.slot_time)
-                    })
-                    console.log("jke",html)
-                    $("#current-user-listing").html(html)
-
-
-
-                    console.log("response", response)
+                        
+                    }) 
+                    $("#current-user-listing").html(html) 
                 },
                 error: function(error) {
 
