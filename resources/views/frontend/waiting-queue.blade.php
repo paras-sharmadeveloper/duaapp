@@ -109,20 +109,13 @@ td, th {
     border-radius: 12px;
     font-weight: bold;
 }
-.fixed-bottom {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
     </style>
-      <div class="container-fluid" id="curt-token" data-soundon="yes">
-        <div class="row align-items-end">
+      <div class="container-fluid" id="curt-token" data-ring=""  data-token="">
+        <div class="row">
             <audio id="notificationTune" >
-                <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3"> 
-            </audio>
-            
-            <!-- Add a button to start the token system -->
+                <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio> 
             <div class="col-lg-12 col-md-12 col-sm-12 first_part">
                 <table>
                     <thead>
@@ -133,53 +126,45 @@ td, th {
                         </tr>
                         
                     </thead>
-                    
+                   
                     <tbody id="current-user-listing">
-                        
+                       
                     </tbody>
                     
                 </table>
             </div>
-            <div class="row fixed-bottom">
-                {{-- <div class="btn btn-info btn py-2 sound-on">Sound On</div> --}}
+            <div class="col-lg-12 col-md-12 col-sm-12 text-center mt-5">
+                <button class="btn btn-primary get-started" onclick="startTokenSystem()">Get Started</button>
             </div>
-             
+            <!-- <div class="col-lg-8 col-md-8 col-sm-12 second_part">
+                <div class="heading"><h2>nmc <strong>royal hospital</strong></h2></div>
+                <div class="bg_image"></div>
+            </div> -->
         </div>
     </div>
 @endsection
 
 @section('page-script')
 
- 
-    <script> 
+
+        
+    <script>
+
+        
+        $(document).ready(function(){
+            playNotificationTune(); 
+        })
         var url = "{{ route('waiting-queue', request()->id) }}";
+        
+
+    function startTokenSystem() { 
+    
         getList();
+        $(".get-started").fadeOut()
         setInterval(() => {
             getList(); 
         }, 2500);
-        $(".sound-on").click(function(){
-     
-            $(this).text(function(i, text){
-                if(text == 'Sound On'){
-                    $("#curt-token").attr("data-soundon",'yes');
-                    return text = "Sound Off";
-                }else{
-                    $("#curt-token").attr("data-soundon",'no');
-                    return text = "Sound On";
-                    
-                } 
-              
-               
-            });
-
-            // Toggle class
-            $(this).toggleClass("sound-on sound-off");
-        })
-        let tokenCounter = 1;
-        
-    function startTokenSystem() {
-        // Play the notification tune
-        playNotificationTune();  
+ 
     }
 
     function playNotificationTune() {
@@ -200,68 +185,70 @@ td, th {
             }
         }
 
-        function getList() {
-            var html = ''; 
-           
-          
-            $.ajax({
-                url: url, // Update the URL to your Laravel endpoint
-                method: 'GET',
+        var consoleLogged = false; // Add this variable
 
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                  
-                dataType: 'json',
-                success: function(response) { 
-                    $.each(response.data, function(i, item) {
+function getList() {
+    var html = '';
+    let tunePlayed = false;
+    $.ajax({
+        url: url, // Update the URL to your Laravel endpoint
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        success: function(response) {
+            $.each(response.data, function(i, item) {
+                var className, textName, tokenNumber, meeting_start_at = '';
+                if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
+                    className = 'meeting-awating';
+                    textName = 'Awating..';
+                    meeting_start_at = '00:00:00';
+                    tunePlayed = false;
+                } else if (item.user_status == 'admitted') {
+                    className = 'admitted-active';
+                    textName = 'Waiting';
+                    meeting_start_at = '00:00:00';
+                    tunePlayed = false;
+                } else if (item.user_status == 'meeting-end') {
+                    className = 'meetingend-active';
+                    textName = 'Meeting End';
+                    meeting_start_at = '00:00:00';
+                    tunePlayed = false;
+                } else if (item.user_status == 'in-meeting') {
+                    className = 'meetingstart-active';
+                    textName = 'Meeting Started';
+                    meeting_start_at = item.meeting_start_at;
 
-                        var tonePlayed = $("tr-"+item.id).attr('data-tone'); 
-                       
-                        var className,textName,tokenNumber,meeting_start_at=''; 
-                        if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
-                             
-                            className = 'meeting-awating';
-                            textName = 'Awating..'; 
-                            meeting_start_at = '00:00:00';  
-                            
-                        } else if (item.user_status == 'admitted') {
-                            className = 'admitted-active';
-                            textName = 'Waiting'; 
-                            meeting_start_at = '00:00:00';   
-                        } else if (item.user_status == 'meeting-end') {
-                            className = 'meetingend-active';
-                            textName = 'Meeting End'; 
-                            meeting_start_at = '00:00:00';   
-                        } else if (item.user_status == 'in-meeting') {
-                             
-                            className = 'meetingstart-active';
-                            textName = 'Meeting Started'; 
-                            meeting_start_at = item.meeting_start_at; 
-                            $("#active-token").text(item.booking_number)
-                            $("#active-time").text(formatTime(item.meeting_start_at))
-                         
-                        }  
-                         
-                        html+=`<tr class="${className}" >
-                                <td class="no_one">${item.booking_number}</td>
-                                <td class="no_two">${item.fname} ${item.lname}</td>
-                                <td class="no_two">${textName}</td>
-                            </tr>`;    
-                    })  
- 
-                   
-                    $("#current-user-listing").html(html)     
-                },
-                error: function(error) {
+                    // Check if console.log has not been triggered
+                    if (!consoleLogged) {
+                        console.log("One time");
+                        consoleLogged = true; // Set the variable to true after triggering console.log
+                    }
 
-
+                    $("#active-token").text(item.booking_number)
+                    $("#active-time").text(formatTime(item.meeting_start_at))
+                    tunePlayed = true;
                 }
-            });
+
+                html += `<tr class="${className}">
+                            <td class="no_one">${item.booking_number}</td>
+                            <td class="no_two">${item.fname} ${item.lname}</td>
+                            <td class="no_two">${textName}</td>
+                        </tr>`;
+            })
+
+            $("#current-user-listing").html(html)
+        },
+        error: function(error) {
 
         }
+    });
+}
+
 
         function formatTime(timeValue) {
+            console.log(timeValue)
             // Create a Date object by combining the date part with the time value
             var date = new Date(timeValue);
 
