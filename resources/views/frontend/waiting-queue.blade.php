@@ -173,17 +173,19 @@ td, th {
         audio.play();
     }
 
-       
-        function speakTokenNumber(tokenNumber) {
-            // Use the Web Speech API to speak the token number
-            if ('speechSynthesis' in window) {
-                let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
-                window.speechSynthesis.speak(message);
-            } else {
-                // Fallback for browsers that do not support the Web Speech API
-                alert(`Token number ${tokenNumber}`);
-            }
-        }
+    let speechFlag = false; // Add this flag
+ 
+    function speakTokenNumber(tokenNumber) {
+    // Use the Web Speech API to speak the token number
+    if ('speechSynthesis' in window && !speechFlag) {
+        let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
+        window.speechSynthesis.speak(message);
+        speechFlag = true; // Set the flag to true after speaking
+    } else {
+        // Fallback for browsers that do not support the Web Speech API or if already spoken
+        console.log(`Token number ${tokenNumber}`);
+    }
+}
 
         var consoleLogged = false; // Add this variable
 
@@ -226,7 +228,7 @@ function getList() {
                         playNotificationTune() 
                         setInterval(() => {
                             speakTokenNumber(item.booking_number) 
-                            }, 1000);
+                        }, 1000);
  
                         
                         consoleLogged = true; // Set the variable to true after triggering console.log
