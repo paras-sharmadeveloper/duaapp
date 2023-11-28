@@ -220,7 +220,12 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                            tunePlayed = true;  
+                            if(tunePlayed){
+                                tunePlayed = false; 
+                            }else{
+                                tunePlayed = true; 
+                            }
+                             
                         } 
                          
                         html+=`<tr class="${className}">
@@ -230,13 +235,14 @@ td, th {
                             </tr>`; 
 
                         previousStatus = item.user_status;
+                        if(tunePlayed){
+                            console.log("true")
+                            playNotificationTune(); speakTokenNumber(item.booking_number);
+                        }
                         
                         
                     }) 
-                    if(tunePlayed){
-                        console.log("true")
-                        playNotificationTune(); speakTokenNumber(item.booking_number);
-                    }
+                   
                     $("#current-user-listing").html(html) 
                 },
                 error: function(error) {
@@ -248,7 +254,6 @@ td, th {
         }
 
         function formatTime(timeValue) {
-            console.log(timeValue)
             // Create a Date object by combining the date part with the time value
             var date = new Date(timeValue);
 
