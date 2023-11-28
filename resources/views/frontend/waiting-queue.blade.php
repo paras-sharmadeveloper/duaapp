@@ -186,7 +186,7 @@ td, th {
             let tunePlayed = false;
             let bookingNumber = null;
             let previousStatus = '';
-            let notificationPlayed = false; 
+          
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
                 method: 'GET',
@@ -197,7 +197,9 @@ td, th {
                   
                 dataType: 'json',
                 success: function(response) {
+                    let notificationPlayed = false; 
                     $.each(response.data, function(i, item) {
+                       
                         var className,textName,tokenNumber,meeting_start_at=''; 
                         if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
                             className = 'meeting-awating';
@@ -227,15 +229,12 @@ td, th {
                                 console.log("true",notificationPlayed);
                                 playNotificationTune();
                                 speakTokenNumber(item.booking_number);
-                                
+                                notificationPlayed = true; 
                             } 
 
-                            notificationPlayed = true; 
+                         
 
                             console.log("true2",notificationPlayed);
-
-                         
-                             
                         } 
                          
                         html+=`<tr class="${className}">
@@ -247,13 +246,10 @@ td, th {
                        
                         
                     }) 
-                    if(tunePlayed){
-                            console.log("true")
-                            playNotificationTune(); speakTokenNumber(bookingNumber);
-                    }
-                        
+                      
                    
-                    $("#current-user-listing").html(html) 
+                    $("#current-user-listing").html(html)    
+                    notificationPlayed = false; 
                 },
                 error: function(error) {
 
