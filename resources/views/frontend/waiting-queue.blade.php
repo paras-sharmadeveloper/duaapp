@@ -252,8 +252,6 @@ function getList() {
         }
     });
 }
-
-
         function formatTime(timeValue) { 
             // Create a Date object by combining the date part with the time value
             var date = new Date(timeValue);
