@@ -218,7 +218,7 @@ td, th {
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
                             if (previousStatus !== 'in-meeting' || previousStatus !== item.user_status) {
-                                playNotificationTone();
+                                playNotificationTune();
 
                                 speakTokenNumber(item.booking_number);
                             }
