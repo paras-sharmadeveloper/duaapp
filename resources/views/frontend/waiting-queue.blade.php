@@ -173,14 +173,14 @@ td, th {
         audio.play();
     }
 
-    let speechFlag = false; // Add this flag
+    
  
     function speakTokenNumber(tokenNumber) {
     // Use the Web Speech API to speak the token number
-    if ('speechSynthesis' in window && !speechFlag) {
+    if ('speechSynthesis' in window ) {
         let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
         window.speechSynthesis.speak(message);
-        speechFlag = true; // Set the flag to true after speaking
+      
     } else {
         // Fallback for browsers that do not support the Web Speech API or if already spoken
         console.log(`Token number ${tokenNumber}`);
