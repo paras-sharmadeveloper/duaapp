@@ -110,7 +110,7 @@ td, th {
     font-weight: bold;
 }
     </style>
-      <div class="container-fluid" id="curt-token" data-ring=""  data-token="">
+      <div class="container-fluid" id="curt-token" data-played=""  data-id="">
         <div class="row">
             <audio id="notificationTune" >
                 <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
@@ -182,10 +182,8 @@ td, th {
         }
 
         function getList() {
-            var html = '';
-            let tunePlayed = false;
-            let bookingNumber = null;
-            let previousStatus = '';
+            var html = ''; 
+           
           
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
@@ -197,26 +195,27 @@ td, th {
                   
                 dataType: 'json',
                 success: function(response) {
-                    let notificationPlayed = false; 
+                    let bookingNumber = 0; 
+                    let previousStatus = 'not-played';
                     $.each(response.data, function(i, item) {
+
+                        var tonePlayed = $("tr-"+item.id).attr('data-tone'); 
                        
                         var className,textName,tokenNumber,meeting_start_at=''; 
                         if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
+                             
                             className = 'meeting-awating';
                             textName = 'Awating..'; 
                             meeting_start_at = '00:00:00';  
-                            tunePlayed = false; 
                             
                         } else if (item.user_status == 'admitted') {
                             className = 'admitted-active';
                             textName = 'Waiting'; 
-                            meeting_start_at = '00:00:00';  
-                            tunePlayed = false; 
+                            meeting_start_at = '00:00:00';   
                         } else if (item.user_status == 'meeting-end') {
                             className = 'meetingend-active';
                             textName = 'Meeting End'; 
-                            meeting_start_at = '00:00:00';  
-                            tunePlayed = false; 
+                            meeting_start_at = '00:00:00';   
                         } else if (item.user_status == 'in-meeting') {
                              
                             className = 'meetingstart-active';
@@ -224,32 +223,37 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-
-                            if (notificationPlayed === false) {
-                                console.log("true",notificationPlayed);
-                                playNotificationTune();
-                                speakTokenNumber(item.booking_number);
-                                notificationPlayed = true; 
-                            } 
-
+                            previousStatus ='played';
+                            previousStatusId =item.id; 
+                            bookingNumber = item.booking_number; 
+                        }  
                          
-
-                            console.log("true2",notificationPlayed);
-                        } 
-                         
-                        html+=`<tr class="${className}">
+                        html+=`<tr class="${className}" >
                                 <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">${item.fname} ${item.lname}</td>
                                 <td class="no_two">${textName}</td>
                             </tr>`;  
-                            previousStatus = item.user_status;
+                            var isPlayed =  $("#curt-token").attr('data-played')
+                    var IsPlayedId =  $("#curt-token").attr('data-id')
+
+                    if (isPlayed === 'not-played' && IsPlayedId == item.id ) { 
+                                 
+                            playNotificationTune();
+                            speakTokenNumber(bookingNumber);
+                           
+                        }
+                            
                        
                         
-                    }) 
-                      
+                    })  
+
                    
-                    $("#current-user-listing").html(html)    
-                    notificationPlayed = false; 
+
+
+                    $("#curt-token").attr('data-played',previousStatus)
+                    $("#curt-token").attr('data-id',previousStatusId)
+                   
+                    $("#current-user-listing").html(html)     
                 },
                 error: function(error) {
 
