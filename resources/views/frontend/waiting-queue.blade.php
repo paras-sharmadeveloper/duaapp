@@ -110,8 +110,15 @@ td, th {
     font-weight: bold;
 }
     </style>
-      <div class="container-fluid">
+      <div class="container-fluid" data-ring="ringed" >
         <div class="row">
+            <audio id="notificationTune">
+                <source src="notification.mp3" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio>
+            
+            <!-- Add a button to start the token system -->
+            <button onclick="startTokenSystem()">Start Token System</button>
             <div class="col-lg-12 col-md-12 col-sm-12 first_part">
                 <table>
                     <thead>
@@ -145,8 +152,36 @@ td, th {
             getList(); 
         }, 2500);
 
+        let tokenCounter = 1;
+
+    function startTokenSystem() {
+        // Play the notification tune
+        playNotificationTune();
+
+        // Speak the active token number
+        speakTokenNumber(tokenCounter);
+
+        // Increment the token counter for the next token
+        tokenCounter++;
+    }
+
+    function playNotificationTune() {
+        // Get the audio element and play the notification tune
+        let audio = document.getElementById('notificationTune');
+        audio.play();
+    }
+
        
-       
+        function speakTokenNumber(tokenNumber) {
+            // Use the Web Speech API to speak the token number
+            if ('speechSynthesis' in window) {
+                let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
+                window.speechSynthesis.speak(message);
+            } else {
+                // Fallback for browsers that do not support the Web Speech API
+                alert(`Token number ${tokenNumber}`);
+            }
+        }
 
         function getList() {
             var html = '';
@@ -179,7 +214,8 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                        } 
+                        }
+                         
                         html+=`<tr class="${className}">
                                 <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">${item.fname} ${item.lname}</td>
