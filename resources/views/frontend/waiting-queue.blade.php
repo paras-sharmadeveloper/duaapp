@@ -186,6 +186,7 @@ td, th {
             let tunePlayed = false;
             let bookingNumber = null;
             let previousStatus = '';
+            let notificationPlayed = false; 
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
                 method: 'GET',
@@ -222,11 +223,11 @@ td, th {
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
 
-                            if (previousStatus !== 'in-meeting' && !tunePlayed) {
+                            if (!notificationPlayed) {
                                 console.log("true");
                                 playNotificationTune();
                                 speakTokenNumber(item.booking_number);
-                                tunePlayed = true; // Set to true to avoid playing the tune again
+                                notificationPlayed  = true; // Set to true to avoid playing the tune again
                             }
                              
                                 
