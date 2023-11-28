@@ -234,11 +234,12 @@ td, th {
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
 
-                        previousStatus = item.user_status;
+                        ;
                         
                         
                     }) 
                     $("#current-user-listing").html(html) 
+                    previousStatus = item.user_status
                 },
                 error: function(error) {
 
