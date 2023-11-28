@@ -111,14 +111,12 @@ td, th {
 }
     </style>
       <div class="container-fluid" id="curt-token" data-played=""  data-id="">
-        <div class="row">
+        <div class="row align-items-end">
             <audio id="notificationTune" >
-                <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
-                Your browser does not support the audio tag.
+                <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3"> 
             </audio>
             
             <!-- Add a button to start the token system -->
-            <button onclick="startTokenSystem()" id="btnas">Start Token System</button>
             <div class="col-lg-12 col-md-12 col-sm-12 first_part">
                 <table>
                     <thead>
@@ -136,25 +134,32 @@ td, th {
                     
                 </table>
             </div>
-            <!-- <div class="col-lg-8 col-md-8 col-sm-12 second_part">
-                <div class="heading"><h2>nmc <strong>royal hospital</strong></h2></div>
-                <div class="bg_image"></div>
-            </div> -->
+            <div class="row">
+                <div class="btn btn-info btn py-2 sound-on">Sound On</div>
+            </div>
+             
         </div>
     </div>
 @endsection
 
 @section('page-script')
 
-    
-;
+ 
     <script> 
         var url = "{{ route('waiting-queue', request()->id) }}";
         getList();
         setInterval(() => {
             getList(); 
         }, 2500);
+        $(".sound-on").click(function(){
+     
+            $(this).text(function(i, text){
+                return text === "Sound On" ? "Sound Off" : "Sound On";
+            });
 
+            // Toggle class
+            $(this).toggleClass("sound-on sound-off");
+        })
         let tokenCounter = 1;
         $(window).on('load', function() { 
             $("#curt-token").click(); 
