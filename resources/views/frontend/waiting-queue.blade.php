@@ -109,6 +109,12 @@ td, th {
     border-radius: 12px;
     font-weight: bold;
 }
+.fixed-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
       <div class="container-fluid" id="curt-token" data-played=""  data-id="">
         <div class="row align-items-end">
@@ -134,7 +140,7 @@ td, th {
                     
                 </table>
             </div>
-            <div class="row">
+            <div class="row fixed-bottom">
                 <div class="btn btn-info btn py-2 sound-on">Sound On</div>
             </div>
              
