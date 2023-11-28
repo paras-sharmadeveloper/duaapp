@@ -169,7 +169,7 @@ td, th {
                             $("#active-time").text(formatTime(item.meeting_start_at))
                         }
                         html+=`<tr>
-                                <td class="no_one">${item.token_id}</td>
+                                <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">1</td>
                                 <td class="no_two">${textName}</td>
                             </tr>`; 
