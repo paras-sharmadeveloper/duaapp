@@ -224,7 +224,7 @@ td, th {
                             $("#active-time").text(formatTime(item.meeting_start_at))
 
                             if (!notificationPlayed) {
-                                console.log("true");
+                                console.log("true",notificationPlayed);
                                 playNotificationTune();
                                 speakTokenNumber(item.booking_number);
                                 notificationPlayed  = true; // Set to true to avoid playing the tune again
