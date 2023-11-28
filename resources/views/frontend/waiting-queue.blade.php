@@ -157,8 +157,10 @@ td, th {
 
         let tokenCounter = 1;
         $(window).on('load', function() { 
-    playNotificationOnLoad();
-})
+            $("#curt-token").click(); 
+            console.log("clicked")
+        })
+        speakTokenNumber(10)
     function startTokenSystem() {
         // Play the notification tune
         playNotificationTune();  
