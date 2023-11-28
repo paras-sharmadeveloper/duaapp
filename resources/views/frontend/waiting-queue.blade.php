@@ -229,8 +229,6 @@ function getList() {
                         setTimeout(() => {
                             speakTokenNumber(item.booking_number)  
                         }, 1000);
-                         
- 
                         
                         consoleLogged = true; // Set the variable to true after triggering console.log
                     }
