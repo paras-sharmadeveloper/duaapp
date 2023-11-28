@@ -220,13 +220,10 @@ td, th {
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                            if(tunePlayed){
-                                tunePlayed = false; 
-                                
-                            }else{
+                             
                                 bookingNumber = item.booking_number;
                                 tunePlayed = true; 
-                            }
+                            
                              
                         } 
                          
