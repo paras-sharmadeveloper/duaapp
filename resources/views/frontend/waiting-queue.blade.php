@@ -112,43 +112,7 @@ td, th {
                         </tr>
                     </thead>
                     <tbody id="current-user-listing">
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-    
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-    
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
-                        <tr>
-                            <td class="no_one">B233</td>
-                            <td class="no_two">3</td>
-                            <td class="no_two"></td>
-                        </tr>
+                         
                     </tbody>
                     
                 </table>
@@ -205,10 +169,10 @@ td, th {
                             $("#active-time").text(formatTime(item.meeting_start_at))
                         }
                         html+=`<tr>
-                            <td class="no_one">${item.token_id}</td>
-                            <td class="no_two">1</td>
-                            <td class="no_two">${textName}</td>
-                        </tr`; 
+                                <td class="no_one">${item.token_id}</td>
+                                <td class="no_two">1</td>
+                                <td class="no_two">${textName}</td>
+                            </tr>`; 
                         
                         // html += `<div class="col-xl-12 mb-4 users-list">
                         //     <div class="card">
@@ -233,6 +197,7 @@ td, th {
                         // </div>`;
                         console.log("item", item.slot_time)
                     })
+                    console.log("jke",html)
                     $("#current-user-listing").html(html)
 
 
