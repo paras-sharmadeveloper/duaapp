@@ -149,9 +149,7 @@ td, th {
 
         
     <script>
-        $(document).ready(function(){
-                $("#btnas").click()
-        })
+         
         var url = "{{ route('waiting-queue', request()->id) }}";
         getList();
         setInterval(() => {
@@ -186,6 +184,7 @@ td, th {
         function getList() {
             var html = '';
             let tunePlayed = false;
+            let bookingNumber = null;
             $.ajax({
                 url: url, // Update the URL to your Laravel endpoint
                 method: 'GET',
@@ -203,6 +202,7 @@ td, th {
                             textName = 'Awating..'; 
                             meeting_start_at = '00:00:00';  
                             tunePlayed = false; 
+                            
                         } else if (item.user_status == 'admitted') {
                             className = 'admitted-active';
                             textName = 'Waiting'; 
@@ -222,7 +222,9 @@ td, th {
                             $("#active-time").text(formatTime(item.meeting_start_at))
                             if(tunePlayed){
                                 tunePlayed = false; 
+                                
                             }else{
+                                bookingNumber = item.booking_number;
                                 tunePlayed = true; 
                             }
                              
@@ -235,13 +237,14 @@ td, th {
                             </tr>`; 
 
                         previousStatus = item.user_status;
-                        if(tunePlayed){
-                            console.log("true")
-                            playNotificationTune(); speakTokenNumber(item.booking_number);
-                        }
-                        
+                       
                         
                     }) 
+                    if(tunePlayed){
+                            console.log("true")
+                            playNotificationTune(); speakTokenNumber(bookingNumber);
+                    }
+                        
                    
                     $("#current-user-listing").html(html) 
                 },
