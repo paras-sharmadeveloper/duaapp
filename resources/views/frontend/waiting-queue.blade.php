@@ -117,7 +117,7 @@ td, th {
                     <thead>
                         <tr>
                             <th class="no_one">Token No.</th>
-                            <th class="no_two">Room</th>
+                            <th class="no_two">Info</th>
                             <th class="no_two">Status</th>
                         </tr>
                         
@@ -167,7 +167,7 @@ td, th {
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'admitted') {
                             className = 'admitted-active';
-                            textName = 'confirmed'; 
+                            textName = 'Waiting'; 
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'meeting-end') {
                             className = 'meetingend-active';
@@ -175,11 +175,11 @@ td, th {
                             meeting_start_at = '00:00:00';  
                         } else if (item.user_status == 'in-meeting') {
                             className = 'meetingstart-active';
-                            textName = 'In Meeting'; 
+                            textName = 'Meeting Started'; 
                             meeting_start_at = item.meeting_start_at; 
                             $("#active-token").text(item.booking_number)
                             $("#active-time").text(formatTime(item.meeting_start_at))
-                        }
+                        } 
                         html+=`<tr class="${className}">
                                 <td class="no_one">${item.booking_number}</td>
                                 <td class="no_two">${item.fname} ${item.lname}</td>

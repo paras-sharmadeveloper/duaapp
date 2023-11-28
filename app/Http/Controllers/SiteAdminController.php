@@ -79,6 +79,7 @@ class SiteAdminController extends Controller
            ->join('venue_addresses', 'venues_sloting.venue_address_id', '=', 'venue_addresses.id')
             ->where(['venues_sloting.venue_address_id' => $id])
             ->where(['vistors.meeting_ends_at' => null])
+            ->where(['vistors.user_status' => 'admitted'])
             ->select('vistors.*', 'venues_sloting.*','venue_addresses.*')
             ->orderBy('venues_sloting.slot_time', 'asc')
             ->get();
@@ -87,10 +88,7 @@ class SiteAdminController extends Controller
                 return response()->json(['status' => true , 'data' => $visitors]); 
             }
 
-            //echo "<pre>"; print_r( $visitors); die; 
-    
-   
-        
+            //echo "<pre>"; print_r( $visitors); die;  
         return view('frontend.waiting-queue',compact('visitors')); 
     }
 
