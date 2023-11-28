@@ -113,7 +113,7 @@ td, th {
       <div class="container-fluid" data-ring="ringed" >
         <div class="row">
             <audio id="notificationTune">
-                <source src="notification.mp3" type="audio/mp3">
+                <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
                 Your browser does not support the audio tag.
             </audio>
             
