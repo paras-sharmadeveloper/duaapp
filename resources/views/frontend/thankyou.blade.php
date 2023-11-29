@@ -19,11 +19,19 @@
                         d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
                 </svg>
             </div>
+            @php 
+                $venueAddress = $userBooking->slot->venueAddress;
+                $userSelectedTimezone = \Carbon\Carbon::parse($venueAddress->venue_date,$userBooking->user_timezone);
+                 
+                $userSelectedTimezone->timezone($userBooking->user_timezone); 
+                $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
+            @endphp
             <div class="text-center">
                 <h1>Your meeting is confirmed !</h1>
                 <p>Thank  you<b> {{ $userBooking->fname }}</b>,</p>
                 <p>You will get confirmation email shortly</p>
-                <p>Your token number is <b>{{ $userBooking->booking_number }}</b>  </p><br>
+                <p>Your token number is <b>{{ $userBooking->booking_number }}</b>  </p> 
+                <p>{{ $userBooking->fname . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$userBooking->user_timezone.')', }}</p>
                 <p>God bless you!</p>  
                 <p>Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
