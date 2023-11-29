@@ -37,7 +37,7 @@
             
             <h3>Appointment Duration</h3>
             <p>{{ $venueAddress->slot_duration  }} minutes</p>
-            <div class="stats">
+            <div class="stats text-center">
                 <p>Please report to the staff at venue to enter into online queue</p>
             {{-- <div class="stat-item">
                 <h4>Total Served Token</h4>
@@ -127,8 +127,8 @@ p {
     color: #000;
 }
 .stats {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
 /*    background-color: #fff;*/
     border-radius: 10px;
 /*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* subtle shadow */*/
@@ -260,7 +260,7 @@ span {
             font-size: 32px;
             color: #000;
             border: 3px solid #000;
-            margin: 20px 0;
+            margin: 8px 0;
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: 700;

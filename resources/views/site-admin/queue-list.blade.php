@@ -46,13 +46,14 @@
     @endif 
     <div class="card">
         <div class="card-body">
-            <div class="action d-flex justify-content-between">
-                <h5 class="card-title">Manage Users (Refeshed in 5 sec automatically )</h5>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <input type="text" name="" id="search" class="form-control" placeholder="search">
-                    </div>
+            <div class="row mb-2">
+                <div class="col-xl-12">
+                    <input type="text" name="" id="search" class="form-control" placeholder="search">
                 </div>
+            </div>
+            <div class="action d-flex justify-content-between">
+                {{-- <h5 class="card-title">Manage Users</h5> --}}
+                
             </div>
 
 
@@ -149,24 +150,7 @@
                 
                  
              </div> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
                 <table class="table-with-buttons-no table table-responsive cell-border d-none">
                     <thead>
@@ -197,7 +181,7 @@
         getData();
         setInterval(function() {
             getData();
-        }, 5000);
+        }, 10000);
         var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}";
 
         function getData() {
@@ -270,11 +254,11 @@
                                             </div>
                                             <div class="ms-3">
                                                 
-                                                <p class="fw-bold mb-1 h6"> 
-                                                    ${visitor.fname} ${visitor.lname}
-                                                    </p><h6 class="sub-title"> Mobile : ${visitor.phone}</h6>
-                                                    <h6 class="sub-title"> Email : ${visitor.email}</h6>
-                                                    <h6 class="sub-title"> TokenNo : ${visitor.booking_number} </h6> 
+                                                <p class="fw-bold mb-1 h6"> ${visitor.fname} ${visitor.lname} </p>
+                                                <h6 class="sub-title"> TokenNo # ${visitor.booking_number} </h6> 
+                                                <h6 class="sub-title"> ${formatDateTime(slot.venue_address.venue_date+' '+slot.slot_time)}</h6>
+                                                    <h6 class="sub-title"> ${visitor.phone}</h6>
+                                                    <h6 class="sub-title"> ${visitor.email}</h6> 
                                                     <h6 class="vert">${confirmedHtml}</h6>
                                                     <span class="badge bg-info ${nonetimer}"> total time : ${minutes} minutes ${seconds} Sec </span>
                                                 <p></p> 
@@ -332,9 +316,9 @@
 
         function formatDateTime(dateTimeString) {
             const options = {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
+               // year: 'numeric',
+              //  month: 'numeric',
+               // day: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true,
