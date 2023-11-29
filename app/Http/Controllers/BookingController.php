@@ -183,7 +183,7 @@ class BookingController extends Controller
     public function CustomerBookingStatus(Request $request,$id)
     {
 
-        $userBooking = Vistors::where('booking_uniqueid', $id)->get();
+        $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
         echo "<pre>"; print_r( $userBooking); die ; 
 
         if (!$userBooking) {
