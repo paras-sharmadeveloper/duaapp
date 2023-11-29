@@ -31,7 +31,7 @@
                 <p>Thank  you<b> {{ $userBooking->fname }}</b>,</p>
                 <p>You will get confirmation email shortly</p>
                 <p>Your token number is <b>{{ $userBooking->booking_number }}</b>  </p> 
-                <p>{{ $userBooking->fname . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$userBooking->user_timezone.')', }}</p>
+                <p>{{ $userTimezoneFormat . '('.$userBooking->user_timezone.')', }}</p>
                 <p>God bless you!</p>  
                 <p>Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
