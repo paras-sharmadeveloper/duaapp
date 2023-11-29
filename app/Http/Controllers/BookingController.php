@@ -185,13 +185,15 @@ class BookingController extends Controller
 
         $userBooking = Vistors::where('booking_uniqueid', $id)->get();
 
+
         if (!$userBooking) {
             $message = "Not found.";
             return view('frontend.not-found', compact('message'));
         }
 
         // Get the user's slot time
-        $userSlot = VenueSloting::find($userBooking->slot_id);
+        $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get();
+        echo "<pre>"; print_r( $userSlot); die ; 
         $userSlotTime = $userSlot->slot_time;  
         // Assuming 'time' is the column where you store the slot time
         $venueAddress = VenueAddress::find($userSlot->venue_address_id);
