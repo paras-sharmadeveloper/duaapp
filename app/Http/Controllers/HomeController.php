@@ -202,7 +202,7 @@ class HomeController extends Controller
       // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
       $whatsappTims = Carbon::parse($venueDate,$countryTz); // IST timezone
       $whatsappTims->timezone($request->input('timezone')); 
-      $venueString = $whatsappTims->format('d-M-Y g:i A'); 
+      $venueString = $whatsappTims->format('d-M-Y g:i A') . ' ('.$request->input('timezone').')'; 
       $slot_duration = $venueAddress->slot_duration;
       if ($venueAddress->type == 'on-site') {
         $location = $venueAddress->address;
@@ -897,7 +897,7 @@ class HomeController extends Controller
       $slot_duration Minutes
       
       Venue:
-      $venueString 
+      $venueString
       
       Venue location:
       $location
