@@ -368,7 +368,7 @@
                                                                                         <span
                                                                                             style="font-family: inherit"><strong>When<br>
                                                                                             </strong></span><span
-                                                                                            style="font-family: inherit">{{ $dynamicData['meeting_date_time'] }}
+                                                                                            style="font-family: inherit">{{ $dynamicData['userTime'] }}
                                                                                             ({{ $dynamicData['userTz'] }})</span>
                                                                                     </div>
                                                                                     <div

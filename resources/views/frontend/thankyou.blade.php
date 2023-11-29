@@ -22,7 +22,7 @@
             @php 
                 $venueAddress = $userBooking->slot->venueAddress;
                 $slottime =$userBooking->slot->slot_time;
-                $userSelectedTimezone = \Carbon\Carbon::parse($venueAddress->venue_date.' '.$slottime,$userBooking->user_timezone);
+                $userSelectedTimezone = \Carbon\Carbon::parse($venueAddress->venue_date.' '.$slottime);
                  
                 $userSelectedTimezone->timezone($userBooking->user_timezone); 
                 $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
