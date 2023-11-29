@@ -255,7 +255,7 @@
                                             <div class="ms-3">
                                                 
                                                 <p class="fw-bold mb-1 h6"> ${visitor.fname} ${visitor.lname} </p>
-                                                <h6 class="sub-title"> TokenNo # ${visitor.booking_number} </h6> 
+                                                <h6 class="sub-title"> Token # ${visitor.booking_number} </h6> 
                                                 <h6 class="sub-title"> ${formatDateTime(slot.venue_address.venue_date+' '+slot.slot_time)}</h6>
                                                     <h6 class="sub-title"> ${visitor.phone}</h6>
                                                     <h6 class="sub-title"> ${visitor.email}</h6> 
