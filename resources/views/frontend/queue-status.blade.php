@@ -16,31 +16,37 @@
                   </div>
  
     
-    <h1 class="text-center">Queue Management System </h1> 
+    <h1 class="text-center">  </h1> 
         <div class="column first">
             <h2 class="orng">Event Date : {{ date("d-M-Y", strtotime($venueAddress->venue_date))  }}</h4>
-            <h2 class="text-primary">Token Number</h2>
-            <div class="ahead-number">
+             
+            <h2 class="">Venue</h2>
+            <div class="venue-info">
+                <h6>{{ $venueAddress->address }}</h6>
+            </div>
+            {{-- <div class="ahead-number">
                Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
-            </div>
+            </div> --}}
             <div class="queue-number">
-              Your Token # {{ sprintf("%03s", $aheadPeople+1)  }}
+              Token #{{ $userBooking->booking_number}}
               <br>
-             <span>Your Appointment Time : {{ date("g:i A", strtotime($userSlot->slot_time)) }}
-                  </span>
+              <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3>
+             <span>Your Appointment Time : </span> <br>
+             <span>{{ date("g:i A", strtotime($userSlot->slot_time)) }} </span>
             </div>
-
-            <h3>Serving Time</h3>
-            <p>{{ $venueAddress->slot_duration  }} Mint</p>
+            
+            <h3>Appointment Duration</h3>
+            <p>{{ $venueAddress->slot_duration  }} minutes</p>
             <div class="stats">
-            <div class="stat-item">
+                <p>Please report to the staff at venue to enter into online queue</p>
+            {{-- <div class="stat-item">
                 <h4>Total Served Token</h4>
                 <span>{{ sprintf("%01s", $serveredPeople)  }} </span>  <!-- Replace 123 with your desired number -->
-            </div>
-            <div class="stat-item">
+            </div> --}}
+            {{-- <div class="stat-item">
                 <h4>Performance Status</h4>
                 <span>Excellent</span>
-            </div>
+            </div> --}}
         </div>  
  
     </div>
@@ -49,13 +55,15 @@
         
     </section>
 <style type="text/css">
-   
+   .venue-info h6 ,.stats h3{
+    color: #000;
+   }
 .queue-number span {
     font-size: 14px;
     color: #000;
 }
 .orng{
-    color: orange;
+    color: #000;
 }
 .column {
     box-sizing: border-box;
@@ -71,22 +79,22 @@
     align-items: center;
 }
 h6 {
-    color: orange;
-    font-weight: 500;
+    color: #000;
+    /* font-weight: 500; */
     text-align: center;
     font-size: 14px;
 }
 h2 {
-    color: blue;
-    font-weight: 700;
+    color: #000;
+    /* font-weight: 700; */
     text-align: center;
     margin-top: 10px;
     font-size: 24px;
 }
 .ahead-number {
     font-size: 20px;
-    color: #1900ff;
-    border: 3px solid #0048ff;
+    color: #000;
+    border: 3px solid #000;;
     margin: 20px 0;
     padding: 5px 4px;
     border-radius: 10px;
@@ -96,8 +104,8 @@ h2 {
 }
 .queue-number {
     font-size: 34px;
-    color: orange;
-    border: 3px solid orange;
+    color: #000;
+    border: 3px solid #000;
     margin: 20px 0;
     padding: 50px 20px;
     border-radius: 10px;
@@ -106,8 +114,8 @@ h2 {
     text-align: center;
 }
 h3 {
-    color: blue;
-    font-weight: 500;
+    color: #000;
+    /* font-weight: 500; */
     text-align: center;
     margin-top: 10px;
     font-size: 20px;
@@ -116,7 +124,7 @@ p {
     text-align: center;
     font-weight: 400;
     font-size: 18px;
-    color: #555;
+    color: #000;
 }
 .stats {
     display: flex;
@@ -139,7 +147,7 @@ p {
 }
 
 h4 {
-    color: blue;
+    color: #000;
     font-weight: 500;
     text-align: center;
     font-size: 16px;
@@ -147,7 +155,7 @@ h4 {
 }
 
 span {
-    color: orange;
+    color: #000;
     font-size: 18px;
     font-weight: 600;
 }
@@ -195,7 +203,7 @@ span {
 }
 
 .visitor-item h4 {
-    color: blue;
+    color: #000;
     margin-bottom: 5px;
 }
 
@@ -250,8 +258,8 @@ span {
     }
     .queue-number {
             font-size: 32px;
-            color: orange;
-            border: 3px solid orange;
+            color: #000;
+            border: 3px solid #000;
             margin: 20px 0;
             padding: 10px 20px;
             border-radius: 10px;

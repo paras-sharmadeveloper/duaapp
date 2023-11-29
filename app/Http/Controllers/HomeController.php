@@ -374,7 +374,8 @@ class HomeController extends Controller
     })->count();
 
     $serveredPeople = Vistors::whereNotNull('meeting_doneAt')->get()->count();
-    return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople'));
+    
+    return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking'));
   }
 
   public function thankyouPage($id)
@@ -902,11 +903,8 @@ class HomeController extends Controller
       $location
       
       Your appointment status link: 
-      $appointMentStatus
-      
-      When you visit the dua place, you need to enter into virtual queue by clicking below link:
-      $confirmSpot
-      
+      $appointMentStatus 
+
       In case you want to reschedule your appointment, please click below:
       $rescheduleBooking
       

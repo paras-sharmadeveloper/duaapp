@@ -207,6 +207,6 @@ class BookingController extends Controller
                 ->where('slot_time', '<', $userSlotTime);
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
-        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople'));
+        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking'));
     }
 }
