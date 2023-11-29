@@ -184,7 +184,7 @@ class HomeController extends Controller
         'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
         'unsubscribe_link' => '',
         'meeting_date_time' => $formattedDateTime,
-        'meeting_location' => $venueAddress->type,
+        'meeting_location' =>  ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
         'therapist_name' => $venueAddress->user->name,
         'booking_number' => $bookingNumber,
         'slotDuration' => $slotDuration,

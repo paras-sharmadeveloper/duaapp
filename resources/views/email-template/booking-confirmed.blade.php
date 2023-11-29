@@ -265,7 +265,7 @@
                                                                             </div>
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
+                                                                    {{-- <tr>
                                                                         <td style="padding:0px 20px 10px 20px; line-height:22px; text-align:inherit;"
                                                                             height="100%" valign="top"
                                                                             bgcolor="" role="module-content">
@@ -279,7 +279,7 @@
                                                                                 <div></div>
                                                                             </div>
                                                                         </td>
-                                                                    </tr>
+                                                                    </tr> --}}
                                                                 </tbody>
                                                             </table>
                                                             <table class="module" role="module" data-type="text"
@@ -311,11 +311,12 @@
                                                                                         style="font-family: inherit"><strong>Event
                                                                                             Name:
                                                                                             {{ $dynamicData['event_name'] }}<br>
-                                                                                        </strong></span><span
+                                                                                        </strong></span>
+                                                                                        {{-- <span
                                                                                         style="font-family: inherit">Location:
                                                                                         {{ $dynamicData['location'] }}
                                                                                         <br>
-                                                                                    </span>
+                                                                                    </span> --}}
                                                                                 </div>
                                                                                 <div
                                                                                     style="font-family: inherit; text-align: inherit">
@@ -364,7 +365,7 @@
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
                                                                                         <span
-                                                                                            style="font-family: inherit"><strong>BookingId<br>
+                                                                                            style="font-family: inherit"><strong>Token<br>
                                                                                             </strong></span><span
                                                                                             style="font-family: inherit">{{ $dynamicData['booking_number'] }}</span>
                                                                                     </div>
@@ -373,7 +374,7 @@
                                                                                         <span
                                                                                             style="font-family: inherit"><strong>When<br>
                                                                                             </strong></span><span
-                                                                                            style="font-family: inherit">{{ $dynamicData['meeting_date_time'] }}</span>
+                                                                                            style="font-family: inherit">{{ $dynamicData['meeting_date_time'] }} ({{ $dynamicData['userTz'] }})</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
@@ -385,7 +386,7 @@
                                                                                             style="font-family: inherit"><strong>Location<br>
                                                                                             </strong></span><span
                                                                                             style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit">
-                                                                                            {{ $dynamicData['meeting_location'] }}
+                                                                                            {{ $dynamicData['location'] }}
                                                                                         </span><span
                                                                                             style="font-family: inherit">&nbsp;</span>
                                                                                     </div>
@@ -469,13 +470,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">1.
-                                                                                            Please ensure to join the
-                                                                                            meeting 15 mins before the
-                                                                                            set appointment time. Make
-                                                                                            sure you have a good
-                                                                                            internet connection.</span>
+                                                                                        <span style="font-family: inherit">1. Please ensure to arrive at the venue at least 15 mins before only.</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -483,19 +478,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">2.
-                                                                                            Once you join the meeting
-                                                                                            you will be entered into a
-                                                                                            waiting room, make sure your
-                                                                                            mic and video is working
-                                                                                            correctly. If all in working
-                                                                                            condition correctly, do not
-                                                                                            refresh your browser as the
-                                                                                            admin will allow you into
-                                                                                            conference automatically at
-                                                                                            specified appointment
-                                                                                            time.</span>
+                                                                                        <span style="font-family: inherit">2. One person can request one Dua only.</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -503,15 +486,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
-                                                                                        <span
-                                                                                            style="font-family: inherit">3.
-                                                                                            If your appointment time is
-                                                                                            reached and video conference
-                                                                                            is not started it means
-                                                                                            other calls in progress.
-                                                                                            Please be patient as it will
-                                                                                            be connected
-                                                                                            automatically.</span>
+                                                                                        <span style="font-family: inherit">3. Time of meeting as allocated in this appointment is strict as there are many other people who also needs to be accomodated.</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -519,10 +494,8 @@
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">4.
-                                                                                            One person can request one
-                                                                                            Dua only.</span>
+                                                                                        <span style="font-family: inherit">4. Please summarize your question in advance. Don't discuss all background stories. Your questions must be within 2 lines only.
+                                                                                        </span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -530,13 +503,8 @@
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">5.
-                                                                                            Time of meeting as allocated
-                                                                                            in this appointment is
-                                                                                            strict. Admins will have to
-                                                                                            cut your call after the
-                                                                                            meeting time is over.</span>
+                                                                                        <span style="font-family: inherit">5. Please note dua will be made in seconds. Therefore, please be precise and to the point in one sentence and wait for the response.
+                                                                                        </span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -545,11 +513,8 @@
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit; margin-left: 0px">
                                                                                         <span
-                                                                                            style="box-sizing: border-box; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 14px; vertical-align: baseline; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-top-style: initial; border-right-style: initial; border-bottom-style: initial; border-left-style: initial; border-top-color: initial; border-right-color: initial; border-bottom-color: initial; border-left-color: initial; border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; text-align: left; color: #000000; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-family: inherit">6.
-                                                                                            Please prepare a question
-                                                                                            that you want to ask as the
-                                                                                            wrong question may lead to a
-                                                                                            wrong answer.</span>
+                                                                                            style="box-sizing: border-box; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 14px; vertical-align: baseline; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-top-style: initial; border-right-style: initial; border-bottom-style: initial; border-left-style: initial; border-top-color: initial; border-right-color: initial; border-bottom-color: initial; border-left-color: initial; border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; text-align: left; color: #000000; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-family: inherit">
+                                                                                            6. As the number of persons requesting Dua is more, to save time, please avoid courtesy conversations, for example, how are you, etc.</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
@@ -559,12 +524,10 @@
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
                                                                                         <span
-                                                                                            style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit">7.
-                                                                                            Allah knows about
-                                                                                            everything, so you don’t
-                                                                                            have to explain the details
-                                                                                            about the
-                                                                                            circumstances.</span><span
+                                                                                            style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit"> 
+                                                                                            7. Men need to tell their full names, and women need to tell their name before marriage so that proper Dua can be made.
+    
+                                                                                        </span><span
                                                                                             style="font-family: inherit">&nbsp;</span>
                                                                                     </div>
                                                                                     <div
@@ -574,43 +537,12 @@
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: left">
                                                                                         <span
-                                                                                            style="font-family: inherit">8.
-                                                                                            Please note dua will be made
-                                                                                            in seconds. Therefore,
-                                                                                            please be precise and to the
-                                                                                            point in one sentence and
-                                                                                            wait for the
-                                                                                            response.</span>
+                                                                                            style="font-family: inherit">8. Please bring a note book and pen with you. In case Mr. Shah advise you anything, you write it at spot.</span>
                                                                                     </div>
-                                                                                    <div
-                                                                                        style="font-family: inherit; text-align: left">
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">9.
-                                                                                            As the number of persons
-                                                                                            requesting Dua is more, to
-                                                                                            save time, please avoid
-                                                                                            courtesy conversations, for
-                                                                                            example, how are you,
-                                                                                            etc.</span>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        style="font-family: inherit; text-align: left">
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        style="font-family: inherit; text-align: left">
-                                                                                        <span
-                                                                                            style="font-family: inherit">10.
-                                                                                            Men need to tell their
-                                                                                            names, and women need to
-                                                                                            tell their name before
-                                                                                            marriage so that proper Dua
-                                                                                            can be made.</span>
-                                                                                    </div>
+                                                                                     
+                                                                                     
+                                                                                     
+                                                                                    
                                                                                     <div></div>
                                                                                 </div>
                                                                         </td>

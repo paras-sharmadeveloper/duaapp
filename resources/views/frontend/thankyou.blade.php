@@ -25,7 +25,7 @@
                 <p>You will get confirmation email shortly</p>
                 <p>Your <b> token number is</b>{{ $userBooking->booking_number }} </p><br>
                 <p>God bless you!</p> <br>
-                <p> Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
+                <p>Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
             </div>
         </div>
