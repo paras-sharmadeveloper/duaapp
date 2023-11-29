@@ -644,7 +644,7 @@ class HomeController extends Controller
 
         $dataArr['city'][] = [
           'name' => $cityName,
-          'flag_path' => ($venuesList->venue->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->venue->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($venuesList->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
         
           'id' => $venuesList->venue->id,
           'type' => $venuesList->type,
@@ -677,7 +677,7 @@ class HomeController extends Controller
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
-          'flag_path' => ($venuesList->venue->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->venue->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($venuesList->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
           'id' => $venuesList->venue->id,
           'venue_address_id' => $venuesList->id
         ];

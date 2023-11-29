@@ -41,6 +41,12 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+        .inline-label,
+.inline-input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0; /* Remove default margin-bottom */
+}
     </style>
 
     <div class="row mt-3">
@@ -147,14 +153,20 @@
                         </div> 
                     </div>
                     
-                    <div class="col-md-3 mt-4"> 
-                        <input type="file" class="form-control" id="city_image" name="city_image" value="sad">
-                         
-                            @if (isset( $venueAddress->city_image ) && Storage::disk('s3_general')->exists('city_image/' . $venueAddress->city_image))
-                            <img src="{{ env('AWS_GENERAL_PATH').'city_image/'.$venueAddress->city_image }}" alt="Flag Image" style="height: 100px;margin-top:10px ">
+                    <div class="col-md-3 mt-4">
+                        <div class="input-group custom-file-button">
+                            <label class="input-group-text inline-label" for="inputGroupFile">City Flag</label>
+                            <input type="file" class="a-control inline-input" id="city_image" name="city_image" value="sad">
+                    
+                            @if (isset($venueAddress->city_image) && Storage::disk('s3_general')->exists('city_image/' . $venueAddress->city_image))
+                                <img src="{{ env('AWS_GENERAL_PATH').'city_image/'.$venueAddress->city_image }}"
+                                     alt="Flag Image"
+                                     style="height: 100px; margin-top: 10px">
                             @endif
- 
+                        </div>
                     </div>
+                    
+                    
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Venue Addresses</span>
