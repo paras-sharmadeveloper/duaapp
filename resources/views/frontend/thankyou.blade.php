@@ -20,17 +20,18 @@
                 </svg>
             </div>
             <div class="text-center">
-                <h1>Thank You !</h1>
-                <p>Thankyou <b> {{ $userBooking->fname }} </b>,</p>
-                <p>You will get your Email and Sms Shortly.</p>
-                <p>Your <b> Booking Id </b>: {{ $userBooking->booking_number }} </p><br>
-                <p> Thankyou and Best Regards </p> <br>
-                <p> Team Kahay Faqeer</p>
+                <h1>Your meeting is confirmed !</h1>
+                <p>Thank  you<b> {{ $userBooking->fname }}</b>,</p>
+                <p>You will get confirmation email shortly</p>
+                <p>Your <b> token number is</b>{{ $userBooking->booking_number }} </p><br>
+                <p>God bless you!</p> <br>
+                <p> Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
             </div>
         </div>
     </div>
-</div>
+</div> 
+
 
 @endsection
 @section('page-script') 

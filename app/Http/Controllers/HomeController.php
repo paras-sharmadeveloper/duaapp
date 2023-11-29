@@ -817,7 +817,7 @@ class HomeController extends Controller
     $result =  $this->SendOtp($userDetail,$isMobile,$isEmail);
 
     if ($result['status']) {
-      return response()->json(['message' => 'Please check your email for OTP. If not Recived then check Spam Email.', 'status' => true]);
+      return response()->json(['message' => 'Please check your email for OTP. If not received please check spam folder.', 'status' => true]);
       // return response()->json(['message' => 'OTP Sent successfully', 'status' => true]);
     } else {
       return response()->json(['message' => 'OTP failed to sent', 'status' => false]);

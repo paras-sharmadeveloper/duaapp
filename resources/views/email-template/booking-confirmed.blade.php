@@ -334,7 +334,7 @@
                                                                                     <br>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
-                                                                                        <span
+                                                                                        {{-- <span
                                                                                             style="font-family: inherit">When
                                                                                             You vist your location you
                                                                                             have to confirm your check
@@ -344,7 +344,7 @@
                                                                                             <br>
                                                                                             Need to make changes to this
                                                                                             event?<br>
-                                                                                            Cancel: </span>
+                                                                                            Cancel: </span> --}}
                                                                                         <span
                                                                                             style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit">
                                                                                             {{ $dynamicData['meeting_cancel_link'] }}
