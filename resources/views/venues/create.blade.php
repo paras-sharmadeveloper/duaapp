@@ -155,7 +155,7 @@
                     
                     <div class="col-md-3 mt-4">
                         <div class="input-group custom-file-button">
-                            <label class="input-group-text inline-label" for="inputGroupFile">City Flag</label>
+                            <label class="input-group-text inline-label mb-2" for="inputGroupFile">City Flag (48X48 Recommend )</label>
                             <input type="file" class="a-control inline-input" id="city_image" name="city_image" value="sad">
                     
                             @if (isset($venueAddress->city_image) && Storage::disk('s3_general')->exists('city_image/' . $venueAddress->city_image))
