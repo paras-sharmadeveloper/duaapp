@@ -735,7 +735,7 @@ div#errors {
                                 <li>Country</li>
                                 <li>City</li>
                                 <li>Date</li>
-                                <li>Slot</li>
+                                <li>Time</li>
                                 <li>Finish</li>
                             </ul>
                         </div>
@@ -926,7 +926,7 @@ div#errors {
                         <div id="slot-information-user">
                              <label> Your Current Timezone:</label>
                              <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
-                                    <option> Select Timezone </option>
+                                    {{-- <option> Select Timezone </option> --}}
                                     @foreach($timezones as $country)
                                         @foreach($country->timezones as $timezone)
                                             <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }} ({{ $country->nicename }})</option>
@@ -1143,7 +1143,9 @@ div#errors {
                         
 
                         <div class="disclaimer">
-                            <p style="font-size:12px">We do not store your image. Our system only processes your facial fingerprint real-time to check if you are a human. By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to check your facial fingerprint and to contact you about your appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.</p>
+                            <p style="font-size:12px">
+                                By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to send you appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.
+                            </p>
                         </div>
                         
                         <!-- NEXT BUTTON-->
@@ -1564,6 +1566,7 @@ div#errors {
                             $("#make-selfie-area").hide();
                             // $("#selfie_required").val('no') 
                         }
+                        $("#timezone").val(response.timezone).trigger("change");
                         
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
@@ -1579,6 +1582,7 @@ div#errors {
                                 </div>`;
                             });
                             $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
+                            
                             $("#timezone-hidden").val(response.timezone)
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
