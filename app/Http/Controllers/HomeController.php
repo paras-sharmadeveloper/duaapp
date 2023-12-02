@@ -603,12 +603,15 @@ class HomeController extends Controller
       ]);
     }
     if ($type == 'get_country') {
+
+       
       $venuesListArr = VenueAddress::where('id', $id)
-        ->where(function ($query) use ($newDate) {
-          $query->whereDate('venue_date', $newDate)
-            ->orWhereDate('venue_date', date('Y-m-d'));
-        })
-        ->get();
+      ->where(function ($query) use ($newDate) {
+          $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+                ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+      })
+      ->where('venue_date', '>=', now()->format('Y-m-d'))
+      ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $countryName = $venuesList->venue->country_name;
