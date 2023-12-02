@@ -1535,7 +1535,10 @@ div#errors {
 
                         if (response.status) { 
 
-                          
+                            var coulmtoShow = response.data.columnToShow; 
+
+                            console.log("coulmtoShow",coulmtoShow)
+
                             $.each(response.data.date, function(key, item) {
 
                                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
