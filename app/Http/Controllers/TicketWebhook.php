@@ -8,15 +8,13 @@ use App\Models\{VisitorBooking};
 
 class TicketWebhook extends Controller
 {
-
-
     public function FetchData(Request $request, $listId)
     { 
 
          $post = $request->all();
        // $post = $request->json()->all();
      
-        
+        return  $post; 
         $email =  $post['email']; 
         $fname =  $post['first_name'];
 
