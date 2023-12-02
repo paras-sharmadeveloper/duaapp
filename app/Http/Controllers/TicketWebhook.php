@@ -10,12 +10,10 @@ class TicketWebhook extends Controller
 {
     public function FetchData(Request $request, $listId)
     { 
-
-         $post = $request->all();
+          $post = $request->all();
          if(empty($post)){
             return response()->json(['message' => 'Your Request must have some data'],406); 
-         }
-       // $post = $request->json()->all();
+         } 
       
         $email =  $post['payload']['email']; 
         $fname =   $post['payload']['first_name'];
