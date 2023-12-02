@@ -401,10 +401,8 @@ class HomeController extends Controller
     //  $venueAddress = VenueAddress::find($id); 
     $id = $request->input('id');
     $timezone = $request->input('timezone');
-    $today = Carbon::now();
-    $newDated = $today->addDay();
-    $newDate = $newDated->format('Y-m-d');
-    // $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    
+     $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     
     $venueAddress =  VenueAddress::where('id', $id)
       ->where(function ($query) use ($newDate) {
@@ -538,7 +536,10 @@ class HomeController extends Controller
   {
     $type = $request->input('type');
     $id = $request->input('id');
-     $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    $today = Carbon::now();
+    $newDated = $today->addDay();
+    $newDate = $newDated->format('Y-m-d');
+    //  $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     //$newDate = date('Y-m-d');
     $newDate15Day = date('Y-m-d', strtotime(date('Y-m-d') . ' +15 day'));
     if ($type == 'venue_address') {
@@ -630,7 +631,8 @@ class HomeController extends Controller
       return response()->json([
         'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr,
-        'date' => $newDate
+        'date' => $newDate,
+        'co' => $today->format('Y-m-d')
       ]);
     }
 
