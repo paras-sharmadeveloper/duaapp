@@ -167,11 +167,7 @@
 
                             <div class="col-md-3 image-container">
                                 <label for="city">Upload City Flag 48 X 48 :</label>
-                                <!-- Display small image -->
-                                <label for="city_image" class="city-image-label">
-                                    <img src="https://i.postimg.cc/wM1GG6qv/avatar.png" style="height: 100px; "
-                                        alt="City Image" id="city_image_preview" class="city-image-preview">
-                                </label>
+                               
                                 <!-- File input (hidden) -->
                                 <input type="file" name="city_image" id="city_image" class="city-image"
                                     accept="image/png, image/gif, image/jpeg" style="display: none;">
@@ -273,16 +269,7 @@
                 reader.readAsDataURL(file);
             }
         }
-        $(document).on('change', ".city-image", function() {
-            $this = $(this);
-            const previewSelector = $this.parents('.image-container').find('.city-image-preview');
-            handleFileSelect(this, previewSelector);
-        });
-        $(document).on('change', ".flag_path", function() {
-
-            const previewSelector = $(this).closest('.row').find('.flag-image-preview');
-            handleFileSelect(this, previewSelector);
-        });
+         
 
 
         
