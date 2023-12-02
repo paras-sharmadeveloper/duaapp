@@ -13,8 +13,7 @@ class TicketWebhook extends Controller
 
          $post = $request->all();
        // $post = $request->json()->all();
-     
-        return  $post; 
+      
         $email =  $post['email']; 
         $fname =  $post['first_name'];
 
