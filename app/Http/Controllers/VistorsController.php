@@ -103,7 +103,7 @@ class VistorsController extends Controller
      */
     public function DeleteNow($id)
     {
-        $booking = Vistors::find($id);
+        $booking = VisitorBooking::find($id);
         $booking->delete();
         return redirect()->route('visitor.index')->with('success', 'Booking deleted successfully!');
     }
