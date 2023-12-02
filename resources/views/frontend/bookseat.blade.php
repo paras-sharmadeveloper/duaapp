@@ -1534,8 +1534,8 @@ div#errors {
                         var dAte = '';
 
                         if (response.status) { 
-
-                            var coulmtoShow = response.data.date.columnToShow; 
+                            console.log("response",response)
+                            var coulmtoShow = response.data.columnToShow; 
 
                             console.log("coulmtoShow",coulmtoShow)
                             var count = 1;

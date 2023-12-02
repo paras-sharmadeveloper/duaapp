@@ -705,7 +705,7 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->combinationData->columns_to_show;
 
-        $dataArr['date']['columnToShow'] =  $columnToShow; 
+        $dataArr['columnToShow'] =  $columnToShow; 
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
