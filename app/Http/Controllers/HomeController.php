@@ -401,7 +401,11 @@ class HomeController extends Controller
     //  $venueAddress = VenueAddress::find($id); 
     $id = $request->input('id');
     $timezone = $request->input('timezone');
-    $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    $today = Carbon::now();
+    $newDated = $today->addDay();
+    $newDate = $newDated->format('Y-m-d');
+    // $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    
     $venueAddress =  VenueAddress::where('id', $id)
       ->where(function ($query) use ($newDate) {
         $query->whereDate('venue_date', $newDate)
