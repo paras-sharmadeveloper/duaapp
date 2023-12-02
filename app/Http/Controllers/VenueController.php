@@ -56,7 +56,8 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
-            'rejoin_venue_after' => 'required'
+            'rejoin_venue_after' => 'required',
+            'combination_id' => 'required'
 
         ]);
 
@@ -81,14 +82,7 @@ class VenueController extends Controller
         //     $roomName = str_replace(' ', '_', $request->input('video_room'));
         //     $roomDetail =  $this->createConferencePost($roomName);
         // }
-        $imageName  = null;
-        if ($request->hasFile('city_image')) {
-            $image = $request->file('city_image');
-            $imageName = time() . 'city_image.' . $image->getClientOriginalExtension();
-            Storage::disk('s3_general')->put('city_image/' . $imageName, file_get_contents($image));
-            // $image->move(public_path('/flags'), $imageName); 
-            
-        } 
+         
 
         $country = Venue::find($request->input('venue_id')); 
         
@@ -96,7 +90,7 @@ class VenueController extends Controller
         
         $dataArr = [
             'city' => $request->input('city'),
-            'city_image' =>  $imageName ,
+            'combination_id' =>  $request->input('combination_id') ,
             'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
