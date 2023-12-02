@@ -1539,9 +1539,7 @@ div#errors {
 
                             console.log("coulmtoShow",coulmtoShow)
                             var count = 1;
-                            $.each(response.data.date, function(key, item) {
-                                console.log("count",count)
-                                if(coulmtoShow >=count){
+                            $.each(response.data.date, function(key, item) { 
                                     dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                         <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                             <img src="${item.flag_path}" alt="Flag Image"> 
@@ -1550,8 +1548,8 @@ div#errors {
                                             </div>
                                         </div>
                                     </div>`;
-                                }
-                               count++;
+                                
+                               
                             })
                             
                         }else{
