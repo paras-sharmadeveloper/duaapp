@@ -17,13 +17,13 @@ class TicketWebhook extends Controller
          }
        // $post = $request->json()->all();
       
-       // $email =  $post['email']; 
-      //  $fname =  $post['first_name'];
+        $email =  $post['payload']['email']; 
+        $fname =   $post['payload']['first_name'];
 
         VisitorBooking::create([
-            'name' => "webhookTest",
-            'email' =>"email@gmail.com",
-            'phone' => "7897897".$listId,
+            'name' => $fname,
+            'email' => $email,
+            'phone' => $listId,
             'purpose' =>  json_encode($post),
             'visit_datetime' => date('y-m-d H:i:s'),
         ]);
