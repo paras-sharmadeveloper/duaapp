@@ -18,5 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
+Route::any('/send/lead/{listid}se', [TicketWebhook::class, 'FetchData']);
 
