@@ -38,5 +38,11 @@ class VenueAddress extends Model
     {
         return $this->belongsTo(User::class,'siteadmin_id');
     } 
+
+    public function combinationData()
+    {
+        return $this->belongsTo(VenueStateCity::class,'id','combination_id');
+       
+    }
     
 }

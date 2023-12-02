@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{SendMessage, SendEmail};
@@ -539,6 +539,9 @@ class HomeController extends Controller
     $today = Carbon::now();
     $NextDate = $today->addDay();
     $newDate = $NextDate->format('Y-m-d');
+
+    
+
     //  $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     //$newDate = date('Y-m-d');
     $newDate15Day = date('Y-m-d', strtotime(date('Y-m-d') . ' +15 day'));
@@ -658,7 +661,7 @@ class HomeController extends Controller
       foreach ($venuesListArr as $venuesList) {
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
-        $cityFlag = $venuesList->venue->venueCity->city_image;
+        $cityFlag = $venuesList->combinationData->city_image;
 
 
         $dataArr['city'][] = [
@@ -699,7 +702,7 @@ class HomeController extends Controller
       foreach ($venuesListArr as $venuesList) {
         $venue_date = $venuesList->venue_date;
         $flagPath = $venuesList->venue->flag_path;
-        $cityFlag = $venuesList->venue->venueCity->city_image;
+        $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->venue->venueCity->columns_to_show;
 
         $dataArr['date']['columnToShow'] =  $columnToShow; 
