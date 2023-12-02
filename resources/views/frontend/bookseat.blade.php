@@ -1535,20 +1535,23 @@ div#errors {
 
                         if (response.status) { 
 
-                            var coulmtoShow = response.data.columnToShow; 
+                            var coulmtoShow = response.data.date.columnToShow; 
 
                             console.log("coulmtoShow",coulmtoShow)
-
+                            var count = 1;
                             $.each(response.data.date, function(key, item) {
-
-                                dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
-                                    <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                                        <img src="${item.flag_path}" alt="Flag Image"> 
-                                        <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                                console.log("count",count)
+                                if(coulmtoShow >=count){
+                                    dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
+                                        <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
+                                            <img src="${item.flag_path}" alt="Flag Image"> 
+                                            <div class="card-body px-0">
+                                                <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>`;
+                                    </div>`;
+                                }
+                               count++;
                             })
                             
                         }else{
