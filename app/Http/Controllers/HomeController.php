@@ -537,8 +537,8 @@ class HomeController extends Controller
     $type = $request->input('type');
     $id = $request->input('id');
     $today = Carbon::now();
-    $newDated = $today->addDay();
-    $newDate = $newDated->format('Y-m-d');
+    $NextDate = $today->addDay();
+    $newDate = $NextDate->format('Y-m-d');
     //  $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     //$newDate = date('Y-m-d');
     $newDate15Day = date('Y-m-d', strtotime(date('Y-m-d') . ' +15 day'));
@@ -631,8 +631,8 @@ class HomeController extends Controller
       return response()->json([
         'status' => !(empty($dataArr)) ? true : false,
         'data' => $dataArr,
-        'date' => $newDate,
-        'co' => $today->format('Y-m-d')
+        'date' => $NextDate->format('Y-m-d H:i:s A'),
+        'co' => $today->format('Y-m-d H:i:s A')
       ]);
     }
 
