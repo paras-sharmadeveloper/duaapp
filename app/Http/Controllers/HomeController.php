@@ -625,7 +625,8 @@ class HomeController extends Controller
 
       return response()->json([
         'status' => !(empty($dataArr)) ? true : false,
-        'data' => $dataArr
+        'data' => $dataArr,
+        'date' => $newDate
       ]);
     }
 
@@ -657,7 +658,8 @@ class HomeController extends Controller
 
       return response()->json([
         'status' => !(empty($dataArr)) ? true : false,
-        'data' => $dataArr,'date' => $newDate
+        'data' => $dataArr,
+        'date' => $newDate
       ]);
     }
     if ($type == 'get_date') {
