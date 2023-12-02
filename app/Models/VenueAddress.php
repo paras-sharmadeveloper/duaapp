@@ -41,7 +41,7 @@ class VenueAddress extends Model
 
     public function combinationData()
     {
-        return $this->belongsTo(VenueStateCity::class,'id','combination_id');
+        return $this->belongsTo(VenueStateCity::class,'combination_id','id');
        
     }
     
