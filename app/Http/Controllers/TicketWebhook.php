@@ -13,7 +13,7 @@ class TicketWebhook extends Controller
     public function FetchData(Request $request, $listId)
     { 
 
-         $post = json_decode($request->all());
+         $post = $request->all();
        // $post = $request->json()->all();
      
         
