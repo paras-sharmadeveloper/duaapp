@@ -163,8 +163,8 @@ class HomeController extends Controller
       $userSelectedTimezone = Carbon::parse($venueDate,$countryTz);  
       $userSelectedTimezone->timezone($request->input('timezone')); 
 
-      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
-      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
+      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – '. $currentContryTimezone->addMinutes(30)->format('g:ia');
+      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – '. $userSelectedTimezone->addMinutes(30)->format('g:ia');
       $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
       $dynamicData = [

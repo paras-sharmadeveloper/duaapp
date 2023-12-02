@@ -8,9 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
+    protected $table = 'countries'; 
     protected $guarded=[];
     public function timezones()
     {
-        return $this->hasMany(Timezone::class, 'country_code', 'iso');
+        return $this->hasMany(Timezone::class, 'country_code', 'iso2');
     }
+
+
+    public function states()
+    {
+        return $this->hasMany(State::class, 'country_id', 'id');
+    }
+    
 }

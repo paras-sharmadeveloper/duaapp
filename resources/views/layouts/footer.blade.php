@@ -45,11 +45,24 @@
 let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
 let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
 $(document).ready(function() {
-$("#country_name").select2({
+$("#country").select2({
             placeholder: "Select country",
             allowClear: true
         });
+
+    $("#citsy").select2({
+        placeholder: "Select City",
+        allowClear: true
+    });
+
+    $("#staste").select2({
+        placeholder: "Select State",
+        allowClear: true
+    });
  });
+
+
+ 
 $(document).ready(function() {
     $('.table-with-buttons').DataTable( {
 

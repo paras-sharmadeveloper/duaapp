@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role; 
 use App\Models\{User,Country};
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
@@ -18,6 +19,7 @@ class AdminSeeder extends Seeder
     {
         $this->PermissionSeeder();
         $this->AdminSeeder(); 
+        $this->VenueCity(); 
         
  
     }
@@ -44,6 +46,7 @@ class AdminSeeder extends Seeder
         $this->CraeteAllUsers($roles);
         $this->InsertCountryData(); 
         $this->InsertTimeZone(); 
+
    
     }
 
@@ -95,11 +98,28 @@ class AdminSeeder extends Seeder
     }
 
 
+    // public function InsertCountryData(){
+    //     $sqlDumpPath = __DIR__ . '/countries.sql';
+    //     $sql = file_get_contents($sqlDumpPath);
+    //     DB::unprepared($sql); 
+    // }
+
     public function InsertCountryData(){
-        $sqlDumpPath = __DIR__ . '/countries.sql';
+        $sqlDumpPath = __DIR__ . '/all_countries_with_state_city.sql';
         $sql = file_get_contents($sqlDumpPath);
-        DB::unprepared($sql); 
+     
+         DB::unprepared($sql); 
     }
+    public function VenueCity(){
+        
+        Artisan::call('migrate', [
+            '--path' => 'database/migrations/other/2023_12_01_040239_create_venue_state_cities_table.php',
+        ]);
+         
+    } 
+
+
+    
 
     public function InsertTimeZone(){
         $sqlDumpPath = __DIR__ . '/timezone.sql';

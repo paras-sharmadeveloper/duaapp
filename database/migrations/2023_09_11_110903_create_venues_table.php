@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('venues', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
             $table->string('country_name'); 
             $table->string('flag_path')->nullable();
-            $table->string('iso',15)->nullable();
+            $table->string('iso',15)->nullable(); 
             $table->timestamps();
         });
     }

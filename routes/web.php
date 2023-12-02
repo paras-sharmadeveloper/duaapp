@@ -111,6 +111,8 @@ Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilable
 Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
 Route::get('/waiting/queue/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
+Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
+Route::get('/get-cities', [VenueCountryController::class, 'getCities'])->name('get-cities');
 
 
 
