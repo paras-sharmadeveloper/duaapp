@@ -703,7 +703,7 @@ class HomeController extends Controller
         $venue_date = $venuesList->venue_date;
         $flagPath = $venuesList->venue->flag_path;
         $cityFlag = $venuesList->combinationData->city_image;
-        $columnToShow = $venuesList->venue->venueCity->columns_to_show;
+        $columnToShow = $venuesList->combinationData->columns_to_show;
 
         $dataArr['date']['columnToShow'] =  $columnToShow; 
         $dataArr['date'][] = [
