@@ -641,11 +641,19 @@ class HomeController extends Controller
 
     if ($type == 'get_city') {
       $venuesListArr = VenueAddress::where('id', $id)
-        ->where(function ($query) use ($newDate) {
-          $query->whereDate('venue_date', $newDate)
-            ->orWhereDate('venue_date', date('Y-m-d'));
-        })
-        ->get();
+    ->where(function ($query) use ($newDate) {
+        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+              ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+    })
+    ->where('venue_date', '>=', now()->format('Y-m-d'))
+    ->get();
+
+      // $venuesListArr = VenueAddress::where('id', $id)
+      //   ->where(function ($query) use ($newDate) {
+      //     $query->whereDate('venue_date', $newDate)
+      //       ->orWhereDate('venue_date', date('Y-m-d'));
+      //   })
+      //   ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $cityName = $venuesList->city;
@@ -673,13 +681,19 @@ class HomeController extends Controller
     }
     if ($type == 'get_date') {
 
-
       $venuesListArr = VenueAddress::where('id', $id)
-        ->where(function ($query) use ($newDate) {
-          $query->whereDate('venue_date', $newDate)
-            ->orWhereDate('venue_date', date('Y-m-d'));
-        })
-        ->get();
+    ->where(function ($query) use ($newDate) {
+        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+              ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+    })
+    ->where('venue_date', '>=', now()->format('Y-m-d'))
+    ->get();
+      // $venuesListArr = VenueAddress::where('id', $id)
+      //   ->where(function ($query) use ($newDate) {
+      //     $query->whereDate('venue_date', $newDate)
+      //       ->orWhereDate('venue_date', date('Y-m-d'));
+      //   })
+      //   ->get();
       
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
@@ -709,13 +723,20 @@ class HomeController extends Controller
       $currentTimezone = $request->input('timezone','America/New_York'); 
       $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
       //  $venueAddress = VenueAddress::find($id); 
+      $venueAddress = VenueAddress::where('id', $id)
+    ->where(function ($query) use ($newDate) {
+        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+              ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+    })
+    ->where('venue_date', '>=', now()->format('Y-m-d'))
+    ->get()->first();
 
-      $venueAddress =  VenueAddress::where('id', $id)
-        ->where(function ($query) use ($newDate) {
-          $query->whereDate('venue_date', $newDate)
-            ->orWhereDate('venue_date', date('Y-m-d'));
-        })
-        ->get()->first();
+      // $venueAddress =  VenueAddress::where('id', $id)
+      //   ->where(function ($query) use ($newDate) {
+      //     $query->whereDate('venue_date', $newDate)
+      //       ->orWhereDate('venue_date', date('Y-m-d'));
+      //   })
+      //   ->get()->first();
 
 
       // if (App::environment('production')) {
