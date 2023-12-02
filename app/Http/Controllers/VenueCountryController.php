@@ -24,7 +24,7 @@ class VenueCountryController extends Controller
     public function create()
     {
         $countryList = Country::all();
-        $cityList = City::all();
+        $cityList = [];
         $venueCityArr = []; 
         return view('venues.venueCountry',compact('countryList','cityList','venueCityArr'));
     }
@@ -36,18 +36,9 @@ class VenueCountryController extends Controller
     {
         $request->validate([
             'country_name' => 'required', 
-            'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file type and size limits
-            'city_name.*' => 'required', 
-            'city_image.*' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
-
+            'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048',  
         ]);
-
-        $cityArr = $request->input('city_id'); 
-        $cityImagArr = $request->file('city_image'); 
-        $stateArr = $request->input('state_id'); 
-        $StateNameArr = $request->input('state_name'); 
-        $CityNameArr = $request->input('city_name');  
-        
+ 
         $imageName  = null;
         if ($request->hasFile('flag_path')) {
             $image = $request->file('flag_path');
@@ -62,25 +53,9 @@ class VenueCountryController extends Controller
             'flag_path' =>  $imageName, 
             'iso' => $request->input('iso')
         ]); 
-        // echo "<pre>"; print_r($cityImagArr); die; 
-        // foreach($cityArr as $k => $city){
-        //     $imageNameAdd = time() . 'city_.' .$cityImagArr[$k]->getClientOriginalExtension();
-           
-        //     $combinationNAme =  $request->input('country_name').'_'. $StateNameArr[$k] . '_' . $CityNameArr[$k] ; 
-
-        //     Storage::disk('s3_general')->put('city_image/' . $imageNameAdd, file_get_contents($cityImagArr[$k]));
-        //     VenueStateCity::create([
-        //         'venue_id' =>  $venue->id,
-        //         'country_id' => $request->input('country_id'),
-        //         'state_id' => $stateArr[$k],
-        //         'city_id' =>    $cityArr[$k], 
-        //         'city_image' => $imageNameAdd, 
-        //         'combination_name' => $combinationNAme
-        //     ]);
-        // }
-        return redirect()->back()->with('success', 'Country created successfully');
-
-        // return redirect()->route('country.index')->with('success', 'Country created successfully');
+        
+        return redirect()->route('country.edit',$venue->id)->with(['success' => 'Country created successfully', 'is_true' => true]);
+  
 
     }
 
@@ -99,20 +74,9 @@ class VenueCountryController extends Controller
     {
         $venue = VenueCountry::findOrFail($id);
         $countryList = Country::all();
-        $cities = City::get(); 
-        $states = State::get(); 
-        $venueCityArr = VenueStateCity::where(['venue_id' => $id])->get(); 
-        $editData = []; 
-         foreach( $venueCityArr as  $cs){
-              
-            $editData['states'] = State::where(['country_id' => $cs['country_id']])->get()->toArray(); 
-            $editData['all'][] = $cs->toArray(); 
-            $editData['state_name'][] = $cs->state->name; 
-            $editData['city_name'][] = $cs->city->name;
-            $editData['cities'][$cs['state_id']] = City::where(['state_id' => $cs['state_id']])->get()->toArray();
-         }
-        // echo "<pre>"; print_r($editData); die; 
-        return view('venues.venueCountry', compact('venue','countryList','cities','editData','states'));
+        $venueCityStates = VenueStateCity::where(['venue_id' => $id])->get(); 
+         
+        return view('venues.venueCountry', compact('venue','countryList','venueCityStates'));
     }
 
     /**
@@ -121,13 +85,7 @@ class VenueCountryController extends Controller
     public function update(Request $request, $id)
     {
         $venue = VenueCountry::findOrFail($id);
-        $request->validate([ 'country_name' => 'required']);
-        $cityArr = $request->input('city_id'); 
-        $cityImagArr = $request->file('city_image'); 
-        $stateArr = $request->input('state_id'); 
-        $StateNameArr = $request->input('state_name'); 
-        $CityNameArr = $request->input('city_name');
-        $VenueCityArrIds = $request->input('venue_city_id');
+        $request->validate([ 'country_name' => 'required']); 
       
 
         $imageName  = null;
@@ -159,6 +117,55 @@ class VenueCountryController extends Controller
         $cities = City::where('state_id', $request->state_id)->get();
         return response()->json($cities);
     }
+
+    public function CityImagesUplaod(Request $request){
+        $request->validate([
+            'state_name' => 'required|string',
+            'city_name' => 'required|string',
+            'city_image' => 'image|mimes:jpeg,png,gif|max:2048', // Example image validation
+        ]);
+
+        $state = $request->input('state_name');
+        $id = $request->input('id');
+        $city = $request->input('city_name');
+        $columnToShow = $request->input('columns_to_show');
+        $combinationName = $request->input('state_name'). '_' .$request->input('city_name')  ;
+        if ($request->hasFile('city_image')) {
+            $image = $request->file('city_image');
+            $imageName = time() . 'city_image.' . $image->getClientOriginalExtension();
+            Storage::disk('s3_general')->put('city_image/' . $imageName, file_get_contents($image));
+          
+        }  
+        $update = [
+            'venue_id' => $request->input('venue_id'),
+            'state_name' => $state , 
+            'city_image' => $imageName, 
+            'city_name' => $city, 
+            'columns_to_show' => $columnToShow,
+            'combination_name' => $combinationName 
+        ]; 
+        if($request->input('id')){
+            VenueStateCity::where(['id' => $id])->update($update);
+            return response()->json(['message' => 'Form update successfully','update' => true], 200);
+        }else{
+            VenueStateCity::crete($update);
+            return response()->json(['message' => 'Form submitted successfully','update' => false], 200);
+
+        }
+
+        
+        
+
+
+
+    }
+    public function CityImagesRemove(Request $request)
+    {
+        $id = $request->input('id'); 
+        VenueStateCity::find($id)->delete(); 
+        return response()->json(['message' => 'Deleted'], 200);
+    }
+    
 
     /**
      * Remove the specified resource from storage.

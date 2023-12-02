@@ -12,7 +12,7 @@ class Country extends Model
     protected $guarded=[];
     public function timezones()
     {
-        return $this->hasMany(Timezone::class, 'country_code', 'iso2');
+        return $this->hasMany(Timezone::class, 'country_code', 'iso');
     }
 
 

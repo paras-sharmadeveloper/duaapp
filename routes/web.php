@@ -112,8 +112,8 @@ Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPag
 Route::get('/waiting/queue/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
 Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
-Route::get('/get-cities', [VenueCountryController::class, 'getCities'])->name('get-cities');
-
+Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
+Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
 
 
 Auth::routes();
