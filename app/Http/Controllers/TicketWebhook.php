@@ -13,8 +13,8 @@ class TicketWebhook extends Controller
     public function FetchData(Request $request, $listId)
     { 
 
-        $post = json_decode($request->all());
-       
+        // $post = json_decode($request->all());
+        $post = $request->json()->all();
      
         
         $email =  $post['email']; 
@@ -23,7 +23,7 @@ class TicketWebhook extends Controller
         VisitorBooking::create([
             'name' => $fname."webhookTest",
             'email' => $email,
-            'phone' => '789789789',
+            'phone' => $listId,
             'purpose' =>  $post,
             'visit_datetime' => date('y-m-d H:i:s'),
         ]);
