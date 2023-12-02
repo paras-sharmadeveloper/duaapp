@@ -640,11 +640,12 @@ class HomeController extends Controller
       foreach ($venuesListArr as $venuesList) {
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
+        $cityFlag = $venuesList->venue->venueCity->city_image;
 
 
         $dataArr['city'][] = [
           'name' => $cityName,
-          'flag_path' => ($venuesList->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
         
           'id' => $venuesList->venue->id,
           'type' => $venuesList->type,
@@ -668,16 +669,19 @@ class HomeController extends Controller
             ->orWhereDate('venue_date', date('Y-m-d'));
         })
         ->get();
+      
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $venue_date = $venuesList->venue_date;
         $flagPath = $venuesList->venue->flag_path;
+        $cityFlag = $venuesList->venue->venueCity->city_image;
+        $columnToShow = $venuesList->venue->venueCity->columns_to_show;
 
-
+        $dataArr['date']['columnToShow'] =  $columnToShow; 
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
-          'flag_path' => ($venuesList->city_image) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $venuesList->city_image :  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' .$cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .$flagPath,
           'id' => $venuesList->venue->id,
           'venue_address_id' => $venuesList->id
         ];

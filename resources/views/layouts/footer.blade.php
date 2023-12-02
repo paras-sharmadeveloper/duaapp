@@ -45,10 +45,10 @@
 let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
 let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
 $(document).ready(function() {
-$("#country").select2({
+$("#country_id").select2({
             placeholder: "Select country",
             allowClear: true
-        });
+ });
 
     $("#citsy").select2({
         placeholder: "Select City",

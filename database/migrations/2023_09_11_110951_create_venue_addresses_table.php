@@ -16,9 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('venue_id');
             $table->unsignedBigInteger('therapist_id');
             $table->unsignedBigInteger('siteadmin_id');
+            $table->unsignedBigInteger('combination_id');
+            
             $table->string('state')->nullable();
-            $table->string('city')->nullable();
-            $table->string('city_image')->nullable();
+            $table->string('city')->nullable(); 
             $table->text('address');
             $table->date('venue_date'); 
             $table->time('slot_starts_at_morning');
@@ -46,6 +47,9 @@ return new class extends Migration
             
             $table->json('venue_available_country')->nullable(); 
             $table->timestamps(); 
+            $table->foreign('combination_id')
+                  ->references('id')
+                  ->on('venue_state_cities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('venue_id')
                   ->references('id')
                   ->on('venues')->onDelete('cascade')->onUpdate('cascade');

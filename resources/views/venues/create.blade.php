@@ -37,16 +37,19 @@
             max-height: 140px;
             overflow: auto;
         }
+
         .inner-wrap label {
             padding: 10px 20px;
             cursor: pointer;
         }
+
         .inline-label,
-.inline-input {
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: 0; /* Remove default margin-bottom */
-}
+        .inline-input {
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 0;
+            /* Remove default margin-bottom */
+        }
     </style>
 
     <div class="row mt-3">
@@ -98,20 +101,29 @@
                     <form method="POST" action="{{ route('venues.store') }}">
                 @endif
                 <div class="row mt-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
-                            <select class="form-control" name="venue_id">
+                            <select class="form-control" name="venue_id" id="venue_id">
+                                <option>Select Country </option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}" @if (!empty($venueAddress) && $venueAddress->venue_id == $country->id) selected @endif>
                                         {{ $country->country_name }}</option>
                                 @endforeach
                             </select>
-                        </div>
-
+                        </div> 
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">Select Combination</span>
+                            <select class="form-control" name="combination_id" id="combination_id">
+                                <option> Select Country First </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroupPrepend2">Select Sahib-e-Dua</span>
                             <select class="form-control" name="therapist_id">
@@ -139,34 +151,21 @@
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">State </span>
-                            {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state']) !!}
+                            {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!}
 
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-3 mt-4">
+                    <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">City </span>
-                            {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
+                            {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city' ,'id' =>'city_name','readonly'=>true]) !!}
 
-                        </div> 
-                    </div>
-                    
-                    <div class="col-md-3 mt-4">
-                        <div class="input-group custom-file-button">
-                            <label class="input-group-text inline-label mb-2" for="inputGroupFile">City Flag (48X48 Recommend)</label>
-                            <input type="file" class="a-control inline-input" id="city_image" name="city_image" value="">
-                    
-                            @if (isset($venueAddress->city_image) && Storage::disk('s3_general')->exists('city_image/' . $venueAddress->city_image))
-                                <img src="{{ env('AWS_GENERAL_PATH').'city_image/'.$venueAddress->city_image }}"
-                                     alt="Flag Image"
-                                     style="height: 100px; margin-top: 10px">
-                            @endif
                         </div>
                     </div>
-                    
-                    
+ 
+
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Venue Addresses</span>
@@ -182,11 +181,11 @@
 
                     </div>
                 </div>
-                     
-                  
 
 
-                     
+
+
+
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
@@ -341,12 +340,12 @@
                             <span class="input-group-text">User Rejoin After Days? </span>
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
                                 'class' => 'form-control',
-                                'placeholder' => 'rejoin_venue_after', 
+                                'placeholder' => 'rejoin_venue_after',
                             ]) !!}
 
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="row mt-3">
                     {{-- <div class="col-md-4  mt-4">
                         <label for="type">Type</label>
@@ -362,46 +361,44 @@
                         </div>
                     </div> --}}
                     <div class="col-md-6 mt-4">
-                        @php 
-                        $savedCountries = (isset($venueAddress)) ? json_decode($venueAddress->venue_available_country)  : []; 
+                        @php
+                            $savedCountries = isset($venueAddress) ? json_decode($venueAddress->venue_available_country) : [];
                         @endphp
                         <label> Venue Available Country </label>
-                            <div class="wrapper">
-                              <button class="form-control toggle-next ellipsis" type="button">
-                                @if(is_array($savedCountries) && count($savedCountries) == 239) All Countries Selected @else Select Countries @endif</button>
-                              <div class="checkboxes" id="checkboxes" data-id="countries"> 
+                        <div class="wrapper">
+                            <button class="form-control toggle-next ellipsis" type="button">
+                                @if (is_array($savedCountries) && count($savedCountries) == 239)
+                                    All Countries Selected
+                                @else
+                                    Select Countries
+                                @endif
+                            </button>
+                            <div class="checkboxes" id="checkboxes" data-id="countries">
 
                                 <input type="text" class="form-control" id="search-in" placeholder="search">
- 
+
                                 <div class="inner-wrap">
                                     <div class="main-list">
                                         <label>
-                                            <input type="checkbox" value="0" class="ckkBox all" 
-
-                                            @if(is_array($savedCountries) && count($savedCountries) == 239)
-                                                checked
-                                            @endif                                    
-                                            />
+                                            <input type="checkbox" value="0" class="ckkBox all"
+                                                @if (is_array($savedCountries) && count($savedCountries) == 239) checked @endif />
                                             <span>All Countries</span>
-                                        </label>  
-                                    </div>
-                                  @foreach ($venueCountry as $country)
-                                   <div class="main-list">
-                                        <label>
-                                            <input type="checkbox" value="{{ $country->id }}" class="ckkBox val" 
-                                            @if(is_array($savedCountries) && in_array($country->id,$savedCountries))
-                                            checked 
-                                            @endif
-                                            
-                                            name="venue_available_country[]" />
-                                            <span>{{ $country->nicename }}</span>
                                         </label>
-                                   </div>
-                                  @endforeach
-                                  
+                                    </div>
+                                    @foreach ($venueCountry as $country)
+                                        <div class="main-list">
+                                            <label>
+                                                <input type="checkbox" value="{{ $country->id }}" class="ckkBox val"
+                                                    @if (is_array($savedCountries) && in_array($country->id, $savedCountries)) checked @endif
+                                                    name="venue_available_country[]" />
+                                                <span>{{ $country->nicename }}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+
                                 </div>
-                              </div>
-                            </div> 
+                            </div>
+                        </div>
                     </div>
 
                     {{-- <div class="col-md-4 mt-4">
@@ -433,7 +430,7 @@
 @endsection
 @section('page-script')
     <script type="text/javascript">
-    var CurrentPage = "{{ Route::currentRouteName() }}"
+        var CurrentPage = "{{ Route::currentRouteName() }}"
         $(document).ready(function() {
             var addAddressButton = $(".add-address");
             var venueAddresses = $(".venue-addresses");
@@ -458,33 +455,33 @@
             });
 
             $('.ckkBox').change(function() {
-                $this = $(this); 
-                
-                
+                $this = $(this);
+
+
                 toggleCheckedAll(this);
-                 setCheckboxSelectLabels();
+                setCheckboxSelectLabels();
             });
 
             $('.all').change(function() {
-                $this = $(this);   
-                if($this.is(':checked')){
+                $this = $(this);
+                if ($this.is(':checked')) {
 
-                    $(".inner-wrap .ckkBox").each(function(item,key){
-                        if($(this).hasClass('val')){
+                    $(".inner-wrap .ckkBox").each(function(item, key) {
+                        if ($(this).hasClass('val')) {
                             $(this).prop('checked', true)
                         }
 
                     })
-                   
-                }else{
-                    $(".inner-wrap .ckkBox").each(function(item,key){
-                        if($(this).hasClass('val')){
+
+                } else {
+                    $(".inner-wrap .ckkBox").each(function(item, key) {
+                        if ($(this).hasClass('val')) {
                             $(this).prop('checked', false)
                         }
 
-                    }) 
-                } 
-                setCheckboxSelectLabels(); 
+                    })
+                }
+                setCheckboxSelectLabels();
             });
 
         });
@@ -534,31 +531,62 @@
             }
         }
 
-        $("#search-in").on("keyup", function () {
-                var text = $(this).val().toLowerCase();
+        $("#search-in").on("keyup", function() {
+            var text = $(this).val().toLowerCase();
 
-                console.log("text", text);
+            console.log("text", text);
 
-                $(".main-list > label").each(function () {
-                    var title = $(this).text().toLowerCase(); // Get the text of the whole label
+            $(".main-list > label").each(function() {
+                var title = $(this).text().toLowerCase(); // Get the text of the whole label
 
-                    if (!title.includes(text)) {
-                        $(this).hide();
-                    } else {
-                        $(this).show();
-                    }
-                });
+                if (!title.includes(text)) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
             });
+        });
     </script>
     <script>
-        if(CurrentPage == 'venues.create'){
-            $(".inner-wrap .ckkBox").each(function(item,key){
-                
-                    $(this).prop('checked', true)
-                 
+        if (CurrentPage == 'venues.create') {
+            $(".inner-wrap .ckkBox").each(function(item, key) {
 
-            }) 
+                $(this).prop('checked', true) 
+            })
         }
-        document.title = (CurrentPage == 'venues.edit') ? 'Edit Venue Booking' :  'Create Venue Booking';
+        $("#combination_id").change(function(){
+            var state = $(this).find(':selected').attr('data-state');
+            var city = $(this).find(':selected').attr('data-city');
+            $("#city_name").val(city);
+            $("#state_name").val(state);
+
+        });
+        $("#venue_id").change(function(){
+            var id = $(this).find(":selected").val(); 
+            $.ajax({
+                url: "{{ route('get-states') }}",
+                type: 'GET',
+                data: {
+                    venue_id : id
+                }, 
+                success: function(response) { 
+                    var options = '<option>Select Combination</option>'; 
+                    $.each(response,function(i,item){
+                        options+=`<option value='${item.id}'  
+                        data-state='${item.state_name}'
+                        data-city='${item.city_name}'
+                        >${item.combination_name} (${item.columns_to_show}) </option>`; 
+                    })
+                    $("#combination_id").html(options)
+                     
+                },
+                error: function(error) {
+                     
+                    
+                }
+            });
+
+        })
+        document.title = (CurrentPage == 'venues.edit') ? 'Edit Venue Booking' : 'Create Venue Booking';
     </script>
 @endsection

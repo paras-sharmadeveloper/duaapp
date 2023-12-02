@@ -24,4 +24,9 @@ class Venue extends Model
     {
         return $this->belongsTo(Venue::class, 'country_name', 'country_code');
     }
+
+    public function venueCity()
+    {
+        return $this->belongsTo(VenueStateCity::class,'venue_id','id');
+    } 
 }

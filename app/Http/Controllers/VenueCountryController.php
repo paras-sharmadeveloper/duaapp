@@ -24,6 +24,7 @@ class VenueCountryController extends Controller
     public function create()
     {
         $countryList = Country::all();
+        //  echo "<pre>"; print_r( $countryList); die;
         $cityList = [];
         $venueCityArr = []; 
         return view('venues.venueCountry',compact('countryList','cityList','venueCityArr'));
@@ -34,6 +35,7 @@ class VenueCountryController extends Controller
      */
     public function store(Request $request)
     {
+        // echo "<pre>"; print_r($request->all()); die; 
         $request->validate([
             'country_name' => 'required', 
             'flag_path' => 'required|mimes:jpeg,png,jpg,gif|max:2048',  
@@ -74,6 +76,7 @@ class VenueCountryController extends Controller
     {
         $venue = VenueCountry::findOrFail($id);
         $countryList = Country::all();
+        // echo "<pre>"; print_r( $countryList); die; 
         $venueCityStates = VenueStateCity::where(['venue_id' => $id])->get(); 
          
         return view('venues.venueCountry', compact('venue','countryList','venueCityStates'));
@@ -108,7 +111,7 @@ class VenueCountryController extends Controller
 
     public function getStates(Request $request)
     {
-        $states = State::where('country_id', $request->country_id)->get();
+        $states = VenueStateCity::where('venue_id', $request->venue_id)->get();
         return response()->json($states);
     }
 
@@ -122,7 +125,8 @@ class VenueCountryController extends Controller
         $request->validate([
             'state_name' => 'required|string',
             'city_name' => 'required|string',
-            'city_image' => 'image|mimes:jpeg,png,gif|max:2048', // Example image validation
+            'columns_to_show' => 'required|integer',
+            'city_image' => 'image|mimes:jpeg,png,gif|max:2048',  
         ]);
 
         $state = $request->input('state_name');
@@ -130,6 +134,7 @@ class VenueCountryController extends Controller
         $city = $request->input('city_name');
         $columnToShow = $request->input('columns_to_show');
         $combinationName = $request->input('state_name'). '_' .$request->input('city_name')  ;
+        $imageName = ''; 
         if ($request->hasFile('city_image')) {
             $image = $request->file('city_image');
             $imageName = time() . 'city_image.' . $image->getClientOriginalExtension();
@@ -139,17 +144,22 @@ class VenueCountryController extends Controller
         $update = [
             'venue_id' => $request->input('venue_id'),
             'state_name' => $state , 
-            'city_image' => $imageName, 
+          
             'city_name' => $city, 
             'columns_to_show' => $columnToShow,
             'combination_name' => $combinationName 
         ]; 
+        
         if($request->input('id')){
-            VenueStateCity::where(['id' => $id])->update($update);
-            return response()->json(['message' => 'Form update successfully','update' => true], 200);
-        }else{
-            VenueStateCity::crete($update);
-            return response()->json(['message' => 'Form submitted successfully','update' => false], 200);
+            $venueCity = VenueStateCity::find($id);
+            $update['city_image'] = ($imageName) ? $imageName :  $venueCity->city_image;
+            $imageName = $update['city_image']; 
+            $venueCity->update($update);
+            return response()->json(['message' => 'Form update successfully','update' => true , 'image' =>  $imageName , 'id' =>  $id], 200);
+        }else{ 
+            $update['city_image'] = $imageName ;
+           $vnd =  VenueStateCity::create($update);
+            return response()->json(['message' => 'Form submitted successfully','update' => false , 'image' =>  $imageName,'id' =>  $vnd->id ], 200);
 
         }
 
