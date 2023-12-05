@@ -608,28 +608,30 @@ class HomeController extends Controller
     if ($type == 'get_country') {
 
        
-      $venuesListArr = VenueAddress::where('id', $id)
+      $venuesListArr = VenueAddress::where('therapist_id', $id)
       ->where(function ($query) use ($newDate) {
           $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
                 ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
       })
       ->where('venue_date', '>=', now()->format('Y-m-d'))
+        
       ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $countryName = $venuesList->venue->country_name;
         $flagPath = $venuesList->venue->flag_path;
-
-
-        $dataArr['country'][] = [
-          'name' => $countryName,
-          'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
-          'type' => $venuesList->type,
-          'id' => $venuesList->id
-        ];
+        $venueId = $venuesList->venue_id;
+        if (!isset( $dataArr['country'][$venueId])) {
+          $dataArr['country'][$venueId] = [
+            'name' => $countryName,
+            'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
+            'type' => $venuesList->type,
+            'id' => $venuesList->id
+          ];
+        }
       }
       if(!(empty($dataArr))){
-        $dataArr['country'] =   array_unique($dataArr['country'], SORT_REGULAR);
+        $dataArr['country'] =   array_filter($dataArr['country']);
       }
       
 

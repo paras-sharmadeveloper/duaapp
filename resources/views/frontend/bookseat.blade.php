@@ -1216,7 +1216,7 @@ div#errors {
                                     img = '<img src="/assets/theme/img/avatar.png">';
                                 }
                                 html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
-                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.venueaddId}">
+                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
                                                 ${img}                           
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">${item.name}</h5>
