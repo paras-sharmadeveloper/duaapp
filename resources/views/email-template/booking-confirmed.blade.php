@@ -369,7 +369,7 @@
                                                                                             style="font-family: inherit"><strong>When<br>
                                                                                             </strong></span><span
                                                                                             style="font-family: inherit">{{ $dynamicData['userTime'] }}
-                                                                                            ({{ $dynamicData['userTz'] }})</span>
+                                                                                            ({{ $dynamicData['venueTz'] }})</span>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
@@ -670,7 +670,7 @@
                                                                             valign="top" align="center">
 
                                                                             <a
-                                                                                href="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1"><img
+                                                                                href="https://www.youtube.com/u0040syed-sarfraz-a-shah-official/?sub_confirmation=1"><img
                                                                                     class="max-width" border="0"
                                                                                     style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:25% !important; width:25%; height:auto !important;"
                                                                                     width="150" alt=""
