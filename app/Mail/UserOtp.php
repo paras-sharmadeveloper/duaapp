@@ -114,7 +114,7 @@ class UserOtp extends Mailable
         } else {
             $data = ['error' =>  [], 'message' => $response, 'status' => true];
         }
-        return response()->json($data); 
+        // return response()->json($data); 
 
     }
 }
