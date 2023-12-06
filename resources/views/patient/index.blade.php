@@ -315,7 +315,7 @@
 
         
         {
-            headerName: 'Meeting Total Time',
+            headerName: 'Meeting Total Time (In Seconds)',
             field: 'meeting_total_time',
             enableValue: true,
             enableRowGroup: true,
