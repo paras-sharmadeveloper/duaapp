@@ -1535,15 +1535,15 @@ div#errors {
                         var dAte = '';
 
                         if (response.status) { 
-                            console.log("response",response)
+                           //  console.log("response",response)
                             var coulmtoShow = response.data.columnToShow; 
 
-                            console.log("coulmtoShow",coulmtoShow)
+                           //  console.log("coulmtoShow",coulmtoShow)
                             var count = 1;
                             $.each(response.data.date, function(key, item) { 
-                                console.log("key",key)
-                                console.log("count",count)
-                                console.log("item",item)
+                                // console.log("key",key)
+                                // console.log("count",count)
+                                // console.log("item",item)
                                 if(coulmtoShow >=count){
                                     dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                         <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
