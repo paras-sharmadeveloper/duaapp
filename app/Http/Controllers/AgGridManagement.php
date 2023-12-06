@@ -29,6 +29,7 @@ class AgGridManagement extends Controller
             'user_status' => 'vistors',
             'meeting_start_at' => 'vistors',
             'meeting_ends_at' => 'vistors', 
+            'meeting_total_time' => 'vistors', 
             'country_name' => 'venues',
             'address' => 'venue_addresses',
             'venue_date' => 'venue_addresses',
