@@ -131,6 +131,26 @@
             enablePivot: true, 
             filter: "agTextColumnFilter"
         },
+        {
+            headerName: 'Venue State',
+            field: 'state',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
+        {
+            headerName: 'Venue City',
+            field: 'city',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter"
+        },
          
         {
             headerName: 'FirstName',
@@ -292,6 +312,28 @@
             enablePivot: true,
             filter: "agTextColumnFilter"
         },
+        {
+            headerName: 'MeetingTotalTime',
+            valueGetter: function (params) {
+                const startsAt = params.data.meeting_start_at;
+                const endsAt = params.data.meeting_ends_at;
+
+                if (startsAt && endsAt) {
+                const diffInSeconds = Math.abs((endsAt - startsAt) / 1000);
+                // You can format the time difference as needed
+                return `${diffInSeconds} seconds`;
+                }
+
+                return null; // or handle cases where data is missing
+            },
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true,
+            filter: 'agTextColumnFilter',
+            },
+         
         {
             headerName: 'BookingFrom',
             field: 'user_question',

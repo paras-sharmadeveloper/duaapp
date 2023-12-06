@@ -32,6 +32,8 @@ class AgGridManagement extends Controller
             'country_name' => 'venues',
             'address' => 'venue_addresses',
             'venue_date' => 'venue_addresses',
+            'state' => 'venue_addresses',
+            'city' => 'venue_addresses',
             'slot_time' => 'venues_sloting',
             'name' => 'users'
 
