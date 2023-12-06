@@ -678,7 +678,7 @@
                                                                             valign="top" align="center">
 
                                                                             <a
-                                                                                href="//rb.gy/qhgj5r" target="_blank">
+                                                                                href="//www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1" target="_blank">
                                                                                 <img
                                                                                     class="max-width" border="0"
                                                                                     style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:25% !important; width:25%; height:auto !important;"
