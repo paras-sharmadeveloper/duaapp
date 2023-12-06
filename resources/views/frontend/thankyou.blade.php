@@ -32,9 +32,10 @@
                 <p>Thank  you<b> {{ $userBooking->fname }}</b>,</p>
                 <p>You will get confirmation email shortly</p>
                 <p>Your token number is <b>{{ $userBooking->booking_number }}</b>  </p> 
-                <p>{{ $userTimezoneFormat . '('.$userBooking->user_timezone.')', }}</p>
+                <p>{{ $userTimezoneFormat . '('.$venueAddress->timezone.')', }}</p>
                 <p>God bless you!</p>  
-                <p>Team <a href="https://kahayfaqeer.org/" target="_blank" > KahayFaqeer.org </a></p>
+                <p>Subscribe to Syed Sarfraz A. Shah Official YouTube Channel <a href="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1" target="_blank" > here </a></p>
+                <p>Subscribe to Syed Sarfraz A. Shah Official WhatsApp Channe <a href=" https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w" target="_blank" > here </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
             </div>
         </div>

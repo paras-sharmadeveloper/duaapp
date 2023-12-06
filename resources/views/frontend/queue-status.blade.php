@@ -31,8 +31,11 @@
               Token #{{ $userBooking->booking_number}}
               <br>
               <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3>
+              <p>{{ $userBooking->email }}</p>
+              <p>{{ $userBooking->phone }}</p>
              <span>Your Appointment Time : </span> <br>
-             <span>{{ date("g:i A", strtotime($userSlot->slot_time)) }} </span>
+             <span>{{ date("g:i A", strtotime($userSlot->slot_time)) }}  </span>
+             <span>({{ $venueAddress->timezone }})</span>
             </div>
             
             <h3>Appointment Duration</h3>

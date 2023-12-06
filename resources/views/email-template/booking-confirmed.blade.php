@@ -327,9 +327,7 @@
                                                                                             your computer, tablet, or
                                                                                             smartphone.<br>
                                                                                             {{ $dynamicData['video_conference_link'] }}
-                                                                                        @else
-                                                                                            Meeting Mode : Physical
-                                                                                            (OFF-LINE)
+                                                                                        @else 
                                                                                     @endif
                                                                                     <br>
                                                                                     <div
@@ -343,7 +341,10 @@
                                                                                         <span
                                                                                             style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit">
                                                                                             {{ $dynamicData['meeting_cancel_link'] }}
-                                                                                        </span><span
+                                                                                        </span>
+                                                                                        <br>
+                                                                                        
+                                                                                        <span
                                                                                             style="font-family: inherit"><br>
                                                                                             Reschedule: </span><span
                                                                                             style="box-sizing: border-box; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 14px; vertical-align: baseline; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-top-style: initial; border-right-style: initial; border-bottom-style: initial; border-left-style: initial; border-top-color: initial; border-right-color: initial; border-bottom-color: initial; border-left-color: initial; border-image-source: initial; border-image-slice: initial; border-image-width: initial; border-image-outset: initial; border-image-repeat: initial; color: #000000; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; text-align: left; background-color: rgb(255, 255, 255); float: none; display: inline; font-family: inherit">
@@ -362,9 +363,11 @@
                                                                                             style="font-family: inherit"><strong>Token<br>
                                                                                             </strong></span><span
                                                                                             style="font-family: inherit">{{ $dynamicData['booking_number'] }}</span>
+                                                                                            <br>
                                                                                     </div>
                                                                                     <div
                                                                                         style="font-family: inherit; text-align: inherit">
+                                                                                        <br>
                                                                                         <span
                                                                                             style="font-family: inherit"><strong>When<br>
                                                                                             </strong></span><span
@@ -382,7 +385,12 @@
                                                                                             </strong></span><span
                                                                                             style="color: #000000; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space-collapse: preserve; text-wrap: wrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; font-family: inherit">
                                                                                             {{ $dynamicData['location'] }}
-                                                                                        </span><span
+
+                                                                                            
+                                                                                        </span>
+                                                                                        <br>
+                                                                                        <span>{{ $userLocationTime }}</span>
+                                                                                        <span
                                                                                             style="font-family: inherit">&nbsp;</span>
                                                                                     </div>
                                                                                     <div
@@ -670,7 +678,8 @@
                                                                             valign="top" align="center">
 
                                                                             <a
-                                                                                href="https://www.youtube.com/u0040syed-sarfraz-a-shah-official/?sub_confirmation=1"><img
+                                                                                href="//www.youtube.com/u0040syed-sarfraz-a-shah-official/?sub_confirmation=1" target="_blank">
+                                                                                <img
                                                                                     class="max-width" border="0"
                                                                                     style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:25% !important; width:25%; height:auto !important;"
                                                                                     width="150" alt=""
@@ -735,7 +744,7 @@
                                                                                             bgcolor="#000000"
                                                                                             class="inner-td"
                                                                                             style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                                                                                            <a href="https://kahayfaqeer.org/"
+                                                                                            <a href="//kahayfaqeer.org/"
                                                                                                 style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#fffefe; display:inline-block; font-size:14px; font-weight:bold; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; width:210px; font-family:inherit;"
                                                                                                 target="_blank">KahayFaqeer.org</a>
                                                                                         </td>

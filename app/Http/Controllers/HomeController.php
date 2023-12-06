@@ -177,7 +177,8 @@ class HomeController extends Controller
         'mobile' =>  '+' . $mobile,
         'country' =>  $venue->country_name,
         'event_name' => $slotDuration . " Minute Online Dua Appointment",
-        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
+        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address : "Online Video Call",
+        'userLocationTime' => $userLocationTime, 
         'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
         "meeting_link" => route('booking.status', [$uuid]),
         'meeting_cancel_link' => route('book.cancle', [$uuid]),
@@ -217,7 +218,7 @@ class HomeController extends Controller
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
       $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $NotificationMessage, 'read' => false]);
-      $this->AddContactToSandLane($validatedData['email'] , $name ); 
+      
       event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
         return redirect()->back()->with('success', 'Booking created successfully');
@@ -403,15 +404,15 @@ class HomeController extends Controller
     $id = $request->input('id');
     $timezone = $request->input('timezone');
     
-     $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+    $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     
     $venueAddress =  VenueAddress::where('id', $id)
-      ->where(function ($query) use ($newDate) {
-        $query->whereDate('venue_date', $newDate)
-          ->orWhereDate('venue_date', date('Y-m-d'));
-      })
+      // ->where(function ($query) use ($newDate) {
+      //   $query->whereDate('venue_date', $newDate)
+      //     ->orWhereDate('venue_date', date('Y-m-d'));
+      // })
       ->get()->first();
-
+      // echo "<pre>"; print_r($venueAddress); die; 
 
     $mytime = Carbon::now()->tz($timezone);
     $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $timezone);
@@ -935,7 +936,7 @@ class HomeController extends Controller
       Hi $name,
       Your dua appointment is confirmed as below:
       
-      Appointment ID : 
+      Token : 
       #$bookingNumber
       
       Sahib-e-Dua:

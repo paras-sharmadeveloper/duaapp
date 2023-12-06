@@ -131,7 +131,7 @@
                     <thead>
                         <tr>
                             <th class="no_one">Token No.</th>
-                            <th class="no_two">Info</th>
+                            <th class="no_two">Name</th>
                             <th class="no_two">Status</th>
                         </tr>
 

@@ -68,7 +68,7 @@
                                 <div class="ms-3">
                                     <p class="fw-bold mb-1">Venue Info</p>
                                 </div>
-                                <span class="fw-bold">Venue Date</span>
+                                <span class="fw-bold">Venue Date/City</span>
                                 <span class="fw-bold">Action</span>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                         
                                    
                                 </div>
-                                <p class="text-muted mb-0 h6"> {{ $venueDate }}</p>
+                                <p class="text-muted mb-0 h6"> {{ $venueDate }} / {{ $venueAdd->city }}</p>
                                 <a href="{{ route('siteadmin.queue.list', [$venueAdd->id]) }}"
                                     class="btn btn-info text-center">Start</a>
                                 {{-- <span class="badge rounded-pill badge-success h2">Active</span> --}}

@@ -40,9 +40,12 @@
                     <tr>
                         <th>No</th>
                         <th>Country Name</th>
+                        <th>State/City</th>
+                        
                         <th>Sahib-e-Dua Name</th>
+                        <th>Site Admin</th>
                         <th>Venue Address</th>
-                        <th>Venue Deatail</th>
+                        <th>Venue Detail</th>
                         <th>Type</th>
                         <th width="400px">Action</th>
                     </tr>
@@ -62,7 +65,9 @@
                                 <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
                                     alt="Flag Image">
                             </td>
+                            <td>{{ $venueAdd->state }} / {{ $venueAdd->city }} </td>
                             <td>{{ $venueAdd->user->name }}</td>
+                            <td>{{ $venueAdd->siteadmin->name }}</td>
                             <td>{{ $venueAdd->address }}</td>
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>

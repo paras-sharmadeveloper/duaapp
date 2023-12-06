@@ -73,6 +73,8 @@ $(document).ready(function() {
         responsive: true,
         aoColumnDefs: [
             { "aTargets": [ 0 ], "bSortable": true },
+            // { "aTargets": [ 5 ], "bSortable": true },
+            { "aTargets": [ 6 ], "bSortable": true },
             // { "aTargets": [ 1 ], "bSortable": true },
             // { "aTargets": [ 2 ], "bSortable": true },
             // { "aTargets": [ 3 ], "bSortable": false }
@@ -196,28 +198,30 @@ $(document).ready(function() {
         }, 60000);
     })
     $(document).ready(function() {
-    // Click event for the Copy Link button
-    $('.copyButton').click(function() {
-      var $this = $(this);
+
+        $(document).on("click",".copyButton",function(){
+            var $this = $(this);
       
       // Get the data-href attribute value
-      var linkToCopy = $this.attr('data-href');
-      
-      // Create a temporary input element to copy the text to the clipboard
-      var tempInput = $("<input>");
-      $("body").append(tempInput);
-      tempInput.val(linkToCopy).select();
-      document.execCommand('copy');
-      tempInput.remove();
-      
-      // Change button text to "Copied" temporarily
-      $this.text("Copied");
+            var linkToCopy = $this.attr('data-href');
+            
+            // Create a temporary input element to copy the text to the clipboard
+            var tempInput = $("<input>");
+            $("body").append(tempInput);
+            tempInput.val(linkToCopy).select();
+            document.execCommand('copy');
+            tempInput.remove();
+            
+            // Change button text to "Copied" temporarily
+            $this.text("Copied");
 
-      // Reset button text after 1000 milliseconds (1 second)
-      setTimeout(() => {
-        $this.text("Copy Link");
-      }, 1000);
-    });
+            // Reset button text after 1000 milliseconds (1 second)
+            setTimeout(() => {
+                $this.text("Copy Link");
+            }, 1000);
+        })
+    // Click event for the Copy Link button
+     
   });
 </script>
 </body>
