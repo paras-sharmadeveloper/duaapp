@@ -403,7 +403,7 @@
                                                                             valign="top" align="center">
 
                                                                             <a
-                                                                                href="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1"><img
+                                                                                href="//www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1"><img
                                                                                     class="max-width" border="0"
                                                                                     style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:25% !important; width:25%; height:auto !important;"
                                                                                     width="150" alt=""
@@ -554,7 +554,7 @@
                                                                                 <div
                                                                                     style="font-family: inherit; text-align: inherit">
                                                                                     <a
-                                                                                        href="https://kahayfaqeer.org/">KahayFaqeer.org</a>
+                                                                                        href="//kahayfaqeer.org/">KahayFaqeer.org</a>
                                                                                 </div>
                                                                                 <div
                                                                                     style="font-family: inherit; text-align: inherit">
