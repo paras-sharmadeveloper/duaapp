@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{SendMessage, SendEmail};
+use App\Jobs\{SendMessage, SendEmail,PushEmailToSandlane};
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -216,6 +216,9 @@ class HomeController extends Controller
       $message = $this->bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus);
       SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onQueue('send-message')->onConnection('database');
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
+
+      PushEmailToSandlane::dispatch($validatedData['email'], $name)->onQueue('push-to-sandlane')->onConnection('database');
+
       $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $NotificationMessage, 'read' => false]);
       
