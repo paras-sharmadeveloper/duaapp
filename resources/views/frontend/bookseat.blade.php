@@ -1304,16 +1304,16 @@ div#errors {
                 click: function() {
                     $this = $(this);
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
-
+                    $activeCard = $(this).parents(".row").find(".active-card"); 
                     if (getValue) {
 
 
                         var oldTitle = $("#remeber-steps-app").val();
 
-                        var title = $(this).parents(".row").find(".active-card").find(".title-binding")
-                            .text();
-                        var cardId = $(this).parents(".row").find(".active-card").attr("data-id");
-                        var event = $(this).parents(".row").find(".active-card"); 
+                        var title = $activeCard.find(".title-binding").text();
+                        var cardId = $activeCard.attr("data-id");
+                        var CityName = $activeCard.attr("data-city");
+                        var event = $activeCard; 
 
                         if (event.hasClass('thripist-section')) {
                             // getAjax(cardId, 'get_country', $this)
@@ -1326,7 +1326,7 @@ div#errors {
 
                             getAjax(cardId, 'get_city', $this)
                         } else if (event.hasClass('date-selection')) {
-                            getAjax(cardId, 'get_date', $this)
+                            getAjax(cardId, 'get_date', $this,CityName)
                             //  $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-selection')) {
                             $("#slot-information-user").attr('data-id',cardId);
@@ -1417,7 +1417,7 @@ div#errors {
             });
         });
 
-        function getAjax(id, type,nextBtn) {
+        function getAjax(id, type,nextBtn,optional='') {
 
                 var loadingText = nextBtn.attr('data-loading');
                 var successText = nextBtn.attr('data-success');
@@ -1432,6 +1432,7 @@ div#errors {
                 data: {
                     "id": id,
                     "type": type,
+                    'optional' : optional,
                     "timezone" : $("#timezone-hidden").val()
                 },
                 dataType: "json",
@@ -1510,7 +1511,7 @@ div#errors {
                                 meetingType = item.name;
                             } 
                             city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
-                                <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.venue_address_id}">
+                                <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
                                         <h5 class="card-title title-binding">${meetingType}</h5>
