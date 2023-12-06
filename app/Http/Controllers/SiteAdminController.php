@@ -48,17 +48,23 @@ class SiteAdminController extends Controller
         $timezone = $vistor->venueSloting->venueAddress->timezone; 
         $currentTime = Carbon::parse(date('Y-m-d H:i:s')); 
         $now = $currentTime->timezone($timezone); 
+
+        $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+        $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+        
          
         if($request->input('type') == 'start'){
             $update = [
-                'meeting_start_at' =>$now->format('Y-m-d H:i:s'),
+                'meeting_start_at' => $startAt,
                 'user_status' => 'in-meeting'
             ]; 
              
         }else if($request->input('type') == 'end'){
+            $totalTimeSpent = $startAt->diffInSeconds($endAt);
             $update = [
-                'meeting_ends_at' => $now->format('Y-m-d H:i:s'),
-                'user_status' => 'meeting-end'
+                'meeting_ends_at' =>  $endAt,
+                'user_status' => 'meeting-end',
+                'meeting_total_time' => $totalTimeSpent
             ];
             
         }else if($request->input('type') == 'verify'){

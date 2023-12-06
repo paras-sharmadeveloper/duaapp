@@ -260,7 +260,7 @@
                                                     <h6 class="sub-title"> ${visitor.phone}</h6>
                                                     <h6 class="sub-title"> ${visitor.email}</h6> 
                                                     <h6 class="vert">${confirmedHtml}</h6>
-                                                    <span class="badge bg-info ${nonetimer}"> total time : ${minutes} minutes ${seconds} Sec </span>
+                                                    <span class="badge bg-info ${nonetimer}"> total time : ${visitor.meeting_total_time} Seconds</span>
                                                 <p></p> 
                                             </div>
                                             <div class="info text-end">
