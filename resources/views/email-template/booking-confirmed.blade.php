@@ -389,7 +389,7 @@
                                                                                             
                                                                                         </span>
                                                                                         <br>
-                                                                                        <span>{{ $userLocationTime }}</span>
+                                                                                        <span>{{ $dynamicData['userLocationTime'] }}</span>
                                                                                         <span
                                                                                             style="font-family: inherit">&nbsp;</span>
                                                                                     </div>
