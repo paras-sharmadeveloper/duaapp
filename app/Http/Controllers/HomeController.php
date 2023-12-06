@@ -665,16 +665,19 @@ class HomeController extends Controller
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
         $cityFlag = $venuesList->combinationData->city_image;
+        if (!isset( $dataArr['city'][$cityName])) { 
+          $dataArr['city'][$cityName] = [
+            'name' => $cityName,
+            'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
+          
+            'id' => $venuesList->venue->id,
+            'type' => $venuesList->type,
+            'venue_address_id' => $venuesList->id
+          ];
 
 
-        $dataArr['city'][] = [
-          'name' => $cityName,
-          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
+        }
         
-          'id' => $venuesList->venue->id,
-          'type' => $venuesList->type,
-          'venue_address_id' => $venuesList->id
-        ];
       }
       // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
