@@ -1483,7 +1483,7 @@ div#errors {
                                 meetingType = item.name;
                             }
                             country += `<div class="col col-lg-3 col-md-7">
-                            <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.id}">
+                            <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.venue_id}">
                                 <img src="${item.flag_path}" alt="Flag Image"> 
                                 <div class="card-body px-0">
                                     <h5 class="card-title title-binding">${meetingType}</h5>

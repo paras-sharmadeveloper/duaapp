@@ -626,7 +626,8 @@ class HomeController extends Controller
             'name' => $countryName,
             'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
             'type' => $venuesList->type,
-            'id' => $venuesList->id
+            'id' => $venuesList->id,
+            'venue_id' =>  $venueId
           ];
         }
       }
