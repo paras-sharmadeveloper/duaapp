@@ -217,6 +217,7 @@ class HomeController extends Controller
       SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
       $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       Notification::create(['message' => $NotificationMessage, 'read' => false]);
+      $this->AddContactToSandLane($validatedData['email'] , $name ); 
       event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
         return redirect()->back()->with('success', 'Booking created successfully');
