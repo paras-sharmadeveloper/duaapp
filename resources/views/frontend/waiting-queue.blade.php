@@ -278,5 +278,6 @@
 
             return formattedTime;
         }
+        document.title ="Token Status - KahayFaqeer.org"; 
     </script>
 @endsection

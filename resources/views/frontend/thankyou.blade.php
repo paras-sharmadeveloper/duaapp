@@ -6,11 +6,26 @@
     background: rgb(29, 29, 29) !important;
     color: #444444;
 }
+@media only screen and (max-width: 600px) {
+.logo {
+    margin-top: 50% !important;
+}
+}
 </style>
 <div class="vh-100 d-flex justify-content-center align-items-center">
     <div class="col-md-12">
+        <div class="d-flex justify-content-center py-2 logo">
+            <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
+                {{-- <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""> --}}
+                <img src="https://kahayfaqeer.org/assets/kahe-faqeer-white-1.png" alt="">
+
+                <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
+            </a>
+        </div>
         <div class="border border-3 border-success"></div>
+        
         <div class="card  bg-white shadow p-5">
+           
             <div class="mb-4 text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75"
                     fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
@@ -35,7 +50,7 @@
                 <p>{{ $userTimezoneFormat . '('.$venueAddress->timezone.')', }}</p>
                 <p>God bless you!</p>  
                 <p>Subscribe to Syed Sarfraz A. Shah Official YouTube Channel <a href="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1" target="_blank" > here </a></p>
-                <p>Subscribe to Syed Sarfraz A. Shah Official WhatsApp Channe <a href=" https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w" target="_blank" > here </a></p>
+                <p>Subscribe to Syed Sarfraz A. Shah Official WhatsApp Channel <a href=" https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w" target="_blank" > here </a></p>
                 <a href="{{ route('book.show') }}" class="btn btn-outline-success mt-4">Back To Booking Form</a> 
             </div>
         </div>

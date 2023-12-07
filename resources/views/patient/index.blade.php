@@ -23,6 +23,7 @@
                
 
                 <div class="mt-1 d-flex justify-content-end mb-1 d-flex mx-3">
+                    <button class="btn btn-info start-export">Export </button>
                     <button onclick="deleteModel()" type="button" class="btn btn-danger ml-6 mr-3 mt-3 mb-3"> Delete Selected rows</button>
                 </div>
 
@@ -556,6 +557,45 @@
     } 
        
   }
+
+  $(".start-export").click(function(){
+        $this = $(this); 
+	   	let getFilterModel = gridOptions.api.getFilterModel();
+	    let getFilterModel2 = gridOptions.columnApi.getColumnState();
+	    const data = { filterModel: getFilterModel }; 
+	    exportData(data); 
+
+   }); 
+
+  function exportData(data){
+
+    $.ajax({
+        type:'POST',
+        data:JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json",
+        url:"{{ route('fetch.bookings') }}"+'?export=1',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success:function(response){
+            if(response.success){
+                toastr.success(response.message, "Success"); 
+            }else{ 
+                toastr.error(response.message, "Success"); 
+            }
+            $("#excel-filename-model").modal('hide'); 
+            KTUtil.btnRelease(btn2);
+            KTUtil.btnRelease(btn1);
+            $("#popoExl").removeClass('keep-open');
+            
+        },error: function(e) {
+            KTUtil.btnRelease(btn2);
+            KTUtil.btnRelease(btn1);
+            $("#popoExl").removeClass('keep-open');
+            toastr.error('failed', "Success"); 
+            
+        },
+    });
+    }
 
 
 </script>

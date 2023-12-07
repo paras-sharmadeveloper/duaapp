@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\VisitorExport;
+use App\Jobs\ExportNotification; 
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class AgGridManagement extends Controller
 {
@@ -53,17 +57,19 @@ class AgGridManagement extends Controller
         $selectExpressions[] = "$tableName.$columnName AS $columnName";
     }
     $query->select($selectExpressions);
+
+    $exportQuery = $query; 
         // AG-Grid specific query parameters
         $pageSize = $request->input('pageSize', 200); // Default page size is 10
         $pageNumber = $request->input('pageNumber', 1); // Default page number is 1
         $skipCount = ($pageNumber - 1) * $pageSize; 
-
+       $exportArr = []; 
         if ($request->has('filterModel')) {
             foreach ($request->input('filterModel') as $columnName => $filter) {
                 if (!empty($filter['filter'])) {
                     $table = $columnToTableMapping[$columnName];
                     $filterValue = $filter['filter'];
-
+                    $exportArr[$columnName] = $filterValue; 
                     // Use the table alias or table name in the where clause
                     $query->where($table . '.' . $columnName, 'like', '%' . $filterValue . '%');
                 }
@@ -91,10 +97,25 @@ class AgGridManagement extends Controller
         // Execute the query
         $data = $query->get();
 
+        // echo "<pre>"; print_r($exportQuery); die; 
+
+        if($request->input('export') == 1){
+           //  return $data;   
+
+            $filename =  'booking-report.csv'; 
+            $userM = 'parassharmadeveloper@gmail.com'; 
+            // $exportPath = 'exports/' . $filename; 
+            $table='vistors'; 
+             
+        }
+
         return response()->json([
             'rows' => $data,
             'totalRows' => $totalCount, // Rename 'recordsTotal' to 'total' for AG-Grid
         ], 200)->header('Content-Type', 'application/json');
     }
+
+
+    
 
 }

@@ -715,7 +715,7 @@ div#errors {
             <div class="main-content">
 
                 <div class="d-flex justify-content-center py-4">
-                    <a href="/" class="logoo  d-flex align-items-center wuto">
+                    <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
                         {{-- <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""> --}}
                         <img src="https://kahayfaqeer.org/assets/kahe-faqeer-white-1.png" alt="">
 
