@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Exports\VisitorExport;
-use App\Jobs\ExportNotification; 
+use Illuminate\Support\Facades\DB; 
+use App\Jobs\NotifyUserOfCompletedExport;  
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-
+use App\Exports\VisitorsExport;
 class AgGridManagement extends Controller
 {
     public function getDataMessageLog(Request $request)
@@ -102,10 +101,13 @@ class AgGridManagement extends Controller
         if($request->input('export') == 1){
            //  return $data;   
 
-            $filename =  'booking-report.csv'; 
-            $userM = 'parassharmadeveloper@gmail.com'; 
-            // $exportPath = 'exports/' . $filename; 
-            $table='vistors'; 
+           $filename =  'booking-report-'.uniqid().'.xlsx'; 
+            $userM = $request->input('userEmail');   
+            (new VisitorsExport($request->input('filterModel')))->queue($filename,'s3_general')->allOnQueue('exports-excel')->chain([
+                new NotifyUserOfCompletedExport($filename,$userM),
+            ]);
+
+            return ['success' => 'true' , 'message' => "Your export is working in backend You will be Notified through Email Once Done. Thanks"]; 
              
         }
 

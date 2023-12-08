@@ -23,7 +23,16 @@
                
 
                 <div class="mt-1 d-flex justify-content-end mb-1 d-flex mx-3">
-                    <button class="btn btn-info start-export">Export </button>
+
+                    <button type="button" class="btn btn-info ml-6 mr-3 mt-3 mb-3 start-export"
+                    data-loading="Exporting..." data-success="Started" data-default="Export">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        style="display:none">
+                    </span>
+                    <b> Export</b>
+                </button>  &nbsp;
+
+                    {{-- <button class="btn btn-info ml-6 mr-3 mt-3 mb-3 start-export">Export </button>  --}}
                     <button onclick="deleteModel()" type="button" class="btn btn-danger ml-6 mr-3 mt-3 mb-3"> Delete Selected rows</button>
                 </div>
 
@@ -560,38 +569,52 @@
 
   $(".start-export").click(function(){
         $this = $(this); 
-	   	let getFilterModel = gridOptions.api.getFilterModel();
-	    let getFilterModel2 = gridOptions.columnApi.getColumnState();
-	    const data = { filterModel: getFilterModel }; 
-	    exportData(data); 
+
+        let UserEmail = prompt('Please enter email address you want to sent email ?');
+        if(UserEmail){
+            console.log("UserEmail",UserEmail)
+            let getFilterModel = gridOptions.api.getFilterModel();
+            let getFilterModel2 = gridOptions.columnApi.getColumnState();
+            const data = { filterModel: getFilterModel }; 
+            exportData( $this , data , UserEmail); 
+        }else{
+            alert("You have to enter email to start export"); 
+            return false;
+        }
+        
+	   
 
    }); 
 
-  function exportData(data){
+  function exportData(btnClick , data ,userEmail){
+      var loadingText = btnClick.attr('data-loading');
+        var successText = btnClick.attr('data-success');
+        var defaultText = btnClick.attr('data-default');
 
+        btnClick.find('span').show()
+        btnClick.find('b').text(loadingText)
     $.ajax({
         type:'POST',
         data:JSON.stringify(data),
         dataType: "json",
         contentType: "application/json",
-        url:"{{ route('fetch.bookings') }}"+'?export=1',
+        url:"{{ route('fetch.bookings') }}"+'?export=1&userEmail='+userEmail,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success:function(response){
+            
             if(response.success){
-                toastr.success(response.message, "Success"); 
+                btnClick.find('b').text(successText)
+
+                setTimeout(() => { btnClick.find('b').text(defaultText)   }, 2000);
+                btnClick.find('span').hide()
             }else{ 
-                toastr.error(response.message, "Success"); 
+                alert(error)
+                 
             }
-            $("#excel-filename-model").modal('hide'); 
-            KTUtil.btnRelease(btn2);
-            KTUtil.btnRelease(btn1);
-            $("#popoExl").removeClass('keep-open');
+             
             
         },error: function(e) {
-            KTUtil.btnRelease(btn2);
-            KTUtil.btnRelease(btn1);
-            $("#popoExl").removeClass('keep-open');
-            toastr.error('failed', "Success"); 
+              
             
         },
     });

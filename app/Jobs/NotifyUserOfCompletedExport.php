@@ -8,32 +8,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Notifications\ExportReady;
 use Illuminate\Support\Facades\Notification;
 
-use App\Notifications\ExportReady;
-class ExportNotification implements ShouldQueue
+class NotifyUserOfCompletedExport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * Create a new job instance.
-     */
+    
     public $user;
     public $fileName;
     public $to; 
-    public function __construct($user,$filename,$to=[])
+    public function __construct($filename,$to=[])
     {
-        $this->user = $user;
         $this->fileName = $filename;
         $this->to = $to; 
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle()
     {
-        Notification::route('mail', $this->to)->notify(new ExportReady($this->fileName));
+        Notification::route('mail',$this->to)->notify(new ExportReady($this->fileName));
        
     }
 }
