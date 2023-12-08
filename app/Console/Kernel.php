@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('queue:listen --queue=default,high,low,create-slots,create-future-dates,send-message,send-email,push-to-sandlane')
+        $schedule->command('queue:listen --queue=default,high,low,create-slots,create-future-dates,send-message,send-email,push-to-sandlane,exports-excel')
         ->everyTwentySeconds()
         ->withoutOverlapping(); 
     }
