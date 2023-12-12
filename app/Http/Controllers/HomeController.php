@@ -425,7 +425,7 @@ class HomeController extends Controller
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
     // $EventStartTime = strtotime($evntTime);
     $slotsArr = [];
-    if ($hoursRemaining <= 24 || $hoursRemaining > 24) {
+    if ($hoursRemaining <= 24 ) {
 
       $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())

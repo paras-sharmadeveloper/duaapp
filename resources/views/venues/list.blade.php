@@ -39,6 +39,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th> Status </th>
                         <th>Country Name</th>
                         <th>State/City</th>
                         
@@ -58,11 +59,20 @@
                         $dateToConvert = \Carbon\Carbon::createFromFormat('Y-m-d', $venueAdd->venue_date);
                         $formattedDate = $dateToConvert->format('d-M-Y');
                         $weekDay = $dateToConvert->format('l');
+                        $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
                     @endphp
                         <tr>
                             <td>{{ $i }}</td>
-                            <td>{{ $venueAdd->venue->country_name }} 
-                                <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
+                            <td> 
+                                @if($venueAdd->venue_date >= $today)
+                                <span class="badge bg-success">Active</span>    
+                                @else 
+                                <span class="badge bg-secondary">Inactive</span>  
+                                   
+                                @endif 
+
+                            </td>
+                            <td>{{ $venueAdd->venue->country_name }}  <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
                                     alt="Flag Image">
                             </td>
                             <td>{{ $venueAdd->state }} / {{ $venueAdd->city }} </td>
@@ -73,6 +83,8 @@
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td class="d-flex cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
+                                
+                                @if($venueAdd->venue_date >= $today)
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -81,6 +93,7 @@
                                         onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
                                 </form>
                                 <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">Book Slot</a>
+                                @endif
                                 <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">Copy Link</button>
                             </td>
                         </tr>

@@ -85,13 +85,11 @@ Route::get('/', function () {
 });
 
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-Route::get('/book/seat', [HomeController::class, 'index'])->name('book.show');
+Route::get('/dua/meeting', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
-
+ 
 Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
-
-
 
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 

@@ -1895,7 +1895,7 @@ div#errors {
     </script>
 
     <script>
-        document.title = "KahayFaqeer.com |Booking Form";
+        document.title = "Dua Meeting | KahayFaqeer.com";
         $(document).ready(function() {
             $('#mobile').on('input', function() {
                 // Get the value of the phone input
