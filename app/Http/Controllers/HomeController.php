@@ -421,11 +421,13 @@ class HomeController extends Controller
     $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $timezone);
     $hoursRemaining = $eventDate->diffInHours($mytime);
 
+    $slotsAppearAfter = $venueAddress->slot_appear_hours; 
+
     // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
     // $EventStartTime = strtotime($evntTime);
     $slotsArr = [];
-    if ($hoursRemaining <= 24 ) {
+    if ($hoursRemaining <= $slotsAppearAfter ) {
 
       $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
