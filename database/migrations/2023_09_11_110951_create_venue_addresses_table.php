@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('room_name')->nullable();
             $table->string('room_sid')->nullable();
             $table->integer('slot_duration')->default(1);
-
+            $table->integer('slot_appear_hours')->default(24);
             $table->integer('is_monday')->default(0);  
             $table->integer('is_tuesday')->default(0);  
             $table->integer('is_wednesday')->default(0);  

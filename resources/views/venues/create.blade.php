@@ -325,7 +325,7 @@
                             <label class="form-check-label" for="tuesday">Selfie Verification</label>
                         </div>
                     </div> --}}
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Recurring Till How many Month ? </span>
                             {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
@@ -335,12 +335,22 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">User Rejoin After Days? </span>
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'rejoin_venue_after',
+                            ]) !!}
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Slots Appear Before Hours ?</span>
+                            {!! Form::number('slot_appear_hours', $venueAddress->slot_appear_hours ?? 0, [
+                                'class' => 'form-control',
+                                'placeholder' => 'slot_appear_hours',
                             ]) !!}
 
                         </div>

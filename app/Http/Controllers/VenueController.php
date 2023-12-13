@@ -56,6 +56,7 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
+            'slot_appear_hours' => 'required', 
             'rejoin_venue_after' => 'required',
             'combination_id' => 'required'
 
@@ -108,6 +109,7 @@ class VenueController extends Controller
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
+            'slot_appear_hours' => $request->input('slot_appear_hours'),
             'venue_available_country' => $venue_available_country,
             'timezone' => $timezone->timezone
         ];
@@ -169,6 +171,7 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
             'slot_duration' => 'required',
+            'slot_appear_hours' => 'required', 
             'rejoin_venue_after' => 'required',
             'combination_id' => 'required'
 
@@ -210,6 +213,7 @@ class VenueController extends Controller
             //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             'slot_duration' => $slotDuration,
+            'slot_appear_hours' => $request->input('slot_appear_hours'),
             'recurring_till' => $request->input('recurring_till'),
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
