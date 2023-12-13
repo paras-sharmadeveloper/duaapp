@@ -116,6 +116,9 @@ td.d-flex.cdt.justify-content-between,td {
     text-align: end;
     padding: 8px 0px;
 }
+.cdt a, .cdt button {
+    font-size: 12px;
+}
 </style>
 
 
