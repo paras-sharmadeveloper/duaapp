@@ -117,8 +117,7 @@
 <style>
   
 td.d-flex.cdt.justify-content-between,td {
-    border-bottom: none;
-    width: 100%;
+    border-bottom: none; 
 }
 .mybtns {
     text-align: end;
