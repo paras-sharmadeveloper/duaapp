@@ -106,7 +106,7 @@
 
 <style>
   
-td.d-flex.cdt.justify-content-between {
+td.d-flex.cdt.justify-content-between,td {
     border-bottom: none;
 }
 </style>
