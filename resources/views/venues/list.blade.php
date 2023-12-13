@@ -43,7 +43,7 @@
                         <th>Country Name</th>
                         <th>State/City</th>
                         
-                        <th>Sahib-e-Dua Name</th>
+                        <th style="width: 300px">Sahib-e-Dua Name</th>
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
