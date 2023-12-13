@@ -427,8 +427,15 @@ class HomeController extends Controller
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
     // $EventStartTime = strtotime($evntTime);
     $slotsArr = [];
-    if ($hoursRemaining <= $slotsAppearAfter ) {
 
+    $isVisiable = false; 
+    if ($slotsAppearAfter == 0) { 
+      $isVisiable = true; 
+    }
+    else if ($hoursRemaining <= $slotsAppearAfter ) { 
+      $isVisiable = true; 
+    } 
+    if ($isVisiable ) {
       $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
