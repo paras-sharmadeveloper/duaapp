@@ -81,7 +81,14 @@
                             <td>{{ $venueAdd->state }} / {{ $venueAdd->city }} </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->siteadmin->name }}</td>
-                            <td>{{ $venueAdd->address }}</td>
+                            <td>{{ 
+
+
+                                strlen($venueAdd->address) > 50 ? substr($venueAdd->address,0,100)."..." : $venueAdd->address;
+                            
+                            
+                            
+                             }}</td>
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td class="d-flex cdt justify-content-between"> 
@@ -111,6 +118,7 @@
   
 td.d-flex.cdt.justify-content-between,td {
     border-bottom: none;
+    width: 100%;
 }
 .mybtns {
     text-align: end;
