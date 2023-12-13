@@ -34,6 +34,10 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Manage Venues</h5>
+            
+            <div class="mybtns">
+                <a href="{{ route('book.show') }}" class="btn btn-secondary" target="_blank">Booking Form</a> 
+            </div>
 
             <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
@@ -42,13 +46,12 @@
                         <th> Status </th>
                         <th>Country Name</th>
                         <th>State/City</th>
-                        
                         <th style="width: 300px">Sahib-e-Dua Name</th>
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
                         <th>Type</th>
-                        <th width="400px">Action</th>
+                        <th style="width: 400px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +111,10 @@
   
 td.d-flex.cdt.justify-content-between,td {
     border-bottom: none;
+}
+.mybtns {
+    text-align: end;
+    padding: 8px 0px;
 }
 </style>
 

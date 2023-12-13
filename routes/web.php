@@ -85,7 +85,7 @@ Route::get('/', function () {
 });
 
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-Route::get('/dua/meeting', [HomeController::class, 'index'])->name('book.show');
+Route::get('/dua', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
  
