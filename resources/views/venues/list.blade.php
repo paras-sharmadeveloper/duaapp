@@ -105,8 +105,9 @@
     </div>
 
 <style>
-    td.d-flex.cdt {
-        padding: 14px; 
+  
+td.d-flex.cdt.justify-content-between {
+    border-bottom: none;
 }
 </style>
 
