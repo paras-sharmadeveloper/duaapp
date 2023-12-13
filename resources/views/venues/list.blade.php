@@ -46,12 +46,12 @@
                         <th> Status </th>
                         <th>Country Name</th>
                         <th>State/City</th>
-                        <th style="width: 300px">Sahib-e-Dua Name</th>
+                        <th style="width: 200px">Sahib-e-Dua Name</th>
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
                         <th>Type</th>
-                        <th style="width: 400px">Action</th>
+                        <th style="width: 300px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,14 +81,7 @@
                             <td>{{ $venueAdd->state }} / {{ $venueAdd->city }} </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->siteadmin->name }}</td>
-                            <td>{{ 
-
-
-                                strlen($venueAdd->address) > 50 ? substr($venueAdd->address,0,100)."..." : $venueAdd->address;
-                            
-                            
-                            
-                             }}</td>
+                            <td>{{  strlen($venueAdd->address) > 80 ? substr($venueAdd->address,0,80)."..." : $venueAdd->address;}}</td>
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td class="d-flex cdt justify-content-between"> 
