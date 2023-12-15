@@ -180,7 +180,7 @@ class HomeController extends Controller
         'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address : "Online Video Call",
         'userLocationTime' => $userLocationTime, 
         'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
-        "meeting_link" => route('booking.status', [$uuid]),
+        "meeting_status_link" => route('booking.status', [$uuid]),
         'meeting_cancel_link' => route('book.cancle', [$uuid]),
         'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
         'unsubscribe_link' => '',

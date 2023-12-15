@@ -150,7 +150,7 @@
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}" 
             class="{{ ( $currentPath == 'siteadmin.queue.show' ||  $currentPath == 'siteadmin.queue.list' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Offline Request List</span>
+              <i class="bi bi-circle"></i><span>Tokens Check-in</span>
             </a>
           </li>
 
