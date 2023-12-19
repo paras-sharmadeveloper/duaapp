@@ -155,7 +155,7 @@
             padding: 50px 20px;
             border-radius: 10px;
             font-weight: 700;
-            width: 40%;
+            width: 50%;
             text-align: center;
         }
 
@@ -382,7 +382,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     document.title = "KahayFaqeer.com | Queue Status";
-    var fileName = "{{  $venueAddress->venue_date .'-'. $venueAddress->city .'-Token-'.$userBooking->booking_number  }}"
+    var fileName = "{{  $venueAddress->venue_date .'-'. $venueAddress->city .'-Token'.$userBooking->booking_number  }}"
     window.setTimeout(function() {
         window.location.reload();
     }, 30000);
@@ -393,7 +393,7 @@
         const element = document.getElementById('main-content');
         const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
         const options = {
-            margin: '20px',
+            margin: 0,
             filename: fileName + '.pdf',
             image: {
                 type: 'jpeg',
