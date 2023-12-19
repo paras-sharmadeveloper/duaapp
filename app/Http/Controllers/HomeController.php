@@ -52,9 +52,9 @@ class HomeController extends Controller
     if ($from == 'admin') {
 
       $vaildation =  [
-        'fname' => 'required|string|max:255',
-        'lname' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
+       // 'fname' => 'required|string|max:255',
+      //  'lname' => 'required|string|max:255',
+        // 'email' => 'required|email|max:255',
         'mobile' => 'required|string|max:255',
         'user_question' => 'nullable|string',
         'country_code' => 'required',
@@ -63,16 +63,16 @@ class HomeController extends Controller
     } else {
 
       $vaildation =  [
-        'fname' => 'required|string|max:255',
-        'lname' => 'required|string|max:255',
+       // 'fname' => 'required|string|max:255',
+     //   'lname' => 'required|string|max:255',
         // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
         //'mobile' => 'required|string|max:255|unique:vistors,phone',
-        'email' => 'required|email|max:255', // Check for duplicate email
+        // 'email' => 'required|email|max:255', // Check for duplicate email
         'mobile' => 'required|string|max:255',
         'user_question' => 'nullable|string', 
-        'otp' => 'required',
+        // 'otp' => 'required',
         'country_code' => 'required',
-        'otp-verified' => 'required',
+        // 'otp-verified' => 'required',
         'slot_id' => 'required|numeric|unique:vistors,slot_id'
       ];
       // if($request->input('selfie_required') == 'yes'){
@@ -101,7 +101,8 @@ class HomeController extends Controller
       //   $isUsers = $this->IsRegistredAlready($selfieImage);
       // }
 
-      $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
+      // $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
+      $user = Vistors::Where('phone', $validatedData['mobile'])->first();
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
         $rejoin = $venueAddress->rejoin_venue_after;
@@ -130,9 +131,9 @@ class HomeController extends Controller
       // Create a new Vistors record in the database
       $mobile = $countryCode . $validatedData['mobile'];
       $booking = new Vistors;
-      $booking->fname = $validatedData['fname'];
-      $booking->lname = $validatedData['lname'];
-      $booking->email = $validatedData['email'];
+      // $booking->fname = $validatedData['fname'];
+    //  $booking->lname = $validatedData['lname'];
+      // $booking->email = $request->input('email',null);
       $booking->country_code = '+' . $countryCode;
       $booking->phone = $validatedData['mobile'];
       $booking->user_question =  $request->input('user_question', null);
@@ -167,71 +168,71 @@ class HomeController extends Controller
       $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – '. $userSelectedTimezone->addMinutes(30)->format('g:ia');
       $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
 
-      $dynamicData = [
-        'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
-        'userTime' => $userTimezoneFormat,
-        'venueTz' => $countryTz,
-        'userTz' => $request->input('timezone'),
-        'first_name' => $validatedData['fname'],
-        'email' => $validatedData['email'],
-        'mobile' =>  '+' . $mobile,
-        'country' =>  $venue->country_name,
-        'event_name' => $slotDuration . " Minute Online Dua Appointment",
-        'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address : "Online Video Call",
-        'userLocationTime' => $userLocationTime, 
-        'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
-        "meeting_status_link" => route('booking.status', [$uuid]),
-        'meeting_cancel_link' => route('book.cancle', [$uuid]),
-        'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
-        'unsubscribe_link' => '',
-        'meeting_date_time' => $formattedDateTime,
-        'meeting_location' =>  ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
-        'therapist_name' => $venueAddress->user->name,
-        'booking_number' => $bookingNumber,
-        'slotDuration' => $slotDuration,
-        'venue_address' => $venueAddress->address,
-        'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
-      ];
+      // $dynamicData = [
+      //   'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
+      //   'userTime' => $userTimezoneFormat,
+      //   'venueTz' => $countryTz,
+      //   'userTz' => $request->input('timezone'),
+      //   'first_name' => $validatedData['fname'],
+      //   // 'email' => $validatedData['email'],
+      //   'mobile' =>  '+' . $mobile,
+      //   'country' =>  $venue->country_name,
+      //   'event_name' => $slotDuration . " Minute Online Dua Appointment",
+      //   'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address : "Online Video Call",
+      //   'userLocationTime' => $userLocationTime, 
+      //   'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
+      //   "meeting_status_link" => route('booking.status', [$uuid]),
+      //   'meeting_cancel_link' => route('book.cancle', [$uuid]),
+      //   'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
+      //   'unsubscribe_link' => '',
+      //   'meeting_date_time' => $formattedDateTime,
+      //   'meeting_location' =>  ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
+      //   'therapist_name' => $venueAddress->user->name,
+      //   'booking_number' => $bookingNumber,
+      //   'slotDuration' => $slotDuration,
+      //   'venue_address' => $venueAddress->address,
+      //   'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
+      // ];
 
-      $appointMentStatus = route('booking.status', [$uuid]);
-      $confirmSpot = route('booking.confirm-spot');
-      $cancelBooking = route('book.cancle', [$uuid]);
-      $rescheduleBooking = route('book.reschdule', [$uuid]);
-      $name = $validatedData['fname'];
-      $therapistName = $venueAddress->thripist->name;
+      // $appointMentStatus = route('booking.status', [$uuid]);
+      // $confirmSpot = route('booking.confirm-spot');
+      // $cancelBooking = route('book.cancle', [$uuid]);
+      // $rescheduleBooking = route('book.reschdule', [$uuid]);
+      // $name = $validatedData['fname'];
+      // $therapistName = $venueAddress->thripist->name;
 
-      // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
-      $whatsappTims = Carbon::parse($venueDate,$countryTz); // IST timezone
-      $whatsappTims->timezone($request->input('timezone')); 
-      $venueString = $whatsappTims->format('d-M-Y g:i A') . ' ('.$countryTz.')'; 
-      $slot_duration = $venueAddress->slot_duration;
-      if ($venueAddress->type == 'on-site') {
-        $location = $venueAddress->address;
-        $confirmSpot = route('booking.confirm-spot');
-      } else {
-        $location = 'Online Meeting';
-        $confirmSpot = route('join.conference.frontend', [$uuid]);
-      }
+      // // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
+      // $whatsappTims = Carbon::parse($venueDate,$countryTz); // IST timezone
+      // $whatsappTims->timezone($request->input('timezone')); 
+      // $venueString = $whatsappTims->format('d-M-Y g:i A') . ' ('.$countryTz.')'; 
+      // $slot_duration = $venueAddress->slot_duration;
+      // if ($venueAddress->type == 'on-site') {
+      //   $location = $venueAddress->address;
+      //   $confirmSpot = route('booking.confirm-spot');
+      // } else {
+      //   $location = 'Online Meeting';
+      //   $confirmSpot = route('join.conference.frontend', [$uuid]);
+      // }
       //WhatsApp Template 
-      $message = $this->bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus);
-      SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onQueue('send-message')->onConnection('database');
-      SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
+      // $message = $this->bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus);
+      // SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onQueue('send-message')->onConnection('database');
+      // SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
 
-      PushEmailToSandlane::dispatch($validatedData['email'], $name)->onQueue('push-to-sandlane')->onConnection('database');
+      // PushEmailToSandlane::dispatch($validatedData['email'], $name)->onQueue('push-to-sandlane')->onConnection('database');
 
-      $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
-      Notification::create(['message' => $NotificationMessage, 'read' => false]);
+      // $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
+      // Notification::create(['message' => $NotificationMessage, 'read' => false]);
       
-      event(new BookingNotification($NotificationMessage));
+      // event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
         return redirect()->back()->with('success', 'Booking created successfully');
       } else {
         return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
       }
     } catch (\Exception $e) {
-      Log::error('Booking error' . $e->getMessage());
+      Log::error('Booking error' . $e);
 
-      return response()->json(['message' => $e->getMessage(), "status" => false], 422);
+      return response()->json(['message' => $e, "status" => false], 422);
     }
   }
 
@@ -660,7 +661,8 @@ class HomeController extends Controller
     }
 
     if ($type == 'get_city') {
-      $venuesListArr = VenueAddress::where('venue_id', $id)
+     $countryId = Venue::where(['iso' => 'PK'])->get()->first(); 
+      $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
     ->where(function ($query) use ($newDate) {
         $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
               ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()

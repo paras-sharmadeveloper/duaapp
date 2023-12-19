@@ -43,6 +43,8 @@ return new class extends Migration
             $table->integer('recurring_till')->default(0); 
             $table->integer('rejoin_venue_after')->default(0); 
             $table->integer('selfie_verification')->default(1); 
+
+            $table->string('status_page_note')->nullable();
             $table->string('timezone')->nullable();
             
             $table->json('venue_available_country')->nullable(); 

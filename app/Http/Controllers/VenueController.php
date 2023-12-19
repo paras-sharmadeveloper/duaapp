@@ -58,7 +58,8 @@ class VenueController extends Controller
             'slot_duration' => 'required',
             'slot_appear_hours' => 'required', 
             'rejoin_venue_after' => 'required',
-            'combination_id' => 'required'
+            'combination_id' => 'required',
+            'status_page_note' => 'required'
 
         ]);
 
@@ -111,7 +112,8 @@ class VenueController extends Controller
             'rejoin_venue_after' => $rejoin_venue_after,
             'slot_appear_hours' => $request->input('slot_appear_hours'),
             'venue_available_country' => $venue_available_country,
-            'timezone' => $timezone->timezone
+            'timezone' => $timezone->timezone,
+            'status_page_note' => $request->input('status_page_note')
         ];
        
         if (!empty($IsRecuureing)) {
@@ -173,7 +175,8 @@ class VenueController extends Controller
             'slot_duration' => 'required',
             'slot_appear_hours' => 'required', 
             'rejoin_venue_after' => 'required',
-            'combination_id' => 'required'
+            'combination_id' => 'required',
+            'status_page_note' => 'required'
 
         ]);
         $country = Venue::find($request->input('venue_id')); 
@@ -218,7 +221,8 @@ class VenueController extends Controller
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
             'venue_available_country' => $venue_available_country,
-            'timezone' => $timezone->timezone
+            'timezone' => $timezone->timezone,
+            'status_page_note' => $request->input('status_page_note')
         ];
  
         $VenueAddress->update($dataArr);

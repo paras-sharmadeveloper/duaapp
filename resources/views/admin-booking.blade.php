@@ -90,7 +90,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">First Name</span>
                         {!! Form::text('fname', null, ['placeholder' => 'First Name', 'class' => 'form-control']) !!}
@@ -101,14 +101,14 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Last Name</span>
                         {!! Form::text('lname', null, ['placeholder' => 'Last Name', 'class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Email</span>
                         {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-2">
                   <div class="input-group">
                    

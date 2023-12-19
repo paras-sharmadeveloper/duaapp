@@ -10,4 +10,6 @@ class VenueCountry extends Model
     use HasFactory;
     protected $table='venues'; 
     protected $guarded=[];
+
+  
 }

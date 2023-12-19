@@ -14,7 +14,8 @@ class CreateVenueStateCitiesTable extends Migration
             $table->string('city_name')->nullable();
             $table->string('city_image')->nullable();
             $table->string('state_name')->nullable();
-            $table->string('columns_to_show')->nullable();
+            $table->string('columns_to_show')->nullable(); 
+            $table->unsignedBigInteger('city_sequence_to_show')->nullable();
             $table->string('combination_name')->nullable();
             $table->timestamps(); 
             $table->foreign('venue_id')->references('id')->on('venues')->onDelete('cascade')->onUpdate('cascade');

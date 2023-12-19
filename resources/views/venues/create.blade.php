@@ -409,7 +409,23 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
+
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Status Page Note</span>
+                            <textarea name="status_page_note" 
+                            class="form-control"
+                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
+                            
+ 
+                        </div>
+                    </div>
+
+                    
+
+                  
 
                     {{-- <div class="col-md-4 mt-4">
                         <div class="input-group">

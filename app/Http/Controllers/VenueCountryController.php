@@ -126,6 +126,7 @@ class VenueCountryController extends Controller
             'state_name' => 'required|string',
             'city_name' => 'required|string',
             'columns_to_show' => 'required|integer',
+            'city_sequence_to_show' =>  'required',
             'city_image' => 'image|mimes:jpeg,png,gif|max:2048',  
         ]);
 
@@ -133,6 +134,7 @@ class VenueCountryController extends Controller
         $id = $request->input('id');
         $city = $request->input('city_name');
         $columnToShow = $request->input('columns_to_show');
+        $city_sequence_to_show = $request->input('city_sequence_to_show');
         $combinationName = $request->input('state_name'). '_' .$request->input('city_name')  ;
         $imageName = ''; 
         if ($request->hasFile('city_image')) {
@@ -144,10 +146,11 @@ class VenueCountryController extends Controller
         $update = [
             'venue_id' => $request->input('venue_id'),
             'state_name' => $state , 
-          
             'city_name' => $city, 
             'columns_to_show' => $columnToShow,
-            'combination_name' => $combinationName 
+            'combination_name' => $combinationName,
+            'city_sequence_to_show' =>  $city_sequence_to_show
+            
         ]; 
         
         if($request->input('id')){

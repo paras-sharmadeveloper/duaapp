@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('content') 
+@section('content')
     <style>
         h1,
         h2,
@@ -163,7 +163,7 @@
             margin-bottom: 15px
         }
 
-       
+
 
         .success {
             color: green;
@@ -191,30 +191,38 @@
         }
 
         @media (max-width:767px) {
-            #booknowStart{
-                margin-top: 50% !important; 
+            #booknowStart {
+                margin-top: 50% !important;
             }
-            div#type-listing,#country-listing,#city-listing,#date-listing {
+
+            div#type-listing,
+            #country-listing,
+            #city-listing,
+            #date-listing {
                 max-height: 340px;
                 overflow-x: scroll;
                 height: 280px;
             }
-            .row.justify-content-center.form-business.sloting-main .sloting-inner{
+
+            .row.justify-content-center.form-business.sloting-main .sloting-inner {
                 height: 200px !important;
                 max-height: 330px !important;
                 overflow: overlay;
             }
-            
- 
-                div#mobile-number label { 
-                    font-size: 12px !important; 
-                }
+
+
+            div#mobile-number label {
+                font-size: 12px !important;
+            }
+
             #startBooking {
                 width: 100% !important;
             }
-            .container-fluid{
-                padding: 0px !important; 
+
+            .container-fluid {
+                padding: 0px !important;
             }
+
             .head label {
                 font-size: 15px !important;
                 color: #fff !important;
@@ -295,20 +303,23 @@
             .cusmhtn {
                 font-size: 12px;
             }
+
             /* .card.text-center.h-60.shadow-sm.thripist-section img {
-                max-height: 180px !important;
-            } */
+                    max-height: 180px !important;
+                } */
             .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
                 width: 50% !important;
             }
+
             button#sendOtp {
                 margin-top: 30px;
-                float: none !important; 
+                float: none !important;
             }
 
         }
 
-        .btn.next,#startBooking {
+        .btn.next,
+        #startBooking {
             background: #f9d20a !important;
         }
 
@@ -320,10 +331,11 @@
             .error.country_code {
                 bottom: -35px
             }
+
             /* .thripist-section img {
-             
-            max-height: 264px !important; 
-        } */
+                 
+                max-height: 264px !important;
+            } */
 
 
         }
@@ -359,9 +371,9 @@
         }
 
         /* .col-lg-6 {
-                flex: 0 0 auto;
-                width: 20%;
-            } */
+                    flex: 0 0 auto;
+                    width: 20%;
+                } */
         .select2-container {
             width: 100%;
         }
@@ -371,7 +383,7 @@
         }
 
         /* css loader start  */
-        
+
 
         .row .no-data {
             width: 100% !important;
@@ -511,200 +523,218 @@
             right: 4px;
             height: 28px !important;
         }
-        label {color: white;}
-/* button#sendOtp {
-    margin-top: 30px;
-    float: right; 
-} */
-div#slot-information-user {
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    margin: 30px 0;
-}
-#slot-information-user select.change-timezone.form-control,#slot-information-user .select2-container {
-    width: 30% !important;
-    z-index: 99999999;
-}
-#slot-information-user .select2-container--default .select2-selection--single .select2-selection__rendered {
- 
-    line-height: 50px !important;
-}
-#slot-information-user .select2-container--default .select2-selection--single .select2-selection__arrow {
-  
-    top: 12px !important; 
-}
-#slot-information-user .select2-container .select2-selection--single {
- 
-    height: 50px !important; 
-}
 
-/* .box {
-	border: 1px solid #CCC;
-	padding: 40px 25px;
-	background: #FFF;
-	max-width: 400px;
-	position: relative;
-	border-radius: 3px;
-    margin: 30px auto;
-} */
-.box.ofh {
-  overflow: hidden;
-}
-/* Ribbon 1 */
-.top-cross-ribbon {
-	background: #090909;
-	padding: 7px 50px;
-	color: #FFF;
-	position: absolute;
-	top: 0;
-	right: -50px;
-	transform: rotate(45deg);
-	border: 1px dashed #FFF;
-	box-shadow: 0 0 0 3px #090909;
-	margin: 5px;
-}
+        label {
+            color: white;
+        }
 
-/* Ribbon 2*/
-.arrow-ribbon {
-  background: #090909;
-  color: #FFF;
-  padding: 4px 4px;
-  position: absolute;
-  top: 0px;
-  right: -1px;
-}
-.arrow-ribbon:before {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    content: "";
-    left: -12px;
-    border-top: 15px solid transparent;
-    border-right: 12px solid #090909;
-    border-bottom: 15px solid transparent;
-    width: 0;
-}
+        /* button#sendOtp {
+        margin-top: 30px;
+        float: right;
+    } */
+        div#slot-information-user {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
 
-/* Ribbon 3 */
-.bottom-ribbon {
-  background: #090909;
-  color: #FFF;
-  padding: 7px 50px;
-  position: absolute;
-  bottom: 10px;
-  right: -1px;
-  border-radius: 20px 0 0 20px;
-}
-.bottom-ribbon:after {
-  position: absolute;
-  right: -25px;
-  top: -18px;
-  bottom: 0;
-  z-index: 9999;
-  content: "";
-  border-bottom: 43px solid #090909;
-  border-left: 38px solid transparent;
-  border-right: 20px solid transparent;
-  width: 42px;
-  z-index: -1;
-}
+        #slot-information-user select.change-timezone.form-control,
+        #slot-information-user .select2-container {
+            width: 30% !important;
+            z-index: 99999999;
+        }
 
-/*Ribbon 4 */
-.half-circle-ribbon {
-  background: #090909;
-  color: #FFF;
-  height: 60px;
-  width: 60px;
-  text-align: right;
-  padding-top: 10px;
-  padding-right: 10px;
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  flex-direction: row;
-  border-radius: 0 0 0 100%;
-  border: 1px dashed #FFF;
-  box-shadow: 0 0 0 3px #EA4335;
-}
+        #slot-information-user .select2-container--default .select2-selection--single .select2-selection__rendered {
 
-/* Ribbon 5 */
-.cross-shadow-ribbon {
-  position: absolute;
-  background: #090909;
-  top: -15px;
-  padding: 10px;
-  margin-left: 15px;
-  color: #FFF;
-  border-radius: 0 0 2px 2px;
-}
-.cross-shadow-ribbon:before {
-  content: "";
-  position: absolute;
-  left: -15px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-bottom: 15px solid #090909;
-  border-left: 15px solid transparent;
-}
+            line-height: 50px !important;
+        }
 
-/* Ribbon 6 */
-.cover-ribbon {
-  height: 115px;
-  width: 115px;
-  position: absolute;
-  right: -8px;
-  top: -8px;
-  overflow: hidden;
-}
-.cover-ribbon .cover-ribbon-inside {
-  background: #090909;
-  color: #FFF;
-  transform: rotate(45deg);
-  position: absolute;
-  right: -35px;
-  top: 15px;
-  padding: 10px;
-  min-width: 127px;
-  text-align: center;
-}
-.cover-ribbon .cover-ribbon-inside:before {
-  width: 0;
-  height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 10px solid #090909;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  content: "";
-  top: 35px;
-  transform: rotate(-45deg);
-}
-.cover-ribbon .cover-ribbon-inside:after {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-left: 10px solid #090909;
-  border-bottom: 7px solid transparent;
-  position: absolute;
-  left: 95%;
-  right: 0;
-  top: 34px;
-  bottom: 0;
-  content: "";
-  transform: rotate(-45deg);
-}
-div#errors {
-    text-align: center;
-    color: red;
-    font-size: 20px;
-}
+        #slot-information-user .select2-container--default .select2-selection--single .select2-selection__arrow {
+
+            top: 12px !important;
+        }
+
+        #slot-information-user .select2-container .select2-selection--single {
+
+            height: 50px !important;
+        }
+
+        /* .box {
+     border: 1px solid #CCC;
+     padding: 40px 25px;
+     background: #FFF;
+     max-width: 400px;
+     position: relative;
+     border-radius: 3px;
+        margin: 30px auto;
+    } */
+        .box.ofh {
+            overflow: hidden;
+        }
+
+        /* Ribbon 1 */
+        .top-cross-ribbon {
+            background: #090909;
+            padding: 7px 50px;
+            color: #FFF;
+            position: absolute;
+            top: 0;
+            right: -50px;
+            transform: rotate(45deg);
+            border: 1px dashed #FFF;
+            box-shadow: 0 0 0 3px #090909;
+            margin: 5px;
+        }
+
+        /* Ribbon 2*/
+        .arrow-ribbon {
+            background: #090909;
+            color: #FFF;
+            padding: 4px 4px;
+            position: absolute;
+            top: 0px;
+            right: -1px;
+        }
+
+        .arrow-ribbon:before {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            content: "";
+            left: -12px;
+            border-top: 15px solid transparent;
+            border-right: 12px solid #090909;
+            border-bottom: 15px solid transparent;
+            width: 0;
+        }
+
+        /* Ribbon 3 */
+        .bottom-ribbon {
+            background: #090909;
+            color: #FFF;
+            padding: 7px 50px;
+            position: absolute;
+            bottom: 10px;
+            right: -1px;
+            border-radius: 20px 0 0 20px;
+        }
+
+        .bottom-ribbon:after {
+            position: absolute;
+            right: -25px;
+            top: -18px;
+            bottom: 0;
+            z-index: 9999;
+            content: "";
+            border-bottom: 43px solid #090909;
+            border-left: 38px solid transparent;
+            border-right: 20px solid transparent;
+            width: 42px;
+            z-index: -1;
+        }
+
+        /*Ribbon 4 */
+        .half-circle-ribbon {
+            background: #090909;
+            color: #FFF;
+            height: 60px;
+            width: 60px;
+            text-align: right;
+            padding-top: 10px;
+            padding-right: 10px;
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            flex-direction: row;
+            border-radius: 0 0 0 100%;
+            border: 1px dashed #FFF;
+            box-shadow: 0 0 0 3px #EA4335;
+        }
+
+        /* Ribbon 5 */
+        .cross-shadow-ribbon {
+            position: absolute;
+            background: #090909;
+            top: -15px;
+            padding: 10px;
+            margin-left: 15px;
+            color: #FFF;
+            border-radius: 0 0 2px 2px;
+        }
+
+        .cross-shadow-ribbon:before {
+            content: "";
+            position: absolute;
+            left: -15px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-bottom: 15px solid #090909;
+            border-left: 15px solid transparent;
+        }
+
+        /* Ribbon 6 */
+        .cover-ribbon {
+            height: 115px;
+            width: 115px;
+            position: absolute;
+            right: -8px;
+            top: -8px;
+            overflow: hidden;
+        }
+
+        .cover-ribbon .cover-ribbon-inside {
+            background: #090909;
+            color: #FFF;
+            transform: rotate(45deg);
+            position: absolute;
+            right: -35px;
+            top: 15px;
+            padding: 10px;
+            min-width: 127px;
+            text-align: center;
+        }
+
+        .cover-ribbon .cover-ribbon-inside:before {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 10px solid #090909;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            content: "";
+            top: 35px;
+            transform: rotate(-45deg);
+        }
+
+        .cover-ribbon .cover-ribbon-inside:after {
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-left: 10px solid #090909;
+            border-bottom: 7px solid transparent;
+            position: absolute;
+            left: 95%;
+            right: 0;
+            top: 34px;
+            bottom: 0;
+            content: "";
+            transform: rotate(-45deg);
+        }
+
+        div#errors {
+            text-align: center;
+            color: red;
+            font-size: 20px;
+        }
+
         /* css loader ends */
     </style>
     <!-- section -->
@@ -732,7 +762,7 @@ div#errors {
                             <ul class="status-line" id="progress-bar">
                                 <li class="active">Sahib-e-Dua</li>
                                 {{-- <li>Meeting Type</li> --}}
-                                <li>Country</li>
+                                {{-- <li>Country</li> --}}
                                 <li>City</li>
                                 <li>Date</li>
                                 <li>Time</li>
@@ -748,19 +778,18 @@ div#errors {
                 <div class="row justify-content-center" id="booknowStart">
 
                     <div class="col-lg-12 col-md-12">
-                         
+
                         <div class="row row-cols-3 d-flex justify-content-center">
                             <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info"
-                                id="startBooking"
-                                data-loading="Loading..." data-success="Done" data-default="Next">
+                                id="startBooking" data-loading="Loading..." data-success="Done" data-default="Next">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                     style="display:none">
                                 </span>
                                 <b> Start Booking </b>
-                            </button> 
+                            </button>
                             {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
                         </div>
-                </div>
+                    </div>
                 </div>
 
 
@@ -776,7 +805,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripist-main">
-                            
+
                             @foreach ($therapists as $therapist)
                                 {{-- <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm thripist-section"
@@ -802,8 +831,8 @@ div#errors {
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button> 
-                    </div> 
+                        </button>
+                    </div>
                 </div>
 
                 {{-- <div class="row justify-content-center  form-business" style="display: none">
@@ -830,7 +859,7 @@ div#errors {
                 </div> --}}
 
                 <!-- row -->
-                <div class="row justify-content-center  form-business" style="display: none">
+                {{-- <div class="row justify-content-center  form-business" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -839,13 +868,11 @@ div#errors {
                         </div>
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                        <!-- cards -->
+                       
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="country-listing">
                           
                         </div>
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
-                        {{-- <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info country-next">Next</button> --}}
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button> 
 
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
@@ -855,7 +882,7 @@ div#errors {
                             <b> Next</b>
                         </button>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row justify-content-center form-business" style="display: none">
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
@@ -866,7 +893,7 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
-                           
+
                         </div>
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
@@ -893,12 +920,11 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
-                            
+
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
-                        <button type="button"
-                            class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
@@ -924,19 +950,22 @@ div#errors {
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div id="slot-information-user">
-                             <label> Your Current Timezone:</label>
-                             <select class="change-timezone form-control" name="timezone" class="js-states form-control" id="timezone">
-                                    {{-- <option> Select Timezone </option> --}}
-                                    @foreach($timezones as $country)
-                                        @foreach($country->timezones as $timezone)
-                                            <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }} ({{ $country->nicename }})</option>
-                                        @endforeach
+                            <label> Your Current Timezone:</label>
+                            <select class="change-timezone form-control" name="timezone" class="js-states form-control"
+                                id="timezone">
+                                {{-- <option> Select Timezone </option> --}}
+                                @foreach ($timezones as $country)
+                                    @foreach ($country->timezones as $timezone)
+                                        <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
+                                            ({{ $country->nicename }})</option>
                                     @endforeach
-                             </select>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner" id="slot-listing">
-                            
+                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner"
+                            id="slot-listing">
+
                         </div>
                         <!-- /cards -->
                         <!-- NEXT BUTTON-->
@@ -993,8 +1022,8 @@ div#errors {
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
-                                <div class="row g-3 mb-3">
-                                   
+                                {{-- <div class="row g-3 mb-3">
+
                                     <div class="col col-md-6">
                                         <label class="mb-2"> First Name </label>
                                         <input type="text" class="form-control" name="fname"
@@ -1006,15 +1035,15 @@ div#errors {
                                             placeholder="Enter your last name" aria-label="Last name">
                                     </div>
 
-                                </div>
-                                <div class="row g-3 mb-3" id="email-contaniner">
+                                </div> --}}
+                                {{-- <div class="row g-3 mb-3" id="email-contaniner">
                                     <div class="col col-md-12">
                                         <label class="mb-2"> Email</label>
                                         <input type="email" class="form-control" name="email"
                                             placeholder="Eg:test@example.com" aria-label="Email" id="email">
-                                            <p> </p>
+                                        <p> </p>
                                     </div>
-                                </div>
+                                </div> --}}
 
 
                                 <div class="row g-3 mb-3">
@@ -1031,17 +1060,20 @@ div#errors {
                                     </div>
 
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
-                                        <label class="mb-2"> Mobile (Preferred WhatsApp) </label>
+                                        <label class="mb-2"> Mobile</label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
-                                        
+
                                         <p> </p>
                                     </div>
-                                    <div id="otpVerifiedMessage" class="text-center"><p></p></div>
-                                    
+                                    <div id="otpVerifiedMessage" class="text-center">
+                                        <p></p>
+                                    </div>
+
                                 </div>
                                 <div class="row g-3 mb-3">
-                                    <div class="col col-lg-12 col-md-12 text-center" id="opt-form-confirm" style="display: none">
+                                    <div class="col col-lg-12 col-md-12 text-center" id="opt-form-confirm"
+                                        style="display: none">
                                         <label></label>
                                         <button type="button" id="sendOtp" class="btn-cst m btn btn-primary testbtn"
                                             type="button" data-loading="Sending OTP" data-success="Success"
@@ -1135,19 +1167,24 @@ div#errors {
                                     <div id="errors"></div>
 
                                 </div>  --}}
-                               
-        
-                        </div> 
+
+
+                        </div>
                         <input type="hidden" name="timezone" id="timezone-hidden">
                         {{-- <input type="hidden" name="selfie_required" id="selfie_required" value="yes"> --}}
-                        
+
 
                         <div class="disclaimer">
                             <p style="font-size:12px">
-                                By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to send you appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.
+                                By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms
+                                of Service and give your prior expressed written consent to KahayFaqeer.org to send you
+                                appointment notifications by telephone calls, emails, and text messages to the number and
+                                email address you provided above. You agree and understand that your consent is not a
+                                condition of purchase of any goods or services and that you may revoke your consent at any
+                                time. You understand that standard message and data rates may apply.
                             </p>
                         </div>
-                        
+
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
 
@@ -1159,9 +1196,9 @@ div#errors {
                             </span>
                             <b> Finish</b>
                         </button>
-                        
+
                         </form>
-                        
+
                         <!-- /NEXT BUTTON-->
                     </div>
                     <!-- /col -->
@@ -1180,75 +1217,76 @@ div#errors {
 @endsection
 
 @section('page-script')
-   
     <script>
         $(".form-business").hide();
-        var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}"; 
-        var NoImage =  "{{ asset('assets/theme/img/avatar.png') }}"; 
+        var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}";
+        var NoImage = "{{ asset('assets/theme/img/avatar.png') }}";
 
 
-        $("#startBooking").click(function(){
-            var html = ''; 
+        $("#startBooking").click(function() {
+            var html = '';
 
             var loadingText = $(this).attr('data-loading');
-                var successText = $(this).attr('data-success');
-                var defaultText = $(this).attr('data-default');
+            var successText = $(this).attr('data-success');
+            var defaultText = $(this).attr('data-default');
 
-                $(this).find('span').show()
-                $(this).find('b').text(loadingText)
+            $(this).find('span').show()
+            $(this).find('b').text(loadingText)
             $.ajax({
-                    url: "{{ route('booking.get.users') }}", // Get the form's action URL
-                    type: 'Post', // Get the form's HTTP method (POST in this case)
-                    // data: formData, // Use the serialized form data
-                    success: function(response) { 
-                        $("#slot-information-user").find('label').text("Your Current Timezone:"+response.currentTimezone); 
-                        $("#timezone-hidden").val(response.currentTimezone)
-                        if(response.status){
-                            $(this).find('span').hide()
-                            $(this).find('b').text(defaultText)
-                            $.each(response.data, function(key, item) { 
-                                var img = ''; 
-                               
-                                if(item.profile_pic){
-                                    var fullImg = imagePath + item.profile_pic; 
-                                    img = `<img src="${fullImg}">`;
-                                }else{
-                                    img = '<img src="/assets/theme/img/avatar.png">';
-                                }
-                                html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
-                                    <div class="card text-center h-60  shadow-sm thripist-section" data-id="${item.id}">
-                                                ${img}                           
-                                        <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">${item.name}</h5>
+                url: "{{ route('booking.get.users') }}", // Get the form's action URL
+                type: 'Post', // Get the form's HTTP method (POST in this case)
+                // data: formData, // Use the serialized form data
+                success: function(response) {
+                    $("#slot-information-user").find('label').text("Your Current Timezone:" + response
+                        .currentTimezone);
+                    $("#timezone-hidden").val(response.currentTimezone)
+                    if (response.status) {
+                        $(this).find('span').hide()
+                        $(this).find('b').text(defaultText)
+                        $.each(response.data, function(key, item) {
+                            var img = '';
+
+                            if (item.profile_pic) {
+                                var fullImg = imagePath + item.profile_pic;
+                                img = `<img src="${fullImg}">`;
+                            } else {
+                                img = '<img src="/assets/theme/img/avatar.png">';
+                            }
+                            html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
+                                    <div class="card text-center h-60  shadow-sm  city-selection" data-id="${item.id}">
+                                                                      
+                                        <div class="card-body px-0 p-2">
+                                            <h5 class="card-title title-binding"><strong>${item.name}</strong></h5>
                                             <p class="card-text">
                                         </p></div>
                                     </div></div>`;
 
-                            });
+                        });
 
 
-                        }else{
-                            html=`<div class="col-lg-12 text-center"><p class="no-data"> No Venue Created yet </p> </div>`;
-                        } 
-                        $("#booknowStart").fadeOut(); 
-                        $("#cardSection").fadeIn(500)
-                        $("#wizardRow").fadeIn(500)
-
-                        $("#thripist-main").html(html)
-
-                       
-
-                    },
-                    error: function(error,xhr) {
-
-                         
+                    } else {
+                        html =
+                            `<div class="col-lg-12 text-center"><p class="no-data"> No Venue Created yet </p> </div>`;
                     }
-                });
+                    $("#booknowStart").fadeOut();
+                    $("#cardSection").fadeIn(500)
+                    $("#wizardRow").fadeIn(500)
 
-               
+                    $("#thripist-main").html(html)
+
+
+
+                },
+                error: function(error, xhr) {
+
+
+                }
+            });
+
+
 
         })
-        
+
         $("#timezone").select2({
             placeholder: "Your Preferred Timezone",
             allowClear: true
@@ -1304,7 +1342,7 @@ div#errors {
                 click: function() {
                     $this = $(this);
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
-                    $activeCard = $(this).parents(".row").find(".active-card"); 
+                    $activeCard = $(this).parents(".row").find(".active-card");
                     if (getValue) {
 
 
@@ -1313,23 +1351,21 @@ div#errors {
                         var title = $activeCard.find(".title-binding").text();
                         var cardId = $activeCard.attr("data-id");
                         var CityName = $activeCard.attr("data-city");
-                        var event = $activeCard; 
+                        var event = $activeCard;
 
-                        if (event.hasClass('thripist-section')) {
-                            // getAjax(cardId, 'get_country', $this)
-                            // getAjax(cardId, 'get_type', $this)
-                            getAjax(cardId, 'get_country', $this)
-                            // getAjax(cardId, 'get_country')
-                        } else if (event.hasClass('type-selection')) {
-                            getAjax(cardId, 'get_country', $this)
-                        } else if (event.hasClass('city-selection')) {
+                        // if (event.hasClass('thripist-section')) { )
+                        //     getAjax(cardId, 'get_country', $this) 
+                        // } else if (event.hasClass('type-selection')) {
+                        //     getAjax(cardId, 'get_country', $this)
+                        // } 
+                        if (event.hasClass('city-selection')) {
 
                             getAjax(cardId, 'get_city', $this)
                         } else if (event.hasClass('date-selection')) {
-                            getAjax(cardId, 'get_date', $this,CityName)
+                            getAjax(cardId, 'get_date', $this, CityName)
                             //  $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-selection')) {
-                            $("#slot-information-user").attr('data-id',cardId);
+                            $("#slot-information-user").attr('data-id', cardId);
                             getAjax(cardId, 'get_slots', $this)
                             // $("#slot_id_booked").val(cardId);
                         } else if (event.hasClass('slot-capture')) {
@@ -1337,9 +1373,9 @@ div#errors {
                             $this.parents(".row").fadeOut("slow", function() {
                                 $(this).next(".row").fadeIn();
                                 $(this).next(".row").find('.head>label').text(oldTitle)
-                                    
-                            }); 
-                        } 
+
+                            });
+                        }
 
 
                         if (oldTitle == '') {
@@ -1353,13 +1389,13 @@ div#errors {
 
                         $(this).parents('.justify-content-center').find('.head>label').text(oldTitle);
 
-                       
+
 
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass(
                             'active');
-                            
+
                         $(this).parents(".row").find(".alertBox").addClass("d-none")
- 
+
 
                     } else {
 
@@ -1375,7 +1411,7 @@ div#errors {
             // back button
             $(".back").on({
                 click: function() {
-                    $(".next").show(); 
+                    $(".next").show();
                     $("#progress-bar").find(".active").removeClass('active').prev().addClass('active')
 
                     var currentTitle = $('#remeber-steps-app').val();
@@ -1417,14 +1453,14 @@ div#errors {
             });
         });
 
-        function getAjax(id, type,nextBtn,optional='') {
+        function getAjax(id, type, nextBtn, optional = '') {
 
-                var loadingText = nextBtn.attr('data-loading');
-                var successText = nextBtn.attr('data-success');
-                var defaultText = nextBtn.attr('data-default');
+            var loadingText = nextBtn.attr('data-loading');
+            var successText = nextBtn.attr('data-success');
+            var defaultText = nextBtn.attr('data-default');
 
-                nextBtn.find('span').show()
-                nextBtn.find('b').text(loadingText)
+            nextBtn.find('span').show()
+            nextBtn.find('b').text(loadingText)
 
             $.ajax({
                 type: 'POST',
@@ -1432,21 +1468,21 @@ div#errors {
                 data: {
                     "id": id,
                     "type": type,
-                    'optional' : optional,
-                    "timezone" : $("#timezone-hidden").val()
+                    'optional': optional,
+                    "timezone": $("#timezone-hidden").val()
                 },
                 dataType: "json",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
- 
-                    
+
+
                     // if (type == 'get_type') {
 
                     //     var typed = '';
                     //     if (response.status) {
-                      
+
                     //     $.each(response.data.type, function(key, item) {
 
                     //         var meetingType = 'Online';
@@ -1454,16 +1490,16 @@ div#errors {
                     //             meetingType = 'Physical';
                     //         }
                     //         typed += `<div class="col col-lg-3 col-md-7 box">
-                    //             <div class="card text-center h-60 py-2 shadow-sm type-selection" 
-                    //              data-id="${item.venue_address_id}" 
-                    //              data-type="${item.name}"> 
-                    //                 <img src="${item.flag_path}" alt="Flag Image"> 
-                    //                 <div class="card-body px-0">
-                    //                     <div class="arrow-ribbon">${item.day_left}</div>
-                    //                     <h5 class="card-title title-binding">${meetingType}</h5>
-                    //                 </div>
-                    //             </div>
-                    //         </div>`;
+                //             <div class="card text-center h-60 py-2 shadow-sm type-selection" 
+                //              data-id="${item.venue_address_id}" 
+                //              data-type="${item.name}"> 
+                //                 <img src="${item.flag_path}" alt="Flag Image"> 
+                //                 <div class="card-body px-0">
+                //                     <div class="arrow-ribbon">${item.day_left}</div>
+                //                     <h5 class="card-title title-binding">${meetingType}</h5>
+                //                 </div>
+                //             </div>
+                //         </div>`;
                     //     })
                     // }else{
                     //     typed = '<p class="no-data"> No Data Found </p>';   
@@ -1476,14 +1512,14 @@ div#errors {
 
                     if (type == 'get_country') {
                         var country = '';
-                    if (response.status) {
-                       
-                        $.each(response.data.country, function(key, item) {
-                            var meetingType = 'Online';
-                            if (item.type == 'on-site') {
-                                meetingType = item.name;
-                            }
-                            country += `<div class="col col-lg-3 col-md-7">
+                        if (response.status) {
+
+                            $.each(response.data.country, function(key, item) {
+                                var meetingType = 'Online';
+                                if (item.type == 'on-site') {
+                                    meetingType = item.name;
+                                }
+                                country += `<div class="col col-lg-3 col-md-7">
                             <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.venue_id}">
                                 <img src="${item.flag_path}" alt="Flag Image"> 
                                 <div class="card-body px-0">
@@ -1492,10 +1528,10 @@ div#errors {
                                 </div>
                             </div>
                         </div>`;
-                        })
-                    }else{
-                        country = '<p class="no-data"> No Data Found </p>';  
-                    }
+                            })
+                        } else {
+                            country = '<p class="no-data"> No Data Found </p>';
+                        }
                         $("#country-listing").html(country);
                         nextBtn.find('b').text(defaultText)
 
@@ -1503,14 +1539,14 @@ div#errors {
                     if (type == 'get_city') {
 
                         var city = '';
-                        if (response.status) { 
-                        
-                        $.each(response.data.city, function(key, item) {
-                            var meetingType = 'Online'; 
-                            if (item.type == 'on-site') {
-                                meetingType = item.name;
-                            } 
-                            city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
+                        if (response.status) {
+
+                            $.each(response.data.city, function(key, item) {
+                                var meetingType = 'Online';
+                                if (item.type == 'on-site') {
+                                    meetingType = item.name;
+                                }
+                                city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                 <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
                                     <img src="${item.flag_path}" alt="Flag Image"> 
                                     <div class="card-body px-0">
@@ -1519,32 +1555,32 @@ div#errors {
                                     </div>
                                 </div>
                             </div>`;
-                        })
-                       
-                       
-                    }else{
-                        city ='<p class="no-data"> No Data Found </p>'; 
-                    }
-                   
-                    $("#city-listing").html(city);
-                    nextBtn.find('b').text(defaultText)
+                            })
+
+
+                        } else {
+                            city = '<p class="no-data"> No Data Found </p>';
+                        }
+
+                        $("#city-listing").html(city);
+                        nextBtn.find('b').text(defaultText)
 
                     }
                     if (type == 'get_date') {
 
                         var dAte = '';
 
-                        if (response.status) { 
-                           //  console.log("response",response)
-                            var coulmtoShow = response.data.columnToShow; 
+                        if (response.status) {
+                            //  console.log("response",response)
+                            var coulmtoShow = response.data.columnToShow;
 
-                           //  console.log("coulmtoShow",coulmtoShow)
+                            //  console.log("coulmtoShow",coulmtoShow)
                             var count = 1;
-                            $.each(response.data.date, function(key, item) { 
+                            $.each(response.data.date, function(key, item) {
                                 // console.log("key",key)
                                 // console.log("count",count)
                                 // console.log("item",item)
-                                if(coulmtoShow >=count){
+                                if (coulmtoShow >= count) {
                                     dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                         <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                             <img src="${item.flag_path}" alt="Flag Image"> 
@@ -1554,33 +1590,33 @@ div#errors {
                                         </div>
                                     </div>`;
                                 }
-                               
-                                    
-                                    count++; 
-                                
-                               
+
+
+                                count++;
+
+
                             })
-                            
-                        }else{
-                            dAte = '<p class="no-data"> No Data Found </p>'; 
+
+                        } else {
+                            dAte = '<p class="no-data"> No Data Found </p>';
                         }
                         nextBtn.find('b').text(defaultText)
                         $("#date-listing").html(dAte);
-                        
-                        
+
+
                     }
 
                     if (type == 'get_slots') {
                         var html = '';
-                        if(response.selfie){
+                        if (response.selfie) {
                             // $("#selfie_required").val('yes')
                             $("#make-selfie-area").show();
-                        }else{
+                        } else {
                             $("#make-selfie-area").hide();
                             // $("#selfie_required").val('no') 
                         }
                         $("#timezone").val(response.timezone).trigger("change");
-                        
+
                         if (response.status) {
                             $.each(response.slots, function(key, item) {
                                 html += `<div class="col col-lg-3 col-md-6">
@@ -1594,8 +1630,9 @@ div#errors {
                                 </div>
                                 </div>`;
                             });
-                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
-                            
+                            $("#slot-information-user").find('label').text("Your Current Timezone:" + response
+                                .timezone);
+
                             $("#timezone-hidden").val(response.timezone)
                             $("#slot-listing").html(html).find(".loader").hide();
                             $(".confirm").show();
@@ -1607,7 +1644,7 @@ div#errors {
                             $(".back").show();
                             nextBtn.find('b').text('error')
                             setTimeout(() => {
-                                nextBtn.find('b').text(defaultText) 
+                                nextBtn.find('b').text(defaultText)
                             }, 2500);
                         }
 
@@ -1615,12 +1652,12 @@ div#errors {
                     }
                     nextBtn.find('span').hide()
                     var oldTitle = $("#remeber-steps-app").val();
-                   
+
                     nextBtn.parents(".row").fadeOut("slow", function() {
-                      
+
                         $(this).next(".row").fadeIn();
                         $(this).next(".row").find('.head>label').text(oldTitle)
-                            
+
                     });
 
 
@@ -1654,7 +1691,7 @@ div#errors {
                     type: $(this).attr('method'), // Get the form's HTTP method (POST in this case)
                     data: formData, // Use the serialized form data
                     success: function(response) {
-                        $("#errors").html(''); 
+                        $("#errors").html('');
                         $this.find('span').show()
                         $this.find('b').text(successText)
                         // stopCamera();
@@ -1666,21 +1703,21 @@ div#errors {
                         // 'thankyou-page
 
                         $("#loader").hide();
-                        window.location.href = '/booking/thankyou/' + response.bookingId;
-                        
+                        window.location.href = '/book/status/' + response.bookingId;
+
 
                     },
-                    error: function(error,xhr) {
+                    error: function(error, xhr) {
 
-                         console.log("error",error.status)
+                        console.log("error", error.status)
 
-                         if(error.status == 406 ){
+                        if (error.status == 406) {
                             $("#errors").html(error.responseJSON.message).show();
-                         }
-                         $this.find('b').text(defaultText)
+                        }
+                        $this.find('b').text(defaultText)
                         if (error.responseJSON || error.responseJSON.errors) {
 
-                            $this.find('b').text(defaultText) 
+                            $this.find('b').text(defaultText)
                             $this.find('span').hide()
                             if (error.responseJSON.status == false) {
 
@@ -1700,45 +1737,48 @@ div#errors {
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 if (field == 'country_code') {
-                                    $("#countryCodeDiv").find('.error').remove(); 
-                                    $("#countryCodeDiv").last().append('<div class="error ' + field + '">' + messages.join('<br>') + '</div>'); 
-                                  //  inputElement.before();
-                                }else  if (field == 'otp-verified') {
-                                    inputElement.after('<div class="error ' + field + '">Submit your OTP to get verified</div>');
+                                    $("#countryCodeDiv").find('.error').remove();
+                                    $("#countryCodeDiv").last().append(
+                                        '<div class="error ' + field + '">' +
+                                        messages.join('<br>') + '</div>');
+                                    //  inputElement.before();
+                                } else if (field == 'otp-verified') {
+                                    inputElement.after('<div class="error ' + field +
+                                        '">Submit your OTP to get verified</div>');
                                 } else {
                                     inputElement.after('<div class="error ' + field +
                                         '">' + messages.join('<br>') + '</div>');
                                 }
-                                
+
 
                             });
-                        } 
+                        }
                     }
                 });
             });
         });
 
 
-        $(".change-timezone").change(function(){
-            
-            $this = $(this); 
-            var timezone = $this.find("option:selected").val();
-            var id = $("#slot-information-user").attr('data-id'); 
-            $.ajax({
-                    url: "{{ route('get-slots-timezone') }}",
-                    type: 'POST',
-                    data: {
-                        timezone: timezone,
-                        id: id,
+        $(".change-timezone").change(function() {
 
-                    },
-                    success: function(response) {
-                        
-                        var html = '';
-                       
-                        if (response.status) {
-                            $.each(response.slots, function(key, item) {
-                                html += `<div class="col col-lg-3 col-md-6">
+            $this = $(this);
+            var timezone = $this.find("option:selected").val();
+            var id = $("#slot-information-user").attr('data-id');
+            $.ajax({
+                url: "{{ route('get-slots-timezone') }}",
+                type: 'POST',
+                data: {
+                    timezone: timezone,
+                    id: id,
+
+                },
+                success: function(response) {
+
+                    var html = '';
+
+                    if (response.status) {
+                        $.each(response.slots, function(key, item) {
+                            html += `<div class="col col-lg-3 col-md-6">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
                                     
                                     <div class="card-body px-0">
@@ -1748,29 +1788,30 @@ div#errors {
                                     </div>
                                 </div>
                                 </div>`;
-                            });
-                             
-                            $("#slot-information-user").find('label').text("Your Current Timezone:"+response.timezone); 
-                            $("#timezone-hidden").val(response.timezone)
-                            $("#slot-listing").html(html).find(".loader").hide();
-                            $(".confirm").show();
-                            $(".back").show(); 
-                        } else {
-                            $("#slot-listing").html("<h1>" + response.message + "</h1>");
-                            $(".confirm").hide();
-                            $(".back").show();
-                           
-                        } 
-                        
+                        });
 
-                    },
-                    error: function(xhr) {
-                        // email-contaniner
-                        // $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
-                        // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        $("#slot-information-user").find('label').text("Your Current Timezone:" +
+                            response.timezone);
+                        $("#timezone-hidden").val(response.timezone)
+                        $("#slot-listing").html(html).find(".loader").hide();
+                        $(".confirm").show();
+                        $(".back").show();
+                    } else {
+                        $("#slot-listing").html("<h1>" + response.message + "</h1>");
+                        $(".confirm").hide();
+                        $(".back").show();
 
                     }
-                });
+
+
+                },
+                error: function(xhr) {
+                    // email-contaniner
+                    // $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                    // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+
+                }
+            });
 
 
         });
@@ -1897,26 +1938,26 @@ div#errors {
     <script>
         document.title = "Dua Meeting | KahayFaqeer.com";
         $(document).ready(function() {
-            $('#mobile').on('input', function() {
-                // Get the value of the phone input
-                let phoneNumber = $(this).val();
+            // $('#mobile').on('input', function() {
+            //     // Get the value of the phone input
+            //     let phoneNumber = $(this).val();
 
-                // Remove any non-digit characters (e.g., spaces, dashes)
-                phoneNumber = phoneNumber.replace(/\D/g, '');
+            //     // Remove any non-digit characters (e.g., spaces, dashes)
+            //     phoneNumber = phoneNumber.replace(/\D/g, '');
 
-                // Check if the phone number has reached 10 digits
-                if (phoneNumber.length === 5 || phoneNumber.length >= 5 ) {
-                    $("#submitBtn").hide();
-                    $("#opt-form-confirm").fadeIn(500);
-                    // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
-                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
-                } else {
-                    $("#submitBtn").show();
-                    $("#opt-form-confirm").fadeOut(500);
-                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
-                    // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
-                }
-            });
+            //     // Check if the phone number has reached 10 digits
+            //     if (phoneNumber.length === 5 || phoneNumber.length >= 5) {
+            //         // $("#submitBtn").hide();
+            //         // $("#opt-form-confirm").fadeIn(500);
+            //         // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
+            //         $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+            //     } else {
+            //         $("#submitBtn").show();
+            //         $("#opt-form-confirm").fadeOut(500);
+            //         $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+            //         // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
+            //     }
+            // });
             $("#sendOtp").click(function() {
 
                 $this = $(this);
@@ -1948,7 +1989,8 @@ div#errors {
 
                         $("#opt-form").show();
                         $("#submitBtn").hide();
-                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass('text-success').text(response.message);
+                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass(
+                            'text-success').text(response.message);
                         $this.find('label').text("Resend")
 
                     },
@@ -1956,7 +1998,8 @@ div#errors {
 
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
-                        $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
+                        $("#otpVerifiedMessage").find('p').removeClass('text-success').addClass(
+                            'text-danger').text(xhr.responseJSON.message);
                         // $("#email-contaniner").find('p').removeClass('text-success').addClass('text-danger').text(xhr.responseJSON.message);
                         // $("#mobile-number").find('p').removeClass('text-success').addClass('text-danger').text(xhr
                         //     .responseJSON.message);
@@ -1990,17 +2033,19 @@ div#errors {
                         $("#loader-otp2").hide();
                         $("#opt-form-confirm").hide();
                         $("#submitBtn").show(); // Display a success message
-                        $("#opt-form").hide(); 
-                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass('text-success').text('One-time password (OTP) Verified');  
-                       // $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
-                        $("#otp-verified").val('verified'); 
+                        $("#opt-form").hide();
+                        $("#otpVerifiedMessage").find('p').removeClass('text-danger').addClass(
+                            'text-success').text('One-time password (OTP) Verified');
+                        // $("#mobile-number").find('p').addClass('text-success').text('Mobile Number Verified')
+                        $("#otp-verified").val('verified');
                         // You can proceed with form submission here
                     },
                     error: function(xhr) {
                         $this.find('span').hide()
                         $this.find('label').text(defaultText)
                         $("#otp-verified").val('');
-                        $("#opt-form").find('p').addClass('text-danger').text(xhr.responseJSON.error);
+                        $("#opt-form").find('p').addClass('text-danger').text(xhr.responseJSON
+                            .error);
                     }
                 });
             })
@@ -2057,7 +2102,7 @@ div#errors {
             restartCameraButton.hide();
         }
 
-        
+
 
         toastr.options = {
             "closeButton": true,
@@ -2075,6 +2120,6 @@ div#errors {
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
-            }
+        }
     </script>
 @endsection

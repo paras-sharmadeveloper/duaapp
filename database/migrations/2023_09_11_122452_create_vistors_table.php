@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('vistors', function (Blueprint $table) {
             $table->id();
             $table->string('booking_number');
-            $table->string('fname');
-            $table->string('lname');
+            $table->string('fname')->nullable();
+            $table->string('lname')->nullable();
             $table->string('email')->nullable();
             // $table->string('email')->unique();
             $table->string('country_code',8)->nullable();

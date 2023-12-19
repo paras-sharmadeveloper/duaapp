@@ -130,8 +130,13 @@
                                 <label for="city">Column to Show:</label> 
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="{{ $venueCity->columns_to_show }}">
                             </div>
+                            <div class="col-md-2 form-group">
+                                <label for="city">City Sequence to Show:</label> 
+                                <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" value="{{ $venueCity->city_sequence_to_show }}">
+                            </div>
+                            
 
-                            <div class="col-md-3 image-container">
+                            <div class="col-md-2 image-container">
                                 <label for="city">Upload City Flag 48 X 48 :</label>
                                
                                 <input type="file" name="city_image" id="city_image" class="city-image"
@@ -144,7 +149,7 @@
                                 
                             </div>
 
-                            <div class="col-md-3 act-btn mt-4">
+                            <div class="col-md-2 act-btn mt-4">
                                 {{-- <button class="btn btn-info add" type="button">Add</button> --}}
                                 <button type="button"  data-id="{{ $venueCity->id }}" class="btn text-white mt-4 rounded-3 bg-danger remove"
                                     data-loading="removing..." data-success="Done" data-default="Remove">
@@ -193,7 +198,14 @@
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="">
                             </div>
 
-                            <div class="col-md-3 image-container">
+                            <div class="col-md-2 form-group">
+                                <label for="city">City Sequence to Show:</label> 
+                                <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" 
+                                 >
+                            </div>
+                            
+
+                            <div class="col-md-2 image-container">
                                 <label for="city">Upload City Flag 48 X 48 :</label>
                                 
                                 <input type="file" name="city_image" id="city_image" class="city-image"
@@ -202,7 +214,7 @@
                                     style="height: 100px;margin-top:10px"> 
                             </div>
 
-                            <div class="col-md-3 act-btn ">
+                            <div class="col-md-2 act-btn ">
                                 {{-- <button class="btn btn-info add" type="button">Add</button> --}} 
                                 <button  type="button" class="btn text-white mt-4 rounded-3 bg-danger remove d-none"
                                     data-loading="removing..." data-success="Done" data-default="Remove">
@@ -239,16 +251,7 @@
 
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
+ 
 
     <div id="form-city-state-fresh" style="display: none">
         <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -272,8 +275,13 @@
                     <label for="city">Column to Show:</label> 
                     <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="">
                 </div>
+                <div class="col-md-2 form-group">
+                    <label for="city">City Sequence to Show:</label> 
+                    <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" 
+                     >
+                </div>
 
-                <div class="col-md-3 image-container">
+                <div class="col-md-2 image-container">
                     <label for="city">Upload City Flag 48 X 48 :</label>
                     
                     <input type="file" name="city_image" id="city_image" class="city-image"
@@ -282,7 +290,7 @@
                         style="height: 100px;margin-top:10px"> 
                 </div>
 
-                <div class="col-md-3 act-btn ">
+                <div class="col-md-2 act-btn ">
                     {{-- <button class="btn btn-info add" type="button">Add</button> --}} 
                     <button  type="button" class="btn text-white mt-4 rounded-3 bg-danger remove d-none"
                         data-loading="removing..." data-success="Done" data-default="Remove">
