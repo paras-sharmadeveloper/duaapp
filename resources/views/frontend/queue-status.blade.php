@@ -393,7 +393,7 @@
         const element = document.getElementById('main-content');
         const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
         const options = {
-            margin: 0,
+            margin: '20px',
             filename: fileName + '.pdf',
             image: {
                 type: 'jpeg',
