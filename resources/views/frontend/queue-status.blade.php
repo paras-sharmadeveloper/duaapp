@@ -11,9 +11,13 @@
                         <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
                     </a>
                 </div>
+               
 
-
-                <h1 class="text-center text-success"> Appointment Confirmed </h1>
+                <h2 class="text-center"> Dua <span class="text-center text-success h2"> Confirmed </span>  With 
+                    <b> {{ $venueAddress->thripist->name }}  </b>
+                </h2>
+                <h3 class="text-center"> </h3>
+                
                 <div class="column first">
                     <h2 class="orng">Event Date : {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
 
@@ -151,7 +155,7 @@
             padding: 50px 20px;
             border-radius: 10px;
             font-weight: 700;
-            width: 50%;
+            width: 40%;
             text-align: center;
         }
 
@@ -378,6 +382,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
     document.title = "KahayFaqeer.com | Queue Status";
+    var fileName = "{{  $venueAddress->venue_date .'-'. $venueAddress->city .'-Token-'.$userBooking->booking_number  }}"
     window.setTimeout(function() {
         window.location.reload();
     }, 30000);
@@ -389,7 +394,7 @@
         const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
         const options = {
             margin: 0,
-            filename: 'FileName_' + formattedDate + '.pdf',
+            filename: fileName + '.pdf',
             image: {
                 type: 'jpeg',
                 quality: 1.0

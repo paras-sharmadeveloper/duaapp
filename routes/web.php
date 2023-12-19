@@ -112,8 +112,6 @@ Route::get('/waiting/queue/{id}', [SiteAdminController::class, 'WaitingQueueShow
 Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
 Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
 Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
- 
-
 
 Auth::routes();
 

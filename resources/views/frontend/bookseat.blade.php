@@ -305,8 +305,8 @@
             }
 
             /* .card.text-center.h-60.shadow-sm.thripist-section img {
-                    max-height: 180px !important;
-                } */
+                        max-height: 180px !important;
+                    } */
             .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
                 width: 50% !important;
             }
@@ -333,9 +333,9 @@
             }
 
             /* .thripist-section img {
-                 
-                max-height: 264px !important;
-            } */
+                     
+                    max-height: 264px !important;
+                } */
 
 
         }
@@ -371,9 +371,9 @@
         }
 
         /* .col-lg-6 {
-                    flex: 0 0 auto;
-                    width: 20%;
-                } */
+                        flex: 0 0 auto;
+                        width: 20%;
+                    } */
         .select2-container {
             width: 100%;
         }
@@ -529,9 +529,9 @@
         }
 
         /* button#sendOtp {
-        margin-top: 30px;
-        float: right;
-    } */
+            margin-top: 30px;
+            float: right;
+        } */
         div#slot-information-user {
             padding: 10px;
             display: flex;
@@ -561,14 +561,14 @@
         }
 
         /* .box {
-     border: 1px solid #CCC;
-     padding: 40px 25px;
-     background: #FFF;
-     max-width: 400px;
-     position: relative;
-     border-radius: 3px;
-        margin: 30px auto;
-    } */
+         border: 1px solid #CCC;
+         padding: 40px 25px;
+         background: #FFF;
+         max-width: 400px;
+         position: relative;
+         border-radius: 3px;
+            margin: 30px auto;
+        } */
         .box.ofh {
             overflow: hidden;
         }
@@ -957,7 +957,8 @@
                                 @foreach ($timezones as $country)
                                     @foreach ($country->timezones as $timezone)
                                         <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
-                                            ({{ $country->nicename }})</option>
+                                            ({{ $country->nicename }})
+                                        </option>
                                     @endforeach
                                 @endforeach
                             </select>
@@ -1452,6 +1453,20 @@
                 }
             });
         });
+        function reorderCityElements() {
+            var cityContainer = $('#country-listing'); // Change this to the actual container element
+
+            // Get all city elements with data-sq attribute
+            var cityElements = cityContainer.find('.date-selection');
+
+            // Sort city elements based on data-sq attribute
+            cityElements.sort(function(a, b) {
+                return parseInt($(a).data('sq')) - parseInt($(b).data('sq'));
+            });
+
+            // Append the sorted city elements back to the container
+            cityElements.detach().appendTo(cityContainer);
+    }
 
         function getAjax(id, type, nextBtn, optional = '') {
 
@@ -1540,21 +1555,25 @@
 
                         var city = '';
                         if (response.status) {
-
+                            var i = 1;
                             $.each(response.data.city, function(key, item) {
+
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
                                     meetingType = item.name;
                                 }
-                                city += `<div class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
-                                <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
-                                    <img src="${item.flag_path}" alt="Flag Image"> 
-                                    <div class="card-body px-0">
-                                        <h5 class="card-title title-binding">${meetingType}</h5>
-                                        
+
+                                city += `<div data-sq="${item.seq}" class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
+                                    <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
+                                        <img src="${item.flag_path}" alt="Flag Image"> 
+                                        <div class="card-body px-0">
+                                            <h5 class="card-title title-binding">${meetingType}</h5>
+                                            
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`;
+                                </div>`;
+
+
                             })
 
 
@@ -1563,7 +1582,9 @@
                         }
 
                         $("#city-listing").html(city);
+                        reorderCityElements();
                         nextBtn.find('b').text(defaultText)
+
 
                     }
                     if (type == 'get_date') {
