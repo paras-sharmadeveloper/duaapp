@@ -13,8 +13,8 @@
                 </div>
                
 
-                <h2 class="text-center"> Dua <span class="text-center text-success h2"> Confirmed </span>  With 
-                    <b> {{ $venueAddress->thripist->name }}  </b>
+                <h2 class="text-center">  <span class="text-center text-success h2">  Dua Appointment Confirmed
+                </span>  With  <b> {{ $venueAddress->thripist->name }}  </b>
                 </h2>
                 <h3 class="text-center"> </h3>
                 
@@ -29,7 +29,7 @@
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
                         </div> --}}
                         <div class="queue-number">
-                            Token #{{ $userBooking->booking_number }}
+                            Token # {{ $userBooking->booking_number }}
                             <br>
                             {{-- <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3> --}}
                             {{-- <p>{{ $userBooking->email }}</p> --}}

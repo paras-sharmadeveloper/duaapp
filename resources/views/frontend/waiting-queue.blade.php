@@ -130,8 +130,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="no_one">Token No.</th>
-                            <th class="no_two">Name</th>
+                            <th class="no_one">Token No.</th> 
                             <th class="no_two">Status</th>
                         </tr>
 
@@ -253,8 +252,7 @@
                         }
 
                         html += `<tr class="${className}">
-                            <td class="no_one">${item.booking_number}</td>
-                            <td class="no_two">${item.fname} ${item.lname}</td>
+                            <td class="no_one">${item.booking_number}</td> 
                             <td class="no_two">${textName}</td>
                         </tr>`;
                     })
