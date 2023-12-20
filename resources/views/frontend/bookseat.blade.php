@@ -1454,18 +1454,27 @@
             });
         });
         function reorderCityElements() {
-            var cityContainer = $('#country-listing'); // Change this to the actual container element
 
-            // Get all city elements with data-sq attribute
-            var cityElements = cityContainer.find('.country-enable-n');
+            var container = document.getElementById('country-listing');
+            var elements = Array.from(container.children);
 
-            // Sort city elements based on data-sq attribute
-            cityElements.sort(function(a, b) {
-                return parseInt($(a).data('sq')) - parseInt($(b).data('sq'));
+            // Sort elements based on the data-sq attribute
+            elements.sort(function(a, b) {
+                var aValue = parseInt(a.getAttribute('data-sq'));
+                var bValue = parseInt(b.getAttribute('data-sq'));
+                return aValue - bValue;
             });
 
-            // Append the sorted city elements back to the container
-            cityElements.detach().appendTo(cityContainer);
+            // Remove existing elements from the container
+            elements.forEach(function(element) {
+                container.removeChild(element);
+            });
+
+            // Append sorted elements back to the container
+            elements.forEach(function(element) {
+                container.appendChild(element);
+            }); 
+            console.log("renedered")
     }
 
         function getAjax(id, type, nextBtn, optional = '') {
@@ -1556,9 +1565,8 @@
                         var city = '';
                         if (response.status) {
                             var i = 1;
-                            $.each(response.data.city, function(key,data) {
-
-                                $.each(data , function(key, item) {
+                            $.each(response.data.city, function(key, item) {
+ 
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
                                     meetingType = item.name;
@@ -1574,7 +1582,7 @@
                                     </div>
                                 </div>`;
 
-                               })
+
                             })
 
 

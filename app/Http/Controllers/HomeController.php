@@ -683,7 +683,7 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $seq = $venuesList->combinationData->city_sequence_to_show; 
         if (!isset( $dataArr['city'][$cityName])) { 
-          $dataArr['city'][$cityName][$seq] = [
+          $dataArr['city'][$cityName] = [
             'name' => $cityName,
             'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
             'id' => $venuesList->venue->id,
