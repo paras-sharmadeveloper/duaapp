@@ -1456,6 +1456,7 @@
         function reorderCityElements() {
 
             var container = document.getElementById('country-listing');
+            console.log("container",container)
             var elements = Array.from(container.children);
 
             // Sort elements based on the data-sq attribute
@@ -1592,6 +1593,7 @@
 
                         $("#city-listing").html(city);
                         reorderCityElements();
+                        
                         nextBtn.find('b').text(defaultText)
 
 
