@@ -1457,7 +1457,7 @@
             var cityContainer = $('#country-listing'); // Change this to the actual container element
 
             // Get all city elements with data-sq attribute
-            var cityElements = cityContainer.find('.date-selection');
+            var cityElements = cityContainer.find('.country-enable-n');
 
             // Sort city elements based on data-sq attribute
             cityElements.sort(function(a, b) {
