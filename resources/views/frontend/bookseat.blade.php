@@ -1543,10 +1543,13 @@
                         var city = '';
                         if (response.status) {
                             var i = 1;
-                            response.data.city.sort(function(a, b) {
-                                    return a.seq - b.seq;
-                                });
-                            $.each(response.data.city, function(key, item) {
+                            var cityArray = Object.values(response.data.city);
+                            cityArray.sort(function(a, b) {
+                                return a.seq - b.seq;
+                            });
+
+                            
+                            $.each(cityArray, function(key, item) {
  
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
