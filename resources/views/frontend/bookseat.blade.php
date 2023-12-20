@@ -1453,35 +1453,7 @@
                 }
             });
         });
-        function reorderCityElements() {
-
-            var container = document.getElementById('country-listing');
-            console.log("container",container)
-            if(container!=null){
-
-                var elements = Array.from(container.children);
-
-// Sort elements based on the data-sq attribute
-                elements.sort(function(a, b) {
-                    var aValue = parseInt(a.getAttribute('data-sq'));
-                    var bValue = parseInt(b.getAttribute('data-sq'));
-                    return aValue - bValue;
-                });
-
-                // Remove existing elements from the container
-                elements.forEach(function(element) {
-                    container.removeChild(element);
-                });
-
-                // Append sorted elements back to the container
-                elements.forEach(function(element) {
-                    container.appendChild(element);
-                }); 
-                console.log("renedered")
-
-            }
-           
-    }
+         
 
         function getAjax(id, type, nextBtn, optional = '') {
 
@@ -1571,6 +1543,9 @@
                         var city = '';
                         if (response.status) {
                             var i = 1;
+                            response.data.city.sort(function(a, b) {
+                                    return a.seq - b.seq;
+                                });
                             $.each(response.data.city, function(key, item) {
  
                                 var meetingType = 'Online';
@@ -1579,14 +1554,14 @@
                                 }
 
                                 city += `<div data-sq="${item.seq}" class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
-                                    <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
-                                        <img src="${item.flag_path}" alt="Flag Image"> 
-                                        <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">${meetingType}</h5>
-                                            
+                                        <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
+                                            <img src="${item.flag_path}" alt="Flag Image"> 
+                                            <div class="card-body px-0">
+                                                <h5 class="card-title title-binding">${meetingType}</h5>
+                                                
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>`;
+                                    </div>`;
 
 
                             })
@@ -1597,7 +1572,7 @@
                         }
 
                         $("#city-listing").html(city);
-                        reorderCityElements();
+                      
                         
                         nextBtn.find('b').text(defaultText)
 
