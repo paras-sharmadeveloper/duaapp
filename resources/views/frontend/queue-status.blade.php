@@ -42,9 +42,9 @@
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center">
-                            <p>{{  $venueAddress->status_page_note }}</p>
+                         
                             <p>{{ route('booking.status',[$userBooking->booking_uniqueid]) }}</p>
-
+                            <p>{{  $venueAddress->status_page_note }}</p>
                             <button type="button" class="btn btn-success download-apponit" onclick="downloadPdf()">Download
                                 Appointment</button>
 
