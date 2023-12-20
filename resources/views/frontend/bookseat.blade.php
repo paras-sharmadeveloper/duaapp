@@ -1556,8 +1556,9 @@
                         var city = '';
                         if (response.status) {
                             var i = 1;
-                            $.each(response.data.city, function(key, item) {
+                            $.each(response.data.city, function(key,data) {
 
+                                $.each(data , function(key, item) {
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
                                     meetingType = item.name;
@@ -1573,7 +1574,7 @@
                                     </div>
                                 </div>`;
 
-
+                               })
                             })
 
 
