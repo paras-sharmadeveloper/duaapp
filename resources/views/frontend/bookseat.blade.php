@@ -1457,25 +1457,30 @@
 
             var container = document.getElementById('country-listing');
             console.log("container",container)
-            var elements = Array.from(container.children);
+            if(container!=null){
 
-            // Sort elements based on the data-sq attribute
-            elements.sort(function(a, b) {
-                var aValue = parseInt(a.getAttribute('data-sq'));
-                var bValue = parseInt(b.getAttribute('data-sq'));
-                return aValue - bValue;
-            });
+                var elements = Array.from(container.children);
 
-            // Remove existing elements from the container
-            elements.forEach(function(element) {
-                container.removeChild(element);
-            });
+// Sort elements based on the data-sq attribute
+                elements.sort(function(a, b) {
+                    var aValue = parseInt(a.getAttribute('data-sq'));
+                    var bValue = parseInt(b.getAttribute('data-sq'));
+                    return aValue - bValue;
+                });
 
-            // Append sorted elements back to the container
-            elements.forEach(function(element) {
-                container.appendChild(element);
-            }); 
-            console.log("renedered")
+                // Remove existing elements from the container
+                elements.forEach(function(element) {
+                    container.removeChild(element);
+                });
+
+                // Append sorted elements back to the container
+                elements.forEach(function(element) {
+                    container.appendChild(element);
+                }); 
+                console.log("renedered")
+
+            }
+           
     }
 
         function getAjax(id, type, nextBtn, optional = '') {
