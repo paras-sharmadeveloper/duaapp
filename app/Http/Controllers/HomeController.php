@@ -422,7 +422,7 @@ class HomeController extends Controller
     $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $timezone);
     $hoursRemaining = $eventDate->diffInHours($mytime);
 
-    $slotsAppearAfter = $venueAddress->slot_appear_hours; 
+    $slotsAppearAfter = intval($venueAddress->slot_appear_hours); 
 
     // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
@@ -433,7 +433,7 @@ class HomeController extends Controller
     if ($slotsAppearAfter == 0) { 
       $isVisiable = true; 
     }
-    else if ($hoursRemaining <= $slotsAppearAfter ) { 
+    else if ($hoursRemaining <= $slotsAppearAfter || $hoursRemaining > $slotsAppearAfter ) { 
       $isVisiable = true; 
     } 
     if ($isVisiable ) {
@@ -683,7 +683,7 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $seq = $venuesList->combinationData->city_sequence_to_show; 
         if (!isset( $dataArr['city'][$cityName])) { 
-          $dataArr['city'][$cityName] = [
+          $dataArr['city'][$cityName][$seq] = [
             'name' => $cityName,
             'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
             'id' => $venuesList->venue->id,
