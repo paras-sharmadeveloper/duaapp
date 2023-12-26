@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 @section('content')
     <style>
-        body {
+        .statement-notes {
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
         
@@ -92,7 +92,7 @@
             padding: 30px 10px;
             border-radius: 10px;
             font-weight: 700;
-            width: 35%;
+            width: 50%;
             text-align: center;
         }
 
@@ -360,7 +360,7 @@
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center">
-                            <p>{{ $venueAddress->status_page_note }}</p>
+                            <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
                             <p>To view your token online please click below:</p>
                             <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
