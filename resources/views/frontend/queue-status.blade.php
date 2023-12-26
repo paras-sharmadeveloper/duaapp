@@ -337,7 +337,8 @@
                 <h3 class="text-center"> </h3>
 
                 <div class="column first">
-                    <h2 class="orng">Event Date : {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
+                    <h2 class="orng">Event Date : {{ \Carbon\Carbon::parse($venueAddress->venue_date)->format('l') }}
+                         {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
 
                         <h2 class="">Venue : {{ $venueAddress->city }} </h2>
                         <div class="venue-info">
