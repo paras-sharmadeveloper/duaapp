@@ -30,7 +30,7 @@
         }
 
         .queue-number span {
-            font-size: 14px;
+            font-size: 20px;
             color: #000;
         }
 
@@ -342,7 +342,7 @@
 
                         <h2 class="">Venue : {{ $venueAddress->city }} </h2>
                         <div class="venue-info">
-                            <h6>{{ $venueAddress->address }}</h6>
+                            <h4>{{ $venueAddress->address }}</h4>
                         </div>
                         {{-- <div class="ahead-number">
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
