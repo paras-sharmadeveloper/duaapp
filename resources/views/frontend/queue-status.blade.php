@@ -1,93 +1,29 @@
 @extends('layouts.guest')
 @section('content')
-    <section id="main-content">
-        <div class="container">
-            <!-- main content -->
-            <div class="main-content">
-
-                <div class="d-flex justify-content-center py-2">
-                    <a href="index.html" class="logoo  d-flex align-items-center wuto">
-                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-                        <!-- <span class="d-none d-lg-block">{{ env('APP_NAME') ?? '' }}</span> -->
-                    </a>
-                </div>
-               
-
-                <h2 class="text-center">  <span class="text-center text-success h2">  Dua Appointment Confirmed
-                </span>  With  <b> {{ $venueAddress->thripist->name }}  </b>
-                </h2>
-                <h3 class="text-center"> </h3>
-                
-                <div class="column first">
-                    <h2 class="orng">Event Date : {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
-
-                        <h2 class="">Venue : {{ $venueAddress->city }} </h2>
-                        <div class="venue-info">
-                            <h6>{{ $venueAddress->address }}</h6>
-                        </div>
-                        {{-- <div class="ahead-number">
-                        Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
-                        </div> --}}
-                        <div class="queue-number">
-                            Token # {{ $userBooking->booking_number }}
-                            <br>
-                            {{-- <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3> --}}
-                            {{-- <p>{{ $userBooking->email }}</p> --}}
-                            <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
-                            <span>Your Appointment Time : </span> <br>
-                            <span>{{ date('g:i A', strtotime($userSlot->slot_time)) }} </span>
-                            <span>({{ $venueAddress->timezone }})</span>
-                        </div>
-
-                        <h3>Appointment Duration</h3>
-                        <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
-                        <div class="stats text-center">
-                         
-                            <p>{{ route('booking.status',[$userBooking->booking_uniqueid]) }}</p>
-                            <p>{{  $venueAddress->status_page_note }}</p>
-                            <button type="button" class="btn btn-success download-apponit" onclick="downloadPdf()">Download
-                                Appointment</button>
-
-                        </div>
-
-                </div>
-            </div>
-        </div>
-
-    </section>
-    <style type="text/css">
-        @media print {
-            .hide-in-print {
-                display: none;
-            }
+    <style>
+        body {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
-
+        
         @media print {
-
             /* Adjust widths for better print layout */
             .column {
                 width: 100%;
+                margin: 0;
+                padding: 10px; /* Adjust padding as needed */
             }
-
-            .element-with-box-shadow {
-                box-shadow: none;
-                /* Remove box shadow */
+            #mainsection{
+                margin: 0 !important; 
             }
-
-            .element-with-transparency {
-                opacity: 1;
-                /* Set full opacity */
-            }
-
-            body,
-            html {
-                background-color: #fff;
-                /* Set to your preferred background color */
-            }
-
-            /* Add additional styles for better print layout */
+ 
+ 
         }
 
+        span.text-center.text-success.confirm {
+            font-size: 24px;
+        }
+
+       
         .venue-info h6,
         .stats h3 {
             color: #000;
@@ -153,10 +89,10 @@
             color: #000;
             border: 3px solid #000;
             margin: 20px 0;
-            padding: 50px 20px;
+            padding: 30px 10px;
             border-radius: 10px;
             font-weight: 700;
-            width: 50%;
+            width: 35%;
             text-align: center;
         }
 
@@ -378,38 +314,104 @@
                 width: 100px;
             }
         }
-    </style>
-@endsection
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-    document.title = "KahayFaqeer.com | Queue Status";
-    var fileName = "{{  $venueAddress->venue_date .'-'. $venueAddress->city .'-Token'.$userBooking->booking_number  }}"
-    window.setTimeout(function() {
-        window.location.reload();
-    }, 30000);
 
-    function downloadPdf() {
+        span.text-center.text-success {
+            font-size: 24px;
+        }
+    </style>
+    <section id="mainsection">
+        <div class="container">
+            <!-- main content -->
+            <div class="main-content" id="main-target">
+
+                <div class="d-flex justify-content-center ">
+                    <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
+                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                    </a>
+                </div>
+
+
+                <h2 class="text-center"> Dua Appointment <span class="text-center text-success"> Confirmed
+                    </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b>
+                </h2>
+                <h3 class="text-center"> </h3>
+
+                <div class="column first">
+                    <h2 class="orng">Event Date : {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
+
+                        <h2 class="">Venue : {{ $venueAddress->city }} </h2>
+                        <div class="venue-info">
+                            <h6>{{ $venueAddress->address }}</h6>
+                        </div>
+                        {{-- <div class="ahead-number">
+                        Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
+                        </div> --}}
+                        <div class="queue-number">
+                            Token # {{ $userBooking->booking_number }}
+                            <br>
+                            {{-- <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3> --}}
+                            {{-- <p>{{ $userBooking->email }}</p> --}}
+                            <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
+                            <span>Your Appointment Time : </span> <br>
+                            <span>{{ date('g:i A', strtotime($userSlot->slot_time)) }} </span>
+                            <span>({{ $venueAddress->timezone }})</span>
+                        </div>
+
+                        <h3>Appointment Duration</h3>
+                        <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
+                        <div class="stats text-center">
+                            <p>{{ $venueAddress->status_page_note }}</p>
+                            <p>To view your token online please click below:</p>
+                            <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
+                                    target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
+                            </p>
+
+                            {{-- <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" >Download </a>  --}}
+                            <button type="button" class="btn btn-success download-apponit" id="cmd" onclick="downloadPdf()">Download
+                                Appointment</button>
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+@endsection
+
+<!-- Include jsPDF -->
+
+
+@section('page-script')
+    <script>
+        document.title = "KahayFaqeer.com | Queue Status";
+        var fileName = "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
  
-        $(".download-apponit").hide(); 
-        const element = document.getElementById('main-content');
-        const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-        const options = {
-            margin: 0,
-            filename: fileName + '.pdf',
-            image: {
-                type: 'jpeg',
-                quality: 1.0
-            },
-            html2canvas: {
-                scale: 2
-            },
-            jsPDF: {
-                unit: 'mm',
+        function downloadPdf() {
+
+            $(".download-apponit").hide(); 
+            const element = document.getElementById('main-target');
+            const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            const options = {
+                margin: 0,
                 format: 'a4',
-                orientation: 'portrait'
-            }
-        };
-        html2pdf(element, options);
-        // $(".download-apponit").show();  
-    }
-</script>
+                filename: fileName + '.pdf',
+                // image: {
+                //     type: 'jpeg',
+                //     quality: 1.0
+                // },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+            html2pdf(element, options);
+             $(".download-apponit").show();  
+        }
+        
+    </script>
+@endsection

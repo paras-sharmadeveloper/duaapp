@@ -64,6 +64,7 @@
                         $weekDay = $dateToConvert->format('l');
                         $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
                     @endphp
+                    @if($venueAdd->venue_date >= $today)
                         <tr>
                             <td>{{ $i }}</td>
                             <td> 
@@ -87,7 +88,7 @@
                             <td class="d-flex cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
                                 
-                                @if($venueAdd->venue_date >= $today)
+                                
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -95,11 +96,12 @@
                                     <button type="submit" class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this visitor?')">Delete</button>
                                 </form>
-                                <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">Book Slot</a>
-                                @endif
-                                <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">Copy Link</button>
+                                <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">BookSlot</a>
+                                
+                                <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">CopyLink</button>
                             </td>
                         </tr>
+                        @endif
                         @php $i++;@endphp
                     @endforeach
                 </tbody>
@@ -107,20 +109,55 @@
         </div>
     </div>
 
-<style>
-  
-td.d-flex.cdt.justify-content-between,td {
-    border-bottom: none; 
-}
-.mybtns {
-    text-align: end;
-    padding: 8px 0px;
-}
-.cdt a, .cdt button {
-    font-size: 12px;
-}
-</style>
+    <style>
+        .d-flex {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
+        .justify-content-between {
+            justify-content: space-between;
+            width: 100%;
+        }
+
+       .cdt .btn {
+            margin-bottom: 5px;
+            width: 100%; /* Full width for buttons on small screens */
+        }
+        table.dataTable tbody th, table.dataTable tbody td{
+            padding: 10px 3px !important; 
+        }
+
+        @media only screen and (max-width: 768px) {
+            /* Styles for tablets and larger screens */
+            .cdt .btn {
+                flex: 0 0 calc(100% - 10px); /* Adjust the percentage based on your needs for tablets */
+                margin-right: 10px;
+            }
+
+            .cdt form {
+                flex: 0 0 calc(100% - 10px); /* Adjust the percentage based on your needs for tablets */
+                margin-right: 10px;
+            }
+        }
+        .cdt  button,a {
+                flex: 0 0 calc(50% - 5px); /* Adjust the percentage based on your needs for laptops */
+            }
+        .cdt form {
+            flex: 0 0 calc(50% - 5px); /* Adjust the percentage based on your needs for tablets */
+            /* margin-right: 10px; */
+        }
+
+        @media only screen and (max-width: 1024px) {
+            /* Styles for laptops and larger screens */
+            
+        }
+        .mybtns {
+            float: right;
+            margin: 10px 0;
+        }
+    </style>
 
 @endsection
 @section('page-script')
