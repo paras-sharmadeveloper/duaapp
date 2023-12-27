@@ -848,7 +848,7 @@ class HomeController extends Controller
         return response()->json(
           [
             'status' => false,
-            'message' => 'Slots will be available only before '.$slotsAppearAfter.' Hours of Event. Thanks for your Patience',
+            'message' => 'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts.',
             'slots' => [],
             'app' => App::environment('production'),
             'hoursRemaining' => $hoursRemaining
