@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{SendMessage, SendEmail,PushEmailToSandlane};
+use App\Jobs\{SendMessage, SendEmail, PushEmailToSandlane};
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -52,8 +52,8 @@ class HomeController extends Controller
     if ($from == 'admin') {
 
       $vaildation =  [
-       // 'fname' => 'required|string|max:255',
-      //  'lname' => 'required|string|max:255',
+        // 'fname' => 'required|string|max:255',
+        //  'lname' => 'required|string|max:255',
         // 'email' => 'required|email|max:255',
         'mobile' => 'required|string|max:255',
         'user_question' => 'nullable|string',
@@ -63,13 +63,13 @@ class HomeController extends Controller
     } else {
 
       $vaildation =  [
-       // 'fname' => 'required|string|max:255',
-     //   'lname' => 'required|string|max:255',
+        // 'fname' => 'required|string|max:255',
+        //   'lname' => 'required|string|max:255',
         // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
         //'mobile' => 'required|string|max:255|unique:vistors,phone',
         // 'email' => 'required|email|max:255', // Check for duplicate email
         'mobile' => 'required|string|max:255',
-        'user_question' => 'nullable|string', 
+        'user_question' => 'nullable|string',
         // 'otp' => 'required',
         'country_code' => 'required',
         // 'otp-verified' => 'required',
@@ -88,13 +88,13 @@ class HomeController extends Controller
       // if ($from != 'admin') {
       //   $selfieData = $request->input('selfie');
       //   $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
-        
+
       // }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
       // $tokenId = $venueSlots->token_id; 
-      $tokenId =str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT); 
-       
+      $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
+
       $venue = $venueAddress->venue;
 
       // if($venueAddress->rejoin_venue_after > 0){
@@ -111,7 +111,6 @@ class HomeController extends Controller
         } else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin') {
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
         }
-       
       }
 
       if (!empty($isUsers) && $isUsers['status'] == false) {
@@ -127,12 +126,12 @@ class HomeController extends Controller
       $randomString = rand(2, 100); // Generate a random string of 6 characters
 
       // $bookingNumber = $timestamp . $randomString;
-      $bookingNumber =  $tokenId; 
+      $bookingNumber =  $tokenId;
       // Create a new Vistors record in the database
       $mobile = $countryCode . $validatedData['mobile'];
       $booking = new Vistors;
       // $booking->fname = $validatedData['fname'];
-    //  $booking->lname = $validatedData['lname'];
+      //  $booking->lname = $validatedData['lname'];
       // $booking->email = $request->input('email',null);
       $booking->country_code = '+' . $countryCode;
       $booking->phone = $validatedData['mobile'];
@@ -144,7 +143,7 @@ class HomeController extends Controller
       $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : null;
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
-      $booking->user_timezone = $request->input('timezone', null); 
+      $booking->user_timezone = $request->input('timezone', null);
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
@@ -152,21 +151,21 @@ class HomeController extends Controller
       $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
       $dateTime = Carbon::parse($eventData);
       $userSlot = VenueSloting::find($request->input('slot_id'));
-      $iso = $venue->iso; 
+      $iso = $venue->iso;
 
       $venueTimezone = Timezone::where(['country_code' => $iso])->first();
       $countryTz =  $venueTimezone->timezone;
 
       $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $currentContryTimezone = Carbon::parse($venueDate,$countryTz); 
-      $currentContryTimezone->timezone($countryTz); 
+      $currentContryTimezone = Carbon::parse($venueDate, $countryTz);
+      $currentContryTimezone->timezone($countryTz);
 
-      $userSelectedTimezone = Carbon::parse($venueDate,$countryTz);  
-      $userSelectedTimezone->timezone($request->input('timezone')); 
+      $userSelectedTimezone = Carbon::parse($venueDate, $countryTz);
+      $userSelectedTimezone->timezone($request->input('timezone'));
 
-      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – '. $currentContryTimezone->addMinutes(30)->format('g:ia');
-      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – '. $userSelectedTimezone->addMinutes(30)->format('g:ia');
-      $userLocationTime = ' As per Selected Timezone '.$userTimezoneFormat.'(' . $request->input('timezone') . ')'; 
+      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
+      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
+      $userLocationTime = ' As per Selected Timezone ' . $userTimezoneFormat . '(' . $request->input('timezone') . ')';
 
       // $dynamicData = [
       //   'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
@@ -222,7 +221,7 @@ class HomeController extends Controller
 
       // $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
       // Notification::create(['message' => $NotificationMessage, 'read' => false]);
-      
+
       // event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
         return redirect()->back()->with('success', 'Booking created successfully');
@@ -380,8 +379,8 @@ class HomeController extends Controller
     })->count();
 
     $serveredPeople = Vistors::whereNotNull('meeting_doneAt')->get()->count();
-    
-    return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking'));
+
+    return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking'));
   }
 
   public function thankyouPage($id)
@@ -407,36 +406,35 @@ class HomeController extends Controller
     //  $venueAddress = VenueAddress::find($id); 
     $id = $request->input('id');
     $timezone = $request->input('timezone');
-    
+
     $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
-    
+
     $venueAddress =  VenueAddress::where('id', $id)
       // ->where(function ($query) use ($newDate) {
       //   $query->whereDate('venue_date', $newDate)
       //     ->orWhereDate('venue_date', date('Y-m-d'));
       // })
       ->get()->first();
-      // echo "<pre>"; print_r($venueAddress); die; 
+    // echo "<pre>"; print_r($venueAddress); die; 
 
     $mytime = Carbon::now()->tz($timezone);
     $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $timezone);
     $hoursRemaining = $eventDate->diffInHours($mytime);
 
-    $slotsAppearAfter = intval($venueAddress->slot_appear_hours); 
+    $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
 
     // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
     // $EventStartTime = strtotime($evntTime);
     $slotsArr = [];
     $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
-    $isVisiable = false; 
-    if ($slotsAppearAfter == 0) { 
-      $isVisiable = true; 
+    $isVisiable = false;
+    if ($slotsAppearAfter == 0) {
+      $isVisiable = true;
+    } else if ($hoursRemaining <= $slotsAppearAfter) {
+      $isVisiable = true;
     }
-    else if ($hoursRemaining <= $slotsAppearAfter ) { 
-      $isVisiable = true; 
-    } 
-    if ($isVisiable ) {
+    if ($isVisiable) {
       $slotArr = VenueSloting::where('venue_address_id', $id)
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
@@ -444,9 +442,9 @@ class HomeController extends Controller
 
       $slotsDataArr = [];
 
-        $iso =  $venueAddress->venue->iso; 
-        $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-        $countryTz =  $venueTimezone->timezone;
+      $iso =  $venueAddress->venue->iso;
+      $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+      $countryTz =  $venueTimezone->timezone;
 
       foreach ($slotArr as $k => $myslot) {
 
@@ -460,14 +458,14 @@ class HomeController extends Controller
         $slotsDataArr[$k] = $myslot;
         // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
 
-        $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s'); 
+        $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s');
 
         // $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($timezone)->format('H:i:s');
       }
       return response()->json([
         'status' => true,
         'message' => 'Slots are be avilable',
-        'slots' =>  $slotsDataArr, 
+        'slots' =>  $slotsDataArr,
         'timezone' => $timezone,
         'app' => App::environment('production')
       ]);
@@ -488,30 +486,30 @@ class HomeController extends Controller
   public function getTheripistByIp(Request $request)
   {
     $dataArr = [];
- 
+
     if (App::environment('production')) {
-        $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-        if (!empty($ipInfo)) {
-          $userDetail = json_decode($ipInfo['complete_data'], true);
-        } else {
-          $userDetail = $this->getIpDetails($request->ip());
-        }
-        $phoneCode = $userDetail['phoneCode']; 
-    }else{
-      $userDetail['countryCode'] = 'IN'; 
-      $userDetail['countryName'] = 'India'; 
-      $phoneCode = '91'; 
+      $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+      if (!empty($ipInfo)) {
+        $userDetail = json_decode($ipInfo['complete_data'], true);
+      } else {
+        $userDetail = $this->getIpDetails($request->ip());
+      }
+      $phoneCode = $userDetail['phoneCode'];
+    } else {
+      $userDetail['countryCode'] = 'IN';
+      $userDetail['countryName'] = 'India';
+      $phoneCode = '91';
     }
-  // echo "<pre>"; print_r($userDetail); die;  
+    // echo "<pre>"; print_r($userDetail); die;  
     $countryCode = $userDetail['countryCode'];
-  
+
     $countryName = ucwords($userDetail['countryName']);
     $countryId = Country::where(['nicename' => $countryName])->first();
 
     $venueAddress = VenueAddress::get();
     $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
     $currentTimezone = $timezone->timezone;
- 
+
     if (!empty($venueAddress)) {
       foreach ($venueAddress as $venueAdd) {
 
@@ -527,28 +525,26 @@ class HomeController extends Controller
             'type' => 'recommended',
             'venueaddId' => $venueAdd->id,
             'venue_available_country' => $venue_available_country
-            
+
           ];
-        } 
+        }
       }
-    } 
+    }
     $newArr = [];
     $existingIds = [];
-      foreach($dataArr  as $data){
-        if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
-          $newArr[] = $data;
-          $existingIds[] = $data['id'];
-      } 
-    }   
+    foreach ($dataArr  as $data) {
+      if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
+        $newArr[] = $data;
+        $existingIds[] = $data['id'];
+      }
+    }
     return response()->json([
       'status' => !(empty($newArr)) ? true : false,
-      'data' => $newArr, 
+      'data' => $newArr,
       'currentTimezone' => $currentTimezone,
       'countryCode' => $countryCode,
       'phoneCode' => $phoneCode
     ]);
-
-
   }
 
 
@@ -561,7 +557,7 @@ class HomeController extends Controller
     $NextDate = $today->addDay();
     $newDate = $NextDate->format('Y-m-d');
 
-    
+
 
     //  $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     //$newDate = date('Y-m-d');
@@ -588,27 +584,26 @@ class HomeController extends Controller
     }
     if ($type == 'get_type') {
       // return ['today' => $newDate, 'wde' => $newDate15Day]; 
-      if (App::environment('production')) { 
+      if (App::environment('production')) {
         $addRess = VenueAddress::where('therapist_id', $id)
-        ->where(function ($query) use ($newDate,$newDate15Day) {
+          ->where(function ($query) use ($newDate, $newDate15Day) {
             $query->whereDate('venue_date', '>=', $newDate)
-                  ->whereDate('venue_date', '<=', $newDate15Day);
-        })
-        ->orderBy('venue_date', 'asc')
-        ->get();
-      }else{
+              ->whereDate('venue_date', '<=', $newDate15Day);
+          })
+          ->orderBy('venue_date', 'asc')
+          ->get();
+      } else {
         $addRess = VenueAddress::where('therapist_id', $id)
-        ->where(function ($query) use ($newDate) {
-          $query->whereDate('venue_date', $newDate)
-            ->orWhereDate('venue_date', date('Y-m-d'));
-        })
-        ->orderBy('venue_date', 'asc')
-        ->get();
-
+          ->where(function ($query) use ($newDate) {
+            $query->whereDate('venue_date', $newDate)
+              ->orWhereDate('venue_date', date('Y-m-d'));
+          })
+          ->orderBy('venue_date', 'asc')
+          ->get();
       }
-      
 
-      
+
+
       $dataArr = [];
       foreach ($addRess as $venuesList) {
         $eventDate = Carbon::parse($venuesList->venue_date . ' ' . $venuesList->slot_starts_at);
@@ -628,21 +623,21 @@ class HomeController extends Controller
     }
     if ($type == 'get_country') {
 
-       
+
       $venuesListArr = VenueAddress::where('therapist_id', $id)
-      ->where(function ($query) use ($newDate) {
+        ->where(function ($query) use ($newDate) {
           $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-                ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-      })
-      ->where('venue_date', '>=', now()->format('Y-m-d'))
-        
-      ->get();
+            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+        })
+        ->where('venue_date', '>=', now()->format('Y-m-d'))
+
+        ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $countryName = $venuesList->venue->country_name;
         $flagPath = $venuesList->venue->flag_path;
         $venueId = $venuesList->venue_id;
-        if (!isset( $dataArr['country'][$venueId])) {
+        if (!isset($dataArr['country'][$venueId])) {
           $dataArr['country'][$venueId] = [
             'name' => $countryName,
             'flag_path' =>  env('AWS_GENERAL_PATH') . 'flags/' . $venuesList->venue->flag_path,
@@ -652,10 +647,10 @@ class HomeController extends Controller
           ];
         }
       }
-      if(!(empty($dataArr))){
+      if (!(empty($dataArr))) {
         $dataArr['country'] =   array_filter($dataArr['country']);
       }
-      
+
 
 
       return response()->json([
@@ -667,14 +662,14 @@ class HomeController extends Controller
     }
 
     if ($type == 'get_city') {
-     $countryId = Venue::where(['iso' => 'PK'])->get()->first(); 
+      $countryId = Venue::where(['iso' => 'PK'])->get()->first();
       $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-    ->where(function ($query) use ($newDate) {
-        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-              ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-    })
-    ->where('venue_date', '>=', now()->format('Y-m-d'))
-    ->get();
+        ->where(function ($query) use ($newDate) {
+          $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+        })
+        ->where('venue_date', '>=', now()->format('Y-m-d'))
+        ->get();
 
       // $venuesListArr = VenueAddress::where('id', $id)
       //   ->where(function ($query) use ($newDate) {
@@ -687,20 +682,17 @@ class HomeController extends Controller
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
         $cityFlag = $venuesList->combinationData->city_image;
-        $seq = $venuesList->combinationData->city_sequence_to_show; 
-        if (!isset( $dataArr['city'][$cityName])) { 
+        $seq = $venuesList->combinationData->city_sequence_to_show;
+        if (!isset($dataArr['city'][$cityName])) {
           $dataArr['city'][$cityName] = [
             'name' => $cityName,
             'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
             'id' => $venuesList->venue->id,
             'type' => $venuesList->type,
             'venue_address_id' => $venuesList->id,
-            'seq' =>   $seq 
+            'seq' =>   $seq
           ];
-
-
         }
-        
       }
       // $dataArr['country'] = array_unique($dataArr['country'], SORT_REGULAR);
 
@@ -714,21 +706,21 @@ class HomeController extends Controller
     if ($type == 'get_date') {
 
       $venuesListArr = VenueAddress::where([
-        'venue_id' => $id , 'city' => $request->input('optional')
+        'venue_id' => $id, 'city' => $request->input('optional')
       ])
-      ->where(function ($query) use ($newDate) {
+        ->where(function ($query) use ($newDate) {
           $query->where('venue_date', '>', $newDate) // Use '>=' instead of '>'
-                ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-      })
-      ->where('venue_date', '>=', now()->format('Y-m-d'))
-      ->get();
+            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+        })
+        ->where('venue_date', '>=', now()->format('Y-m-d'))
+        ->get();
       // $venuesListArr = VenueAddress::where('id', $id)
       //   ->where(function ($query) use ($newDate) {
       //     $query->whereDate('venue_date', $newDate)
       //       ->orWhereDate('venue_date', date('Y-m-d'));
       //   })
       //   ->get();
-      
+
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $venue_date = $venuesList->venue_date;
@@ -736,11 +728,11 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->combinationData->columns_to_show;
 
-        $dataArr['columnToShow'] =  $columnToShow; 
+        $dataArr['columnToShow'] =  $columnToShow;
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
-          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' .$cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .$flagPath,
+          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' . $flagPath,
           'id' => $venuesList->venue->id,
           'venue_address_id' => $venuesList->id
         ];
@@ -754,16 +746,16 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slots') {
-      $currentTimezone = $request->input('timezone','America/New_York'); 
+      $currentTimezone = $request->input('timezone', 'America/New_York');
       $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
       //  $venueAddress = VenueAddress::find($id); 
       $venueAddress = VenueAddress::where('id', $id)
-    ->where(function ($query) use ($newDate) {
-        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-              ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-    })
-    ->where('venue_date', '>=', now()->format('Y-m-d'))
-    ->get()->first();
+        ->where(function ($query) use ($newDate) {
+          $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+        })
+        ->where('venue_date', '>=', now()->format('Y-m-d'))
+        ->get()->first();
 
       // $venueAddress =  VenueAddress::where('id', $id)
       //   ->where(function ($query) use ($newDate) {
@@ -787,42 +779,40 @@ class HomeController extends Controller
       //   $currentTimezone = 'America/New_York';
       // }
 
-    
-      $isVisiable = false; 
+
+      $isVisiable = false;
       if (!empty($venueAddress)) {
-        
+
 
         $mytime = Carbon::now()->tz($currentTimezone);
-        $countryTimeZone = $venueAddress->timezone; 
+        $countryTimeZone = $venueAddress->timezone;
         $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
         $hoursRemaining = $eventDate->diffInHours($mytime);
- 
+
         $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
-       
-        if ($slotsAppearAfter == 0) { 
-          $isVisiable = true; 
-        }
-        else if ($hoursRemaining <= $slotsAppearAfter ) { 
-          $isVisiable = true; 
+
+        if ($slotsAppearAfter == 0) {
+          $isVisiable = true;
+        } else if ($hoursRemaining <= $slotsAppearAfter) {
+          $isVisiable = true;
         }
       } else {
 
         return response()->json([
           'status' => false,
-          'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
+          'message' => 'Slots not Found',
           'timezone' => $currentTimezone,
           'app' => App::environment('production'),
+
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'slots' => [],
         ]);
       }
-      // $venueAddress->slot_starts_at_morning,
 
-      // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
-      // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
-      // $EventStartTime = strtotime($evntTime);
+
+
       $slotsArr = [];
-      if ( $isVisiable ) {
+      if ($isVisiable) {
 
         $slotArr = VenueSloting::where('venue_address_id', $id)
           ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
@@ -830,9 +820,9 @@ class HomeController extends Controller
           ->get(['venue_address_id', 'slot_time', 'id']);
 
         $slotsDataArr = [];
-        $iso =  $venueAddress->venue->iso; 
+        $iso =  $venueAddress->venue->iso;
         $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-        $countryTz =  $venueTimezone->timezone; 
+        $countryTz =  $venueTimezone->timezone;
 
         foreach ($slotArr as $k => $myslot) {
           $venueDate = $venueAddress->venue_date . ' ' . $myslot->slot_time;
@@ -842,7 +832,7 @@ class HomeController extends Controller
           // $carbonSlot->setTimezone($currentTimezone);
           $slotsDataArr[$k] = $myslot;
           // $convertedTimeSlots[] = $carbonSlot->toDateTimeString();
-          $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s'); 
+          $slotsDataArr[$k]['slot_time'] = $carbonSlot->format('H:i:s');
           // $slotsDataArr[$k]['slot_time'] = $carbonSlot->setTimezone($currentTimezone)->format('H:i:s');
         }
         return response()->json([
@@ -858,12 +848,10 @@ class HomeController extends Controller
         return response()->json(
           [
             'status' => false,
-            'message' => 'Slots will be available only before 24 Hours of Event. Thanks for your Patience',
+            'message' => 'Slots will be available only before '.$hoursRemaining.' Hours of Event. Thanks for your Patience',
             'slots' => [],
             'app' => App::environment('production'),
             'hoursRemaining' => $hoursRemaining
-            //  'EventStartTime' => $venueAddress->venue_date .' '. $venueAddress->slot_starts_at,
-            //  'eventDate' => $eventDate, 
 
           ]
         );
@@ -893,10 +881,10 @@ class HomeController extends Controller
     $userDetail['country_code'] = $country;
     $userDetail['mobile'] = $request->input('mobile');
     $userDetail['email'] =  $request->input('email');
-    $isMobile=true;
+    $isMobile = true;
     $isEmail = true;
     // $this->SendOtp($mobile,$country,$isMobile=true,$isEmail = false); 
-    $result =  $this->SendOtp($userDetail,$isMobile,$isEmail);
+    $result =  $this->SendOtp($userDetail, $isMobile, $isEmail);
 
     if ($result['status']) {
       return response()->json(['message' => 'Please check your email for OTP. If not received please check spam folder.', 'status' => true]);
