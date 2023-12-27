@@ -411,7 +411,7 @@
                 }
             };
             html2pdf(element, options);
-             $(".download-apponit").show();  
+            //  $(".download-apponit").hide();  
         }
         
     </script>

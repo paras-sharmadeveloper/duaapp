@@ -11,6 +11,16 @@
         </div>
     </div>
 
+    @php 
+
+    $isHide = request()->get('is_hide'); 
+    $hide = false; 
+    if($isHide==true || $isHide =='true'){
+        $hide  = true; 
+    } 
+
+    @endphp 
+
 
     @if (count($errors) > 0)
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -35,8 +45,22 @@
         <div class="card-body">
             <h5 class="card-title">Manage Venues</h5>
             
-            <div class="mybtns">
-                <a href="{{ route('book.show') }}" class="btn btn-secondary" target="_blank">Booking Form</a> 
+            <div class="d-flex justify-content-between mb-2">
+                <div class="a"><select class="form-control hide-inactive">
+                    <option> Select Option </option>
+                    <option data-href="{{ route('venues.index') }}?is_hide=true" 
+                    @if($isHide == 'true')
+                    selected
+                    @endif
+                    
+                    >Hide Inactive Entires</option>
+                    <option data-href="{{ route('venues.index') }}?is_hide=false"  @if($isHide == 'false')
+                    selected
+                    @endif >Show Inactive Entires</option>
+                </select></div>
+                <div class="b"><a href="{{ route('book.show') }}" class="btn btn-secondary mt-2" target="_blank">Booking Form</a></div>
+                
+                 
             </div>
 
             <table class="table-with-buttons table table-responsive cell-border">
@@ -64,11 +88,11 @@
                         $weekDay = $dateToConvert->format('l');
                         $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
                     @endphp
-                    @if($venueAdd->venue_date >= $today)
+                       {{-- @if($venueAdd->venue_date >= $today) --}}
                         <tr>
                             <td>{{ $i }}</td>
                             <td> 
-                                @if($venueAdd->venue_date >= $today)
+                                @if($venueAdd->venue_date >= $today || $isHide =='true')
                                 <span class="badge bg-success">Active</span>    
                                 @else 
                                 <span class="badge bg-secondary">Inactive</span>  
@@ -101,7 +125,7 @@
                                 <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">CopyLink</button>
                             </td>
                         </tr>
-                        @endif
+                        {{-- @endif --}}
                         @php $i++;@endphp
                     @endforeach
                 </tbody>
@@ -161,5 +185,16 @@
 
 @endsection
 @section('page-script')
-<script>document.title = 'Venue List'; </script>
+<script>
+document.title = 'Venue List'; 
+$(".hide-inactive").change(function(){
+    var url = $(this).find(':selected').attr('data-href');
+    if(url){
+        location.href=url
+
+    }
+    console.log("url",url)
+})
+
+</script>
 @endsection
