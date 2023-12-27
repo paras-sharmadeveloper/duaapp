@@ -19,5 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
-Route::post('/whatsapp-webhook', [WhatsAppController::class, 'handleWebhook']);
+Route::post('/handle-incoming-message', [WhatsAppController::class, 'handleWebhook']);
+Route::post('/handle-fallback', [WhatsAppController::class, 'handleFallback']);
+
 
