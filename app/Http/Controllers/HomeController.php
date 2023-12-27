@@ -433,7 +433,7 @@ class HomeController extends Controller
     if ($slotsAppearAfter == 0) { 
       $isVisiable = true; 
     }
-    else if ($hoursRemaining <= $slotsAppearAfter || $hoursRemaining > $slotsAppearAfter ) { 
+    else if ($hoursRemaining <= $slotsAppearAfter   ) { 
       $isVisiable = true; 
     } 
     if ($isVisiable ) {
