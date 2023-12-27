@@ -15,18 +15,19 @@ class WhatsAppController extends Controller
 
         // Extract necessary information from the incoming request
         $from = $body['From'];
-        $message = $body['Body'];
-        Notification::create([
-            'message' => json_encode($body)
+        $Respond = $body['Body'];
+        Notification::create([ 'message' => json_encode($body)]);
 
-        ]  );
+        if($Respond == 'Press 1'){
+            $data =  '1️⃣ Lahore , 2️⃣ Islamabad'; 
+            return $this->sendMessage($from, $this->WhatsAppbotMessages($data,$Respond));
+        }else{
+            $data ="Qibla Syed Sarfraz Ahmad Shah";
+            return $this->sendMessage($from, $this->WhatsAppbotMessages($data,$Respond));
+        }
 
-        // Implement your chatbot logic here, including database interactions
-        // Example: Fetch user data from the database based on the incoming message
-
-        // Respond to the user
-        $name = 'Qibla Syed Sarfraz Ahmad Shah'; 
-        return $this->sendMessage($from, $this->WhatsAppbotMessages($name));
+     
+        
     }
 
     public function handleFallback(){
@@ -55,14 +56,24 @@ class WhatsAppController extends Controller
     }
 
 
-    private function WhatsAppbotMessages($name){
-        $message = <<<EOT
-        Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
+    private function WhatsAppbotMessages($data,$Respond){
+        if($Respond == 'Press 1'){
+            $message = <<<EOT
+                Please enter the number for your city
+                $data
+            EOT; 
+        }else{
 
-        Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
+            $message = <<<EOT
+                Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
+
+                Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
+                
+                To schedule a dua meeting with $data please enter 1
+            EOT;
+
+        }
         
-        To schedule a dua meeting with $name please enter 1
-        EOT;
       return $message;
     }
 }
