@@ -224,6 +224,8 @@ class HomeController extends Controller
 
       // event(new BookingNotification($NotificationMessage));
       if ($from == 'admin') {
+        return  redirect()->route('booking.status',$uuid);
+        // booking.status
         return redirect()->back()->with('success', 'Booking created successfully');
       } else {
         return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
