@@ -840,7 +840,7 @@ class HomeController extends Controller
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
           'timezone' => $currentTimezone,
-          'asd' =>  $hoursRemaining,
+          'asd' =>  $slotsAppearAfter,
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);
@@ -848,7 +848,7 @@ class HomeController extends Controller
         return response()->json(
           [
             'status' => false,
-            'message' => 'Slots will be available only before '.$hoursRemaining.' Hours of Event. Thanks for your Patience',
+            'message' => 'Slots will be available only before '.$slotsAppearAfter.' Hours of Event. Thanks for your Patience',
             'slots' => [],
             'app' => App::environment('production'),
             'hoursRemaining' => $hoursRemaining
