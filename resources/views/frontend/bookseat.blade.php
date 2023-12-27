@@ -1244,6 +1244,10 @@
                     if (response.status) {
                         $(this).find('span').hide()
                         $(this).find('b').text(defaultText)
+                        var phoneCode = response.phoneCode; 
+                        console.log("country_code",phoneCode)
+                        $("#country_code").attr("data-ud",phoneCode)
+                        $("#country_code").val(phoneCode).trigger('change');
                         $.each(response.data, function(key, item) {
                             var img = '';
 

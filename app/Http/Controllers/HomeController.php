@@ -496,12 +496,15 @@ class HomeController extends Controller
         } else {
           $userDetail = $this->getIpDetails($request->ip());
         }
+        $phoneCode = $userDetail['phoneCode']; 
     }else{
       $userDetail['countryCode'] = 'IN'; 
       $userDetail['countryName'] = 'India'; 
+      $phoneCode = '91'; 
     }
   // echo "<pre>"; print_r($userDetail); die;  
     $countryCode = $userDetail['countryCode'];
+  
     $countryName = ucwords($userDetail['countryName']);
     $countryId = Country::where(['nicename' => $countryName])->first();
 
@@ -524,6 +527,7 @@ class HomeController extends Controller
             'type' => 'recommended',
             'venueaddId' => $venueAdd->id,
             'venue_available_country' => $venue_available_country
+            
           ];
         } 
       }
@@ -539,7 +543,9 @@ class HomeController extends Controller
     return response()->json([
       'status' => !(empty($newArr)) ? true : false,
       'data' => $newArr, 
-      'currentTimezone' => $currentTimezone
+      'currentTimezone' => $currentTimezone,
+      'countryCode' => $countryCode,
+      'phoneCode' => $phoneCode
     ]);
 
 
