@@ -10,16 +10,10 @@
             </div>
         </div>
     </div>
-
     @php 
-
-    $isHide = request()->get('is_hide'); 
-    $hide = false; 
-    if($isHide==true || $isHide =='true'){
-        $hide  = true; 
-    } 
-
-    @endphp 
+        $inactive = request()->get('inactive'); 
+    @endphp
+   
 
 
     @if (count($errors) > 0)
@@ -48,13 +42,14 @@
             <div class="d-flex justify-content-between mb-2">
                 <div class="a"><select class="form-control hide-inactive">
                     <option> Select Option </option>
-                    <option data-href="{{ route('venues.index') }}?is_hide=true" 
-                    @if($isHide == 'true')
+                    <option data-href="{{ route('venues.index') }}?inactive=false" 
+                    @if($inactive == 'false')
                     selected
                     @endif
                     
                     >Hide Inactive Entires</option>
-                    <option data-href="{{ route('venues.index') }}?is_hide=false"  @if($isHide == 'false')
+                    <option data-href="{{ route('venues.index') }}?inactive=true" 
+                     @if($inactive == 'true')
                     selected
                     @endif >Show Inactive Entires</option>
                 </select></div>
@@ -81,23 +76,32 @@
                 <tbody>
                     @php $i=1;@endphp
                     @foreach ($venuesAddress as $venueAdd)
-
+                     
                     @php
                         $dateToConvert = \Carbon\Carbon::createFromFormat('Y-m-d', $venueAdd->venue_date);
                         $formattedDate = $dateToConvert->format('d-M-Y');
                         $weekDay = $dateToConvert->format('l');
                         $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
+
+                        $hideClass  = 'd-none'; 
+                        
+                        if($venueAdd->venue_date >= $today ||  $inactive == 'true' ){
+                            
+                            $hideClass  = 'active'; 
+                        }else{
+                            $hideClass  = 'd-none';  
+                        } 
+                         
                     @endphp
-                       {{-- @if($venueAdd->venue_date >= $today) --}}
-                        <tr>
+                        
+                        <tr class="{{ $hideClass }}">
                             <td>{{ $i }}</td>
-                            <td> 
-                                @if($venueAdd->venue_date >= $today || $isHide =='true')
-                                <span class="badge bg-success">Active</span>    
-                                @else 
-                                <span class="badge bg-secondary">Inactive</span>  
-                                   
-                                @endif 
+                            <td>  
+                                @if($inactive =='false' || $venueAdd->venue_date >= $today )
+                                <span class="badge bg-success">Active</span>
+                                @elseif($inactive =='true')
+                                <span class="badge bg-secondary">Inactive</span>   
+                                @endif   
 
                             </td>
                             <td>{{ $venueAdd->venue->country_name }}  <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
@@ -125,7 +129,7 @@
                                 <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">CopyLink</button>
                             </td>
                         </tr>
-                        {{-- @endif --}}
+                        
                         @php $i++;@endphp
                     @endforeach
                 </tbody>
