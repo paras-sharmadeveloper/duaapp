@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TicketWebhook; 
+use App\Http\Controllers\{TicketWebhook,WhatsAppController}; 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
+Route::post('/whatsapp-webhook', [WhatsAppController::class, 'handleWebhook']);
 

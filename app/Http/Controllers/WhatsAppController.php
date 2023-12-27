@@ -15,6 +15,7 @@ class WhatsAppController extends Controller
         // Extract necessary information from the incoming request
         $from = $body['From'];
         $message = $body['Body'];
+        
 
         // Implement your chatbot logic here, including database interactions
         // Example: Fetch user data from the database based on the incoming message
@@ -25,14 +26,22 @@ class WhatsAppController extends Controller
 
     private function sendMessage($to, $message)
     {
-        $twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
+        $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
 
-        $twilio->messages->create(
-            "whatsapp:$to",
-            [
-                'from' => "whatsapp:" . config('services.twilio.phone_number'),
-                'body' => $message,
-            ]
-        );
+        try {
+            $twilio->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
+                    'body' => $message,
+                ]
+            );
+            return response()->json(['data' => 'success']); 
+        } catch (\Exception $e) {
+            //throw $th;
+            return response()->json(['error' => $e->getMessage()]); 
+        }
+
+        
     }
 }
