@@ -19,7 +19,8 @@ class WhatsAppController extends Controller
         Notification::create([ 'message' => json_encode($body)]);
 
         if($Respond == 'Press 1'){
-            $data =  '1️⃣ Lahore , 2️⃣ Islamabad'; 
+            $data =  '1️⃣ Lahore
+                      2️⃣ Islamabad'; 
             return $this->sendMessage($from, $this->WhatsAppbotMessages($data,$Respond));
         }else{
             $data ="Qibla Syed Sarfraz Ahmad Shah";
