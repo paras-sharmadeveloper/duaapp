@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 
@@ -15,7 +16,10 @@ class WhatsAppController extends Controller
         // Extract necessary information from the incoming request
         $from = $body['From'];
         $message = $body['Body'];
-        
+        Notification::create([
+            'message' => json_encode($body)
+
+        ]  );
 
         // Implement your chatbot logic here, including database interactions
         // Example: Fetch user data from the database based on the incoming message
