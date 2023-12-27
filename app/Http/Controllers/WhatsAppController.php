@@ -35,7 +35,7 @@ class WhatsAppController extends Controller
        
         try {
             $twilio->messages->create(
-                "whatsapp:$to",
+                "$to",
                 [
                     'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
                     'body' => $message,
