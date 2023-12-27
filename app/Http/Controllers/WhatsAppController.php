@@ -65,11 +65,11 @@ class WhatsAppController extends Controller
         }else{
 
             $message = <<<EOT
-                Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
+            Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
 
-                Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
-                
-                To schedule a dua meeting with $data please enter 1
+            Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
+            
+            To schedule a dua meeting with $data please enter 1
             EOT;
 
         }
