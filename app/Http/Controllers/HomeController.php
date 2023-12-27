@@ -428,12 +428,12 @@ class HomeController extends Controller
     // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
     // $EventStartTime = strtotime($evntTime);
     $slotsArr = [];
-
+    $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
     $isVisiable = false; 
     if ($slotsAppearAfter == 0) { 
       $isVisiable = true; 
     }
-    else if ($hoursRemaining <= $slotsAppearAfter   ) { 
+    else if ($hoursRemaining <= $slotsAppearAfter ) { 
       $isVisiable = true; 
     } 
     if ($isVisiable ) {
@@ -787,12 +787,24 @@ class HomeController extends Controller
       //   $currentTimezone = 'America/New_York';
       // }
 
+    
+      $isVisiable = false; 
       if (!empty($venueAddress)) {
         
 
         $mytime = Carbon::now()->tz($currentTimezone);
-        $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at, $currentTimezone);
+        $countryTimeZone = $venueAddress->timezone; 
+        $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
         $hoursRemaining = $eventDate->diffInHours($mytime);
+ 
+        $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
+       
+        if ($slotsAppearAfter == 0) { 
+          $isVisiable = true; 
+        }
+        else if ($hoursRemaining <= $slotsAppearAfter ) { 
+          $isVisiable = true; 
+        }
       } else {
 
         return response()->json([
@@ -804,13 +816,13 @@ class HomeController extends Controller
           'slots' => [],
         ]);
       }
-
+      // $venueAddress->slot_starts_at_morning,
 
       // $currentTime = strtotime($mytime->addHour(24)->format('Y-m-d H:i:s'));
       // $evntTime = date('Y-m-d H:i:s',strtotime($venueAddress->venue_date .' '. $venueAddress->slot_starts_at)); 
       // $EventStartTime = strtotime($evntTime);
       $slotsArr = [];
-      if ($hoursRemaining <= 24 || $hoursRemaining > 24) {
+      if ( $isVisiable ) {
 
         $slotArr = VenueSloting::where('venue_address_id', $id)
           ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
@@ -838,7 +850,7 @@ class HomeController extends Controller
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
           'timezone' => $currentTimezone,
-          'asd' => 'pf',
+          'asd' =>  $hoursRemaining,
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);
