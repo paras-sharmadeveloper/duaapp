@@ -86,8 +86,7 @@
                  <div class="users-list-main" id="users-list-main">
                     @foreach ($venueSloting as $visitoddr)
                 @foreach ($visitoddr->visitors as $visitor)
-               
-               
+                
                 <div class="col-xl-12 mb-1 users-list">
                     <div class="card">
                         <div class="card-body">
@@ -99,9 +98,9 @@
                                 <div class="ms-3">
                                      
                                     <p class="fw-bold mb-1 h6"> 
-                                        {{ $visitor['fname'] }} {{ $visitor['lname'] }}
+                                        {{-- {{ $visitor['fname'] }} {{ $visitor['lname'] }} --}}
                                         <h6 class="sub-title"> Mobile : {{ $visitor['phone'] }}</h6>
-                                        <h6 class="sub-title"> Email : {{ $visitor['email'] }}</h6>
+                                        {{-- <h6 class="sub-title"> Email : {{ $visitor['email'] }}</h6> --}}
                                         <h6 class="sub-title"> TokenNo : {{ $visitor['booking_number'] }}</h6> 
                                     </p>
                                     
@@ -244,6 +243,8 @@
                                 $("#last-running-id").val(visitor.id);
                             }
                             // meeting_start_at
+                            // <p class="fw-bold mb-1 h6"> ${visitor.fname} ${visitor.lname} </p>
+                            //<h6 class="sub-title"> ${visitor.email}</h6> 
                             html +=`<div class="col-xl-12 mb-1 users-list">
                                 <div class="card">
                                     <div class="card-body">
@@ -254,11 +255,11 @@
                                             </div>
                                             <div class="ms-3">
                                                 
-                                                <p class="fw-bold mb-1 h6"> ${visitor.fname} ${visitor.lname} </p>
+                                               
                                                 <h6 class="sub-title"> Token # ${visitor.booking_number} </h6> 
                                                 <h6 class="sub-title"> ${formatDateTime(slot.venue_address.venue_date+' '+slot.slot_time)}</h6>
-                                                    <h6 class="sub-title"> ${visitor.phone}</h6>
-                                                    <h6 class="sub-title"> ${visitor.email}</h6> 
+                                                    <h6 class="sub-title"> ${visitor.country_code} ${visitor.phone}</h6>
+                                                    <h6 class="sub-title">${slot.venue_address.venue_date}</h6>
                                                     <h6 class="vert">${confirmedHtml}</h6>
                                                     <span class="badge bg-info ${nonetimer}"> total time : ${visitor.meeting_total_time} Seconds</span>
                                                 <p></p> 
