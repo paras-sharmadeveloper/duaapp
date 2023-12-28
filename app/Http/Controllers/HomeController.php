@@ -714,7 +714,7 @@ class HomeController extends Controller
           $query->where('venue_date', '>', $newDate) // Use '>=' instead of '>'
             ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
         })
-        ->where('venue_date', '>=', now()->format('Y-m-d'))
+        ->where('venue_date', '>', now()->format('Y-m-d'))
         ->get();
       // $venuesListArr = VenueAddress::where('id', $id)
       //   ->where(function ($query) use ($newDate) {
