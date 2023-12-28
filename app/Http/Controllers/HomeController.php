@@ -28,6 +28,7 @@ class HomeController extends Controller
   {
     $slots = VenueSloting::where(['venue_address_id' => $id])
       ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+      ->orderBy('slot_time','ASC')
       ->get();
     $countries = Country::all();
     $venueAddress = VenueAddress::find($id);
