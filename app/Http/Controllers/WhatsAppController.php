@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use App\Models\{VenueAddress,Venue};
+use App\Models\{VenueAddress, Venue, WhatsApp , VenueSloting , Vistors};
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use Illuminate\Support\Carbon;
+
 class WhatsAppController extends Controller
 {
     public function handleWebhook(Request $request)
@@ -20,91 +21,127 @@ class WhatsAppController extends Controller
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
-        Notification::create([ 'message' => json_encode($body)]);
  
+        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->first();
+        $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
-       $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-        ->where(function ($query) use ($newDate) {
-        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-        })
-        ->where('venue_date', '>=', now()->format('Y-m-d'))
-        ->take(3)
-        ->get();
-        $cityArr = []; 
-        foreach($venuesListArr as $venue){
-            $cityArr[] = $venue->city; 
+        if (empty($existingCustomer)) {
+            $step = 1;
+            $data = 'Qibla Syed Sarfraz Ahmad Shah';
+            $message = $this->WhatsAppbotMessages($data, $step);
+            $this->sendMessage($userPhoneNumber, $message);
+
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => null,
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => $step
+            ];
+            WhatsApp::create($dataArr); 
+        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
+            $step = 2; 
+            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
+            ->where(function ($query) use ($newDate) {
+                $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+                    ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+            })
+            ->where('venue_date', '>=', now()->format('Y-m-d'))
+            ->take(3)
+            ->get();
+            $cityArr = [];
+            $i = 1;
+            foreach ($venuesListArr as $venue) {
+                $cityArr[$i] = $i. ' '.$venue->city;
+                $i++;
+            } 
+            
+            
+            $data = implode(',',$cityArr);
+            $message = $this->WhatsAppbotMessages($data, $step);
+            $this->sendMessage($userPhoneNumber, $message); 
+
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => json_encode($cityArr),
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => $step
+            ];
+            WhatsApp::create($dataArr); 
+        }else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
+            $step = 3;
+            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer , true); 
+            $getDate = $data_sent_to_customer[$Respond];  
+           
+            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
+            ->where('venue_date', '>=', $getDate)->first();
+
+            $slots = VenueSloting::where(['venue_address_id' => $venuesListArr->id])
+            ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+            ->orderBy('slot_time','ASC')
+            ->take(3)
+            ->get();
+
+            $slotArr = [];
+            $i = 1;
+            foreach ($slots->venueSloting as $slot) {
+                $slotArr[$i] = $i.' '. $slot->slot_time;
+                $i++;
+            } 
+            
+            
+            $data = implode(',',$slotArr);
+            $message = $this->WhatsAppbotMessages($data, $step);
+            $this->sendMessage($userPhoneNumber, $message); 
+
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => json_encode($slotArr),
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => $step
+            ];
+            WhatsApp::create($dataArr); 
         }
 
 
-         $currentStep = $this->getCurrentStep($userPhoneNumber);
 
 
-        switch ($currentStep) {
-            case 1: 
-                $data = 'Qibla Syed Sarfraz Ahmad Shah'; 
-                $this->sendMessage($userPhoneNumber, $this->WhatsAppbotMessages($data,1));
-                $this->setCurrentStep($userPhoneNumber, 2,$selectedOpt = ''); 
-                $this->setCurrentStep($userPhoneNumber, 2);
-                break;
-            case 2: 
-                    $cityName = ''; 
-                    $i =1 ; 
-                    foreach($cityArr as $city){
-                        $cityName+= $i. ' ' . $city; 
-                        $i++;
-                    }
-                $data = 'Please enter the number for your city
-                '.$cityName; 
-                $this->sendMessage($userPhoneNumber, $this->WhatsAppbotMessages($data,2)); 
-                
-                $this->setCurrentStep($userPhoneNumber, 3);
-                break;
-            case 3:
-                // Assume the date/time is provided in the incoming message
-                $data = 'Qibla Syed Sarfraz Ahmad Shah'; 
-                $this->sendMessage($userPhoneNumber, $this->WhatsAppbotMessages($data,3));
-                $this->setCurrentStep($userPhoneNumber, 4);
-                break;
-            case 3:
-                    // Assume the date/time is provided in the incoming message
-                $data = 'Qibla Syed Sarfraz Ahmad Shah'; 
-                $this->sendMessage($userPhoneNumber, $this->WhatsAppbotMessages($data,4));
-                $this->setCurrentStep($userPhoneNumber, 5);
-                break;
-            default:
-                $responseMessage = "Invalid selection. Please enter a valid option.";
-                break;
-        }
+        
 
-     
+       
         
     }
 
     private function getCurrentStep($userPhoneNumber)
-    {   
+    {
         return session()->get("current_step_$userPhoneNumber", 1);
     }
 
 
-    private function setCurrentStep($userPhoneNumber, $step,$selectedOpt = '')
-    { 
+    private function setCurrentStep($userPhoneNumber, $step, $selectedOpt = '')
+    {
         session()->put([
             "current_step_$userPhoneNumber" =>  $step,
             "selected_option_$userPhoneNumber" => $selectedOpt,
-           
+
         ]);
         // session()->put("current_step_$userPhoneNumber", $step);
     }
 
-    public function handleFallback(){
-        return "ok"; 
+    public function handleFallback()
+    {
+        return "ok";
     }
 
     private function sendMessage($to, $message)
     {
         $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
-       
+
         try {
             $twilio->messages->create(
                 "$to",
@@ -113,18 +150,17 @@ class WhatsAppController extends Controller
                     'body' => $message,
                 ]
             );
-            return response()->json(['data' => 'success']); 
+            return response()->json(['data' => 'success']);
         } catch (\Exception $e) {
             //throw $th;
-            return response()->json(['error' => $e->getMessage()]); 
+            return response()->json(['error' => $e->getMessage()]);
         }
-
-        
     }
 
 
-    private function WhatsAppbotMessages($data,$step){
-        if($step == '1'){
+    private function WhatsAppbotMessages($data, $step)
+    {
+        if ($step == '1') {
 
             $message = <<<EOT
             Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
@@ -133,24 +169,17 @@ class WhatsAppController extends Controller
             
             To schedule a dua meeting with $data please enter 1
             EOT;
-
-        }else if($step == '2'){
+        } else if ($step == '2') {
             $message = <<<EOT
                 Please enter the number for your city
                 $data
-            EOT; 
-        } else if($step == '3'){
-
-        } else if($step == '4'){
-
-        } else if($step == '5'){
-
-        }else{
-
-           
-
+            EOT;
+        } else if ($step == '3') {
+        } else if ($step == '4') {
+        } else if ($step == '5') {
+        } else {
         }
-        
-      return $message;
+
+        return $message;
     }
 }

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('whats_apps', function (Blueprint $table) {
             $table->id();
+            $table->string('customer_number'); 
+            $table->string('customer_response'); 
+            $table->json('bot_reply')->nullable();
+            $table->json('data_sent_to_customer')->nullable();
+            $table->date('last_reply_time')->nullable(); 
+            $table->tinyInteger('steps')->default(0)->comment('customer_init => 0');
             $table->timestamps();
         });
     }
