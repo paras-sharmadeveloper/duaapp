@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use App\Models\{VenueAddress, Venue, WhatsApp , VenueSloting , Vistors};
+use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use Illuminate\Support\Carbon;
@@ -21,7 +21,7 @@ class WhatsAppController extends Controller
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
- 
+
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
@@ -39,28 +39,28 @@ class WhatsAppController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step
             ];
-            WhatsApp::create($dataArr); 
+            WhatsApp::create($dataArr);
         } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
-            $step = 2; 
+            $step = 2;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-            ->where(function ($query) use ($newDate) {
-                $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-                    ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-            })
-            ->where('venue_date', '>=', now()->format('Y-m-d'))
-            ->take(3)
-            ->get();
+                ->where(function ($query) use ($newDate) {
+                    $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+                })
+                ->where('venue_date', '>=', now()->format('Y-m-d'))
+                ->take(3)
+                ->get();
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$i] = $i. ' '.$venue->city;
+                $cityArr[$i] = $i . ' ' . $venue->city;
                 $i++;
-            } 
-            
-            
-            $data = implode(',',$cityArr);
+            }
+
+
+            $data = implode(',', $cityArr);
             $message = $this->WhatsAppbotMessages($data, $step);
-            $this->sendMessage($userPhoneNumber, $message); 
+            $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
@@ -70,32 +70,32 @@ class WhatsAppController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step
             ];
-            WhatsApp::create($dataArr); 
-        }else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
+            WhatsApp::create($dataArr);
+        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
             $step = 3;
-            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer , true); 
-            $getDate = $data_sent_to_customer[$Respond];  
-           
+            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+            $getDate = $data_sent_to_customer[$Respond];
+
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-            ->where('venue_date', '>=', $getDate)->first();
+                ->where('venue_date', '>=', $getDate)->first();
 
             $slots = VenueSloting::where(['venue_address_id' => $venuesListArr->id])
-            ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-            ->orderBy('slot_time','ASC')
-            ->take(3)
-            ->get();
+                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->orderBy('slot_time', 'ASC')
+                ->take(3)
+                ->get();
 
             $slotArr = [];
             $i = 1;
             foreach ($slots->venueSloting as $slot) {
-                $slotArr[$i] = $i.' '. $slot->slot_time;
+                $slotArr[$i] = $i . ' ' . $slot->slot_time;
                 $i++;
-            } 
-            
-            
-            $data = implode(',',$slotArr);
+            }
+
+
+            $data = implode(',', $slotArr);
             $message = $this->WhatsAppbotMessages($data, $step);
-            $this->sendMessage($userPhoneNumber, $message); 
+            $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
@@ -105,33 +105,11 @@ class WhatsAppController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step
             ];
-            WhatsApp::create($dataArr); 
+            WhatsApp::create($dataArr);
         }
-
-
-
-
-        
-
-       
-        
-    }
-
-    private function getCurrentStep($userPhoneNumber)
-    {
-        return session()->get("current_step_$userPhoneNumber", 1);
     }
 
 
-    private function setCurrentStep($userPhoneNumber, $step, $selectedOpt = '')
-    {
-        session()->put([
-            "current_step_$userPhoneNumber" =>  $step,
-            "selected_option_$userPhoneNumber" => $selectedOpt,
-
-        ]);
-        // session()->put("current_step_$userPhoneNumber", $step);
-    }
 
     public function handleFallback()
     {
