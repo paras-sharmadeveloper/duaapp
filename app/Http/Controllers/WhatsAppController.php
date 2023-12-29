@@ -17,7 +17,6 @@ class WhatsAppController extends Controller
         $today = Carbon::now();
         $NextDate = $today->addDay();
         $newDate = $NextDate->format('Y-m-d');
-
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
@@ -138,7 +137,8 @@ class WhatsAppController extends Controller
 
     private function WhatsAppbotMessages($data, $step)
     {
-        if ($step == '1') {
+        $message = ''; 
+        if ($step == 1) {
 
             $message = <<<EOT
             Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
@@ -147,7 +147,7 @@ class WhatsAppController extends Controller
             
             To schedule a dua meeting with $data please enter 1
             EOT;
-        } else if ($step == '2') {
+        } else if ($step == 2) {
             $message = <<<EOT
                 Please enter the number for your city
                 $data
