@@ -53,7 +53,7 @@ class WhatsAppController extends Controller
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$venue->city] = $i . ' '. $venue->city;
+                $cityArr[$venue->city.'-'.$venue->id] = $i . ' '. $venue->city;
                 $i++;
             }
              
@@ -77,12 +77,13 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
 
-            $city = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
-
+            $cityAr = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+            $cityName = explode('-',$cityAr); 
+       
            //  $getDate = $data_sent_to_customer[$Respond];
 
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                ->where('city', $city)
+                ->where('city',  $cityName[0])
                 ->where('venue_date','>=', date('Y-m-d'))
                 ->orderBy('venue_date', 'ASC')
                 ->take(3)
