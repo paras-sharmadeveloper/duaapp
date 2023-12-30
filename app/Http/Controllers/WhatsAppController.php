@@ -21,20 +21,11 @@ class WhatsAppController extends Controller
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
 
-        // $dataArr = [
-        //     'customer_number' => $userPhoneNumber,
-        //     'customer_response' => $Respond,
-        //     'bot_reply' => "It is working",
-        //     'data_sent_to_customer' => '',
-        //     'last_reply_time' => date('Y-m-d H:i:s'),
-        //     'steps' => 1
-        // ];
-        // WhatsApp::create($dataArr);
-        // return 1; 
-
+        
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
+
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
@@ -50,23 +41,22 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
+
+
         } else if (!empty($existingCustomer) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
+
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                ->where(function ($query) use ($newDate) {
-                    $query->where('venue_date', '>=', $newDate)  
-                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d'));   
-                })
-                ->where('venue_date', '>=', now()->format('Y-m-d'))
+                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get();
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$i] = $i . ' '. $venue->city;
-            
+                $cityArr[$venue->city] = $i . ' '. $venue->city;
                 $i++;
             }
+             
             $data = implode("\n", $cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
@@ -81,13 +71,19 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
+
         } else if (!empty($existingCustomer) && $existingCustomer->steps == 2) { // send Dates here
+
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
-            $getDate = $data_sent_to_customer[$Respond];
+
+            $city = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+
+           //  $getDate = $data_sent_to_customer[$Respond];
 
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                ->where('venue_date', '>=', $getDate)
+                ->where('city', $city)
+                ->where('venue_date','>=', date('Y-m-d'))
                 ->orderBy('venue_date', 'ASC')
                 ->take(3)
                 ->get();
@@ -97,12 +93,12 @@ class WhatsAppController extends Controller
             $VenueDates = [];
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $VenueDates[$i] = $i . ' ' . $venueDate->venue_date;
+                $VenueDates[$venueDate->id] = $i . ' ' . $venueDate->venue_date;
                 $i++;
             }
 
 
-            $data = implode(',', $VenueDates);
+            $data = implode('\n', $VenueDates);
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
@@ -115,15 +111,17 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
+
         }else if (!empty($existingCustomer) && $existingCustomer->steps == 3) { // send Slots  here
+
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
-            $getDate = $data_sent_to_customer[$Respond];
+            $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+            // $getDate = $data_sent_to_customer[$Respond];
 
-            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                ->where('venue_date', '>=', $getDate)->first();
+ 
 
-            $slots = VenueSloting::where(['venue_address_id' => $venuesListArr->id])
+            $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                 ->orderBy('slot_time', 'ASC')
                 ->take(3)
@@ -133,12 +131,10 @@ class WhatsAppController extends Controller
             $i = 1;
             foreach ($slots->venueSloting as $slot) {
                 $slotArr[$i] = $i . ' '. $slot->slot_time;
-
-              //   $slotArr[$i] = $i . ' ' . $slot->slot_time;
                 $i++;
             }
 
-
+           
             $data = implode("\n", $slotArr); // Use "\n" for a new line
 
             $message = $this->WhatsAppbotMessages($data, $step);
@@ -153,7 +149,9 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
+
         }else{
+            return false;
             $message = <<<EOT
                 Your Dua Appointment Confirmed With {{1}} ✅
 
@@ -181,6 +179,18 @@ class WhatsAppController extends Controller
             EOT;
         }
     } 
+
+    function findKeyByValueInArray($array, $searchValue)
+    {
+        foreach ($array as $key => $value) {
+            if (strpos($value, $searchValue) !== false) {
+                return $key;
+            }
+        }
+
+        // If the loop completes without finding a match, return null
+        return null;
+    }
 
 
 
