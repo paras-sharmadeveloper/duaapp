@@ -317,8 +317,8 @@ class WhatsAppController extends Controller
             EOT;
         } else if ($step == 2) {
             $message = <<<EOT
-                Please enter the number for your city
-                $data
+            Please enter the number for your city
+            $data
             EOT;
         } else if ($step == 3) {
 
@@ -326,9 +326,7 @@ class WhatsAppController extends Controller
             Please enter the number below on which date slot you want to schedule your dua meeting?
 
             $data   
-        EOT;
-
-
+        EOT; 
            
         } else if ($step == 4) {
 
