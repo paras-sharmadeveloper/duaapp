@@ -221,6 +221,15 @@ class WhatsAppController extends Controller
             
             EOT;
             $this->sendMessage($userPhoneNumber, $message);
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => 'Slot Booked',
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => 5
+            ];
+            WhatsApp::create($dataArr);
          }
         else{
 
