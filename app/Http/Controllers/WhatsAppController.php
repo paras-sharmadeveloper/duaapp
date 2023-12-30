@@ -171,7 +171,7 @@ class WhatsAppController extends Controller
                 'meeting_type' => 'on-site',
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
-                'country_code' => $result['countryCode'],
+                'country_code' => '+91',
                 'phone' => $result['mobileNumber']  
             ]);
             $duaBy = 'Qibla Syed Sarfraz Ahmad Shah'; 
