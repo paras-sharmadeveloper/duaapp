@@ -236,7 +236,7 @@ class WhatsAppController extends Controller
             $whatspp ="https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
             $fb ="https://www.facebook.com/profile.php?id=100090074346701";
             $spotify="https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a"; 
-                $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381"; 
+            $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381"; 
             $kf = "https://kahayfaqeer.org"; 
             $kfvideo ="https://videos.kahayfaqeer.org";   
             $subScription = <<<EOT
