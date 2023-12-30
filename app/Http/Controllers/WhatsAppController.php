@@ -21,16 +21,16 @@ class WhatsAppController extends Controller
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
 
-        $dataArr = [
-            'customer_number' => $userPhoneNumber,
-            'customer_response' => $Respond,
-            'bot_reply' => "It is working",
-            'data_sent_to_customer' => '',
-            'last_reply_time' => date('Y-m-d H:i:s'),
-            'steps' => 1
-        ];
-        WhatsApp::create($dataArr);
-        return 1; 
+        // $dataArr = [
+        //     'customer_number' => $userPhoneNumber,
+        //     'customer_response' => $Respond,
+        //     'bot_reply' => "It is working",
+        //     'data_sent_to_customer' => '',
+        //     'last_reply_time' => date('Y-m-d H:i:s'),
+        //     'steps' => 1
+        // ];
+        // WhatsApp::create($dataArr);
+        // return 1; 
 
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->first();
         $dataArr = [];
