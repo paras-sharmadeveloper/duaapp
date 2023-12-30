@@ -56,6 +56,7 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
+                ->distinct(['city'])
                 ->take(3)
                 ->get();
             $cityArr = [];
@@ -128,8 +129,6 @@ class WhatsAppController extends Controller
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
             // $getDate = $data_sent_to_customer[$Respond];
-
- 
 
             $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
