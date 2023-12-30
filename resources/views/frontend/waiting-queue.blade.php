@@ -158,6 +158,12 @@
 
 @section('page-script')
     <script>
+
+        var url = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
+
+        playSound(url); 
+
+
         $(document).ready(function() {
             playNotificationTune();
         })
@@ -206,14 +212,21 @@
              
         }
 
-        function PlayPause(audioPlayer) {
-        if (audioPlayer.paused) {
-            audioPlayer.play();
-            document.getElementById("playpause").value = "Pause";
-        } else {
-            audioPlayer.pause();
-            document.getElementById("playpause").value = "Play";
+        function playSound(url) {
+            console.log("Moye Moye")
+            var audio = new Audio(url);
+            audio.play();
+           
         }
+
+        function PlayPause(audioPlayer) {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                document.getElementById("playpause").value = "Pause";
+            } else {
+                audioPlayer.pause();
+                document.getElementById("playpause").value = "Play";
+            }
         }
                 
 
