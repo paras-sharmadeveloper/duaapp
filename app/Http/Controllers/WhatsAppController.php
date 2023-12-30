@@ -61,11 +61,11 @@ class WhatsAppController extends Controller
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ''. $venue->city);
+                $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ' '. $venue->city);
                 $i++;
             }
              
-            $data = implode("\n", $cityArr);
+            $data = implode("\n",$cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
@@ -325,8 +325,8 @@ class WhatsAppController extends Controller
             $message = <<<EOT
             Please enter the number below on which date slot you want to schedule your dua meeting?
 
-            $data   
-        EOT; 
+            $data  
+            EOT; 
            
         } else if ($step == 4) {
 
