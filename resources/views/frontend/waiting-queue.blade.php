@@ -272,10 +272,9 @@
                             if (isRing!='played') {
                                 console.log("One time",item.booking_number);
                                 playNotificationTune()
-                                setTimeout(() => {
-
-                                    speakTokenNumber(item.booking_number)
-                                }, 1000); 
+                        
+                                 speakTokenNumber(item.booking_number)
+                              
                                 $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
                                 
                                
