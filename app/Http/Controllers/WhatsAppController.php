@@ -205,7 +205,8 @@ class WhatsAppController extends Controller
 
                 $pdfLink
             
-        EOT;
+            EOT;
+            $this->sendMessage($userPhoneNumber, $message);
          }
         else{
             return false;
