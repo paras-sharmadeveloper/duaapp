@@ -126,6 +126,10 @@
                 <source src="{{ asset('assets/mp3/door_bell.mp3') }}" type="audio/mp3">
                 Your browser does not support the audio tag.
             </audio>
+            <audio id="tokenNumberTone">
+                <source id="tokenNumberToneSrc" src="" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio>
             <div class="col-lg-12 col-md-12 col-sm-12 first_part">
                 <table>
                     <thead>
@@ -178,17 +182,26 @@
 
 
 
-        function speakTokenNumber(tokenNumber) {
-            // Use the Web Speech API to speak the token number
-            if ('speechSynthesis' in window) {
-                let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
-                window.speechSynthesis.speak(message);
+        // function speakTokenNumber(tokenNumber) {
+        //     // Use the Web Speech API to speak the token number
+        //     if ('speechSynthesis' in window) {
+        //         let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
+        //         window.speechSynthesis.speak(message);
 
-            } else {
-                // Fallback for browsers that do not support the Web Speech API or if already spoken
-                console.log(`Token number ${tokenNumber}`);
-            }
+        //     } else {
+        //         // Fallback for browsers that do not support the Web Speech API or if already spoken
+        //         console.log(`Token number ${tokenNumber}`);
+        //     }
+        // }
+        function speakTokenNumber(tokenNumber) {
+
+            var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`; 
+            // Use the Web Speech API to speak the token number
+            $("#tokenNumberToneSrc").attr('src',ToneUrl); 
+            let audioPlayer = document.getElementById('tokenNumberToneSrc');
+            audioPlayer.play();
         }
+        
 
         // Add this variable
         var UserId = null;
@@ -239,6 +252,7 @@
                                 console.log("One time",item.booking_number);
                                 playNotificationTune()
                                 setTimeout(() => {
+
                                     speakTokenNumber(item.booking_number)
                                 }, 1000); 
                                 $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);

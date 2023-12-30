@@ -55,8 +55,6 @@ class WhatsAppController extends Controller
                 $cityArr[$i] = $i . ' ' . $venue->city;
                 $i++;
             }
-
-
             $data = implode(',', $cityArr);
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
@@ -139,7 +137,6 @@ class WhatsAppController extends Controller
     {
         $message = ''; 
         if ($step == 1) {
-
             $message = <<<EOT
             Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
 
