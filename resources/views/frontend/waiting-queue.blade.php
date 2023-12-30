@@ -162,7 +162,7 @@
         var Moyeurl = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
 
       
-        playSound(Moyeurl)
+     
 
         $(document).ready(function() {
             playNotificationTune();
@@ -207,8 +207,8 @@
             console.log("tokenNumber" , tokenNumber)
             var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`; 
             // Use the Web Speech API to speak the token number
-            $("#tokenNumberToneSrc").attr('src',ToneUrl); 
-            var audioPlayer = document.getElementById("tokenNumberToneSrc");
+           
+               playSound(ToneUrl); 
          
              
         }
