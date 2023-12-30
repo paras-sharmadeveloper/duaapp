@@ -159,7 +159,7 @@
 @section('page-script')
     <script>
 
-        var url = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
+        var Moyeurl = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
 
       
 
@@ -173,7 +173,7 @@
         function startTokenSystem() {
 
             getList();
-            playSound(url); 
+            playSound(Moyeurl); 
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
