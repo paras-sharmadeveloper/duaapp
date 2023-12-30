@@ -83,6 +83,7 @@ class WhatsAppController extends Controller
         } else if (!empty($existingCustomer) && $existingCustomer->steps == 2) { // send Dates here
 
             $step = $existingCustomer->steps + 1;
+            $customer_response = $existingCustomer->customer_response; 
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
 
             $cityAr = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
@@ -294,16 +295,14 @@ class WhatsAppController extends Controller
         ];
     }
 
-    function findKeyByValueInArray($array, $searchValue)
+    function findKeyByValueInArray($array, $key)
     {
-        foreach ($array as $key => $value) {
-            if (strpos($value, $searchValue) !== false) {
-                return $key;
-            }
+        if($key > 0){
+            $key= $key-1;
         }
-
-        // If the loop completes without finding a match, return null
-        return null;
+        $arrayKeys = array_keys($array); 
+        return ($arrayKeys[$key]) ? $arrayKeys[$key] : null;
+ 
     }
 
 
