@@ -201,10 +201,21 @@
             var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`; 
             // Use the Web Speech API to speak the token number
             $("#tokenNumberToneSrc").attr('src',ToneUrl); 
-             let audioPlayer = document.getElementById('tokenNumberToneSrc');
-             audioPlayer.play();
+            var audioPlayer = document.getElementById("tokenNumberToneSrc");
+            PlayPause(audioPlayer); 
+             
         }
-        
+
+        function PlayPause(audioPlayer) {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            document.getElementById("playpause").value = "Pause";
+        } else {
+            audioPlayer.pause();
+            document.getElementById("playpause").value = "Play";
+        }
+        }
+                
 
         // Add this variable
         var UserId = null;
