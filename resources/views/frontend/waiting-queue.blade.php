@@ -161,7 +161,7 @@
 
         var url = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
 
-        playSound(url); 
+      
 
 
         $(document).ready(function() {
@@ -173,6 +173,7 @@
         function startTokenSystem() {
 
             getList();
+            playSound(url); 
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
