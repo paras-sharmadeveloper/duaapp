@@ -130,7 +130,7 @@ class WhatsAppController extends Controller
 
             $slotArr = [];
             $i = 1;
-            foreach ($slots->venueSloting as $slot) {
+            foreach ($slots as $slot) {
                 $slotArr[$i] = $i . ' '. $slot->slot_time;
                 $i++;
             }
