@@ -55,7 +55,7 @@ class WhatsAppController extends Controller
 
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                 ->where('venue_date', '>=', date('Y-m-d'))
+                //  ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get();
             $cityArr = [];
