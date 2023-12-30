@@ -159,9 +159,9 @@ class WhatsAppController extends Controller
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id; 
             $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
-
+            $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
             $venue = $venueAddress->venue;
-            $result = $this->parseWhatsAppNumber($userPhoneNumber);
+            $result = $this->formatWhatsAppNumber($cleanedNumber);
             $userMobile = $result['mobileNumber']; 
             $slotTime =  $venueSlots->slot_time; 
             $uuid = Str::uuid()->toString();
@@ -213,16 +213,25 @@ class WhatsAppController extends Controller
         }
     } 
 
-    function parseWhatsAppNumber($whatsappNumber)
+    function formatWhatsAppNumber($whatsappNumber)
     {
-        if (preg_match('/whatsapp\:(\+\d+)(\d+)/', $whatsappNumber, $matches)) {
-            return [
-                'countryCode' => $matches[1],
-                'mobileNumber' => $matches[2],
-            ];
+        // Remove any non-numeric characters
+        $whatsappNumber = preg_replace('/[^\d]/', '', $whatsappNumber);
+
+        // Check if the number starts with a plus sign
+        if (substr($whatsappNumber, 0, 1) === '+') {
+            $countryCode = substr($whatsappNumber, 0, 3);
+            $mobileNumber = substr($whatsappNumber, 3);
+        } else {
+            // If the number doesn't start with a plus sign, assume the country code is missing
+            $countryCode = '';
+            $mobileNumber = $whatsappNumber;
         }
 
-        return null;
+        return [
+            'countryCode' => $countryCode,
+            'mobileNumber' => $mobileNumber,
+        ];
     }
 
     function findKeyByValueInArray($array, $searchValue)
