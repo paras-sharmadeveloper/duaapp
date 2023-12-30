@@ -55,7 +55,7 @@ class WhatsAppController extends Controller
 
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                //  ->where('venue_date', '>=', date('Y-m-d'))
+                ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get();
             $cityArr = [];
@@ -230,6 +230,35 @@ class WhatsAppController extends Controller
                 'steps' => 5
             ];
             WhatsApp::create($dataArr);
+
+            $youtubeLink ="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
+            $whatspp ="https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
+            $fb ="https://www.facebook.com/profile.php?id=100090074346701";
+            $spotify="https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a"; 
+                $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381"; 
+            $kf = "https://kahayfaqeer.org"; 
+            $kfvideo ="https://videos.kahayfaqeer.org";   
+            $subScription = <<<EOT
+            Please follow Qibla Syed Sarfraz Ahmad Shah lectures as follows:
+
+            Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel ▶️  $youtubeLink
+
+            Follow Syed Sarfraz Ahmad Shah (Official) channel on WhatsApp ▶️ $whatspp
+
+            Follow Syed Sarfraz Ahmad Shah (Official) channel on Facebook ▶️ $fb
+
+            Read or listen all Kahay Faqeer Series books for free ▶️$kf
+
+            Watch Syed Sarfraz Ahmad Shah video library of over 2000+ videos ▶️ $kfvideo
+
+            Listen Syed Sarfraz Ahmad Shah on Spotify ▶️ $spotify
+
+            Listen Syed Sarfraz Ahmad Shah on Apple Podcast ▶️  $applePodcase
+            
+        EOT;
+
+        $this->sendMessage($userPhoneNumber, $subScription);
+
          }
         else{
 
@@ -338,28 +367,21 @@ class WhatsAppController extends Controller
         } else if ($step == '5') {
 
             $message = <<<EOT
-            Your Dua Appointment Confirmed With {{1}} ✅
+            Please follow Qibla Syed Sarfraz Ahmad Shah lectures as follows:
 
-                Event Date : {{2}}
+            Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel ▶️  {{1}}
 
-                Venue : {{3}}
+            Follow Syed Sarfraz Ahmad Shah (Official) channel on WhatsApp ▶️ {{2}}
 
-                {{4}}
+            Follow Syed Sarfraz Ahmad Shah (Official) channel on Facebook ▶️ {{3}}
 
-                Token #{{5}}
+            Read or listen all Kahay Faqeer Series books for free ▶️{{4}}
 
-                Your Mobile : {{6}}
+            Watch Syed Sarfraz Ahmad Shah video library of over 2000+ videos ▶️ {{5}}
 
-                Your Appointment Time : {{7}}
+            Listen Syed Sarfraz Ahmad Shah on Spotify ▶️ {{6}}
 
-                Appointment Duration : {{8}}
-
-                {{9}}
-                To view your token online please click below:
-
-                {{10}}
-
-                {{11}}
+            Listen Syed Sarfraz Ahmad Shah on Apple Podcast ▶️  {{7}}
             
         EOT;
         } else {
