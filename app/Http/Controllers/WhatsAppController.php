@@ -8,7 +8,7 @@ use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Str;
 class WhatsAppController extends Controller
 {
     public function handleWebhook(Request $request)
@@ -94,12 +94,12 @@ class WhatsAppController extends Controller
             $VenueDates = [];
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $VenueDates[$venueDate->id] = $i . ' ' . $venueDate->venue_date;
+                $VenueDates[$venueDate->id] = $i. ' ' .$venueDate->venue_date;
                 $i++;
             }
 
 
-            $data = implode('\n', $VenueDates);
+            $data = implode("\n", $VenueDates);
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
@@ -131,7 +131,7 @@ class WhatsAppController extends Controller
             $slotArr = [];
             $i = 1;
             foreach ($slots as $slot) {
-                $slotArr[$i] = $i . ' '. $slot->slot_time;
+                $slotArr[$slot->id] = $i . ' '. $slot->slot_time;
                 $i++;
             }
 
@@ -151,35 +151,79 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        }else{
-            return false;
+        }else if (!empty($existingCustomer) && $existingCustomer->steps == 4) { 
+            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+            $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+
+            $venueSlots = VenueSloting::find($slotId);
+            $venueAddress = $venueSlots->venueAddress;
+            // $tokenId = $venueSlots->token_id; 
+            $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
+
+            $venue = $venueAddress->venue;
+            $result = $this->parseWhatsAppNumber($userPhoneNumber);
+            $userMobile = $result['mobileNumber']; 
+            $slotTime =  $venueSlots->slot_time; 
+            $uuid = Str::uuid()->toString();
+            Vistors::create([
+                'is_whatsapp' => 'yes',
+                'slot_id' => $slotId,
+                'meeting_type' => 'on-site',
+                'booking_uniqueid' =>  $uuid,
+                'booking_number' => $tokenId,
+                'country_code' => $result['countryCode'],
+                'phone' => $result['mobileNumber']  
+            ]);
+            $duaBy = 'Qibla Syed Sarfraz Ahmad Shah'; 
+
+            $appointmentDuration = $venueAddress->slot_duration .' minute 1 Question'; 
+
+            $statusLink = route('booking.status',$uuid); 
+            $pdfLink = ''; 
+
             $message = <<<EOT
-                Your Dua Appointment Confirmed With {{1}} ✅
+            Your Dua Appointment Confirmed With $duaBy ✅
 
-                    Event Date : {{2}}
+                Event Date : $venueAddress->venue_date
 
-                    Venue : {{3}}
+                Venue : $venueAddress->city
 
-                    {{4}}
+                $venueAddress->address
 
-                    Token #{{5}}
+                Token #$tokenId
 
-                    Your Mobile : {{6}}
+                Your Mobile : $userMobile
 
-                    Your Appointment Time : {{7}}
+                Your Appointment Time : $slotTime
 
-                    Appointment Duration : {{8}}
+                Appointment Duration : $appointmentDuration
 
-                    {{9}}
-                    To view your token online please click below:
+                $venueAddress->status_page_note
+                To view your token online please click below:
 
-                    {{10}}
+                $statusLink
 
-                    {{11}}
-                
-            EOT;
+                $pdfLink
+            
+        EOT;
+         }
+        else{
+            return false;
+           
         }
     } 
+
+    function parseWhatsAppNumber($whatsappNumber)
+    {
+        if (preg_match('/whatsapp\:(\+\d+)(\d+)/', $whatsappNumber, $matches)) {
+            return [
+                'countryCode' => $matches[1],
+                'mobileNumber' => $matches[2],
+            ];
+        }
+
+        return null;
+    }
 
     function findKeyByValueInArray($array, $searchValue)
     {
