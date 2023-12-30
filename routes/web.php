@@ -126,7 +126,7 @@ Route::post('/check-particepent/status', [VideoConferenceController::class, 'Che
 Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
 Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
 Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
-Route::post('/site/queue{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     // Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
