@@ -61,7 +61,7 @@ class WhatsAppController extends Controller
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$venue->city.'-'.$venue->id] = $whatsAppEmoji[$i] . ''. $venue->city;
+                $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ''. $venue->city);
                 $i++;
             }
              
@@ -102,7 +102,7 @@ class WhatsAppController extends Controller
             $VenueDates = [];
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $VenueDates[$venueDate->id] = $whatsAppEmoji[$i]. ' ' .$venueDate->venue_date;
+                $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                 $i++;
             }
 
@@ -138,8 +138,12 @@ class WhatsAppController extends Controller
 
             $slotArr = [];
             $i = 1;
+            
+            
             foreach ($slots as $slot) {
-                $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slot->slot_time;
+                $timestamp = strtotime($slot->slot_time);
+                $slotTime = date('h:i:s A', $timestamp);
+                $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
                 $i++;
             }
 
@@ -171,7 +175,9 @@ class WhatsAppController extends Controller
             $venue = $venueAddress->venue;
             $result = $this->formatWhatsAppNumber($cleanedNumber);
             $userMobile = $result['mobileNumber']; 
-            $slotTime =  $venueSlots->slot_time; 
+            
+            $timestamp = strtotime($venueSlots->slot_time);
+            $slotTime = date('h:i:s A', $timestamp);
             $uuid = Str::uuid()->toString();
             Vistors::create([
                 'is_whatsapp' => 'yes',
@@ -217,6 +223,13 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
          }
         else{
+
+            $message = <<<EOT
+            You already booked your slot with us. Thank You.  
+            EOT;
+            
+            $this->sendMessage($userPhoneNumber, $message);
+
             return false;
            
         }
