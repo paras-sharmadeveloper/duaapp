@@ -32,7 +32,7 @@ class WhatsAppController extends Controller
         // WhatsApp::create($dataArr);
         // return 1; 
 
-        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->first();
+        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
         if (empty($existingCustomer)) {
