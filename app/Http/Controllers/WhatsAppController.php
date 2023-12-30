@@ -25,6 +25,14 @@ class WhatsAppController extends Controller
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
+        // https://emojipedia.org/keycap-digit-five
+        $whatsAppEmoji = [
+            '1' => '1️⃣',
+            '2' => '2️⃣',
+            '3' => '3️⃣',
+            '4' => '4️⃣',
+            '5' => '5️⃣'
+        ]; 
 
         if (empty($existingCustomer)) {
             $step = 1;
@@ -53,7 +61,7 @@ class WhatsAppController extends Controller
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$venue->city.'-'.$venue->id] = $i . ' '. $venue->city;
+                $cityArr[$venue->city.'-'.$venue->id] = $whatsAppEmoji[$i] . ''. $venue->city;
                 $i++;
             }
              
@@ -94,7 +102,7 @@ class WhatsAppController extends Controller
             $VenueDates = [];
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $VenueDates[$venueDate->id] = $i. ' ' .$venueDate->venue_date;
+                $VenueDates[$venueDate->id] = $whatsAppEmoji[$i]. ' ' .$venueDate->venue_date;
                 $i++;
             }
 
@@ -131,7 +139,7 @@ class WhatsAppController extends Controller
             $slotArr = [];
             $i = 1;
             foreach ($slots as $slot) {
-                $slotArr[$slot->id] = $i . ' '. $slot->slot_time;
+                $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slot->slot_time;
                 $i++;
             }
 
