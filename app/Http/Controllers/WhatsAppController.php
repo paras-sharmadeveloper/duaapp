@@ -142,7 +142,7 @@ class WhatsAppController extends Controller
             
             foreach ($slots as $slot) {
                 $timestamp = strtotime($slot->slot_time);
-                $slotTime = date('h:i:s A', $timestamp);
+                $slotTime = date('h:i A', $timestamp);
                 $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
                 $i++;
             }
@@ -177,7 +177,7 @@ class WhatsAppController extends Controller
             $userMobile = $result['mobileNumber']; 
             
             $timestamp = strtotime($venueSlots->slot_time);
-            $slotTime = date('h:i:s A', $timestamp);
+            $slotTime = date('h:i A', $timestamp);
             $uuid = Str::uuid()->toString();
             Vistors::create([
                 'is_whatsapp' => 'yes',
