@@ -63,10 +63,12 @@ class WhatsAppController extends Controller
             $cityArr = [];
             $i = 1;
             foreach ($venuesListArr as $venue) {
-                $cityArr[$i] = $i . ' ' . $venue->city;
+                $cityArr[$i] = $i . ' '. $venue->city;
+            
                 $i++;
             }
-            $data = implode(',', $cityArr);
+            $data = implode("\n", $cityArr);
+          
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
@@ -130,12 +132,15 @@ class WhatsAppController extends Controller
             $slotArr = [];
             $i = 1;
             foreach ($slots->venueSloting as $slot) {
-                $slotArr[$i] = $i . ' ' . $slot->slot_time;
+                $slotArr[$i] = $i . ' '. $slot->slot_time;
+
+              //   $slotArr[$i] = $i . ' ' . $slot->slot_time;
                 $i++;
             }
 
 
-            $data = implode(',', $slotArr);
+            $data = implode("\n", $slotArr); // Use "\n" for a new line
+
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
