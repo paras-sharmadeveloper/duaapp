@@ -50,8 +50,8 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
-        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) { // send Cites here
-            $step = 2;
+        } else if (!empty($existingCustomer) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
+            $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where(function ($query) use ($newDate) {
                     $query->where('venue_date', '>=', $newDate)  
@@ -79,8 +79,8 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
-        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 2) { // send Dates here
-            $step = 3;
+        } else if (!empty($existingCustomer) && $existingCustomer->steps == 2) { // send Dates here
+            $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $getDate = $data_sent_to_customer[$Respond];
 
@@ -113,8 +113,8 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
-        }else if (!empty($existingCustomer) && !empty($existingCustomer) == 3) { // send Slots  here
-            $step = 3;
+        }else if (!empty($existingCustomer) && $existingCustomer->steps == 3) { // send Slots  here
+            $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $getDate = $data_sent_to_customer[$Respond];
 
