@@ -50,12 +50,12 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
-        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
+        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) { // send Cites here
             $step = 2;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where(function ($query) use ($newDate) {
-                    $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+                    $query->where('venue_date', '>=', $newDate)  
+                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d'));   
                 })
                 ->where('venue_date', '>=', now()->format('Y-m-d'))
                 ->take(3)
@@ -79,7 +79,41 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
-        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 1) {
+        } else if (!empty($existingCustomer) && !empty($existingCustomer) == 2) { // send Dates here
+            $step = 3;
+            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+            $getDate = $data_sent_to_customer[$Respond];
+
+            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
+                ->where('venue_date', '>=', $getDate)
+                ->orderBy('venue_date', 'ASC')
+                ->take(3)
+                ->get();
+
+           
+
+            $VenueDates = [];
+            $i = 1;
+            foreach ($venuesListArr as $venueDate) {
+                $VenueDates[$i] = $i . ' ' . $venueDate->venue_date;
+                $i++;
+            }
+
+
+            $data = implode(',', $VenueDates);
+            $message = $this->WhatsAppbotMessages($data, $step);
+            $this->sendMessage($userPhoneNumber, $message);
+
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => json_encode($VenueDates),
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => $step
+            ];
+            WhatsApp::create($dataArr);
+        }else if (!empty($existingCustomer) && !empty($existingCustomer) == 3) { // send Slots  here
             $step = 3;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $getDate = $data_sent_to_customer[$Respond];
@@ -114,8 +148,34 @@ class WhatsAppController extends Controller
                 'steps' => $step
             ];
             WhatsApp::create($dataArr);
+        }else{
+            $message = <<<EOT
+                Your Dua Appointment Confirmed With {{1}} ✅
+
+                    Event Date : {{2}}
+
+                    Venue : {{3}}
+
+                    {{4}}
+
+                    Token #{{5}}
+
+                    Your Mobile : {{6}}
+
+                    Your Appointment Time : {{7}}
+
+                    Appointment Duration : {{8}}
+
+                    {{9}}
+                    To view your token online please click below:
+
+                    {{10}}
+
+                    {{11}}
+                
+            EOT;
         }
-    }
+    } 
 
 
 
@@ -160,9 +220,50 @@ class WhatsAppController extends Controller
                 Please enter the number for your city
                 $data
             EOT;
-        } else if ($step == '3') {
-        } else if ($step == '4') {
+        } else if ($step == 3) {
+
+            $message = <<<EOT
+            Please enter the number below on which date slot you want to schedule your dua meeting?
+
+            $data   
+        EOT;
+
+
+           
+        } else if ($step == 4) {
+
+            $message = <<<EOT
+            Please enter the number below on which time slot you want to schedule your dua meeting?
+
+            $data 
+            EOT;
         } else if ($step == '5') {
+
+            $message = <<<EOT
+            Your Dua Appointment Confirmed With {{1}} ✅
+
+                Event Date : {{2}}
+
+                Venue : {{3}}
+
+                {{4}}
+
+                Token #{{5}}
+
+                Your Mobile : {{6}}
+
+                Your Appointment Time : {{7}}
+
+                Appointment Duration : {{8}}
+
+                {{9}}
+                To view your token online please click below:
+
+                {{10}}
+
+                {{11}}
+            
+        EOT;
         } else {
         }
 
