@@ -322,12 +322,13 @@
     <section id="mainsection">
         <div class="container">
             <!-- main content -->
-            <div class="main-content" id="main-target">
+            <div class="main-content" id="main-target"> 
 
                 <div class="d-flex justify-content-center ">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
                         <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
                     </a>
+                    <h4>kahayFaqeer.org</h4>
                 </div>
 
 

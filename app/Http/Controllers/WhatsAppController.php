@@ -21,6 +21,11 @@ class WhatsAppController extends Controller
         $userPhoneNumber = $body['From'];
         $Respond = $body['Body'];
 
+
+        Notification::create([
+            'message' => json_encode( $body )
+        ]
+        ); 
         
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
