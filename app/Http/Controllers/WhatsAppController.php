@@ -69,23 +69,33 @@ class WhatsAppController extends Controller
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get();
+
+
+                $venuesListArr = VenueAddress::where([
+                    'venue_id' => $id, 'city' => $request->input('optional')
+                  ])
+                    ->where(function ($query) use ($newDate) {
+                      $query->where('venue_date', '>', $newDate) // Use '>=' instead of '>'
+                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+                    })
+                    ->where('venue_date', '>', now()->format('Y-m-d'))
+                    ->get();
             $cityArr = [];
+
+
             $i = 1;
 
 
             foreach ($venuesListArr as $venue) {
                 $cityName = $venue->city.'-'.$venue->id; 
             
-                if (!isset($dataArr[$cityName])) {
-                    $cityArr[$cityName] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+                if (!isset($dataArr[$venue->city])) {
+                    $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
                 }
                 $i++;
               }
-            // foreach ($venuesListArr as $venue) {
-            //     $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ' '. $venue->city);
-            //     $i++;
-            // }
-             
+            
+            
             $data = implode("\n",$cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
