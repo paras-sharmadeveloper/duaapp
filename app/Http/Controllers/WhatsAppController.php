@@ -307,10 +307,15 @@ class WhatsAppController extends Controller
          }
         else{
             $optionss = $existingCustomer->response_options; 
+            $datdd = explode(',' ,  $$optionss); 
+            $data = implode("\n", $datdd);
             $message = <<<EOT
-            Please choose right  options $optionss
+            Please select the correct option as below 
+            $data
            
             EOT;
+
+     
             $this->sendMessage($userPhoneNumber, $message);
 
             
