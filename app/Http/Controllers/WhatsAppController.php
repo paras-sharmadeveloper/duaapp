@@ -24,7 +24,7 @@ class WhatsAppController extends Controller
         $waId= $body['WaId'];
         $Respond = $body['Body'];
 
-
+        $responseString = strval($Respond);
         
 
         $countryCode = $this->findCountryByPhoneNumber($waId);  
@@ -83,7 +83,7 @@ class WhatsAppController extends Controller
            
 
 
-        } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
 
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
@@ -121,7 +121,7 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 2) { // send Dates here
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 2) { // send Dates here
 
             $step = $existingCustomer->steps + 1;
             $customer_response = $existingCustomer->customer_response; 
@@ -165,7 +165,7 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        }else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
+        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
 
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
@@ -207,7 +207,7 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        }else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 4) { 
+        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 4) { 
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
 
