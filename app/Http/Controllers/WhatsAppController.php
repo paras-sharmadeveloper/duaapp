@@ -80,16 +80,15 @@ class WhatsAppController extends Controller
                     })
                     ->where('venue_date', '>', now()->format('Y-m-d'))
                     ->get();
-            $cityArr = [];
+          
 
 
             $i = 1;
 
-
+            $cityArr = [];
             foreach ($venuesListArr as $venue) {
                 $cityName = $venue->city.'-'.$venue->id; 
-            
-                if (!isset($dataArr[$venue->city])) {
+                if (!isset($cityArr[$venue->city])) {
                     $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
                 }
                 $i++;
