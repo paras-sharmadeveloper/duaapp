@@ -303,12 +303,11 @@ class WhatsAppController extends Controller
         else{
             $optionss = $existingCustomer->data_sent_to_customer; 
              
-            // if(is_array($optionss)){
-            //     $datdd =   explode(',' ,  $optionss); 
-            //     $data = implode(" ", $datdd);
-            // }else{
-            //     $data = $optionss; 
-            // }
+            if(!empty($optionss)){ 
+                $data = $whatsAppEmoji[1];
+            }else{
+                $data = $optionss; 
+            }
              
             $data = implode("\n", $optionss);     
             $message = <<<EOT
