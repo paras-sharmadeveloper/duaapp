@@ -56,7 +56,7 @@ class WhatsAppController extends Controller
 
                 return false;
         }
-        $responseAccept =  (empty($existingCustomer->response_options)) ? explode(',' , $existingCustomer->response_options) : [];
+        $responseAccept = []; 
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
@@ -76,6 +76,7 @@ class WhatsAppController extends Controller
                 'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
+            $responseAccept =  ($existingCustomer->response_options) ? explode(',' , $existingCustomer->response_options) : [];
 
 
         } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
