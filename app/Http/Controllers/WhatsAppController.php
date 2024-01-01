@@ -305,9 +305,15 @@ class WhatsAppController extends Controller
          }
         else{
             $optionss = $existingCustomer->response_options; 
-            $datdd =  is_array($optionss) ?  explode(',' ,  $optionss) : $whatsAppEmoji[$optionss]; 
              
-            $data = implode("\n", $datdd);
+            if(is_array($optionss)){
+                $datdd =   explode(',' ,  $optionss); 
+                $data = implode("\n", $datdd);
+            }else{
+                $data = $optionss; 
+            }
+             
+           
             $message = <<<EOT
             Please select the correct option as below 
             $data
