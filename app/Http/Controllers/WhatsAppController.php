@@ -47,8 +47,9 @@ class WhatsAppController extends Controller
 
        
         $options = [];
+        $responseAccept = []; 
         if (!empty($existingCustomer)){
-            $responseAccept =  ($existingCustomer->response_options) ? explode(',' , $existingCustomer->response_options) : [];
+            $responseAccept =    explode(',' , $existingCustomer->response_options);
         }
         
         if (!empty($existingCustomer) && $existingCustomer->data_sent_to_customer == 'Slot Booked') {
@@ -60,7 +61,7 @@ class WhatsAppController extends Controller
 
                 return false;
         }
-        $responseAccept = []; 
+       
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
