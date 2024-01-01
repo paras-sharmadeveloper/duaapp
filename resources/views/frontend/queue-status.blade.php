@@ -407,8 +407,8 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {
-                    width: 900,
-                    height: 1100,
+                    width: 870,
+                    height: 1200,
                     scale: 2
                 },
                 jsPDF: {
