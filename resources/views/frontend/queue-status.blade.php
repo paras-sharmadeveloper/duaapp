@@ -407,7 +407,7 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {
-                    width: 870,
+                    width: 890,
                     height: 1200,
                     scale: 2
                 },
@@ -419,7 +419,7 @@
             };
             if (window.innerWidth < 768) {
                 // Adjust options for mobile view
-                options.html2canvas.width = 860; // Set the desired width for mobile view
+                options.html2canvas.width = 900; // Set the desired width for mobile view
                 options.html2canvas.height = 1200; // Set the desired height for mobile view
             }
             html2pdf(element, options);
