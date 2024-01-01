@@ -68,7 +68,7 @@ class WhatsAppController extends Controller
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
             $options = [
-                '1','Press 1'
+                '1' 
             ];
 
             $dataArr = [
@@ -381,11 +381,12 @@ class WhatsAppController extends Controller
     {
         $message = ''; 
         if ($step == 1) {
+ 
             $message = <<<EOT
             Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
 
             Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
-            
+
             To schedule a dua meeting with $data please enter 1
             EOT;
         } else if ($step == 2) {
