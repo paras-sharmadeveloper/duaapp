@@ -308,7 +308,7 @@ class WhatsAppController extends Controller
              
             if(is_array($optionss)){
                 $datdd =   explode(',' ,  $optionss); 
-                $data = implode("\n", $datdd);
+                $data = implode(" ", $datdd);
             }else{
                 $data = $optionss; 
             }
