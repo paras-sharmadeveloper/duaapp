@@ -315,8 +315,9 @@ class WhatsAppController extends Controller
              
            
             $message = <<<EOT
-            Please select the correct option as below 
-            $data
+            
+            Please press the correct number as below 
+            $data 
            
             EOT;
 
