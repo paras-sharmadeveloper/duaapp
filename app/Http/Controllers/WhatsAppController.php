@@ -68,18 +68,7 @@ class WhatsAppController extends Controller
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
-                ->get();
-
-
-                $venuesListArr = VenueAddress::where([
-                    'venue_id' => $id, 'city' => $request->input('optional')
-                  ])
-                    ->where(function ($query) use ($newDate) {
-                      $query->where('venue_date', '>', $newDate) // Use '>=' instead of '>'
-                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-                    })
-                    ->where('venue_date', '>', now()->format('Y-m-d'))
-                    ->get();
+                ->get(); 
           
 
 
