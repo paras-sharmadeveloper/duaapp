@@ -29,10 +29,10 @@ class WhatsAppController extends Controller
 
         $countryCode = $this->findCountryByPhoneNumber($waId);  
         $cleanNumber = str_replace($countryCode,'', $waId);  
-        Notification::create([
-            'message' => $countryCode . '' .$cleanNumber
-        ]
-        );
+        // Notification::create([
+        //     'message' => $countryCode . '' .$cleanNumber
+        // ]
+        // );
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
@@ -67,15 +67,24 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
-                ->distinct(['city'])
                 ->take(3)
                 ->get();
             $cityArr = [];
             $i = 1;
+
+
             foreach ($venuesListArr as $venue) {
-                $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ' '. $venue->city);
+                $cityName = $venue->city.'-'.$venue->id; 
+            
+                if (!isset($dataArr[$cityName])) {
+                    $cityArr[$cityName] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+                }
                 $i++;
-            }
+              }
+            // foreach ($venuesListArr as $venue) {
+            //     $cityArr[$venue->city.'-'.$venue->id] = trim($whatsAppEmoji[$i] . ' '. $venue->city);
+            //     $i++;
+            // }
              
             $data = implode("\n",$cityArr);
           
