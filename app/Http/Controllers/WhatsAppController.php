@@ -45,11 +45,31 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
+        $responseAccept = [
+            'Press 1',
+            '1',
+            '2',
+            '3'
+        ];
+        $options = [];
+        if (!empty($existingCustomer) && $existingCustomer->data_sent_to_customer == 'Slot Booked') {
+            $message = <<<EOT
+                You already booked your slot with us. Thank You.  
+                EOT;
+                
+                $this->sendMessage($userPhoneNumber, $message);
+
+                return false;
+        }
+
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
+            $options = [
+                '1','Press 1'
+            ];
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
@@ -57,28 +77,29 @@ class WhatsAppController extends Controller
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => null,
                 'last_reply_time' => date('Y-m-d H:i:s'),
-                'steps' => $step
+                'steps' => $step,
+                'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
 
 
-        } else if (!empty($existingCustomer) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
+        } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
 
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get(); 
-          
-
-
+           
             $i = 1;
 
             $cityArr = [];
+           
             foreach ($venuesListArr as $venue) {
                 $cityName = $venue->city.'-'.$venue->id; 
                 if (!isset($cityArr[$venue->city])) {
                     $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+                    $options[] = $i; 
                 }
                 $i++;
               }
@@ -95,11 +116,12 @@ class WhatsAppController extends Controller
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($cityArr),
                 'last_reply_time' => date('Y-m-d H:i:s'),
-                'steps' => $step
+                'steps' => $step,
+                'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
 
-        } else if (!empty($existingCustomer) && $existingCustomer->steps == 2) { // send Dates here
+        } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 2) { // send Dates here
 
             $step = $existingCustomer->steps + 1;
             $customer_response = $existingCustomer->customer_response; 
@@ -123,6 +145,7 @@ class WhatsAppController extends Controller
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
                 $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                $options[] = $i;
                 $i++;
             }
 
@@ -137,11 +160,12 @@ class WhatsAppController extends Controller
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($VenueDates),
                 'last_reply_time' => date('Y-m-d H:i:s'),
-                'steps' => $step
+                'steps' => $step,
+                'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
 
-        }else if (!empty($existingCustomer) && $existingCustomer->steps == 3) { // send Slots  here
+        }else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
 
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
@@ -162,6 +186,7 @@ class WhatsAppController extends Controller
                 $timestamp = strtotime($slot->slot_time);
                 $slotTime = date('h:i A', $timestamp);
                 $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
+                $options[] = $i;
                 $i++;
             }
 
@@ -177,11 +202,12 @@ class WhatsAppController extends Controller
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($slotArr),
                 'last_reply_time' => date('Y-m-d H:i:s'),
-                'steps' => $step
+                'steps' => $step,
+                'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
 
-        }else if (!empty($existingCustomer) && $existingCustomer->steps == 4) { 
+        }else if (!empty($existingCustomer) && in_array($Respond, $responseAccept)  && $existingCustomer->steps == 4) { 
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
 
@@ -280,13 +306,7 @@ class WhatsAppController extends Controller
          }
         else{
 
-            $message = <<<EOT
-            You already booked your slot with us. Thank You.  
-            EOT;
             
-            $this->sendMessage($userPhoneNumber, $message);
-
-            return false;
            
         }
     } 
