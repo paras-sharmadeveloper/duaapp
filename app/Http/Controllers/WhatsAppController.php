@@ -52,7 +52,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $cleanNumber,
+                'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => null,
@@ -92,7 +92,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $cleanNumber,
+                'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($cityArr),
@@ -134,7 +134,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $cleanNumber,
+                'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($VenueDates),
