@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Notification;
+use App\Models\{Notification,Country};
 use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
@@ -13,20 +13,26 @@ class WhatsAppController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+
+        
         $body = $request->all();
         $today = Carbon::now();
         $NextDate = $today->addDay();
         $newDate = $NextDate->format('Y-m-d');
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
+        $waId= $body['WaId'];
         $Respond = $body['Body'];
 
 
-        Notification::create([
-            'message' => json_encode( $body )
-        ]
-        ); 
         
+
+        $countryCode = $this->findCountryByPhoneNumber($waId);  
+        $cleanNumber = str_replace($countryCode,'', $waId);  
+        Notification::create([
+            'message' => $countryCode . '' .$cleanNumber
+        ]
+        );
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
@@ -46,7 +52,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $userPhoneNumber,
+                'customer_number' => $cleanNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => null,
@@ -77,7 +83,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $userPhoneNumber,
+                'customer_number' => $cleanNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($cityArr),
@@ -119,7 +125,7 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
-                'customer_number' => $userPhoneNumber,
+                'customer_number' => $cleanNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
                 'data_sent_to_customer' => json_encode($VenueDates),
@@ -190,8 +196,8 @@ class WhatsAppController extends Controller
                 'meeting_type' => 'on-site',
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
-                'country_code' => '+91',
-                'phone' => $result['mobileNumber']  
+                'country_code' => '+'.$countryCode,
+                'phone' => $cleanNumber 
             ]);
             $duaBy = 'Qibla Syed Sarfraz Ahmad Shah'; 
 
@@ -391,5 +397,19 @@ class WhatsAppController extends Controller
         }
 
         return $message;
+    }
+
+    function findCountryByPhoneNumber($phoneNumber) {
+        $countries = Country::all(); // Assuming you have a Country model
+    
+        foreach ($countries as $country) {
+            $countryCodeLength = strlen($country->phonecode);
+            if (substr($phoneNumber, 0, $countryCodeLength) === $country->phonecode) {
+                return $country->phonecode;
+            }
+        }
+    
+        // If no matching country code is found
+        return "Unknown";
     }
 }
