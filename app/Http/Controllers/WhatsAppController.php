@@ -47,6 +47,10 @@ class WhatsAppController extends Controller
 
        
         $options = [];
+        if (!empty($existingCustomer)){
+            $responseAccept =  ($existingCustomer->response_options) ? explode(',' , $existingCustomer->response_options) : [];
+        }
+        
         if (!empty($existingCustomer) && $existingCustomer->data_sent_to_customer == 'Slot Booked') {
             $message = <<<EOT
                 You already booked your slot with us. Thank You.  
@@ -76,7 +80,7 @@ class WhatsAppController extends Controller
                 'response_options' => implode(',' , $options)
             ];
             WhatsApp::create($dataArr);
-            $responseAccept =  ($existingCustomer->response_options) ? explode(',' , $existingCustomer->response_options) : [];
+           
 
 
         } else if (!empty($existingCustomer) && in_array($Respond, $responseAccept) && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) { // send Cites here
