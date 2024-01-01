@@ -327,8 +327,9 @@
                 <div class="d-flex justify-content-center ">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
                         <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                        
                     </a>
-                    <h4>kahayFaqeer.org</h4>
+                    <p>kahayFaqeer.org</p>
                 </div>
 
 
