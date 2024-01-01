@@ -1,5 +1,7 @@
 @extends('layouts.guest')
 @section('content')
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         .statement-notes {
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
@@ -331,7 +333,7 @@
                     </a>
                   
                 </div>
-                <h2>kahayFaqeer.org</h2>
+                <a href="https://kahayfaqeer.org/" target="_blank"><h3>kahayfaqeer.org</h3></a>
 
 
                 <h2 class="text-center"> Dua Appointment <span class="text-center text-success"> Confirmed
@@ -405,7 +407,7 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {
-                    scale: 2
+                    scale: 1
                 },
                 jsPDF: {
                     unit: 'mm',
