@@ -303,7 +303,7 @@ class WhatsAppController extends Controller
         else{
             $optionss = $existingCustomer->data_sent_to_customer; 
              
-            if(!empty($optionss)){ 
+            if(empty($optionss)){ 
                 $data = $whatsAppEmoji[1];
             }else{
                 $data = $optionss; 
