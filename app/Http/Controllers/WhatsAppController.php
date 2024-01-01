@@ -307,9 +307,10 @@ class WhatsAppController extends Controller
                 $data = $whatsAppEmoji[1];
             }else{
                 $data = $optionss; 
+                $data = implode("\n", $optionss);    
             }
              
-            $data = implode("\n", $optionss);     
+            
             $message = <<<EOT
             
             Please press the correct number as below 
