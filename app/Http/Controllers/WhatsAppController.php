@@ -306,7 +306,7 @@ class WhatsAppController extends Controller
             if(empty($optionss)){ 
                 $data = $whatsAppEmoji[1];
             }else{
-                $data = $optionss; 
+                $data = json_decode($optionss , true); 
                 $data = implode("\n", $optionss);    
             }
              
