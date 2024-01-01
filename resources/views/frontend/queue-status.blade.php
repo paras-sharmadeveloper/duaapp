@@ -327,10 +327,11 @@
                 <div class="d-flex justify-content-center ">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
                         <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-                        
+                       
                     </a>
-                    <p>kahayFaqeer.org</p>
+                  
                 </div>
+                <h2>kahayFaqeer.org</h2>
 
 
                 <h2 class="text-center"> Dua Appointment <span class="text-center text-success"> Confirmed
