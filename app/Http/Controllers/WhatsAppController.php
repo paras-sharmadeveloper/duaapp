@@ -29,10 +29,7 @@ class WhatsAppController extends Controller
 
         $countryCode = $this->findCountryByPhoneNumber($waId);  
         $cleanNumber = str_replace($countryCode,'', $waId);  
-        // Notification::create([
-        //     'message' => $countryCode . '' .$cleanNumber
-        // ]
-        // );
+      
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
@@ -304,16 +301,16 @@ class WhatsAppController extends Controller
 
          }
         else{
-            $optionss = $existingCustomer->response_options; 
+            $optionss = $existingCustomer->data_sent_to_customer; 
              
-            if(is_array($optionss)){
-                $datdd =   explode(',' ,  $optionss); 
-                $data = implode(" ", $datdd);
-            }else{
-                $data = $optionss; 
-            }
+            // if(is_array($optionss)){
+            //     $datdd =   explode(',' ,  $optionss); 
+            //     $data = implode(" ", $datdd);
+            // }else{
+            //     $data = $optionss; 
+            // }
              
-           
+            $data = implode("\n", $optionss);     
             $message = <<<EOT
             
             Please press the correct number as below 
