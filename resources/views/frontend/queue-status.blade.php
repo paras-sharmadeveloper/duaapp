@@ -407,7 +407,9 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {
-                    scale: 0
+                    width: 900,
+                    height: 1100,
+                    scale: 2
                 },
                 jsPDF: {
                     unit: 'mm',
