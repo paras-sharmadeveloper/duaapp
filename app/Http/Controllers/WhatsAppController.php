@@ -45,12 +45,7 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
-        $responseAccept = [
-            'Press 1',
-            '1',
-            '2',
-            '3'
-        ];
+       
         $options = [];
         if (!empty($existingCustomer) && $existingCustomer->data_sent_to_customer == 'Slot Booked') {
             $message = <<<EOT
@@ -61,7 +56,7 @@ class WhatsAppController extends Controller
 
                 return false;
         }
-
+        $responseAccept =  (empty($existingCustomer)) ? explode(',' , $existingCustomer->response_options) : [];
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
@@ -305,9 +300,16 @@ class WhatsAppController extends Controller
 
          }
         else{
+            $optionss = $existingCustomer->response_options; 
+            $message = <<<EOT
+            Please choose right  options $optionss
+           
+            EOT;
+            $this->sendMessage($userPhoneNumber, $message);
 
             
            
+
         }
     } 
 
