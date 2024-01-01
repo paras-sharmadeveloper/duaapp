@@ -67,9 +67,7 @@ class WhatsAppController extends Controller
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
-            $options = [
-                '1' 
-            ];
+            $options = [  '1'   ];
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
@@ -307,7 +305,8 @@ class WhatsAppController extends Controller
          }
         else{
             $optionss = $existingCustomer->response_options; 
-            $datdd = explode(',' ,  $$optionss); 
+            $datdd =  is_array($optionss) ?  explode(',' ,  $optionss) : $whatsAppEmoji[$optionss]; 
+             
             $data = implode("\n", $datdd);
             $message = <<<EOT
             Please select the correct option as below 
