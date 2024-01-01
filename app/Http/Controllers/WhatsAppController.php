@@ -56,7 +56,7 @@ class WhatsAppController extends Controller
 
                 return false;
         }
-        $responseAccept =  (empty($existingCustomer)) ? explode(',' , $existingCustomer->response_options) : [];
+        $responseAccept =  (empty($existingCustomer->response_options)) ? explode(',' , $existingCustomer->response_options) : [];
         if (empty($existingCustomer)) {
             $step = 1;
             $data = 'Qibla Syed Sarfraz Ahmad Shah';
