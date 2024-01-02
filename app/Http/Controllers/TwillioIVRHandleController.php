@@ -119,7 +119,7 @@ class TwillioIVRHandleController extends Controller
     {
         $userInput = request('Digits');
         $response = new VoiceResponse();
-        $storedCityArr =  request()->session()->get('cityArr');
+    
 
         $customer = request('From'); 
 
