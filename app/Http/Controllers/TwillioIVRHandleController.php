@@ -69,19 +69,16 @@ class TwillioIVRHandleController extends Controller
                 $i++;
             }
 
-            session(['cityArr' => $cityArr]);
-
-        // STEP 2: Book Meeting Prompt
-        $response->play($this->statementUrl.'statement_bookmeeting.wav');
-        $response->play($this->numbersUrl.'number_01.wav');
-        $response->play($this->statementUrl.'statement_press.wav');
+        session(['cityArr' => $cityArr]);
+        
 
         $gather = $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dates'),
         ]);
 
-        $this->MakeCityDynamic($gather,$cityArr);
+        return $this->MakeCityDynamic($response,$cityArr);
+      
 
         // Prompt user to select a city
         
@@ -124,13 +121,16 @@ class TwillioIVRHandleController extends Controller
                 'numDigits' => 1,
                 'action' => route('ivr.dates'),
             ]);
-
-            $this->SayDates($gather , $VenueDates); 
- 
             session(['datesArr' => $VenueDatesAadd]);
+
+            return $this->SayDates($response , $VenueDates); 
+ 
+           
 
         }else{
             $response->say('Wrong Input'); 
+
+            return response($response, 200)->header('Content-Type', 'text/xml');
         }
 
 
@@ -202,15 +202,16 @@ class TwillioIVRHandleController extends Controller
 
     }
 
-    private function SayDates($gather , $dates){
+    private function SayDates($response , $dates){
 
         foreach($dates as $k => $date){
-            $gather->say('Press '.$k.' for '.$date.'');
+            $response->say('Press '.$k.' for '.$date.'');
         }
+        return response($response, 200)->header('Content-Type', 'text/xml');
 
     }
 
-    private function MakeCityDynamic($gather , $cityArr){
+    private function MakeCityDynamic($response , $cityArr){
 
         foreach($cityArr as $k => $city){
         
@@ -220,10 +221,11 @@ class TwillioIVRHandleController extends Controller
                 $number = $k; 
             }
 
-            $gather->play($this->cityUrl.'city_'.$city.'.wav');
-            $gather->play($this->statementUrl.'statement_kay_liye.wav');
-            $gather->play($this->numbersUrl.'number_'.$number.'.wav');
-            $gather->play($this->statementUrl.'statement_press.wav');
+            $response->play($this->cityUrl.'city_'.$city.'.wav');
+            $response->play($this->statementUrl.'statement_kay_liye.wav');
+            $response->play($this->numbersUrl.'number_'.$number.'.wav');
+            $response->play($this->statementUrl.'statement_press.wav');
+            return response($response, 200)->header('Content-Type', 'text/xml');
 
         } 
 
