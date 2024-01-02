@@ -63,13 +63,13 @@ class TwillioIVRHandleController extends Controller
         $i = 1;
             $cityArr = [];
             foreach ($venuesListArr as $venue) {
-                if (!isset($cityArr[$venue->city])) {
-                    $cityArr[$i] = strtolower($venue->city);        
-                }
+                
+                $cityArr[$i] = strtolower($venue->city);        
+              
                 $i++;
             }
 
-        session(['cityArr' => $cityArr]);
+        session(['cityArr' => array_unique($cityArr)]);
         
 
         $gather = $response->gather([
@@ -77,15 +77,9 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
         ]);
 
-        return $this->MakeCityDynamic($response,$cityArr);
-      
-
-        // Prompt user to select a city
-        
-        
+        return $this->MakeCityDynamic($response,array_unique($cityArr));
       
  
-        // $gather->say('Press 1 for Lahore, 2 for Islamabad, 3 for Karachi.');
 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
@@ -96,6 +90,11 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
 
         $storedCityArr = session('cityArr');
+
+        $gather = $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.dates'),
+        ]);
 
         if(isset($storedCityArr[$userInput])){
             $cityName = $storedCityArr[$userInput]; 
@@ -117,10 +116,7 @@ class TwillioIVRHandleController extends Controller
                 $VenueDatesAadd[$i] = $venueDate->id;
                 $i++;
             }
-            $gather = $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.dates'),
-            ]);
+            
             session(['datesArr' => $VenueDatesAadd]);
 
             return $this->SayDates($response , $VenueDates); 
@@ -167,8 +163,7 @@ class TwillioIVRHandleController extends Controller
         //         $response->redirect(route('ivr.bookmeeting'));
         //         break;
         // }
-
-        return response($response, 200)->header('Content-Type', 'text/xml');
+ 
     }
 
 
@@ -195,6 +190,9 @@ class TwillioIVRHandleController extends Controller
             // $options[] = $i;
              $i++;
         }
+
+        return response($response, 200)->header('Content-Type', 'text/xml');
+
         // $gather = $response->gather([
         //     'numDigits' => 1,
         //     'action' => route('ivr.dates'),
