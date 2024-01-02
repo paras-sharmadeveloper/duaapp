@@ -162,7 +162,7 @@ class TwillioIVRHandleController extends Controller
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => 3
                 ];
-            WhatsApp::where(['id' =>  $exsitingCustomer->id ])->update($dataArr);
+            WhatsApp::create($dataArr);
            return response($response, 200)->header('Content-Type', 'text/xml');
         }
 
