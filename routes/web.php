@@ -32,6 +32,14 @@ use App\Events\MyEvent;
 |
 */
 
+Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.welcome');
+
+Route::post('/ivr/menu', [TwillioIVRHandleController::class, 'handleMenuSelection'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.menu');
+
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
