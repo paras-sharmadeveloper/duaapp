@@ -21,12 +21,23 @@ class TwillioIVRHandleController extends Controller
         $this->cityUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/city/';
         $this->numbersUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
         $this->country = Venue::where(['iso' => 'PK'])->get()->first();
+        
     }
 
     public function handleIncomingCall()
     {
         $fromCountry = request('FromCountry'); 
         $customer = request('From'); 
+
+        $dataArr = [
+            'customer_number' => $customer,
+            'customer_response' => null,
+            'bot_reply' =>  null,
+            'data_sent_to_customer' => 'twillio',
+            'last_reply_time' => date('Y-m-d H:i:s'),
+            'steps' => 1
+        ];
+        WhatsApp::create($dataArr);
         // if($fromCountry  == 'PK'){
 
         // }
@@ -55,11 +66,17 @@ class TwillioIVRHandleController extends Controller
     }
 
 
+    private function getexistingCustomer($userPhoneNumber){
+        return WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+    }
+
+
 
     public function handleBookMeeting()
     {
         $response = new VoiceResponse();
-
+        $userInput = request('Digits');
+        $customer = request('From'); 
         $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('venue_date', '>=', date('Y-m-d'))
             ->take(3)
@@ -90,7 +107,20 @@ class TwillioIVRHandleController extends Controller
             'numDigits' => 1,
             'action' => route('ivr.dates'),
         ]);
-        request()->session()->put('cityArr', array_unique($cityArr));
+
+        $exsitingCustomer = $this->getexistingCustomer($customer);
+        if($exsitingCustomer){
+            $dataArr = [
+                'customer_number' => request('From'),
+                'customer_response' => $userInput ,
+                'bot_reply' =>  json_encode(array_unique($cityArr)),
+                'data_sent_to_customer' => 'twillio',
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => 2
+            ];
+        WhatsApp::where(['id' =>  $exsitingCustomer->id ])->update($dataArr);
+        }
+        
 
        
         return response($response, 200)->header('Content-Type', 'text/xml');
@@ -102,47 +132,56 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $storedCityArr =  request()->session()->get('cityArr');
 
-        $dataArr = [
-            'customer_number' => request('From'),
-            'customer_response' => $userInput ,
-            'bot_reply' =>  json_encode($storedCityArr),
-            'data_sent_to_customer' => 'twillio',
-            'last_reply_time' => date('Y-m-d H:i:s'),
-            'steps' => 1
-        ];
-        WhatsApp::create($dataArr);
-       
+        $customer = request('From'); 
 
-        // $storedCityArr = session('cityArr');
-        $cityName = $storedCityArr[$userInput];
+        $exsitingCustomer = $this->getexistingCustomer($customer);
+        if($exsitingCustomer){
+            $asdas = json_decode($exsitingCustomer->bot_reply , true); 
+            $cityName = $asdas[$userInput];
 
-        $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
+            $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('city',  $cityName)
             ->where('venue_date', '>=', date('Y-m-d'))
             ->orderBy('venue_date', 'ASC')
             ->take(3)
             ->get();
 
-        $VenueDates = [];
-        $VenueDatesAadd = [];
+            $VenueDates = [];
+            $VenueDatesAadd = [];
 
-        $i = 1;
-        foreach ($venuesListArr as $venueDate) {
-            $currentDate = Carbon::parse($venueDate->venue_date);
-            $VenueDates[$i] = $currentDate->format('j M Y');
-            $VenueDatesAadd[$i] = $venueDate->id;
-            $i++;
+            $i = 1;
+            foreach ($venuesListArr as $venueDate) {
+                $currentDate = Carbon::parse($venueDate->venue_date);
+                $VenueDates[$i] = $currentDate->format('j M Y');
+                $VenueDatesAadd[$i] = $venueDate->id;
+                $i++;
+            }
+
+            foreach ($VenueDates as $k => $date) {
+                $response->say('Press ' . $k . ' for ' . $date . '');
+            }
+            $gather = $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.time'),
+            ]); 
+           
+            
+                $dataArr = [
+                    'customer_number' => request('From'),
+                    'customer_response' => $userInput ,
+                    'bot_reply' =>  json_encode(array_unique($VenueDatesAadd)),
+                    'data_sent_to_customer' => 'twillio',
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => 3
+                ];
+            WhatsApp::where(['id' =>  $exsitingCustomer->id ])->update($dataArr);
+           return response($response, 200)->header('Content-Type', 'text/xml');
         }
 
-        foreach ($VenueDates as $k => $date) {
-            $response->say('Press ' . $k . ' for ' . $date . '');
-        }
-        $gather = $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.time'),
-        ]);
-        session(['datesArr' => $VenueDatesAadd]);
-        return response($response, 200)->header('Content-Type', 'text/xml');
+        // $storedCityArr = session('cityArr');
+      
+
+        
 
         
 
@@ -157,26 +196,35 @@ class TwillioIVRHandleController extends Controller
         $userInput = request('Digits');
         $response = new VoiceResponse();
 
-        $storedCityArr = session('datesArr');
-        $venueAddreId = $storedCityArr[$userInput];
-        $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
-            ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-            ->orderBy('slot_time', 'ASC')
-            ->take(3)
-            ->get();
+        $customer = request('From'); 
+        $exsitingCustomer = $this->getexistingCustomer($customer);
 
-        $slotArr = [];
-        $i = 1;
-        foreach ($slots as $slot) {
-            $timestamp = strtotime($slot->slot_time);
-            $slotTime = date('h:i A', $timestamp);
-            $response->say('Press ' . $i . ' to book slot ' . $slotTime . '');
-            // $slotArr[$slot->id] =  $slotTime;
-            // $options[] = $i;
-            $i++;
-        }
 
-        return response($response, 200)->header('Content-Type', 'text/xml');
+        if($exsitingCustomer){
+            $asdas = json_decode($exsitingCustomer->bot_reply , true); 
+            $storedCityArr = $asdas[$userInput];
+
+     
+            $venueAddreId = $storedCityArr[$userInput];
+            $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
+                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->orderBy('slot_time', 'ASC')
+                ->take(3)
+                ->get();
+
+            $slotArr = [];
+            $i = 1;
+            foreach ($slots as $slot) {
+                $timestamp = strtotime($slot->slot_time);
+                $slotTime = date('h:i A', $timestamp);
+                $response->say('Press ' . $i . ' to book slot ' . $slotTime . '');
+                // $slotArr[$slot->id] =  $slotTime;
+                // $options[] = $i;
+                $i++;
+            }
+
+            return response($response, 200)->header('Content-Type', 'text/xml');
+     }
 
         // $gather = $response->gather([
         //     'numDigits' => 1,
