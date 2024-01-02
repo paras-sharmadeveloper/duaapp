@@ -29,15 +29,7 @@ class TwillioIVRHandleController extends Controller
         $fromCountry = request('FromCountry'); 
         $customer = request('From'); 
 
-        $dataArr = [
-            'customer_number' => $customer,
-            'customer_response' => null,
-            'bot_reply' =>  null,
-            'data_sent_to_customer' => 'twillio',
-            'last_reply_time' => date('Y-m-d H:i:s'),
-            'steps' => 1
-        ];
-        WhatsApp::create($dataArr);
+       
         // if($fromCountry  == 'PK'){
 
         // }
@@ -107,9 +99,7 @@ class TwillioIVRHandleController extends Controller
             'numDigits' => 1,
             'action' => route('ivr.dates'),
         ]);
-
-        $exsitingCustomer = $this->getexistingCustomer($customer);
-        if($exsitingCustomer){
+ 
             $dataArr = [
                 'customer_number' => request('From'),
                 'customer_response' => $userInput ,
@@ -118,8 +108,7 @@ class TwillioIVRHandleController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 2
             ];
-        WhatsApp::where(['id' =>  $exsitingCustomer->id ])->update($dataArr);
-        }
+            WhatsApp::create($dataArr);
         
 
        
