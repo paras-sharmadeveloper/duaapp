@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
+use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
+use Carbon\Carbon;
+
 class TwillioIVRHandleController extends Controller
 {
     protected $statementUrl;
     protected $cityUrl;
     protected $numbersUrl;
+    protected $country;
 
     public function __construct()
     {
         $this->statementUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/';
         $this->cityUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/city/';
         $this->numbersUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
+        $this->country = Venue::where(['iso' => 'PK'])->get()->first();
     }
 
     public function handleIncomingCall()
@@ -41,15 +46,30 @@ class TwillioIVRHandleController extends Controller
         header("Content-type: text/xml"); 
 
         // Laravel specific: return a response with the TwiML content
-        return response($response, 200)
-            ->header('Content-Type', 'text/xml');
+        return response($response, 200)->header('Content-Type', 'text/xml');
  
     }
+
+   
 
     public function handleBookMeeting()
     {
         $response = new VoiceResponse();
- 
+        
+        $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
+        ->where('venue_date', '>=', date('Y-m-d'))
+        ->take(3)
+        ->get(); 
+        $i = 1;
+            $cityArr = [];
+            foreach ($venuesListArr as $venue) {
+                if (!isset($cityArr[$venue->city])) {
+                    $cityArr[$i] = strtolower($venue->city);        
+                }
+                $i++;
+            }
+
+            session(['cityArr' => $cityArr]);
 
         // STEP 2: Book Meeting Prompt
         $response->play($this->statementUrl.'statement_bookmeeting.wav');
@@ -58,27 +78,13 @@ class TwillioIVRHandleController extends Controller
 
         $gather = $response->gather([
             'numDigits' => 1,
-            'action' => route('ivr.selectCity'),
+            'action' => route('ivr.dates'),
         ]);
 
+        $this->MakeCityDynamic($gather,$cityArr);
+
         // Prompt user to select a city
-        $gather->play($this->cityUrl.'city_lahore.wav');
-        $gather->play($this->statementUrl.'statement_kay_liye.wav');
-        $gather->play($this->numbersUrl.'number_01.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
         
-        
-        $gather->play($this->cityUrl.'city_islamabad.wav');
-        $gather->play($this->statementUrl.'statement_kay_liye.wav');
-        $gather->play($this->numbersUrl.'number_02.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
-
-
-      
-        $gather->play($this->cityUrl.'city_karachi.wav');
-        $gather->play($this->statementUrl.'statement_kay_liye.wav');
-        $gather->play($this->numbersUrl.'number_03.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
         
       
  
@@ -87,45 +93,139 @@ class TwillioIVRHandleController extends Controller
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
-    public function handleSelectCity()
+    public function handleDates()
     {
         $userInput = request('Digits');
         $response = new VoiceResponse();
 
-        // Handle user selection based on input
-        switch ($userInput) {
-            case '1':
-                $response->play($this->cityUrl.'city_lahore.wav');
-                $response->play($this->statementUrl.'statement_kay_liye.wav');
-                $response->play($this->numbersUrl.'number_01.wav');
-                $response->play($this->statementUrl.'statement_press.wav');
-                
-                // Additional logic for Lahore
-                break;
-            case '2':
-                $response->play($this->cityUrl.'city_islamabad.wav');
-                $response->play($this->statementUrl.'statement_kay_liye.wav');
-                $response->play($this->numbersUrl.'number_02.wav');
-                $response->play($this->statementUrl.'statement_press.wav');
+        $storedCityArr = session('cityArr');
 
+        if(isset($storedCityArr[$userInput])){
+            $cityName = $storedCityArr[$userInput]; 
+
+            $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
+                ->where('city',  $cityName)
+                ->where('venue_date','>=', date('Y-m-d'))
+                ->orderBy('venue_date', 'ASC')
+                ->take(3)
+                ->get();
+
+                $VenueDates = [];
+                $VenueDatesAadd =[];
+              
+            $i = 1;
+            foreach ($venuesListArr as $venueDate) { 
+                $currentDate = Carbon::parse($venueDate->venue_date);  
+                $VenueDates[$i] =$currentDate->format('j M Y');
+                $VenueDatesAadd[$i] = $venueDate->id;
+                $i++;
+            }
+            $gather = $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.dates'),
+            ]);
+
+            $this->SayDates($gather , $VenueDates); 
  
-                break;
-            case '3':
+            session(['datesArr' => $VenueDatesAadd]);
 
-                $response->play($this->cityUrl.'city_karachi.wav');
-                $response->play($this->statementUrl.'statement_kay_liye.wav');
-                $response->play($this->numbersUrl.'number_02.wav');
-                $response->play($this->statementUrl.'statement_press.wav');
-
- 
-                // Additional logic for Karachi
-                break;
-            default:
-                $response->say('Invalid selection. Please try again.');
-                $response->redirect(route('ivr.bookmeeting'));
-                break;
+        }else{
+            $response->say('Wrong Input'); 
         }
 
+
+        // Handle user selection based on input
+        // switch ($userInput) {
+        //     case '1':
+        //         $response->play($this->cityUrl.'city_lahore.wav');
+        //         $response->play($this->statementUrl.'statement_kay_liye.wav');
+        //         $response->play($this->numbersUrl.'number_01.wav');
+        //         $response->play($this->statementUrl.'statement_press.wav');
+                
+        //         // Additional logic for Lahore
+        //         break;
+        //     case '2':
+        //         $response->play($this->cityUrl.'city_islamabad.wav');
+        //         $response->play($this->statementUrl.'statement_kay_liye.wav');
+        //         $response->play($this->numbersUrl.'number_02.wav');
+        //         $response->play($this->statementUrl.'statement_press.wav');
+
+ 
+        //         break;
+        //     case '3':
+
+        //         $response->play($this->cityUrl.'city_karachi.wav');
+        //         $response->play($this->statementUrl.'statement_kay_liye.wav');
+        //         $response->play($this->numbersUrl.'number_02.wav');
+        //         $response->play($this->statementUrl.'statement_press.wav');
+
+ 
+        //         // Additional logic for Karachi
+        //         break;
+        //     default:
+        //         $response->say('Invalid selection. Please try again.');
+        //         $response->redirect(route('ivr.bookmeeting'));
+        //         break;
+        // }
+
         return response($response, 200)->header('Content-Type', 'text/xml');
+    }
+
+
+    public function handleSlots(){
+        
+        $userInput = request('Digits');
+        $response = new VoiceResponse();
+
+        $storedCityArr = session('datesArr');
+        $venueAddreId = $storedCityArr[$userInput]; 
+        $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
+        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+        ->orderBy('slot_time', 'ASC')
+        ->take(3)
+        ->get();
+
+        $slotArr = [];
+        $i = 1; 
+        foreach ($slots as $slot) {
+            $timestamp = strtotime($slot->slot_time);
+            $slotTime = date('h:i A', $timestamp);
+            $response->say('Press '.$i.' to book slot '. $slotTime.'');
+            // $slotArr[$slot->id] =  $slotTime;
+            // $options[] = $i;
+             $i++;
+        }
+        // $gather = $response->gather([
+        //     'numDigits' => 1,
+        //     'action' => route('ivr.dates'),
+        // ]);
+
+    }
+
+    private function SayDates($gather , $dates){
+
+        foreach($dates as $k => $date){
+            $gather->say('Press '.$k.' for '.$date.'');
+        }
+
+    }
+
+    private function MakeCityDynamic($gather , $cityArr){
+
+        foreach($cityArr as $k => $city){
+        
+            if($k>=9){
+                $number = '0'.$k; 
+            }else{
+                $number = $k; 
+            }
+
+            $gather->play($this->cityUrl.'city_'.$city.'.wav');
+            $gather->play($this->statementUrl.'statement_kay_liye.wav');
+            $gather->play($this->numbersUrl.'number_'.$number.'.wav');
+            $gather->play($this->statementUrl.'statement_press.wav');
+
+        } 
+
     }
 }
