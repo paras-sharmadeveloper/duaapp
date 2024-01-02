@@ -31,6 +31,8 @@ use App\Events\MyEvent;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+ 
+
 
 Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
     ->withoutMiddleware(['web', 'verified'])
@@ -40,6 +42,12 @@ Route::post('/ivr/menu', [TwillioIVRHandleController::class, 'handleMenuSelectio
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.menu');
 
+    Route::post('/ivr/bookmeeting', [TwillioIVRHandleController::class, 'handleBookMeeting'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.bookmeeting');
+
+
+ 
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);

@@ -27,7 +27,7 @@ class TwillioIVRHandleController extends Controller
         // Prompt user to press any key to proceed
         $gather = $response->gather([
             'numDigits' => 1,
-            'action' => route('ivr.bookMeeting'),
+            'action' => route('ivr.bookmeeting'),
         ]);
 
         $gather->say('Press any key to book a meeting.');
@@ -38,8 +38,7 @@ class TwillioIVRHandleController extends Controller
         // Laravel specific: return a response with the TwiML content
         return response($response, 200)
             ->header('Content-Type', 'text/xml');
-
-        return $response;
+ 
     }
 
     public function handleBookMeeting()
@@ -73,7 +72,7 @@ class TwillioIVRHandleController extends Controller
  
         // $gather->say('Press 1 for Lahore, 2 for Islamabad, 3 for Karachi.');
 
-        return $response;
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
     public function handleSelectCity()
@@ -111,6 +110,6 @@ class TwillioIVRHandleController extends Controller
                 break;
         }
 
-        return $response;
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 }
