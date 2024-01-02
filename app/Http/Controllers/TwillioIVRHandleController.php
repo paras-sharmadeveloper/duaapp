@@ -102,6 +102,17 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $storedCityArr =  request()->session()->get('cityArr');
 
+        $dataArr = [
+            'customer_number' => request('From'),
+            'customer_response' => $userInput ,
+            'bot_reply' =>  json_encode($storedCityArr),
+            'data_sent_to_customer' => 'twillio',
+            'last_reply_time' => date('Y-m-d H:i:s'),
+            'steps' => 1
+        ];
+        WhatsApp::create($dataArr);
+       
+
         // $storedCityArr = session('cityArr');
         $cityName = $storedCityArr[$userInput];
 
