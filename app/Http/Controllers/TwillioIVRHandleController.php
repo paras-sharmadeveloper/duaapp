@@ -120,7 +120,6 @@ class TwillioIVRHandleController extends Controller
         $userInput = request('Digits');
         $response = new VoiceResponse();
     
-
         $customer = request('From'); 
 
         $exsitingCustomer = $this->getexistingCustomer($customer);
@@ -182,14 +181,15 @@ class TwillioIVRHandleController extends Controller
     public function handleSlots()
     {
 
-        $userInput = request('Digits');
+        
         $response = new VoiceResponse();
 
+        $userInput = request('Digits');
         $customer = request('From'); 
         $exsitingCustomer = $this->getexistingCustomer($customer);
-
-
+ 
         if($exsitingCustomer){
+            $userInput = $exsitingCustomer->customer_response; 
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
             $storedCityArr = $asdas[$userInput];
 
