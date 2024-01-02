@@ -32,6 +32,13 @@ class TwillioIVRHandleController extends Controller
 
         $gather->say('Press any key to book a meeting.');
 
+        // Set the response content type to XML
+        header("Content-type: text/xml"); 
+
+        // Laravel specific: return a response with the TwiML content
+        return response($response, 200)
+            ->header('Content-Type', 'text/xml');
+
         return $response;
     }
 
