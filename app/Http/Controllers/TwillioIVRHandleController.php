@@ -24,6 +24,12 @@ class TwillioIVRHandleController extends Controller
         // STEP 1: Welcome Message
         $response->play($this->statementUrl.'statement_welcome_message.wav');
 
+        $response->play($this->statementUrl.'statement_bookmeeting.wav');
+        $response->play($this->numbersUrl.'number_01.wav');
+        $response->play($this->statementUrl.'statement_press.wav');
+
+
+
         // Prompt user to press any key to proceed
         $gather = $response->gather([
             'numDigits' => 1,
@@ -57,18 +63,18 @@ class TwillioIVRHandleController extends Controller
         ]);
 
         // Prompt user to select a city
-       
+        $gather->play($this->cityUrl.'city_lahore.wav');
         $gather->play($this->statementUrl.'statement_press.wav');
         $gather->play($this->numbersUrl.'number_01.wav');
-        $gather->play($this->cityUrl.'city_lahore.wav');
-
+        
+        $gather->play($this->cityUrl.'city_islamabad.wav');
         $gather->play($this->statementUrl.'statement_press.wav');
         $gather->play($this->numbersUrl.'number_02.wav');
-        $gather->play($this->cityUrl.'city_islamabad.wav');
-
+      
+        $gather->play($this->cityUrl.'city_karachi.wav');
         $gather->play($this->statementUrl.'statement_press.wav');
         $gather->play($this->numbersUrl.'number_03.wav');
-        $gather->play($this->cityUrl.'city_karachi.wav');
+      
  
         // $gather->say('Press 1 for Lahore, 2 for Islamabad, 3 for Karachi.');
 
@@ -91,22 +97,26 @@ class TwillioIVRHandleController extends Controller
                 // Additional logic for Lahore
                 break;
             case '2':
-                $response->play('http://your-audio-server/city_islamabad.wav');
-                $response->play('http://your-audio-server/statement_kay_liye.wav');
-                $response->play('http://your-audio-server/number_02.wav');
-                $response->play('http://your-audio-server/statement_press.wav');
-                // Additional logic for Islamabad
+                $response->play($this->cityUrl.'city_islamabad.wav');
+                $response->play($this->statementUrl.'statement_kay_liye.wav');
+                $response->play($this->numbersUrl.'number_02.wav');
+                $response->play($this->statementUrl.'statement_press.wav');
+
+ 
                 break;
             case '3':
-                $response->play('http://your-audio-server/city_karachi.wav');
-                $response->play('http://your-audio-server/statement_kay_liye.wav');
-                $response->play('http://your-audio-server/number_03.wav');
-                $response->play('http://your-audio-server/statement_press.wav');
+
+                $response->play($this->cityUrl.'city_karachi.wav');
+                $response->play($this->statementUrl.'statement_kay_liye.wav');
+                $response->play($this->numbersUrl.'number_02.wav');
+                $response->play($this->statementUrl.'statement_press.wav');
+
+ 
                 // Additional logic for Karachi
                 break;
             default:
                 $response->say('Invalid selection. Please try again.');
-                $response->redirect(route('ivr.bookMeeting'));
+                $response->redirect(route('ivr.bookmeeting'));
                 break;
         }
 
