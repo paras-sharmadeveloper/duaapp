@@ -215,7 +215,7 @@ class TwillioIVRHandleController extends Controller
 
         foreach($cityArr as $k => $city){
         
-            if($k>=9){
+            if($k<=9){
                 $number = '0'.$k; 
             }else{
                 $number = $k; 
