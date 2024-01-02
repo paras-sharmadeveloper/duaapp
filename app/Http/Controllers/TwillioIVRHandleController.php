@@ -35,8 +35,7 @@ class TwillioIVRHandleController extends Controller
             'numDigits' => 1,
             'action' => route('ivr.bookmeeting'),
         ]);
-
-        $gather->say('Press any key to book a meeting.');
+ 
 
         // Set the response content type to XML
         header("Content-type: text/xml"); 
