@@ -77,9 +77,19 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
         ]);
 
-        return $this->MakeCityDynamic($response,array_unique($cityArr));
-      
- 
+        foreach($cityArr as $k => $city){
+        
+            if($k<=9){
+                $number = '0'.$k; 
+            }else{
+                $number = $k; 
+            }
+
+            $response->play($this->cityUrl.'city_'.$city.'.wav');
+            $response->play($this->statementUrl.'statement_kay_liye.wav');
+            $response->play($this->numbersUrl.'number_'.$number.'.wav');
+            $response->play($this->statementUrl.'statement_press.wav'); 
+        } 
 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
@@ -211,20 +221,7 @@ class TwillioIVRHandleController extends Controller
 
     private function MakeCityDynamic($response , $cityArr){
 
-        foreach($cityArr as $k => $city){
         
-            if($k<=9){
-                $number = '0'.$k; 
-            }else{
-                $number = $k; 
-            }
-
-            $response->play($this->cityUrl.'city_'.$city.'.wav');
-            $response->play($this->statementUrl.'statement_kay_liye.wav');
-            $response->play($this->numbersUrl.'number_'.$number.'.wav');
-            $response->play($this->statementUrl.'statement_press.wav'); 
-        } 
-        return response($response, 200)->header('Content-Type', 'text/xml');
 
     }
 }
