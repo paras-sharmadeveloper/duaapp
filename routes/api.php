@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{TicketWebhook,WhatsAppController}; 
+use App\Http\Controllers\{TicketWebhook,WhatsAppController,TwillioIVRHandleController}; 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,4 +22,5 @@ Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
 Route::post('/handle-incoming-message', [WhatsAppController::class, 'handleWebhook']);
 Route::post('/handle-fallback', [WhatsAppController::class, 'handleFallback']);
 
-
+Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])->name('ivr.welcome');
+Route::post('/ivr/menu', [TwillioIVRHandleController::class, 'handleMenuSelection'])->name('ivr.menu');

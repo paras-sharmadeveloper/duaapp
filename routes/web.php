@@ -86,8 +86,7 @@ Route::get('/', function () {
 });
 
 
-Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])->name('ivr.welcome');
-Route::post('/ivr/menu', [TwillioIVRHandleController::class, 'handleMenuSelection'])->name('ivr.menu');
+
 
 
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
