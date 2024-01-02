@@ -69,15 +69,10 @@ class TwillioIVRHandleController extends Controller
                 $i++;
             }
 
-        session(['cityArr' => array_unique($cityArr)]);
-        
+       
+         
 
-        $gather = $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.dates'),
-        ]);
-
-        foreach($cityArr as $k => $city){
+        foreach(array_unique($cityArr) as $k => $city){
         
             if($k<=9){
                 $number = '0'.$k; 
@@ -90,7 +85,11 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->numbersUrl.'number_'.$number.'.wav');
             $response->play($this->statementUrl.'statement_press.wav'); 
         } 
-
+        $gather = $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.dates'),
+        ]);
+        session(['cityArr' => array_unique($cityArr)]);
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
