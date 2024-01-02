@@ -38,20 +38,26 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome');
 
+    Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.pickcity');
+
     Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
         ->withoutMiddleware(['web', 'verified'])
         ->name('ivr.dates');
 
-        Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
+    Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
         ->withoutMiddleware(['web', 'verified'])
         ->name('ivr.time');
+    Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
+        ->withoutMiddleware(['web', 'verified'])
+        ->name('ivr.makebooking');
 
+        
 
     
 
-    Route::post('/ivr/bookmeeting', [TwillioIVRHandleController::class, 'handleBookMeeting'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.bookmeeting');
+   
 
 
  

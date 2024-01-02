@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
 use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
 use Carbon\Carbon;
-
+use Illuminate\Support\Str;
 class TwillioIVRHandleController extends Controller
 {
     protected $statementUrl;
@@ -46,7 +46,7 @@ class TwillioIVRHandleController extends Controller
         // Prompt user to press any key to proceed
         $gather = $response->gather([
             'numDigits' => 1,
-            'action' => route('ivr.bookmeeting'),
+            'action' => route('ivr.pickcity'),
         ]);
 
 
@@ -64,7 +64,7 @@ class TwillioIVRHandleController extends Controller
 
 
 
-    public function handleBookMeeting()
+    public function handleCity()
     {
         $response = new VoiceResponse();
         $userInput = request('Digits');
@@ -110,7 +110,7 @@ class TwillioIVRHandleController extends Controller
             ];
             WhatsApp::create($dataArr);
         
-
+            header("Content-type: text/xml");
        
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
@@ -129,7 +129,7 @@ class TwillioIVRHandleController extends Controller
 
             $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('city',  $cityName)
-            ->where('venue_date', '>=', date('Y-m-d'))
+            // ->where('venue_date', '>=', date('Y-m-d'))
             ->orderBy('venue_date', 'ASC')
             ->take(3)
             ->get();
@@ -146,7 +146,7 @@ class TwillioIVRHandleController extends Controller
             }
 
             foreach ($VenueDates as $k => $date) {
-                $response->say('Press ' . $k . ' for ' . $date . '');
+                $response->say('Press ' . $k . ' for ' . $date . ' ');
             }
             $gather = $response->gather([
                 'numDigits' => 1,
@@ -155,23 +155,16 @@ class TwillioIVRHandleController extends Controller
            
             
                 $dataArr = [
-                    'customer_number' => request('From'),
+                    'customer_number' => $customer,
                     'customer_response' => $userInput ,
-                    'bot_reply' =>  json_encode(array_unique($VenueDatesAadd)),
+                    'bot_reply' =>  json_encode($VenueDatesAadd),
                     'data_sent_to_customer' => 'twillio',
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => 3
                 ];
-            WhatsApp::create($dataArr);
+            WhatsApp::create($dataArr); 
            return response($response, 200)->header('Content-Type', 'text/xml');
-        }
-
-        // $storedCityArr = session('cityArr');
-      
-
-        
-
-        
+        } 
 
        
  
@@ -187,30 +180,46 @@ class TwillioIVRHandleController extends Controller
         $userInput = request('Digits');
         $customer = request('From'); 
         $exsitingCustomer = $this->getexistingCustomer($customer);
- 
+    
         if($exsitingCustomer){
             $userInput = $exsitingCustomer->customer_response; 
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
-            $storedCityArr = $asdas[$userInput];
+             $venueAddreId = $asdas[$userInput];
 
-     
-            $venueAddreId = $storedCityArr[$userInput];
-            $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
+      
+               $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                 ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
 
             $slotArr = [];
+            $options = [];
             $i = 1;
             foreach ($slots as $slot) {
                 $timestamp = strtotime($slot->slot_time);
                 $slotTime = date('h:i A', $timestamp);
-                $response->say('Press ' . $i . ' to book slot ' . $slotTime . '');
-                // $slotArr[$slot->id] =  $slotTime;
-                // $options[] = $i;
+                $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
+                $slotArr[$slot->id] =  $slotTime;
+                $options[$i] = $slot->id;
                 $i++;
             }
+
+            $dataArr = [
+                'customer_number' => $customer,
+                'customer_response' => $userInput ,
+                'bot_reply' =>  json_encode($options),
+                'data_sent_to_customer' => 'twillio',
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => 4
+            ];
+        WhatsApp::create($dataArr); 
+
+
+            $gather = $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.makebooking'),
+            ]); 
 
             return response($response, 200)->header('Content-Type', 'text/xml');
      }
@@ -219,6 +228,57 @@ class TwillioIVRHandleController extends Controller
         //     'numDigits' => 1,
         //     'action' => route('ivr.dates'),
         // ]);
+
+    }
+
+    public function MakeBooking(){
+        $response = new VoiceResponse();
+
+        $userInput = request('Digits');
+        $customer = request('From'); 
+        $exsitingCustomer = $this->getexistingCustomer($customer);
+ 
+
+        if($exsitingCustomer){
+            $userInput = $exsitingCustomer->customer_response; 
+            $lastSent = json_decode($exsitingCustomer->bot_reply , true); 
+            $slotId = $lastSent[$userInput]; 
+            $venueSlots = VenueSloting::find($slotId);
+            $venueAddress = $venueSlots->venueAddress;
+            // $tokenId = $venueSlots->token_id; 
+            $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
+
+
+            $uuid = Str::uuid()->toString();
+            Vistors::create([
+                'is_whatsapp' => 'yes',
+                'slot_id' => $slotId,
+                'meeting_type' => 'on-site',
+                'booking_uniqueid' =>  $uuid,
+                'booking_number' => $tokenId,
+                'country_code' => '+91',
+                'phone' => $customer 
+            ]);
+            $response->play($this->statementUrl . 'statement_your_token_date.wav');
+            $currentDate = Carbon::parse($venueAddress->venue_date);
+            $response->say($currentDate->format('j M Y')); 
+            $response->play($this->statementUrl . 'statement_your_dua_time.wav');
+            $response->say($venueSlots->slot_time); 
+            $response->play($this->statementUrl . 'statement_your_token_number.wav');
+            if ($venueSlots->token_id <= 9) {
+                $number = '0' . $venueSlots->token_id;
+            } else {
+                $number = $venueSlots->token_id;
+            }
+
+
+            $response->play($this->numbersUrl . 'number_' . $number . '.wav');
+            $response->play($this->statementUrl . 'statement_goodbye.wav'); 
+            return response($response, 200)->header('Content-Type', 'text/xml');
+
+
+        }
+
 
     }
 
