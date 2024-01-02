@@ -64,16 +64,23 @@ class TwillioIVRHandleController extends Controller
 
         // Prompt user to select a city
         $gather->play($this->cityUrl.'city_lahore.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
+        $gather->play($this->statementUrl.'statement_kay_liye.wav');
         $gather->play($this->numbersUrl.'number_01.wav');
+        $gather->play($this->statementUrl.'statement_press.wav');
+        
         
         $gather->play($this->cityUrl.'city_islamabad.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
+        $gather->play($this->statementUrl.'statement_kay_liye.wav');
         $gather->play($this->numbersUrl.'number_02.wav');
+        $gather->play($this->statementUrl.'statement_press.wav');
+
+
       
         $gather->play($this->cityUrl.'city_karachi.wav');
-        $gather->play($this->statementUrl.'statement_press.wav');
+        $gather->play($this->statementUrl.'statement_kay_liye.wav');
         $gather->play($this->numbersUrl.'number_03.wav');
+        $gather->play($this->statementUrl.'statement_press.wav');
+        
       
  
         // $gather->say('Press 1 for Lahore, 2 for Islamabad, 3 for Karachi.');
