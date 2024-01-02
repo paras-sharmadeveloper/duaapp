@@ -129,7 +129,7 @@ class TwillioIVRHandleController extends Controller
 
             $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('city',  $cityName)
-            // ->where('venue_date', '>=', date('Y-m-d'))
+            ->where('venue_date', '>=', date('Y-m-d'))
             ->orderBy('venue_date', 'ASC')
             ->take(3)
             ->get();
