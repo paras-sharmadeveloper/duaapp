@@ -25,6 +25,11 @@ class TwillioIVRHandleController extends Controller
 
     public function handleIncomingCall()
     {
+        $fromCountry = request('FromCountry'); 
+        $customer = request('From'); 
+        // if($fromCountry  == 'PK'){
+
+        // }
         $response = new VoiceResponse();
         // STEP 1: Welcome Message
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
@@ -85,7 +90,9 @@ class TwillioIVRHandleController extends Controller
             'numDigits' => 1,
             'action' => route('ivr.dates'),
         ]);
-        session(['cityArr' => array_unique($cityArr)]);
+        request()->session()->put('cityArr', array_unique($cityArr));
+
+       
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
@@ -93,8 +100,9 @@ class TwillioIVRHandleController extends Controller
     {
         $userInput = request('Digits');
         $response = new VoiceResponse();
+        $storedCityArr =  request()->session()->get('cityArr');
 
-        $storedCityArr = session('cityArr');
+        // $storedCityArr = session('cityArr');
         $cityName = $storedCityArr[$userInput];
 
         $venuesListArr = VenueAddress::where('venue_id', $this->country->id)

@@ -23,10 +23,7 @@ class WhatsAppController extends Controller
         $userPhoneNumber = $body['From'];
         $waId= $body['WaId'];
         $Respond = $body['Body'];
-
         $responseString = strval($Respond);
-        
-
         $countryCode = $this->findCountryByPhoneNumber($waId);  
         $cleanNumber = str_replace($countryCode,'', $waId);  
       
