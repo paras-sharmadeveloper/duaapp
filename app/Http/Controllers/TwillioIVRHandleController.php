@@ -160,11 +160,16 @@ class TwillioIVRHandleController extends Controller
                 $year = $datesArr[0];
                 $month = $datesArr[1];
                 $day = $datesArr[2];
+                if ($k <= 9) {
+                    $number = '0' . $k;
+                } else {
+                    $number = $k;
+                }
                 $response->play($this->numbersUrl . 'number_' . $day. '.wav');
                 $response->play($this->monthsIvr . 'Month_'.$month.'.wav');
                 $response->play($this->yearsIvr . 'Year_'.$year.'.wav');
                 $response->play($this->statementUrl . 'statement_kay_liye.wav');  
-                $response->play($this->numbersUrl . 'number_' . $k. '.wav'); 
+                $response->play($this->numbersUrl . 'number_' . $number. '.wav'); 
                 $response->play($this->statementUrl . 'statement_press.wav'); 
                 
                 
