@@ -227,9 +227,20 @@ class TwillioIVRHandleController extends Controller
             $options = [];
             $i = 1;
             foreach ($slots as $slot) {
-                $timestamp = strtotime($slot->slot_time);
-                $slotTime = date('h:i A', $timestamp);
-                $chunksTime = explode(':',$slotTime); 
+                // $timestamp = strtotime($slot->slot_time);
+                $timeArr = explode(':', $slot->slot_time);
+                $hours = $timeArr[0];
+                $minutes = $timeArr[1];
+                $seconds = $timeArr[2];
+
+                $hours = intval($timeArr[0]);
+                $ampm = '';
+                if ($hours >= 0 && $hours < 12) {
+                    $ampm = "AM";
+                } else {
+                    $ampm = "PM";
+                    
+                } 
 
                 if ($i <= 9) {
                     $number = '0' . $i;
@@ -237,13 +248,19 @@ class TwillioIVRHandleController extends Controller
                     $number = $i;
                 }
 
-
-                $response->play($this->numbersUrl . 'number_' .  $chunksTime[0]. '.wav'); 
+                if ($hours <= 9) {
+                    $hourNew = '0' . $hours;
+                } else {
+                    $hourNew = $hours;
+                } 
+                $response->play($this->numbersUrl . 'number_' .  $hourNew. '.wav'); 
                 $response->play($this->statementUrl . 'statement_bajkay.wav');  
-                $response->play($this->statementUrl . 'statement_aur.wav');  
-                $response->play($this->numbersUrl . 'number_' . $chunksTime[1]. '.wav');
-                $response->play($this->statementUrl . 'statement_minute.wav'); 
-
+                if($minutes != '00'){
+                    $response->play($this->statementUrl . 'statement_aur.wav');  
+                    $response->play($this->numbersUrl . 'number_' . $minutes. '.wav');
+                    $response->play($this->statementUrl . 'statement_minute.wav');
+                } 
+                  
                 $response->play($this->statementUrl . 'statement_kay_liye.wav');  
                 $response->play($this->numbersUrl . 'number_' . $number. '.wav'); 
                 $response->play($this->statementUrl . 'statement_press.wav'); 
@@ -251,7 +268,7 @@ class TwillioIVRHandleController extends Controller
 
 
              //   $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
-                $slotArr[$slot->id] =  $slotTime;
+                // $slotArr[$slot->id] =  $slotTime;
                 $options[$i] = $slot->id;
                 $i++;
             }
@@ -334,23 +351,41 @@ class TwillioIVRHandleController extends Controller
 
             // $response->say($venueSlots->slot_time); 
             $chunksTime = explode(':',$venueSlots->slot_time); 
+ 
+                $hours = $chunksTime[0];
+                $minutes = $chunksTime[1];
+                $seconds = $chunksTime[2];
+
+                $ampm = '';
+                if ($hours >= 0 && $hours < 12) {
+                    $ampm = "AM";
+                } else {
+                    $ampm = "PM";
+                    
+                }  
+
+                if ($hours <= 9) {
+                    $hourNew = '0' . $hours;
+                } else {
+                    $hourNew = $hours;
+                } 
 
             
 
-                $response->play($this->numbersUrl . 'number_' .  $chunksTime[0]. '.wav'); 
+                $response->play($this->numbersUrl . 'number_' .  $hourNew. '.wav'); 
                 $response->play($this->statementUrl . 'statement_bajkay.wav');  
-                $response->play($this->statementUrl . 'statement_aur.wav');  
-                $response->play($this->numbersUrl . 'number_' . $chunksTime[1]. '.wav');
-                $response->play($this->statementUrl . 'statement_minute.wav'); 
-
-
-          
-            $response->play($this->statementUrl . 'statement_your_token_number.wav');
-            if ($venueSlots->token_id <= 9) {
-                $number = '0' . $venueSlots->token_id;
-            } else {
-                $number = $venueSlots->token_id;
-            }
+                if($minutes != '00'){
+                    $response->play($this->statementUrl . 'statement_aur.wav');  
+                    $response->play($this->numbersUrl . 'number_' . $minutes. '.wav');
+                    $response->play($this->statementUrl . 'statement_minute.wav');
+                } 
+                $response->play($this->statementUrl . 'statement_your_token_number.wav');
+                
+                if ($venueSlots->token_id <= 9) {
+                    $number = '0' . $venueSlots->token_id;
+                } else {
+                    $number = $venueSlots->token_id;
+                }
 
 
             $response->play($this->numbersUrl . 'number_' . $number . '.wav');
