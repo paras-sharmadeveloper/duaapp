@@ -317,10 +317,34 @@ class TwillioIVRHandleController extends Controller
 
             Log::info('Make booking Digits: ' . $request->input('Digits'));
             $response->play($this->statementUrl . 'statement_your_token_date.wav');
-            $currentDate = Carbon::parse($venueAddress->venue_date);
-            $response->say($currentDate->format('j M Y')); 
+            
+
+            $datesArr = explode('-',$venueAddress->venue_date); 
+            $year = $datesArr[0];
+            $month = $datesArr[1];
+            $day = $datesArr[2];
+             
+            $response->play($this->numbersUrl . 'number_' . $day. '.wav');
+            $response->play($this->monthsIvr . 'Month_'.$month.'.wav');
+            $response->play($this->yearsIvr . 'Year_'.$year.'.wav'); 
+ 
+           
+            // $response->say($currentDate->format('j M Y')); 
             $response->play($this->statementUrl . 'statement_your_dua_time.wav');
-            $response->say($venueSlots->slot_time); 
+
+            // $response->say($venueSlots->slot_time); 
+            $chunksTime = explode(':',$venueSlots->slot_time); 
+
+            
+
+                $response->play($this->numbersUrl . 'number_' .  $chunksTime[0]. '.wav'); 
+                $response->play($this->statementUrl . 'statement_bajkay.wav');  
+                $response->play($this->statementUrl . 'statement_aur.wav');  
+                $response->play($this->numbersUrl . 'number_' . $chunksTime[1]. '.wav');
+                $response->play($this->statementUrl . 'statement_minute.wav'); 
+
+
+          
             $response->play($this->statementUrl . 'statement_your_token_number.wav');
             if ($venueSlots->token_id <= 9) {
                 $number = '0' . $venueSlots->token_id;
