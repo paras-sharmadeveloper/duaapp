@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
 use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
+ 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+ 
 class TwillioIVRHandleController extends Controller
 {
     protected $statementUrl;
@@ -28,11 +31,7 @@ class TwillioIVRHandleController extends Controller
     {
         $fromCountry = request('FromCountry'); 
         $customer = request('From'); 
-
-       
-        // if($fromCountry  == 'PK'){
-
-        // }
+ 
         $response = new VoiceResponse();
         // STEP 1: Welcome Message
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
@@ -69,6 +68,8 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $userInput = request('Digits');
         $customer = request('From'); 
+
+       
         $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('venue_date', '>=', date('Y-m-d'))
             ->take(3)
@@ -108,6 +109,7 @@ class TwillioIVRHandleController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 2
             ];
+            Log::info('Received Digits city: ' . $userInput);
             WhatsApp::create($dataArr);
         
             header("Content-type: text/xml");
@@ -153,6 +155,7 @@ class TwillioIVRHandleController extends Controller
                 'action' => route('ivr.time'),
             ]); 
            
+            Log::info('Received Digits handles dates: ' . $userInput);
             
                 $dataArr = [
                     'customer_number' => $customer,
@@ -213,6 +216,7 @@ class TwillioIVRHandleController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 4
             ];
+            Log::info('Received Digits handles slots: ' . $userInput);
         WhatsApp::create($dataArr); 
 
 
@@ -259,6 +263,8 @@ class TwillioIVRHandleController extends Controller
                 'country_code' => '+91',
                 'phone' => $customer 
             ]);
+
+            Log::info('Make booking Digits: ' . $userInput);
             $response->play($this->statementUrl . 'statement_your_token_date.wav');
             $currentDate = Carbon::parse($venueAddress->venue_date);
             $response->say($currentDate->format('j M Y')); 
