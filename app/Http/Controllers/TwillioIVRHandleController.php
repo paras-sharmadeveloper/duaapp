@@ -27,11 +27,11 @@ class TwillioIVRHandleController extends Controller
         
     }
 
-    public function handleIncomingCall()
+    public function handleIncomingCall(Request $request)
     {
         $fromCountry = request('FromCountry'); 
         $customer = request('From'); 
- 
+        $userInput = $request->input('Digits');
         $response = new VoiceResponse();
         // STEP 1: Welcome Message
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
@@ -63,10 +63,10 @@ class TwillioIVRHandleController extends Controller
 
 
 
-    public function handleCity()
+    public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
-        $userInput = request('Digits');
+        $userInput = $request->input('Digits');
         $customer = request('From'); 
 
        
@@ -109,7 +109,7 @@ class TwillioIVRHandleController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 2
             ];
-            Log::info('Received Digits city: ' . $userInput);
+            Log::info('Received Digits city: ' . $request->input('Digits'));
             WhatsApp::create($dataArr);
         
             header("Content-type: text/xml");
@@ -117,9 +117,9 @@ class TwillioIVRHandleController extends Controller
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
-    public function handleDates()
+    public function handleDates(Request $request)
     {
-        $userInput = request('Digits');
+        $userInput = $request->input('Digits');
         $response = new VoiceResponse();
     
         $customer = request('From'); 
@@ -155,7 +155,7 @@ class TwillioIVRHandleController extends Controller
                 'action' => route('ivr.time'),
             ]); 
            
-            Log::info('Received Digits handles dates: ' . $userInput);
+            Log::info('Received Digits handles dates: ' . $request->input('Digits'));
             
                 $dataArr = [
                     'customer_number' => $customer,
@@ -174,14 +174,14 @@ class TwillioIVRHandleController extends Controller
     }
 
 
-    public function handleSlots()
+    public function handleSlots(Request $request)
     {
 
         
         $response = new VoiceResponse();
-
-        $userInput = request('Digits');
+ 
         $customer = request('From'); 
+        $userInput = $request->input('Digits');
         $exsitingCustomer = $this->getexistingCustomer($customer);
     
         if($exsitingCustomer){
@@ -216,7 +216,7 @@ class TwillioIVRHandleController extends Controller
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 4
             ];
-            Log::info('Received Digits handles slots: ' . $userInput);
+            Log::info('Received Digits handles slots: ' .$request->input('Digits'));
         WhatsApp::create($dataArr); 
 
 
@@ -235,10 +235,13 @@ class TwillioIVRHandleController extends Controller
 
     }
 
-    public function MakeBooking(){
-        $response = new VoiceResponse();
+    public function MakeBooking(Request $request){
 
-        $userInput = request('Digits');
+        $userInput = $request->input('Digits');
+
+
+        $response = new VoiceResponse();
+ 
         $customer = request('From'); 
         $exsitingCustomer = $this->getexistingCustomer($customer);
  
@@ -264,7 +267,7 @@ class TwillioIVRHandleController extends Controller
                 'phone' => $customer 
             ]);
 
-            Log::info('Make booking Digits: ' . $userInput);
+            Log::info('Make booking Digits: ' . $request->input('Digits'));
             $response->play($this->statementUrl . 'statement_your_token_date.wav');
             $currentDate = Carbon::parse($venueAddress->venue_date);
             $response->say($currentDate->format('j M Y')); 
