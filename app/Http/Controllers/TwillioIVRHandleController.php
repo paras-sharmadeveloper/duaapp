@@ -17,12 +17,18 @@ class TwillioIVRHandleController extends Controller
     protected $cityUrl;
     protected $numbersUrl;
     protected $country;
+    protected $monthsIvr;
+    protected $yearsIvr;
 
     public function __construct()
     {
         $this->statementUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/';
         $this->cityUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/city/';
         $this->numbersUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
+        $this->monthsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
+        $this->yearsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
+       
+        
         $this->country = Venue::where(['iso' => 'PK'])->get()->first();
         
     }
@@ -142,13 +148,27 @@ class TwillioIVRHandleController extends Controller
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
                 $currentDate = Carbon::parse($venueDate->venue_date);
-                $VenueDates[$i] = $currentDate->format('j M Y');
+                $VenueDates[$i] = $venueDate->venue_date;
+                // $VenueDates[$i] = $currentDate->format('j M Y');
                 $VenueDatesAadd[$i] = $venueDate->id;
                 $i++;
             }
 
             foreach ($VenueDates as $k => $date) {
-                $response->say('Press ' . $k . ' for ' . $date . ' ');
+
+                $datesArr = explode('-',$date); 
+                $year = $datesArr[0];
+                $month = $datesArr[1];
+                $day = $datesArr[2];
+                $response->play($this->numbersUrl . 'number_' . $day. '.wav');
+                $response->play($this->monthsIvr . 'Month_'.$month.'.wav');
+                $response->play($this->yearsIvr . 'Year_'.$year.'.wav');
+                $response->play($this->statementUrl . 'statement_kay_liye.wav');  
+                $response->play($this->numbersUrl . 'number_' . $k. '.wav'); 
+                $response->play($this->statementUrl . 'statement_press.wav'); 
+                
+                
+                 
             }
             $gather = $response->gather([
                 'numDigits' => 1,
@@ -179,12 +199,14 @@ class TwillioIVRHandleController extends Controller
 
         
         $response = new VoiceResponse();
- 
+       
         $customer = request('From'); 
         $userInput = $request->input('Digits');
         $exsitingCustomer = $this->getexistingCustomer($customer);
     
         if($exsitingCustomer){
+            $response->play($this->statementUrl . 'statement_select_time.wav'); 
+
             $userInput = $exsitingCustomer->customer_response; 
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
              $venueAddreId = $asdas[$userInput];
@@ -202,7 +224,28 @@ class TwillioIVRHandleController extends Controller
             foreach ($slots as $slot) {
                 $timestamp = strtotime($slot->slot_time);
                 $slotTime = date('h:i A', $timestamp);
-                $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
+                $chunksTime = explode(':',$slotTime); 
+
+                if ($i <= 9) {
+                    $number = '0' . $i;
+                } else {
+                    $number = $i;
+                }
+
+
+                $response->play($this->numbersUrl . 'number_' .  $chunksTime[0]. '.wav'); 
+                $response->play($this->statementUrl . 'statement_bajkay.wav');  
+                $response->play($this->statementUrl . 'statement_aur.wav');  
+                $response->play($this->numbersUrl . 'number_' . $chunksTime[1]. '.wav');
+                $response->play($this->statementUrl . 'statement_minute.wav'); 
+
+                $response->play($this->statementUrl . 'statement_kay_liye.wav');  
+                $response->play($this->numbersUrl . 'number_' . $number. '.wav'); 
+                $response->play($this->statementUrl . 'statement_press.wav'); 
+                
+
+
+             //   $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
                 $slotArr[$slot->id] =  $slotTime;
                 $options[$i] = $slot->id;
                 $i++;
