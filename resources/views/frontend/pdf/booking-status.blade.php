@@ -12,7 +12,7 @@
         
 
         @font-face {
-            font-family: 'Jameel Noori Nastaleeq';
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;
             src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
         }
         body {
@@ -238,9 +238,13 @@
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
-            body {
-                font-family: 'Jameel Noori Nastaleeq', sans-serif;
-            }
+            @font-face {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;
+            src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
+        }
+        body {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;
+        }
             .statement-notes {
                 font-family: 'Jameel Noori Nastaleeq', sans-serif;
             }
