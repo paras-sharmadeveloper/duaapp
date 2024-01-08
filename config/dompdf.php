@@ -47,8 +47,7 @@ return array(
          * Symbol, ZapfDingbats.
          */
         'fontDir' => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'),
-        'fontCache' => storage_path('fonts/'),
-        'defaultFont' => 'Jameel Noori Nastaleeq',
+       //  'defaultFont' => 'Jameel Noori Nastaleeq',
         // "font_dir" => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)
 
         /**
