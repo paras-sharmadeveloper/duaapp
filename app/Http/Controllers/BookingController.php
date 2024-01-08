@@ -234,18 +234,11 @@ class BookingController extends Controller
         if (App::environment('production')) { 
             $LogoUrl = url('/assets/theme/img/logo.png'); 
         }else{
-            $LogoUrl = public_path('assets/theme/img/logo.png');
-        }
-          
-
-     
-      $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
-      $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
- 
-
-
-        
-
+            echo $LogoUrl = public_path('assets/theme/img/logo.png'); die("else"); 
+        } 
+        $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
+        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
+  
         $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'));
         $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
         $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]); // Enable HTML5 and PHP rendering
