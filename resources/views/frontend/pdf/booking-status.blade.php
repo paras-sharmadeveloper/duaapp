@@ -239,12 +239,12 @@
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
             @font-face {
-            font-family: 'Jameel Noori Nastaleeq', sans-serif;
-            src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
-        }
-        body {
-            font-family: 'Jameel Noori Nastaleeq', sans-serif;
-        }
+                font-family: 'Jameel Noori Nastaleeq', sans-serif;
+                src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
+            }
+            body {
+                font-family: 'Jameel Noori Nastaleeq', sans-serif;
+            }
             .statement-notes {
                 font-family: 'Jameel Noori Nastaleeq', sans-serif;
             }
