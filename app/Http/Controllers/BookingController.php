@@ -236,13 +236,15 @@ class BookingController extends Controller
         }else{
              $LogoUrl = public_path('assets/theme/img/logo.png'); 
         } 
+
+        $statusPageNotes = base64_encode($venueAddress->status_page_note); 
         // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
         $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
         // Assuming JameelNooriNastaleeq.ttf is in public/fonts directory
         $fontPath = url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
         // TCPDF configuration
-        $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'));
+        $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'  ,'statusPageNotes'));
          
         $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
         $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]); // Enable HTML5 and PHP rendering
