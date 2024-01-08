@@ -362,7 +362,7 @@
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
-                            <p class="statement-notes" style="text-align: center" >{{ $venueAddress->status_page_note }}</p>
+                            <p class="statement-notes" style="text-align: center; font-family: 'Jameel Noori Nastaleeq', sans-serif;" >{{ $venueAddress->status_page_note }}</p>
                             <p style="text-align: center" >To view your token online please click below:</p>
                             <p style="text-align: center" > <a style="text-align: center" href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>

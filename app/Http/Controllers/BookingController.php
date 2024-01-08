@@ -238,13 +238,9 @@ class BookingController extends Controller
         } 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
         $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
-
         // Assuming JameelNooriNastaleeq.ttf is in public/fonts directory
         $fontPath = url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
-
         // TCPDF configuration
-        
-  
         $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'));
          
         $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
