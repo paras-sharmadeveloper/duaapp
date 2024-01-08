@@ -232,10 +232,11 @@ class BookingController extends Controller
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
         if (App::environment('production')) { 
-            $LogoUrl = '/assets/theme/img/logo.png';
+            echo $LogoUrl = url('/assets/theme/img/logo.png'); die; 
         }else{
             $LogoUrl = public_path('assets/theme/img/logo.png');
         }
+          
 
      
       $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
