@@ -9,27 +9,17 @@
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
 
-        @font-face {
-            font-family: 'Jameel Noori Nastaleeq', sans-serif;         
-            src: local("Source Sans Pro"), url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format("truetype");
-            font-weight: normal;
-            font-style: normal;
-
-        }
         
-        @media print {
-            /* Adjust widths for better print layout */
-            .column {
-                width: 100%;
-                margin: 0;
-                padding: 10px; /* Adjust padding as needed */
-            }
-            #mainsection{
-                margin: 0 !important; 
-            }
- 
- 
+
+        @font-face {
+            font-family: 'Jameel Noori Nastaleeq';
+            src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
         }
+        body {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;
+        }
+                
+       
 
         span.text-center.text-success.confirm {
             font-size: 24px;
