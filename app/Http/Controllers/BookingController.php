@@ -246,9 +246,7 @@ class BookingController extends Controller
         
   
         $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'));
-        $pdf->AddFont('jameelnoorinastaleeq', '', $fontPath);
-        $pdf->SetFont('jameelnoorinastaleeq', '', 12);
-
+         
         $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
         $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]); // Enable HTML5 and PHP rendering
          
