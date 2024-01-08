@@ -8,7 +8,7 @@ use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use PDF;
-
+use Illuminate\Support\Facades\App;
 class BookingController extends Controller
 {
     use OtpTrait;
@@ -231,7 +231,13 @@ class BookingController extends Controller
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
-      $LogoUrl = public_path('assets/theme/img/logo.png');
+        if (App::environment('production')) { 
+            $LogoUrl = '/assets/theme/img/logo.png';
+        }else{
+            $LogoUrl = public_path('assets/theme/img/logo.png');
+        }
+
+     
       $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
       $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
  
