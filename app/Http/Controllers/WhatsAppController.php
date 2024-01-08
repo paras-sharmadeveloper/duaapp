@@ -235,26 +235,26 @@ class WhatsAppController extends Controller
             $message = <<<EOT
             Your Dua Appointment Confirmed With $duaBy ✅
 
-                Event Date : $venueAddress->venue_date
+            Event Date : $venueAddress->venue_date
 
-                Venue : $venueAddress->city
+            Venue : $venueAddress->city
 
-                $venueAddress->address
+            $venueAddress->address
 
-                Token #$tokenId
+            Token #$tokenId
 
-                Your Mobile : $userMobile
+            Your Mobile : $userMobile
 
-                Your Appointment Time : $slotTime
+            Your Appointment Time : $slotTime
 
-                Appointment Duration : $appointmentDuration
+            Appointment Duration : $appointmentDuration
 
-                $venueAddress->status_page_note
-                To view your token online please click below:
+            $venueAddress->status_page_note
+            To view your token online please click below:
 
-                $statusLink
+            $statusLink
 
-                $pdfLink
+            $pdfLink
             
             EOT;
             $this->sendMessage($userPhoneNumber, $message);
