@@ -94,7 +94,7 @@
             padding: 30px 10px;
             border-radius: 10px;
             font-weight: 700;
-            width: 50%;
+            width: 10%;
             text-align: center;
         }
 
@@ -238,9 +238,6 @@
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
-            .stats{
-                text-align: center !important;
-            }
             .container {
                 flex-direction: column;
             }
@@ -270,10 +267,10 @@
                 color: #000;
                 border: 3px solid #000;
                 margin: 8px 0;
-                padding: 10px 20px;
+                /* padding: 10px 20px; */
                 border-radius: 10px;
                 font-weight: 700;
-                width: 100%;
+                width: 90%;
                 text-align: center;
             }
 
@@ -306,42 +303,31 @@
             }
         }
 
-        /* Mobile: Full-width columns, more space adjustments */
-        @media only screen and (max-width: 768px) {
-            .blue-btn {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-
-            .logoo img {
-                height: 100px;
-                width: 100px;
-            }
-        }
-
-        span.text-center.text-success {
-            font-size: 24px;
-        }
+       
+        
     </style>
     <section id="mainsection">
         <div class="container">
             <!-- main content -->
             <div class="main-content" id="main-target"> 
 
-                <div class="d-flex justify-content-center ">
+                <div class="d-flex justify-content-center " style="text-align: center">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
-                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
+                        <img src="{{ $logoDataUri }}" alt="">
+
+                        {{-- <img src="{{ $LogoUrl }}" alt=""> --}}
                        
                     </a>
                   
                 </div>
                 <a href="https://kahayfaqeer.org/" target="_blank"><h3>kahayfaqeer.org</h3></a>
 
+                <h2 class="text-center"> Dua Appointment <span class="text-center text-success" style="color:green"> Confirmed
+                </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
+               </h2>
 
-                <h2 class="text-center"> Dua Appointment <span class="text-center text-success"> Confirmed
-                    </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b>
-                </h2>
+
+                
                 <h3 class="text-center"> </h3>
 
                 <div class="column first">
@@ -368,67 +354,17 @@
 
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
-                        <div class="stats text-center">
-                            <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
-                            <p>To view your token online please click below:</p>
-                            <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
+                        <div class="stats text-center" style="text-align: center; width:100%">
+                            <p class="statement-notes" style="text-align: center" >{{ $venueAddress->status_page_note }}</p>
+                            <p style="text-align: center" >To view your token online please click below:</p>
+                            <p style="text-align: center" > <a style="text-align: center" href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
-                            </p>
-
-                            <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >Download
-                                Appointment </a> 
-                            {{-- <button type="button" class="btn btn-success download-apponit" id="cmd" onclick="downloadPdf()">Download
-                                Appointment</button> --}}
-
+                            </p> 
                         </div>
 
                 </div>
             </div>
-        </div>
-
+        </div> 
     </section>
-@endsection
-
-<!-- Include jsPDF -->
-
-
-@section('page-script')
-    <script>
-        document.title = "KahayFaqeer.com | Queue Status";
-        var fileName = "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
+@endsection 
  
-        function downloadPdf() {
-
-            $(".download-apponit").hide(); 
-            const element = document.getElementById('main-target');
-            const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-            const options = {
-                margin: 0,
-                format: 'a4',
-                filename: fileName + '.pdf',
-                // image: {
-                //     type: 'jpeg',
-                //     quality: 1.0
-                // },
-                html2canvas: {
-                    width: 890,
-                    height: 1200,
-                    scale: 2
-                },
-                jsPDF: {
-                    unit: 'mm',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
-            if (window.innerWidth < 768) {
-                // Adjust options for mobile view
-                options.html2canvas.width = 900; // Set the desired width for mobile view
-                options.html2canvas.height = 1200; // Set the desired height for mobile view
-            }
-            html2pdf(element, options);
-            //  $(".download-apponit").hide();  
-        }
-        
-    </script>
-@endsection

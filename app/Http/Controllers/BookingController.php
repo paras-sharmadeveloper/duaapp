@@ -186,8 +186,6 @@ class BookingController extends Controller
     {
 
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
-        
-
         if (!$userBooking) {
             $message = "Not found.";
             return view('frontend.not-found', compact('message'));
@@ -233,14 +231,21 @@ class BookingController extends Controller
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
+      $LogoUrl = public_path('assets/theme/img/logo.png');
+      $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
+      $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
+ 
 
-        $data = [
-            'title' => 'Welcome to PDF',
-            'content' => 'This is a sample PDF document generated from HTML in Laravel.',
-        ];
 
-        $pdf = PDF::loadView('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking'));
-        return $pdf->stream("text.pdf");
-        return $pdf->download("text.pdf");
+        
+
+        $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'));
+        $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]); // Enable HTML5 and PHP rendering
+         
+
+
+         // return $pdf->stream("text.pdf");
+        return $pdf->download( $fileName.".pdf");
     }
 }
