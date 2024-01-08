@@ -14,7 +14,7 @@ return array(
 
     'show_warnings' => false,   // Throw an Exception on warnings from dompdf
 
-    'public_path' => base_path(),  // Override the public path if needed
+    'public_path' => null,  // Override the public path if needed
 
     /*
      * Dejavu Sans font is missing glyphs for converted entities, turn it off if you need to show € and £.
@@ -46,9 +46,7 @@ return array(
          * Times-Roman, Times-Bold, Times-BoldItalic, Times-Italic,
          * Symbol, ZapfDingbats.
          */
-        'fontDir' => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'),
-       //  'defaultFont' => 'Jameel Noori Nastaleeq',
-        // "font_dir" => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)
+        "font_dir" => storage_path('fonts'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)
 
         /**
          * The location of the DOMPDF font cache directory
