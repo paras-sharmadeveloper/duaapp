@@ -365,7 +365,7 @@
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
-                            @if (preg_match('/[\p{Arabic}\p{Urdu}]/u', $venueAddress->status_page_note))
+                            @if (preg_match('/[\p{Arabic}]/u', $venueAddress->status_page_note))
                             <p class="statement-notes" style="text-align: center; font-family: 'Jameel Noori Nastaleeq', sans-serif;" >{{ $venueAddress->status_page_note }}</p>
                             @else
                             <p class="statement-notes" style="text-align: center;" >{{ $venueAddress->status_page_note }}</p>
