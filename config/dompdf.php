@@ -46,7 +46,7 @@ return array(
          * Times-Roman, Times-Bold, Times-BoldItalic, Times-Italic,
          * Symbol, ZapfDingbats.
          */
-        'fontDir' => base_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'),
+        'fontDir' => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'),
         'fontCache' => storage_path('fonts/'),
         'defaultFont' => 'Jameel Noori Nastaleeq',
         // "font_dir" => url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)

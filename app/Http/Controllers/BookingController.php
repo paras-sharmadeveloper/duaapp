@@ -236,7 +236,7 @@ class BookingController extends Controller
         }else{
              $LogoUrl = public_path('assets/theme/img/logo.png'); 
         } 
-        echo base_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
+        echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
         $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
         // Assuming JameelNooriNastaleeq.ttf is in public/fonts directory
