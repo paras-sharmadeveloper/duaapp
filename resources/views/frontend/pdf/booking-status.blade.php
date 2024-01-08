@@ -245,8 +245,8 @@
             body {
                 font-family: 'Jameel Noori Nastaleeq', sans-serif;
             }
-            .statement-notes {
-                font-family: 'Jameel Noori Nastaleeq', sans-serif;
+            .statement-notes { 
+                font-family: 'Jameel Noori Nastaleeq' !important;
             }
             .container {
                 flex-direction: column;
