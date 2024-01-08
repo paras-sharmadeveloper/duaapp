@@ -7,6 +7,7 @@
     <title>{{ ucwords(request()->route()->getName()) }} - {{ env('APP_NAME') ?? 'Laravel' }}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
@@ -38,6 +39,7 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/theme/css/custom.css') }}" rel="stylesheet">
+    
      <style>
         .logoo img {
             height: 140px;
