@@ -8,6 +8,14 @@
         .statement-notes {
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
+
+        @font-face {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;         
+            src: local("Source Sans Pro"), url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format("truetype");
+            font-weight: normal;
+            font-style: normal;
+
+        }
         
         @media print {
             /* Adjust widths for better print layout */

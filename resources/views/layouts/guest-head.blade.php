@@ -39,8 +39,25 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/theme/css/custom.css') }}" rel="stylesheet">
+
+    <meta http-equiv="Content-Type" content="charset=utf-8" />
+    <style type="text/css">
+        @page {
+            margin: 0;
+        }
+        * { padding: 0; margin: 0; }
+        @font-face {
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;         
+            src: local("Source Sans Pro"), url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format("truetype");
+            font-weight: normal;
+            font-style: normal;
+
+        }       
+        body{
+            font-family: 'Jameel Noori Nastaleeq', sans-serif;                 
+        }
     
-     <style>
+    
         .logoo img {
             height: 140px;
             width: 150px;
