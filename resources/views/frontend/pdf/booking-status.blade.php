@@ -238,6 +238,9 @@
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
+            body {
+                font-family: 'Jameel Noori Nastaleeq', sans-serif;
+            }
             .container {
                 flex-direction: column;
             }

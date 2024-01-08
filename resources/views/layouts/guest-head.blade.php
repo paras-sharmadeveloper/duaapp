@@ -18,7 +18,7 @@
     <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon"> 
     <link href="{{ asset('assets/theme/img/logo.png')}}" rel="icon">
     <link href="{{ asset('assets/theme/img/logo.png') }} " rel="apple-touch-icon">
-
+    <link href="{{ asset('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') }}" rel="stylesheet" />
     <!-- Google Fonts --> 
     
 
