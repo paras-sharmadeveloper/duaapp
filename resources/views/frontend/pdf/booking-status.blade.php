@@ -235,6 +235,12 @@
         .column.second {
             width: 30%;
         }
+        @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+
+        .arabic {
+        font-family: 'Droid Arabic Kufi', serif;
+        direction: rtl;
+        }
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
@@ -366,9 +372,9 @@
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
                             @if (preg_match('/[\p{Arabic}]/u', $statusPageNotes))
-                            <p class="statement-notes" style="text-align: center; font-family: 'Jameel Noori Nastaleeq', sans-serif;" >{{ base64_decode($statusPageNotes) }}</p>
+                            <p class="statement-notes arabic" style="text-align: center; font-family: 'Jameel Noori Nastaleeq', sans-serif;" >{{ base64_decode($statusPageNotes) }}</p>
                             @else
-                            <p class="statement-notes" style="text-align: center;" >{{ base64_decode($statusPageNotes) }}</p>
+                            <p class="statement-notes arabic" style="text-align: center;" >{{ base64_decode($statusPageNotes) }}</p>
                             @endif
                             <p style="text-align: center" >To view your token online please click below:</p>
                             <p style="text-align: center" > <a style="text-align: center" href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
