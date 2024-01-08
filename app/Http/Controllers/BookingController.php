@@ -248,7 +248,7 @@ class BookingController extends Controller
          
 
 
-         // return $pdf->stream("text.pdf");
+         return $pdf->stream("text.pdf");
         return $pdf->download( $fileName.".pdf");
     }
 }
