@@ -183,9 +183,14 @@ class WhatsAppController extends Controller
                 $i++;
             }
 
+            if(!empty( $slotArr)){
+                $data = implode("\n", $slotArr); 
+                 
+            }else{
+                $data = "Currently No Slots"; 
+            }
            
-            $data = implode("\n", $slotArr); // Use "\n" for a new line
-
+            $data = implode("\n", $slotArr); 
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
