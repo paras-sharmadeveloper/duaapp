@@ -12,13 +12,13 @@
         
 
         @font-face {
-            font-family: 'Jameel Noori Nastaleeq', sans-serif;
-            src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
-        }
-        body {
-            font-family: 'Jameel Noori Nastaleeq', sans-serif;
-        }
-                
+                font-family: 'Jameel-Noori-Nastaleeq-Regular';
+                src: url({{ public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype');
+            }
+
+            .urdu-text {
+                font-family: 'Jameel-Noori-Nastaleeq-Regular', sans-serif;
+            }      
        
 
         span.text-center.text-success.confirm {
@@ -235,27 +235,17 @@
         .column.second {
             width: 30%;
         }
-        @import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
-
-        .arabic {
-        font-family: 'Droid Arabic Kufi', serif;
-        direction: rtl;
-        }
+       
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
             @font-face {
-                font-family: 'Jameel Noori Nastaleeq', sans-serif;
-                src: url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
+                font-family: 'Jameel-Noori-Nastaleeq-Regular';
+                src: url({{ public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype');
             }
-            body {
-                font-family: 'Jameel Noori Nastaleeq', sans-serif;
-            }
-            .statement-notes { 
-                font-family: 'Jameel Noori Nastaleeq' !important;
-            }
-            .container {
-                flex-direction: column;
+
+            .urdu-text {
+                font-family: 'Jameel-Noori-Nastaleeq-Regular', sans-serif;
             }
 
             .column.first,
@@ -371,11 +361,9 @@
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
-                            @if (preg_match('/[\p{Arabic}]/u', $statusPageNotes))
-                            <p class="statement-notes arabic" style="text-align: center; font-family: 'Jameel Noori Nastaleeq', sans-serif;" >{{ base64_decode($statusPageNotes) }}</p>
-                            @else
-                            <p class="statement-notes arabic" style="text-align: center;" >{{ base64_decode($statusPageNotes) }}</p>
-                            @endif
+                          
+                            <p class="urdu-text" style="text-align: center;" >{{ $venueAddress->status_page_note }}</p>
+                            
                             <p style="text-align: center" >To view your token online please click below:</p>
                             <p style="text-align: center" > <a style="text-align: center" href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>

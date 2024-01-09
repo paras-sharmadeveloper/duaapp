@@ -40,7 +40,7 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/theme/css/custom.css') }}" rel="stylesheet">
 
-    <meta http-equiv="Content-Type" content="charset=utf-8" />
+   
     <style type="text/css">
        
     

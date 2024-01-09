@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Vistors,VenueSloting,VenueAddress,Ipinformation,Timezone};
+use App\Models\{Vistors, VenueSloting, VenueAddress, Ipinformation, Timezone};
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
-use PDF;
+ 
 use Illuminate\Support\Facades\App;
+use Mpdf\Mpdf; 
+
 class BookingController extends Controller
 {
     use OtpTrait;
@@ -23,7 +25,7 @@ class BookingController extends Controller
         $currentRoute = $request->route()->getName();
         if ($request->has('_token') &&  $currentRoute == 'book.cancle') {
             $phone = $request->input('phone');
-            
+
 
             $userDetail = [];
             if ($vistor->phone  == $phone) {
@@ -31,20 +33,21 @@ class BookingController extends Controller
                 $userDetail['mobile'] =  $vistor->phone;
                 $userDetail['email'] =   $vistor->email;
                 $country = $vistor->country_code;
-                $isMobile=true;
+                $isMobile = true;
                 $isEmail = true;
-                $otp = $this->SendOtp($userDetail,$isMobile,$isEmail);
+                $otp = $this->SendOtp($userDetail, $isMobile, $isEmail);
                 if ($otp['status']) {
                     return redirect()->back()
-                    ->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $phone ]);
+                        ->with(['success' => 'Opt Has been sent successfully', 'enable' => true, 'booking_number' => $phone]);
                 } else {
-                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 
-                    'enable' => false, 
-                    'booking_number' => $phone
-                ]);
+                    return redirect()->back()->with([
+                        'error' => 'failed to sent otp . please check your details.',
+                        'enable' => false,
+                        'booking_number' => $phone
+                    ]);
                 }
             } else {
-                return redirect()->back()->with(['error' => 'Mobile Number not matched','enable' => false]);
+                return redirect()->back()->with(['error' => 'Mobile Number not matched', 'enable' => false]);
             }
         } else if ($request->has('_token') &&  $currentRoute == 'book.cancle.otp') {
 
@@ -54,19 +57,19 @@ class BookingController extends Controller
             if ($result['status']) {
                 $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
                 $userDetail = json_decode($ipInfo['complete_data'], true);
-                $slotTime =  $vistor->venueSloting->slot_time; 
+                $slotTime =  $vistor->venueSloting->slot_time;
                 $countryCode = $userDetail['countryCode'];
                 $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
                 $currentTimezone = $timezone->timezone;
-                $veneueAddressId = $vistor->venueSloting->venue_address_id; 
+                $veneueAddressId = $vistor->venueSloting->venue_address_id;
                 $venueAddress = VenueAddress::find($veneueAddressId);
                 $mytime = Carbon::now()->tz($currentTimezone);
                 $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $slotTime, $currentTimezone)->format('d-M-Y g:i A');
 
-                $url = route('book.show'); 
-                $date = date('Y-m-d H:i A'); 
+                $url = route('book.show');
+                $date = date('Y-m-d H:i A');
 
-                $message =<<<EOT
+                $message = <<<EOT
                 Hi $vistor->fname,
 
                 Your appointment ref # $vistor->booking_number on $eventDate has been successfully cancelled. 
@@ -83,15 +86,13 @@ class BookingController extends Controller
                     // Storage::disk('s3')->delete($vistor->recognized_code);
                     return redirect()->back()->with(['success' => 'Your booking Cancelled Successfully', 'book_seat' => true]);
                 }
-
-                
             }
             return redirect()->back()->with(['error' =>  $result['message']]);
         } else {
             return view('frontend.booking-cancle', compact('vistor'));
         }
     }
-    public function BookingReschdule(Request $request,$id)
+    public function BookingReschdule(Request $request, $id)
     {
         $vistor = [];
         $vistor = Vistors::where(['booking_uniqueid' => $id])->get()->first();
@@ -99,7 +100,7 @@ class BookingController extends Controller
             $message = "No Booking found.";
             return view('frontend.not-found', compact('message'));
         }
-        return view('frontend.booking-reschdule',compact('vistor'));
+        return view('frontend.booking-reschdule', compact('vistor'));
     }
     public function ConfirmBookingAvailabilityShow(Request $request)
     {
@@ -125,42 +126,43 @@ class BookingController extends Controller
             ->orWhere('booking_number', $bookingId)
             ->get()
             ->first();
-            if(!$visitor){
-                return redirect()->back()->with(['error' => 'We Unable to find any record with your information Provided. Please try with some other detail or recheck.']);
-            }
+        if (!$visitor) {
+            return redirect()->back()->with(['error' => 'We Unable to find any record with your information Provided. Please try with some other detail or recheck.']);
+        }
         if ($request->has('_token') &&  $currentRoute == 'booking.confirm-spot.post') {
-               $phone = $visitor->phone;
-                $country = $visitor->country_code;
-                // $otp = $this->SendOtp($phone, $country);
-                $userDetail['country_code'] = $visitor->country_code;
-                $userDetail['mobile'] =  $visitor->phone;
-                $userDetail['email'] =   $visitor->email;
-                // $country = $visitor->country_code;
-                $isMobile=true;
-                $isEmail = true;
-                $otp = $this->SendOtp($userDetail,$isMobile,$isEmail);
-                if ($otp['status']) {
-                    return redirect()->back()->with(['success' => 'Opt Has been sent successfully', 
-                    'enable' => true, 
+            $phone = $visitor->phone;
+            $country = $visitor->country_code;
+            // $otp = $this->SendOtp($phone, $country);
+            $userDetail['country_code'] = $visitor->country_code;
+            $userDetail['mobile'] =  $visitor->phone;
+            $userDetail['email'] =   $visitor->email;
+            // $country = $visitor->country_code;
+            $isMobile = true;
+            $isEmail = true;
+            $otp = $this->SendOtp($userDetail, $isMobile, $isEmail);
+            if ($otp['status']) {
+                return redirect()->back()->with([
+                    'success' => 'Opt Has been sent successfully',
+                    'enable' => true,
                     'booking_number' => $bookingId
                 ]);
-                } else {
-                    return redirect()->back()->with(['error' => 'failed to sent otp . please check your details.', 
-                    'enable' => false, 
+            } else {
+                return redirect()->back()->with([
+                    'error' => 'failed to sent otp . please check your details.',
+                    'enable' => false,
                     'booking_number' => $bookingId
-                   ]);
-                }
-             
+                ]);
+            }
         } else if ($request->has('_token') &&  $currentRoute == 'booking.confirm-spot.otp.post') {
- 
-            $otp = $request->input('otp'); 
+
+            $otp = $request->input('otp');
             $result = $this->VerifyOtp($otp);
             if ($result['status']) {
-                $url = route('booking.status',[$visitor->booking_uniqueid]); 
-                $date = date('Y-m-d H:i:s A'); 
-                Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed','confirmed_at' => date('Y-m-d H:i:s')]); 
+                $url = route('booking.status', [$visitor->booking_uniqueid]);
+                $date = date('Y-m-d H:i:s A');
+                Vistors::where('id', $visitor->id)->update(['is_available' => 'confirmed', 'confirmed_at' => date('Y-m-d H:i:s')]);
 
-                $message =<<<EOT
+                $message = <<<EOT
                 Hi  $visitor->fname,
 
                 Your appointment ref # $visitor->booking_number on $date has been successfully confirmed. 
@@ -171,18 +173,18 @@ class BookingController extends Controller
                 Thanks
                 KahayFaqeer.org
                 EOT;
-                
+
                 // $message = "Hi ".$visitor->fname.",\nYour Booking " . $visitor->booking_number . " has been Succssfully Confirmed. \nYou can Wait for Number. \nYou can check  you Status here\n" .route('booking.status',[$visitor->booking_uniqueid]) ."\nThanks\nTeam\nKahayFaqeer";
                 $this->SendMessage($visitor->country_code, $visitor->phone, $message);
-        
+
                 return redirect()->back()->with(['success' => 'Your booking has been Confirmed Successfully']);
             }
             return redirect()->back()->with(['error' =>  $result['message']]);
-        }  
+        }
     }
 
 
-    public function CustomerBookingStatus(Request $request,$id)
+    public function CustomerBookingStatus(Request $request, $id)
     {
 
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
@@ -190,68 +192,173 @@ class BookingController extends Controller
             $message = "Not found.";
             return view('frontend.not-found', compact('message'));
         }
-        
+
         // Get the user's slot time
         $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
-        
-        $userSlotTime = $userSlot->slot_time;  
+
+        $userSlotTime = $userSlot->slot_time;
         // Assuming 'time' is the column where you store the slot time
         $venueAddress = VenueAddress::find($userSlot->venue_address_id);
         // Calculate the start of slots
-        $startTimemrg = $venueAddress->slot_starts_at_morning; 
-        
+        $startTimemrg = $venueAddress->slot_starts_at_morning;
+
 
         // Count bookings from the start time until the user's slot time
-        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg,$userSlotTime) {
+        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg, $userSlotTime) {
             $query->where('slot_time', '>=', $startTimemrg)
                 ->where('slot_time', '<', $userSlotTime);
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
-        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking'));
+        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking'));
     }
 
     public function generatePDF($id)
     {
 
+        $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
+        if (!file_exists($fontFile)) {
+            die('Font file not found: ' . $fontFile);
+        }
+        // Jameel-Noori-Nastaleeq-Regular
+        // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die; 
+
+        $mpdf = new Mpdf([
+            'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+            'fontdata' => [
+                'urdu' => [
+                    'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
+                    'I' => 'Jameel-Noori-Nastaleeq-Regular.ttf',
+                ],
+            ],
+            'format' => 'A4',
+        ]);
+
+
+
+
+
+
+
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
         // Get the user's slot time
         $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
-        
-        $userSlotTime = $userSlot->slot_time;  
+
+        $userSlotTime = $userSlot->slot_time;
         // Assuming 'time' is the column where you store the slot time
         $venueAddress = VenueAddress::find($userSlot->venue_address_id);
         // Calculate the start of slots
-        $startTimemrg = $venueAddress->slot_starts_at_morning; 
-        
+        $startTimemrg = $venueAddress->slot_starts_at_morning;
+
 
         // Count bookings from the start time until the user's slot time
-        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg,$userSlotTime) {
+        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg, $userSlotTime) {
             $query->where('slot_time', '>=', $startTimemrg)
                 ->where('slot_time', '<', $userSlotTime);
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
-        if (App::environment('production')) { 
-            $LogoUrl = url('/assets/theme/img/logo.png'); 
-        }else{
-             $LogoUrl = public_path('assets/theme/img/logo.png'); 
-        } 
+        if (App::environment('production')) {
+            $LogoUrl = url('/assets/theme/img/logo.png');
+        } else {
+            $LogoUrl = public_path('assets/theme/img/logo.png');
+        }
 
-        $statusPageNotes = base64_encode($venueAddress->status_page_note); 
+
         // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
-        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number ; 
-        // Assuming JameelNooriNastaleeq.ttf is in public/fonts directory
-        $fontPath = url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
-        // TCPDF configuration
-        $pdf = PDF::loadView('frontend.pdf.booking-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople','userBooking','logoDataUri','fileName'  ,'statusPageNotes'));
-         
-        $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
-        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]); // Enable HTML5 and PHP rendering
-         
+        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number.'.pdf';
+        $bookingStatus = route('booking.status', [$userBooking->booking_uniqueid]); 
+        $bookUrl = route('book.show'); 
+        $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l') ; 
+        $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date)) ; 
+        $html = $this->PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking );
+
+        $mpdf->WriteHtml($html);
+        $mpdf->Output($fileName ,'D'); 
 
 
-         return $pdf->stream("text.pdf");
-        return $pdf->download( $fileName.".pdf");
+         
+ 
     }
+
+
+
+
+    private function PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking ){
+        return <<<HTML
+           
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            .statement-notes{font-family:'Jameel Noori Nastaleeq',sans-serif}@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:url({{public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype')}.urdu-text{font-family:'Jameel-Noori-Nastaleeq-Regular',sans-serif}span.text-center.text-success.confirm{font-size:24px}.venue-info h6,.stats h3{color:#000}.queue-number span{font-size:20px;color:#000}.orng{color:#000}
+             h6{color:#000;text-align:center;font-size:14px}h2{color:#000;text-align:center;margin-top:1px;font-size:20px}.ahead-number{font-size:20px;color:#000;border:3px solid #000;margin:20px 0;padding:5px 4px;border-radius:10px;font-weight:700;width:50%;text-align:center}h3{color:#000;text-align:center;margin-top:10px;font-size:20px}p{text-align:center;font-weight:400;font-size:18px;color:#000}.stats{border-radius:10px;width:80%;margin-top:20px}h4{color:#000;font-weight:500;text-align:center;font-size:14px;margin-bottom:2px}span{color:#000;font-size:18px;font-weight:600}.blue-btn{background-color:#004aad;color:#fff;padding:10px 20px;border:0;border-radius:5px;font-size:18px;cursor:pointer;margin:10px 0;width:100%;transition:background-color .3s}.blue-btn:hover{background-color:#00367a}.column.second{background-color:transparent;box-shadow:none}.column.third{width:30%;max-height:540px;overflow-y:auto;background-color:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.1);padding:20px}.visitor-list{list-style-type:none;padding:0;margin:0}.visitor-item{border-bottom:1px solid #e0e0e0;padding:10px 0}.visitor-item h4{color:#000;margin-bottom:5px}.visitor-item p{color:black;margin-bottom:5px}.booking-details{display:flex;justify-content:space-between;align-items:center}.booking-id{color:orange}.slot-time{color:lightgrey;display:flex;align-items:center}.slot-time i{margin-right:5px}.column.second{width:30%}@media only screen and (max-width:992px){@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:url({{public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype')}.urdu-text{font-family:'Jameel-Noori-Nastaleeq-Regular',sans-serif}.column.first,.column.second,.column.third{width:100%;margin-bottom:20px}.blue-btn{width:48%;margin-right:4%;margin-bottom:10px}.blue-btn:nth-child(even){margin-right:0}
+             .queue-number {
+                font-size: 28px;
+                color: #000;
+                border: 3px solid #000;
+                margin: 2px auto; /* Set margin-top and margin-bottom to 2px, and auto for left and right margins to center horizontally */
+                border-radius: 10px;
+                font-weight: 700;
+                width: 70%; /* Set width to 70% */
+                text-align: center; /* Center text within the div */
+                display: flex;
+                align-items: center;
+            }
+            .container{display:flex;width:100%;padding:4px}h1.text-center{text-align:center;font-size:23px}}
+            .first{
+                text-align :center; 
+                width:100% !important;  
+                flex-direction: column !important;
+                align-items: center;
+            }
+            </style>
+        <section id="mainsection">
+            <div class="container">
+                <!-- main content -->
+                <div class="main-content" id="main-target">  
+                    <div class="d-flex justify-content-center " style="text-align: center">
+                        <a href="bookUrl" class="logoo  d-flex align-items-center wuto">
+                            <img src="$logoDataUri" alt="" style="height:100px" > 
+                        </a> 
+                    </div>
+                    <a href="https://kahayfaqeer.org/" target="_blank"><h2>kahayfaqeer.org</h2></a>
+        
+                    <h2 class="text-center"> Dua Appointment <span class="text-center text-success h2" style="color:green"> <b> Confirmed </b>
+                    </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
+                   </h2>  
+        
+                    <div class="first">
+                        <h2 class="">Event Date : $eventDate $venueDateTime </h4>
+        
+                            <h2 class="">Venue : $venueAddress->city  </h2>
+                           
+                                <h5>$venueAddress->address</h5>
+                         
+                            <div class="queue-number">
+                                Token # $userBooking->booking_number  
+                                <p>$userBooking->country_code   $userBooking->phone </p>
+                                <span>Your Appointment Time : </span> <br> 
+                                <span>($venueAddress->timezone )</span>
+                            </div>
+        
+                            <h3>Appointment Duration</h3>
+                            <p>$venueAddress->slot_duration minutes 1 Question </p>
+                            <div class="stats text-center" style="text-align: center; width:100%">
+                              
+                                <p class="urdu-text" style="text-align: center;" >$venueAddress->status_page_note </p>
+                                
+                                <p style="text-align: center" >To view your token online please click below:</p>
+                                <p style="text-align: center" > <a style="text-align: center" href="$bookingStatus"
+                                        target="_blank">$bookingStatus </a>
+                                </p> 
+                            </div>
+        
+                    </div>
+                </div>
+            </div> 
+        </section>
+        HTML;
+    }
+
+
 }
