@@ -321,7 +321,7 @@ class BookingController extends Controller
                             <img src="$logoDataUri" alt="" style="height:100px" > 
                         </a> 
                     </div>
-                    <a href="https://kahayfaqeer.org/" target="_blank"><h2>kahayfaqeer.org</h2></a>
+                    <a href="https://kahayfaqeer.org/" ><h2>kahayFaqeer.org</h2></a>
         
                     <h2 class="text-center"> Dua Appointment <span class="text-center text-success h2" style="color:green"> <b> Confirmed </b>
                     </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
