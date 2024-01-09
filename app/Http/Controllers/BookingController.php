@@ -223,13 +223,13 @@ class BookingController extends Controller
         // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die; 
 
         $mpdf = new Mpdf([
-            // 'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-            // 'fontdata' => [
-            //     'urdu' => [
-            //         'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
-            //         'I' => 'Jameel-Noori-Nastaleeq-Regular.ttf',
-            //     ],
-            // ],
+            'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+            'fontdata' => [
+                'urdu' => [
+                    'R' => 'Arialn.ttf', // Replace with the actual font file name
+                    'I' => 'Arialn.ttf',
+                ],
+            ],
             'format' => 'A4',
         ]);
 
@@ -274,7 +274,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking );
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName ,'I'); 
+        $mpdf->Output($fileName ,'D'); 
 
 
          
