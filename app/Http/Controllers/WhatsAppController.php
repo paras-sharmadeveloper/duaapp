@@ -215,12 +215,12 @@ class WhatsAppController extends Controller
 
             }else if($isTimeOver == true){
                 $step = 9; // warning messaghe will issue
-                $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.';
+                $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.' . $hoursRemaining;
                 $this->FlushEntries($userPhoneNumber);
 
             } else{
                 $step = 9; // warning messaghe will issue
-                $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later';
+                $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later '.$hoursRemaining;
                 $this->FlushEntries($userPhoneNumber);
             } 
             
