@@ -163,10 +163,15 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+            $venueAddress = VenueAddress::find($venueAddreId); 
+            $countryTimeZone = $venueAddress->timezone;
+            $mytime = Carbon::now()->tz($countryTimeZone);
+            $slotTime =  $mytime->format('H:i:s'); 
             // $getDate = $data_sent_to_customer[$Respond];
 
             $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->where('slot_time' ,'>=',$slotTime)
                 // ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
