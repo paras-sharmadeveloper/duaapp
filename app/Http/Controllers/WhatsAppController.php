@@ -141,8 +141,6 @@ class WhatsAppController extends Controller
                 $options[] = $i;
                 $i++;
             }
-
-
             $data = implode("\n", $VenueDates);
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
@@ -206,17 +204,15 @@ class WhatsAppController extends Controller
 
                 if(!empty( $slotArr)){
                     $data = implode("\n", $slotArr); 
-                    
                 }else{
                     $data = "Currently No Slots"; 
+                    $step = 9; // warning messaghe will issue
                 }
 
             }else{
+                $step = 9; // warning messaghe will issue
                 $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later';
-            }
-
-           
-           
+            } 
             
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
@@ -346,13 +342,7 @@ class WhatsAppController extends Controller
             $data 
            
             EOT;
-
-     
             $this->sendMessage($userPhoneNumber, $message);
-
-            
-           
-
         }
     } 
 
@@ -466,7 +456,20 @@ class WhatsAppController extends Controller
             Listen Syed Sarfraz Ahmad Shah on Apple Podcast ▶️  {{7}}
             
         EOT;
+        }else if ($step == 9) {
+
+            $message = <<<EOT
+            Please see the below warning message:
+            $data
+            EOT; 
+
         } else {
+            $message = <<<EOT
+            Please see the below warning message:
+            $data
+            EOT; 
+            
+
         }
 
         return $message;
