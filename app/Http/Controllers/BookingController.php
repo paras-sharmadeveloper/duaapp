@@ -274,7 +274,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking );
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName ,'I'); 
+        $mpdf->Output($fileName ,'D'); 
 
 
          
@@ -354,7 +354,7 @@ class BookingController extends Controller
                             <div class="stats text-center" style="text-align: center; width:100%">
                               <p>$venueAddress->slot_duration $txt 1 Question </p>
                               
-                              <p class="urdu-text" style="text-align: center; white-space: nowrap;font-size:13.5px">$venueAddress->status_page_note</p>
+                              <p class="urdu-text1" style="text-align: center; white-space: nowrap;font-size:13px">$venueAddress->status_page_note</p>
 
                                 
                                 <p style="text-align: center" >To view your token online please click below:</p>

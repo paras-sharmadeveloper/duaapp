@@ -362,7 +362,7 @@
                         <p>{{ $venueAddress->slot_duration }} {{ ($venueAddress->slot_duration == 1) ? 'minute' : 'minutes' }}  1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
                           
-                            <p class="urdu-text" style="text-align: center;" >{{ $venueAddress->status_page_note }}</p>
+                            <p class="statement-notes" style="text-align: center;" >{{ $venueAddress->status_page_note }}</p>
                             
                             <p style="text-align: center" >To view your token online please click below:</p>
                             <p style="text-align: center" > <a style="text-align: center" href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
