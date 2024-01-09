@@ -217,7 +217,7 @@ class WhatsAppController extends Controller
 
            
            
-            $data = implode("\n", $slotArr); 
+            
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
 
