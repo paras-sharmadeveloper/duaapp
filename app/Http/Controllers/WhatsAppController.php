@@ -175,7 +175,7 @@ class WhatsAppController extends Controller
                 $isVisiable = true;
             }
             
-            if ($mytime->greaterThanOrEqualTo($eventDate) && $hoursRemaining <= $slotsAppearAfter) {
+            if ($mytime->greaterThanOrEqualTo($mytime) && $hoursRemaining <= $slotsAppearAfter) {
                 $isTimeOver = true;
             }
 
@@ -213,7 +213,7 @@ class WhatsAppController extends Controller
                     $step = 9; // warning messaghe will issue
                 }
 
-            }else if($isTimeOver){
+            }else if($isTimeOver == true){
                 $step = 9; // warning messaghe will issue
                 $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.';
                 $this->FlushEntries($userPhoneNumber);
