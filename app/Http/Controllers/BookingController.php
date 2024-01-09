@@ -274,7 +274,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking );
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName ,'D'); 
+        $mpdf->Output($fileName ,'I'); 
 
 
          
@@ -285,6 +285,13 @@ class BookingController extends Controller
 
 
     private function PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking ){
+        $txt = 'minutes'; 
+        if ($venueAddress->slot_duration == 1){
+            $txt = 'minute'; 
+        }
+       
+
+
         return <<<HTML
            
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -343,10 +350,12 @@ class BookingController extends Controller
                             </div>
         
                             <h3>Appointment Duration</h3>
-                            <p>$venueAddress->slot_duration  ($venueAddress->slot_duration == 1) ? 'minute' : 'minutes' 1 Question </p>
+                          
                             <div class="stats text-center" style="text-align: center; width:100%">
+                              <p>$venueAddress->slot_duration $txt 1 Question </p>
                               
-                                <p class="urdu-text" style="text-align: center;" >$venueAddress->status_page_note </p>
+                              <p class="urdu-text" style="text-align: center; white-space: nowrap;">$venueAddress->status_page_note</p>
+
                                 
                                 <p style="text-align: center" >To view your token online please click below:</p>
                                 <p style="text-align: center" > <a style="text-align: center" href="$bookingStatus"
