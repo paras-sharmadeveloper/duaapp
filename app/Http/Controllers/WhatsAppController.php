@@ -167,7 +167,7 @@ class WhatsAppController extends Controller
 
             $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                ->orderBy('slot_time', 'ASC')
+                // ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
 
