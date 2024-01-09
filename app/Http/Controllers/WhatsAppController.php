@@ -159,41 +159,63 @@ class WhatsAppController extends Controller
             WhatsApp::create($dataArr);
 
         }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
-
+            $isVisiable = false;
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
             $venueAddress = VenueAddress::find($venueAddreId); 
             $countryTimeZone = $venueAddress->timezone;
+
+            $mytime = Carbon::now()->tz($countryTimeZone);
+            $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
+            $hoursRemaining = $eventDate->diffInHours($mytime);
+            $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
+
+            if ($slotsAppearAfter == 0) {
+                $isVisiable = true;
+              } else if ($hoursRemaining <= $slotsAppearAfter) {
+                $isVisiable = true;
+              }
+
+
+            $countryTimeZone = $venueAddress->timezone;
             $mytime = Carbon::now()->tz($countryTimeZone);
             $slotTime =  $mytime->format('H:i:s'); 
             // $getDate = $data_sent_to_customer[$Respond];
 
-            $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
+            if($isVisiable){
+
+                $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                 ->where('slot_time' ,'>=',$slotTime)
                 // ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
 
-            $slotArr = [];
-            $i = 1;
-            
-            
-            foreach ($slots as $slot) {
-                $timestamp = strtotime($slot->slot_time);
-                $slotTime = date('h:i A', $timestamp);
-                $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
-                $options[] = $i;
-                $i++;
+                $slotArr = [];
+                $i = 1;
+                
+                
+                foreach ($slots as $slot) {
+                    $timestamp = strtotime($slot->slot_time);
+                    $slotTime = date('h:i A', $timestamp);
+                    $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
+                    $options[] = $i;
+                    $i++;
+                }
+
+                if(!empty( $slotArr)){
+                    $data = implode("\n", $slotArr); 
+                    
+                }else{
+                    $data = "Currently No Slots"; 
+                }
+
+            }else{
+                $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later';
             }
 
-            if(!empty( $slotArr)){
-                $data = implode("\n", $slotArr); 
-                 
-            }else{
-                $data = "Currently No Slots"; 
-            }
+           
            
             $data = implode("\n", $slotArr); 
             $message = $this->WhatsAppbotMessages($data, $step);
