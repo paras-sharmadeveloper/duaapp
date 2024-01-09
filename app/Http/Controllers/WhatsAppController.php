@@ -168,12 +168,14 @@ class WhatsAppController extends Controller
             $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
             $hoursRemaining = $eventDate->diffInHours($mytime);
             $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
-
+            $isTimeOver = false; 
             if ($slotsAppearAfter == 0) {
                 $isVisiable = true;
-              } else if ($hoursRemaining <= $slotsAppearAfter) {
+            } else if ($hoursRemaining <= $slotsAppearAfter) {
                 $isVisiable = true;
-              }
+            }else if ($mytime->greaterThanOrEqualTo($eventDate) && $hoursRemaining <= $slotsAppearAfter) {
+                $isTimeOver = true;
+            }
 
 
             $countryTimeZone = $venueAddress->timezone;
@@ -181,11 +183,11 @@ class WhatsAppController extends Controller
             $slotTime =  $mytime->format('H:i:s'); 
             // $getDate = $data_sent_to_customer[$Respond];
 
-            if($isVisiable){
-
+            if($isVisiable == true && $isTimeOver == false){
+                
                 $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                ->where('slot_time' ,'>=',$slotTime)
+              
                 // ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
@@ -202,16 +204,22 @@ class WhatsAppController extends Controller
                     $i++;
                 }
 
-                if(!empty( $slotArr)){
+                if(!empty($slotArr)){
                     $data = implode("\n", $slotArr); 
                 }else{
                     $data = "Currently No Slots"; 
                     $step = 9; // warning messaghe will issue
                 }
 
-            }else{
+            }else if($isTimeOver){
+                $step = 9; // warning messaghe will issue
+                $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.';
+                $this->FlushEntries($userPhoneNumber);
+
+            } else{
                 $step = 9; // warning messaghe will issue
                 $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later';
+                $this->FlushEntries($userPhoneNumber);
             } 
             
             $message = $this->WhatsAppbotMessages($data, $step);
@@ -487,5 +495,9 @@ class WhatsAppController extends Controller
     
         // If no matching country code is found
         return "Unknown";
+    }
+
+    private function FlushEntries($phoneNUmber){
+        WhatsApp::where(['customer_number' => $phoneNUmber])->delete();
     }
 }
