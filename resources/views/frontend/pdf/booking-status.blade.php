@@ -359,7 +359,7 @@
                         </div>
 
                         <h3>Appointment Duration</h3>
-                        <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
+                        <p>{{ $venueAddress->slot_duration }} {{ ($venueAddress->slot_duration == 1) ? 'minute' : 'minutes' }}  1 Question </p>
                         <div class="stats text-center" style="text-align: center; width:100%">
                           
                             <p class="urdu-text" style="text-align: center;" >{{ $venueAddress->status_page_note }}</p>
