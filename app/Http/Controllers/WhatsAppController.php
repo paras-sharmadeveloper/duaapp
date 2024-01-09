@@ -173,7 +173,9 @@ class WhatsAppController extends Controller
                 $isVisiable = true;
             } else if ($hoursRemaining <= $slotsAppearAfter) {
                 $isVisiable = true;
-            }else if ($mytime->greaterThanOrEqualTo($eventDate) && $hoursRemaining <= $slotsAppearAfter) {
+            }
+            
+            if ($mytime->greaterThanOrEqualTo($eventDate) && $hoursRemaining <= $slotsAppearAfter) {
                 $isTimeOver = true;
             }
 
