@@ -45,17 +45,19 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
-        $visitors = Vistors::Where('phone', $waId)->orWhere('phone','like' , $cleanNumber)->first();
-        $slot = $visitors->slot;
-        $venueAddress = $slot->venueAddress; 
+        $visitors = Vistors::where('phone', $waId)->orWhere('phone','like' , $cleanNumber)->first();
+        
 
         if ($visitors) {
+            $slot = $visitors->slot;
+            $venueAddress = $slot->venueAddress;
             $recordAge = $visitors->created_at->diffInDays(now());
             $rejoin = $venueAddress->rejoin_venue_after;
             if ($rejoin > 0 && $recordAge <= $rejoin ) {
                 $data = 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
                 $message = $this->WhatsAppbotMessages($data, 9);
                 $this->sendMessage($userPhoneNumber, $message);
+                
             }  
         }
 
