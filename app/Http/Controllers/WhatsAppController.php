@@ -45,7 +45,7 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
-        $visitors = Vistors::where('phone', $waId)->orWhere('phone','like' , "%".$cleanNumber."%")->first();
+        $visitors = Vistors::where('phone', $cleanNumber)->first();
         
 
         if ($visitors) {
