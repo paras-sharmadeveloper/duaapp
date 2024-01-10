@@ -226,8 +226,8 @@ class BookingController extends Controller
             'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
             'fontdata' => [
                 'urdu' => [
-                    'R' => 'Arialn.ttf', // Replace with the actual font file name
-                    'I' => 'Arialn.ttf',
+                    'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
+                    'I' => 'CalibriRegular.ttf',
                 ],
             ],
             'format' => 'A4',
