@@ -45,21 +45,7 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
-        $visitors = Vistors::where('phone', $cleanNumber)->first();
         
-
-        if ($visitors) {
-            $slot = $visitors->slot;
-            $venueAddress = $slot->venueAddress;
-            $recordAge = $visitors->created_at->diffInDays(now());
-            $rejoin = $venueAddress->rejoin_venue_after;
-            if ($rejoin > 0 && $recordAge <= $rejoin ) {
-                $data = 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
-                $message = $this->WhatsAppbotMessages($data, 9);
-                $this->sendMessage($userPhoneNumber, $message);
-                
-            }  
-        }
 
        
         $options = [];
@@ -185,6 +171,28 @@ class WhatsAppController extends Controller
             $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
             $venueAddress = VenueAddress::find($venueAddreId); 
             $countryTimeZone = $venueAddress->timezone;
+
+
+            // User Already There 
+
+            $visitors = Vistors::where('phone', $cleanNumber)->first();
+            if ($visitors) { 
+                $recordAge = $visitors->created_at->diffInDays(now());
+                $rejoin = $venueAddress->rejoin_venue_after;
+                if ($rejoin > 0 && $recordAge <= $rejoin ) {
+                    $data = 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
+                    $message = $this->WhatsAppbotMessages($data, 9);
+                    $this->sendMessage($userPhoneNumber, $message);
+                    
+                }  
+            }
+
+
+
+
+
+
+
 
             $mytime = Carbon::now()->tz($countryTimeZone);
             $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
