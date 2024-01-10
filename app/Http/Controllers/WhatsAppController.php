@@ -45,7 +45,7 @@ class WhatsAppController extends Controller
             '5' => '5️⃣'
         ]; 
 
-        $visitors = Vistors::where('phone', $waId)->orWhere('phone','like' , $cleanNumber)->first();
+        $visitors = Vistors::where('phone', $waId)->orWhere('phone','like' , "%".$cleanNumber."%")->first();
         
 
         if ($visitors) {
@@ -327,6 +327,7 @@ class WhatsAppController extends Controller
                 'steps' => 5
             ];
             WhatsApp::create($dataArr);
+           $this->FlushEntries($userPhoneNumber); 
 
             $youtubeLink ="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
             $whatspp ="https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
