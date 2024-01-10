@@ -351,8 +351,8 @@ class WhatsAppController extends Controller
             Listen Syed Sarfraz Ahmad Shah on Spotify ▶️ $spotify
 
             Listen Syed Sarfraz Ahmad Shah on Apple Podcast ▶️  $applePodcase
-            
-        EOT;
+                
+            EOT;
 
         $this->sendMessage($userPhoneNumber, $subScription);
 
