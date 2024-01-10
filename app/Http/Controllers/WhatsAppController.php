@@ -99,7 +99,7 @@ class WhatsAppController extends Controller
             foreach ($venuesListArr as $venue) {
                 $cityToShow = $venue->combinationData->city_sequence_to_show;
                 $cityName = $venue->city.'-'.$venue->id; 
-                if (!isset($cityArr[$venue->city]) && $i >=  $cityToShow) {
+                if (!isset($cityArr[$venue->city])) {
                     $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
                     $options[] = $i; 
                 }
