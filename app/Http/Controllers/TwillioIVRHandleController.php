@@ -256,7 +256,7 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->numbersUrl . 'number_' .  $hourNew. '.wav'); 
                 $response->play($this->statementUrl . 'statement_bajkay.wav');  
                 if($minutes != '00'){
-                    $response->play($this->statementUrl . 'statement_aur.wav');  
+                    // $response->play($this->statementUrl . 'statement_aur.wav');  
                     $response->play($this->numbersUrl . 'number_' . $minutes. '.wav');
                     $response->play($this->statementUrl . 'statement_minute.wav');
                 } 
@@ -375,7 +375,7 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->numbersUrl . 'number_' .  $hourNew. '.wav'); 
                 $response->play($this->statementUrl . 'statement_bajkay.wav');  
                 if($minutes != '00'){
-                    $response->play($this->statementUrl . 'statement_aur.wav');  
+                    // $response->play($this->statementUrl . 'statement_aur.wav');  
                     $response->play($this->numbersUrl . 'number_' . $minutes. '.wav');
                     $response->play($this->statementUrl . 'statement_minute.wav');
                 } 
