@@ -149,7 +149,7 @@ Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('g
 Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
 Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
 
-Auth::routes();
+Auth::routes(['register' =>false]);
 
 Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
 Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
