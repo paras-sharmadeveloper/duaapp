@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
-use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
+use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors , Country};
  
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -319,7 +319,9 @@ class TwillioIVRHandleController extends Controller
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id; 
             $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
+            $countryCode = $this->findCountryByPhoneNumber( $customer ); 
 
+            $cleanNumber = str_replace($countryCode,'', $customer);  
 
             $uuid = Str::uuid()->toString();
             Vistors::create([
@@ -328,8 +330,8 @@ class TwillioIVRHandleController extends Controller
                 'meeting_type' => 'on-site',
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
-                'country_code' => '+91',
-                'phone' => $customer 
+                'country_code' => $countryCode,
+                'phone' => $cleanNumber 
             ]);
 
             Log::info('Make booking Digits: ' . $request->input('Digits'));
@@ -397,6 +399,20 @@ class TwillioIVRHandleController extends Controller
         }
 
 
+    }
+
+    function findCountryByPhoneNumber($phoneNumber) {
+        $countries = Country::all(); // Assuming you have a Country model
+    
+        foreach ($countries as $country) {
+            $countryCodeLength = strlen($country->phonecode);
+            if (substr($phoneNumber, 0, $countryCodeLength) === $country->phonecode) {
+                return $country->phonecode;
+            }
+        }
+    
+        // If no matching country code is found
+        return "Unknown";
     }
 
      
