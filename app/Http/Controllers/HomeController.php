@@ -97,7 +97,7 @@ class HomeController extends Controller
       $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
 
       $venue = $venueAddress->venue;
-
+      $source="Website";
       // if($venueAddress->rejoin_venue_after > 0){
       //   $isUsers = $this->IsRegistredAlready($selfieImage);
       // }
@@ -108,8 +108,10 @@ class HomeController extends Controller
         $recordAge = $user->created_at->diffInDays(now());
         $rejoin = $venueAddress->rejoin_venue_after;
         if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') {
+          $source="Website";
           return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
         } else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin') {
+          $source="Admin";
           return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
         }
       }
@@ -145,6 +147,8 @@ class HomeController extends Controller
       $booking->booking_number = $bookingNumber;
       $booking->meeting_type = $venueAddress->type;
       $booking->user_timezone = $request->input('timezone', null);
+      $booking->source = $source;
+      
       // Save the booking record
       $booking->save();
       $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;

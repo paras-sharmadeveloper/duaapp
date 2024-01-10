@@ -40,7 +40,9 @@ return new class extends Migration
             $table->string('meeting_start_at',60)->nullable(); 
             $table->string('meeting_ends_at',60)->nullable(); 
             $table->string('meeting_total_time',60)->nullable(); 
-            $table->string('user_timezone',155)->nullable(); 
+            $table->string('user_timezone',155)->nullable();
+            $table->string('source',25)->nullable();
+             
             $table->timestamps();
 
         });

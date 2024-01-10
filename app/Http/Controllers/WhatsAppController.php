@@ -145,8 +145,11 @@ class WhatsAppController extends Controller
             $VenueDates = [];
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
-                $options[] = $i;
+                $columnToShow = $venueDate->combinationData->columns_to_show;
+                if($columnToShow >= $i){
+                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                    $options[] = $i;
+                } 
                 $i++;
             }
             $data = implode("\n", $VenueDates);
@@ -290,7 +293,7 @@ class WhatsAppController extends Controller
             $userMobile = $result['mobileNumber']; 
             
             $timestamp = strtotime($venueSlots->slot_time);
-            $slotTime = date('h:i A', $timestamp);
+            $slotTime = date('h:i A', $timestamp) . '('.$venueAddress->timezone.')';
             $uuid = Str::uuid()->toString();
             Vistors::create([
                 'is_whatsapp' => 'yes',
@@ -299,7 +302,8 @@ class WhatsAppController extends Controller
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
                 'country_code' => '+'.$countryCode,
-                'phone' => $cleanNumber 
+                'phone' => $cleanNumber ,
+                'source' => 'WhatsApp'
             ]);
             $duaBy = 'Qibla Syed Sarfraz Ahmad Shah'; 
 

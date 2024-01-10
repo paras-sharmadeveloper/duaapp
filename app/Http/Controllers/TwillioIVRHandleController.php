@@ -331,7 +331,8 @@ class TwillioIVRHandleController extends Controller
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
                 'country_code' => $countryCode,
-                'phone' => $cleanNumber 
+                'phone' => $cleanNumber,
+                'source' => 'Phone'
             ]);
 
             Log::info('Make booking Digits: ' . $request->input('Digits'));
