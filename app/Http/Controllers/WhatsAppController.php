@@ -180,7 +180,13 @@ class WhatsAppController extends Controller
                 $recordAge = $visitors->created_at->diffInDays(now());
                 $rejoin = $venueAddress->rejoin_venue_after;
                 if ($rejoin > 0 && $recordAge <= $rejoin ) {
-                    $data = 'You already Booked a seat Before ' . ($recordAge == 0) ? 'Today' : $recordAge.' Day' . '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
+                    if($recordAge == 0){
+                        $text = 'Today'; 
+                    }else{
+                        $text = $recordAge.' Day' ; 
+                    }
+
+                    $data = 'You already Booked a seat Before ' .$text. '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
                     $message = $this->WhatsAppbotMessages($data, 9);
                     $this->sendMessage($userPhoneNumber, $message);
                     $this->FlushEntries($userPhoneNumber); 
