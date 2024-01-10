@@ -187,10 +187,10 @@ class WhatsAppController extends Controller
                     if($recordAge == 0){
                         $text = 'Today'; 
                     }else{
-                        $text = $recordAge.' Day' ; 
+                        $text = 'Before '.$recordAge.' Day' ; 
                     }
 
-                    $data = 'You already Booked a seat Before ' .$text. '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
+                    $data = 'You already Booked a seat ' .$text. '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
                     $message = $this->WhatsAppbotMessages($data, 9);
                     $this->sendMessage($userPhoneNumber, $message);
                     $this->FlushEntries($userPhoneNumber); 
