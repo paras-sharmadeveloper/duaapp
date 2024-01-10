@@ -12,9 +12,7 @@ use Illuminate\Support\Str;
 class WhatsAppController extends Controller
 {
     public function handleWebhook(Request $request)
-    {
-
-        
+    {  
         $body = $request->all();
         $today = Carbon::now();
         $NextDate = $today->addDay();
@@ -28,6 +26,14 @@ class WhatsAppController extends Controller
         $cleanNumber = str_replace($countryCode,'', $waId);  
       
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+
+        // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
+      
+
+
+
+
+
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
         // https://emojipedia.org/keycap-digit-five
@@ -38,6 +44,20 @@ class WhatsAppController extends Controller
             '4' => '4️⃣',
             '5' => '5️⃣'
         ]; 
+
+        $visitors = Vistors::Where('phone', $waId)->orWhere('phone','like' , $cleanNumber)->first();
+        $slot = $visitors->slot;
+        $venueAddress = $slot->venueAddress; 
+
+        if ($visitors) {
+            $recordAge = $visitors->created_at->diffInDays(now());
+            $rejoin = $venueAddress->rejoin_venue_after;
+            if ($rejoin > 0 && $recordAge <= $rejoin ) {
+                $data = 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '; 
+                $message = $this->WhatsAppbotMessages($data, 9);
+                $this->sendMessage($userPhoneNumber, $message);
+            }  
+        }
 
        
         $options = [];
