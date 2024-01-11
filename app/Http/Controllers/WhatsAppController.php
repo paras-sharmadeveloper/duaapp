@@ -133,8 +133,7 @@ class WhatsAppController extends Controller
             $cityAr = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
             $cityName = explode('-',$cityAr); 
        
-           //  $getDate = $data_sent_to_customer[$Respond];
-
+           //  $getDate = $data_sent_to_customer[$Respond]; 
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('city',  $cityName[0])
                 ->where('venue_date','>=', date('Y-m-d'))
@@ -150,18 +149,18 @@ class WhatsAppController extends Controller
                 $columnToShow = $venueDate->combinationData->columns_to_show; 
                 // $venueDate = $venueDate->venue_date; 
                  Log::info('Received venue_date: ' .$venueDate->venue_date); 
-                 Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning); 
-                // $slotMorng = ($venueDate->slot_starts_at_morning) ? $venueDate->slot_starts_at_morning : ''; 
-                // $venueStartTime = strtotime(Carbon::parse($venueDate.' '.$slotMorng)); 
-                // $todaydAteTime = strtotime(Carbon::now()->format('Y-m-d H:i:s')); 
+                 Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning);  
+                 $venueStartTime = Carbon::parse($venueDate->venue_date.' '.$venueDate->slot_starts_at_morning); 
+
+               
 
             
 
-                // if($todaydAteTime <= $venueStartTime && $columnToShow >= $i){
-                //     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
-                //     $options[] = $i;
-                //     $i++;
-                // }else 
+                if($venueStartTime <= $today && $columnToShow >= $i){
+                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                    $options[] = $i;
+                    $i++;
+                }else 
                 if($columnToShow >= $i ){
                     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                     $options[] = $i;
@@ -277,15 +276,21 @@ class WhatsAppController extends Controller
                 $step = 9; // warning messaghe will issue
                 $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.';
                 $this->FlushEntries($userPhoneNumber);
+                
+
 
             } else{
                 $step = 9; // warning messaghe will issue
                 $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later ';
                 $this->FlushEntries($userPhoneNumber);
+                 
             } 
             
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
+            if( $step == 9){
+                return false; 
+            }
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
