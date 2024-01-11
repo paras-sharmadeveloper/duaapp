@@ -148,8 +148,8 @@ class WhatsAppController extends Controller
             foreach ($venuesListArr as $venueDate) {
                 $columnToShow = $venueDate->combinationData->columns_to_show; 
                 $venueDate = $venueDate->venue_date; 
-                $slotMorng = $venueDate['slot_starts_at_morning']; 
-                $venueStartTime = strtotime(Carbon::parse( $venueDate.' ' .$slotMorng)); 
+                $slotMorng = ($venueDate->slot_starts_at_morning) ? $venueDate->slot_starts_at_morning : ''; 
+                $venueStartTime = strtotime(Carbon::parse($venueDate.' '.$slotMorng)); 
                 $todaydAteTime = strtotime(Carbon::now()->format('Y-m-d H:i:s')); 
 
             
