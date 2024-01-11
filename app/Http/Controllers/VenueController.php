@@ -16,7 +16,9 @@ class VenueController extends Controller
     public function index()
     {
         $venuesAddress = VenueAddress::all();
-        return view('venues.list', compact('venuesAddress'));
+        $visitors = Vistors::all(); 
+       
+        return view('venues.list', compact('venuesAddress','visitors'));
     }
 
 

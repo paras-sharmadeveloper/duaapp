@@ -69,6 +69,7 @@
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
+                        <th>Token Issued</th>
                         <th>Type</th>
                         <th style="width: 300px">Action</th>
                     </tr>
@@ -82,6 +83,18 @@
                         $formattedDate = $dateToConvert->format('d-M-Y');
                         $weekDay = $dateToConvert->format('l');
                         $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
+
+                        $totalBookings = [];
+                          
+                        foreach($visitors as $visitor){
+                            
+                            $totalBookings[$visitor->slot->venue_address_id][] = $visitor->slot->id ; 
+                            
+                        } 
+                        
+
+
+                       
 
                         $hideClass  = 'd-none'; 
                         
@@ -111,7 +124,9 @@
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->siteadmin->name }}</td>
                             <td>{{  strlen($venueAdd->address) > 80 ? substr($venueAdd->address,0,80)."..." : $venueAdd->address;}}</td>
+                            
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
+                            <td style="text-align: center">{{  (isset($totalBookings[$venueAdd->id]))?count($totalBookings[$venueAdd->id]):0 }}</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td class="d-flex cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
@@ -195,8 +210,7 @@ $(".hide-inactive").change(function(){
     if(url){
         location.href=url
 
-    }
-    console.log("url",url)
+    } 
 })
 
 </script>
