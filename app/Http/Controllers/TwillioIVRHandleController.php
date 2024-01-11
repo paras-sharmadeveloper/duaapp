@@ -71,8 +71,7 @@ class TwillioIVRHandleController extends Controller
 
     public function handleCity(Request $request)
     {
-        $response = new VoiceResponse();
-        $userInput = $request->input('Digits');
+        $response = new VoiceResponse(); 
         $customer = request('From'); 
         $response->play($this->statementUrl . 'statement_select_city.wav'); 
        
@@ -109,9 +108,9 @@ class TwillioIVRHandleController extends Controller
  
             $dataArr = [
                 'customer_number' => request('From'),
-                'customer_response' => $userInput ,
+                'customer_response' => $request->input('Digits') ,
                 'bot_reply' =>  json_encode(array_unique($cityArr)),
-                'data_sent_to_customer' => 'twillio',
+                'data_sent_to_customer' => 'twillio-city ',
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 2
             ];
@@ -124,8 +123,7 @@ class TwillioIVRHandleController extends Controller
     }
 
     public function handleDates(Request $request)
-    {
-        $userInput = $request->input('Digits');
+    { 
         $response = new VoiceResponse();
     
         $customer = request('From'); 
@@ -134,7 +132,7 @@ class TwillioIVRHandleController extends Controller
         if($exsitingCustomer){
            
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
-            $cityName = $asdas[$userInput];
+            $cityName = $asdas[$request->input('Digits')];
 
             $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('city',  $cityName)
@@ -185,9 +183,9 @@ class TwillioIVRHandleController extends Controller
             
                 $dataArr = [
                     'customer_number' => $customer,
-                    'customer_response' => $userInput ,
+                    'customer_response' => $request->input('Digits') ,
                     'bot_reply' =>  json_encode($VenueDatesAadd),
-                    'data_sent_to_customer' => 'twillio',
+                    'data_sent_to_customer' => 'twillio dates',
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => 3
                 ];
@@ -215,7 +213,7 @@ class TwillioIVRHandleController extends Controller
 
             $userInput = $exsitingCustomer->customer_response; 
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
-             $venueAddreId = $asdas[$userInput];
+             $venueAddreId = $asdas[$request->input('Digits')];
 
       
                $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
@@ -276,9 +274,9 @@ class TwillioIVRHandleController extends Controller
 
             $dataArr = [
                 'customer_number' => $customer,
-                'customer_response' => $userInput ,
+                'customer_response' => $request->input('Digits') ,
                 'bot_reply' =>  json_encode($options),
-                'data_sent_to_customer' => 'twillio',
+                'data_sent_to_customer' => 'twillio slots',
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => 4
             ];
@@ -315,7 +313,7 @@ class TwillioIVRHandleController extends Controller
         if($exsitingCustomer){
             $userInput = $exsitingCustomer->customer_response; 
             $lastSent = json_decode($exsitingCustomer->bot_reply , true); 
-            $slotId = $lastSent[$userInput]; 
+            $slotId = $lastSent[$request->input('Digits')]; 
             $venueSlots = VenueSloting::find($slotId);
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id; 

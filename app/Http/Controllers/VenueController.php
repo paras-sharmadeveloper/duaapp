@@ -129,6 +129,26 @@ class VenueController extends Controller
         if(!empty($dayToSet)){
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
+
+                // $batch = Bus::batch([
+                //     new ProcessPodcast(Podcast::find(1)),
+                //     new ProcessPodcast(Podcast::find(2)),
+                //     new ProcessPodcast(Podcast::find(3)),
+                //     new ProcessPodcast(Podcast::find(4)),
+                //     new ProcessPodcast(Podcast::find(5)),
+                // ])->then(function (Batch $batch) {
+                //     // All jobs completed successfully...
+                // })->catch(function (Batch $batch, Throwable $e) {
+                //     // First batch job failure detected...
+                // })->finally(function (Batch $batch) {
+                //     // The batch has finished executing...
+                // })->name('Process Podcasts')
+                //   ->allowFailures(false)
+                //   ->onConnection('redis')
+                //   ->onQueue('podcasts')
+                //   ->dispatch();
+
+                  
                 CreateVenuesSlots::dispatch($venueAddress->id, $slotDuration)
                     ->onQueue('create-slots')
                     ->onConnection('database');
