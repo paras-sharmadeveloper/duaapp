@@ -160,8 +160,7 @@ class WhatsAppController extends Controller
                     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                     $options[] = $i;
                     $i++;
-                }else 
-                if($columnToShow >= $i ){
+                }else  if($columnToShow >= $i && $venueDate->venue_date > date('Y-m-d')){
                     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                     $options[] = $i;
                     $i++;
