@@ -35,8 +35,8 @@ class TwillioIVRHandleController extends Controller
 
     public function handleIncomingCall(Request $request)
     {
-        $fromCountry = request('FromCountry'); 
-        $customer = request('From'); 
+        $fromCountry = $request->input('FromCountry'); 
+        $customer =$request->input('From');  
         $userInput = $request->input('Digits');
         $response = new VoiceResponse();
         // STEP 1: Welcome Message
@@ -135,22 +135,37 @@ class TwillioIVRHandleController extends Controller
             $cityName = $asdas[$request->input('Digits')];
 
             $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
-            ->where('city',  $cityName)
-            ->where('venue_date', '>=', date('Y-m-d'))
-            ->orderBy('venue_date', 'ASC')
-            ->take(3)
-            ->get();
+                ->where('city',  $cityName)
+                ->where('venue_date', '>=', date('Y-m-d'))
+                ->orderBy('venue_date', 'ASC')
+                ->take(3)
+                ->get();
 
             $VenueDates = [];
             $VenueDatesAadd = [];
 
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
-                $currentDate = Carbon::parse($venueDate->venue_date);
-                $VenueDates[$i] = $venueDate->venue_date;
-                // $VenueDates[$i] = $currentDate->format('j M Y');
-                $VenueDatesAadd[$i] = $venueDate->id;
-                $i++;
+                $columnToShow = $venueDate->combinationData->columns_to_show; 
+                $venueStartTime = Carbon::parse($venueDate->venue_date.' '.$venueDate->slot_starts_at_morning); 
+
+                if($venueStartTime <=  Carbon::now() && $columnToShow >= $i){
+                    $VenueDates[$i] = $venueDate->venue_date;
+                    $VenueDatesAadd[$i] = $venueDate->id;
+                    // $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                   
+                    $i++;
+                }else if($columnToShow >= $i && $venueDate->venue_date > Carbon::now()->format('Y-m-d')){
+                    $VenueDates[$i] = $venueDate->venue_date;
+                    $VenueDatesAadd[$i] = $venueDate->id; 
+                    $i++;
+                } 
+  
+                // $currentDate = Carbon::parse($venueDate->venue_date);
+                // $VenueDates[$i] = $venueDate->venue_date;
+                // // $VenueDates[$i] = $currentDate->format('j M Y');
+                // $VenueDatesAadd[$i] = $venueDate->id;
+                // $i++;
             }
 
             foreach ($VenueDates as $k => $date) {
@@ -203,10 +218,50 @@ class TwillioIVRHandleController extends Controller
 
         
         $response = new VoiceResponse();
-       
-        $customer = request('From'); 
+
+        $customer = $request->input('From'); 
         $userInput = $request->input('Digits');
         $exsitingCustomer = $this->getexistingCustomer($customer);
+
+
+        $isVisiable = false;
+
+        $step = $exsitingCustomer->steps + 1;
+        $data_sent_to_customer = json_decode($exsitingCustomer->data_sent_to_customer, true);
+        $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer,$request->input('Digits'));
+        $venueAddress = VenueAddress::find($venueAddreId); 
+        $countryTimeZone = $venueAddress->timezone;
+        $countryCode = $this->findCountryByPhoneNumber($request->input('From')); 
+
+        $cleanNumber = str_replace($countryCode,'', $request->input('From'));  
+
+        $visitors = Vistors::where('phone', $cleanNumber)->first();
+
+        if ($visitors) { 
+            $recordAge = $visitors->created_at->diffInDays(now());
+            $rejoin = $venueAddress->rejoin_venue_after;
+            if ($rejoin > 0 && $recordAge <= $rejoin ) {
+                if($recordAge == 0){
+                    $text = 'Today'; 
+                }else{
+                    $text = 'Before '.$recordAge.' Day' ; 
+                }
+                if($venueAddress->rejoin_venue_after == 1){
+                    $day = 'day'; 
+                }else{
+                    $day = 'days';
+                }
+
+                $data = 'You already Booked a seat ' .$text. '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '.$day; 
+                 $response->say($data); 
+                
+                return false; 
+                
+            }  
+        }
+
+       
+        
     
         if($exsitingCustomer){
             $response->play($this->statementUrl . 'statement_select_time.wav'); 
@@ -306,7 +361,7 @@ class TwillioIVRHandleController extends Controller
 
         $response = new VoiceResponse();
  
-        $customer = request('From'); 
+        $customer = $request->input('From'); 
         $exsitingCustomer = $this->getexistingCustomer($customer);
  
 

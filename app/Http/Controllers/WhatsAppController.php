@@ -151,11 +151,7 @@ class WhatsAppController extends Controller
                  Log::info('Received venue_date: ' .$venueDate->venue_date); 
                  Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning);  
                  $venueStartTime = Carbon::parse($venueDate->venue_date.' '.$venueDate->slot_starts_at_morning); 
-
-               
-
-            
-
+  
                 if($venueStartTime <=  Carbon::now() && $columnToShow >= $i){
                     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                     $options[] = $i;
@@ -189,7 +185,10 @@ class WhatsAppController extends Controller
             WhatsApp::create($dataArr);
 
         }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
+           
+           
             $isVisiable = false;
+
             $step = $existingCustomer->steps + 1;
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
