@@ -150,6 +150,7 @@ class WhatsAppController extends Controller
                 $columnToShow = $venueDate->combinationData->columns_to_show; 
                 // $venueDate = $venueDate->venue_date; 
                  Log::info('Received venue_date: ' .$venueDate->venue_date); 
+                 Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning); 
                 // $slotMorng = ($venueDate->slot_starts_at_morning) ? $venueDate->slot_starts_at_morning : ''; 
                 // $venueStartTime = strtotime(Carbon::parse($venueDate.' '.$slotMorng)); 
                 // $todaydAteTime = strtotime(Carbon::now()->format('Y-m-d H:i:s')); 
