@@ -148,20 +148,21 @@ class WhatsAppController extends Controller
             $i = 1;
             foreach ($venuesListArr as $venueDate) {
                 $columnToShow = $venueDate->combinationData->columns_to_show; 
-                $venueDate = $venueDate->venue_date; 
-                Log::info('Received venue_date: ' . $venueDate->venue_date);
-                Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning );
-                $slotMorng = ($venueDate->slot_starts_at_morning) ? $venueDate->slot_starts_at_morning : ''; 
-                $venueStartTime = strtotime(Carbon::parse($venueDate.' '.$slotMorng)); 
-                $todaydAteTime = strtotime(Carbon::now()->format('Y-m-d H:i:s')); 
+                // $venueDate = $venueDate->venue_date; 
+                // Log::info('Received venue_date: ' . $venueDate->venue_date);
+                // Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning );
+                // $slotMorng = ($venueDate->slot_starts_at_morning) ? $venueDate->slot_starts_at_morning : ''; 
+                // $venueStartTime = strtotime(Carbon::parse($venueDate.' '.$slotMorng)); 
+                // $todaydAteTime = strtotime(Carbon::now()->format('Y-m-d H:i:s')); 
 
             
 
-                if($todaydAteTime <= $venueStartTime && $columnToShow >= $i){
-                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
-                    $options[] = $i;
-                    $i++;
-                }else if($columnToShow >= $i && $venueDate->venue_date > date('Y-m-d')){
+                // if($todaydAteTime <= $venueStartTime && $columnToShow >= $i){
+                //     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                //     $options[] = $i;
+                //     $i++;
+                // }else 
+                if($columnToShow >= $i ){
                     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
                     $options[] = $i;
                     $i++;
