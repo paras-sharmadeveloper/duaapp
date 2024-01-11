@@ -74,7 +74,7 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $userInput = $request->input('Digits');
         $customer = request('From'); 
-
+        $response->play($this->statementUrl . 'statement_select_city.wav'); 
        
         $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
             ->where('venue_date', '>=', date('Y-m-d'))
@@ -132,6 +132,7 @@ class TwillioIVRHandleController extends Controller
 
         $exsitingCustomer = $this->getexistingCustomer($customer);
         if($exsitingCustomer){
+           
             $asdas = json_decode($exsitingCustomer->bot_reply , true); 
             $cityName = $asdas[$userInput];
 
