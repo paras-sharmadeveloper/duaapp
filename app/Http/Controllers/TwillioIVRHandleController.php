@@ -142,7 +142,7 @@ class TwillioIVRHandleController extends Controller
 
             if(empty($CityyName)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-                $this->handleRepeat('ivr.pickCity');  
+                $this->handleRepeat('ivr.pickcity');  
             }
             $cityName = $CityyName[$request->input('Digits')];
 
