@@ -730,14 +730,14 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->combinationData->columns_to_show;
         $venueStartTime = Carbon::parse($venuesList->venue_date.' '.$venuesList->slot_starts_at_morning); 
-        $timeOver = true;
-        if($venueStartTime <=  Carbon::now()){
-          $timeOver = true;
-        }
+        
 
         $dataArr['columnToShow'] =  $columnToShow;
-        $dataArr['timeOver'] =  $timeOver;
+ 
         $dataArr['date'][] = [
+          'timeOver' => ($venueStartTime <=  Carbon::now()) ? true : false,
+          '1timeOver' =>$venueStartTime,
+          '2timeOver' =>Carbon::now(),
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
           'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' . $flagPath,
