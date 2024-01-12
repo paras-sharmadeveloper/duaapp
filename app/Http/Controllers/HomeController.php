@@ -716,7 +716,7 @@ class HomeController extends Controller
         'venue_id' => $id, 'city' => $request->input('optional')
       ])
         ->where(function ($query) use ($newDate) {
-          $query->where('venue_date', '>', $newDate) // Use '>=' instead of '>'
+          $query->where('venue_date', '>', Carbon::now()->format('Y-m-d')) // Use '>=' instead of '>'
             ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
         })
         ->where('venue_date', '>', now()->format('Y-m-d'))
