@@ -52,7 +52,7 @@ class TwillioIVRHandleController extends Controller
                 'timeout' => 10, // Set the timeout to 10 seconds
             ]);
 
-            $this->handleRepeat('ivr.welcome'); 
+            return $this->handleRepeat('ivr.welcome'); 
  
      
             // $response->redirect(route('ivr.welcome'));
@@ -105,7 +105,7 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
             'timeout' => 10
         ]);
-        $this->handleRepeat('ivr.pickcity'); 
+        return  $this->handleRepeat('ivr.pickcity'); 
         
 
         if($request->input('Digits')!=null){
@@ -209,7 +209,7 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 10
                 ]); 
             }else{
-                $this->handleRepeat('ivr.dates'); 
+                return  $this->handleRepeat('ivr.dates'); 
             }
            
            
@@ -249,7 +249,7 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $this->handleRepeat('ivr.dates');  
+            return $this->handleRepeat('ivr.dates');  
         }
         
         $venueAddress = VenueAddress::find($venueAddreId); 
@@ -395,7 +395,7 @@ class TwillioIVRHandleController extends Controller
 
             if(empty($slotId)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-                $this->handleRepeat('ivr.time');  
+                return $this->handleRepeat('ivr.time');  
             }
             
             $venueSlots = VenueSloting::find($slotId);
