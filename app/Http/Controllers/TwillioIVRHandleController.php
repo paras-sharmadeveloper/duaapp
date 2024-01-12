@@ -46,12 +46,7 @@ class TwillioIVRHandleController extends Controller
         $response->play($this->numbersUrl . 'number_01.wav');
         $response->play($this->statementUrl . 'statement_press.wav');
 
-
-
         // Prompt user to press any key to proceed
-       
-        
-       
 
             $gather = $response->gather([
                 'numDigits' => 1,
@@ -61,11 +56,7 @@ class TwillioIVRHandleController extends Controller
  
      
             $response->redirect(route('ivr.welcome'));
-      
-
-        
-
-
+       
         // Set the response content type to XML
         header("Content-type: text/xml");
 
@@ -115,11 +106,15 @@ class TwillioIVRHandleController extends Controller
         $gather = $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dates'),
+            'timeout' => 10
         ]);
- 
+        $response->redirect(route('ivr.pickcity'));
+
+        if($request->input('Digits')!=null){
+
             $dataArr = [
                 'customer_number' => request('From'),
-                'customer_response' => $request->input('Digits') ,
+                'customer_response' => $request->input('Digits'),
                 'bot_reply' =>  json_encode(array_unique($cityArr)),
                 'data_sent_to_customer' => 'twillio-city ',
                 'last_reply_time' => date('Y-m-d H:i:s'),
@@ -127,7 +122,8 @@ class TwillioIVRHandleController extends Controller
             ];
             Log::info('Received Digits city: ' . $request->input('Digits'));
             WhatsApp::create($dataArr);
-        
+
+        } 
             header("Content-type: text/xml");
        
         return response($response, 200)->header('Content-Type', 'text/xml');
