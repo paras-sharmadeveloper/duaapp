@@ -716,26 +716,27 @@ class HomeController extends Controller
         'venue_id' => $id, 'city' => $request->input('optional')
       ])
         ->where(function ($query) use ($newDate) {
-          $query->where('venue_date', '>', Carbon::now()->format('Y-m-d')) // Use '>=' instead of '>'
+          $query->where('venue_date', '>=', Carbon::now()->format('Y-m-d')) // Use '>=' instead of '>'
             ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
         })
         ->where('venue_date', '>', now()->format('Y-m-d'))
         ->get();
-      // $venuesListArr = VenueAddress::where('id', $id)
-      //   ->where(function ($query) use ($newDate) {
-      //     $query->whereDate('venue_date', $newDate)
-      //       ->orWhereDate('venue_date', date('Y-m-d'));
-      //   })
-      //   ->get();
-
+    
+       
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
         $venue_date = $venuesList->venue_date;
         $flagPath = $venuesList->venue->flag_path;
         $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->combinationData->columns_to_show;
+        $venueStartTime = Carbon::parse($venuesList->venue_date.' '.$venuesList->slot_starts_at_morning); 
+        $timeOver = false;
+        if($venueStartTime <=  Carbon::now()){
+          $timeOver = true;
+        }
 
         $dataArr['columnToShow'] =  $columnToShow;
+        $dataArr['timeOver'] =  $timeOver;
         $dataArr['date'][] = [
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
