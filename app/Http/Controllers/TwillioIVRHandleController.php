@@ -229,17 +229,14 @@ class TwillioIVRHandleController extends Controller
         $customer = $request->input('From'); 
         $userInput = $request->input('Digits');
         $exsitingCustomer = $this->getexistingCustomer($customer);
-
-
         $isVisiable = false;
-
         $step = $exsitingCustomer->steps + 1;
         $bot_reply = json_decode($exsitingCustomer->bot_reply, true);
         $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $response->redirect(route('ivr.time'));
+            $response->redirect(route('ivr.dates'));
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
         
