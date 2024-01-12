@@ -27,8 +27,6 @@ class TwillioIVRHandleController extends Controller
         $this->numbersUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
         $this->monthsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
         $this->yearsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
-       
-        
         $this->country = Venue::where(['iso' => 'PK'])->get()->first();
         
     }
@@ -53,9 +51,11 @@ class TwillioIVRHandleController extends Controller
                 'action' => route('ivr.pickcity'),
                 'timeout' => 10, // Set the timeout to 10 seconds
             ]);
+
+            $this->handleRepeat('ivr.welcome'); 
  
      
-            $response->redirect(route('ivr.welcome'));
+            // $response->redirect(route('ivr.welcome'));
        
         // Set the response content type to XML
         header("Content-type: text/xml");
@@ -65,10 +65,7 @@ class TwillioIVRHandleController extends Controller
     }
 
 
-    private function getexistingCustomer($userPhoneNumber){
-        return WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
-    }
-
+   
 
 
     public function handleCity(Request $request)
@@ -108,7 +105,8 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
             'timeout' => 10
         ]);
-        $response->redirect(route('ivr.pickcity'));
+        $this->handleRepeat('ivr.pickcity'); 
+        
 
         if($request->input('Digits')!=null){
 
@@ -196,10 +194,18 @@ class TwillioIVRHandleController extends Controller
                 
                  
             }
-            $gather = $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.time'),
-            ]); 
+
+            if( $request->input('Digits') !==null){
+                $gather = $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.time'),
+                    'timeout' => 10
+                ]); 
+            }else{
+                $this->handleRepeat('ivr.dates'); 
+            }
+           
+           
            
             Log::info('Received Digits handles dates: ' . $request->input('Digits'));
             
@@ -236,8 +242,7 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $response->redirect(route('ivr.pickcity'));
-            return response($response, 200)->header('Content-Type', 'text/xml');
+            $this->handleRepeat('ivr.time');  
         }
         
         $venueAddress = VenueAddress::find($venueAddreId); 
@@ -347,7 +352,7 @@ class TwillioIVRHandleController extends Controller
                 'steps' => 4
             ];
             Log::info('Received Digits handles slots: ' .$request->input('Digits'));
-        WhatsApp::create($dataArr); 
+            WhatsApp::create($dataArr); 
 
 
             $gather = $response->gather([
@@ -490,6 +495,19 @@ class TwillioIVRHandleController extends Controller
         return ($arrayKeys[$key]) ? $arrayKeys[$key] : null;
  
     }
+
+
+    public function handleRepeat($route)
+    {
+        $response = new VoiceResponse();
+        $response->redirect(route($route));
+        return response($response)->header('Content-Type', 'text/xml');
+    }
+
+
+
+
+
     public function handleTimeout(Request $request)
     {
         $response = new VoiceResponse();
@@ -497,6 +515,11 @@ class TwillioIVRHandleController extends Controller
 
         return response($response)->header('Content-Type', 'text/xml');
     }
+
+    private function getexistingCustomer($userPhoneNumber){
+        return WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+    }
+
 
      
 }
