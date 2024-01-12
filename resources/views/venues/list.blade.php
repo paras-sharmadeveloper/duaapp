@@ -151,12 +151,7 @@
         </div>
     </div>
 
-    <style>
-        .d-flex {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+    <style> 
 
         .justify-content-between {
             justify-content: space-between;
