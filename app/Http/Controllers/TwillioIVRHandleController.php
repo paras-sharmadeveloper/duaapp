@@ -138,13 +138,13 @@ class TwillioIVRHandleController extends Controller
            
             $CityyName = json_decode($exsitingCustomer->bot_reply , true); 
 
-            $CityyName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
+            $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
 
-            if(empty($CityyName)){
+            if(empty($cityName)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
                 $this->handleRepeat('ivr.pickcity');  
             }
-            $cityName = $CityyName[$request->input('Digits')];
+            
 
             $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                 ->where('city',  $cityName)
