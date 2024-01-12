@@ -733,16 +733,16 @@ class HomeController extends Controller
         
 
         $dataArr['columnToShow'] =  $columnToShow;
- 
-        $dataArr['date'][] = [
-          'timeOver' => (Carbon::now() <= $venueStartTime ) ? false : true,
-          'timeOver_test' => true,
-          'venue_date' => $venue_date,
-          'type' => $venuesList->type,
-          'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' . $flagPath,
-          'id' => $venuesList->venue->id,
-          'venue_address_id' => $venuesList->id
-        ];
+        if(Carbon::now() <= $venueStartTime ) {
+          $dataArr['date'][] = [ 
+            'venue_date' => $venue_date,
+            'type' => $venuesList->type,
+            'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' . $flagPath,
+            'id' => $venuesList->venue->id,
+            'venue_address_id' => $venuesList->id
+          ];
+        }
+        
       }
       return response()->json([
         'status' => !(empty($dataArr)) ? true : false,

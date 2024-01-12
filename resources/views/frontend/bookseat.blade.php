@@ -1599,7 +1599,7 @@
                             $.each(response.data.date, function(key, item) {
                                 
                                  
-                                if (coulmtoShow >= count && item.timeOver_test == false) {
+                                if (coulmtoShow >= count ) {
                                     dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                         <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                             <img src="${item.flag_path}" alt="Flag Image"> 
