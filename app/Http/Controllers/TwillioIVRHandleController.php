@@ -470,5 +470,15 @@ class TwillioIVRHandleController extends Controller
         return "Unknown";
     }
 
+    function findKeyByValueInArray($array, $key)
+    {
+        if($key > 0){
+            $key= $key-1;
+        }
+        $arrayKeys = array_keys($array); 
+        return ($arrayKeys[$key]) ? $arrayKeys[$key] : null;
+ 
+    }
+
      
 }
