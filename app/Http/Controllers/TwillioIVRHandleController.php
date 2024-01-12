@@ -52,16 +52,8 @@ class TwillioIVRHandleController extends Controller
         ]);
 
         $response->redirect(route('ivr.welcome'));
-
-
-
-
-        // $response->redirect(route('ivr.welcome'));
-
-        // Set the response content type to XML
         header("Content-type: text/xml");
 
-        // Laravel specific: return a response with the TwiML content
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
@@ -82,9 +74,7 @@ class TwillioIVRHandleController extends Controller
         $i = 1;
         $cityArr = [];
         foreach ($venuesListArr as $venue) {
-
             $cityArr[$i] = strtolower($venue->city);
-
             $i++;
         }
 
@@ -122,8 +112,7 @@ class TwillioIVRHandleController extends Controller
             ];
             Log::info('Received Digits city: ' . $request->input('Digits'));
             WhatsApp::create($dataArr);
-        }
-        header("Content-type: text/xml");
+        } 
 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
@@ -143,7 +132,7 @@ class TwillioIVRHandleController extends Controller
 
             if (empty($cityName)) {
                 $response->say('You have entered Wront input. Please choose the Right Input ');
-                $response->redirect(route('ivr.dates'));
+                $response->redirect(route('ivr.pickcity'));
             } else {
 
 
@@ -364,9 +353,8 @@ class TwillioIVRHandleController extends Controller
                     'action' => route('ivr.makebooking'),
                 ]);
             }
-        } 
-        return response($response, 200)->header('Content-Type', 'text/xml'); 
-
+        }
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
     public function MakeBooking(Request $request)
@@ -389,16 +377,15 @@ class TwillioIVRHandleController extends Controller
             if (empty($slotId)) {
                 $response->say('You have entered Wront inputs. Please choose the Right Input ');
                 $response->redirect(route('ivr.time'));
-              
-            }else{
+            } else {
                 $venueSlots = VenueSloting::find($slotId);
                 $venueAddress = $venueSlots->venueAddress;
                 // $tokenId = $venueSlots->token_id; 
                 $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
                 $countryCode = $this->findCountryByPhoneNumber($customer);
-    
+
                 $cleanNumber = str_replace($countryCode, '', $customer);
-    
+
                 $uuid = Str::uuid()->toString();
                 Vistors::create([
                     'is_whatsapp' => 'yes',
@@ -410,46 +397,46 @@ class TwillioIVRHandleController extends Controller
                     'phone' => $cleanNumber,
                     'source' => 'Phone'
                 ]);
-    
+
                 Log::info('Make booking Digits: ' . $request->input('Digits'));
                 $response->play($this->statementUrl . 'statement_your_token_date.wav');
-    
-    
+
+
                 $datesArr = explode('-', $venueAddress->venue_date);
                 $year = $datesArr[0];
                 $month = $datesArr[1];
                 $day = $datesArr[2];
-    
+
                 $response->play($this->numbersUrl . 'number_' . $day . '.wav');
                 $response->play($this->monthsIvr . 'Month_' . $month . '.wav');
                 $response->play($this->yearsIvr . 'Year_' . $year . '.wav');
-    
-    
+
+
                 // $response->say($currentDate->format('j M Y')); 
                 $response->play($this->statementUrl . 'statement_your_dua_time.wav');
-    
+
                 // $response->say($venueSlots->slot_time); 
                 $chunksTime = explode(':', $venueSlots->slot_time);
-    
+
                 $hours = $chunksTime[0];
                 $minutes = $chunksTime[1];
                 $seconds = $chunksTime[2];
-    
+
                 $ampm = '';
                 if ($hours >= 0 && $hours < 12) {
                     $ampm = "AM";
                 } else {
                     $ampm = "PM";
                 }
-    
+
                 if ($hours <= 9) {
                     $hourNew = '0' . $hours;
                 } else {
                     $hourNew = $hours;
                 }
-    
-    
-    
+
+
+
                 $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
                 $response->play($this->statementUrl . 'statement_bajkay.wav');
                 if ($minutes != '00') {
@@ -458,21 +445,20 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl . 'statement_minute.wav');
                 }
                 $response->play($this->statementUrl . 'statement_your_token_number.wav');
-    
+
                 if ($venueSlots->token_id <= 9) {
                     $number = '0' . $venueSlots->token_id;
                 } else {
                     $number = $venueSlots->token_id;
                 }
-    
-    
+
+
                 $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                 $response->play($this->statementUrl . 'statement_15_min_before.wav');
                 $response->play($this->statementUrl . 'statement_goodbye.wav');
-
             }
 
-           
+
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
     }
