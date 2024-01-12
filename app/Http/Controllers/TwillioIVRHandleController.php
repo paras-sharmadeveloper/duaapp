@@ -249,7 +249,7 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $this->handleRepeat('ivr.time');  
+            $this->handleRepeat('ivr.dates');  
         }
         
         $venueAddress = VenueAddress::find($venueAddreId); 
@@ -391,7 +391,13 @@ class TwillioIVRHandleController extends Controller
         if($exsitingCustomer){
             $userInput = $exsitingCustomer->customer_response; 
             $lastSent = json_decode($exsitingCustomer->bot_reply , true); 
-            $slotId = $lastSent[$request->input('Digits')]; 
+            $slotId = (isset($lastSent[$request->input('Digits')])) ? $lastSent[$request->input('Digits')] : ''; 
+
+            if(empty($slotId)){
+                $response->say('You have entered Wront inputs. Please choose the Right Input '); 
+                $this->handleRepeat('ivr.time');  
+            }
+            
             $venueSlots = VenueSloting::find($slotId);
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id; 
