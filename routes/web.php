@@ -52,6 +52,13 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
         ->withoutMiddleware(['web', 'verified'])
         ->name('ivr.makebooking');
+
+        Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTimeout'])
+        ->withoutMiddleware(['web', 'verified'])
+        ->name('ivr.handle.timeout');
+
+       
+
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);

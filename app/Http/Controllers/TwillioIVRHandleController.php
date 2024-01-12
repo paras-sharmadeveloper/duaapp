@@ -49,10 +49,22 @@ class TwillioIVRHandleController extends Controller
 
 
         // Prompt user to press any key to proceed
-        $gather = $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.pickcity'),
-        ]);
+       
+        
+        if( $request->input('Digits') == 1){
+
+            $gather = $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.pickcity'),
+            ]);
+
+        }else{
+         $response->gather([ 
+                'action' => route('ivr.welcome'),
+            ]);
+        }
+
+        
 
 
         // Set the response content type to XML
@@ -478,6 +490,13 @@ class TwillioIVRHandleController extends Controller
         $arrayKeys = array_keys($array); 
         return ($arrayKeys[$key]) ? $arrayKeys[$key] : null;
  
+    }
+    public function handleTimeout(Request $request)
+    {
+        $response = new VoiceResponse();
+        $response->say("Sorry, we didn't receive any input. Goodbye!");
+
+        return response($response)->header('Content-Type', 'text/xml');
     }
 
      
