@@ -1597,10 +1597,9 @@
                             //  console.log("coulmtoShow",coulmtoShow)
                             var count = 1;
                             $.each(response.data.date, function(key, item) {
-                                // console.log("key",key)
-                                // console.log("count",count)
-                                // console.log("item",item)
-                                if (coulmtoShow >= count) {
+                                
+                                 
+                                if (coulmtoShow >= count && item.timeOver == false) {
                                     dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                                         <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
                                             <img src="${item.flag_path}" alt="Flag Image"> 

@@ -735,9 +735,8 @@ class HomeController extends Controller
         $dataArr['columnToShow'] =  $columnToShow;
  
         $dataArr['date'][] = [
-          'timeOver' => (Carbon::now() <= $venueStartTime ) ? true : false,
-          '1timeOver' =>$venueStartTime,
-          '2timeOver' =>Carbon::now(),
+          'timeOver' => (Carbon::now() <= $venueStartTime ) ? false : true,
+          'timeOver_test' => true,
           'venue_date' => $venue_date,
           'type' => $venuesList->type,
           'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' . $flagPath,
