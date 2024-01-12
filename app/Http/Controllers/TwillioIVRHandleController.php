@@ -236,7 +236,7 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $response->redirect(route('ivr.dates'));
+            $response->redirect(route('ivr.pickcity'));
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
         
