@@ -52,7 +52,9 @@ class TwillioIVRHandleController extends Controller
                 'timeout' => 10, // Set the timeout to 10 seconds
             ]);
 
-             $this->handleRepeat('ivr.welcome'); 
+            $response->redirect(route('ivr.welcome'));
+
+            
  
      
             // $response->redirect(route('ivr.welcome'));
@@ -105,7 +107,8 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
             'timeout' => 10
         ]);
-         $this->handleRepeat('ivr.pickcity'); 
+        $response->redirect(route('ivr.pickcity'));
+       
         
 
         if($request->input('Digits')!=null){
@@ -142,7 +145,8 @@ class TwillioIVRHandleController extends Controller
 
             if(empty($cityName)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-                $this->handleRepeat('ivr.pickcity');  
+                $response->redirect(route('ivr.pickcity'));
+                
             }
             
 
@@ -209,7 +213,8 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 10
                 ]); 
             }else{
-                     $this->handleRepeat('ivr.dates'); 
+                $response->redirect(route('ivr.dates'));
+                  
             }
            
            
@@ -249,7 +254,8 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            $this->handleRepeat('ivr.dates');  
+            $response->redirect(route('ivr.dates'));
+            
         }
         
         $venueAddress = VenueAddress::find($venueAddreId); 
@@ -290,9 +296,13 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->statementUrl . 'statement_select_time.wav'); 
 
             $userInput = $exsitingCustomer->customer_response; 
-            $asdas = json_decode($exsitingCustomer->bot_reply , true); 
-             $venueAddreId = $asdas[$request->input('Digits')];
-
+            $bot_reply = json_decode($exsitingCustomer->bot_reply , true); 
+            $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
+            // $venueAddreId = $asdas[$request->input('Digits')];
+            if(empty($venueAddressId)){
+                $response->say('You have entered Wront inputs. Please choose the Right Input '); 
+                $response->redirect(route('ivr.dates')); 
+            }
       
                $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
