@@ -735,7 +735,7 @@ class HomeController extends Controller
         $dataArr['columnToShow'] =  $columnToShow;
  
         $dataArr['date'][] = [
-          'timeOver' => ($venueStartTime <=  Carbon::now()) ? true : false,
+          'timeOver' => (Carbon::now() <= $venueStartTime ) ? true : false,
           '1timeOver' =>$venueStartTime,
           '2timeOver' =>Carbon::now(),
           'venue_date' => $venue_date,
