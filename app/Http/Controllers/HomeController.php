@@ -730,7 +730,7 @@ class HomeController extends Controller
         $cityFlag = $venuesList->combinationData->city_image;
         $columnToShow = $venuesList->combinationData->columns_to_show;
         $venueStartTime = Carbon::parse($venuesList->venue_date.' '.$venuesList->slot_starts_at_morning); 
-        $timeOver = false;
+        $timeOver = true;
         if($venueStartTime <=  Carbon::now()){
           $timeOver = true;
         }
