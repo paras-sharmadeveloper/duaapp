@@ -234,8 +234,8 @@ class TwillioIVRHandleController extends Controller
         $isVisiable = false;
 
         $step = $exsitingCustomer->steps + 1;
-        $data_sent_to_customer = json_decode($exsitingCustomer->data_sent_to_customer, true);
-        $venueAddreId = $this->findKeyByValueInArray($data_sent_to_customer,$request->input('Digits'));
+        $bot_reply = json_decode($exsitingCustomer->bot_reply, true);
+        $venueAddreId = $this->findKeyByValueInArray($bot_reply,$request->input('Digits'));
         $venueAddress = VenueAddress::find($venueAddreId); 
         $countryTimeZone = $venueAddress->timezone;
         $countryCode = $this->findCountryByPhoneNumber($request->input('From')); 
