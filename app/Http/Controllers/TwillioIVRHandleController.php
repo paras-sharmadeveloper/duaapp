@@ -343,7 +343,6 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'statement_press.wav'); 
                 
 
-
              //   $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
                 // $slotArr[$slot->id] =  $slotTime;
                 $options[$i] = $slot->id;
