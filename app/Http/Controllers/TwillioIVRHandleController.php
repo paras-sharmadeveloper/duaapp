@@ -51,18 +51,17 @@ class TwillioIVRHandleController extends Controller
         // Prompt user to press any key to proceed
        
         
-        if( $request->input('Digits') == 1){
+       
 
             $gather = $response->gather([
                 'numDigits' => 1,
                 'action' => route('ivr.pickcity'),
+                'timeout' => 10, // Set the timeout to 10 seconds
             ]);
-
-        }else{
-         $response->gather([ 
-                'action' => route('ivr.welcome'),
-            ]);
-        }
+ 
+     
+            $response->redirect(route('ivr.welcome'));
+      
 
         
 
