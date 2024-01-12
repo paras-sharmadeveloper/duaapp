@@ -132,10 +132,8 @@ class TwillioIVRHandleController extends Controller
 
             if (empty($cityName)) {
                 $response->say('You have entered Wront input. Please choose the Right Input ');
-                $response->redirect(route('ivr.pickcity'));
-            } else {
-
-
+                $response->redirect(route('ivr.dates'));
+            } else { 
                 $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                     ->where('city',  $cityName)
                     ->where('venue_date', '>=', date('Y-m-d'))
@@ -189,15 +187,13 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
 
-                if ($request->input('Digits') !== null) {
+                
                     $gather = $response->gather([
                         'numDigits' => 1,
                         'action' => route('ivr.time'),
                         'timeout' => 10
                     ]);
-                } else {
-                    $response->redirect(route('ivr.dates'));
-                }
+                  
 
 
 
