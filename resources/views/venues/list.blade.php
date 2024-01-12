@@ -128,7 +128,7 @@
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td style="text-align: center">{{  (isset($totalBookings[$venueAdd->id]))?count($totalBookings[$venueAdd->id]):0 }}</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
-                            <td class="d-flex cdt justify-content-between"> 
+                            <td class="d-flex-my cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
                              
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
@@ -151,7 +151,12 @@
         </div>
     </div>
 
-    <style> 
+    <style>
+        .d-flex-my {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
         .justify-content-between {
             justify-content: space-between;
