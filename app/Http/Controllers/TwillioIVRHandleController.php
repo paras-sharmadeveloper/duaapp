@@ -52,7 +52,7 @@ class TwillioIVRHandleController extends Controller
                 'timeout' => 10, // Set the timeout to 10 seconds
             ]);
 
-            return $this->handleRepeat('ivr.welcome'); 
+             $this->handleRepeat('ivr.welcome'); 
  
      
             // $response->redirect(route('ivr.welcome'));
@@ -105,7 +105,7 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.dates'),
             'timeout' => 10
         ]);
-        return  $this->handleRepeat('ivr.pickcity'); 
+         $this->handleRepeat('ivr.pickcity'); 
         
 
         if($request->input('Digits')!=null){
@@ -142,7 +142,7 @@ class TwillioIVRHandleController extends Controller
 
             if(empty($CityyName)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-                return $this->handleRepeat('ivr.pickcity');  
+                $this->handleRepeat('ivr.pickcity');  
             }
             $cityName = $CityyName[$request->input('Digits')];
 
@@ -209,7 +209,7 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 10
                 ]); 
             }else{
-                return  $this->handleRepeat('ivr.dates'); 
+                     $this->handleRepeat('ivr.dates'); 
             }
            
            
@@ -249,7 +249,7 @@ class TwillioIVRHandleController extends Controller
 
         if(empty($venueAddressId)){
             $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-            return $this->handleRepeat('ivr.dates');  
+            $this->handleRepeat('ivr.dates');  
         }
         
         $venueAddress = VenueAddress::find($venueAddreId); 
@@ -394,7 +394,7 @@ class TwillioIVRHandleController extends Controller
 
             if(empty($slotId)){
                 $response->say('You have entered Wront inputs. Please choose the Right Input '); 
-                return $this->handleRepeat('ivr.time');  
+                $this->handleRepeat('ivr.time');  
             }
             
             $venueSlots = VenueSloting::find($slotId);
