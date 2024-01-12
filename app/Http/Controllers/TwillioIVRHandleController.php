@@ -235,7 +235,14 @@ class TwillioIVRHandleController extends Controller
 
         $step = $exsitingCustomer->steps + 1;
         $bot_reply = json_decode($exsitingCustomer->bot_reply, true);
-        $venueAddreId = $this->findKeyByValueInArray($bot_reply,$request->input('Digits'));
+        $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
+
+        if(empty($venueAddressId)){
+            $response->say('You have entered Wront inputs. Please choose the Right Input '); 
+            $response->redirect(route('ivr.time'));
+            return response($response, 200)->header('Content-Type', 'text/xml');
+        }
+        
         $venueAddress = VenueAddress::find($venueAddreId); 
         $countryTimeZone = $venueAddress->timezone;
         $countryCode = $this->findCountryByPhoneNumber($request->input('From')); 
