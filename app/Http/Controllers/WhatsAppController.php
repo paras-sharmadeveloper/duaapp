@@ -184,7 +184,8 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) { // send Slots  here
+        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) { 
+            // send Slots  here
            
            
             $isVisiable = false;
@@ -223,13 +224,7 @@ class WhatsAppController extends Controller
                 }  
             }
 
-
-
-
-
-
-
-
+ 
             $mytime = Carbon::now()->tz($countryTimeZone);
             $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
             $hoursRemaining = $eventDate->diffInHours($mytime);
@@ -255,8 +250,7 @@ class WhatsAppController extends Controller
                 
                 $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-              
-                // ->orderBy('slot_time', 'ASC')
+                 ->orderBy('slot_time', 'ASC')
                 ->take(3)
                 ->get();
 
