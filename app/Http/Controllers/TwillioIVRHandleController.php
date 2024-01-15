@@ -23,11 +23,11 @@ class TwillioIVRHandleController extends Controller
     public function __construct()
     {
         $this->statementUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/';
-        $this->cityUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/city/';
-        $this->numbersUrl = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
-        $this->monthsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
-        $this->yearsIvr = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
-        $this->country = Venue::where(['iso' => 'PK'])->get()->first();
+        $this->cityUrl      = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/city/';
+        $this->numbersUrl   = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/';
+        $this->monthsIvr    = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
+        $this->yearsIvr     = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
+        $this->country      = Venue::where(['iso' => 'PK'])->get()->first();
     }
 
     public function handleIncomingCall(Request $request)
@@ -131,8 +131,9 @@ class TwillioIVRHandleController extends Controller
             $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
 
             if (empty($cityName)) {
-                $response->say('You have entered Wront input. Please choose the Right Input ');
-                $response->redirect(route('ivr.dates'));
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+              
+                // $response->redirect(route('ivr.dates'));
             } else {
                 $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                     ->where('city',  $cityName)
@@ -234,7 +235,7 @@ class TwillioIVRHandleController extends Controller
         $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
 
         if (empty($venueAddressId)) {
-            $response->say('You have entered Wront inputs. Please choose the Right Input ');
+            $response->play($this->statementUrl . 'wrong_number_input.wav'); 
             $response->redirect(route('ivr.dates'));
         } else {
 
@@ -276,7 +277,8 @@ class TwillioIVRHandleController extends Controller
                 $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
                 // $venueAddreId = $asdas[$request->input('Digits')];
                 if (empty($venueAddressId)) {
-                    $response->say('You have entered Wront inputs. Please choose the Right Input ');
+                    $response->play($this->statementUrl . 'wrong_number_input.wav');
+                    
                     $response->redirect(route('ivr.dates'));
                 }
 
@@ -381,7 +383,8 @@ class TwillioIVRHandleController extends Controller
             $slotId = (isset($lastSent[$request->input('Digits')])) ? $lastSent[$request->input('Digits')] : '';
 
             if (empty($slotId)) {
-                $response->say('You have entered Wront inputs. Please choose the Right Input ');
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+        
                 $response->redirect(route('ivr.time'));
             } else {
                 $venueSlots = VenueSloting::find($slotId);
