@@ -368,21 +368,17 @@ class TwillioIVRHandleController extends Controller
                     $this->SaveLog($request, $options, 'ivr.makebooking');
                  
 
-            }else{
-
-
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-                
-
-
-
-
-                $response->say("You are In Slots Flow else");
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $attempts  = $existingData->attempts + 1; 
-                $existingData->update(['attempts' =>  $attempts]); 
-                 $response->redirect(route('ivr.dates')); 
             }
+        }else{
+
+
+            $response->play($this->statementUrl . 'wrong_number_input.wav'); 
+
+            $response->say("You are In Slots Flow else");
+            $response->play($this->statementUrl . 'wrong_number_input.wav');
+            $attempts  = $existingData->attempts + 1; 
+            $existingData->update(['attempts' =>  $attempts]); 
+             $response->redirect(route('ivr.dates')); 
         }
  
  
