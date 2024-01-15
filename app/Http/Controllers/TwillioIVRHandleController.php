@@ -121,6 +121,9 @@ class TwillioIVRHandleController extends Controller
     {
         $response = new VoiceResponse();
 
+        $validInput = false;
+
+
         $customer = request('From');
 
         $exsitingCustomer = $this->getexistingCustomer($customer);
@@ -130,11 +133,8 @@ class TwillioIVRHandleController extends Controller
 
             $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
 
-            if (empty($cityName)) {
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-              
-                // $response->redirect(route('ivr.dates'));
-            } else {
+            while (!$validInput) {
+ 
                 $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                     ->where('city',  $cityName)
                     ->where('venue_date', '>=', date('Y-m-d'))
@@ -190,28 +190,41 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
 
+                if (empty($cityName)) {
+                    $response->play($this->statementUrl . 'wrong_number_input.wav');
+                   
+                } else {
+                    $validInput = true;  
+                }
 
-                $gather = $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.time'),
-                    'timeout' => 10
-                ]);
+                if( $validInput){
+
+                    $gather = $response->gather([
+                        'numDigits' => 1,
+                        'action' => route('ivr.time'),
+                        'timeout' => 10
+                    ]);
+     
+    
+                    $dataArr = [
+                        'customer_number' => $customer,
+                        'customer_response' => $request->input('Digits'),
+                        'bot_reply' =>  json_encode($VenueDatesAadd),
+                        'data_sent_to_customer' => 'twillio dates',
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 3
+                    ];
+                    WhatsApp::create($dataArr);
+
+                }
 
 
+                
 
 
-                Log::info('Received Digits handles dates: ' . $request->input('Digits'));
-
-                $dataArr = [
-                    'customer_number' => $customer,
-                    'customer_response' => $request->input('Digits'),
-                    'bot_reply' =>  json_encode($VenueDatesAadd),
-                    'data_sent_to_customer' => 'twillio dates',
-                    'last_reply_time' => date('Y-m-d H:i:s'),
-                    'steps' => 3
-                ];
-                WhatsApp::create($dataArr);
             }
+
+         
 
 
 
