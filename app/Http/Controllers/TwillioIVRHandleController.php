@@ -248,10 +248,10 @@ class TwillioIVRHandleController extends Controller
                 $existingData->update(['attempts' =>  $attempts]); 
                 $response->redirect(route('ivr.pickcity'));
             }
-            return response($response, 200)->header('Content-Type', 'text/xml');
+            
         }
  
-      
+        return response($response, 200)->header('Content-Type', 'text/xml');
         
     }
 
