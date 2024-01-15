@@ -131,7 +131,7 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $response->redirect(route('ivr.start'));
+                $response->redirect(route('ivr.pickcity'));
                 $attempts  = $existingData->attempts; 
                 $existingData->update(['attempts' =>  $attempts++]); 
             }
@@ -211,7 +211,7 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts; 
                 $existingData->update(['attempts' =>  $attempts++]); 
-                $response->redirect(route('ivr.pickcity'));
+                $response->redirect(route('ivr.dates'));
             }
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
@@ -337,7 +337,7 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts; 
                 $existingData->update(['attempts' =>  $attempts++]); 
-                $response->redirect(route('ivr.pickcity')); 
+                $response->redirect(route('ivr.time')); 
             }
         }
  
