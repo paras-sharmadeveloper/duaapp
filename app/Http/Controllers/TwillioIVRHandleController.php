@@ -129,6 +129,7 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 10
                 ]);
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+                return response($response, 200)->header('Content-Type', 'text/xml');
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
 
@@ -146,9 +147,10 @@ class TwillioIVRHandleController extends Controller
                 } 
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
+                return response($response, 200)->header('Content-Type', 'text/xml');
             }
 
-            return response($response, 200)->header('Content-Type', 'text/xml');
+            
         }  
 
     }
