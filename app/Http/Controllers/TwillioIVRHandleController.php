@@ -241,7 +241,7 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
-                $response->redirect(route('ivr.dates'));
+                $response->redirect(route('ivr.pickcity'));
             }
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
