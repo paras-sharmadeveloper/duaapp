@@ -505,7 +505,7 @@ class TwillioIVRHandleController extends Controller
 
     private function getexistingCustomer($userPhoneNumber)
     {
-        return TwillioIvrResponse::where(['mobile' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+        return TwillioIvrResponse::where(['mobile' =>  $userPhoneNumber])->orderBy('id', 'desc')->first();
     }
 
     public function getDataFromVenue()
