@@ -81,6 +81,8 @@ class TwillioIVRHandleController extends Controller
                 $response->redirect(route('ivr.pickcity'));
             }else{
 
+                $response->say("You are In start Flow else");
+
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 foreach($customer_option as $nu =>  $options){
                     if ($nu <= 9) {
@@ -143,6 +145,7 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
                 return response($response, 200)->header('Content-Type', 'text/xml');
             } else {
+                $response->say("You are In City  else");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
 
                 foreach($customer_option as $nu =>  $options){
@@ -234,6 +237,7 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
+                $response->say("You are In Date Flow else");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
