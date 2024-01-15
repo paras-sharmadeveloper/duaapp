@@ -83,8 +83,8 @@ class TwillioIVRHandleController extends Controller
 
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $response->redirect(route('ivr.welcome'));
-                $attempts  = $existingData->attempts; 
-                $existingData->update(['attempts' =>  $attempts++]);
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]);
             }
         }
         return response($response, 200)->header('Content-Type', 'text/xml');
@@ -132,8 +132,8 @@ class TwillioIVRHandleController extends Controller
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $response->redirect(route('ivr.pickcity'));
-                $attempts  = $existingData->attempts; 
-                $existingData->update(['attempts' =>  $attempts++]); 
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
             }
 
             return response($response, 200)->header('Content-Type', 'text/xml');
@@ -209,8 +209,8 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $attempts  = $existingData->attempts; 
-                $existingData->update(['attempts' =>  $attempts++]); 
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
                 $response->redirect(route('ivr.dates'));
             }
             return response($response, 200)->header('Content-Type', 'text/xml');
@@ -335,8 +335,8 @@ class TwillioIVRHandleController extends Controller
 
             }else{
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $attempts  = $existingData->attempts; 
-                $existingData->update(['attempts' =>  $attempts++]); 
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
                 $response->redirect(route('ivr.time')); 
             }
         }
@@ -446,8 +446,8 @@ class TwillioIVRHandleController extends Controller
             }else{
 
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $attempts  = $existingData->attempts; 
-                $existingData->update(['attempts' =>  $attempts++]); 
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
                 $response->redirect(route('ivr.time'));  
                 
             }
