@@ -50,84 +50,89 @@ class TwillioIVRHandleController extends Controller
             'action' => route('ivr.pickcity'),
             'timeout' => 10, // Set the timeout to 10 seconds
         ]);
-        $options = [1]; 
+        $options = [1];
 
         TwillioIvrResponse::create([
             'mobile' => $customer,
-            'response_digit' => $request->input('Digits',0),
+            'response_digit' => $request->input('Digits', 0),
             'attempts' => 1,
-            'route_action' => 'ivr.pickcity', 
-            'customer_options' => json_encode( $options)
-            
-        ]); 
-  
+            'route_action' => 'ivr.pickcity',
+            'customer_options' => json_encode($options)
+
+        ]);
+
         $response->redirect(route('ivr.welcome'));
         header("Content-type: text/xml");
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
- 
+
     public function handleCity(Request $request)
     {
-        $response = new VoiceResponse(); 
-        $response->play($this->statementUrl . 'statement_select_city.wav');
-        $query = $this->getDataFromVenue();
-        $venuesListArr = $query->get(); 
-        $i = 1;
-        $cityArr = [];
-        foreach ($venuesListArr as $venue) {
-            $cityArr[$i] = strtolower($venue->city);
-            $i++;
-        }
+        $response = new VoiceResponse();
 
-        foreach (array_unique($cityArr) as $k => $city) {
-            if ($k <= 9) {
-                $number = '0' . $k;
+        $existingData = $this->getexistingCustomer($request->input('From'));
+
+        if (!empty($existingData)) {
+            $customer_option = json_decode($existingData->customer_options, true);
+
+            if (in_array($request->input('From'),  $customer_option)) {
+
+                $response->play($this->statementUrl . 'statement_select_city.wav');
+                $query = $this->getDataFromVenue();
+                $venuesListArr = $query->get();
+                $i = 1;
+                $cityArr = [];
+                foreach ($venuesListArr as $venue) {
+                    $cityArr[$i] = strtolower($venue->city);
+                    $i++;
+                }
+
+                foreach (array_unique($cityArr) as $k => $city) {
+                    if ($k <= 9) {
+                        $number = '0' . $k;
+                    } else {
+                        $number = $k;
+                    }
+                    $response->play($this->cityUrl . 'city_' . $city . '.wav');
+                    $response->play($this->statementUrl . 'statement_kay_liye.wav');
+                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
+                    $response->play($this->statementUrl . 'statement_press.wav');
+                }
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.dates'),
+                    'timeout' => 10
+                ]);
+                $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
             } else {
-                $number = $k;
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $response->redirect(route('ivr.welcome'));
+                $attempts  = $existingData->attempts; 
+                $existingData->update(['attempts' =>  $attempts++]); 
             }
-            $response->play($this->cityUrl . 'city_' . $city . '.wav');
-            $response->play($this->statementUrl . 'statement_kay_liye.wav');
-            $response->play($this->numbersUrl . 'number_' . $number . '.wav');
-            $response->play($this->statementUrl . 'statement_press.wav');
-        }
-        $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.dates'),
-                'timeout' => 10
-        ]);
 
-        $response->redirect(route('ivr.pickcity'));
-        if ($request->input('Digits') != null) {
-            $this->SaveLog($request,$cityArr,'ivr.dates'); 
-        }else{
-            $response->redirect(route('ivr.welcome'));
-        }
-        return response($response, 200)->header('Content-Type', 'text/xml');
+            return response($response, 200)->header('Content-Type', 'text/xml');
+        }  
+
     }
- 
+
+
     public function handleDates(Request $request)
     {
         $response = new VoiceResponse();
 
-        $validInput = false;
- 
-        $customer = $request->input('From');
+        $userInput = $request->input('Digits');
 
-        $exsitingCustomer = $this->getexistingCustomer($customer);
-        if ($exsitingCustomer) {
+        $existingData = $this->getexistingCustomer($request->input('From'));
 
-            $CityyName = json_decode($exsitingCustomer->bot_reply, true);
-            $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
+        if (!empty($existingData)) {
+            $customer_option = json_decode($existingData->customer_options, true);
+            if (in_array($userInput,  $customer_option)) {
 
-            if (empty($cityName)) {
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $validInput = false; 
-                $response->redirect(route('ivr.pickcity'));
-               
-            } else {
-                $validInput = true; 
+                $cityName = $customer_option[$userInput];
+
                 $query = $this->getDataFromVenue();
-                $venuesListArr =   $query ->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
+                $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
 
                 $VenueDates = [];
                 $VenueDatesAadd = [];
@@ -147,7 +152,7 @@ class TwillioIVRHandleController extends Controller
                         $VenueDates[$i] = $venueDate->venue_date;
                         $VenueDatesAadd[$i] = $venueDate->id;
                         $i++;
-                    } 
+                    }
                 }
 
                 foreach ($VenueDates as $k => $date) {
@@ -171,19 +176,23 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
 
-                if ($validInput == true) {
-                    $response->gather([
-                        'numDigits' => 1,
-                        'action' => route('ivr.time'),
-                        'timeout' => 10
-                    ]);
-                    $this->SaveLog($request,$VenueDatesAadd,'ivr.time'); 
-                } 
-                
-            } 
-
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.time'),
+                    'timeout' => 10
+                ]);
+                $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
+            } else {
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $attempts  = $existingData->attempts; 
+                $existingData->update(['attempts' =>  $attempts++]); 
+                $response->redirect(route('ivr.pickcity'));
+            }
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
+ 
+      
+        
     }
 
 
@@ -192,135 +201,122 @@ class TwillioIVRHandleController extends Controller
 
 
         $response = new VoiceResponse();
-
-        $customer = $request->input('From');
         $userInput = $request->input('Digits');
-        $exsitingCustomer = $this->getexistingCustomer($customer);
-        $isVisiable = false;
-        $step = $exsitingCustomer->steps + 1;
-        $bot_reply = json_decode($exsitingCustomer->bot_reply, true);
-        $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
+        $existingData = $this->getexistingCustomer($request->input('From'));
 
-        if (empty($venueAddressId)) {
-            $response->play($this->statementUrl . 'wrong_number_input.wav'); 
-            $response->redirect(route('ivr.dates'));
-        } else {
+        if (!empty($existingData)) {
+            $customer_option = json_decode($existingData->customer_options, true);
+            if (in_array($userInput,  $customer_option)) { 
+                $venueAddreId =   $customer_option[$userInput]; 
 
-            $venueAddress = VenueAddress::find($venueAddreId);
-            $countryTimeZone = $venueAddress->timezone;
-            $countryCode = $this->findCountryByPhoneNumber($request->input('From'));
-
-            $cleanNumber = str_replace($countryCode, '', $request->input('From'));
-
-            $visitors = Vistors::where('phone', $cleanNumber)->first();
-
-            if ($visitors) {
-                $recordAge = $visitors->created_at->diffInDays(now());
-                $rejoin = $venueAddress->rejoin_venue_after;
-                if ($rejoin > 0 && $recordAge <= $rejoin) {
-                    if ($recordAge == 0) {
-                        $response->play($this->statementUrl . 'DuaMeeting_booked_already_for_today.mp3'); 
-                        $response->play($this->statementUrl . 'ApKiDuaMeetingBookNaheKiJasakti_BarayeMeharbaniap.mp3');   
-                    } 
-                    if ($rejoin <= 9) {
-                        $day = '0' .  $rejoin;
-                    } else {
-                        $day = $ $rejoin;
+                $venueAddress = VenueAddress::find($venueAddreId);
+                $countryTimeZone = $venueAddress->timezone;
+                $countryCode = $this->findCountryByPhoneNumber($request->input('From'));
+    
+                $cleanNumber = str_replace($countryCode, '', $request->input('From'));
+    
+                $visitors = Vistors::where('phone', $cleanNumber)->first();
+    
+                if ($visitors) {
+                    $recordAge = $visitors->created_at->diffInDays(now());
+                    $rejoin = $venueAddress->rejoin_venue_after;
+                    if ($rejoin > 0 && $recordAge <= $rejoin) {
+                        if ($recordAge == 0) {
+                            $response->play($this->statementUrl . 'DuaMeeting_booked_already_for_today.mp3');
+                            $response->play($this->statementUrl . 'ApKiDuaMeetingBookNaheKiJasakti_BarayeMeharbaniap.mp3');
+                        }
+                        if ($rejoin <= 9) {
+                            $day = '0' .  $rejoin;
+                        } else {
+                            $day = $$rejoin;
+                        }
+                        $response->play($this->numbersUrl . 'number_' . $day . '.wav');
+                        $response->play($this->statementUrl . 'din.mp3');
+                        $response->play($this->statementUrl . 'BaadKoshshKarien.mp3');
+                        return response($response, 200)->header('Content-Type', 'text/xml');
                     }
-                    $response->play($this->numbersUrl . 'number_' . $day . '.wav');
-                    $response->play($this->statementUrl . 'din.mp3');  
-                    $response->play($this->statementUrl . 'BaadKoshshKarien.mp3');  
-                    return response($response, 200)->header('Content-Type', 'text/xml');
                 }
-            }
-
-            if ($exsitingCustomer) {
-                $response->play($this->statementUrl . 'statement_select_time.wav');
-
-               //  $userInput = $exsitingCustomer->customer_response;
-                $bot_reply = json_decode($exsitingCustomer->bot_reply, true);
-                $venueAddreId = isset($bot_reply[$request->input('Digits')]) ? $bot_reply[$request->input('Digits')] : '';
-                // $venueAddreId = $asdas[$request->input('Digits')];
-                if (empty($venueAddressId)) {
-                    $response->play($this->statementUrl . 'wrong_number_input.wav');
-                    
-                    $response->redirect(route('ivr.dates'));
-                }
- 
-                
-
-                $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
-                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                    ->orderBy('slot_time', 'ASC')
-                    ->take(3)
-                    ->get();
-
-                $slotArr = [];
-                $options = [];
-                $i = 1;
-                foreach ($slots as $slot) {
-                    // $timestamp = strtotime($slot->slot_time);
-                    $timeArr = explode(':', $slot->slot_time);
-                    $hours = $timeArr[0];
-                    $minutes = $timeArr[1];
-                    $seconds = $timeArr[2];
-
-                    $hours = intval($timeArr[0]);
-                    $ampm = '';
-                    if ($hours >= 0 && $hours < 12) {
-                        $ampm = "AM";
-                    } else {
-                        $ampm = "PM";
+    
+           
+                    $response->play($this->statementUrl . 'statement_select_time.wav');
+    
+                    $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
+                        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                        ->orderBy('slot_time', 'ASC')
+                        ->take(3)
+                        ->get();
+    
+                    $slotArr = [];
+                    $options = [];
+                    $i = 1;
+                    foreach ($slots as $slot) {
+                        // $timestamp = strtotime($slot->slot_time);
+                        $timeArr = explode(':', $slot->slot_time);
+                        $hours = $timeArr[0];
+                        $minutes = $timeArr[1];
+                        $seconds = $timeArr[2];
+    
+                        $hours = intval($timeArr[0]);
+                        $ampm = '';
+                        if ($hours >= 0 && $hours < 12) {
+                            $ampm = "AM";
+                        } else {
+                            $ampm = "PM";
+                        }
+    
+                        if ($i <= 9) {
+                            $number = '0' . $i;
+                        } else {
+                            $number = $i;
+                        }
+    
+                        if ($hours <= 9) {
+                            $hourNew = '0' . $hours;
+                        } else {
+                            $hourNew = $hours;
+                        }
+                        $response->play($this->statementUrl . 'statement_agar_aap.wav');
+                        if ($ampm == 'AM') {
+                            $response->play($this->statementUrl . 'statement_morning.wav');
+                        } else {
+                            $response->play($this->statementUrl . 'statement_afternoon.wav');
+                        }
+                        $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
+                        $response->play($this->statementUrl . 'statement_bajkay.wav');
+                        if ($minutes != '00') {
+                            // $response->play($this->statementUrl . 'statement_aur.wav');  
+                            $response->play($this->numbersUrl . 'number_' . $minutes . '.wav');
+                            $response->play($this->statementUrl . 'statement_minute.wav');
+                        }
+                        $response->play($this->statementUrl . 'statement_ko_dua_karwana.wav');
+                        $response->play($this->statementUrl . 'statement_baraye_meharbani.wav');
+    
+                        // $response->play($this->statementUrl . 'statement_kay_liye.wav');
+                        $response->play($this->numbersUrl . 'number_' . $number . '.wav');
+                        $response->play($this->statementUrl . 'statement_press.wav');
+    
+    
+                        //   $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
+                        // $slotArr[$slot->id] =  $slotTime;
+                        $options[$i] = $slot->id;
+                        $i++;
                     }
+                   $response->gather([
+                        'numDigits' => 1,
+                        'action' => route('ivr.makebooking'),
+                    ]); 
+                    $this->SaveLog($request, $options, 'ivr.makebooking');
+                 
 
-                    if ($i <= 9) {
-                        $number = '0' . $i;
-                    } else {
-                        $number = $i;
-                    }
-
-                    if ($hours <= 9) {
-                        $hourNew = '0' . $hours;
-                    } else {
-                        $hourNew = $hours;
-                    }
-                    $response->play($this->statementUrl . 'statement_agar_aap.wav');
-                    if ($ampm == 'AM') {
-                        $response->play($this->statementUrl . 'statement_morning.wav');
-                    } else {
-                        $response->play($this->statementUrl . 'statement_afternoon.wav');
-                    }
-                    $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
-                    $response->play($this->statementUrl . 'statement_bajkay.wav');
-                    if ($minutes != '00') {
-                        // $response->play($this->statementUrl . 'statement_aur.wav');  
-                        $response->play($this->numbersUrl . 'number_' . $minutes . '.wav');
-                        $response->play($this->statementUrl . 'statement_minute.wav');
-                    }
-                    $response->play($this->statementUrl . 'statement_ko_dua_karwana.wav');
-                    $response->play($this->statementUrl . 'statement_baraye_meharbani.wav');
-
-                    // $response->play($this->statementUrl . 'statement_kay_liye.wav');
-                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
-                    $response->play($this->statementUrl . 'statement_press.wav');
-
-
-                    //   $response->say('Press ' . $i . ' to book slot ' . $slotTime . ' ');
-                    // $slotArr[$slot->id] =  $slotTime;
-                    $options[$i] = $slot->id;
-                    $i++;
-                }
-                $gather = $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.makebooking'),
-                ]);
-
-               
-                $this->SaveLog($request,$options,'ivr.makebooking'); 
-                   
-                
+            }else{
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $attempts  = $existingData->attempts; 
+                $existingData->update(['attempts' =>  $attempts++]); 
+                $response->redirect(route('ivr.pickcity')); 
             }
         }
+ 
+ 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
@@ -328,24 +324,15 @@ class TwillioIVRHandleController extends Controller
     {
 
         $userInput = $request->input('Digits');
+        $customer = $request->input('From'); 
+        $response = new VoiceResponse(); 
+        $existingData = $this->getexistingCustomer($request->input('From'));
 
 
-        $response = new VoiceResponse();
-
-        $customer = $request->input('From');
-        $exsitingCustomer = $this->getexistingCustomer($customer);
-
-
-        if ($exsitingCustomer) {
-            $userInput = $exsitingCustomer->customer_response;
-            $lastSent = json_decode($exsitingCustomer->bot_reply, true);
-            $slotId = (isset($lastSent[$request->input('Digits')])) ? $lastSent[$request->input('Digits')] : '';
-
-            if (empty($slotId)) {
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-        
-                $response->redirect(route('ivr.time'));
-            } else {
+        if (!empty($existingData)) {
+            $customer_option = json_decode($existingData->customer_options, true);
+            if (in_array($userInput,  $customer_option)) { 
+                $slotId = $customer_option[$userInput];
                 $venueSlots = VenueSloting::find($slotId);
                 $venueAddress = $venueSlots->venueAddress;
                 // $tokenId = $venueSlots->token_id; 
@@ -366,11 +353,10 @@ class TwillioIVRHandleController extends Controller
                     'source' => 'Phone'
                 ]);
 
-                if($booking){
-                    TwillioIvrResponse::where(['mobile' => $customer ])->delete(); 
+                if ($booking) {
+                    TwillioIvrResponse::where(['mobile' => $customer])->delete();
                 }
-
-                Log::info('Make booking Digits: ' . $request->input('Digits'));
+ 
 
 
                 for ($i = 1; $i <= 2; $i++) {
@@ -431,11 +417,20 @@ class TwillioIVRHandleController extends Controller
                 }
                 $response->play($this->statementUrl . 'statement_15_min_before.wav');
                 $response->play($this->statementUrl . 'statement_goodbye.wav');
+
+            }else{
+
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $attempts  = $existingData->attempts; 
+                $existingData->update(['attempts' =>  $attempts++]); 
+                $response->redirect(route('ivr.time'));  
+                
             }
-
-
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
+
+
+       
     }
 
     function findCountryByPhoneNumber($phoneNumber)
@@ -487,23 +482,22 @@ class TwillioIVRHandleController extends Controller
         return TwillioIvrResponse::where(['mobile' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
     }
 
-    public function getDataFromVenue(){
-        $venuesListArr = VenueAddress::where('venue_id', $this->country->id)->where('venue_date', '>=', date('Y-m-d')); 
-        return  $venuesListArr;  
+    public function getDataFromVenue()
+    {
+        $venuesListArr = VenueAddress::where('venue_id', $this->country->id)->where('venue_date', '>=', date('Y-m-d'));
+        return  $venuesListArr;
     }
 
-    public function SaveLog($request,$options,$from){
+    public function SaveLog($request, $options, $from)
+    {
 
         TwillioIvrResponse::create([
             'mobile' => $request->input('From'),
             'response_digit' => $request->input('Digits'),
             'attempts' => 1,
-            'route_action' => $from, 
-            'customer_options' => json_encode( $options)
-            
-        ]); 
+            'route_action' => $from,
+            'customer_options' => json_encode($options)
 
-         
-        
+        ]);
     }
 }
