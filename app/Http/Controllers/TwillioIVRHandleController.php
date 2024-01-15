@@ -242,12 +242,12 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
-                 $response->say("You are In Date Flow else");
-                // $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $attempts  = $existingData->attempts + 1; 
-                $existingData->update(['attempts' =>  $attempts]); 
-                $response->redirect(route('ivr.pickcity'));
-            }
+                $response->say("You are In Date Flow else");
+               // $response->play($this->statementUrl . 'wrong_number_input.wav');
+               $attempts  = $existingData->attempts + 1; 
+               $existingData->update(['attempts' =>  $attempts]); 
+               $response->redirect(route('ivr.pickcity'));
+           }
             
         }
  
@@ -368,14 +368,14 @@ class TwillioIVRHandleController extends Controller
                     $this->SaveLog($request, $options, 'ivr.makebooking');
                  
 
-            }
-        }else{
+            }else{
  
-            $response->say("You are In Slots Flow else");
-            $response->play($this->statementUrl . 'wrong_number_input.wav');
-            $attempts  = $existingData->attempts + 1; 
-            $existingData->update(['attempts' =>  $attempts]); 
-             $response->redirect(route('ivr.dates')); 
+                $response->say("You are In Slots Flow else");
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
+                 $response->redirect(route('ivr.dates')); 
+            }
         }
  
  
