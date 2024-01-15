@@ -131,8 +131,19 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $response->redirect(route('ivr.start')); 
-                
+
+                foreach($customer_option as $nu =>  $options){
+                    if ($nu <= 9) {
+                        $number = '0' . $nu;
+                    } else { 
+                        $number = $nu;
+                    }
+                     
+                    $response->play($this->cityUrl . 'city_' . $options . '.wav');
+                    $response->play($this->statementUrl . 'statement_kay_liye.wav');
+                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
+                    $response->play($this->statementUrl . 'statement_press.wav');
+                } 
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
             }
