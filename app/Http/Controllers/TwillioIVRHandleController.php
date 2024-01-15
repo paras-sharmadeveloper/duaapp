@@ -61,7 +61,7 @@ class TwillioIVRHandleController extends Controller
             'response_digit' => $request->input('Digits', 0),
             'attempts' => 1,
             'route_action' => 'ivr.start',
-            'customer_options' => json_encode($request->all())
+            'customer_options' => json_encode($options)
 
         ]);
  
