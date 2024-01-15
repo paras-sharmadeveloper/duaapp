@@ -32,10 +32,14 @@ class TwillioIVRHandleController extends Controller
 
     public function handleIncomingCall(Request $request)
     {
+
+        $response = new VoiceResponse();
+
+
         $fromCountry = $request->input('FromCountry');
         $customer = $request->input('From');
         $userInput = $request->input('Digits');
-        $response = new VoiceResponse();
+       
         // STEP 1: Welcome Message
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
 
@@ -56,26 +60,47 @@ class TwillioIVRHandleController extends Controller
             'mobile' => $customer,
             'response_digit' => $request->input('Digits', 0),
             'attempts' => 1,
-            'route_action' => 'ivr.pickcity',
+            'route_action' => 'ivr.start',
             'customer_options' => json_encode($request->all())
 
         ]);
-
-        $response->redirect(route('ivr.welcome'));
-        header("Content-type: text/xml");
+ 
         return response($response, 200)->header('Content-Type', 'text/xml');
+    }
+
+
+    public function StartFlow(Request $request){
+
+        $response = new VoiceResponse(); 
+        $userInput = $request->input('Digits');
+
+        $existingData = $this->getexistingCustomer($request->input('From'));
+        if (!empty($existingData)) {
+            $customer_option = json_decode($existingData->customer_options, true);
+            if (in_array($userInput,  $customer_option)) {
+                $response->redirect(route('ivr.pickcity'));
+            }else{
+
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $response->redirect(route('ivr.welcome'));
+                $attempts  = $existingData->attempts; 
+                $existingData->update(['attempts' =>  $attempts++]);
+            }
+        }
+        return response($response, 200)->header('Content-Type', 'text/xml');
+
     }
 
     public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
-
+        $userInput = $request->input('Digits');
         $existingData = $this->getexistingCustomer($request->input('From'));
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
 
-            if (in_array($request->input('From'),  $customer_option)) {
+            if (in_array($userInput,  $customer_option)) {
 
                 $response->play($this->statementUrl . 'statement_select_city.wav');
                 $query = $this->getDataFromVenue();

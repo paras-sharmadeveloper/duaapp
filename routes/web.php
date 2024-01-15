@@ -38,6 +38,11 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome');
 
+
+    Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.start');
+
     Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.pickcity');
