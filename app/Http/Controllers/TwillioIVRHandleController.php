@@ -135,8 +135,13 @@ class TwillioIVRHandleController extends Controller
 
             $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
 
-            while (empty($cityName)) {
- 
+            if (empty($cityName)) {
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $validInput = false; 
+                $response->redirect(route('ivr.pickcity'));
+               
+            } else {
+                $validInput = true; 
                 $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                     ->where('city',  $cityName)
                     ->where('venue_date', '>=', date('Y-m-d'))
@@ -192,12 +197,7 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
 
-                if (empty($cityName)) {
-                    $response->play($this->statementUrl . 'wrong_number_input.wav');
-                   
-                } else {
-                    $validInput = true;  
-                }
+                
 
                 if($validInput == true){
 
@@ -219,13 +219,16 @@ class TwillioIVRHandleController extends Controller
                     WhatsApp::create($dataArr);
 
                 } 
-
-
+                
             }
 
-         
+           
+ 
+                
 
 
+           
+  
 
             return response($response, 200)->header('Content-Type', 'text/xml');
         }
