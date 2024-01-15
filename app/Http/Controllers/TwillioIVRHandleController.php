@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
-use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors, Country};
+use App\Models\{VenueAddress, Venue, TwillioIvrResponse, VenueSloting, Vistors, Country};
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -45,11 +45,21 @@ class TwillioIVRHandleController extends Controller
 
         // Prompt user to press any key to proceed
 
-        $gather = $response->gather([
+        $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.pickcity'),
             'timeout' => 10, // Set the timeout to 10 seconds
         ]);
+        $options = [1]; 
+
+        TwillioIvrResponse::create([
+            'mobile' => $customer,
+            'response_digit' => $request->input('Digits'),
+            'attempts' => 1,
+            'route_action' => 'ivr.pickcity', 
+            'customer_options' => json_encode( $options)
+            
+        ]); 
   
         $response->redirect(route('ivr.welcome'));
         header("Content-type: text/xml");
@@ -88,7 +98,7 @@ class TwillioIVRHandleController extends Controller
 
         $response->redirect(route('ivr.pickcity'));
         if ($request->input('Digits') != null) {
-            $this->SaveLog($request,$cityArr,'ivr.dates',2); 
+            $this->SaveLog($request,$cityArr,'ivr.dates'); 
         }else{
             $response->redirect(route('ivr.welcome'));
         }
@@ -167,7 +177,7 @@ class TwillioIVRHandleController extends Controller
                         'action' => route('ivr.time'),
                         'timeout' => 10
                     ]);
-                    $this->SaveLog($request,$VenueDatesAadd,'ivr.pickcity',3); 
+                    $this->SaveLog($request,$VenueDatesAadd,'ivr.time'); 
                 } 
                 
             } 
@@ -300,23 +310,15 @@ class TwillioIVRHandleController extends Controller
                     $options[$i] = $slot->id;
                     $i++;
                 }
-
-                $dataArr = [
-                    'customer_number' => $customer,
-                    'customer_response' => $request->input('Digits'),
-                    'bot_reply' =>  json_encode($options),
-                    'data_sent_to_customer' => 'twillio slots',
-                    'last_reply_time' => date('Y-m-d H:i:s'),
-                    'steps' => 4
-                ];
-                Log::info('Received Digits handles slots: ' . $request->input('Digits'));
-                WhatsApp::create($dataArr);
-
-
                 $gather = $response->gather([
                     'numDigits' => 1,
                     'action' => route('ivr.makebooking'),
                 ]);
+
+               
+                $this->SaveLog($request,$options,'ivr.makebooking'); 
+                   
+                
             }
         }
         return response($response, 200)->header('Content-Type', 'text/xml');
@@ -353,7 +355,7 @@ class TwillioIVRHandleController extends Controller
                 $cleanNumber = str_replace($countryCode, '', $customer);
 
                 $uuid = Str::uuid()->toString();
-                Vistors::create([
+                $booking = Vistors::create([
                     'is_whatsapp' => 'yes',
                     'slot_id' => $slotId,
                     'meeting_type' => 'on-site',
@@ -363,6 +365,10 @@ class TwillioIVRHandleController extends Controller
                     'phone' => $cleanNumber,
                     'source' => 'Phone'
                 ]);
+
+                if($booking){
+                    TwillioIvrResponse::where(['mobile' => $customer ])->delete(); 
+                }
 
                 Log::info('Make booking Digits: ' . $request->input('Digits'));
 
@@ -478,7 +484,7 @@ class TwillioIVRHandleController extends Controller
 
     private function getexistingCustomer($userPhoneNumber)
     {
-        return WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+        return TwillioIvrResponse::where(['mobile' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
     }
 
     public function getDataFromVenue(){
@@ -486,18 +492,18 @@ class TwillioIVRHandleController extends Controller
         return  $venuesListArr;  
     }
 
-    public function SaveLog($request,$data,$from,$step){
+    public function SaveLog($request,$options,$from){
 
-        $dataArr = [
-            'customer_number' => $request->input('From'),
-            'customer_response' => $request->input('Digits'),
-            'bot_reply' =>  json_encode(array_unique($data)),
-            'data_sent_to_customer' =>$from,
-            'last_reply_time' => date('Y-m-d H:i:s'),
-            'steps' => $step
-        ];
-        Log::info('Received Digits city: ' . $request->input('Digits'));
-        WhatsApp::create($dataArr);
+        TwillioIvrResponse::create([
+            'mobile' => $request->input('From'),
+            'response_digit' => $request->input('Digits'),
+            'attempts' => 1,
+            'route_action' => $from, 
+            'customer_options' => json_encode( $options)
+            
+        ]); 
+
+         
         
     }
 }
