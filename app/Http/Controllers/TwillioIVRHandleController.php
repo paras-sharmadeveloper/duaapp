@@ -143,11 +143,10 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 10
                 ]);
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
-                return response($response, 200)->header('Content-Type', 'text/xml');
+               
             } else {
-                $response->say("You are In City  else");
+                // $response->say("You are In City  else");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-
                 foreach($customer_option as $nu =>  $options){
                     if ($nu <= 9) {
                         $number = '0' . $nu;
@@ -162,8 +161,9 @@ class TwillioIVRHandleController extends Controller
                 } 
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
-                return response($response, 200)->header('Content-Type', 'text/xml');
+              
             }
+            return response($response, 200)->header('Content-Type', 'text/xml');
 
             
         }  
@@ -237,8 +237,8 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
-                $response->say("You are In Date Flow else");
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                 $response->say("You are In Date Flow else");
+                // $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
                 $response->redirect(route('ivr.pickcity'));
@@ -364,6 +364,7 @@ class TwillioIVRHandleController extends Controller
                  
 
             }else{
+                $response->say("You are In Slots Flow else");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
