@@ -131,9 +131,11 @@ class TwillioIVRHandleController extends Controller
 
             $CityyName = json_decode($exsitingCustomer->bot_reply, true);
 
+           
+
             $cityName = isset($CityyName[$request->input('Digits')]) ? $CityyName[$request->input('Digits')] : '';
 
-            while (!$validInput) {
+            while (empty($cityName)) {
  
                 $venuesListArr = VenueAddress::where('venue_id', $this->country->id)
                     ->where('city',  $cityName)
@@ -197,7 +199,7 @@ class TwillioIVRHandleController extends Controller
                     $validInput = true;  
                 }
 
-                if( $validInput){
+                if($validInput == true){
 
                     $gather = $response->gather([
                         'numDigits' => 1,
@@ -216,10 +218,7 @@ class TwillioIVRHandleController extends Controller
                     ];
                     WhatsApp::create($dataArr);
 
-                }
-
-
-                
+                } 
 
 
             }
