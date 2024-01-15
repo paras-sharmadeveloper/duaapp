@@ -77,7 +77,7 @@ class TwillioIVRHandleController extends Controller
         $existingData = $this->getexistingCustomer($request->input('From'));
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (in_array($userInput,  $customer_option)) {
+            if (array_key_exists($userInput,  $customer_option)) {
                 $response->redirect(route('ivr.pickcity'));
             }else{
 
@@ -100,7 +100,7 @@ class TwillioIVRHandleController extends Controller
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
 
-            if (in_array($userInput,  $customer_option)) {
+            if (array_key_exists($userInput, $customer_option)) {
 
                 $response->play($this->statementUrl . 'statement_select_city.wav');
                 $query = $this->getDataFromVenue();
@@ -131,7 +131,12 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
             } else {
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $response->redirect(route('ivr.pickcity'));
+                $response->redirect(route('ivr.pickcity')); 
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.dates'),
+                    'timeout' => 10
+                ]);
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
             }
@@ -152,7 +157,7 @@ class TwillioIVRHandleController extends Controller
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (in_array($userInput,  $customer_option)) {
+            if (array_key_exists($userInput,  $customer_option)) {
 
                 $cityName = $customer_option[$userInput];
 
@@ -231,7 +236,7 @@ class TwillioIVRHandleController extends Controller
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (in_array($userInput,  $customer_option)) { 
+            if (array_key_exists($userInput,  $customer_option)) { 
                 $venueAddreId =   $customer_option[$userInput]; 
 
                 $venueAddress = VenueAddress::find($venueAddreId);
@@ -356,7 +361,7 @@ class TwillioIVRHandleController extends Controller
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (in_array($userInput,  $customer_option)) { 
+            if (array_key_exists($userInput,  $customer_option)) { 
                 $slotId = $customer_option[$userInput];
                 $venueSlots = VenueSloting::find($slotId);
                 $venueAddress = $venueSlots->venueAddress;
