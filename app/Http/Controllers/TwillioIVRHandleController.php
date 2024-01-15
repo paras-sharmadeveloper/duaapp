@@ -144,42 +144,39 @@ class TwillioIVRHandleController extends Controller
         
                 // Listen for the next input
                 $userInput = $request->input('Digits'); // Get the user input (you may need to implement this)
-        
+                $existingData = $this->getexistingCustomer($userInput );
+                $customer_option = json_decode($existingData->customer_options, true);
                 if (array_key_exists($userInput, $customer_option)) {
-                    $existingData = $this->getexistingCustomer($request->input('From'));
+                    $response->play($this->statementUrl . 'statement_select_city.wav');
+                $query = $this->getDataFromVenue();
+                $venuesListArr = $query->get();
+                $i = 1;
+                $cityArr = [];
+                foreach ($venuesListArr as $venue) {
+                    $cityArr[$i] = strtolower($venue->city);
+                    $i++;
+                }
 
-                    if (!empty($existingData)) {
-                        $customer_option = json_decode($existingData->customer_options, true);
-            
-                        if (array_key_exists($userInput, $customer_option)) {
-            
-                            $response->play($this->statementUrl . 'statement_select_city.wav');
-                            $query = $this->getDataFromVenue();
-                            $venuesListArr = $query->get();
-                            $i = 1;
-                            $cityArr = [];
-                            foreach ($venuesListArr as $venue) {
-                                $cityArr[$i] = strtolower($venue->city);
-                                $i++;
-                            }
-            
-                            foreach (array_unique($cityArr) as $k => $city) {
-                                if ($k <= 9) {
-                                    $number = '0' . $k;
-                                } else {
-                                    $number = $k;
-                                }
-                                $response->play($this->cityUrl . 'city_' . $city . '.wav');
-                                $response->play($this->statementUrl . 'statement_kay_liye.wav');
-                                $response->play($this->numbersUrl . 'number_' . $number . '.wav');
-                                $response->play($this->statementUrl . 'statement_press.wav');
-                            }
-                            $response->gather([
-                                'numDigits' => 1,
-                                'action' => route('ivr.dates'),
-                                'timeout' => 10
-                            ]);
-                            $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+                foreach (array_unique($cityArr) as $k => $city) {
+                    if ($k <= 9) {
+                        $number = '0' . $k;
+                    } else {
+                        $number = $k;
+                    }
+                    $response->play($this->cityUrl . 'city_' . $city . '.wav');
+                    $response->play($this->statementUrl . 'statement_kay_liye.wav');
+                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
+                    $response->play($this->statementUrl . 'statement_press.wav');
+                }
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.dates'),
+                    'timeout' => 10
+                ]);
+                $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+
+
+                    // Valid input received, exit the loop
                     break;
                 } else {
                     $response->play($this->statementUrl . 'wrong_number_input.wav');
