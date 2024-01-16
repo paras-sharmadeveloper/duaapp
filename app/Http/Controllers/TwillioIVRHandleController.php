@@ -510,6 +510,10 @@ class TwillioIVRHandleController extends Controller
                         // $response->play($this->statementUrl . 'statement_aur.wav');  
                         $response->play($this->numbersUrl . 'number_' . $minutes . '.wav');
                         $response->play($this->statementUrl . 'statement_minute.wav');
+                    }else{
+                        $response->play($this->statementUrl . 'Sifar_number_00.mp3');
+                        $response->play($this->statementUrl . 'Sifar_number_00.mp3');
+                        $response->play($this->statementUrl . 'statement_minute.wav');
                     }
                     $response->play($this->statementUrl . 'statement_your_token_number.wav');
 
