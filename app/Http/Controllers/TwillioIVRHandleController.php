@@ -119,8 +119,25 @@ class TwillioIVRHandleController extends Controller
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-
             if (array_key_exists($userInput, $customer_option)) {
+               $response =  $this->handleCityInputs($response , $request , true); 
+            } else {
+                $response->say("CITY CITY CITY");  
+                $response->play($this->statementUrl . 'wrong_number_input.wav'); 
+                $response =  $this->handleCityInputs($response , $request , false); 
+                $attempts  = $existingData->attempts + 1; 
+                $existingData->update(['attempts' =>  $attempts]); 
+              
+            }
+            return response($response, 200)->header('Content-Type', 'text/xml');
+
+            
+        }  
+
+    }
+
+
+    public function handleCityInputs($response , $request , $isVaild = true){
 
                 $response->play($this->statementUrl . 'statement_select_city.wav');
                 $query = $this->getDataFromVenue();
@@ -143,26 +160,20 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
-                $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.dates'),
-                    'timeout' => 10
-                ]);
-                $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
-               
-            } else {
-                $response->say("CITY CITY CITY");
-                $response->play($this->statementUrl . 'wrong_number_input.wav'); 
-                $response->redirect(route('ivr.welcome', [], false));
                 
-                $attempts  = $existingData->attempts + 1; 
-                $existingData->update(['attempts' =>  $attempts]); 
-              
-            }
-            return response($response, 200)->header('Content-Type', 'text/xml');
+                if($isVaild){
+                    $response->gather([
+                        'numDigits' => 1,
+                        'action' => route('ivr.dates'),
+                        'timeout' => 10
+                    ]);
+                    $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+                }else{
 
-            
-        }  
+                }
+                
+                return $response; 
+
 
     }
 
@@ -237,10 +248,7 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
                 $response->say("DATE DATE");
-                $response->redirect(route('ivr.pickcity', [], false));
-              
-                
- 
+                $response->redirect(route('ivr.pickcity', [], false)); 
                $attempts  = $existingData->attempts + 1; 
                $existingData->update(['attempts' =>  $attempts]); 
             
