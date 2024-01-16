@@ -318,13 +318,15 @@ class TwillioIVRHandleController extends Controller
                     if ($rejoin > 0 && $recordAge <= $rejoin) {
                         if ($recordAge == 0) {
                             $response->play($this->statementUrl . 'DuaMeeting_booked_already_for_today.mp3');
-                            $response->play($this->statementUrl . 'ApKiDuaMeetingBookNaheKiJasakti_BarayeMeharbaniap.mp3');
+                            
                         }
                         if ($rejoin <= 9) {
                             $day = '0' .  $rejoin;
                         } else {
                             $day = $$rejoin;
                         }
+                        
+                        $response->play($this->statementUrl . 'ApKiDuaMeetingBookNaheKiJasakti_BarayeMeharbaniap.mp3');
                         $response->play($this->numbersUrl . 'number_' . $day . '.wav');
                         $response->play($this->statementUrl . 'din.mp3');
                         $response->play($this->statementUrl . 'BaadKoshshKarien.mp3');
