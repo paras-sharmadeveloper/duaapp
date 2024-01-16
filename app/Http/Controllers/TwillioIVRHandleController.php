@@ -32,39 +32,46 @@ class TwillioIVRHandleController extends Controller
 
     public function handleIncomingCall(Request $request)
     {
-
         $response = new VoiceResponse();
+        $existingData = $this->getexistingCustomer($request->input('From'));
+        $response = $this->handleWelcomeInputs($response , $request ,true);  
+        return response($response, 200)->header('Content-Type', 'text/xml');
+    }
 
 
-        $fromCountry = $request->input('FromCountry');
-        $customer = $request->input('From');
-        $userInput = $request->input('Digits');
-       
-        // STEP 1: Welcome Message
+    public function handleWelcomeInputs($response , $request , $isVaild = true){
+
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
         $response->play($this->statementUrl . 'statement_bookmeeting.wav');
         $response->play($this->numbersUrl . 'number_01.wav');
         $response->play($this->statementUrl . 'statement_press.wav');
 
-        // Prompt user to press any key to proceed
+        $existingData = $this->getexistingCustomer($request->input('From'));
 
-        $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.pickcity'),
-            'timeout' => 10, // Set the timeout to 10 seconds
-        ]);
-        $options = ["1" => 1];
+            $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.pickcity'),
+                'timeout' => 10, // Set the timeout to 10 seconds
+            ]); 
+            if(!$isVaild){
+                $options = ["1" => 1];
 
-        TwillioIvrResponse::create([
-            'mobile' => $customer,
-            'response_digit' => $request->input('Digits', 0),
-            'attempts' => 1,
-            'route_action' => 'ivr.start',
-            'customer_options' => json_encode($options)
+                TwillioIvrResponse::create([
+                    'mobile' => $request->input('From'),
+                    'response_digit' => $request->input('Digits', 0),
+                    'attempts' => 1,
+                    'route_action' => 'ivr.start',
+                    'customer_options' => json_encode($options)
+        
+                ]);
+                
+            }else{
+                $response->say("Handle Welcome Inputs");
+            }
+            return $response; 
+       
+       
 
-        ]);
- 
-        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
 
@@ -135,6 +142,7 @@ class TwillioIVRHandleController extends Controller
         }  
 
     }
+    
 
 
     public function handleCityInputs($response , $request , $isVaild = true){
@@ -172,9 +180,7 @@ class TwillioIVRHandleController extends Controller
 
                 }
                 
-                return $response; 
-
-
+                return $response;  
     }
 
 
