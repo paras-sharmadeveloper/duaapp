@@ -48,7 +48,7 @@ class TwillioIVRHandleController extends Controller
 
         $existingData = $this->getexistingCustomer($request->input('From'));
 
-            $response->gather([
+          $gather=   $response->gather([
                 'numDigits' => 1,
                 'action' => route('ivr.pickcity'),
                 'timeout' => 10, // Set the timeout to 10 seconds
@@ -72,52 +72,7 @@ class TwillioIVRHandleController extends Controller
        
        
 
-    }
-
-
-    public function StartFlow(Request $request){
-
-        $response = new VoiceResponse(); 
-        $userInput = $request->input('Digits');
-        $customer = $request->input('From');
-        $existingData = $this->getexistingCustomer($request->input('From'));
-
-        if (!empty($existingData)) {
-            $customer_option = json_decode($existingData->customer_options, true);
-            $attempts = $existingData->attempts;
-
-            if ($attempts < 3) {
-                if (array_key_exists($userInput,  $customer_option)) {
-                    TwillioIvrResponse::create([
-                        'mobile' => $customer,
-                        'response_digit' => $request->input('Digits', 0),
-                        'attempts' => 1,
-                        'route_action' => 'ivr.pickcity',
-                        'customer_options' => json_encode([])
-            
-                    ]);
-    
-                    $response->redirect(route('ivr.pickcity'));
-                }else{
-    
-                    $response->say("You are In start Flow else");
-                    $response->redirect(route('ivr.start', [], false));
-                     
-                    
-                }
-                $attempts++;
-                $existingData->update(['attempts' =>  $attempts]);
-
-            }else{
-                $response->say("Sorry, you have exceeded the maximum attempts. Goodbye!");
-
-            }
-            
-        }
-        return response($response, 200)->header('Content-Type', 'text/xml');
-
-    }
-
+    } 
     public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
@@ -129,8 +84,7 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput, $customer_option)) {
                $response =  $this->handleCityInputs($response , $request , true); 
             } else {
-                $response->say("CITY CITY CITY");  
-
+                $response->say("CITY CITY CITY");   
 
                 $response->play($this->statementUrl . 'wrong_number_input.wav'); 
             
@@ -178,7 +132,7 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 
                 if($isVaild){ 
-                    $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+                    $this->SaveLog($request, array_unique($response->gather()), 'ivr.dates');
                 } 
                 
                 return $response;  
@@ -200,10 +154,12 @@ class TwillioIVRHandleController extends Controller
             $customer_option = json_decode($existingData->customer_options, true);
             if (array_key_exists($userInput,  $customer_option)) {
 
-                $response = $this->handleDatesInputs($response , $request , $isVaild = true);
+                $response = $this->handleDatesInputs($response , $request ,  true);
             } else {
-                $response->say("DATE DATE");
-                $response = $this->handleCityInputs($response , $request , $isVaild = false);
+
+                
+                $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $response = $this->handleCityInputs($response , $request , false);
                  
                $attempts  = $existingData->attempts + 1; 
                $existingData->update(['attempts' =>  $attempts]); 
@@ -266,12 +222,13 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
-                $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.time'),
-                    'timeout' => 10
-                ]);
+             
                 if($isVaild){ 
+                    $response->gather([
+                        'numDigits' => 1,
+                        'action' => route('ivr.time'),
+                        'timeout' => 10
+                    ]);
                     $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
 
                 }
