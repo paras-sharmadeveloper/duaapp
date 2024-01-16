@@ -226,9 +226,16 @@ class TwillioIVRHandleController extends Controller
                 }else{
                     $customer_option = json_decode($existingData->customer_options, true);
                     $VenuesArr = $customer_option; 
+                    $venueAddress = VenueAddress::whereIn('id', $VenuesArr)->get()->toArray(); 
+
+                    $getCityArr = []; 
+
+                    foreach($venueAddress as $vdi ){
+                        $getCityArr[] = $vdi['city']; 
+                    }
 
                     $query = $this->getDataFromVenue();
-                    $venuesListArr =   $query->whereIn('id', $VenuesArr)->orderBy('venue_date', 'ASC')->take(3)->get();
+                    $venuesListArr =   $query->whereIn('city', $getCityArr)->orderBy('venue_date', 'ASC')->take(3)->get();
                 }
                 
 
