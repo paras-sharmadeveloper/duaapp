@@ -226,16 +226,9 @@ class TwillioIVRHandleController extends Controller
                 }else{
                     $customer_option = json_decode($existingData->customer_options, true);
                     $VenuesArr = $customer_option; 
-                    $venueAddress = VenueAddress::whereIn('id', $VenuesArr)->get()->toArray(); 
-
-                    $getCityArr = []; 
-
-                    foreach($venueAddress as $vdi ){
-                        $getCityArr[] = $vdi['city']; 
-                    }
-
+                    // $venueAddress = VenueAddress::whereIn('id', $VenuesArr)->get()->toArray();  
                     $query = $this->getDataFromVenue();
-                    $venuesListArr =   $query->whereIn('city', $getCityArr)->orderBy('venue_date', 'ASC')->take(3)->get();
+                    $venuesListArr =   $query->whereIn('id', $customer_option)->orderBy('venue_date', 'ASC')->take(3)->get();
                 }
                 
 
@@ -247,7 +240,7 @@ class TwillioIVRHandleController extends Controller
                     $columnToShow = $venueDate->combinationData->columns_to_show;
                     $venueStartTime = Carbon::parse($venueDate->venue_date . ' ' . $venueDate->slot_starts_at_morning);
 
-                    if ($venueStartTime <=  Carbon::now() || $columnToShow >= $i) {
+                    if ($venueStartTime <=  Carbon::now() && $columnToShow >= $i) {
                         $VenueDates[$i] = $venueDate->venue_date;
                         $VenueDatesAadd[$i] = $venueDate->id;
                         // $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
@@ -317,7 +310,7 @@ class TwillioIVRHandleController extends Controller
     
                 $cleanNumber = str_replace($countryCode, '', $request->input('From'));
     
-                $visitors = Vistors::where('phone', $cleanNumber)->first();
+                $visitors = Vistors::where('phone',  $request->input('From'))->first();
     
                 if ($visitors) {
                     $recordAge = $visitors->created_at->diffInDays(now());
