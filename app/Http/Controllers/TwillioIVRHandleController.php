@@ -275,17 +275,11 @@ class TwillioIVRHandleController extends Controller
                 if($isVaild){ 
                     $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
 
-                }else{
-                    $response->say("handle Slots input");
-                    $response = $this->handleDatesInputs($response , $request , $isVaild = false);
-                    
-                }
+                } 
 
         }else{
             $response->say("handle Slots input Else");
-            $response = $this->handleDatesInputs($response , $request , $isVaild = false);
-          
-           
+            $response = $this->handleCityInputs($response , $request , $isVaild = false); 
         }
         return $response; 
 
