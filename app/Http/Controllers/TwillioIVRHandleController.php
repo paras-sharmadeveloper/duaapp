@@ -33,8 +33,8 @@ class TwillioIVRHandleController extends Controller
     public function handleIncomingCall(Request $request)
     { 
         $response = new VoiceResponse();
-        $response = $this->handleWelcomeInputs( $response , $request, true);
-        return response($response, 200)->header('Content-Type', 'text/xml');
+        $this->handleWelcomeInputs( $response , $request, true);
+       
     }
 
 
@@ -71,7 +71,7 @@ class TwillioIVRHandleController extends Controller
             $response->say("Handle Welcome Inputs");
             $response->play($this->statementUrl . 'wrong_number_input.wav');
         }
-        return $response;
+        return response($response, 200)->header('Content-Type', 'text/xml');
 
     }
 
@@ -94,7 +94,7 @@ class TwillioIVRHandleController extends Controller
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
             }
-            return response($response, 200)->header('Content-Type', 'text/xml');
+            
         }
     }
 
@@ -139,7 +139,7 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->statementUrl . 'wrong_number_input.wav');
         }
 
-        return $response;
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
 
@@ -234,6 +234,7 @@ class TwillioIVRHandleController extends Controller
         }else{
             $response->play($this->statementUrl . 'wrong_number_input.wav');
         }
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
 
@@ -274,7 +275,7 @@ class TwillioIVRHandleController extends Controller
                         $response->play($this->numbersUrl . 'number_' . $day . '.wav');
                         $response->play($this->statementUrl . 'din.mp3');
                         $response->play($this->statementUrl . 'BaadKoshshKarien.mp3');
-                        return response($response, 200)->header('Content-Type', 'text/xml');
+                         
                     }
                 }
 
