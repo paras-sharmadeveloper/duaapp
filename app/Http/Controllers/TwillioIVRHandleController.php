@@ -383,8 +383,8 @@ class TwillioIVRHandleController extends Controller
                             $response->play($this->numbersUrl . 'number_' . $minutes . '.wav');
                             $response->play($this->statementUrl . 'statement_minute.wav');
                         }else{
-                            $response->play($this->statementUrl . 'Sifar_number_'.$minutes.'.wav');
-                            $response->play($this->statementUrl . 'Sifar_number_'.$minutes.'.wav');
+                            $response->play($this->statementUrl . 'Sifar_number_00.mp3');
+                            $response->play($this->statementUrl . 'Sifar_number_00.mp3');
                         }
                         $response->play($this->statementUrl . 'statement_ko_dua_karwana.wav');
                         $response->play($this->statementUrl . 'statement_baraye_meharbani.wav');
