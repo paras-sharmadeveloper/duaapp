@@ -200,7 +200,27 @@ class TwillioIVRHandleController extends Controller
             $customer_option = json_decode($existingData->customer_options, true);
             if (array_key_exists($userInput,  $customer_option)) {
 
-                $cityName = $customer_option[$userInput];
+                $response = $this->handleDatesInputs($response , $request , $isVaild = true);
+            } else {
+                $response->say("DATE DATE");
+                $response = $this->handleCityInputs($response , $request , $isVaild = false);
+                 
+               $attempts  = $existingData->attempts + 1; 
+               $existingData->update(['attempts' =>  $attempts]); 
+            
+           }
+            
+        }
+ 
+        return response($response, 200)->header('Content-Type', 'text/xml');
+        
+    }
+
+
+    public function handleDatesInputs($response , $request , $isVaild = false){
+        $existingData = $this->getexistingCustomer($request->input('From'));
+        $customer_option = json_decode($existingData->customer_options, true);
+        $cityName = $customer_option[$request->input('Digits')];
 
                 $query = $this->getDataFromVenue();
                 $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
@@ -246,26 +266,18 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
-
                 $response->gather([
                     'numDigits' => 1,
                     'action' => route('ivr.time'),
                     'timeout' => 10
                 ]);
-                $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
-            } else {
-                $response->say("DATE DATE");
-                $response = $this->handleCityInputs($response , $request , $isVaild = false);
-                 
-               $attempts  = $existingData->attempts + 1; 
-               $existingData->update(['attempts' =>  $attempts]); 
-            
-           }
-            
-        }
- 
-        return response($response, 200)->header('Content-Type', 'text/xml');
-        
+                if($isVaild){ 
+                    $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
+
+                }
+
+               
+
     }
 
 
@@ -360,6 +372,9 @@ class TwillioIVRHandleController extends Controller
                             // $response->play($this->statementUrl . 'statement_aur.wav');  
                             $response->play($this->numbersUrl . 'number_' . $minutes . '.wav');
                             $response->play($this->statementUrl . 'statement_minute.wav');
+                        }else{
+                            $response->play($this->numbersUrl . 'Sifar_number_'.$minutes.'.wav');
+                            $response->play($this->numbersUrl . 'Sifar_number_'.$minutes.'.wav');
                         }
                         $response->play($this->statementUrl . 'statement_ko_dua_karwana.wav');
                         $response->play($this->statementUrl . 'statement_baraye_meharbani.wav');
@@ -377,6 +392,7 @@ class TwillioIVRHandleController extends Controller
                    $response->gather([
                         'numDigits' => 1,
                         'action' => route('ivr.makebooking'),
+                        'timeout' => 10
                     ]); 
                     $this->SaveLog($request, $options, 'ivr.makebooking');
                  
@@ -385,9 +401,9 @@ class TwillioIVRHandleController extends Controller
  
                 $response->say("SLOTS SLOTS");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $response = $this->handleDatesInputs($response , $request , $isVaild = false);
                 $attempts  = $existingData->attempts + 1; 
-                $existingData->update(['attempts' =>  $attempts]); 
-                $response->redirect(route('ivr.dates', [], false));
+                $existingData->update(['attempts' =>  $attempts]);  
                 
             }
         }
