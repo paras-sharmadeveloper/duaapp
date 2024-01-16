@@ -53,7 +53,7 @@ class TwillioIVRHandleController extends Controller
                 'action' => route('ivr.pickcity'),
                 'timeout' => 10, // Set the timeout to 10 seconds
             ]); 
-            if(!$isVaild){
+            if($isVaild){
                 $options = ["1" => 1];
 
                 TwillioIvrResponse::create([
