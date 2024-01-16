@@ -196,13 +196,9 @@ class TwillioIVRHandleController extends Controller
 
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (array_key_exists($userInput,  $customer_option)) {
+            if (array_key_exists($userInput,  $customer_option)) { 
 
-                $cityName = (isset($customer_option[$request->input('Digits')])) ? $customer_option[$request->input('Digits')] : '';
-                $query = $this->getDataFromVenue();
-                $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
-
-                $response = $this->handleDatesInputs($response , $request ,true , $venuesListArr);
+                $response = $this->handleDatesInputs($response , $request ,true);
             } else { 
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $response = $this->handleCityInputs($response , $request ,  false);
@@ -219,10 +215,22 @@ class TwillioIVRHandleController extends Controller
     }
 
 
-    public function handleDatesInputs($response , $request , $isVaild = false , $venuesListArr){
+    public function handleDatesInputs($response , $request , $isVaild = false){
+        $existingData = $this->getexistingCustomer($request->input('From'));
+                if($isVaild){
+                    $existingData = $this->getexistingCustomer($request->input('From'));
+                    $customer_option = json_decode($existingData->customer_options, true);
+                    $cityName = (isset($customer_option[$request->input('Digits')])) ? $customer_option[$request->input('Digits')] : '';
+                    $query = $this->getDataFromVenue();
+                    $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
+                }else{
+                    $customer_option = json_decode($existingData->customer_options, true);
+                    $VenuesArr = $customer_option; 
 
-      
-           
+                    $query = $this->getDataFromVenue();
+                    $venuesListArr =   $query->whereIn('id', $VenuesArr)->orderBy('venue_date', 'ASC')->take(3)->get();
+                }
+                
 
                 $VenueDates = [];
                 $VenueDatesAadd = [];
@@ -274,8 +282,7 @@ class TwillioIVRHandleController extends Controller
                 if($isVaild){ 
                     $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
 
-                } 
-
+                }  
          
         return $response; 
 
@@ -404,12 +411,10 @@ class TwillioIVRHandleController extends Controller
  
                 $response->say("SLOTS SLOTS");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $cityName = (isset($customer_option[$request->input('Digits')])) ? $customer_option[$request->input('Digits')] : '';
-                $query = $this->getDataFromVenue();
-                $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
+                
 
 
-                $response = $this->handleDatesInputs($response , $request , false , $venuesListArr );
+                $response = $this->handleDatesInputs($response , $request , false );
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]);  
                 
