@@ -130,8 +130,6 @@ class TwillioIVRHandleController extends Controller
                $response =  $this->handleCityInputs($response , $request , true); 
             } else {
                 $response->say("CITY CITY CITY");  
-
-
                 $response->play($this->statementUrl . 'wrong_number_input.wav'); 
             
                 $response =  $this->handleWelcomeInputs($response , $request , false); 
@@ -220,9 +218,11 @@ class TwillioIVRHandleController extends Controller
     public function handleDatesInputs($response , $request , $isVaild = false){
         $existingData = $this->getexistingCustomer($request->input('From'));
         $customer_option = json_decode($existingData->customer_options, true);
-        $cityName = $customer_option[$request->input('Digits')];
+        
 
-                $query = $this->getDataFromVenue();
+        if (array_key_exists($request->input('Digits'),  $customer_option)) { 
+            $cityName = (isset($customer_option[$request->input('Digits')])) ? $customer_option[$request->input('Digits')] : '';
+            $query = $this->getDataFromVenue();
                 $venuesListArr =   $query->where('city',  $cityName)->orderBy('venue_date', 'ASC')->take(3)->get();
 
                 $VenueDates = [];
@@ -271,6 +271,7 @@ class TwillioIVRHandleController extends Controller
                     'action' => route('ivr.time'),
                     'timeout' => 10
                 ]);
+
                 if($isVaild){ 
                     $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
 
@@ -278,7 +279,11 @@ class TwillioIVRHandleController extends Controller
                     $response->say("handle Slots input");
                 }
 
-                return $response; 
+        }else{
+            $response->say("handle Slots input Else");
+           
+        }
+        return $response; 
 
                
 
