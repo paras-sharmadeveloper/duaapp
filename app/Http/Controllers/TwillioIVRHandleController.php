@@ -60,7 +60,7 @@ class TwillioIVRHandleController extends Controller
                     'mobile' => $request->input('From'),
                     'response_digit' => $request->input('Digits', 0),
                     'attempts' => 1,
-                    'route_action' => 'ivr.start',
+                    'route_action' => 'ivr.pickcity',
                     'customer_options' => json_encode($options)
         
                 ]);
@@ -277,10 +277,14 @@ class TwillioIVRHandleController extends Controller
 
                 }else{
                     $response->say("handle Slots input");
+                    $response = $this->handleDatesInputs($response , $request , $isVaild = false);
+                    
                 }
 
         }else{
             $response->say("handle Slots input Else");
+            $response = $this->handleDatesInputs($response , $request , $isVaild = false);
+          
            
         }
         return $response; 
@@ -410,7 +414,7 @@ class TwillioIVRHandleController extends Controller
  
                 $response->say("SLOTS SLOTS");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                $response = $this->handleDatesInputs($response , $request , $isVaild = false);
+                $response = $this->handleDatesInputs($response , $request , false);
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]);  
                 
