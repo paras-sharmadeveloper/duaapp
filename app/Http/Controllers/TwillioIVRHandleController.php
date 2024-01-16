@@ -42,7 +42,6 @@ class TwillioIVRHandleController extends Controller
        
         // STEP 1: Welcome Message
         $response->play($this->statementUrl . 'statement_welcome_message.wav');
-
         $response->play($this->statementUrl . 'statement_bookmeeting.wav');
         $response->play($this->numbersUrl . 'number_01.wav');
         $response->play($this->statementUrl . 'statement_press.wav');
@@ -73,33 +72,40 @@ class TwillioIVRHandleController extends Controller
 
         $response = new VoiceResponse(); 
         $userInput = $request->input('Digits');
-
+        $customer = $request->input('From');
         $existingData = $this->getexistingCustomer($request->input('From'));
+
         if (!empty($existingData)) {
             $customer_option = json_decode($existingData->customer_options, true);
-            if (array_key_exists($userInput,  $customer_option)) {
-                $response->redirect(route('ivr.pickcity'));
-            }else{
+            $attempts = $existingData->attempts;
 
-                $response->say("You are In start Flow else");
-
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-                foreach($customer_option as $nu =>  $options){
-                    if ($nu <= 9) {
-                        $number = '0' . $nu;
-                    } else { 
-                        $number = $nu;
-                    }
+            if ($attempts < 3) {
+                if (array_key_exists($userInput,  $customer_option)) {
+                    TwillioIvrResponse::create([
+                        'mobile' => $customer,
+                        'response_digit' => $request->input('Digits', 0),
+                        'attempts' => 1,
+                        'route_action' => 'ivr.pickcity',
+                        'customer_options' => json_encode([])
+            
+                    ]);
+    
+                    $response->redirect(route('ivr.pickcity'));
+                }else{
+    
+                    $response->say("You are In start Flow else");
+                    $response->redirect(route('ivr.start', [], false));
                      
-                    $response->play($this->cityUrl . 'city_' . $options . '.wav');
-                    $response->play($this->statementUrl . 'statement_kay_liye.wav');
-                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
-                    $response->play($this->statementUrl . 'statement_press.wav');
-                } 
-                // $response->redirect(route('ivr.welcome'));
-                $attempts  = $existingData->attempts + 1; 
+                    
+                }
+                $attempts++;
                 $existingData->update(['attempts' =>  $attempts]);
+
+            }else{
+                $response->say("Sorry, you have exceeded the maximum attempts. Goodbye!");
+
             }
+            
         }
         return response($response, 200)->header('Content-Type', 'text/xml');
 
@@ -147,23 +153,11 @@ class TwillioIVRHandleController extends Controller
             } else {
                 // $response->say("You are In City  else");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
-                foreach($customer_option as $nu =>  $options){
-                    if ($nu <= 9) {
-                        $number = '0' . $nu;
-                    } else { 
-                        $number = $nu;
-                    }
-                     
-                    $response->play($this->cityUrl . 'city_' . $options . '.wav');
-                    $response->play($this->statementUrl . 'statement_kay_liye.wav');
-                    $response->play($this->numbersUrl . 'number_' . $number . '.wav');
-                    $response->play($this->statementUrl . 'statement_press.wav');
-                } 
-                $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.dates'),
-                    'timeout' => 10
-                ]);
+                
+
+                $response->redirect(route('ivr.pickcity', [], false));
+                
+                
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
               
@@ -174,6 +168,9 @@ class TwillioIVRHandleController extends Controller
         }  
 
     }
+
+
+    
 
 
     public function handleDates(Request $request)
@@ -243,10 +240,13 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
                 $response->say("You are In Date Flow else");
-               // $response->play($this->statementUrl . 'wrong_number_input.wav');
+                $response->redirect(route('ivr.dates', [], false));
+              
+                
+ 
                $attempts  = $existingData->attempts + 1; 
                $existingData->update(['attempts' =>  $attempts]); 
-               $response->redirect(route('ivr.pickcity'));
+            
            }
             
         }
@@ -374,7 +374,8 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
-                 $response->redirect(route('ivr.dates')); 
+                $response->redirect(route('ivr.time', [], false));
+                
             }
         }
  
@@ -494,6 +495,9 @@ class TwillioIVRHandleController extends Controller
 
        
     }
+
+
+    
 
     function findCountryByPhoneNumber($phoneNumber)
     {
