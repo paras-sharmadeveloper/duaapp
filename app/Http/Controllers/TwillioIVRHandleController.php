@@ -213,7 +213,7 @@ class TwillioIVRHandleController extends Controller
            }
             
         }
- 
+        
         return response($response, 200)->header('Content-Type', 'text/xml');
         
     }
@@ -276,7 +276,11 @@ class TwillioIVRHandleController extends Controller
                 if($isVaild){ 
                     $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
 
+                }else{
+                    $response->say("handle Slots input");
                 }
+
+                return $response; 
 
                
 
