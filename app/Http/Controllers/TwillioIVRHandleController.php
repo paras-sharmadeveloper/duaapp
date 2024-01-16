@@ -33,7 +33,7 @@ class TwillioIVRHandleController extends Controller
     public function handleIncomingCall(Request $request)
     { 
         $response = new VoiceResponse();
-        $response = $this->handleWelcomeInputs($request, true);
+        $response = $this->handleWelcomeInputs( $response , $request, true);
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
