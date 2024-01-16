@@ -130,8 +130,11 @@ class TwillioIVRHandleController extends Controller
                $response =  $this->handleCityInputs($response , $request , true); 
             } else {
                 $response->say("CITY CITY CITY");  
+
+
                 $response->play($this->statementUrl . 'wrong_number_input.wav'); 
-                $response =  $this->handleCityInputs($response , $request , false); 
+            
+                $response =  $this->handleWelcomeInputs($response , $request , false); 
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
               
@@ -168,17 +171,15 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.dates'),
+                    'timeout' => 10
+                ]);
                 
-                if($isVaild){
-                    $response->gather([
-                        'numDigits' => 1,
-                        'action' => route('ivr.dates'),
-                        'timeout' => 10
-                    ]);
+                if($isVaild){ 
                     $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
-                }else{
-
-                }
+                } 
                 
                 return $response;  
     }
@@ -254,7 +255,8 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
                 $response->say("DATE DATE");
-                $response->redirect(route('ivr.pickcity', [], false)); 
+                $response = $this->handleCityInputs($response , $request , $isVaild = false);
+                 
                $attempts  = $existingData->attempts + 1; 
                $existingData->update(['attempts' =>  $attempts]); 
             
