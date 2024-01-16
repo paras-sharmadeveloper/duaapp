@@ -151,12 +151,9 @@ class TwillioIVRHandleController extends Controller
                 $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
                
             } else {
-                // $response->say("You are In City  else");
-                $response->play($this->statementUrl . 'wrong_number_input.wav');
-                
-
-                $response->redirect(route('ivr.pickcity', [], false));
-                
+                $response->say("CITY CITY CITY");
+                $response->play($this->statementUrl . 'wrong_number_input.wav'); 
+                $response->redirect(route('ivr.welcome', [], false));
                 
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
@@ -239,8 +236,8 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
             } else {
-                $response->say("You are In Date Flow else");
-                $response->redirect(route('ivr.dates', [], false));
+                $response->say("DATE DATE");
+                $response->redirect(route('ivr.pickcity', [], false));
               
                 
  
@@ -370,11 +367,11 @@ class TwillioIVRHandleController extends Controller
 
             }else{
  
-                $response->say("You are In Slots Flow else");
+                $response->say("SLOTS SLOTS");
                 $response->play($this->statementUrl . 'wrong_number_input.wav');
                 $attempts  = $existingData->attempts + 1; 
                 $existingData->update(['attempts' =>  $attempts]); 
-                $response->redirect(route('ivr.time', [], false));
+                $response->redirect(route('ivr.dates', [], false));
                 
             }
         }
