@@ -129,7 +129,7 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput, $customer_option)) {
                $response =  $this->handleCityInputs($response , $request , true); 
             } else {
-                $response->say("CITY CITY CITY");  
+                // $response->say("CITY CITY CITY");  
                 $response->play($this->statementUrl . 'wrong_number_input.wav'); 
             
                 $response =  $this->handleWelcomeInputs($response , $request , false); 
@@ -247,6 +247,11 @@ class TwillioIVRHandleController extends Controller
 
                         $i++;
                     } else if ($columnToShow >= $i && $venueDate->venue_date > Carbon::now()->format('Y-m-d')) {
+                        $VenueDates[$i] = $venueDate->venue_date;
+                        $VenueDatesAadd[$i] = $venueDate->id;
+                        $i++;
+                    }else if ($columnToShow >= $i)
+                    {
                         $VenueDates[$i] = $venueDate->venue_date;
                         $VenueDatesAadd[$i] = $venueDate->id;
                         $i++;
@@ -412,7 +417,7 @@ class TwillioIVRHandleController extends Controller
 
             }else{
  
-                $response->say("SLOTS SLOTS");
+                // $response->say("SLOTS SLOTS");
                 $response->play($this->statementUrl . 'wrong_number_input.wav'); 
 
                 $response = $this->handleDatesInputs($response , $request , false );
