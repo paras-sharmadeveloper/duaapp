@@ -125,14 +125,14 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->numbersUrl . 'number_' . $number . '.wav');
                     $response->play($this->statementUrl . 'statement_press.wav');
                 }
-                $response->gather([
+               $gather =  $response->gather([
                     'numDigits' => 1,
                     'action' => route('ivr.dates'),
                     'timeout' => 10
                 ]);
                 
                 if($isVaild){ 
-                    $this->SaveLog($request, array_unique($response->gather()), 'ivr.dates');
+                    $this->SaveLog($request, array_unique( $gather), 'ivr.dates');
                 } 
                 
                 return $response;  
