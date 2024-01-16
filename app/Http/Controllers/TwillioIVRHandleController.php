@@ -240,7 +240,7 @@ class TwillioIVRHandleController extends Controller
                     $columnToShow = $venueDate->combinationData->columns_to_show;
                     $venueStartTime = Carbon::parse($venueDate->venue_date . ' ' . $venueDate->slot_starts_at_morning);
 
-                    if ($venueStartTime <=  Carbon::now() && $columnToShow >= $i) {
+                    if ($venueStartTime <=  Carbon::now() || $columnToShow >= $i) {
                         $VenueDates[$i] = $venueDate->venue_date;
                         $VenueDatesAadd[$i] = $venueDate->id;
                         // $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
@@ -250,12 +250,7 @@ class TwillioIVRHandleController extends Controller
                         $VenueDates[$i] = $venueDate->venue_date;
                         $VenueDatesAadd[$i] = $venueDate->id;
                         $i++;
-                    }else if ($columnToShow >= $i)
-                    {
-                        $VenueDates[$i] = $venueDate->venue_date;
-                        $VenueDatesAadd[$i] = $venueDate->id;
-                        $i++;
-                    }
+                    } 
                 }
 
                 foreach ($VenueDates as $k => $date) {
