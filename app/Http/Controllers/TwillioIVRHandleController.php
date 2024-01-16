@@ -49,15 +49,14 @@ class TwillioIVRHandleController extends Controller
         $response->play($this->statementUrl . 'statement_press.wav');
 
         $existingData = $this->getexistingCustomer($request->input('From'));
-
+        $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.pickcity'),
+            'timeout' => 10, // Set the timeout to 10 seconds
+        ]);
         
         if ($isVaild) {
-
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.pickcity'),
-                'timeout' => 10, // Set the timeout to 10 seconds
-            ]);
+ 
             $options = ["1" => 1];
 
             TwillioIvrResponse::create([
@@ -126,14 +125,15 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->numbersUrl . 'number_' . $number . '.wav');
             $response->play($this->statementUrl . 'statement_press.wav');
         }
+         $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.dates'),
+            'timeout' => 10
+        ]);
 
 
         if ($isVaild) {
-            $gather =  $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.dates'),
-                'timeout' => 10
-            ]);
+           
             $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
         }else{
             $response->play($this->statementUrl . 'wrong_number_input.wav');
@@ -222,13 +222,14 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->numbersUrl . 'number_' . $number . '.wav');
             $response->play($this->statementUrl . 'statement_press.wav');
         }
+        $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.time'),
+            'timeout' => 10
+        ]);
 
         if ($isVaild) {
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.time'),
-                'timeout' => 10
-            ]);
+           
             $this->SaveLog($request, $VenueDatesAadd, 'ivr.time');
         }else{
             $response->play($this->statementUrl . 'wrong_number_input.wav');
