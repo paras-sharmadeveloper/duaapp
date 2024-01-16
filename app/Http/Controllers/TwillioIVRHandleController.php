@@ -310,8 +310,9 @@ class TwillioIVRHandleController extends Controller
     
                 $cleanNumber = str_replace($countryCode, '', $request->input('From'));
     
-                $visitors = Vistors::where('phone',  $request->input('From'))->first();
-    
+                $visitors = Vistors::where('phone', $request->input('From'))
+                ->orderBy('id', 'desc')
+                ->first();    
                 if ($visitors) {
                     $recordAge = $visitors->created_at->diffInDays(now());
                     $rejoin = $venueAddress->rejoin_venue_after;
