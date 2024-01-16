@@ -330,6 +330,7 @@ class TwillioIVRHandleController extends Controller
                         $response->play($this->numbersUrl . 'number_' . $day . '.wav');
                         $response->play($this->statementUrl . 'din.mp3');
                         $response->play($this->statementUrl . 'BaadKoshshKarien.mp3');
+                        $response->play($this->statementUrl . 'statement_goodbye.wav');
                         return response($response, 200)->header('Content-Type', 'text/xml');
                     }
                 }
