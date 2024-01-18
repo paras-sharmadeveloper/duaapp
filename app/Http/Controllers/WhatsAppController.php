@@ -119,26 +119,8 @@ class WhatsAppController extends Controller
                     $i++; 
                         
                    
-               }
-
-            //    $arr = ksort($cityArr); 
-               Log::info("checking options: ".  $cityArr); 
-                //Log::info("checking cityArr: ". json_encode( $cityArr)); 
-                // Log::info("checking options: ". json_encode( $options)); 
-
-           
-            // foreach ($venuesListArr as $venue) {
-            //     $cityToShow = $venue->combinationData->city_sequence_to_show;
-            //     $cityName = $venue->city.'-'.$venue->id; 
-            //     if (!isset($cityArr[$venue->city])) {
-            //         $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
-            //         $options[] = $i; 
-            //     }
-            //     $i++;
-            //   } 
-
-          
-            
+               }  
+            ksort($cityArr);
             $data = implode("\n", $cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
