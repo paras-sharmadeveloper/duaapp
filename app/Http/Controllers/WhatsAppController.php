@@ -93,7 +93,7 @@ class WhatsAppController extends Controller
                 ->take(3)
                 ->get();  
            
-            $i = 1;
+           
 
             $cityArr = [];
 
@@ -101,19 +101,20 @@ class WhatsAppController extends Controller
             $distinctCitiesArray = $distinctCities->toArray();
 
 
-
+            $cityToShow = []; 
             foreach($venuesListArr as $venue){
-                $cityToShow = $venue->combinationData->city_sequence_to_show;
-                foreach($distinctCitiesArray as $key => $city){
-                    $input = $key + 1; 
-                    // if($cityToShow == $i){
-                        $cityArr[$city] = trim($whatsAppEmoji[$input] . ' '. $city); 
-                        $options[] =  $input; 
-                    // }
-                    
-                    // $i++; 
+                $cityToShow[ $venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
             }
-        }
+                 $i = 1;
+                foreach($distinctCitiesArray as $key => $city){
+                     
+                    if($cityToShow >= $i){
+                        $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
+                        $options[] =  $i; 
+                     } 
+                    $i++; 
+            }
+        
 
            
             // foreach ($venuesListArr as $venue) {
