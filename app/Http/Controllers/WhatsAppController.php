@@ -99,16 +99,20 @@ class WhatsAppController extends Controller
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
 
-            foreach($distinctCities as $venueCities){
-                $cityToShow = $venueCities->combinationData->city_sequence_to_show;
-                if($cityToShow == $i){
-                    $cityArr[$venueCities->city] = trim($whatsAppEmoji[$i] . ' '. $venueCities->city); 
-                    $options[] = $i; 
-                }
-                
-                $i++;
 
+
+            foreach($venuesListArr as $venue){
+                $cityToShow = $venue->combinationData->city_sequence_to_show;
+                foreach($distinctCities as $venueCities){
+                 
+                    if($cityToShow == $i){
+                        $cityArr[$venueCities->city] = trim($whatsAppEmoji[$i] . ' '. $venueCities->city); 
+                        $options[] = $i; 
+                    }
+                    
+                    $i++; 
             }
+        }
 
            
             // foreach ($venuesListArr as $venue) {
