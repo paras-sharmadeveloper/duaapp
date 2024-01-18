@@ -387,18 +387,18 @@ class TwillioIVRHandleController extends Controller
                             $number = $i;
                         }
     
-                        // if ($hours <= 9) {
-                        //     $hourNew = '0' . $hours;
-                        // } else {
-                        //     $hourNew = $hours;
-                        // }
+                        if ($hours <= 9) {
+                            $hourNew = '0' . $hours;
+                        } else {
+                            $hourNew = $hours;
+                        }
                         $response->play($this->statementUrl . 'statement_agar_aap.wav');
                         if ($ampm == 'AM') {
                             $response->play($this->statementUrl . 'statement_morning.wav');
                         } else {
                             $response->play($this->statementUrl . 'statement_afternoon.wav');
                         }
-                        $response->play($this->numbersUrl . 'number_' .  $hours . '.wav');
+                        $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
                         $response->play($this->statementUrl . 'statement_bajkay.wav');
                         if ($minutes != '00') {
                             // $response->play($this->statementUrl . 'statement_aur.wav');  
