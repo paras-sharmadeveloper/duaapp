@@ -75,7 +75,8 @@
     var licenseKey = "{{ env('AG_GRID_KEY') }}"
 
    
-    const columnDefs = [{
+    const columnDefs = [
+        {
             headerName: 'BookingId',
             field: 'booking_number',
             enableValue: true,
@@ -86,6 +87,17 @@
             sort: 'desc',
             filter: "agNumberColumnFilter",
             checkboxSelection:true
+            
+        },
+        {
+            headerName: 'Booking Source',
+            field: 'source',
+            enableValue: true,
+            enableRowGroup: true,
+            floatingFilter: true,
+            pivot: true,
+            enablePivot: true, 
+            filter: "agTextColumnFilter", 
             
         },
 

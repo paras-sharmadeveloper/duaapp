@@ -19,6 +19,7 @@ class AgGridManagement extends Controller
             'lname' => 'vistors',
             'email' => 'vistors',
             'phone' => 'vistors',
+            'source' => 'vistors',
             'booking_number' => 'vistors',
             'is_whatsapp' => 'vistors',
             'user_ip' => 'vistors',
