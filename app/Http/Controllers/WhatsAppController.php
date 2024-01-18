@@ -112,7 +112,9 @@ class WhatsAppController extends Controller
             // Log::info("checking distinct : ". json_encode( $distinctCities)); 
                $i = 1; 
                 foreach($distinctCities as $key => $city){
-                        $seq = $cityToShow[$city];  
+                    $seq = $cityToShow[$city]; 
+                    Log::info("checking cityArr: ".$seq); 
+                         
                         if($i>=$seq){
                             $cityArr[$seq] = trim($whatsAppEmoji[$seq] . ' '. $city); 
                             $options[] =  $seq; 
