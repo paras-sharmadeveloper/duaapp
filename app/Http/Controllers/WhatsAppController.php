@@ -91,21 +91,35 @@ class WhatsAppController extends Controller
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
-                ->get(); 
+                ->get();  
            
             $i = 1;
 
             $cityArr = [];
-           
-            foreach ($venuesListArr as $venue) {
-                $cityToShow = $venue->combinationData->city_sequence_to_show;
-                $cityName = $venue->city.'-'.$venue->id; 
-                if (!isset($cityArr[$venue->city])) {
-                    $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+
+            $distinctCities = $venuesListArr->pluck('city')->unique();
+
+            foreach($distinctCities as $venueCities){
+                $cityToShow = $venueCities->combinationData->city_sequence_to_show;
+                if($cityToShow == $i){
+                    $cityArr[$venueCities->city] = trim($whatsAppEmoji[$i] . ' '. $venueCities->city); 
                     $options[] = $i; 
                 }
+                
                 $i++;
-              }
+
+            }
+
+           
+            // foreach ($venuesListArr as $venue) {
+            //     $cityToShow = $venue->combinationData->city_sequence_to_show;
+            //     $cityName = $venue->city.'-'.$venue->id; 
+            //     if (!isset($cityArr[$venue->city])) {
+            //         $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+            //         $options[] = $i; 
+            //     }
+            //     $i++;
+            //   }
             
             
             $data = implode("\n",$cityArr);

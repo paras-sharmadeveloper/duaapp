@@ -501,9 +501,7 @@ class TwillioIVRHandleController extends Controller
                     } else {
                         $hourNew = $hours;
                     }
-
-
-
+ 
                     $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
                     $response->play($this->statementUrl . 'statement_bajkay.wav');
                     if ($minutes != '00') {
