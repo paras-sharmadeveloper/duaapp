@@ -161,12 +161,14 @@ class TwillioIVRHandleController extends Controller
                 $i = 1;
                 $cityArr = [];
                 foreach($distinctCities as $key => $city){ 
-                    if($cityToShow[$city] >= $i){
-                        $cityArr[$i] =  strtolower($city); 
-                        
-                     } 
+                    $seq = $cityToShow[$city]; 
+                    $cityArr[$seq] = strtolower($city); 
+                     
+                        // $cityArr[$i] =  strtolower($city); 
+                         
                     $i++; 
                 }
+                ksort($cityArr); 
 
 
 
