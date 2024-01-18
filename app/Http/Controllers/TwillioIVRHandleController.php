@@ -151,14 +151,33 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->statementUrl . 'statement_select_city.wav');
                 $query = $this->getDataFromVenue();
                 $venuesListArr = $query->get();
-                $i = 1;
-                $cityArr = [];
-                foreach ($venuesListArr as $venue) {
-                    $cityArr[$i] = strtolower($venue->city);
-                    $i++;
+                $distinctCities = $venuesListArr->pluck('city')->unique();
+
+                $cityToShow = []; 
+                foreach($venuesListArr as $venue){
+                    $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
                 }
 
-                foreach (array_unique($cityArr) as $k => $city) {
+                $i = 1;
+                $cityArr = [];
+                foreach($distinctCities as $key => $city){ 
+                    if($cityToShow[$city] >= $i){
+                        $cityArr[$i] =  strtolower($city); 
+                        
+                     } 
+                    $i++; 
+                }
+
+
+
+                // $i = 1;
+                // $cityArr = [];
+                // foreach ($venuesListArr as $venue) {
+                //     $cityArr[$i] = strtolower($venue->city);
+                //     $i++;
+                // }
+
+                foreach ($cityArr as $k => $city) {
                     if ($k <= 9) {
                         $number = '0' . $k;
                     } else {
@@ -176,7 +195,7 @@ class TwillioIVRHandleController extends Controller
                 ]);
                 
                 if($isVaild){ 
-                    $this->SaveLog($request, array_unique($cityArr), 'ivr.dates');
+                    $this->SaveLog($request, $cityArr, 'ivr.dates');
                 } 
                 
                 return $response;  

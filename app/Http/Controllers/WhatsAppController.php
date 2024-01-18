@@ -98,9 +98,7 @@ class WhatsAppController extends Controller
             $cityArr = [];
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
-           
-
-
+            
             $cityToShow = []; 
             foreach($venuesListArr as $venue){
                 $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
