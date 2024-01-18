@@ -326,8 +326,10 @@
                         </div>
                     </div> --}}
                     <div class="col-md-4 mt-4">
+                        <label>Recurring Till How many Month ? </label>
+                   
                         <div class="input-group">
-                            <span class="input-group-text">Recurring Till How many Month ? </span>
+                            
                             {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'ends',
@@ -336,8 +338,9 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-4">
+                        <label>User Rejoin After Days? </label>
                         <div class="input-group">
-                            <span class="input-group-text">User Rejoin After Days? </span>
+                            {{-- <span class="input-group-text">User Rejoin After Days? </span>  --}}
                             {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'rejoin_venue_after',
@@ -346,8 +349,9 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-4">
+                        <label>Slots Appear Before Hours ?</label>
                         <div class="input-group">
-                            <span class="input-group-text">Slots Appear Before Hours ?</span>
+                            {{-- <span class="input-group-text">Slots Appear Before Hours ?</span> --}}
                             {!! Form::number('slot_appear_hours', $venueAddress->slot_appear_hours ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'slot_appear_hours',
@@ -413,8 +417,8 @@
                     </div>
 
                     <div class="col-md-6 mt-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Status Page Note</span>
+                        <label>Status Page Note</label>
+                        <div class="input-group"> 
                             <textarea name="status_page_note" 
                             class="form-control"
                             id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>

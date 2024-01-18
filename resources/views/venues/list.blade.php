@@ -71,6 +71,8 @@
                         <th>Venue Detail</th>
                         <th>Token Issued</th>
                         <th>Type</th>
+                        <th>Slot Generated</th>
+                        
                         <th style="width: 300px">Action</th>
                     </tr>
                 </thead>
@@ -83,6 +85,7 @@
                         $formattedDate = $dateToConvert->format('d-M-Y');
                         $weekDay = $dateToConvert->format('l');
                         $today =  \Carbon\Carbon::parse(date('Y-m-d'))->format('Y-m-d'); 
+                        $slotCreated = $venueAdd->venueSloting->count(); 
 
                         $totalBookings = [];
                           
@@ -128,6 +131,7 @@
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
                             <td style="text-align: center">{{  (isset($totalBookings[$venueAdd->id]))?count($totalBookings[$venueAdd->id]):0 }}</td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
+                            <td><span class="badge bg-{{  ($slotCreated > 0) ? "success" : "warning" }}"> {{  ($slotCreated > 0) ? 'Generated': 'In-porcess'  }} </span> </td>
                             <td class="d-flex-my cdt justify-content-between"> 
                                 <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
                              

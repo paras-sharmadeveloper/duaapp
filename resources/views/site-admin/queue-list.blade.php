@@ -261,6 +261,7 @@
                                                     <h6 class="sub-title"> ${visitor.country_code} ${visitor.phone}</h6>
                                                     <h6 class="sub-title">${slot.venue_address.venue_date}</h6>
                                                     <h6 class="vert">${confirmedHtml}</h6>
+                                                    <h6 class="sub-title"> Source : ${visitor.source} </h6>
                                                     <span class="badge bg-info ${nonetimer}"> total time : ${visitor.meeting_total_time} Seconds</span>
                                                 <p></p> 
                                             </div>
