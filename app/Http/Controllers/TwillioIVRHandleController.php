@@ -509,17 +509,21 @@ class TwillioIVRHandleController extends Controller
                     $minutes = $chunksTime[1];
                     $seconds = $chunksTime[2];
 
-                    $ampm = '';
-                    if ($hours >= 0 && $hours < 12) {
-                        $ampm = "AM";
-                    } else {
-                        $ampm = "PM";
-                    }
+                        $ampm = ($hours >= 12) ? 'PM' : 'AM';
+                        $hours = ($hours > 12) ? $hours - 12 : $hours;
+                        $hours = ($hours == 0) ? 12 : $hours;
+
+                     
 
                     if ($hours <= 9) {
                         $hourNew = '0' . $hours;
                     } else {
                         $hourNew = $hours;
+                    }
+                    if ($ampm == 'AM') {
+                        $response->play($this->statementUrl . 'statement_morning.wav');
+                    } else {
+                        $response->play($this->statementUrl . 'statement_afternoon.wav');
                     }
  
                     $response->play($this->numbersUrl . 'number_' .  $hourNew . '.wav');
