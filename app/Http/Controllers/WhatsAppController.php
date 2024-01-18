@@ -90,7 +90,7 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
-                ->take(3)
+                // ->take(3)
                 ->get();  
            
            
@@ -98,7 +98,7 @@ class WhatsAppController extends Controller
             $cityArr = [];
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
-            $distinctCitiesArray = $distinctCities->toArray();
+           
 
 
             $cityToShow = []; 
@@ -107,7 +107,7 @@ class WhatsAppController extends Controller
             }
 
             Log::info("checking : ". json_encode( $cityToShow)); 
-            Log::info("checking distinct : ". json_encode( $distinctCitiesArray)); 
+            Log::info("checking distinct : ". json_encode( $distinctCities)); 
                  $i = 1;
                 foreach($distinctCitiesArray as $key => $city){
                      
