@@ -587,7 +587,7 @@ class WhatsAppController extends Controller
         }
     
         // If no matching country code is found
-        return "Unknown";
+        return "";
     }
 
     private function FlushEntries($phoneNUmber){

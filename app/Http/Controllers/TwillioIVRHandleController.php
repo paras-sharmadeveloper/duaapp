@@ -557,7 +557,7 @@ class TwillioIVRHandleController extends Controller
         }
 
         // If no matching country code is found
-        return "Unknown";
+        return "";
     }
 
     function findKeyByValueInArray($array, $key)
