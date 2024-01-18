@@ -113,6 +113,7 @@ class WhatsAppController extends Controller
                         $options[] =  $i;  
                         $i++; 
             }
+            asort($cityArr);
         
 
            
