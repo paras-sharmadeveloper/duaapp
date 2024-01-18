@@ -715,8 +715,7 @@ class HomeController extends Controller
       $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
       ->where('city',  $request->input('optional'))
       ->where('venue_date','>=', date('Y-m-d'))
-      ->orderBy('venue_date', 'ASC')
-      ->take(3)
+      ->orderBy('venue_date', 'ASC') 
       ->get();
 
       // $venuesListArr = VenueAddress::where([
