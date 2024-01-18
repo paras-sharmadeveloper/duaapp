@@ -105,6 +105,9 @@ class WhatsAppController extends Controller
             foreach($venuesListArr as $venue){
                 $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
             }
+
+            Log::info("checking : ". json_encode( $cityToShow)); 
+            Log::info("checking distinct : ". json_encode( $distinctCitiesArray)); 
                  $i = 1;
                 foreach($distinctCitiesArray as $key => $city){
                      
