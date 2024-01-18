@@ -99,22 +99,36 @@ class WhatsAppController extends Controller
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
             
-            $cityToShow = []; 
-            foreach($venuesListArr as $venue){
-                $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
+            $city_sequence_to_show = []; 
+
+            foreach ($venuesListArr as $venue) {
+                $city_sequence_to_show[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
+            }
+            
+            $i = 1;
+            foreach ($distinctCities as $key => $city) {
+                // Check if the city is present in the sequence array
+                if (isset($city_sequence_to_show[$city]) && $city_sequence_to_show[$city] >= $i) {
+                    $cityArr[$city] = trim($whatsAppEmoji[$i] . ' ' . $city);
+                    $options[] = $i;
+                }
+                $i++;
             }
 
-            // Log::info("checking : ". json_encode( $cityToShow)); 
-            // Log::info("checking distinct : ". json_encode( $distinctCities)); 
+
+
+            foreach($venuesListArr as $venue){
+                $city_sequence_to_show[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
+            }  
                  $i = 1;
                 foreach($distinctCities as $key => $city){
                      
-                    if($cityToShow[$city] >= $i){
+                    if($city_sequence_to_show[$city] >= $i){
                         $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
                         $options[] =  $i; 
                      } 
                     $i++; 
-            }
+                }
         
 
            
@@ -145,7 +159,8 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
 
-        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 2) { // send Dates here
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 2) { 
+            // send Dates here
 
             $step = $existingCustomer->steps + 1;
             $customer_response = $existingCustomer->customer_response; 

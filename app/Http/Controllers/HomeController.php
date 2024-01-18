@@ -825,6 +825,7 @@ class HomeController extends Controller
 
       $slotsArr = [];
       if ($isVisiable) {
+ 
 
         $slotArr = VenueSloting::where('venue_address_id', $id)
           ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
@@ -851,8 +852,7 @@ class HomeController extends Controller
           'status' => true,
           'message' => 'Slots are be available',
           'slots' =>  $slotsDataArr,
-          'timezone' => $currentTimezone,
-          'asd' =>  $slotsAppearAfter,
+          'timezone' => $currentTimezone, 
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'app' => App::environment('production')
         ]);
