@@ -115,7 +115,7 @@ class WhatsAppController extends Controller
                     $seq = $cityToShow[$city]; 
                    
                     $cityArr[$seq] = trim($whatsAppEmoji[$seq] . ' '. $city); 
-                    $options[] =  $seq;  
+                    $options[$seq] =  $seq;  
                     $i++; 
                         
                    
