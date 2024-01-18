@@ -122,7 +122,7 @@ class WhatsAppController extends Controller
                }
 
             //    $arr = ksort($cityArr); 
-               Log::info("checking options: ". json_encode( $cityArr)); 
+               Log::info("checking options: ".  $cityArr); 
                 //Log::info("checking cityArr: ". json_encode( $cityArr)); 
                 // Log::info("checking options: ". json_encode( $options)); 
 
