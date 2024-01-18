@@ -95,35 +95,39 @@ class WhatsAppController extends Controller
            
            
 
-            $cityArr =  $arr = [];
+            $cityArr = [];
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
             
             $cityToShow = []; 
-            $ksort =[]; 
             foreach($venuesListArr as $venue){
                 $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
-                $ksort[$venue->combinationData->city_sequence_to_show] = $venue->combinationData->city_name; 
             }
-
-           // ksort(); 
 
             // Log::info("checking : ". json_encode( $cityToShow)); 
             // Log::info("checking distinct : ". json_encode( $distinctCities)); 
-               $i = 1; 
+                 $i = 1;
                 foreach($distinctCities as $key => $city){
-                    $seq = $cityToShow[$city]; 
-                   
-                    $cityArr[$seq] = trim($whatsAppEmoji[$seq] . ' '. $city); 
-                    $options[$seq] =  $seq;  
-                    $i++; 
-                        
-                   
-               }  
-            ksort($cityArr);
-            ksort($options);
-             
-            $data = implode("\n", $cityArr);
+                        $seq = $cityToShow[$city];  
+                        $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
+                        $options[] =  $i;  
+                        $i++; 
+            }
+        
+
+           
+            // foreach ($venuesListArr as $venue) {
+            //     $cityToShow = $venue->combinationData->city_sequence_to_show;
+            //     $cityName = $venue->city.'-'.$venue->id; 
+            //     if (!isset($cityArr[$venue->city])) {
+            //         $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
+            //         $options[] = $i; 
+            //     }
+            //     $i++;
+            //   }
+            
+            
+            $data = implode("\n",$cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
