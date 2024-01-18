@@ -134,10 +134,9 @@ class WhatsAppController extends Controller
             //         $options[] = $i; 
             //     }
             //     $i++;
-            //   }
-            $sortedArr = ksort($ksort); 
+            //   } 
             
-            $data = implode("\n", $sortedArr);
+            $data = implode("\n", $cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
