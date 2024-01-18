@@ -104,31 +104,50 @@ class WhatsAppController extends Controller
             foreach ($venuesListArr as $venue) {
                 $city_sequence_to_show[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
             }
+
+            uasort($distinctCities, function ($a, $b) use ($city_sequence_to_show) {
+                $seqA = $city_sequence_to_show[$a] ?? PHP_INT_MAX;
+                $seqB = $city_sequence_to_show[$b] ?? PHP_INT_MAX;
             
+                return $seqA <=> $seqB;
+            });
+
+            $cityArr = [];
+            $options = [];
             $i = 1;
-            foreach ($distinctCities as $key => $city) {
-                // Check if the city is present in the sequence array
-                if (isset($city_sequence_to_show[$city]) && $city_sequence_to_show[$city] >= $i) {
-                    $cityArr[$city] = trim($whatsAppEmoji[$i] . ' ' . $city);
-                    $options[] = $i;
-                }
+
+            foreach ($distinctCities as $city) {
+                $cityArr[$city] = trim($whatsAppEmoji[$i] . ' ' . $city);
+                $options[] = $i;
                 $i++;
             }
 
 
+            
+            // $i = 1;
+            // foreach ($distinctCities as $key => $city) {
+            //     // Check if the city is present in the sequence array
+            //     if (isset($city_sequence_to_show[$city]) && $city_sequence_to_show[$city] >= $i) {
+            //         $cityArr[$city] = trim($whatsAppEmoji[$i] . ' ' . $city);
+            //         $options[] = $i;
+            //     }
+            //     $i++;
+            // }
 
-            foreach($venuesListArr as $venue){
-                $city_sequence_to_show[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
-            }  
-                 $i = 1;
-                foreach($distinctCities as $key => $city){
+
+
+            // foreach($venuesListArr as $venue){
+            //     $city_sequence_to_show[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
+            // }  
+            //      $i = 1;
+            //     foreach($distinctCities as $key => $city){
                      
-                    if($city_sequence_to_show[$city] >= $i){
-                        $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
-                        $options[] =  $i; 
-                     } 
-                    $i++; 
-                }
+            //         if($city_sequence_to_show[$city] >= $i){
+            //             $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
+            //             $options[] =  $i; 
+            //          } 
+            //         $i++; 
+            //     }
         
 
            
