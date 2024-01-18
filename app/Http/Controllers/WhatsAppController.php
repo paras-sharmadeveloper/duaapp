@@ -121,8 +121,8 @@ class WhatsAppController extends Controller
                    
                }
 
-               $arr = ksort($cityArr); 
-               Log::info("checking options: ". json_encode( $arr)); 
+            //    $arr = ksort($cityArr); 
+               Log::info("checking options: ". json_encode( $cityArr)); 
                 //Log::info("checking cityArr: ". json_encode( $cityArr)); 
                 // Log::info("checking options: ". json_encode( $options)); 
 
@@ -139,7 +139,7 @@ class WhatsAppController extends Controller
 
           
             
-            $data = implode("\n", $arr);
+            $data = implode("\n", $cityArr);
           
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
