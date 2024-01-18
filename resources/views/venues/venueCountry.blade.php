@@ -127,7 +127,7 @@
                                 <input type="text" name="city_name"  class="city_name form-control" value="{{ $venueCity->city_name }}">
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="city">Column to Show:</label> 
+                                <label for="city">Date Column to Show:</label> 
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="{{ $venueCity->columns_to_show }}">
                             </div>
                             <div class="col-md-2 form-group">
@@ -194,7 +194,7 @@
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="city">Column to Show:</label> 
+                                <label for="city">Date Column to Show:</label> 
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="">
                             </div>
 
