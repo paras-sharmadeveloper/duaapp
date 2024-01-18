@@ -712,7 +712,7 @@ class HomeController extends Controller
     }
     if ($type == 'get_date') {
 
-      $venuesListArr = VenueAddress::where('venue_id', $request->input('is'))
+      $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
       ->where('city',  $request->input('optional'))
       ->where('venue_date','>=', date('Y-m-d'))
       ->orderBy('venue_date', 'ASC')
