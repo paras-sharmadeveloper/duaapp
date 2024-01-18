@@ -109,11 +109,14 @@ class WhatsAppController extends Controller
                  $i = 1;
                 foreach($distinctCities as $key => $city){
                         $seq = $cityToShow[$city];  
-                        $cityArr[$city] = trim($whatsAppEmoji[$i] . ' '. $city); 
-                        $options[] =  $i;  
+                        $cityArr[$city] = trim($whatsAppEmoji[$seq] . ' '. $city); 
+                       
+                        $options[$seq] =  $seq;  
                         $i++; 
             }
             asort($cityArr);
+
+            asort($options);
         
 
            
