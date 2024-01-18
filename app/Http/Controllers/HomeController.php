@@ -712,15 +712,21 @@ class HomeController extends Controller
     }
     if ($type == 'get_date') {
 
-      $venuesListArr = VenueAddress::where([
-        'venue_id' => $id, 'city' => $request->input('optional')
-      ])
-        ->where(function ($query) use ($newDate) {
-          $query->where('venue_date', '>=', Carbon::now()->format('Y-m-d')) // Use '>=' instead of '>'
-            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-        })
-        ->where('venue_date', '>', now()->format('Y-m-d'))
-        ->get();
+      $venuesListArr = VenueAddress::where('venue_id', $request->input('is'))
+      ->where('city',  $request->input('optional'))
+      ->where('venue_date','>=', date('Y-m-d'))
+      ->orderBy('venue_date', 'ASC')
+      ->take(3)
+      ->get();
+
+      // $venuesListArr = VenueAddress::where([
+      //   'venue_id' => $id, 'city' => $request->input('optional')
+      // ]) ->where(function ($query) use ($newDate) {
+      //     $query->where('venue_date', '>=', Carbon::now()->format('Y-m-d')) // Use '>=' instead of '>'
+      //       ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+      //   })
+      //   ->where('venue_date', '>', now()->format('Y-m-d'))
+      //   ->get();
     
        
       $dataArr = [];
