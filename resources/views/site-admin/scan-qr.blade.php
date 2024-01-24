@@ -15,7 +15,7 @@
             <div id="scanResult">
                 <div class="alert"></div>
             </div>
-            <button class="btn btn-primary" id="startScan">Start Scan</button>
+            {{-- <button class="btn btn-primary" id="startScan">Start Scan</button> --}}
         </div>
     </div>
 </div>
@@ -65,10 +65,11 @@
 
             cameras.forEach(function (camera, index) {
                 const button = document.createElement('button');
-                button.classList.add('btn', 'btn-secondary', 'mx-2');
+                button.classList.add('btn', 'btn-primary', 'mx-2');
                 button.textContent = 'Camera ' + (index + 1);
 
                 button.addEventListener('click', function () {
+                    $("#videoContainer").removeClass('d-none');
                     scanner.start(camera);
                 });
 
@@ -77,17 +78,17 @@
         });
 
         // Open camera on button click
-        document.getElementById('startScan').addEventListener('click', function () {
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    $("#videoContainer").removeClass('d-none');
-                    scanner.start(cameras[0]);
-                } else {
-                    $("#videoContainer").addClass('d-none');
-                    alert('No cameras found.');
-                }
-            });
-        });
+        // document.getElementById('startScan').addEventListener('click', function () {
+        //     Instascan.Camera.getCameras().then(function (cameras) {
+        //         if (cameras.length > 0) {
+        //             $("#videoContainer").removeClass('d-none');
+        //             scanner.start(cameras[0]);
+        //         } else {
+        //             $("#videoContainer").addClass('d-none');
+        //             alert('No cameras found.');
+        //         }
+        //     });
+        // });
     });
 </script>
 @endsection
