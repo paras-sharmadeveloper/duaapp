@@ -71,7 +71,7 @@
                 const cameraType = index === 0 ? 'Front' : 'Back';
                  button.textContent = `Camera ${index + 1} (${cameraType})`;
                  console.log("camera",camera)
-                 button.setAttribute('data-camera', camera.deviceId);
+                 button.setAttribute('data-camera', camera.id);
                 // button.textContent = 'Camera ' + (index + 1);
 
                
