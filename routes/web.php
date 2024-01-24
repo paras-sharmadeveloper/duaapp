@@ -122,7 +122,7 @@ Route::get('/', function () {
 
 
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-Route::get('/dua', [HomeController::class, 'index'])->name('book.show');
+Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
  
@@ -135,6 +135,18 @@ Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatu
 Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
 Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
 Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
+
+Route::get('/qr-code/{id}',[BookingController::class, 'generateQRCode'])->name('qr.code');
+ 
+Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
+
+Route::post('/process-scan',[BookingController::class, 'processScan'])->name('process-scan');
+
+Route::get('/scan-qr',[BookingController::class, 'showQrScan'])->name('qr.show.scan');
+
+
+
+
 Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
 
 Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');

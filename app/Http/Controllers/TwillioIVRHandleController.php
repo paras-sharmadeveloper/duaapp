@@ -461,7 +461,10 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) { 
                 $slotId = $customer_option[$userInput];
                 $venueSlots = VenueSloting::find($slotId);
-                $venueAddress = $venueSlots->venueAddress;
+                $venueAddress = $venueSlots->venueAddress; 
+
+
+                 $venueCity =  $venueAddress->city;
                 // $tokenId = $venueSlots->token_id; 
                 $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
                 $countryCode = $this->findCountryByPhoneNumber($customer);
@@ -484,7 +487,7 @@ class TwillioIVRHandleController extends Controller
                     TwillioIvrResponse::where(['mobile' => $customer])->delete();
                 }
  
-
+                // $response->play($this->cityUrl . 'city_' . $city . '.wav');
 
                 for ($i = 1; $i <= 2; $i++) {
 

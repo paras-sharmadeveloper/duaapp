@@ -44,6 +44,10 @@ return new class extends Migration
             $table->integer('rejoin_venue_after')->default(0); 
             $table->integer('selfie_verification')->default(1); 
 
+
+            $table->integer('dua_slots')->default(0); 
+            $table->integer('dum_slots')->default(0);
+
             $table->text('status_page_note')->nullable();
             $table->string('timezone')->nullable();
             

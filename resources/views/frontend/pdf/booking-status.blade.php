@@ -319,10 +319,8 @@
 
                 <div class="d-flex justify-content-center " style="text-align: center">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
-                        <img src="{{ $logoDataUri }}" alt="">
-
-                        {{-- <img src="{{ $LogoUrl }}" alt=""> --}}
-                       
+                        <img src="{{ $logoDataUri }}" alt=""> 
+                        {{-- <img src="{{ $LogoUrl }}" alt=""> --}} 
                     </a>
                   
                 </div>
@@ -331,6 +329,8 @@
                 <h2 class="text-center"> Dua Appointment <span class="text-center text-success" style="color:green"> Confirmed
                 </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
                </h2>
+
+               
 
 
                 

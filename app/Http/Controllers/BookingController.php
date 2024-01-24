@@ -7,13 +7,70 @@ use App\Models\{Vistors, VenueSloting, VenueAddress, Ipinformation, Timezone};
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
- 
+
 use Illuminate\Support\Facades\App;
-use Mpdf\Mpdf; 
+use Mpdf\Mpdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class BookingController extends Controller
 {
     use OtpTrait;
+
+    public function showQrScan(Request $request)
+    {
+        return view('site-admin.scan-qr');
+    }
+
+   
+
+    public function processScan(Request $request)
+    {
+        // Process the scanned content here
+        $id = $request->input('id');
+
+        $update =[];
+        $vistor = Vistors::where(['booking_uniqueid' => $id ])->first(); 
+
+        $timezone = $vistor->venueSloting->venueAddress->timezone; 
+        $currentTime = Carbon::parse(date('Y-m-d H:i:s')); 
+        $now = $currentTime->timezone($timezone); 
+
+        $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+        $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+        
+         
+        if($request->input('type') == 'start'){
+            $update = [
+                'meeting_start_at' => $startAt,
+                'user_status' => 'in-meeting'
+            ]; 
+             
+        }else if($request->input('type') == 'end'){
+            $totalTimeSpent = $startAt->diffInSeconds($endAt);
+            $update = [
+                'meeting_ends_at' =>  $endAt,
+                'user_status' => 'meeting-end',
+                'meeting_total_time' => $totalTimeSpent
+            ];
+            
+        }else if($request->input('type') == 'verify'){
+            $update = [
+                'confirmed_at' => $now->format('Y-m-d H:i:s'),
+                'user_status' => 'admitted',
+                'is_available' => 'confirmed'
+            ];
+           
+        }
+        $vistor->update( $update);
+        return response()->json(['success' => true]); 
+
+        // Perform necessary actions based on the scanned content
+ 
+    }
+
+
+
     public function BookingCancle(Request $request, $id)
     {
         $vistor = [];
@@ -205,15 +262,32 @@ class BookingController extends Controller
 
         // Count bookings from the start time until the user's slot time
         $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg, $userSlotTime) {
-            $query->where('slot_time', '>=', $startTimemrg)
-                ->where('slot_time', '<', $userSlotTime);
+            // $query->where('slot_time', '>=', $startTimemrg)
+            //     ->where('slot_time', '<', $userSlotTime);
         })->count();
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
-        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking'));
+
+
+        $disk = 's3_general';
+        $imagePath = 'qrcodes/' . $id . '.png';
+        Storage::disk($disk)->put($imagePath, QrCode::size(300)->generate($id));
+
+        Storage::disk($disk)->url($imagePath);
+
+        $imageUrl = env('AWS_GENERAL_PATH'). $imagePath;
+ 
+
+        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking', 'imageUrl'));
     }
+
+
+  
+
 
     public function generatePDF($id)
     {
+        $url = route('user.verify', [$id]);
+        $qrCode = QrCode::size(200)->generate($url);
 
         $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
         if (!file_exists($fontFile)) {
@@ -223,20 +297,15 @@ class BookingController extends Controller
         // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die; 
 
         $mpdf = new Mpdf([
-            'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-            'fontdata' => [
-                'urdu' => [
-                    'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
-                    'I' => 'CalibriRegular.ttf',
-                ],
-            ],
+            // 'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+            // 'fontdata' => [
+            //     'urdu' => [
+            //         'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
+            //         'I' => 'CalibriRegular.ttf',
+            //     ],
+            // ],
             'format' => 'A4',
         ]);
-
-
-
-
-
 
 
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
@@ -250,12 +319,7 @@ class BookingController extends Controller
         $startTimemrg = $venueAddress->slot_starts_at_morning;
 
 
-        // Count bookings from the start time until the user's slot time
-        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg, $userSlotTime) {
-            $query->where('slot_time', '>=', $startTimemrg)
-                ->where('slot_time', '<', $userSlotTime);
-        })->count();
-        $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
+        // Count bookings from the start time until the user's slot time 
 
         if (App::environment('production')) {
             $LogoUrl = url('/assets/theme/img/logo.png');
@@ -266,30 +330,27 @@ class BookingController extends Controller
 
         // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
-        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number.'.pdf';
-        $bookingStatus = route('booking.status', [$userBooking->booking_uniqueid]); 
-        $bookUrl = route('book.show'); 
-        $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l') ; 
-        $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date)) ; 
-        $html = $this->PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking );
+        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number . '.pdf';
+        $bookingStatus = route('booking.status', [$userBooking->booking_uniqueid]);
+        $bookUrl = route('book.show');
+        $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
+        $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date));
+        $html = $this->PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking);
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName ,'D'); 
-
-
-         
- 
+        $mpdf->Output($fileName, 'D');
     }
 
 
 
 
-    private function PdfHtml($logoDataUri , $bookingStatus , $bookUrl ,   $eventDate , $venueDateTime ,$venueAddress,$userBooking ){
-        $txt = 'minutes'; 
-        if ($venueAddress->slot_duration == 1){
-            $txt = 'minute'; 
+    private function PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking)
+    {
+        $txt = 'minutes';
+        if ($venueAddress->slot_duration == 1) {
+            $txt = 'minute';
         }
-       
+
 
 
         return <<<HTML
@@ -345,8 +406,7 @@ class BookingController extends Controller
                             <div class="queue-number">
                                 Token # $userBooking->booking_number  
                                 <p>$userBooking->country_code   $userBooking->phone </p>
-                                <span>Your Appointment Time : </span> <br> 
-                                <span>($venueAddress->timezone )</span>
+                          
                             </div>
         
                             <h3>Appointment Duration</h3>
@@ -369,6 +429,4 @@ class BookingController extends Controller
         </section>
         HTML;
     }
-
-
 }

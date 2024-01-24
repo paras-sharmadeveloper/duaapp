@@ -90,8 +90,9 @@
                         $totalBookings = [];
                           
                         foreach($visitors as $visitor){
-                            
-                            $totalBookings[$visitor->slot->venue_address_id][] = $visitor->slot->id ; 
+                            if($slotCreated > 0){
+                                $totalBookings[$visitor->slot->venue_address_id][] = $visitor->slot->id ; 
+                            }  
                             
                         } 
                         

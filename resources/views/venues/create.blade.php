@@ -100,41 +100,7 @@
 
                     <form method="POST" action="{{ route('venues.store') }}">
                 @endif
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text select-2" id="inputGroupPrepend2">Select Country</span>
-                            <select class="form-control" name="venue_id" id="venue_id">
-                                <option>Select Country </option>
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}" @if (!empty($venueAddress) && $venueAddress->venue_id == $country->id) selected @endif>
-                                        {{ $country->country_name }}</option>
-                                @endforeach
-                            </select>
-                        </div> 
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend2">Select Combination</span>
-                            <select class="form-control" name="combination_id" id="combination_id">
-                                <option> Select Country First </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend2">Select Sahib-e-Dua</span>
-                            <select class="form-control" name="therapist_id">
-                                @foreach ($therapists as $therapist)
-                                    <option value="{{ $therapist->id }}" @if (!empty($venueAddress) && $venueAddress->therapist_id == $therapist->id) selected @endif>
-                                        {{ $therapist->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
@@ -150,8 +116,13 @@
 
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
-                            <span class="input-group-text">State </span>
-                            {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!}
+                            <span class="input-group-text">City </span>
+                            <select name="city" class="form-control"> 
+                                <option name="Lahore">Lahore </option>
+                                <option name="Islamabad" >Islamabad</option>
+                                <option name="Karachi" >Karachi</option>
+                            </select>
+                            {{-- {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!} --}}
 
                         </div>
                     </div>
@@ -159,8 +130,12 @@
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
-                            <span class="input-group-text">City </span>
-                            {!! Form::text('city', $venueAddress->city ?? '', ['class' => 'form-control', 'placeholder' => 'city' ,'id' =>'city_name','readonly'=>true]) !!}
+                            <span class="input-group-text">Date </span>
+                            {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Date',
+                                'min' => date('Y-m-d'),
+                            ]) !!}
 
                         </div>
                     </div>
@@ -187,20 +162,10 @@
 
 
                 <div class="row mt-3">
-                    <div class="col-md-6 mt-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Date </span>
-                            {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'Date',
-                                'min' => date('Y-m-d'),
-                            ]) !!}
-
-                        </div>
-                    </div>
+                    
 
 
-                    <div class="col-md-6 mt-4">
+                    {{-- <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Slot Duration</span>
                             {!! Form::number('slot_duration', $venueAddress->slot_duration ?? '', [
@@ -209,10 +174,35 @@
                             ]) !!}
 
                         </div>
+                    </div> --}}
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4 ">
+                        <div class="input-group">
+                            <span class="input-group-text">Dua Slots</span>
+                            {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Dua Slots',
+                                'max' => 1000
+                            ]) !!}
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">Dum Slots</span>
+                            {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Sum Slots',
+                                'min' => 1001,
+                                'max' => 2000
+                            ]) !!}
+
+                        </div>
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                {{-- <div class="row mt-3">
                     <div class="col-md-6 mt-4 ">
                         <div class="input-group">
                             <span class="input-group-text">starts at (Morning)</span>
@@ -233,8 +223,8 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="row mt-3">
+                </div> --}}
+                {{-- <div class="row mt-3">
 
                     <div class="col-md-6 mt-4 ">
                         <div class="input-group">
@@ -256,7 +246,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row mt-3">
                     <div class="col-md-3 mt-3">

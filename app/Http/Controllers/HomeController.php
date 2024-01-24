@@ -36,14 +36,22 @@ class HomeController extends Controller
   }
 
 
-  public function index()
+  public function index($locale='')
   {
+    if($locale){
+      App::setLocale($locale);
+    }else{
+      App::setLocale('en');
+    }
+   
+    // You can store the chosen locale in the user's preferences if needed
+ 
     $therapistRole = Role::where('name', 'therapist')->first();
     $VenueList = Venue::all();
     $countryList = Country::all();
     $therapists = $therapistRole->users;
     $timezones = Country::with('timezones')->get();
-    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones'));
+    return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones','locale'));
   }
 
   public function BookingSubmit(Request $request)
@@ -148,6 +156,11 @@ class HomeController extends Controller
       $booking->meeting_type = $venueAddress->type;
       $booking->user_timezone = $request->input('timezone', null);
       $booking->source = $source;
+      $booking->dua_type = $request->input('dua_type') ; 
+      $booking->lang = $request->input('lang','en') ; 
+
+      
+     
       
       // Save the booking record
       $booking->save();
@@ -688,16 +701,16 @@ class HomeController extends Controller
       foreach ($venuesListArr as $venuesList) {
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
-        $cityFlag = $venuesList->combinationData->city_image;
-        $seq = $venuesList->combinationData->city_sequence_to_show;
+      //  $cityFlag = $venuesList->combinationData->city_image;
+        // $seq = $venuesList->combinationData->city_sequence_to_show;
         if (!isset($dataArr['city'][$cityName])) {
           $dataArr['city'][$cityName] = [
             'name' => $cityName,
-            'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
+           // 'flag_path' => ($cityFlag) ?   env('AWS_GENERAL_PATH') . 'city_image/' . $cityFlag :  env('AWS_GENERAL_PATH') . 'flags/' .  $flagPath,
             'id' => $venuesList->venue->id,
             'type' => $venuesList->type,
             'venue_address_id' => $venuesList->id,
-            'seq' =>   $seq
+            // 'seq' =>   $seq
           ];
         }
       }
@@ -714,9 +727,22 @@ class HomeController extends Controller
 
       $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
       ->where('city',  $request->input('optional'))
-      ->where('venue_date','>=', date('Y-m-d'))
+      ->where('venue_date','=', date('Y-m-d'))
       ->orderBy('venue_date', 'ASC') 
       ->get();
+      
+      if(!empty($venuesListArr)){
+        
+         
+
+          return response()->json([
+            'status' =>  true , 
+          ]);
+      }else{
+          return response()->json([
+            'status' => false 
+          ]);
+      }
 
       // $venuesListArr = VenueAddress::where([
       //   'venue_id' => $id, 'city' => $request->input('optional')
@@ -755,6 +781,49 @@ class HomeController extends Controller
       ]);
     }
 
+    
+    if ($type == 'get_slot_book') {
+     // return date('Y-m-d'); 
+       $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
+      ->where('city',  $request->input('optional'))
+      ->where('venue_date','=', date('Y-m-d'))
+      ->orderBy('venue_date', 'ASC') 
+      ->first();
+
+     
+      
+      if(!empty($venuesListArr)){
+        
+         $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+        ->where(['type' => $request->input('duaType')])
+        ->orderBy('id', 'ASC')
+        ->select(['venue_address_id', 'token_id', 'id'])->first();
+
+        if($tokenIs){
+          return response()->json([
+            'status' =>  true , 
+            'token_id' => $tokenIs->token_id,
+            'slot_id' => $tokenIs->id
+          ]);
+        }else{
+          return response()->json([
+            'status' =>  false , 
+            'message' => "There is no token avilable",
+            'dt' =>$request->input('duaType'),
+            'dtd' =>$venuesListArr->id
+          ]);
+        }
+
+          
+      }else{
+        return response()->json([
+          'status' =>  false , 
+          'message' => "There is no venue for the Selected Date."
+        ]); 
+      }
+
+    }
 
 
     if ($type == 'get_slots') {
@@ -815,7 +884,6 @@ class HomeController extends Controller
           'message' => 'Slots not Found',
           'timezone' => $currentTimezone,
           'app' => App::environment('production'),
-
           // 'selfie' => ($venueAddress->selfie_verification == 1) ? true : false,
           'slots' => [],
         ]);

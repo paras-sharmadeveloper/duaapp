@@ -361,10 +361,16 @@
                             {{-- <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3> --}}
                             {{-- <p>{{ $userBooking->email }}</p> --}}
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
-                            <span>Your Appointment Time : </span> <br>
-                            <span>{{ date('g:i A', strtotime($userSlot->slot_time)) }} </span>
-                            <span>({{ $venueAddress->timezone }})</span>
+                            {{-- <span>Your Appointment Time : </span> <br> --}}
+                            {{-- <span>{{ date('g:i A', strtotime($userSlot->slot_time)) }} </span> --}}
+                            {{-- <span>({{ $venueAddress->timezone }})</span> --}}
                         </div>
+
+                        <div class="queue-qr-scan">
+                            <img src="{{ $imageUrl  }}">
+                        </div>
+
+                        
 
                         <h3>Appointment Duration</h3>
                         <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>

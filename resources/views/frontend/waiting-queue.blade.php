@@ -135,7 +135,7 @@
                     <thead>
                         <tr>
                             <th class="no_one">Token No.</th> 
-                            <th class="no_two">Status</th>
+                            {{-- <th class="no_two">Status</th> --}}
                         </tr>
 
                     </thead>
@@ -270,7 +270,7 @@
                             isRing = $("#ring"+item.booking_number).val();
                             // Check if console.log has not been triggered
                             if (isRing!='played') {
-                                console.log("One time",item.booking_number);
+                               //  console.log("One time",item.booking_number);
                                 playNotificationTune()
                         
                                  speakTokenNumber(item.booking_number)
@@ -285,10 +285,7 @@
                             tunePlayed = true;
                         }
 
-                        html += `<tr class="${className}">
-                            <td class="no_one">${item.booking_number}</td> 
-                            <td class="no_two">${textName}</td>
-                        </tr>`;
+                        html += `<tr class="${className}">  <td class="no_one">${item.booking_number}</td>   </tr>`;
                     })
                     $("#current-user-listing").html(html)
                 },

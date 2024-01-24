@@ -14,7 +14,9 @@ class SiteAdminController extends Controller
     public function ShowQueue(){
         $role = Auth::user()->roles->pluck('name')->first(); 
         if($role == 'admin'){
-            $venueAddress = VenueAddress::where(['type' =>'on-site'])->where('venue_date','>',date('Y-m-d'))->orderBy('venue_date','asc')
+            $venueAddress = VenueAddress::where(['type' =>'on-site'])
+           //  ->where('venue_date','>',date('Y-m-d'))
+            ->orderBy('venue_date','asc')
             ->get();  
         }else{
             $venueAddress = VenueAddress::where(['type' =>'on-site','siteadmin_id'=>Auth::user()->id])->get();  
@@ -36,7 +38,7 @@ class SiteAdminController extends Controller
             ->has('visitors') // Include only records with visitors
             ->get();
              
-       
+     
  
         return view('site-admin.queue-list',compact('venueSloting')); 
     }
@@ -94,7 +96,7 @@ class SiteAdminController extends Controller
                 return response()->json(['status' => true , 'data' => $visitors]); 
             }
 
-            //echo "<pre>"; print_r( $visitors); die;  
+            // echo "<pre>"; print_r( $visitors); die;  
         return view('frontend.waiting-queue',compact('visitors')); 
     }
 

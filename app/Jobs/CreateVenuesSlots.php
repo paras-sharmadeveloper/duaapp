@@ -19,10 +19,9 @@ class CreateVenuesSlots implements ShouldQueue
      */
     public $venueId;
     public $slotDuration;
-    public function __construct($venueId, $slotDuration)
+    public function __construct($venueId)
     {
-        $this->venueId = $venueId;
-        $this->slotDuration = $slotDuration;
+        $this->venueId = $venueId; 
     }
 
     /**
@@ -35,45 +34,76 @@ class CreateVenuesSlots implements ShouldQueue
 
         if (!empty($venueAddress)) {
 
-            $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
-            $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
+          //  $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
+          //  $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
+
+            $duaSlots = $venueAddress->dua_slots;
+            $dumSlots = $venueAddress->dum_slots;
+
+
 
             // if evening has set then 
+
     
-            if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
+            // if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
     
-                $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
-                $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
+            //     $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
+            //     $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
     
-                $currentTimeT = $startTimeevng;
-                $tokenId = 1; 
-                while ($currentTimeT < $endTimeEvn) {
-                    $slotTime = $currentTimeT->format('H:i');
-                    VenueSloting::create([
-                        'venue_address_id' => $this->venueId,
-                        'slot_time' => $slotTime,
-                        'token_id' => $tokenId,
-                    ]);
-                    $currentTimeT->addMinute($this->slotDuration);
-                    $tokenId++; 
-                    // Move to the next minute
-                }
+            //     $currentTimeT = $startTimeevng;
+            //     $tokenId = 1; 
+            //     while ($currentTimeT < $endTimeEvn) {
+            //         $slotTime = $currentTimeT->format('H:i');
+            //         VenueSloting::create([
+            //             'venue_address_id' => $this->venueId,
+            //             'slot_time' => $slotTime,
+            //             'token_id' => $tokenId,
+            //         ]);
+            //         $currentTimeT->addMinute($this->slotDuration);
+            //         $tokenId++; 
+            //         // Move to the next minute
+            //     }
     
-            } 
+            // } 
             // Create time slots
             // if morning has set then 
-            $currentTime = $startTime;
-            $tokenId = 1; 
-            while ($currentTime < $endTime) {
-                $slotTime = $currentTime->format('H:i');
+            // $currentTime = $startTime;
+          
+
+            for($token=1; $token<=$duaSlots; $token++){
+
                 VenueSloting::create([
                     'venue_address_id' => $this->venueId,
-                    'slot_time' => $slotTime,
-                    'token_id' => $tokenId,
+                    'slot_time' =>  date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'dua'
                 ]);
-                $currentTime->addMinute($this->slotDuration); // Move to the next minute
-                $tokenId++; 
+
             }
+
+
+            for($token=1000; $token<=$dumSlots; $token++){
+
+                VenueSloting::create([
+                    'venue_address_id' => $this->venueId,
+                    'slot_time' => date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'dum'
+                ]);
+            }
+ 
+
+
+            // while ($currentTime < $endTime) {
+            //     $slotTime = $currentTime->format('H:i');
+            //     VenueSloting::create([
+            //         'venue_address_id' => $this->venueId,
+            //         'slot_time' => $slotTime,
+            //         'token_id' => $tokenId,
+            //     ]);
+            //     $currentTime->addMinute($this->slotDuration); // Move to the next minute
+            //     $tokenId++; 
+            // }
              
         }
  

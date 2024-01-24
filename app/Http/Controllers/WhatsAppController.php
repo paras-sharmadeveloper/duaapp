@@ -116,19 +116,7 @@ class WhatsAppController extends Controller
             }
             asort($cityArr);
 
-            asort($options);
-        
-
-           
-            // foreach ($venuesListArr as $venue) {
-            //     $cityToShow = $venue->combinationData->city_sequence_to_show;
-            //     $cityName = $venue->city.'-'.$venue->id; 
-            //     if (!isset($cityArr[$venue->city])) {
-            //         $cityArr[$venue->city] = trim($whatsAppEmoji[$i] . ' '. $venue->city); 
-            //         $options[] = $i; 
-            //     }
-            //     $i++;
-            //   }
+            asort($options); 
             
             
             $data = implode("\n",$cityArr);

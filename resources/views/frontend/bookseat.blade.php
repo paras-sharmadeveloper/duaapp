@@ -319,7 +319,7 @@
         }
 
         .btn.next,
-        #startBooking {
+        #startBooking,.language-selection {
             background: #f9d20a !important;
         }
 
@@ -760,12 +760,12 @@
                     <div class="col-md-12 text-center wizard-form">
                         <div class="wrapper">
                             <ul class="status-line" id="progress-bar">
-                                <li class="active">Sahib-e-Dua</li>
+                                <li class="active">Dua Option</li>
                                 {{-- <li>Meeting Type</li> --}}
                                 {{-- <li>Country</li> --}}
                                 <li>City</li>
-                                <li>Date</li>
-                                <li>Time</li>
+                                {{-- <li>Date</li> --}}
+                                {{-- <li>Time</li> --}}
                                 <li>Finish</li>
                             </ul>
                         </div>
@@ -775,7 +775,29 @@
                         <!-- /wizard -->
                     </div>
                 </div>
-                <div class="row justify-content-center" id="booknowStart">
+
+                @if(empty($locale))
+
+                    <div class="row justify-content-center"  id="Lang-Section">
+                    
+                        <div class="col-lg-12 col-md-12">
+                            @foreach (['en'=> 'English', 'ur'=> 'اردو'] as $key => $lang)
+
+                            <div class="row row-cols-3 d-flex justify-content-center">
+                                <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info language-selection"
+                                    data-lang="{{ route('book.show',[ $key]) }}">
+                                    </span>
+                                     <b> {{ $lang  }}   </b> 
+                                    
+                                </button>
+                                {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
+                            </div>
+                            @endforeach
+                        </div>
+                    </div> 
+                    @else
+
+                    <div class="row justify-content-center" id="booknowStart">
 
                     <div class="col-lg-12 col-md-12">
 
@@ -785,44 +807,42 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                     style="display:none">
                                 </span>
-                                <b> Start Booking </b>
+                                <b> {{ trans('messages.startbooking') }} </b>
                             </button>
-                            {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
-                        </div>
+                         </div>
                     </div>
                 </div>
+
+
+                @endif
+                
+
+                
 
 
                 <div class="row justify-content-center form-business" id="cardSection" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select Sahib-e-Dua</h3>
+                            <h3 class="fw-bold text-center">{{ trans('messages.select-option') }}</h3>
 
                             <label></label>
                         </div>
 
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
+                        <p class="error d-none text-center alertBox">{{ trans('messages.select-option-card') }}</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripist-main">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripis1t-main">
 
-                            @foreach ($therapists as $therapist)
-                                {{-- <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
-                                    <div class="card text-center h-60  shadow-sm thripist-section"
-                                        data-id="{{ $therapist->id }}">
-                                        @if (!empty($therapist->profile_pic))
-                                            <img src="{{ env('AWS_GENERAL_PATH') . 'images/' . $therapist->profile_pic }}"
-                                                alt="Profile">
-                                        @else
-                                            <img src="{{ asset('assets/theme/img/avatar.png') }}">
-                                        @endif
-                                        
+                            @foreach (['dua' => 'Dua' , 'dum' => 'Dum'] as $key => $dua)
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
+                                    <div class="card text-center h-60  shadow-sm dua-section"
+                                        data-id="{{ $key }}"> 
                                         <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">{{ $therapist->name }}</h5>
+                                            <h5 class="card-title title-binding">{{ trans('messages.'. $key ) }}</h5>
                                             <p class="card-text">
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             @endforeach
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
@@ -910,20 +930,18 @@
                 </div>
                 <!-- /col -->
 
-                <div class="row justify-content-center form-business" style="display: none">
-                    <!-- col -->
+                {{-- <div class="row justify-content-center form-business" style="display: none">
+                    
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Event Date</h3>
                             <label></label>
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                        <!-- cards -->
+                      
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
 
-                        </div>
-                        <!-- /cards -->
-                        <!-- NEXT BUTTON-->
+                        </div> 
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
@@ -931,29 +949,24 @@
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button>
-                        {{-- <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info">Next</button> --}}
-                        <!-- /NEXT BUTTON-->
-                    </div>
-                    <!-- /col -->
-                </div>
+                        </button> 
+                    </div> 
+                </div> --}}
 
                 <!-- row -->
-                <div class="row justify-content-center form-business sloting-main" style="display: none">
-                    <!-- col -->
+                {{-- <div class="row justify-content-center form-business sloting-main" style="display: none">
+                   
                     <div class="col-lg-12 col-md-12 slot-in">
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Event Slot</h3>
                             <label></label>
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                        <!-- cards -->
+                      
                         <div id="slot-information-user">
                             <label> Your Current Timezone:</label>
                             <select class="change-timezone form-control" name="timezone" class="js-states form-control"
-                                id="timezone">
-                                {{-- <option> Select Timezone </option> --}}
+                                id="timezone"> 
                                 @foreach ($timezones as $country)
                                     @foreach ($country->timezones as $timezone)
                                         <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
@@ -967,9 +980,7 @@
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner"
                             id="slot-listing">
 
-                        </div>
-                        <!-- /cards -->
-                        <!-- NEXT BUTTON-->
+                        </div> 
                         <button type="button"
                             class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
 
@@ -981,14 +992,9 @@
                             </span>
                             <b> Next</b>
                         </button>
-
-
-                        {{-- <button type="button"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm" id="slot-next">Next</button> --}}
-                        <!-- /NEXT BUTTON-->
-                    </div>
-                    <!-- /col -->
-                </div>
+ 
+                    </div> 
+                </div> --}}
                 <!-- /row -->
                 <!-- row -->
                 <div class="row justify-content-center py-5 form-business" style="display: none">
@@ -1013,16 +1019,15 @@
                     <div class="col-lg-12 col-md-12" id="successForm">
                         <div class="mb-5">
                             <!-- Final step -->
-                            <div class="alert alert-primary text-center d-none" role="alert">
-                                {{-- <h5 class="p-4 cusmhtn">Finally We are going to submit your information if you want to continue
-                                    that
-                                    please click on the finish button to finish up your Working process.</h5> --}}
+                            <div class="alert alert-warning text-center d-none" role="alert"> 
                             </div>
 
                             <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
+                                <input type="hidden" name="dua_type" id="dua_type" value="">
+                                <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                                 {{-- <div class="row g-3 mb-3">
 
                                     <div class="col col-md-6">
@@ -1169,22 +1174,26 @@
 
                                 </div>  --}}
 
+                                <input type="hidden" name="timezone" id="timezone-hidden">
+
+                                <div class="disclaimer">
+                                    <p style="font-size:12px">
+                                        By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms
+                                        of Service and give your prior expressed written consent to KahayFaqeer.org to send you
+                                        appointment notifications by telephone calls, emails, and text messages to the number and
+                                        email address you provided above. You agree and understand that your consent is not a
+                                        condition of purchase of any goods or services and that you may revoke your consent at any
+                                        time. You understand that standard message and data rates may apply.
+                                    </p>
+                                </div>
+
 
                         </div>
-                        <input type="hidden" name="timezone" id="timezone-hidden">
+                       
                         {{-- <input type="hidden" name="selfie_required" id="selfie_required" value="yes"> --}}
 
 
-                        <div class="disclaimer">
-                            <p style="font-size:12px">
-                                By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms
-                                of Service and give your prior expressed written consent to KahayFaqeer.org to send you
-                                appointment notifications by telephone calls, emails, and text messages to the number and
-                                email address you provided above. You agree and understand that your consent is not a
-                                condition of purchase of any goods or services and that you may revoke your consent at any
-                                time. You understand that standard message and data rates may apply.
-                            </p>
-                        </div>
+                       
 
                         <!-- NEXT BUTTON-->
                         <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
@@ -1219,9 +1228,17 @@
 
 @section('page-script')
     <script>
+            var translations = {!! json_encode(trans('messages')) !!};
+
         $(".form-business").hide();
         var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}";
         var NoImage = "{{ asset('assets/theme/img/avatar.png') }}";
+
+        $(".language-selection").click(function(){
+            var link = $(this).attr('data-lang'); 
+
+            location.href= link
+        })
 
 
         $("#startBooking").click(function() {
@@ -1357,30 +1374,46 @@
                         var cardId = $activeCard.attr("data-id");
                         var CityName = $activeCard.attr("data-city");
                         var event = $activeCard;
+                        console.log("$activeCard",)
+                        
+                        if (event.hasClass('dua-section')) { 
+                            $("#dua_type").val($activeCard.attr("data-id"));
+                            getAjax(cardId, 'get_city', $this)
+                            // getAjax(cardId, 'get_country', $this) 
+                        } 
+                        // else if (event.hasClass('type-selection')) {
+                        //     getAjax(cardId, 'get_country', $this)
+                        // }
 
                         // if (event.hasClass('thripist-section')) { )
                         //     getAjax(cardId, 'get_country', $this) 
                         // } else if (event.hasClass('type-selection')) {
                         //     getAjax(cardId, 'get_country', $this)
                         // } 
-                        if (event.hasClass('city-selection')) {
-
-                            getAjax(cardId, 'get_city', $this)
-                        } else if (event.hasClass('date-selection')) {
-                            getAjax(cardId, 'get_date', $this, CityName)
+                        // if (event.hasClass('city-selection')) {
+                        //     $("#dua_type").val(getValue);
+                            
+                        //     getAjax(cardId, 'get_city', $this)
+                        // } 
+                        else if (event.hasClass('date-selection')) {
+                           var duaType = $("#dua_type").val();
+                            getAjax(cardId, 'get_slot_book', $this, CityName , duaType)
                             //  $("#slot_id_booked").val(cardId);
-                        } else if (event.hasClass('slot-selection')) {
-                            $("#slot-information-user").attr('data-id', cardId);
-                            getAjax(cardId, 'get_slots', $this)
-                            // $("#slot_id_booked").val(cardId);
-                        } else if (event.hasClass('slot-capture')) {
-                            $("#slot_id_booked").val(cardId);
-                            $this.parents(".row").fadeOut("slow", function() {
-                                $(this).next(".row").fadeIn();
-                                $(this).next(".row").find('.head>label').text(oldTitle)
+                            // getAjax(cardId, 'get_date', $this, CityName)
+                            //  $("#slot_id_booked").val(cardId);
+                        } 
+                        // else if (event.hasClass('slot-selection')) {
+                        //     $("#slot-information-user").attr('data-id', cardId);
+                        //     getAjax(cardId, 'get_slots', $this)
+                        //     // $("#slot_id_booked").val(cardId);
+                        // } else if (event.hasClass('slot-capture')) {
+                        //     $("#slot_id_booked").val(cardId);
+                        //     $this.parents(".row").fadeOut("slow", function() {
+                        //         $(this).next(".row").fadeIn();
+                        //         $(this).next(".row").find('.head>label').text(oldTitle)
 
-                            });
-                        }
+                        //     });
+                        // }
 
 
                         if (oldTitle == '') {
@@ -1459,7 +1492,7 @@
         });
          
 
-        function getAjax(id, type, nextBtn, optional = '') {
+        function getAjax(id, type, nextBtn, optional = '' , duaType ='') {
 
             var loadingText = nextBtn.attr('data-loading');
             var successText = nextBtn.attr('data-success');
@@ -1475,7 +1508,8 @@
                     "id": id,
                     "type": type,
                     'optional': optional,
-                    "timezone": $("#timezone-hidden").val()
+                    "timezone": $("#timezone-hidden").val(),
+                    'duaType' : duaType
                 },
                 dataType: "json",
                 headers: {
@@ -1557,12 +1591,12 @@
  
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
-                                    meetingType = item.name;
+                                    meetingType = translations[item.name] || item.name; 
                                 }
-
+                                // <img src="${item.flag_path}" alt="Flag Image"> 
                                 city += `<div data-sq="${item.seq}" class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                         <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
-                                            <img src="${item.flag_path}" alt="Flag Image"> 
+                                            
                                             <div class="card-body px-0">
                                                 <h5 class="card-title title-binding">${meetingType}</h5>
                                                 
@@ -1583,92 +1617,123 @@
 
 
                     }
-                    if (type == 'get_date') {
 
-                        var dAte = '';
+                 
 
-                        if (response.status) {
-                            //  console.log("response",response)
-                            var coulmtoShow = response.data.columnToShow;
+                    if(type == 'get_slot_book'){
+                        var dAte=''; 
+        
+                        if (response.token_id) {
+                            $("#booking-form").show();
+                            $("#submitBtn").show();
+
+
+                            $("#slot_id_booked").val(response.slot_id);
+                            $("#successForm").find(".alert").text(response.message).addClass('d-none')
+                        }else if (response.status == false) {
+                            dAte = '<p class="no-data">'+response.message+'</p>';
+
+                            $("#booking-form").hide();
+                            $("#submitBtn").hide();
+                            $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+                            
+                        }else if (response.status == false) {
+                            $("#booking-form").hide();
+                            $("#submitBtn").hide();
+                            $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+
+
+                            dAte = '<p class="no-data">'+response.message+'</p>';
+                            
+                        } 
+                        $("#date-listing").html(dAte);
+                    }
+                    // if (type == 'get_date') {
+
+                    //     var dAte = '';
+
+                    //     if (response.status) {
+                    //         //  console.log("response",response)
+                    //         var coulmtoShow = response.data.columnToShow;
                            
 
 
                             
-                            //  console.log("coulmtoShow",coulmtoShow)
-                            var count = 1;
-                            $.each(response.data.date, function(key, item) {
+                    //         //  console.log("coulmtoShow",coulmtoShow)
+                    //         var count = 1;
+                    //         $.each(response.data.date, function(key, item) {
                                 
                                  
-                                if (coulmtoShow >= count ) {
-                                    dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
-                                        <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                                            <img src="${item.flag_path}" alt="Flag Image"> 
-                                            <div class="card-body px-0">
-                                                <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                }
+                    //             if (coulmtoShow >= count ) {
+                    //                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
+                    //                     <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
+                    //                         <img src="${item.flag_path}" alt="Flag Image"> 
+                    //                         <div class="card-body px-0">
+                    //                             <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                    //                         </div>
+                    //                     </div>
+                    //                 </div>`;
+                    //             }
 
 
-                                count++;
+                    //             count++;
 
 
-                            })
+                    //         })
 
-                        } else {
-                            dAte = '<p class="no-data"> No Data Found </p>';
-                        }
-                        nextBtn.find('b').text(defaultText)
-                        $("#date-listing").html(dAte);
+                    //     } else {
+                    //         dAte = '<p class="no-data"> No Data Found </p>';
+                    //     }
+                    //     nextBtn.find('b').text(defaultText)
+                    //     $("#date-listing").html(dAte);
 
 
-                    }
+                    // }
 
-                    if (type == 'get_slots') {
-                        var html = '';
-                        if (response.selfie) {
-                            // $("#selfie_required").val('yes')
-                            $("#make-selfie-area").show();
-                        } else {
-                            $("#make-selfie-area").hide();
-                            // $("#selfie_required").val('no') 
-                        }
-                        $("#timezone").val(response.timezone).trigger("change");
+                    // if (type == 'get_slots') {
+                    //     var html = '';
+                    //     if (response.selfie) {
+                    //         // $("#selfie_required").val('yes')
+                    //         $("#make-selfie-area").show();
+                    //     } else {
+                    //         $("#make-selfie-area").hide();
+                    //         // $("#selfie_required").val('no') 
+                    //     }
+                    //     $("#timezone").val(response.timezone).trigger("change");
 
-                        if (response.status) {
-                            $.each(response.slots, function(key, item) {
-                                html += `<div class="col col-lg-3 col-md-6">
-                                <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
+                    //     if (response.status) {
+                    //         $.each(response.slots, function(key, item) {
+                    //             html += `<div class="col col-lg-3 col-md-6">
+                    //             <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
                                     
-                                    <div class="card-body px-0">
-                                        <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
-                                        <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
+                    //                 <div class="card-body px-0">
+                    //                     <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
+                    //                     <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
                                         
-                                    </div>
-                                </div>
-                                </div>`;
-                            });
-                            $("#slot-information-user").find('label').text("Your Current Timezone:" + response
-                                .timezone);
+                    //                 </div>
+                    //             </div>
+                    //             </div>`;
+                    //         });
+                    //         $("#slot-information-user").find('label').text("Your Current Timezone:" + response
+                    //             .timezone);
 
-                            $("#timezone-hidden").val(response.timezone)
-                            $("#slot-listing").html(html).find(".loader").hide();
-                            $(".confirm").show();
-                            $(".back").show();
-                            nextBtn.find('b').text(defaultText)
-                        } else {
-                            $("#slot-listing").html("<h1>" + response.message + "</h1>");
-                            $(".confirm").hide();
-                            $(".back").show();
-                            nextBtn.find('b').text('error')
-                            setTimeout(() => {
-                                nextBtn.find('b').text(defaultText)
-                            }, 2500);
-                        }
+                    //         $("#timezone-hidden").val(response.timezone)
+                    //         $("#slot-listing").html(html).find(".loader").hide();
+                    //         $(".confirm").show();
+                    //         $(".back").show();
+                    //         nextBtn.find('b').text(defaultText)
+                    //     } else {
+                    //         $("#slot-listing").html("<h1>" + response.message + "</h1>");
+                    //         $(".confirm").hide();
+                    //         $(".back").show();
+                    //         nextBtn.find('b').text('error')
+                    //         setTimeout(() => {
+                    //             nextBtn.find('b').text(defaultText)
+                    //         }, 2500);
+                    //     }
 
 
-                    }
+                    // }
                     nextBtn.find('span').hide()
                     var oldTitle = $("#remeber-steps-app").val();
 
@@ -1682,9 +1747,7 @@
 
                 }
             });
-
-
-
+            
 
         }
     </script>
