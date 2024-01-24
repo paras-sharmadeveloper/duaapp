@@ -65,8 +65,10 @@
 
             cameras.forEach(function (camera, index) {
                 const button = document.createElement('button');
-                button.classList.add('btn', 'btn-primary', 'mx-2');
-                button.textContent = 'Camera ' + (index + 1);
+                button.classList.add('btn', 'btn-primary', 'mx-2 py-3');
+                const cameraType = index === 0 ? 'Front' : 'Back';
+                 button.textContent = `Camera ${index + 1} (${cameraType})`;
+                // button.textContent = 'Camera ' + (index + 1);
 
                 button.addEventListener('click', function () {
                     $("#videoContainer").removeClass('d-none');
