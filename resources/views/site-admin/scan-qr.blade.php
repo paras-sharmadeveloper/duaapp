@@ -33,6 +33,8 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+
+
         const videoContainer = document.getElementById('videoContainer');
         const scanResult = document.getElementById('scanResult');
         let scanner = null;
@@ -68,29 +70,24 @@
                 button.classList.add('btn', 'btn-primary', 'mx-2' ,'camera-btn' ,'py-2');
                 const cameraType = index === 0 ? 'Front' : 'Back';
                  button.textContent = `Camera ${index + 1} (${cameraType})`;
+                 button.setAttribute('data-camera', camera.deviceId);
                 // button.textContent = 'Camera ' + (index + 1);
 
-                button.addEventListener('click', function () {
-                    $("#videoContainer").removeClass('d-none');
-                    scanner.start(camera);
-                });
+               
 
                 cameraButtonsContainer.appendChild(button);
             });
         });
 
-        // Open camera on button click
-        // document.getElementById('startScan').addEventListener('click', function () {
-        //     Instascan.Camera.getCameras().then(function (cameras) {
-        //         if (cameras.length > 0) {
-        //             $("#videoContainer").removeClass('d-none');
-        //             scanner.start(cameras[0]);
-        //         } else {
-        //             $("#videoContainer").addClass('d-none');
-        //             alert('No cameras found.');
-        //         }
-        //     });
-        // });
+        $(".camera-btn").click(function(){
+            var camera = $(this).attr('data-camera')
+            $("#videoContainer").removeClass('d-none');
+            scanner.start(camera);
+        }); 
+
+        
+
+       
     });
 </script>
 @endsection
