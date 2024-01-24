@@ -73,6 +73,8 @@
       // Open camera on button click
       document.getElementById('startScan').addEventListener('click', function () {
         Instascan.Camera.getCameras().then(function (cameras) {
+            console.log("cameras",cameras)
+            alert(cameras)
           if (cameras.length > 0) {
             $("#videoContainer").removeClass('d-none')
             scanner.start(cameras[0]);
