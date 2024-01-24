@@ -76,7 +76,11 @@
           if (cameras.length > 0) {
             $("#videoContainer").removeClass('d-none')
             scanner.start(cameras[0]);
+          } else if (cameras.length > 1) {
+            $("#videoContainer").removeClass('d-none')
+            scanner.start(cameras[1]);
           } else {
+            
             $("#videoContainer").addClass('d-none')
             alert('No cameras found.');
           }
