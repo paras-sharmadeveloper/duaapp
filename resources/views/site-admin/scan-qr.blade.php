@@ -70,6 +70,7 @@
                 button.classList.add('btn', 'btn-primary', 'mx-2' ,'camera-btn' ,'py-2');
                 const cameraType = index === 0 ? 'Front' : 'Back';
                  button.textContent = `Camera ${index + 1} (${cameraType})`;
+                 console.log("camera",camera)
                  button.setAttribute('data-camera', camera.deviceId);
                 // button.textContent = 'Camera ' + (index + 1);
 
