@@ -65,7 +65,7 @@
 
             cameras.forEach(function (camera, index) {
                 const button = document.createElement('button');
-                button.classList.add('btn', 'btn-primary camera-btns', 'mx-2');
+                button.classList.add('btn', 'btn-primary', 'mx-2' ,'camera-btn' ,'py-2');
                 const cameraType = index === 0 ? 'Front' : 'Back';
                  button.textContent = `Camera ${index + 1} (${cameraType})`;
                 // button.textContent = 'Camera ' + (index + 1);
