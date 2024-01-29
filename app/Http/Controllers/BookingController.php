@@ -63,7 +63,7 @@ class BookingController extends Controller
            
         }
         $vistor->update( $update);
-        return response()->json(['success' => true]); 
+        return response()->json(['success' => true , 'token' => $vistor->slot->token_id ]); 
 
         // Perform necessary actions based on the scanned content
  
