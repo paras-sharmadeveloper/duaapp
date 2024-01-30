@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('city')->nullable(); 
             $table->text('address');
             $table->date('venue_date'); 
-            $table->time('slot_starts_at_morning');
-            $table->time('slot_ends_at_morning');
+            $table->time('slot_starts_at_morning')->nullable();
+            $table->time('slot_ends_at_morning')->nullable();
 
             $table->time('slot_starts_at_evening')->nullable();
             $table->time('slot_ends_at_evening')->nullable();
