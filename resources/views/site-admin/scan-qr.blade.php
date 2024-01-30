@@ -57,7 +57,6 @@
           success: function (response) {
             // Handle success
             if(response.success){
-               
                 $("#scanResult").find(".alert").addClass('alert-success').removeClass('alert-danger').text("Confirmed. Token Number "+response.token);
             }else{
                 $("#scanResult").find(".alert").addClass('alert-danger').removeClass('alert-success').text("Not vaild or expired");   
