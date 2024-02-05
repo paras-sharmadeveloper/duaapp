@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('venue_id');
             $table->unsignedBigInteger('therapist_id');
             $table->unsignedBigInteger('siteadmin_id');
-            $table->unsignedBigInteger('combination_id');
+            $table->unsignedBigInteger('combination_id')->nullable();
             
             $table->string('state')->nullable();
             $table->string('city')->nullable(); 

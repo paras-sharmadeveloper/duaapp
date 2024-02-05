@@ -3,7 +3,7 @@
 @section('content')
 
 
- 
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -35,15 +35,15 @@
 
 <script>
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     document.addEventListener('DOMContentLoaded', function () {
       const videoContainer = document.getElementById('videoContainer');
       const scanResult = document.getElementById('scanResult');
       let scanner = null;
-  
+
       // Initialize instascan
       scanner = new Instascan.Scanner({ video: videoContainer });
       console.log("scanner",scanner)
@@ -57,11 +57,14 @@
           success: function (response) {
             // Handle success
             if(response.success){
+                alert("verified")
                 $("#scanResult").find(".alert").addClass('alert-success').removeClass('alert-danger').text("Confirmed. Token Number "+response.token);
             }else{
-                $("#scanResult").find(".alert").addClass('alert-danger').removeClass('alert-success').text("Not vaild or expired");   
+                alert("Not verified")
+
+                $("#scanResult").find(".alert").addClass('alert-danger').removeClass('alert-success').text("Not vaild or expired");
             }
-           
+
           },
           error: function (error) {
             // Handle error
@@ -69,7 +72,7 @@
           }
         });
       });
-  
+
       // Open camera on button click
       document.getElementById('startScan').addEventListener('click', function () {
         Instascan.Camera.getCameras().then(function (cameras) {
@@ -82,7 +85,7 @@
             $("#videoContainer").removeClass('d-none')
             scanner.start(cameras[1]);
           } else {
-            
+
             $("#videoContainer").addClass('d-none')
             alert('No cameras found.');
           }
