@@ -91,7 +91,7 @@ class WhatsAppController extends Controller
                     'customer_number' => $userPhoneNumber,
                     'customer_response' => $Respond,
                     'bot_reply' =>  $message,
-                    'data_sent_to_customer' => null,
+                    'data_sent_to_customer' => json_encode($options),
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => $step,
                     'response_options' => implode(',', $options)
@@ -112,7 +112,7 @@ class WhatsAppController extends Controller
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
-                'data_sent_to_customer' => null,
+                'data_sent_to_customer' => json_encode($options),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
                 'response_options' => implode(',', $options)
