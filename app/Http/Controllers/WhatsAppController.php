@@ -58,6 +58,8 @@ class WhatsAppController extends Controller
         }
 
         if (empty($existingCustomer)) {
+
+            // Choose Language
             $step = 0;
             $data = '';
             $message = $this->WhatsAppbotMessages($data, $step);
@@ -76,14 +78,14 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
         }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
-
+              // Welcome  Message
                 $step = $existingCustomer->steps + 1;
                 $customer_response = $Respond;
 
                 $lang = ($Respond == 1 ) ? 'eng' : 'urdu';
                 $message = $this->WhatsAppbotMessages('', $step , $lang );
                 $this->sendMessage($userPhoneNumber, $message);
-                $options = ['1','2'];
+                $options = ['1'];
                 $dataArr = [
                     'lang' => $lang,
                     'customer_number' => $userPhoneNumber,
@@ -96,11 +98,11 @@ class WhatsAppController extends Controller
                 ];
                 WhatsApp::create($dataArr);
         } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 1 )) {
-
+             // Welcome  Dua Type
             $step = $existingCustomer->steps + 1;
             $customer_response = $Respond;
             $lang =  $existingCustomer->lang;
-            $options = ['1'];
+            $options = ['1','2'];
             $message = $this->WhatsAppbotMessages('', $step , $lang );
             $this->sendMessage($userPhoneNumber, $message);
 
@@ -117,7 +119,7 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
     }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && $existingCustomer->steps == 2 ) {
-
+          //   City
             $step = $existingCustomer->steps + 1;
             $lang =  $existingCustomer->lang;
 
@@ -175,8 +177,8 @@ class WhatsAppController extends Controller
             ];
             WhatsApp::create($dataArr);
         } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) {
-            // send Dates here
 
+              // Seat Booked Here
             $dua_option = $existingCustomer->dua_option;
 
             $step = $existingCustomer->steps + 1;
