@@ -323,45 +323,7 @@ class WhatsAppController extends Controller
             }
 
 
-            $VenueDates = [];
-            $i = 1;
-            foreach ($venuesListArr as $venueDate) {
-                $columnToShow = $venueDate->combinationData->columns_to_show;
-                // $venueDate = $venueDate->venue_date;
-                Log::info('Received venue_date: ' . $venueDate->venue_date);
-                Log::info('Received slot_starts_at_morning: ' . $venueDate->slot_starts_at_morning);
-                $venueStartTime = Carbon::parse($venueDate->venue_date . ' ' . $venueDate->slot_starts_at_morning);
 
-                if ($venueStartTime <=  Carbon::now() && $columnToShow >= $i) {
-                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i] . ' ' . $venueDate->venue_date);
-                    $options[] = $i;
-                    $i++;
-                }
-                // else{
-                //     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' El' .$venueDate->venue_date);
-                // }
-                else if ($columnToShow >= $i && $venueDate->venue_date > Carbon::now()->format('Y-m-d')) {
-                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i] . ' ' . $venueDate->venue_date);
-                    $options[] = $i;
-                    $i++;
-                }
-            }
-            $data = implode("\n", $VenueDates);
-            $message = $this->WhatsAppbotMessages($data, $step);
-
-
-            $this->sendMessage($userPhoneNumber, $message);
-
-            $dataArr = [
-                'customer_number' => $userPhoneNumber,
-                'customer_response' => $Respond,
-                'bot_reply' =>  $message,
-                'data_sent_to_customer' => json_encode($VenueDates),
-                'last_reply_time' => date('Y-m-d H:i:s'),
-                'steps' => $step,
-                'response_options' => implode(',', $options)
-            ];
-            WhatsApp::create($dataArr);
         } else{
             $optionss = $existingCustomer->data_sent_to_customer;
 
