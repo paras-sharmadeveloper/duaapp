@@ -354,6 +354,24 @@ class WhatsAppController extends Controller
                 'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
+        } else{
+            $optionss = $existingCustomer->data_sent_to_customer;
+
+            if(empty($optionss)){
+                $data = $whatsAppEmoji[1];
+            }else{
+                $data = json_decode($optionss , true);
+                $data = implode("\n", $data);
+            }
+
+
+            $message = <<<EOT
+
+            Please press the correct number as below
+            $data
+
+            EOT;
+            $this->sendMessage($userPhoneNumber, $message);
         }
 
     }
@@ -519,8 +537,6 @@ class WhatsAppController extends Controller
     }
 
     private function cityArrWithUrdu($city){
-
-
         if($city == 'Lahore'){
             $name = 'لاہور';
         }else  if($city == 'Islamabad'){
