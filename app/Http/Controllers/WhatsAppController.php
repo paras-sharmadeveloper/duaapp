@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Notification,Country};
+use App\Models\{Notification, Country};
 use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+
 class WhatsAppController extends Controller
 {
+
     public function handleWebhook(Request $request)
     {
         $body = $request->all();
@@ -20,17 +23,13 @@ class WhatsAppController extends Controller
         $newDate = $NextDate->format('Y-m-d');
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
-        $waId= $body['WaId'];
+        $waId = $body['WaId'];
         $Respond = $body['Body'];
         $responseString = strval($Respond);
         $countryCode = $this->findCountryByPhoneNumber($waId);
-        $cleanNumber = str_replace($countryCode,'', $waId);
-
+        $cleanNumber = str_replace($countryCode, '', $waId);
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
-
         // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
-
-
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
         // https://emojipedia.org/keycap-digit-five
@@ -44,8 +43,8 @@ class WhatsAppController extends Controller
 
         $options = [];
         $responseAccept = [];
-        if (!empty($existingCustomer)){
-            $responseAccept =    explode(',' , $existingCustomer->response_options);
+        if (!empty($existingCustomer)) {
+            $responseAccept =    explode(',', $existingCustomer->response_options);
         }
 
         if (!empty($existingCustomer) && $existingCustomer->data_sent_to_customer == 'Slot Booked') {
@@ -53,18 +52,60 @@ class WhatsAppController extends Controller
                 You already booked your slot with us. Thank You.
                 EOT;
 
-                $this->sendMessage($userPhoneNumber, $message);
+            $this->sendMessage($userPhoneNumber, $message);
 
-                return false;
+            return false;
         }
 
         if (empty($existingCustomer)) {
-            $step = 1;
-            $data = 'Qibla Syed Sarfraz Ahmad Shah';
+            $step = 0;
+            $data = '';
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
-            $options = [  '1'   ];
 
+            $options = ['1' , '2'];
+
+            $dataArr = [
+                'customer_number' => $userPhoneNumber,
+                'customer_response' => $Respond,
+                'bot_reply' =>  $message,
+                'data_sent_to_customer' => json_encode($options),
+                'last_reply_time' => date('Y-m-d H:i:s'),
+                'steps' => $step,
+                'response_options' => implode(',', $options)
+            ];
+            WhatsApp::create($dataArr);
+    }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
+
+
+
+                $step = $existingCustomer->steps + 1;
+                $customer_response = $Respond;
+
+                $lang = ($Respond == 1 ) ? 'eng' : 'urdu';
+                $message = $this->WhatsAppbotMessages('', $step , $lang );
+                $this->sendMessage($userPhoneNumber, $message);
+                $options = ['1'];
+                $dataArr = [
+                    'lang' => $lang,
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' => null,
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => $step,
+                    'response_options' => implode(',', $options)
+                ];
+                WhatsApp::create($dataArr);
+        }  else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 1 )) {
+
+            $step = $existingCustomer->steps + 1;
+            $customer_response = $Respond;
+            $lang =  $existingCustomer->lang;
+
+            $message = $this->WhatsAppbotMessages('', $step , $lang );
+            $this->sendMessage($userPhoneNumber, $message);
+            $options = ['1'];
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
@@ -72,14 +113,10 @@ class WhatsAppController extends Controller
                 'data_sent_to_customer' => null,
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
-                'response_options' => implode(',' , $options)
+                'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-
-
-
-        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)
-                    && ($existingCustomer->steps == 1 ||  $Respond == 'Press 1')) {
+    }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 2 ||  $Respond == 'Press 1')) {
 
             $step = $existingCustomer->steps + 1;
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
@@ -87,31 +124,29 @@ class WhatsAppController extends Controller
                 // ->take(3)
                 ->get();
 
-
-
             $cityArr = [];
 
             $distinctCities = $venuesListArr->pluck('city')->unique();
 
             $cityToShow = [];
-            foreach($venuesListArr as $venue){
+            foreach ($venuesListArr as $venue) {
                 $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
             }
 
             // Log::info("checking : ". json_encode( $cityToShow));
             // Log::info("checking distinct : ". json_encode( $distinctCities));
-                 $i = 1;
-                foreach($distinctCities as $key => $city){
-                        $seq = $cityToShow[$city];
-                        $cityArr[$city] = trim($whatsAppEmoji[$seq] . ' '. $city);
+            $i = 1;
+            foreach ($distinctCities as $key => $city) {
+                $seq = $cityToShow[$city];
+                $cityArr[$city] = trim($whatsAppEmoji[$seq] . ' ' . $city);
 
-                        $options[$seq] =  $seq;
-                        $i++;
+                $options[$seq] =  $seq;
+                $i++;
             }
             asort($cityArr);
             asort($options);
 
-            $data = implode("\n",$cityArr);
+            $data = implode("\n", $cityArr);
 
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
@@ -123,10 +158,9 @@ class WhatsAppController extends Controller
                 'data_sent_to_customer' => json_encode($cityArr),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
-                'response_options' => implode(',' , $options)
+                'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-
         } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 2) {
             // send Dates here
 
@@ -135,59 +169,59 @@ class WhatsAppController extends Controller
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
 
             $cityAr = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
-            $cityName = explode('-',$cityAr);
+            $cityName = explode('-', $cityAr);
 
-           //  $getDate = $data_sent_to_customer[$Respond];
+            //  $getDate = $data_sent_to_customer[$Respond];
 
-           $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-           ->where('city',  $cityName[0])
-           ->where('venue_date','=', date('Y-m-d'))
-           ->orderBy('venue_date', 'ASC')
-           ->first();
+            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
+                ->where('city',  $cityName[0])
+                ->where('venue_date', '=', date('Y-m-d'))
+                ->orderBy('venue_date', 'ASC')
+                ->first();
 
-                if(!empty($venuesListArr)){
+            if (!empty($venuesListArr)) {
 
-                        $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-                       ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                       ->where(['type' => $request->input('duaType')])
-                       ->orderBy('id', 'ASC')
-                       ->select(['venue_address_id', 'token_id', 'id'])->first();
+                $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                    ->where(['type' => $request->input('duaType')])
+                    ->orderBy('id', 'ASC')
+                    ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-                       if($tokenIs){
+                if ($tokenIs) {
 
 
-                        $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
-                        // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
-                        $slotId = $tokenIs->slot_id;
-                        $venueSlots = VenueSloting::find($slotId);
-                        $venueAddress = $venueSlots->venueAddress;
-                        // $tokenId = $venueSlots->token_id;
-                        $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
-                        $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
-                        $venue = $venueAddress->venue;
-                        $result = $this->formatWhatsAppNumber($cleanedNumber);
-                        $userMobile = $result['mobileNumber'];
-                        $timestamp = strtotime($venueSlots->slot_time);
-                        $slotTime = date('h:i A', $timestamp) . '('.$venueAddress->timezone.')';
-                        $uuid = Str::uuid()->toString();
-                        Vistors::create([
-                            'is_whatsapp' => 'yes',
-                            'slot_id' => $slotId,
-                            'meeting_type' => 'on-site',
-                            'booking_uniqueid' =>  $uuid,
-                            'booking_number' => $tokenId,
-                            'country_code' => '+'.$countryCode,
-                            'phone' => $cleanNumber ,
-                            'source' => 'WhatsApp'
-                        ]);
-                        $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
+                    $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+                    // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+                    $slotId = $tokenIs->slot_id;
+                    $venueSlots = VenueSloting::find($slotId);
+                    $venueAddress = $venueSlots->venueAddress;
+                    // $tokenId = $venueSlots->token_id;
+                    $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
+                    $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
+                    $venue = $venueAddress->venue;
+                    $result = $this->formatWhatsAppNumber($cleanedNumber);
+                    $userMobile = $result['mobileNumber'];
+                    $timestamp = strtotime($venueSlots->slot_time);
+                    $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
+                    $uuid = Str::uuid()->toString();
+                    Vistors::create([
+                        'is_whatsapp' => 'yes',
+                        'slot_id' => $slotId,
+                        'meeting_type' => 'on-site',
+                        'booking_uniqueid' =>  $uuid,
+                        'booking_number' => $tokenId,
+                        'country_code' => '+' . $countryCode,
+                        'phone' => $cleanNumber,
+                        'source' => 'WhatsApp'
+                    ]);
+                    $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
 
-                        $appointmentDuration = $venueAddress->slot_duration .' minute 1 Question';
+                    $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
-                        $statusLink = route('booking.status',$uuid);
-                        $pdfLink = '';
+                    $statusLink = route('booking.status', $uuid);
+                    $pdfLink = '';
 
-                        $message = <<<EOT
+                    $message = <<<EOT
                         Your Dua Appointment Confirmed With $duaBy ✅
 
                         Event Date : $venueAddress->venue_date
@@ -212,26 +246,26 @@ class WhatsAppController extends Controller
                         $pdfLink
 
                         EOT;
-                        $this->sendMessage($userPhoneNumber, $message);
-                        $dataArr = [
-                            'customer_number' => $userPhoneNumber,
-                            'customer_response' => $Respond,
-                            'bot_reply' =>  $message,
-                            'data_sent_to_customer' => 'Slot Booked',
-                            'last_reply_time' => date('Y-m-d H:i:s'),
-                            'steps' => 5
-                        ];
-                        WhatsApp::create($dataArr);
-                       $this->FlushEntries($userPhoneNumber);
+                    $this->sendMessage($userPhoneNumber, $message);
+                    $dataArr = [
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' => 'Slot Booked',
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 5
+                    ];
+                    WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
 
-                        $youtubeLink ="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
-                        $whatspp ="https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
-                        $fb ="https://www.facebook.com/profile.php?id=100090074346701";
-                        $spotify="https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a";
-                        $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381";
-                        $kf = "https://kahayfaqeer.org";
-                        $kfvideo ="https://videos.kahayfaqeer.org";
-                        $subScription = <<<EOT
+                    $youtubeLink = "https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
+                    $whatspp = "https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
+                    $fb = "https://www.facebook.com/profile.php?id=100090074346701";
+                    $spotify = "https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a";
+                    $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381";
+                    $kf = "https://kahayfaqeer.org";
+                    $kfvideo = "https://videos.kahayfaqeer.org";
+                    $subScription = <<<EOT
                         Please follow Qibla Syed Sarfraz Ahmad Shah lectures as follows:
 
                         Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel ▶️  $youtubeLink
@@ -250,25 +284,19 @@ class WhatsAppController extends Controller
 
                         EOT;
 
-                        $this->sendMessage($userPhoneNumber, $subScription);
+                    $this->sendMessage($userPhoneNumber, $subScription);
+                } else {
 
-
-
-                       }else{
-
-                        $data = implode("\n", []);
-                        $message = $this->WhatsAppbotMessages($data, $step);
-                        $this->sendMessage($userPhoneNumber, $message);
-
-                       }
-
-
-               }else{
-                       return response()->json([
-                         'status' =>  false ,
-                         'message' => "There is no venue for the Selected Date."
-                       ]);
+                    $data = implode("\n", []);
+                    $message = $this->WhatsAppbotMessages($data, $step);
+                    $this->sendMessage($userPhoneNumber, $message);
                 }
+            } else {
+                return response()->json([
+                    'status' =>  false,
+                    'message' => "There is no venue for the Selected Date."
+                ]);
+            }
 
 
             $VenueDates = [];
@@ -276,26 +304,23 @@ class WhatsAppController extends Controller
             foreach ($venuesListArr as $venueDate) {
                 $columnToShow = $venueDate->combinationData->columns_to_show;
                 // $venueDate = $venueDate->venue_date;
-                 Log::info('Received venue_date: ' .$venueDate->venue_date);
-                 Log::info('Received slot_starts_at_morning: ' .$venueDate->slot_starts_at_morning);
-                 $venueStartTime = Carbon::parse($venueDate->venue_date.' '.$venueDate->slot_starts_at_morning);
+                Log::info('Received venue_date: ' . $venueDate->venue_date);
+                Log::info('Received slot_starts_at_morning: ' . $venueDate->slot_starts_at_morning);
+                $venueStartTime = Carbon::parse($venueDate->venue_date . ' ' . $venueDate->slot_starts_at_morning);
 
-                if($venueStartTime <=  Carbon::now() && $columnToShow >= $i){
-                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                if ($venueStartTime <=  Carbon::now() && $columnToShow >= $i) {
+                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i] . ' ' . $venueDate->venue_date);
                     $options[] = $i;
                     $i++;
                 }
                 // else{
                 //     $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' El' .$venueDate->venue_date);
                 // }
-                else if($columnToShow >= $i && $venueDate->venue_date > Carbon::now()->format('Y-m-d')){
-                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i]. ' ' .$venueDate->venue_date);
+                else if ($columnToShow >= $i && $venueDate->venue_date > Carbon::now()->format('Y-m-d')) {
+                    $VenueDates[$venueDate->id] = trim($whatsAppEmoji[$i] . ' ' . $venueDate->venue_date);
                     $options[] = $i;
                     $i++;
                 }
-
-
-
             }
             $data = implode("\n", $VenueDates);
             $message = $this->WhatsAppbotMessages($data, $step);
@@ -310,11 +335,10 @@ class WhatsAppController extends Controller
                 'data_sent_to_customer' => json_encode($VenueDates),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
-                'response_options' => implode(',' , $options)
+                'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-
-        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) {
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) {
             // send Slots  here
 
 
@@ -333,24 +357,23 @@ class WhatsAppController extends Controller
             if ($visitors) {
                 $recordAge = $visitors->created_at->diffInDays(now());
                 $rejoin = $venueAddress->rejoin_venue_after;
-                if ($rejoin > 0 && $recordAge <= $rejoin ) {
-                    if($recordAge == 0){
+                if ($rejoin > 0 && $recordAge <= $rejoin) {
+                    if ($recordAge == 0) {
                         $text = 'Today';
-                    }else{
-                        $text = 'Before '.$recordAge.' Day' ;
+                    } else {
+                        $text = 'Before ' . $recordAge . ' Day';
                     }
-                    if($venueAddress->rejoin_venue_after == 1){
+                    if ($venueAddress->rejoin_venue_after == 1) {
                         $day = 'day';
-                    }else{
+                    } else {
                         $day = 'days';
                     }
 
-                    $data = 'You already Booked a seat ' .$text. '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' '.$day;
+                    $data = 'You already Booked a seat ' . $text . '  You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ' . $day;
                     $message = $this->WhatsAppbotMessages($data, 9);
                     $this->sendMessage($userPhoneNumber, $message);
                     $this->FlushEntries($userPhoneNumber);
                     return false;
-
                 }
             }
 
@@ -376,13 +399,13 @@ class WhatsAppController extends Controller
             $slotTime =  $mytime->format('H:i:s');
             // $getDate = $data_sent_to_customer[$Respond];
 
-            if($isVisiable == true && $isTimeOver == false){
+            if ($isVisiable == true && $isTimeOver == false) {
 
                 $slots = VenueSloting::where(['venue_address_id' => $venueAddreId])
-                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                 ->orderBy('slot_time', 'ASC')
-                ->take(3)
-                ->get();
+                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                    ->orderBy('slot_time', 'ASC')
+                    ->take(3)
+                    ->get();
 
                 $slotArr = [];
                 $i = 1;
@@ -391,36 +414,31 @@ class WhatsAppController extends Controller
                 foreach ($slots as $slot) {
                     $timestamp = strtotime($slot->slot_time);
                     $slotTime = date('h:i A', $timestamp);
-                    $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' '. $slotTime;
+                    $slotArr[$slot->id] = $whatsAppEmoji[$i] . ' ' . $slotTime;
                     $options[] = $i;
                     $i++;
                 }
 
-                if(!empty($slotArr)){
+                if (!empty($slotArr)) {
                     $data = implode("\n", $slotArr);
-                }else{
+                } else {
                     $data = "Currently No Slots";
                     $step = 9; // warning messaghe will issue
                 }
-
-            }else if($isTimeOver == true){
+            } else if ($isTimeOver == true) {
                 $step = 9; // warning messaghe will issue
                 $data =  'Dua Meeting is already Started for Today. No Token will be issued for Today Please try again on some other day. Thank You.';
                 $this->FlushEntries($userPhoneNumber);
-
-
-
-            } else{
+            } else {
                 $step = 9; // warning messaghe will issue
-                $data =  'Dua meeting tokens will be available only '.$slotsAppearAfter.'  hours before the dua starts. Please try again later ';
+                $data =  'Dua meeting tokens will be available only ' . $slotsAppearAfter . '  hours before the dua starts. Please try again later ';
                 $this->FlushEntries($userPhoneNumber);
-
             }
 
 
             $message = $this->WhatsAppbotMessages($data, $step);
             $this->sendMessage($userPhoneNumber, $message);
-            if( $step == 9){
+            if ($step == 9) {
                 return false;
             }
 
@@ -431,11 +449,10 @@ class WhatsAppController extends Controller
                 'data_sent_to_customer' => json_encode($slotArr),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
-                'response_options' => implode(',' , $options)
+                'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-
-        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 4) {
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 4) {
 
 
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
@@ -451,7 +468,7 @@ class WhatsAppController extends Controller
             $userMobile = $result['mobileNumber'];
 
             $timestamp = strtotime($venueSlots->slot_time);
-            $slotTime = date('h:i A', $timestamp) . '('.$venueAddress->timezone.')';
+            $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
             $uuid = Str::uuid()->toString();
             Vistors::create([
                 'is_whatsapp' => 'yes',
@@ -459,15 +476,15 @@ class WhatsAppController extends Controller
                 'meeting_type' => 'on-site',
                 'booking_uniqueid' =>  $uuid,
                 'booking_number' => $tokenId,
-                'country_code' => '+'.$countryCode,
-                'phone' => $cleanNumber ,
+                'country_code' => '+' . $countryCode,
+                'phone' => $cleanNumber,
                 'source' => 'WhatsApp'
             ]);
             $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
 
-            $appointmentDuration = $venueAddress->slot_duration .' minute 1 Question';
+            $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
-            $statusLink = route('booking.status',$uuid);
+            $statusLink = route('booking.status', $uuid);
             $pdfLink = '';
 
             $message = <<<EOT
@@ -505,15 +522,15 @@ class WhatsAppController extends Controller
                 'steps' => 5
             ];
             WhatsApp::create($dataArr);
-           $this->FlushEntries($userPhoneNumber);
+            $this->FlushEntries($userPhoneNumber);
 
-            $youtubeLink ="https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
-            $whatspp ="https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
-            $fb ="https://www.facebook.com/profile.php?id=100090074346701";
-            $spotify="https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a";
+            $youtubeLink = "https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
+            $whatspp = "https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
+            $fb = "https://www.facebook.com/profile.php?id=100090074346701";
+            $spotify = "https://open.spotify.com/show/2d2PAVfeqIkZaWaJgrgnif?si=56e4fd97930f4b0a";
             $applePodcase = "https://podcasts.apple.com/us/podcast/syed-sarfraz-ahmed-shah/id1698147381";
             $kf = "https://kahayfaqeer.org";
-            $kfvideo ="https://videos.kahayfaqeer.org";
+            $kfvideo = "https://videos.kahayfaqeer.org";
             $subScription = <<<EOT
             Please follow Qibla Syed Sarfraz Ahmad Shah lectures as follows:
 
@@ -534,15 +551,13 @@ class WhatsAppController extends Controller
             EOT;
 
             $this->sendMessage($userPhoneNumber, $subScription);
-
-         }
-        else{
+        } else {
             $optionss = $existingCustomer->data_sent_to_customer;
 
-            if(empty($optionss)){
+            if (empty($optionss)) {
                 $data = $whatsAppEmoji[1];
-            }else{
-                $data = json_decode($optionss , true);
+            } else {
+                $data = json_decode($optionss, true);
                 $data = implode("\n", $data);
             }
 
@@ -556,6 +571,109 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
         }
     }
+
+    private function WhatsAppbotMessages($data, $step,$lang='')
+    {
+        $message = '';
+
+        if ($step == 0 && $lang == '') {
+
+            $message = <<<EOT
+            Please select your language?
+            1 English
+            2 Urdu
+            EOT;
+        }
+        if ($step == 1) {
+
+            if($lang =='eng'){
+
+                $message = <<<EOT
+                Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
+
+                Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
+
+                To schedule a dua meeting with $data please enter 1
+                EOT;
+
+            }else{
+
+                $message = <<<EOT
+                KahayFaqeer.org دعا اپائنٹمنٹ شیڈولر میں خوش آمدید۔
+
+                براہ کرم نوٹ کریں کہ اس وقت آن لائن یا فون کے ذریعے دعا دستیاب نہیں ہے۔
+
+                قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ دعا ملاقات کا شیڈول کرنے کے لیے براہ کرم 1 درج کریں۔
+                EOT;
+            }
+
+
+        }
+        else if ($step == 2) {
+            if($lang =='eng'){
+                $message = <<<EOT
+                Please select your type of dua?
+                1 Dua
+                2 Dum
+                EOT;
+            }else{
+                $message = <<<EOT
+                براہ کرم اپنی دعا کی قسم منتخب کریں؟
+                1 دعا
+                2 دم
+                EOT;
+            }
+
+        } else if ($step == 3) {
+            if($lang =='eng'){
+                $message = <<<EOT
+                Please enter the number for your city
+                $data
+                EOT;
+            }else{
+                $message = <<<EOT
+                براہ کرم اپنے شہر کا نمبر درج کریں۔
+                $data
+                EOT;
+            }
+
+        } else if ($step == 9) {
+
+            $message = <<<EOT
+            Please see the below warning message:
+            $data
+            EOT;
+        } else {
+            $message = <<<EOT
+            Please see the below warning message:
+            $data
+            EOT;
+        }
+
+        return $message;
+    }
+
+    function findCountryByPhoneNumber($phoneNumber)
+    {
+        $countries = Country::all(); // Assuming you have a Country model
+
+        foreach ($countries as $country) {
+            $countryCodeLength = strlen($country->phonecode);
+            if (substr($phoneNumber, 0, $countryCodeLength) === $country->phonecode) {
+                return $country->phonecode;
+            }
+        }
+
+        // If no matching country code is found
+        return "";
+    }
+
+    private function FlushEntries($phoneNUmber)
+    {
+        WhatsApp::where(['customer_number' => $phoneNUmber])->delete();
+    }
+
+
 
     function formatWhatsAppNumber($whatsappNumber)
     {
@@ -580,12 +698,11 @@ class WhatsAppController extends Controller
 
     function findKeyByValueInArray($array, $key)
     {
-        if($key > 0){
-            $key= $key-1;
+        if ($key > 0) {
+            $key = $key - 1;
         }
         $arrayKeys = array_keys($array);
         return ($arrayKeys[$key]) ? $arrayKeys[$key] : null;
-
     }
 
 
@@ -612,95 +729,5 @@ class WhatsAppController extends Controller
             //throw $th;
             return response()->json(['error' => $e->getMessage()]);
         }
-    }
-
-
-    private function WhatsAppbotMessages($data, $step)
-    {
-        $message = '';
-        if ($step == 1) {
-
-            $message = <<<EOT
-            Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
-
-            Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
-
-            To schedule a dua meeting with $data please enter 1
-            EOT;
-        } else if ($step == 2) {
-            $message = <<<EOT
-            Please enter the number for your city
-            $data
-            EOT;
-        } else if ($step == 3) {
-
-            $message = <<<EOT
-            Please enter the number below on which date slot you want to schedule your dua meeting?
-
-            $data
-            EOT;
-
-        } else if ($step == 4) {
-
-            $message = <<<EOT
-            Please enter the number below on which time slot you want to schedule your dua meeting?
-
-            $data
-            EOT;
-        } else if ($step == '5') {
-
-            $message = <<<EOT
-            Please follow Qibla Syed Sarfraz Ahmad Shah lectures as follows:
-
-            Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel ▶️  {{1}}
-
-            Follow Syed Sarfraz Ahmad Shah (Official) channel on WhatsApp ▶️ {{2}}
-
-            Follow Syed Sarfraz Ahmad Shah (Official) channel on Facebook ▶️ {{3}}
-
-            Read or listen all Kahay Faqeer Series books for free ▶️{{4}}
-
-            Watch Syed Sarfraz Ahmad Shah video library of over 2000+ videos ▶️ {{5}}
-
-            Listen Syed Sarfraz Ahmad Shah on Spotify ▶️ {{6}}
-
-            Listen Syed Sarfraz Ahmad Shah on Apple Podcast ▶️  {{7}}
-
-        EOT;
-        }else if ($step == 9) {
-
-            $message = <<<EOT
-            Please see the below warning message:
-            $data
-            EOT;
-
-        } else {
-            $message = <<<EOT
-            Please see the below warning message:
-            $data
-            EOT;
-
-
-        }
-
-        return $message;
-    }
-
-    function findCountryByPhoneNumber($phoneNumber) {
-        $countries = Country::all(); // Assuming you have a Country model
-
-        foreach ($countries as $country) {
-            $countryCodeLength = strlen($country->phonecode);
-            if (substr($phoneNumber, 0, $countryCodeLength) === $country->phonecode) {
-                return $country->phonecode;
-            }
-        }
-
-        // If no matching country code is found
-        return "";
-    }
-
-    private function FlushEntries($phoneNUmber){
-        WhatsApp::where(['customer_number' => $phoneNUmber])->delete();
     }
 }
