@@ -104,7 +104,7 @@ class WhatsAppController extends Controller
             $message = $this->WhatsAppbotMessages('', $step , $lang );
             $this->sendMessage($userPhoneNumber, $message);
 
-            $options = ['1'];
+
             $dataArr = [
                 'lang' => $lang,
                 'customer_number' => $userPhoneNumber,
