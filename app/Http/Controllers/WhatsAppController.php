@@ -75,9 +75,7 @@ class WhatsAppController extends Controller
                 'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-    }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
-
-
+        }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
 
                 $step = $existingCustomer->steps + 1;
                 $customer_response = $Respond;
@@ -85,7 +83,7 @@ class WhatsAppController extends Controller
                 $lang = ($Respond == 1 ) ? 'eng' : 'urdu';
                 $message = $this->WhatsAppbotMessages('', $step , $lang );
                 $this->sendMessage($userPhoneNumber, $message);
-                $options = ['1'];
+                $options = ['1','2'];
                 $dataArr = [
                     'lang' => $lang,
                     'customer_number' => $userPhoneNumber,
@@ -97,16 +95,18 @@ class WhatsAppController extends Controller
                     'response_options' => implode(',', $options)
                 ];
                 WhatsApp::create($dataArr);
-        }  else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 1 )) {
+        } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 1 )) {
 
             $step = $existingCustomer->steps + 1;
             $customer_response = $Respond;
             $lang =  $existingCustomer->lang;
-
+            $options = ['1','2'];
             $message = $this->WhatsAppbotMessages('', $step , $lang );
             $this->sendMessage($userPhoneNumber, $message);
+
             $options = ['1'];
             $dataArr = [
+                'lang' => $lang,
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
@@ -116,13 +116,22 @@ class WhatsAppController extends Controller
                 'response_options' => implode(',', $options)
             ];
             WhatsApp::create($dataArr);
-    }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 2 ||  $Respond == 'Press 1')) {
+    }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && $existingCustomer->steps == 2 ) {
 
             $step = $existingCustomer->steps + 1;
+            $lang =  $existingCustomer->lang;
+
+            $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔'  ;
+            $dua_option = ($existingCustomer->customer_response == 1) ? 'dua' : 'dum';
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
-                // ->take(3)
+                 ->take(3)
                 ->get();
+
+            if(empty($venuesListArr)){
+                $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                $this->sendMessage($userPhoneNumber, $message);
+            }
 
             $cityArr = [];
 
@@ -133,8 +142,6 @@ class WhatsAppController extends Controller
                 $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
             }
 
-            // Log::info("checking : ". json_encode( $cityToShow));
-            // Log::info("checking distinct : ". json_encode( $distinctCities));
             $i = 1;
             foreach ($distinctCities as $key => $city) {
                 $seq = $cityToShow[$city];
@@ -152,6 +159,8 @@ class WhatsAppController extends Controller
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
+                'lang' => $lang,
+                'dua_option' => $dua_option,
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
@@ -163,6 +172,8 @@ class WhatsAppController extends Controller
             WhatsApp::create($dataArr);
         } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 2) {
             // send Dates here
+
+            $dua_option = $existingCustomer->dua_option;
 
             $step = $existingCustomer->steps + 1;
             $customer_response = $existingCustomer->customer_response;
@@ -183,7 +194,7 @@ class WhatsAppController extends Controller
 
                 $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
                     ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                    ->where(['type' => $request->input('duaType')])
+                    ->where(['type' => $dua_option])
                     ->orderBy('id', 'ASC')
                     ->select(['venue_address_id', 'token_id', 'id'])->first();
 
@@ -340,7 +351,6 @@ class WhatsAppController extends Controller
             WhatsApp::create($dataArr);
         } else if (!empty($existingCustomer) && in_array($responseString, $responseAccept)  && $existingCustomer->steps == 3) {
             // send Slots  here
-
 
             $isVisiable = false;
 
@@ -638,11 +648,17 @@ class WhatsAppController extends Controller
             }
 
         } else if ($step == 9) {
-
-            $message = <<<EOT
-            Please see the below warning message:
-            $data
-            EOT;
+            if($lang =='eng'){
+                $message = <<<EOT
+                Please see the below warning message:
+                $data
+                EOT;
+            }else{
+                $message = <<<EOT
+                براہ کرم ذیل میں انتباہی پیغام دیکھیں:
+                $data
+                EOT;
+            }
         }
 
         return $message;
