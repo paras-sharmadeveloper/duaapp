@@ -366,11 +366,12 @@ class WhatsAppController extends Controller
             if($lang =='eng'){
 
                 $message = <<<EOT
-                Welcome to the KahayFaqeer.org Dua Appointment WhatsApp Chatbot Scheduler.
+                Welcome to the KahayFaqeer.org Dua Appointment Scheduler.
 
-                Please note that this dua appointment is valid only for visitors who can physically visit dua ghar in Pakistan. Dua requests via online or phone are not available at the moment. Only proceed if you are fully sure to visit dua ghar in person.
+                Please note that dua via online or phone is not available at this time.
 
-                To schedule a dua meeting with $data please enter 1
+                To schedule a dua meeting with Qibla Syed Sarfraz Ahmad Shah Sahab please enter 1
+
                 EOT;
 
             }else{
