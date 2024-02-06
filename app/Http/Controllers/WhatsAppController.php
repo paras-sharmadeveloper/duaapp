@@ -135,7 +135,7 @@ class WhatsAppController extends Controller
             $lang =  $existingCustomer->lang;
 
             $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔'  ;
-            $dua_option = ($existingCustomer->customer_response == 1) ? 'dua' : 'dum';
+            $dua_option = ($Respond == 1) ? 'dua' : 'dum';
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                  ->take(3)
@@ -283,7 +283,7 @@ class WhatsAppController extends Controller
                         'steps' => 5
                     ];
                     WhatsApp::create($dataArr);
-                    $this->FlushEntries($userPhoneNumber);
+                    // $this->FlushEntries($userPhoneNumber);
 
                     $youtubeLink = "https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1";
                     $whatspp = "https://whatsapp.com/channel/0029Va9FvbdGE56jAmX0fo2w";
