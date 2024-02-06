@@ -67,11 +67,14 @@ class WhatsAppController extends Controller
 
             $options = ['1' , '2'];
 
+            $data[] = trim($whatsAppEmoji[1] . ' English');
+            $data[] = trim($whatsAppEmoji[2] . ' Urdu');
+
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
-                'data_sent_to_customer' => json_encode($options),
+                'data_sent_to_customer' => json_encode($data),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
                 'response_options' => implode(',', $options)
@@ -103,6 +106,11 @@ class WhatsAppController extends Controller
             $customer_response = $Respond;
             $lang =  $existingCustomer->lang;
             $options = ['1','2'];
+
+            $data[] = trim($whatsAppEmoji[1] . ' Dua');
+            $data[] = trim($whatsAppEmoji[2] . ' Dum');
+
+
             $message = $this->WhatsAppbotMessages('', $step , $lang );
             $this->sendMessage($userPhoneNumber, $message);
 
@@ -112,7 +120,7 @@ class WhatsAppController extends Controller
                 'customer_number' => $userPhoneNumber,
                 'customer_response' => $Respond,
                 'bot_reply' =>  $message,
-                'data_sent_to_customer' => json_encode($options),
+                'data_sent_to_customer' => json_encode($data),
                 'last_reply_time' => date('Y-m-d H:i:s'),
                 'steps' => $step,
                 'response_options' => implode(',', $options)
