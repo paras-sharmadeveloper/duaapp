@@ -209,7 +209,7 @@ class WhatsAppController extends Controller
 
                     $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
                     // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
-                    $slotId = $tokenIs->slot_id;
+                    $slotId = $tokenIs->id;
                     $venueAddress = $tokenIs->venueAddress;
                     // $tokenId = $venueSlots->token_id;
                     $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
