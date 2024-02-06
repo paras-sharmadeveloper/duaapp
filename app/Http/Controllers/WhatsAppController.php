@@ -520,10 +520,14 @@ class WhatsAppController extends Controller
 
     private function cityArrWithUrdu($city){
 
-        $arC =  ['لاہور' => 'Lahore' , 'اسلام آباد' => 'Islamabad'  , 'کراچی' => 'Karachi'];
-        if (array_key_exists($city, $arC)) {
-            $urduCity = $arC[$city];
-            return $urduCity; // Return Urdu version of the city name
+
+        if($city == 'Lahore'){
+            $name = 'لاہور';
+        }else  if($city == 'Islamabad'){
+            $name = 'اسلام آباد';
+        }else  if($city == 'Karachi'){
+            $name = 'کراچی';
         }
+        return $name;
     }
 }
