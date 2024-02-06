@@ -161,7 +161,7 @@ class WhatsAppController extends Controller
 
             $data = implode("\n", $cityArr);
 
-            $message = $this->WhatsAppbotMessages($data, $step);
+            $message = $this->WhatsAppbotMessages($data, $step,$lang);
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
@@ -210,15 +210,14 @@ class WhatsAppController extends Controller
                     $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
                     // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
                     $slotId = $tokenIs->slot_id;
-                    $venueSlots = VenueSloting::find($slotId);
-                    $venueAddress = $venueSlots->venueAddress;
+                    $venueAddress = $tokenIs->venueAddress;
                     // $tokenId = $venueSlots->token_id;
                     $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
                     $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
                     $venue = $venueAddress->venue;
                     $result = $this->formatWhatsAppNumber($cleanedNumber);
                     $userMobile = $result['mobileNumber'];
-                    $timestamp = strtotime($venueSlots->slot_time);
+                    $timestamp = strtotime($tokenIs->slot_time);
                     $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
                     $uuid = Str::uuid()->toString();
                     Vistors::create([
