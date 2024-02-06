@@ -643,11 +643,6 @@ class WhatsAppController extends Controller
             Please see the below warning message:
             $data
             EOT;
-        } else {
-            $message = <<<EOT
-            Please see the below warning message:
-            $data
-            EOT;
         }
 
         return $message;
