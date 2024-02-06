@@ -67,8 +67,8 @@ class WhatsAppController extends Controller
 
             $options = ['1' , '2'];
 
-            $data[] = trim($whatsAppEmoji[1] . ' English');
-            $data[] = trim($whatsAppEmoji[2] . ' Urdu');
+            $data[] = trim($whatsAppEmoji['1'] . ' English');
+            $data[] = trim($whatsAppEmoji['2'] . ' Urdu');
 
             $dataArr = [
                 'customer_number' => $userPhoneNumber,
@@ -107,8 +107,8 @@ class WhatsAppController extends Controller
             $lang =  $existingCustomer->lang;
             $options = ['1','2'];
 
-            $data[] = trim($whatsAppEmoji[1] . ' Dua');
-            $data[] = trim($whatsAppEmoji[2] . ' Dum');
+            $data[] = trim($whatsAppEmoji['1'] . ' Dua');
+            $data[] = trim($whatsAppEmoji['2'] . ' Dum');
 
 
             $message = $this->WhatsAppbotMessages('', $step , $lang );
