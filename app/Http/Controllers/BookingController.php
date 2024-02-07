@@ -293,10 +293,10 @@ class BookingController extends Controller
     public function generatePDF($id)
     {
 
-        // $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
-        // if (!file_exists($fontFile)) {
-        //     die('Font file not found: ' . $fontFile);
-        // }
+        $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
+        if (!file_exists($fontFile)) {
+            die('Font file not found: ' . $fontFile);
+        }
         // Jameel-Noori-Nastaleeq-Regular
         // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die;
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
@@ -322,7 +322,7 @@ class BookingController extends Controller
             // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die;
             // echo public_path('assets/fonts/'); die;
             $mpdf = new Mpdf([
-                'fontDir' => asset('assets/fonts/'), // Path to the directory containing Urdu font files
+                'fontDir' =>  (env('APP_ENV') == 'local') ?  public_path('assets/fonts/') : env('APP_URL'), // Path to the directory containing Urdu font files
                 'fontdata' => [
                     'urdu' => [
                         'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
