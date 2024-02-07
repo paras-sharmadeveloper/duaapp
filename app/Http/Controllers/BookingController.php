@@ -271,7 +271,7 @@ class BookingController extends Controller
         if(empty($userBooking->qr_code_image)){
             $disk = 's3_general';
             $imagePath = 'qrcodes/' . $id . '.png';
-            Storage::disk($disk)->put($imagePath, QrCode::size(300)->generate($id));
+            Storage::disk($disk)->put($imagePath, QrCode::size(120)->generate($id));
 
             Storage::disk($disk)->url($imagePath);
 
@@ -292,8 +292,6 @@ class BookingController extends Controller
 
     public function generatePDF($id)
     {
-        $url = route('user.verify', [$id]);
-        $qrCode = QrCode::size(200)->generate($url);
 
         $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
         if (!file_exists($fontFile)) {
@@ -366,7 +364,8 @@ class BookingController extends Controller
         $bookUrl = route('book.show');
         $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
         $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date));
-        $html = $this->PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
+        $imageUrl = $userBooking->qr_code_image;
+        $html = $this->PdfHtml($logoDataUri, $imageUrl, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
 
         $mpdf->WriteHtml($html);
         $mpdf->Output($fileName, 'I');
@@ -375,7 +374,7 @@ class BookingController extends Controller
 
 
 
-    private function PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations)
+    private function PdfHtml($logoDataUri, $imageUrl ,$bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations)
     {
 
 
@@ -398,6 +397,8 @@ class BookingController extends Controller
         if ($venueAddress->slot_duration == 1) {
             $txt = $pdf_event_token_mint;
         }
+
+        $imgtag ="<img src='".$imageUrl."'>";
 
 
         return <<<HTML
@@ -427,6 +428,9 @@ class BookingController extends Controller
                 flex-direction: column !important;
                 align-items: center;
             }
+            .queue-qr-scan{
+                margin-top:10px;
+            }
             </style>
         <section id="mainsection">
             <div class="container">
@@ -454,6 +458,9 @@ class BookingController extends Controller
                             $pdf_event_token_label # $userBooking->booking_number
                                 <p>$userBooking->country_code   $userBooking->phone </p>
 
+                            </div>
+                            <div class="queue-qr-scan">
+                                $imgtag
                             </div>
 
                             <h3>$pdf_event_token_appointment_lable</h3>

@@ -37,11 +37,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
 
- 
+
 
 <!-- Include DataTables Buttons CSS and JS -->
 
- 
+
 
 {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
@@ -58,8 +58,12 @@
 {{-- DataTable Handling End --}}
 
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@27.1.0/dist/ag-grid-enterprise.min.js"></script>
+
+
+
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
 <script type="text/javascript">
     let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
     let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
@@ -103,7 +107,7 @@
                 'csv',
                 'excel',
             ],
-             
+
         });
     });
 

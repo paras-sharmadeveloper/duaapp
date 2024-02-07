@@ -12,11 +12,11 @@
   <meta content="" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Favicons -->
-  <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon"> 
+  <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon">
     <link href="{{ asset('assets/theme/img/logo.png')}}" rel="icon">
     <link href="{{ asset('assets/theme/img/logo.png') }} " rel="apple-touch-icon">
-  
-  
+
+
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i') }}" rel="stylesheet">
@@ -33,7 +33,7 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/theme/css/style.css') }}?ver={{time()}}" rel="stylesheet">
 
-  
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.css" />
   <link href="{{ asset('assets/theme/css/audioplayer.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
@@ -44,15 +44,18 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaleeq&display=swap" />
 
- 
+
   {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" /> --}}
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+
+
   {{-- Datatable css Ends --}}
-   
-</head> 
+
+</head>
 <style>
-  
+
 ul#notification-center {
     width: 300px;
 }
@@ -65,7 +68,7 @@ ul#notification-center {
     <div class="overlayContent">
       <div class="loader">
         <div class="inner"></div>
-      </div> 
+      </div>
     </div>
   </div> --}}
   <!-- ======= Header ======= -->
@@ -107,8 +110,8 @@ ul#notification-center {
               You have 4 new notifications
               <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
             </li> --}}
-            
-  
+
+
             {{-- <li class="dropdown-footer">
               <a href="#">Show all notifications</a>
             </li> --}}
@@ -191,13 +194,13 @@ ul#notification-center {
             @else
               <img src="{{ asset('assets/theme/img/profile-img.jpg') }}"  alt="Profile" class="rounded-circle">
             @endif
-          
+
             {{-- <span class="d-none d-md-block dropdown-toggle ps-2">{{ (Auth::check()) ? Auth::user()->name : '' }}</span> --}}
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>{{ (Auth::check()) ? Auth::user()->name : '' }}</h6> 
+              <h6>{{ (Auth::check()) ? Auth::user()->name : '' }}</h6>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -209,7 +212,7 @@ ul#notification-center {
                 <span>My Profile</span>
               </a>
             </li>
-             
+
             <li>
               <hr class="dropdown-divider">
             </li>

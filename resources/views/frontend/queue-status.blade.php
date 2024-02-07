@@ -236,6 +236,25 @@
             width: 30%;
         }
 
+        .enlarged-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* semi-transparent black overlay */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* ensure the overlay is on top of other elements */
+}
+
+.enlarged-image img {
+    max-width: 90%;
+    max-height: 90%;
+    display: block;
+}
+
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
             .stats{
@@ -368,7 +387,8 @@
                         </div>
 
                         <div class="queue-qr-scan">
-                            <img src="{{ $imageUrl  }}">
+
+                            <img src="{{ $imageUrl  }}"  alt="Image" id="image-enlarge">
                         </div>
 
 
@@ -435,6 +455,11 @@
             html2pdf(element, options);
             //  $(".download-apponit").hide();
         }
+
+        // JavaScript to handle image click and enlarge
+        $(document).ready(function() {
+        $("#image-enlarge").lightGallery();
+    });
 
     </script>
 @endsection
