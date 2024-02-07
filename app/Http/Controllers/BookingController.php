@@ -293,10 +293,10 @@ class BookingController extends Controller
     public function generatePDF($id)
     {
 
-        $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
-        if (!file_exists($fontFile)) {
-            die('Font file not found: ' . $fontFile);
-        }
+        // $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
+        // if (!file_exists($fontFile)) {
+        //     die('Font file not found: ' . $fontFile);
+        // }
         // Jameel-Noori-Nastaleeq-Regular
         // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die;
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
