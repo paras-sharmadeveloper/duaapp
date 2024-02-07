@@ -64,6 +64,7 @@ class HomeController extends Controller
         // 'fname' => 'required|string|max:255',
         //  'lname' => 'required|string|max:255',
         // 'email' => 'required|email|max:255',
+
         'mobile' => 'required|string|max:255',
         'user_question' => 'nullable|string',
         'country_code' => 'required',

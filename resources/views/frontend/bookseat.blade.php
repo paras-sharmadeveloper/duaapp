@@ -333,7 +333,7 @@
             }
 
             /* .thripist-section img {
-                     
+
                     max-height: 264px !important;
                 } */
 
@@ -760,13 +760,9 @@
                     <div class="col-md-12 text-center wizard-form">
                         <div class="wrapper">
                             <ul class="status-line" id="progress-bar">
-                                <li class="active">Dua Option</li>
-                                {{-- <li>Meeting Type</li> --}}
-                                {{-- <li>Country</li> --}}
-                                <li>City</li>
-                                {{-- <li>Date</li> --}}
-                                {{-- <li>Time</li> --}}
-                                <li>Finish</li>
+                                <li class="active">{{ trans('messages.nav-dua-option') }}</li>
+                                <li>{{ trans('messages.nav-city-option') }}</li>
+                                <li>{{ trans('messages.nav-final-option') }}</li>
                             </ul>
                         </div>
 
@@ -779,22 +775,22 @@
                 @if(empty($locale))
 
                     <div class="row justify-content-center"  id="Lang-Section">
-                    
+
                         <div class="col-lg-12 col-md-12">
                             @foreach (['en'=> 'English', 'ur'=> 'اردو'] as $key => $lang)
 
                             <div class="row row-cols-3 d-flex justify-content-center">
                                 <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info language-selection"
-                                    data-lang="{{ route('book.show',[ $key]) }}">
+                                    data-lang="{{ route('book.show',[$key]) }}">
                                     </span>
-                                     <b> {{ $lang  }}   </b> 
-                                    
+                                     <b> {{ $lang  }}   </b>
+
                                 </button>
                                 {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
                             </div>
                             @endforeach
                         </div>
-                    </div> 
+                    </div>
                     @else
 
                     <div class="row justify-content-center" id="booknowStart">
@@ -815,9 +811,9 @@
 
 
                 @endif
-                
 
-                
+
+
 
 
                 <div class="row justify-content-center form-business" id="cardSection" style="display: none">
@@ -836,7 +832,7 @@
                             @foreach (['dua' => 'Dua' , 'dum' => 'Dum'] as $key => $dua)
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm dua-section"
-                                        data-id="{{ $key }}"> 
+                                        data-id="{{ $key }}">
                                         <div class="card-body px-0">
                                             <h5 class="card-title title-binding">{{ trans('messages.'. $key ) }}</h5>
                                             <p class="card-text">
@@ -846,12 +842,19 @@
                             @endforeach
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
+                            data-loading="{{ trans('messages.loading-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="{{ trans('messages.next-btn') }}">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
+                            </span>
+                            <b>{{ trans('messages.next-btn') }}</b>
+                        </button>
+                        {{-- <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
 
@@ -865,7 +868,7 @@
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="type-listing">
-                            
+
                         </div>
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
@@ -874,7 +877,7 @@
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button> 
+                        </button>
                     </div>
                 </div> --}}
 
@@ -888,11 +891,11 @@
                         </div>
 
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                       
+
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="country-listing">
-                          
+
                         </div>
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button> 
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
 
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
@@ -907,22 +910,22 @@
                     <!-- col -->
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select City</h3>
+                            <h3 class="fw-bold text-center">{{ trans('messages.select-city') }}</h3>
                             <label></label>
                         </div>
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
+                        <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
 
                         </div>
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="Loading..." data-success="Done" data-default="Next">
+                            data-loading="{{ trans('messages.loading-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="{{ trans('messages.next-btn') }}">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                 style="display:none">
                             </span>
-                            <b> Next</b>
+                            <b>{{ trans('messages.next-btn') }}</b>
                         </button>
                         <!-- /NEXT BUTTON-->
                     </div>
@@ -931,17 +934,17 @@
                 <!-- /col -->
 
                 {{-- <div class="row justify-content-center form-business" style="display: none">
-                    
+
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Event Date</h3>
                             <label></label>
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                      
+
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
 
-                        </div> 
+                        </div>
                         <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="Loading..." data-success="Done" data-default="Next">
@@ -949,24 +952,24 @@
                                 style="display:none">
                             </span>
                             <b> Next</b>
-                        </button> 
-                    </div> 
+                        </button>
+                    </div>
                 </div> --}}
 
                 <!-- row -->
                 {{-- <div class="row justify-content-center form-business sloting-main" style="display: none">
-                   
+
                     <div class="col-lg-12 col-md-12 slot-in">
                         <div class="head mb-4">
                             <h3 class="fw-bold text-center">Select Event Slot</h3>
                             <label></label>
                         </div>
                         <p class="error d-none text-center alertBox">Please select at least one card</p>
-                      
+
                         <div id="slot-information-user">
                             <label> Your Current Timezone:</label>
                             <select class="change-timezone form-control" name="timezone" class="js-states form-control"
-                                id="timezone"> 
+                                id="timezone">
                                 @foreach ($timezones as $country)
                                     @foreach ($country->timezones as $timezone)
                                         <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
@@ -980,7 +983,7 @@
                         <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner"
                             id="slot-listing">
 
-                        </div> 
+                        </div>
                         <button type="button"
                             class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
 
@@ -992,8 +995,8 @@
                             </span>
                             <b> Next</b>
                         </button>
- 
-                    </div> 
+
+                    </div>
                 </div> --}}
                 <!-- /row -->
                 <!-- row -->
@@ -1012,14 +1015,14 @@
                             <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
                             <p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
                         </div>
-                        
+
                     </div> --}}
                     <!-- /col -->
                     <!-- col -->
                     <div class="col-lg-12 col-md-12" id="successForm">
                         <div class="mb-5">
                             <!-- Final step -->
-                            <div class="alert alert-warning text-center d-none" role="alert"> 
+                            <div class="alert alert-warning text-center d-none" role="alert">
                             </div>
 
                             <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
@@ -1054,7 +1057,7 @@
 
                                 <div class="row g-3 mb-3">
                                     <div class="col col-lg-6  col-md-6" id="countryCodeDiv">
-                                        <label class="mb-2"> Country Code </label>
+                                        <label class="mb-2"> {{ trans('messages.country-label') }}</label>
                                         <select id="country_code" name="country_code" class="js-states form-control">
                                             <option value="">select</option>
                                             @foreach ($countryList as $country)
@@ -1066,7 +1069,7 @@
                                     </div>
 
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
-                                        <label class="mb-2"> Mobile</label>
+                                        <label class="mb-2"> {{ trans('messages.mobile-label') }}</label>
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
 
@@ -1128,19 +1131,19 @@
                                 {{-- <div class="form-check mt-4">
                                     <input class="form-check-input" type="checkbox" name="is_whatsapp"
                                         id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault"> 
+                                    <label class="form-check-label" for="flexCheckDefault">
                                         This number is on whatsapp ?
                                     </label>
                                 </div> --}}
 
-                                {{-- <div class="form-group row mt-3 selfie" id="make-selfie-area"> 
+                                {{-- <div class="form-group row mt-3 selfie" id="make-selfie-area">
 
                                     <div class="col-md-12 text-center">
                                         <button class="btn btn-outline-success btn-cst" type="button"
-                                            id="start-camera">Take Selfie</button> 
+                                            id="start-camera">Take Selfie</button>
                                         <div id="camera-view" style="display: none;">
                                             <video id="video" autoplay playsinline></video>
-                                        </div> 
+                                        </div>
                                         <div id="captured-image" style="display: none;">
 
                                             <img id="selfie-image" src="" alt="Captured Selfie">
@@ -1178,33 +1181,29 @@
 
                                 <div class="disclaimer">
                                     <p style="font-size:12px">
-                                        By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms
-                                        of Service and give your prior expressed written consent to KahayFaqeer.org to send you
-                                        appointment notifications by telephone calls, emails, and text messages to the number and
-                                        email address you provided above. You agree and understand that your consent is not a
-                                        condition of purchase of any goods or services and that you may revoke your consent at any
-                                        time. You understand that standard message and data rates may apply.
+                                        {{ trans('messages.disclaimer') }}
+
                                     </p>
                                 </div>
 
 
                         </div>
-                       
+
                         {{-- <input type="hidden" name="selfie_required" id="selfie_required" value="yes"> --}}
 
 
-                       
+
 
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-dark text-white float-start back rounded-3">Back</button>
+                        <button type="button" class="btn btn-dark text-white float-start back rounded-3">{{ trans('messages.back-btn') }}</button>
 
                         <button type="submit" id="submitBtn"
                             class="btn text-white float-end submit-button rounded-3 bg-color-info" type="submit"
-                            data-loading="Submitting..." data-success="Done" data-default="Finish">
+                            data-loading="{{ trans('messages.submiting-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="Finish">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                 style="display:none">
                             </span>
-                            <b> Finish</b>
+                            <b> {{ trans('messages.submit-btn') }}</b>
                         </button>
 
                         </form>
@@ -1235,7 +1234,7 @@
         var NoImage = "{{ asset('assets/theme/img/avatar.png') }}";
 
         $(".language-selection").click(function(){
-            var link = $(this).attr('data-lang'); 
+            var link = $(this).attr('data-lang');
 
             location.href= link
         })
@@ -1261,7 +1260,7 @@
                     if (response.status) {
                         $(this).find('span').hide()
                         $(this).find('b').text(defaultText)
-                        var phoneCode = response.phoneCode; 
+                        var phoneCode = response.phoneCode;
                         console.log("country_code",phoneCode)
                         $("#country_code").attr("data-ud",phoneCode)
                         $("#country_code").val(phoneCode).trigger('change');
@@ -1276,7 +1275,7 @@
                             }
                             html += `<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col">
                                     <div class="card text-center h-60  shadow-sm  city-selection" data-id="${item.id}">
-                                                                      
+
                                         <div class="card-body px-0 p-2">
                                             <h5 class="card-title title-binding"><strong>${item.name}</strong></h5>
                                             <p class="card-text">
@@ -1375,33 +1374,33 @@
                         var CityName = $activeCard.attr("data-city");
                         var event = $activeCard;
                         console.log("$activeCard",)
-                        
-                        if (event.hasClass('dua-section')) { 
+
+                        if (event.hasClass('dua-section')) {
                             $("#dua_type").val($activeCard.attr("data-id"));
                             getAjax(cardId, 'get_city', $this)
-                            // getAjax(cardId, 'get_country', $this) 
-                        } 
+                            // getAjax(cardId, 'get_country', $this)
+                        }
                         // else if (event.hasClass('type-selection')) {
                         //     getAjax(cardId, 'get_country', $this)
                         // }
 
                         // if (event.hasClass('thripist-section')) { )
-                        //     getAjax(cardId, 'get_country', $this) 
+                        //     getAjax(cardId, 'get_country', $this)
                         // } else if (event.hasClass('type-selection')) {
                         //     getAjax(cardId, 'get_country', $this)
-                        // } 
+                        // }
                         // if (event.hasClass('city-selection')) {
                         //     $("#dua_type").val(getValue);
-                            
+
                         //     getAjax(cardId, 'get_city', $this)
-                        // } 
+                        // }
                         else if (event.hasClass('date-selection')) {
                            var duaType = $("#dua_type").val();
                             getAjax(cardId, 'get_slot_book', $this, CityName , duaType)
                             //  $("#slot_id_booked").val(cardId);
                             // getAjax(cardId, 'get_date', $this, CityName)
                             //  $("#slot_id_booked").val(cardId);
-                        } 
+                        }
                         // else if (event.hasClass('slot-selection')) {
                         //     $("#slot-information-user").attr('data-id', cardId);
                         //     getAjax(cardId, 'get_slots', $this)
@@ -1490,7 +1489,7 @@
                 }
             });
         });
-         
+
 
         function getAjax(id, type, nextBtn, optional = '' , duaType ='') {
 
@@ -1530,10 +1529,10 @@
                     //             meetingType = 'Physical';
                     //         }
                     //         typed += `<div class="col col-lg-3 col-md-7 box">
-                //             <div class="card text-center h-60 py-2 shadow-sm type-selection" 
-                //              data-id="${item.venue_address_id}" 
-                //              data-type="${item.name}"> 
-                //                 <img src="${item.flag_path}" alt="Flag Image"> 
+                //             <div class="card text-center h-60 py-2 shadow-sm type-selection"
+                //              data-id="${item.venue_address_id}"
+                //              data-type="${item.name}">
+                //                 <img src="${item.flag_path}" alt="Flag Image">
                 //                 <div class="card-body px-0">
                 //                     <div class="arrow-ribbon">${item.day_left}</div>
                 //                     <h5 class="card-title title-binding">${meetingType}</h5>
@@ -1542,7 +1541,7 @@
                 //         </div>`;
                     //     })
                     // }else{
-                    //     typed = '<p class="no-data"> No Data Found </p>';   
+                    //     typed = '<p class="no-data"> No Data Found </p>';
                     // }
                     //     $("#type-listing").html(typed);
                     //     nextBtn.find('b').text(defaultText)
@@ -1561,10 +1560,10 @@
                                 }
                                 country += `<div class="col col-lg-3 col-md-7">
                             <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.venue_id}">
-                                <img src="${item.flag_path}" alt="Flag Image"> 
+                                <img src="${item.flag_path}" alt="Flag Image">
                                 <div class="card-body px-0">
                                     <h5 class="card-title title-binding">${meetingType}</h5>
-                                   
+
                                 </div>
                             </div>
                         </div>`;
@@ -1586,23 +1585,23 @@
                                 return a.seq - b.seq;
                             });
 
-                            
+
                             $.each(cityArray, function(key, item) {
- 
+
                                 var meetingType = 'Online';
                                 if (item.type == 'on-site') {
-                                    meetingType = translations[item.name] || item.name; 
+                                    meetingType = translations[item.name] || item.name;
                                 }
-                                // <img src="${item.flag_path}" alt="Flag Image"> 
+                                // <img src="${item.flag_path}" alt="Flag Image">
                                 city += `<div data-sq="${item.seq}" class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                         <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
-                                            
+
                                             <div class="card-body px-0">
                                                 <h5 class="card-title title-binding">${meetingType}</h5>
-                                                
+
                                             </div>
                                         </div>
-                                    </div>`; 
+                                    </div>`;
                             })
 
 
@@ -1611,18 +1610,18 @@
                         }
 
                         $("#city-listing").html(city);
-                      
-                        
+
+
                         nextBtn.find('b').text(defaultText)
 
 
                     }
 
-                 
+
 
                     if(type == 'get_slot_book'){
-                        var dAte=''; 
-        
+                        var dAte='';
+
                         if (response.token_id) {
                             $("#booking-form").show();
                             $("#submitBtn").show();
@@ -1636,7 +1635,7 @@
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
                             $("#successForm").find(".alert").text(response.message).removeClass('d-none')
-                            
+
                         }else if (response.status == false) {
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
@@ -1644,8 +1643,8 @@
 
 
                             dAte = '<p class="no-data">'+response.message+'</p>';
-                            
-                        } 
+
+                        }
                         $("#date-listing").html(dAte);
                     }
                     // if (type == 'get_date') {
@@ -1655,21 +1654,21 @@
                     //     if (response.status) {
                     //         //  console.log("response",response)
                     //         var coulmtoShow = response.data.columnToShow;
-                           
 
 
-                            
+
+
                     //         //  console.log("coulmtoShow",coulmtoShow)
                     //         var count = 1;
                     //         $.each(response.data.date, function(key, item) {
-                                
-                                 
+
+
                     //             if (coulmtoShow >= count ) {
                     //                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
                     //                     <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                    //                         <img src="${item.flag_path}" alt="Flag Image"> 
+                    //                         <img src="${item.flag_path}" alt="Flag Image">
                     //                         <div class="card-body px-0">
-                    //                             <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>  
+                    //                             <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>
                     //                         </div>
                     //                     </div>
                     //                 </div>`;
@@ -1697,7 +1696,7 @@
                     //         $("#make-selfie-area").show();
                     //     } else {
                     //         $("#make-selfie-area").hide();
-                    //         // $("#selfie_required").val('no') 
+                    //         // $("#selfie_required").val('no')
                     //     }
                     //     $("#timezone").val(response.timezone).trigger("change");
 
@@ -1705,11 +1704,11 @@
                     //         $.each(response.slots, function(key, item) {
                     //             html += `<div class="col col-lg-3 col-md-6">
                     //             <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
-                                    
+
                     //                 <div class="card-body px-0">
                     //                     <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
                     //                     <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
-                                        
+
                     //                 </div>
                     //             </div>
                     //             </div>`;
@@ -1747,7 +1746,7 @@
 
                 }
             });
-            
+
 
         }
     </script>
@@ -1862,11 +1861,11 @@
                         $.each(response.slots, function(key, item) {
                             html += `<div class="col col-lg-3 col-md-6">
                                 <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
-                                    
+
                                     <div class="card-body px-0">
                                         <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
                                         <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
-                                        
+
                                     </div>
                                 </div>
                                 </div>`;
@@ -2066,7 +2065,7 @@
                         $this.find('label').text(successText)
                         $this.find('span').hide()
                         // setTimeout(() => {
-                        //     $this.find('label').text(defaultText) 
+                        //     $this.find('label').text(defaultText)
                         // }, 2500);
 
                         $("#opt-form").show();

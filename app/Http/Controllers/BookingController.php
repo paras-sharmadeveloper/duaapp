@@ -22,7 +22,7 @@ class BookingController extends Controller
         return view('site-admin.scan-qr');
     }
 
-   
+
 
     public function processScan(Request $request)
     {
@@ -30,22 +30,22 @@ class BookingController extends Controller
         $id = $request->input('id');
 
         $update =[];
-        $vistor = Vistors::where(['booking_uniqueid' => $id ])->first(); 
+        $vistor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
-        $timezone = $vistor->venueSloting->venueAddress->timezone; 
-        $currentTime = Carbon::parse(date('Y-m-d H:i:s')); 
-        $now = $currentTime->timezone($timezone); 
+        $timezone = $vistor->venueSloting->venueAddress->timezone;
+        $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
+        $now = $currentTime->timezone($timezone);
 
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
-        
-         
+
+
         if($request->input('type') == 'start'){
             $update = [
                 'meeting_start_at' => $startAt,
                 'user_status' => 'in-meeting'
-            ]; 
-             
+            ];
+
         }else if($request->input('type') == 'end'){
             $totalTimeSpent = $startAt->diffInSeconds($endAt);
             $update = [
@@ -53,20 +53,20 @@ class BookingController extends Controller
                 'user_status' => 'meeting-end',
                 'meeting_total_time' => $totalTimeSpent
             ];
-            
+
         }else if($request->input('type') == 'verify'){
             $update = [
                 'confirmed_at' => $now->format('Y-m-d H:i:s'),
                 'user_status' => 'admitted',
                 'is_available' => 'confirmed'
             ];
-           
+
         }
         $vistor->update( $update);
-        return response()->json(['success' => true , 'token' => $vistor->slot->token_id ]); 
+        return response()->json(['success' => true , 'token' => $vistor->slot->token_id ]);
 
         // Perform necessary actions based on the scanned content
- 
+
     }
 
 
@@ -129,7 +129,7 @@ class BookingController extends Controller
                 $message = <<<EOT
                 Hi $vistor->fname,
 
-                Your appointment ref # $vistor->booking_number on $eventDate has been successfully cancelled. 
+                Your appointment ref # $vistor->booking_number on $eventDate has been successfully cancelled.
 
                 You can book a new appointment again by clicking below link:
                 $url
@@ -222,7 +222,7 @@ class BookingController extends Controller
                 $message = <<<EOT
                 Hi  $visitor->fname,
 
-                Your appointment ref # $visitor->booking_number on $date has been successfully confirmed. 
+                Your appointment ref # $visitor->booking_number on $date has been successfully confirmed.
 
                 You can now check your status by clicking below link:
                 $url
@@ -268,20 +268,23 @@ class BookingController extends Controller
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
 
-        $disk = 's3_general';
-        $imagePath = 'qrcodes/' . $id . '.png';
-        Storage::disk($disk)->put($imagePath, QrCode::size(300)->generate($id));
+        if(empty($userBooking->qr_code_image)){
+            $disk = 's3_general';
+            $imagePath = 'qrcodes/' . $id . '.png';
+            Storage::disk($disk)->put($imagePath, QrCode::size(300)->generate($id));
 
-        Storage::disk($disk)->url($imagePath);
+            Storage::disk($disk)->url($imagePath);
 
-        $imageUrl = env('AWS_GENERAL_PATH'). $imagePath;
- 
-
+            $imageUrl = env('AWS_GENERAL_PATH'). $imagePath;
+            Vistors::where('booking_uniqueid', $id)->update(['qr_code_image' => $imageUrl ]);
+        }else{
+            $imageUrl =$userBooking->qr_code_image;
+        }
         return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking', 'imageUrl'));
     }
 
 
-  
+
 
 
     public function generatePDF($id)
@@ -294,21 +297,45 @@ class BookingController extends Controller
             die('Font file not found: ' . $fontFile);
         }
         // Jameel-Noori-Nastaleeq-Regular
-        // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die; 
-
-        $mpdf = new Mpdf([
-            // 'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-            // 'fontdata' => [
-            //     'urdu' => [
-            //         'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
-            //         'I' => 'CalibriRegular.ttf',
-            //     ],
-            // ],
-            'format' => 'A4',
-        ]);
-
-
+        // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die;
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
+
+        // echo "<pre>"; print_r($userBooking);
+
+
+
+        if($userBooking->lang == 'en'){
+
+            $mpdf = new Mpdf([
+                'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+                'fontdata' => [
+                    'urdu' => [
+                        'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
+                        'I' => 'CalibriRegular.ttf',
+                    ],
+                ],
+                'format' => 'A4',
+            ]);
+
+        }else{
+            // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die;
+            // echo public_path('assets/fonts/'); die;
+            $mpdf = new Mpdf([
+                'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+                'fontdata' => [
+                    'urdu' => [
+                        'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
+                        'I' => 'Jameel-Noori-Nastaleeq-Regular.ttf',
+                    ],
+                ],
+                'format' => 'A4',
+            ]);
+
+        }
+
+        // echo "<pre>"; print_r($mpdf); die;
+
+
         // Get the user's slot time
         $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
 
@@ -319,7 +346,7 @@ class BookingController extends Controller
         $startTimemrg = $venueAddress->slot_starts_at_morning;
 
 
-        // Count bookings from the start time until the user's slot time 
+        // Count bookings from the start time until the user's slot time
 
         if (App::environment('production')) {
             $LogoUrl = url('/assets/theme/img/logo.png');
@@ -328,7 +355,7 @@ class BookingController extends Controller
         }
 
 
-        // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die; 
+
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
         $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number . '.pdf';
         $bookingStatus = route('booking.status', [$userBooking->booking_uniqueid]);
@@ -338,7 +365,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking);
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName, 'D');
+        $mpdf->Output($fileName, 'I');
     }
 
 
@@ -354,9 +381,9 @@ class BookingController extends Controller
 
 
         return <<<HTML
-           
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <style>
             .statement-notes{font-family:'Jameel Noori Nastaleeq',sans-serif}@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:url({{public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype')}
             .urdu-text{font-family:'Jameel-Noori-Nastaleeq-Regular',sans-serif; font-size:15px}span.text-center.text-success.confirm{font-size:24px}.venue-info h6,.stats h3{color:#000}.queue-number span{font-size:20px;color:#000}.orng{color:#000}
@@ -375,8 +402,8 @@ class BookingController extends Controller
             }
             .container{display:flex;width:100%;padding:4px}h1.text-center{text-align:center;font-size:23px}}
             .first{
-                text-align :center; 
-                width:100% !important;  
+                text-align :center;
+                width:100% !important;
                 flex-direction: column !important;
                 align-items: center;
             }
@@ -384,48 +411,48 @@ class BookingController extends Controller
         <section id="mainsection">
             <div class="container">
                 <!-- main content -->
-                <div class="main-content" id="main-target">  
+                <div class="main-content" id="main-target">
                     <div class="d-flex justify-content-center " style="text-align: center">
                         <a href="bookUrl" class="logoo  d-flex align-items-center wuto">
-                            <img src="$logoDataUri" alt="" style="height:100px" > 
-                        </a> 
+                            <img src="$logoDataUri" alt="" style="height:100px" >
+                        </a>
                     </div>
                     <a href="https://kahayfaqeer.org/" ><h2>KahayFaqeer.org</h2></a>
-        
+
                     <h2 class="text-center"> Dua Appointment <span class="text-center text-success h2" style="color:green"> <b> Confirmed </b>
                     </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
-                   </h2>  
-        
+                   </h2>
+
                     <div class="first">
                         <h2 class="">Event Date : $eventDate $venueDateTime </h4>
-        
+
                             <h2 class="">Venue : $venueAddress->city  </h2>
-                           
+
                                 <h5>$venueAddress->address</h5>
-                         
+
                             <div class="queue-number">
-                                Token # $userBooking->booking_number  
+                                Token # $userBooking->booking_number
                                 <p>$userBooking->country_code   $userBooking->phone </p>
-                          
+
                             </div>
-        
+
                             <h3>Appointment Duration</h3>
-                          
+
                             <div class="stats text-center" style="text-align: center; width:100%">
                               <p>$venueAddress->slot_duration $txt 1 Question </p>
-                              
+
                               <p class="urdu-text1" style="text-align: center; white-space: nowrap;">$venueAddress->status_page_note</p>
 
-                                
+
                                 <p style="text-align: center" >To view your token online please click below:</p>
                                 <p style="text-align: center" > <a style="text-align: center" href="$bookingStatus"
                                         target="_blank">$bookingStatus </a>
-                                </p> 
+                                </p>
                             </div>
-        
+
                     </div>
                 </div>
-            </div> 
+            </div>
         </section>
         HTML;
     }

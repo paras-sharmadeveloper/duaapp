@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('user_timezone',155)->nullable();
             $table->string('source',25)->nullable();
             $table->string('dua_type',25)->nullable();
+            $table->string('qr_code_image',2500)->nullable();
             $table->string('lang',25)->nullable();
             $table->timestamps();
 
