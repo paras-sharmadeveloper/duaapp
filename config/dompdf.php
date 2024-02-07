@@ -47,7 +47,7 @@ return array(
          * Symbol, ZapfDingbats.
          */
         // "font_dir" =>  public_path('assets/fonts/'), // advised by dompdf (https://github.com/dompdf/dompdf/pull/782)
-        "font_dir" =>  (env('APP_ENV') == 'local') ?  public_path('assets/fonts/') : url('assets/fonts/'), // Path to the directory containing Urdu font files
+        "font_dir" =>  (env('APP_ENV') == 'local') ?  public_path('assets/fonts/') : 'assets/fonts/', // Path to the directory containing Urdu font files
         /**
          * The location of the DOMPDF font cache directory
          *
