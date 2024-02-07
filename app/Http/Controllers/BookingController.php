@@ -319,10 +319,10 @@ class BookingController extends Controller
             ]);
 
         }else{
-             echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die;
+            //  echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die;
             // echo public_path('assets/fonts/'); die;
             $mpdf = new Mpdf([
-                'fontDir' =>  (env('APP_ENV') == 'local') ?  public_path('assets/fonts/') : env('APP_URL') . 'assets/fonts/', // Path to the directory containing Urdu font files
+                'fontDir' =>  (env('APP_ENV') == 'local') ?  public_path('assets/fonts/') : url('assets/fonts/'), // Path to the directory containing Urdu font files
                 'fontdata' => [
                     'urdu' => [
                         'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
