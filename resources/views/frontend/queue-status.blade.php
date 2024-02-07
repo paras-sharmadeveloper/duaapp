@@ -6,7 +6,7 @@
         .statement-notes {
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
-        
+
         @media print {
             /* Adjust widths for better print layout */
             .column {
@@ -15,17 +15,17 @@
                 padding: 10px; /* Adjust padding as needed */
             }
             #mainsection{
-                margin: 0 !important; 
+                margin: 0 !important;
             }
- 
- 
+
+
         }
 
         span.text-center.text-success.confirm {
             font-size: 24px;
         }
 
-       
+
         .venue-info h6,
         .stats h3 {
             color: #000;
@@ -327,28 +327,34 @@
     <section id="mainsection">
         <div class="container">
             <!-- main content -->
-            <div class="main-content" id="main-target"> 
+            <div class="main-content" id="main-target">
 
                 <div class="d-flex justify-content-center ">
                     <a href="{{ route('book.show') }}" class="logoo  d-flex align-items-center wuto">
                         <img src="{{ asset('assets/theme/img/logo.png') }}" alt="">
-                       
+
                     </a>
-                  
+
                 </div>
                 <a href="https://kahayfaqeer.org/" target="_blank"><h3>kahayfaqeer.org</h3></a>
 
 
-                <h2 class="text-center"> Dua Appointment <span class="text-center text-success"> Confirmed
-                    </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b>
+                <h2 class="text-center">{{ trans('messages.pdf_title_1') }} <span class="text-center text-success"> {{ trans('messages.pdf_title_confirm') }}
+                    {{-- </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b> --}}
+                </span class="h2"> <br> <b>  {{ trans('messages.pdf_title_confirm_with') }} </b>
                 </h2>
                 <h3 class="text-center"> </h3>
 
                 <div class="column first">
-                    <h2 class="orng">Event Date : {{ \Carbon\Carbon::parse($venueAddress->venue_date)->format('l') }}
+                    @php
+                    $day = \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
+                    $transofWeekDays =   trans('messages.Week_day_'.$day);
+                    $city = $transofWeekDays =   trans('messages.'.$venueAddress->city);
+                    @endphp
+                    <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
                          {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
 
-                        <h2 class="">Venue : {{ $venueAddress->city }} </h2>
+                        <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city}} </h2>
                         <div class="venue-info">
                             <h4>{{ $venueAddress->address }}</h4>
                         </div>
@@ -356,33 +362,27 @@
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
                         </div> --}}
                         <div class="queue-number">
-                            Token # {{ $userBooking->booking_number }}
+                            {{ trans('messages.pdf_event_token_label') }} # {{ $userBooking->booking_number }}
                             <br>
-                            {{-- <h3>{{ $userBooking->fname }} {{ $userBooking->lname }}</h3> --}}
-                            {{-- <p>{{ $userBooking->email }}</p> --}}
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
-                            {{-- <span>Your Appointment Time : </span> <br> --}}
-                            {{-- <span>{{ date('g:i A', strtotime($userSlot->slot_time)) }} </span> --}}
-                            {{-- <span>({{ $venueAddress->timezone }})</span> --}}
                         </div>
 
                         <div class="queue-qr-scan">
                             <img src="{{ $imageUrl  }}">
                         </div>
 
-                        
 
-                        <h3>Appointment Duration</h3>
-                        <p>{{ $venueAddress->slot_duration }} minutes 1 Question </p>
+
+                        <h3>{{ trans('messages.pdf_event_token_appointment_lable') }}</h3>
+                        <p>{{ $venueAddress->slot_duration }} {{ trans('messages.pdf_event_token_mint') }} 1 {{ trans('messages.pdf_event_token_question') }} </p>
                         <div class="stats text-center">
                             <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
-                            <p>To view your token online please click below:</p>
+                            <p>{{ trans('messages.pdf_event_token_view_label') }}:</p>
                             <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
                             </p>
 
-                            <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >Download
-                                Appointment </a> 
+                            <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a>
                             {{-- <button type="button" class="btn btn-success download-apponit" id="cmd" onclick="downloadPdf()">Download
                                 Appointment</button> --}}
 
@@ -402,10 +402,10 @@
     <script>
         document.title = "KahayFaqeer.com | Queue Status";
         var fileName = "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
- 
+
         function downloadPdf() {
 
-            $(".download-apponit").hide(); 
+            $(".download-apponit").hide();
             const element = document.getElementById('main-target');
             const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
             const options = {
@@ -433,8 +433,8 @@
                 options.html2canvas.height = 1200; // Set the desired height for mobile view
             }
             html2pdf(element, options);
-            //  $(".download-apponit").hide();  
+            //  $(".download-apponit").hide();
         }
-        
+
     </script>
 @endsection

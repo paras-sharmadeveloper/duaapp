@@ -24,6 +24,29 @@ return [
     'loading-btn' =>'Loading',
     'done-btn' => 'Done',
     'select-option-card' => 'Please select at least one card.',
-    'disclaimer' =>  'By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to send you appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.'
+    'disclaimer' =>  'By submitting this form, you agree by your electronic signature to the Privacy Policy, Terms of Service and give your prior expressed written consent to KahayFaqeer.org to send you appointment notifications by telephone calls, emails, and text messages to the number and email address you provided above. You agree and understand that your consent is not a condition of purchase of any goods or services and that you may revoke your consent at any time. You understand that standard message and data rates may apply.',
+    'pdf_title_1' => 'Dua Appointment',
+    'pdf_title_confirm' => 'Confirmed',
+    'pdf_title_confirm_with' => 'With Qibla Syed Sarfraz Ahmed Shah Sahab',
+    'pdf_event_date_label' => 'Event Date',
+    'pdf_event_venue_label' => 'Venue',
+    'pdf_event_token_label' => 'Token',
+    'pdf_event_token_appointment_lable' => 'Appointment Duration',
+    'pdf_event_token_view_label' => 'To view your token online please click below',
+    'pdf_event_token_question' => 'Question',
+    'pdf_event_token_mint' => 'minute',
+    'pdf_event_token_mints' => 'minutes',
+    'pdf_download_btn_label' => 'Download Appointment',
+
+     'Week_day_Monday' => 'Monday',
+     'Week_day_Tuesday' => 'Tuesday',
+     'Week_day_Wednesday' => 'Wednesday',
+     'Week_day_Thursday' => 'Thursday',
+     'Week_day_Friday' => 'Friday',
+     'Week_day_Saturday' => 'Saturday',
+     'Week_day_Sunday' => 'Sunday',
+
+
+
 
 ];

@@ -280,6 +280,9 @@ class BookingController extends Controller
         }else{
             $imageUrl =$userBooking->qr_code_image;
         }
+        App::setLocale($userBooking->lang);
+
+
         return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking', 'imageUrl'));
     }
 
@@ -307,13 +310,13 @@ class BookingController extends Controller
         if($userBooking->lang == 'en'){
 
             $mpdf = new Mpdf([
-                'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-                'fontdata' => [
-                    'urdu' => [
-                        'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
-                        'I' => 'CalibriRegular.ttf',
-                    ],
-                ],
+              //  'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+                // 'fontdata' => [
+                //     'urdu' => [
+                //         'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
+                //         'I' => 'CalibriRegular.ttf',
+                //     ],
+                // ],
                 'format' => 'A4',
             ]);
 
@@ -353,7 +356,8 @@ class BookingController extends Controller
         } else {
             $LogoUrl = public_path('assets/theme/img/logo.png');
         }
-
+        App::setLocale($userBooking->lang);
+        $translations = trans('messages');
 
 
         $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
@@ -362,7 +366,7 @@ class BookingController extends Controller
         $bookUrl = route('book.show');
         $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
         $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date));
-        $html = $this->PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking);
+        $html = $this->PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
 
         $mpdf->WriteHtml($html);
         $mpdf->Output($fileName, 'I');
@@ -371,13 +375,29 @@ class BookingController extends Controller
 
 
 
-    private function PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking)
+    private function PdfHtml($logoDataUri, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations)
     {
-        $txt = 'minutes';
-        if ($venueAddress->slot_duration == 1) {
-            $txt = 'minute';
-        }
 
+
+        $pdf_title = $translations['pdf_title_1'] ;
+        $pdf_title_confirm = $translations['pdf_title_confirm'] ;
+        $pdf_title_confirm_with = $translations['pdf_title_confirm_with'] ;
+        $pdf_event_date_label = $translations['pdf_event_date_label'] ;
+        $pdf_event_venue_label = $translations['pdf_event_venue_label'] ;
+        $pdf_event_token_label = $translations['pdf_event_token_label'] ;
+        $pdf_event_token_view_label = $translations['pdf_event_token_view_label'];
+        $pdf_event_token_appointment_lable = $translations['pdf_event_token_appointment_lable'];
+        $pdf_event_token_question = $translations['pdf_event_token_question'];
+        $pdf_event_token_mint = $translations['pdf_event_token_mint'];
+        $pdf_event_token_mints = $translations['pdf_event_token_mints'];
+        $city = $translations[$venueAddress->city ];
+
+        $Week_day = $translations['Week_day_'.$eventDate];
+
+        $txt = $pdf_event_token_mints;
+        if ($venueAddress->slot_duration == 1) {
+            $txt = $pdf_event_token_mint;
+        }
 
 
         return <<<HTML
@@ -419,32 +439,32 @@ class BookingController extends Controller
                     </div>
                     <a href="https://kahayfaqeer.org/" ><h2>KahayFaqeer.org</h2></a>
 
-                    <h2 class="text-center"> Dua Appointment <span class="text-center text-success h2" style="color:green"> <b> Confirmed </b>
-                    </span> <br> With <b> Qibla Syed Sarfraz Ahmed Shah Sahab </b>
+                    <h2 class="text-center"> $pdf_title  <span class="text-center text-success h2" style="color:green"> <b> $pdf_title_confirm </b>
+                    </span> <br> <b> $pdf_title_confirm_with </b>
                    </h2>
 
                     <div class="first">
-                        <h2 class="">Event Date : $eventDate $venueDateTime </h4>
+                        <h2 class="">$pdf_event_date_label : $Week_day $venueDateTime </h4>
 
-                            <h2 class="">Venue : $venueAddress->city  </h2>
+                            <h2 class=""> $pdf_event_venue_label :  $city </h2>
 
                                 <h5>$venueAddress->address</h5>
 
                             <div class="queue-number">
-                                Token # $userBooking->booking_number
+                            $pdf_event_token_label # $userBooking->booking_number
                                 <p>$userBooking->country_code   $userBooking->phone </p>
 
                             </div>
 
-                            <h3>Appointment Duration</h3>
+                            <h3>$pdf_event_token_appointment_lable</h3>
 
                             <div class="stats text-center" style="text-align: center; width:100%">
-                              <p>$venueAddress->slot_duration $txt 1 Question </p>
+                              <p>$venueAddress->slot_duration $txt 1 $pdf_event_token_question </p>
 
                               <p class="urdu-text1" style="text-align: center; white-space: nowrap;">$venueAddress->status_page_note</p>
 
 
-                                <p style="text-align: center" >To view your token online please click below:</p>
+                                <p style="text-align: center" >$pdf_event_token_view_label:</p>
                                 <p style="text-align: center" > <a style="text-align: center" href="$bookingStatus"
                                         target="_blank">$bookingStatus </a>
                                 </p>
