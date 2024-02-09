@@ -28,8 +28,7 @@
             });
 
         function onScanSuccess(decodedText, decodedResult) {
-            if (!scannerPaused) {
-                scannerPaused = true;
+
                     $.ajax({
                     url: "{{ route('process-scan') }}",
                     method: 'POST',
@@ -51,7 +50,7 @@
                         scanResult.innerHTML = 'Error: Unable to process the scan.';
                     }
                 });
-            }
+
 
 
 
