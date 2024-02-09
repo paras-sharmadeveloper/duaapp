@@ -39,6 +39,10 @@ class BookingController extends Controller
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
+        if($vistor->user_status == 'admitted' && $vistor->is_available == 'confirmed') {
+            return response()->json(['success' => false , 'message' => 'User already Confirmed' ]);
+        }
+
 
         if($request->input('type') == 'start'){
             $update = [
@@ -63,7 +67,7 @@ class BookingController extends Controller
 
         }
         $vistor->update( $update);
-        return response()->json(['success' => true , 'token' => $vistor->slot->token_id ]);
+        return response()->json(['success' => true , 'token' => $vistor->slot->token_id , 'message' => 'Confirmed. Token Number '. $vistor->slot->token_id  ]);
 
         // Perform necessary actions based on the scanned content
 

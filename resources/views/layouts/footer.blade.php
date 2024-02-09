@@ -59,7 +59,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@27.1.0/dist/ag-grid-enterprise.min.js"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 @yield('page-script')
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
@@ -92,8 +92,8 @@
             paging: true,
             autoWidth: true,
             responsive: true,
-             pagingType: 'full_numbers',
-             "lengthMenu": [ 10, 25, 50, 75, 100 ],
+            pagingType: 'full_numbers',
+            "lengthMenu": [10, 25, 50, 75, 100],
             aoColumnDefs: [{
                     "aTargets": [0],
                     "bSortable": true
@@ -246,6 +246,27 @@
         // Click event for the Copy Link button
 
     });
+
+    toastr.options = {
+        "closeButton": true,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-center",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "3000",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+
+
+    // Set the options that I want
 </script>
 </body>
 
