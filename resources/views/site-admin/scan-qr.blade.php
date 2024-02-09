@@ -23,34 +23,34 @@
 
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
-                fps: 10,
+                fps: 1,
                 qrbox: 200
             });
 
         function onScanSuccess(decodedText, decodedResult) {
             if (!scannerPaused) {
                 scannerPaused = true;
-                $.ajax({
-                url: "{{ route('process-scan') }}",
-                method: 'POST',
-                data: {
-                    id: decodedText,
-                    type: 'verify'
-                },
-                success: function(response) {
-                    // Handle success
-                    if (response.success) {
-                        toastr.success(response.message);
-                    } else {
-                        toastr.error(response.message);
-                    }
+                    $.ajax({
+                    url: "{{ route('process-scan') }}",
+                    method: 'POST',
+                    data: {
+                        id: decodedText,
+                        type: 'verify'
+                    },
+                    success: function(response) {
+                        // Handle success
+                        if (response.success) {
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
 
-                },
-                error: function(error) {
-                    // Handle error
-                    scanResult.innerHTML = 'Error: Unable to process the scan.';
-                }
-            });
+                    },
+                    error: function(error) {
+                        // Handle error
+                        scanResult.innerHTML = 'Error: Unable to process the scan.';
+                    }
+                });
             }
 
 
