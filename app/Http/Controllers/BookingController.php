@@ -369,7 +369,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri, $imageUrl, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName, 'I');
+        $mpdf->Output($fileName, 'D');
     }
 
 
