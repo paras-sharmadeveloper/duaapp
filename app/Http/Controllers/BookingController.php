@@ -323,17 +323,18 @@ class BookingController extends Controller
             // echo public_path('assets/fonts/'); die;
             $mpdf = new Mpdf([
                 'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
+                'mode' => 'utf-8',
                 'fontdata' => [
                     'urdu' => [
-                        'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace with the actual font file name
-                        'I' => 'Jameel-Noori-Nastaleeq-Regular.ttf',
+                        'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace
                     ],
                 ],
                 'format' => 'A4',
+                'mirrorMargins' => true
             ]);
+            // $mpdf->SetDirectionality('rtl');
 
         }
-
         // echo "<pre>"; print_r($mpdf); die;
 
 
@@ -368,7 +369,7 @@ class BookingController extends Controller
         $html = $this->PdfHtml($logoDataUri, $imageUrl, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
 
         $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName, 'D');
+        $mpdf->Output($fileName, 'I');
     }
 
 
@@ -402,12 +403,13 @@ class BookingController extends Controller
 
 
         return <<<HTML
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <style>
-            .statement-notes{font-family:'Jameel Noori Nastaleeq',sans-serif}@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:url({{public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype')}
-            .urdu-text{font-family:'Jameel-Noori-Nastaleeq-Regular',sans-serif; font-size:15px}span.text-center.text-success.confirm{font-size:24px}.venue-info h6,.stats h3{color:#000}.queue-number span{font-size:20px;color:#000}.orng{color:#000}
+
+            .statement-notes{font-family: 'Noto Nastaliq Urdu', serif;font-size:24px}
+                span.text-center.text-success.confirm{font-size:24px}.venue-info h6,.stats h3{color:#000}.queue-number span{font-size:20px;color:#000}.orng{color:#000}
              h6{color:#000;text-align:center;font-size:14px}h2{color:#000;text-align:center;margin-top:1px;font-size:20px}.ahead-number{font-size:20px;color:#000;border:3px solid #000;margin:20px 0;padding:5px 4px;border-radius:10px;font-weight:700;width:50%;text-align:center}h3{color:#000;text-align:center;margin-top:10px;font-size:20px}p{text-align:center;font-weight:400;font-size:18px;color:#000}.stats{border-radius:10px;width:80%;margin-top:20px}h4{color:#000;font-weight:500;text-align:center;font-size:14px;margin-bottom:2px}span{color:#000;font-size:18px;font-weight:600}.blue-btn{background-color:#004aad;color:#fff;padding:10px 20px;border:0;border-radius:5px;font-size:18px;cursor:pointer;margin:10px 0;width:100%;transition:background-color .3s}.blue-btn:hover{background-color:#00367a}.column.second{background-color:transparent;box-shadow:none}.column.third{width:30%;max-height:540px;overflow-y:auto;background-color:#fff;box-shadow:0 4px 10px rgba(0,0,0,0.1);padding:20px}.visitor-list{list-style-type:none;padding:0;margin:0}.visitor-item{border-bottom:1px solid #e0e0e0;padding:10px 0}.visitor-item h4{color:#000;margin-bottom:5px}.visitor-item p{color:black;margin-bottom:5px}.booking-details{display:flex;justify-content:space-between;align-items:center}.booking-id{color:orange}.slot-time{color:lightgrey;display:flex;align-items:center}.slot-time i{margin-right:5px}.column.second{width:30%}@media only screen and (max-width:992px){@font-face{font-family:'Jameel-Noori-Nastaleeq-Regular';src:url({{public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf')}}) format('truetype')}.urdu-text{font-family:'Jameel-Noori-Nastaleeq-Regular',sans-serif}.column.first,.column.second,.column.third{width:100%;margin-bottom:20px}.blue-btn{width:48%;margin-right:4%;margin-bottom:10px}.blue-btn:nth-child(even){margin-right:0}
              .queue-number {
                 font-size: 28px;
@@ -441,9 +443,9 @@ class BookingController extends Controller
                             <img src="$logoDataUri" alt="" style="height:100px" >
                         </a>
                     </div>
-                    <a href="https://kahayfaqeer.org/" ><h2>KahayFaqeer.org</h2></a>
+                    <a href="https://kahayfaqeer.org/" ><h2>KahayFaqeer.org </h2></a>
 
-                    <h2 class="text-center"> $pdf_title  <span class="text-center text-success h2" style="color:green"> <b> $pdf_title_confirm </b>
+                    <h2 class="text-center"> $pdf_title  <span class="text-center text-success h2 statement-notes" style="color:green"> <b> $pdf_title_confirm </b>
                     </span> <br> <b> $pdf_title_confirm_with </b>
                    </h2>
 
