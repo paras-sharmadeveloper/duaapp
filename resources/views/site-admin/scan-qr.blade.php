@@ -24,10 +24,14 @@
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
                 fps: 1,
-                qrbox: 200
+                qrbox: 200,
+                legacyMode: true
             });
 
         function onScanSuccess(decodedText, decodedResult) {
+
+            console.log("html5QrcodeScanner",html5QrcodeScanner)
+            html5QrcodeScanner.pause(); // Pause scanner
 
                     $.ajax({
                     url: "{{ route('process-scan') }}",
@@ -40,14 +44,17 @@
                         // Handle success
                         if (response.success) {
                             toastr.success(response.message);
+                            html5QrcodeScanner.resume();
                         } else {
                             toastr.error(response.message);
+                            html5QrcodeScanner.resume();
                         }
 
                     },
                     error: function(error) {
+                        html5QrcodeScanner.resume();
                         // Handle error
-                        scanResult.innerHTML = 'Error: Unable to process the scan.';
+                        toastr.error('Error: Unable to process the scan.');
                     }
                 });
 
