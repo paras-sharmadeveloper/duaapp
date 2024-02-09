@@ -19,6 +19,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var scannerPaused = false;
 
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
@@ -27,8 +28,9 @@
             });
 
         function onScanSuccess(decodedText, decodedResult) {
-
-            $.ajax({
+            if (!scannerPaused) {
+                scannerPaused = true;
+                $.ajax({
                 url: "{{ route('process-scan') }}",
                 method: 'POST',
                 data: {
@@ -49,10 +51,10 @@
                     scanResult.innerHTML = 'Error: Unable to process the scan.';
                 }
             });
+            }
 
 
-            // Handle on success condition with the decoded text or result.
-            console.log(`Scan result: ${decodedText}`, decodedResult);
+
         }
         html5QrcodeScanner.render(onScanSuccess);
 
