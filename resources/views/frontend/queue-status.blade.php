@@ -1,21 +1,23 @@
 @extends('layouts.guest')
 @section('content')
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-
         body {
             font-family: 'Jameel Noori Nastaleeq', sans-serif;
         }
 
         @media print {
+
             /* Adjust widths for better print layout */
             .column {
                 width: 100%;
                 margin: 0;
-                padding: 10px; /* Adjust padding as needed */
+                padding: 10px;
+                /* Adjust padding as needed */
             }
-            #mainsection{
+
+            #mainsection {
                 margin: 0 !important;
             }
 
@@ -238,29 +240,32 @@
         }
 
         .enlarged-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* semi-transparent black overlay */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* ensure the overlay is on top of other elements */
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* semi-transparent black overlay */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* ensure the overlay is on top of other elements */
+        }
 
-.enlarged-image img {
-    max-width: 90%;
-    max-height: 90%;
-    display: block;
-}
+        .enlarged-image img {
+            max-width: 90%;
+            max-height: 90%;
+            display: block;
+        }
 
         /* Tablet: Stacking columns vertically */
         @media only screen and (max-width: 992px) {
-            .stats{
+            .stats {
                 text-align: center !important;
             }
+
             .container {
                 flex-direction: column;
             }
@@ -356,25 +361,28 @@
                     </a>
 
                 </div>
-                <a href="https://kahayfaqeer.org/" target="_blank"><h3>kahayfaqeer.org</h3></a>
+                <a href="https://kahayfaqeer.org/" target="_blank">
+                    <h3>kahayfaqeer.org</h3>
+                </a>
 
 
-                <h2 class="text-center">{{ trans('messages.pdf_title_1') }} <span class="text-center text-success"> {{ trans('messages.pdf_title_confirm') }}
-                    {{-- </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b> --}}
-                </span class="h2"> <br> <b>  {{ trans('messages.pdf_title_confirm_with') }} </b>
+                <h2 class="text-center">{{ trans('messages.pdf_title_1') }} <span class="text-center text-success">
+                        {{ trans('messages.pdf_title_confirm') }}
+                        {{-- </span class="h2"> <br> With <b> {{ $venueAddress->thripist->name }} </b> --}}
+                    </span class="h2"> <br> <b> {{ trans('messages.pdf_title_confirm_with') }} </b>
                 </h2>
                 <h3 class="text-center"> </h3>
 
                 <div class="column first">
                     @php
-                    $day = \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
-                    $transofWeekDays =   trans('messages.Week_day_'.$day);
-                    $city = $transofWeekDays =   trans('messages.'.$venueAddress->city);
+                        $day = \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
+                        $transofWeekDays = trans('messages.Week_day_' . $day);
+                        $city = $transofWeekDays = trans('messages.' . $venueAddress->city);
                     @endphp
                     <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
-                         {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
+                        {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
 
-                        <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city}} </h2>
+                        <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} </h2>
                         <div class="venue-info">
                             <h4>{{ $venueAddress->address }}</h4>
                         </div>
@@ -389,13 +397,14 @@
 
                         <div class="queue-qr-scan">
 
-                            <img src="{{ $imageUrl  }}"  alt="Image" id="image-enlarge">
+                            <img src="{{ $imageUrl }}" alt="Image" id="image-enlarge">
                         </div>
 
 
 
                         <h3>{{ trans('messages.pdf_event_token_appointment_lable') }}</h3>
-                        <p>{{ $venueAddress->slot_duration }} {{ trans('messages.pdf_event_token_mint') }} 1 {{ trans('messages.pdf_event_token_question') }} </p>
+                        <p>{{ $venueAddress->slot_duration }} {{ trans('messages.pdf_event_token_mint') }} 1
+                            {{ trans('messages.pdf_event_token_question') }} </p>
                         <div class="stats text-center">
                             <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
                             <p>{{ trans('messages.pdf_event_token_view_label') }}:</p>
@@ -403,9 +412,10 @@
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
                             </p>
 
-                            <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a>
-                            {{-- <button type="button" class="btn btn-success download-apponit" id="cmd" onclick="downloadPdf()">Download
-                                Appointment</button> --}}
+                            {{-- <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a> --}}
+                            {{-- <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a> --}}
+                            <button type="button" class="btn btn-success download-apponit" id="cmd"
+                                onclick="downloadPdf()">{{ trans('messages.pdf_download_btn_label') }}</button>
 
                         </div>
 
@@ -417,12 +427,18 @@
 @endsection
 
 <!-- Include jsPDF -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
 @section('page-script')
     <script>
         document.title = "KahayFaqeer.com | Queue Status";
-        var fileName = "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
+        var fileName =
+            "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
+
+
+
+
+
 
         function downloadPdf() {
 
@@ -458,9 +474,5 @@
         }
 
         // JavaScript to handle image click and enlarge
-        $(document).ready(function() {
-        $("#image-enlarge").lightGallery();
-    });
-
     </script>
 @endsection
