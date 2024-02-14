@@ -65,7 +65,12 @@
         html5QrcodeScanner.render(onScanSuccess);
 
 
+       $(document).ready(function(){
+            $("#html5-qrcode-button-camera-stop").addClass('btn btn-info');
+            $("#html5-qrcode-button-camera-permission").addClass('btn btn-info');
+            $("#html5-qrcode-button-camera-start").addClass('btn btn-info');
 
+       })
         // Open camera on button click
     </script>
 @endsection

@@ -39,19 +39,6 @@
 
 
 
-<!-- Include DataTables Buttons CSS and JS -->
-
-
-
-{{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script> --}}
 
 
 
@@ -62,11 +49,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 @yield('page-script')
-<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+{{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
 
 <script type="text/javascript">
-    let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
-    let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
+    // let pusherKey = "{{ env('PUSHER_JS_KEY') }}";
+    // let pusherKeyCluster = "{{ env('PUSHER_JS_CLUSTER') }}";
     $(document).ready(function() {
         $("#country_id").select2({
             placeholder: "Select country",
@@ -112,76 +99,76 @@
     });
 
     $(document).ready(function() {
-        getNotificaitons();
-        Pusher.logToConsole = false;
+        // getNotificaitons();
+        // Pusher.logToConsole = false;
 
-        var BookingPusher = new Pusher(pusherKey, {
-            cluster: pusherKeyCluster
-        });
+        // var BookingPusher = new Pusher(pusherKey, {
+        //     cluster: pusherKeyCluster
+        // });
 
-        var BookingNotficationChannel = BookingPusher.subscribe('booking-notification-admin');
-        BookingPusher.connection.bind('connected', function() {
-            console.log('Pusher connected', BookingNotficationChannel);
-        });
-        BookingNotficationChannel.bind('booking.notification', function(data) {
-            var unreadNotificationCount = $("#notification-count").text();
-            var response = JSON.stringify(data);
-            var resp = JSON.parse(response)
-            var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
-                      <i class="bi bi-check-circle text-success"></i>
-                      <div>
-                        <h4>Booking Received</h4>
-                        <p>${resp.message}</p>
-                        <p></p>
-                      </div>
-                    </li><li><hr class="dropdown-divider"></li>`;
+        // var BookingNotficationChannel = BookingPusher.subscribe('booking-notification-admin');
+        // BookingPusher.connection.bind('connected', function() {
+        //     console.log('Pusher connected', BookingNotficationChannel);
+        // });
+        // BookingNotficationChannel.bind('booking.notification', function(data) {
+        //     var unreadNotificationCount = $("#notification-count").text();
+        //     var response = JSON.stringify(data);
+        //     var resp = JSON.parse(response)
+        //     var html = `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
+        //               <i class="bi bi-check-circle text-success"></i>
+        //               <div>
+        //                 <h4>Booking Received</h4>
+        //                 <p>${resp.message}</p>
+        //                 <p></p>
+        //               </div>
+        //             </li><li><hr class="dropdown-divider"></li>`;
 
-            $("#notification-center").append(html);
-            unreadNotificationCount++;
-            $('#notification-count').text(unreadNotificationCount).show();
+        //     $("#notification-center").append(html);
+        //     unreadNotificationCount++;
+        //     $('#notification-count').text(unreadNotificationCount).show();
 
-        });
+        // });
 
     });
 
-    $(document).on("click", '.notification', function() {
-        var notificationId = $(this).data('id');
-        var unreadNotificationCount = $("#notification-count").text();
-        var data = {
-            _token: "{{ csrf_token() }}",
-            read: true,
-            id: notificationId
-        };
-        $.post('/admin/notifications/' + notificationId + '/read', data, function(response) {
-            // Handle the response if needed
-        });
-        $(this).remove();
-        unreadNotificationCount--;
-        $('#notification-count').text(unreadNotificationCount).show();
-    })
+    // $(document).on("click", '.notification', function() {
+    //     var notificationId = $(this).data('id');
+    //     var unreadNotificationCount = $("#notification-count").text();
+    //     var data = {
+    //         _token: "{{ csrf_token() }}",
+    //         read: true,
+    //         id: notificationId
+    //     };
+    //     $.post('/admin/notifications/' + notificationId + '/read', data, function(response) {
+    //         // Handle the response if needed
+    //     });
+    //     $(this).remove();
+    //     unreadNotificationCount--;
+    //     $('#notification-count').text(unreadNotificationCount).show();
+    // })
 
-    function getNotificaitons() {
-        var count = 0;
-        $.get("{{ route('notification.get') }}", function(response) {
-            count = response.length;
-            var html = '';
-            $.each(response, function(key, item) {
-                html += `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
-                      <i class="bi bi-check-circle text-success"></i>
-                      <div>
-                        <h4>Booking Received</h4>
-                        <p>${item.message}</p>
-                        <p></p>
-                      </div>
-                    </li><li><hr class="dropdown-divider"></li>`;
+    // function getNotificaitons() {
+    //     var count = 0;
+    //     $.get("{{ route('notification.get') }}", function(response) {
+    //         count = response.length;
+    //         var html = '';
+    //         $.each(response, function(key, item) {
+    //             html += `<li><hr class="dropdown-divider"></li><li class="notification-item notification" data-id="${item.id}">
+    //                   <i class="bi bi-check-circle text-success"></i>
+    //                   <div>
+    //                     <h4>Booking Received</h4>
+    //                     <p>${item.message}</p>
+    //                     <p></p>
+    //                   </div>
+    //                 </li><li><hr class="dropdown-divider"></li>`;
 
 
 
-            })
-            $("#notification-center").html(html);
-            $("#notification-count").show().text(count);
-        });
-    }
+    //         })
+    //         $("#notification-center").html(html);
+    //         $("#notification-count").show().text(count);
+    //     });
+    // }
 
 
 

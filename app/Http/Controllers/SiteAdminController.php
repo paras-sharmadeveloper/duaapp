@@ -12,17 +12,19 @@ class SiteAdminController extends Controller
 {
     //
     public function ShowQueue(){
-        $role = Auth::user()->roles->pluck('name')->first(); 
+        $role = Auth::user()->roles->pluck('name')->first();
         if($role == 'admin'){
             $venueAddress = VenueAddress::where(['type' =>'on-site'])
            //  ->where('venue_date','>',date('Y-m-d'))
             ->orderBy('venue_date','asc')
-            ->get();  
+            ->get();
         }else{
-            $venueAddress = VenueAddress::where(['type' =>'on-site','siteadmin_id'=>Auth::user()->id])->get();  
+            $venueAddress = VenueAddress::where(['type' =>'on-site','siteadmin_id'=>Auth::user()->id])->get();
         }
-        
-        return view('site-admin.select-venue',compact('venueAddress')); 
+
+
+
+       return view('site-admin.select-venue',compact('venueAddress'));
     }
     public function ShowQueueList(Request $request, $id){
         if($request->ajax()){
@@ -30,37 +32,37 @@ class SiteAdminController extends Controller
             ->where(['venue_address_id' => $id])
             ->has('visitors') // Include only records with visitors
             ->get();
-            // $venueSloting = VenueSloting::with('visitors')->where(['venue_address_id' => $id])->get(); 
-            return response()->json(['success' => true , 'data' => $venueSloting],200); 
+            // $venueSloting = VenueSloting::with('visitors')->where(['venue_address_id' => $id])->get();
+            return response()->json(['success' => true , 'data' => $venueSloting],200);
         }
         $venueSloting = VenueSloting::with('visitors','venueAddress')
             ->where(['venue_address_id' => $id])
             ->has('visitors') // Include only records with visitors
             ->get();
-             
-     
- 
-        return view('site-admin.queue-list',compact('venueSloting')); 
+
+
+            return view('site-admin.verify-user-list',compact('venueSloting'));
+        //return view('site-admin.queue-list',compact('venueSloting'));
     }
 
     public function VisitorUpdate(Request $request, $id){
         $update =[];
-        $vistor = Vistors::find($id); 
+        $vistor = Vistors::find($id);
 
-        $timezone = $vistor->venueSloting->venueAddress->timezone; 
-        $currentTime = Carbon::parse(date('Y-m-d H:i:s')); 
-        $now = $currentTime->timezone($timezone); 
+        $timezone = $vistor->venueSloting->venueAddress->timezone;
+        $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
+        $now = $currentTime->timezone($timezone);
 
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
-        
-         
+
+
         if($request->input('type') == 'start'){
             $update = [
                 'meeting_start_at' => $startAt,
                 'user_status' => 'in-meeting'
-            ]; 
-             
+            ];
+
         }else if($request->input('type') == 'end'){
             $totalTimeSpent = $startAt->diffInSeconds($endAt);
             $update = [
@@ -68,17 +70,17 @@ class SiteAdminController extends Controller
                 'user_status' => 'meeting-end',
                 'meeting_total_time' => $totalTimeSpent
             ];
-            
+
         }else if($request->input('type') == 'verify'){
             $update = [
                 'confirmed_at' => $now->format('Y-m-d H:i:s'),
                 'user_status' => 'admitted',
                 'is_available' => 'confirmed'
             ];
-           
+
         }
         $vistor->update( $update);
-        return response()->json(['success' => true]); 
+        return response()->json(['success' => true]);
     }
 
     public function WaitingQueueShow(Request $request,$id){
@@ -91,14 +93,14 @@ class SiteAdminController extends Controller
             ->select('vistors.*', 'venues_sloting.*','venue_addresses.*')
             ->orderBy('venues_sloting.slot_time', 'asc')
             ->get();
-        
+
             if($request->ajax()){
-                return response()->json(['status' => true , 'data' => $visitors]); 
+                return response()->json(['status' => true , 'data' => $visitors]);
             }
 
-            // echo "<pre>"; print_r( $visitors); die;  
-        return view('frontend.waiting-queue',compact('visitors')); 
+            // echo "<pre>"; print_r( $visitors); die;
+        return view('frontend.waiting-queue',compact('visitors'));
     }
 
-    
+
 }

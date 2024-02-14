@@ -42,8 +42,8 @@
         <i class="bi bi-check-circle me-1"></i>
         {{ session()->get('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div> 
-    @endif 
+    </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <div class="row mb-2">
@@ -53,7 +53,7 @@
             </div>
             <div class="action d-flex justify-content-between">
                 {{-- <h5 class="card-title">Manage Users</h5> --}}
-                
+
             </div>
 
 
@@ -62,7 +62,7 @@
 
 
             <div class="row main-data">
- 
+
                 <div class="col-xl-12  users-list-header">
                     <div class="card">
                         <div class="card-body">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="fw-bold mb-1">User Info</p>
-                                </div> 
+                                </div>
                                 <span class="fw-bold">Action</span>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                  <div class="users-list-main" id="users-list-main">
                     @foreach ($venueSloting as $visitoddr)
                 @foreach ($visitoddr->visitors as $visitor)
-                
+
                 <div class="col-xl-12 mb-1 users-list">
                     <div class="card">
                         <div class="card-body">
@@ -96,19 +96,19 @@
                                     <span class="rounded-circle text-center h6">{{ ++$i }}</span>
                                 </div>
                                 <div class="ms-3">
-                                     
-                                    <p class="fw-bold mb-1 h6"> 
+
+                                    <p class="fw-bold mb-1 h6">
                                         {{-- {{ $visitor['fname'] }} {{ $visitor['lname'] }} --}}
                                         <h6 class="sub-title"> Mobile : {{ $visitor['phone'] }}</h6>
                                         {{-- <h6 class="sub-title"> Email : {{ $visitor['email'] }}</h6> --}}
-                                        <h6 class="sub-title"> TokenNo : {{ $visitor['booking_number'] }}</h6> 
+                                        <h6 class="sub-title"> TokenNo : {{ $visitor['booking_number'] }}</h6>
                                     </p>
-                                    
-                                        
-                                   
+
+
+
                                 </div>
                                 <div class="info text-end">
-                                   
+
                                         @if(empty($visitor->confirmed_at))
                                         <button type="button" class="btn btn-info text-white bg-color-info verify"
                                             data-loading="Verifying..." data-success="Verified" data-default="Verify" data-id="{{ $visitor->id }}" >
@@ -116,25 +116,23 @@
                                                 style="display:none">
                                             </span>
                                             <b>Verify User </b>
-                                        </button> 
+                                        </button>
                                         @endif
-                                   
-                                   
-                                    
-                                    <button type="button"  
-                                    @if(!empty($visitor->confirmed_at))
-                                    class="btn btn-success start mb-2 start{{$visitor->id  }}"
-                                    @else
-                                    class="btn btn-success start mb-2 d-none start{{$visitor->id  }}"
+
+
+
+                                    <button type="button"
+                                        @if(!empty($visitor->confirmed_at))
+                                        class="btn btn-success start mb-2 start{{$visitor->id  }}"
+                                        @else
+                                        class="btn btn-success start mb-2 d-none start{{$visitor->id  }}"
                                     @endif
-                                    
-                                     
-                                        data-minutes="{{ $visitoddr->venueAddress->slot_duration }}" 
+                                        data-minutes="{{ $visitoddr->venueAddress->slot_duration }}"
                                         data-id="{{ $visitor->id }}">
                                         <div id="timer{{ $visitor->id }}">Start</div>
                                     </button>
-                                </div> 
-                                 
+                                </div>
+
                                 {{-- <span class="badge rounded-pill badge-success h2">Active</span> --}}
                                 {{-- <span class="badge badge-warning rounded-pill d-inline h2">Awating..</span> --}}
                             </div>
@@ -146,10 +144,10 @@
                 @endforeach
 
                  </div>
-                
-                 
-             </div> 
- 
+
+
+             </div>
+
 
                 <table class="table-with-buttons-no table table-responsive cell-border d-none">
                     <thead>
@@ -172,10 +170,10 @@
     </div>
 
 @endsection
- 
+
 
 @section('page-script')
- 
+
     <script>
         getData();
         setInterval(function() {
@@ -186,35 +184,35 @@
         function getData() {
             var lastid = $("#last-running-id").val();
 
-            
+
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
                     var html = '';
-                    var i = 1; 
+                    var i = 1;
                     $.each(response.data, function(key, slot) {
 
                         $.each(slot.visitors, function(k, visitor) {
                             var timeinSec = 0;
                             var none = '';
                             var nonetimer = '';
-                            var isConfirmed = false; 
-                            var confirmedHtml='' , badgeHtml = ''; 
+                            var isConfirmed = false;
+                            var confirmedHtml='' , badgeHtml = '';
                             if (visitor.is_available === 'confirmed' || visitor.confirmed_at!==null ) {
-                                isConfirmed = true; 
+                                isConfirmed = true;
                                 var confirmedAt = new Date(visitor.confirmed_at);
                                 var formattedDate = formatDateTime(confirmedAt);
                                  confirmedHtml = '<span class="badge bg-success">'+visitor.user_status+'</span>';
                             } else {
                                 none = 'd-none';
                                 nonetimer = 'd-none';
-                                 badgeHtml = `<button   type="button" 
-                                                        class="btn btn-info text-white bg-color-info verify" 
-                                                        data-loading="Verifying..." 
-                                                        data-success="Verified" 
-                                                        data-default="Verify" 
+                                 badgeHtml = `<button   type="button"
+                                                        class="btn btn-info text-white bg-color-info verify"
+                                                        data-loading="Verifying..."
+                                                        data-success="Verified"
+                                                        data-default="Verify"
                                                         data-id="${visitor.id}"
                                                     >
                                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
@@ -239,12 +237,13 @@
                             var btnprop = '';
                             if(visitor.meeting_start_at != null){
                                 btnText = 'Started';
-                                btnprop ='disabled'; 
+                                btnprop ='disabled';
                                 $("#last-running-id").val(visitor.id);
                             }
+                            console.log("badgeHtml",badgeHtml)
                             // meeting_start_at
                             // <p class="fw-bold mb-1 h6"> ${visitor.fname} ${visitor.lname} </p>
-                            //<h6 class="sub-title"> ${visitor.email}</h6> 
+                            //<h6 class="sub-title"> ${visitor.email}</h6>
                             html +=`<div class="col-xl-12 mb-1 users-list">
                                 <div class="card">
                                     <div class="card-body">
@@ -254,60 +253,60 @@
                                                 <span class="rounded-circle text-center h6">${i}</span>
                                             </div>
                                             <div class="ms-3">
-                                                
-                                               
-                                                <h6 class="sub-title"> Token # ${visitor.booking_number} </h6> 
+
+
+                                                <h6 class="sub-title"> Token # ${visitor.booking_number} </h6>
                                                 <h6 class="sub-title"> ${formatDateTime(slot.venue_address.venue_date+' '+slot.slot_time)}</h6>
                                                     <h6 class="sub-title"> ${visitor.country_code} ${visitor.phone}</h6>
                                                     <h6 class="sub-title">${slot.venue_address.venue_date}</h6>
                                                     <h6 class="vert">${confirmedHtml}</h6>
                                                     <h6 class="sub-title"> Source : ${visitor.source} </h6>
                                                     <span class="badge bg-info ${nonetimer}"> total time : ${visitor.meeting_total_time} Seconds</span>
-                                                <p></p> 
+                                                <p></p>
                                             </div>
                                             <div class="info text-end">
-                                                 
+
                                                     ${badgeHtml}
-                                                
-                                                                                    
-                                                <button type="button" class="btn btn-success start mb-2 start${visitor.id} ${none}" 
+
+
+                                                <button type="button" class="btn btn-success start mb-2 start${visitor.id} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" ${btnprop}>
                                                     <div id="timer${visitor.id}">${btnText}</div>
                                                 </button>
 
-                                                <button type="button" class="btn btn-danger stop mb-2 stop${visitor.id} ${none}" 
+                                                <button type="button" class="btn btn-danger stop mb-2 stop${visitor.id} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" >
                                                     <div id="timer${visitor.id}">Stop</div>
                                                 </button>
-                                                
-                                            </div>  
+
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                            </div>`; 
+                            </div>`;
                             // html += `<tr>
                             //     <th scope="row">${visitor.booking_number }</th>
                             //     <td>${visitor.fname}  ${visitor.lname}</td>
                             //     <td>${convertTo12HourFormat(slot.slot_time)}</td>
                             //     <td> ${badgeHtml}</td>
                             //     <td class="action-td">
-                                    
+
                             //         <button type="button" class="btn btn-success start ${none}" data-minutes="${slot.venue_address.slot_duration}" data-id="${visitor.id}"><div id="timer${visitor.id}">Start</div></button>
                             //         <button type="button" class="btn btn-danger stop ${none}" data-id="${visitor.id}">Stop</button>
                             //         <button type="button" class="btn btn-info hold d-none ${none}">Hold</button>
                             //         <span class="badge bg-info ${nonetimer}"> total time : ${minutes} minutes ${seconds} Sec </span>
                             //     </td>
                             //     </tr>`;
-                                i++; 
+                                i++;
                         });
 
                     });
                     // $("#tbody").html(html)
                     $("#users-list-main").html(html)
-                    
+
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -354,7 +353,7 @@
             $this = $(this);
             var id = $this.attr('data-id');
             var lastid = $("#last-running-id").val();
- 
+
             var duration = parseInt($this.attr('data-minutes')); // Parse the value as an integer
 
             var startTime = new Date().getTime();
@@ -362,12 +361,12 @@
             var timeInterval = duration * 1000;
             var endTime = startTime + totalTime;
             $("#last-running-id").val(id);
-           
+
             postAjax(id, 'start' , $this);
             if(lastid > 0){
-                postAjax(lastid, 'end' ,  $this);     
+                postAjax(lastid, 'end' ,  $this);
             }
-            
+
             // $(this).prop("disabled", true);
 
             // Update the timer every second
@@ -380,8 +379,8 @@
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
                     $("#timer" + id).text("Time's up!");
-                    
-                  
+
+
                 } else {
                     var seconds = Math.floor(remainingTime / 1000) % 60;
                     var minutes = Math.floor(remainingTime / 1000 / 60);
@@ -401,16 +400,16 @@
         });
         $(document).on("click", ".verify", function() {
             $this = $(this);
-            var id = $(this).attr('data-id'); 
+            var id = $(this).attr('data-id');
              postAjax(id, 'verify' , $this);
         });
 
-        
 
-        
+
+
 
         function postAjax(id, type,event) {
-              
+
             var loadingText = event.attr('data-loading');
             var successText = event.attr('data-success');
             var defaultText = event.attr('data-default');
@@ -428,11 +427,11 @@
                 success: function(response) {
                     event.find('b').text(successText)
                     setTimeout(() => {
-                        event.find('b').text(defaultText) 
+                        event.find('b').text(defaultText)
                     }, 1500);
                     event.find('span').hide()
                     $(".start"+id).removeClass('d-none')
-                    event.fadeOut(); 
+                    event.fadeOut();
                     $(".vert").html('<span class="badge bg-success">Confirmed</span>')
 
                     console.log(response);
@@ -452,11 +451,11 @@
             var startTime = new Date(startTimeStr);
             var endTime = new Date(endTimeStr);
             var timeDifference = endTime - startTime;
-            
+
             var hours = Math.floor(timeDifference / (seconds * 60 * 60));
             var minutes = Math.floor((timeDifference % (seconds * 60 * 60)) / (seconds * 60));
             var remainingSeconds = Math.floor((timeDifference % (seconds * 60)) / seconds);
-            
+
             return {
                 hours: hours,
                 minutes: minutes,
