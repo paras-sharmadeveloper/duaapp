@@ -162,7 +162,7 @@ return array(
          * the desired content might be different (e.g. screen or projection view of html file).
          * Therefore allow specification of content here.
          */
-        "default_media_type" => "screen",
+        "default_media_type" => "print",
 
         /**
          * The default paper size.
@@ -188,7 +188,7 @@ return array(
          * Used if no suitable fonts can be found. This must exist in the font folder.
          * @var string
          */
-        "default_font" => "Jameel-Noori-Nastaleeq-Regular",
+        "default_font" => "Jameel Noori Nastaleeq Regular",
 
         /**
          * Image DPI setting
