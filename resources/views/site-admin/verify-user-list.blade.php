@@ -43,11 +43,10 @@
                                     {{ $visitor['user_status'] }}
                                 </span>
                             @endif
-                            <h5> Mobile: {{ $visitor['phone'] }}</h5>
-                            <div class="mt-3"> <span class="text-muted d-block">Token<i class="fa fa-coins"
-                                        aria-hidden="true"></i> :
-                                    <a href="#" target="_blank" class="text-muted">
-                                        {{ $visitor['booking_number'] }}</a></span>
+                            <h5> Mobile: {{ ($visitor['country_code']) ? $visitor['country_code']  : '' }}{{ $visitor['phone'] }}</h5>
+                            <div class="mt-3">
+                                <span class="text-muted d-block">Token<i class="fa fa-coins" aria-hidden="true"></i> : <a href="#" target="_blank" class="text-muted">{{ $visitor['booking_number'] }}</a></span>
+                                <span class="text-muted d-block Source">Source: <a href="#" target="_blank" class="text-muted"> # {{ $visitor['source'] }}</a></span>
 
                             </div>
                             <div class="mt-3">
@@ -178,10 +177,14 @@
                                     <div class="card border-0 bg-light rounded shadow">
                                         <div class="card-body p-4">
                                            ${userStatus}
-                                            <h5> Mobile:  ${visitor.phone}</h5>
+                                            <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
                                             <div class="mt-3"> <span class="text-muted d-block">Token<i class="fa fa-coins" aria-hidden="true"></i> :
                                                     <a href="#" target="_blank" class="text-muted">
-                                                        ${visitor.booking_number}</a></span>
+                                                        # ${visitor.booking_number}</a></span>
+
+                                                        <span class="text-muted d-block Source">Source:
+                                                    <a href="#" target="_blank" class="text-muted">
+                                                        ${visitor.source}</a></span>
 
                                             </div>
                                             <div class="mt-3">
