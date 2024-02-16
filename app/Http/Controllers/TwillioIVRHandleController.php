@@ -92,17 +92,19 @@ class TwillioIVRHandleController extends Controller
                 $redirectUrl = route('ivr.welcome', ['wrong_input' => true, 'redirect_to' => 'step1']); 
                 $response->redirect($redirectUrl);      
             }
- 
 
-           
-            if(!$isWrongInput){
-                $options = ['1' => 'dua', '2' => 'dum'];
+            $options = ['1' => 'dua', '2' => 'dum'];
                 if ($lang == 'en') {
                     $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
                 }else {
                     $language = 'ur-PK'; 
                     $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
                 }
+ 
+
+           
+            if(!$isWrongInput ){
+                
 
 
                 TwillioIvrResponse::create([
