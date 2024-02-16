@@ -246,8 +246,14 @@ class TwillioIVRHandleController extends Controller
                     // $response->play($this->cityUrl . 'city_' . $city . '.wav');
 
                     for ($i = 1; $i <= 2; $i++) {
+                        if($lang  == 'en'){ 
+                            $response->play($this->statementUrl . $lang . '/statement_your_token_date.wav');
+                        }else{ 
+                            // need to replace with Urdu 
+                            $response->play($this->statementUrl . 'en/statement_your_token_date.wav');
+                        }
 
-                        $response->play($this->statementUrl . $lang . '/statement_your_token_date.wav');
+                       
                         $datesArr = explode('-', $venueAddress->venue_date);
                         $year = $datesArr[0];
                         $month = $datesArr[1];
