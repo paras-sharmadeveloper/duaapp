@@ -119,7 +119,7 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }else {
             $language = 'ur-PK';
-            $response->say('براہ کرم دعا کی قسم منتخب کریں۔ دعا کے لیے 1 دبائیں اور دم کے لیے 2 دبائیں۔',
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',
                 ['language' => $language]
             );
         }
