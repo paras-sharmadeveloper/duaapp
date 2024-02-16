@@ -45,18 +45,12 @@ class TwillioIVRHandleController extends Controller
             'timeout' => 10, // Set the timeout to 10 seconds
         ]);
         $options = ['1' => 'en', '2' => 'ur'];
-
-        if ($request->input('Digits') == '1') {
-            $lang = 'en';
-        } else {
-            $lang = 'ur';
-        }
-
+ 
         TwillioIvrResponse::create([
             'mobile' => $request->input('From'),
             'response_digit' => $request->input('Digits',0),
             'attempts' => 1,
-            'lang' => $lang,
+            'lang' => '',
             'route_action' => 'ivr.dua.option',
             'customer_options' => json_encode($options)
 
@@ -125,9 +119,7 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }else {
             $language = 'ur-PK';
-            $response->say('براہ کرم دعا کی قسم منتخب کریں۔ دعا کے لیے 1 دبائیں اور دم کے لیے 2 دبائیں۔',
-                ['language' => $language]
-            );
+            $response->say('Ap Apni Dua ka type Btaye. Dua ke liye 1 dabaye Aur Dum ke Liye 2 dabaye', ['language' => $language]);
         }
         $options = ['1' => 'dua', '2' => 'dum'];
         TwillioIvrResponse::create([
