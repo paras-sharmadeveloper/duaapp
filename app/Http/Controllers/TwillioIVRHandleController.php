@@ -73,6 +73,9 @@ class TwillioIVRHandleController extends Controller
                 $lang = $customer_option[$userInput]; 
             }else{
                 $response->play($this->statementUrl . 'en/wrong_number_input.wav');
+                $response->say("Handle Welcome Inputs"); 
+                return response($response, 200)->header('Content-Type', 'text/xml');
+               
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
                 return $response->redirect(route('ivr.welcome'));
