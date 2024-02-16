@@ -20,6 +20,7 @@
             </div>
         </div>
     </div>
+
     <div class="row align-items-end mb-4 pb-2" id="users-list-main">
         @foreach ($venueSloting as $visitoddr)
             @foreach ($visitoddr->visitors as $visitor)
@@ -41,7 +42,7 @@
                             @elseif($visitor['user_status'] === 'meeting-end')
                                 <span class="badge rounded-pill bg-danger float-md-end mb-3 mb-sm-0">
                                     {{ $visitor['user_status'] }}
-                                </span>
+                                </span> 
                             @endif
                             <h5> Mobile: {{ ($visitor['country_code']) ? $visitor['country_code']  : '' }}{{ $visitor['phone'] }}</h5>
                             <div class="mt-3">
