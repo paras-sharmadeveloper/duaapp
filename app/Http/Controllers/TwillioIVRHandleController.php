@@ -109,9 +109,7 @@ class TwillioIVRHandleController extends Controller
                 ]);
            
             if(!$isWrongInput ){
-                
-
-
+                 
                 TwillioIvrResponse::create([
                     'mobile' => $request->input('From'),
                     'response_digit' => $request->input('Digits',0),
@@ -140,7 +138,7 @@ class TwillioIVRHandleController extends Controller
         $dua_option = '';
             if (array_key_exists($userInput,  $customer_option)) {
                 $dua_option = $customer_option[$userInput];
-            }else  if(!empty($userInput)){
+            }else if(!empty($userInput)){
                 $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true;
                 $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
@@ -152,9 +150,6 @@ class TwillioIVRHandleController extends Controller
 
  
             }
-
-
-        if (!$isWrongInput) {
 
             $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
             $query = $this->getDataFromVenue();
@@ -196,7 +191,14 @@ class TwillioIVRHandleController extends Controller
                
               
             }
-            
+            $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.makebooking'),
+                'timeout' => 10
+            ]);
+
+        if (!$isWrongInput) {
+ 
             TwillioIvrResponse::create([
                 'mobile' => $request->input('From'),
                 'response_digit' => $request->input('Digits'),
@@ -207,11 +209,7 @@ class TwillioIVRHandleController extends Controller
                 'customer_options' => json_encode($cityArr)
     
             ]);
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.makebooking'),
-                'timeout' => 10
-            ]);
+          
             
         }  
         
@@ -336,20 +334,17 @@ class TwillioIVRHandleController extends Controller
                     $response->play($this->statementUrl.$lang . '/statement_15_min_before.wav');
                     $response->play($this->statementUrl .$lang . '/statement_goodbye.wav');
                 }
+            }else {
+
+
+
+                $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
+                $attempts  = $existingData->attempts + 1;
+                $existingData->update(['attempts' =>  $attempts]); 
+                $redirectUrl = route('ivr.pickcity', ['wrong_input' => true, 'to' => 'dua_option']); 
+                $response->redirect($redirectUrl); 
             }
-        } else {
-
-
-
-            $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
-            $attempts  = $existingData->attempts + 1;
-            $existingData->update(['attempts' =>  $attempts]);
-
-        //    $response->play($this->statementUrl .$lang . '/wrong_number_input.wav');
-           // $attempts  = $existingData->attempts + 1;
-           // $existingData->update(['attempts' =>  $attempts]);
-            $response->redirect(route('ivr.pickcity'));
-        }
+        } 
 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
