@@ -265,7 +265,10 @@ class TwillioIVRHandleController extends Controller
                             $number = '00'.$day;
                         } else if ($day <= 999) { 
                             $number = '0'.$day;
+                        }else if ($day <= 2000) { 
+                            $number = $day;
                         }
+
 
                         
 
@@ -288,6 +291,8 @@ class TwillioIVRHandleController extends Controller
                             $tokenNumber = '00'.$tokenId;
                         } else if ($tokenId <= 999) { 
                             $tokenNumber = '0'.$tokenId;
+                        }else if ($tokenId <= 2000) { 
+                            $tokenNumber = $tokenId;
                         }
 
                         if($lang  == 'en'){
