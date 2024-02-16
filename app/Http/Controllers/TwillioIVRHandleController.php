@@ -84,10 +84,11 @@ class TwillioIVRHandleController extends Controller
 
 
         if ($lang == 'en') {
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => 'Polly.Mathieu']);
         }else {
             $language = 'ur-PK';
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
+            
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => 'Polly.Mathieu']);
         }
         $options = ['1' => 'dua', '2' => 'dum'];
 
@@ -145,8 +146,9 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->cityUrl . 'city_' . $city . '.wav');
                 if($lang =='en'){
                     $response->play($this->statementUrl . $lang . '/statement_agar_aap_eng.wav');  
-                    $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');   
-                    $response->play($this->numbersUrl . $number . '.wav');
+                    $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');
+                    $response->say($number,['voice' => 'Polly.Mathieu']);
+                    // $response->play($this->numbersUrl . $number . '.wav');
                    
                 }else{
                     $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
@@ -257,17 +259,20 @@ class TwillioIVRHandleController extends Controller
                             $number = '0'.$day;
                         }
 
+                        
+
                         if($lang  == 'en'){
-                            $response->say($day);
-                        }else{
+                            $response->say($day,['voice' => 'Polly.Mathieu']);
+                            $response->say($month,['voice' => 'Polly.Mathieu']);
+                            $response->say($year,['voice' => 'Polly.Mathieu']);
+                        }else{ 
                             $response->play($this->numbersUrl. $number . '.wav');
+                            $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
+                            $response->play($this->yearsIvr . 'Year_' . $year . '.wav'); 
                         }
- 
-                        $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
-                        $response->play($this->yearsIvr . 'Year_' . $year . '.wav'); 
+                        
  
                         $response->play($this->statementUrl.$lang . '/statement_your_token_number.wav');
- 
 
                         if ($tokenId <= 9) {
                             $number = '000' . $tokenId;
@@ -278,7 +283,8 @@ class TwillioIVRHandleController extends Controller
                         }
 
                         if($lang  == 'en'){
-                            $response->say($tokenId);
+                            $response->say($tokenId,['voice' => 'Polly.Mathieu']);
+                        
                         }else{ 
                             $response->play($this->numbersUrl . $number . '.wav');  
                         }
