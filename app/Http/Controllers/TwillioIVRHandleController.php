@@ -37,23 +37,28 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
         $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu',['voice' => $this->voice]);
-        $existingData = $this->getexistingCustomer($request->input('From'));
+   
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dua.option'),
             'timeout' => 10, // Set the timeout to 10 seconds
         ]);
         $options = ['1' => 'en', '2' => 'ur'];
- 
-        TwillioIvrResponse::create([
-            'mobile' => $request->input('From'),
-            'response_digit' => $request->input('Digits',0),
-            'attempts' => 1,
-            'lang' => '',
-            'route_action' => 'ivr.dua.option',
-            'customer_options' => json_encode($options)
+        if(empty($existingData)){
 
-        ]);
+            TwillioIvrResponse::create([
+                'mobile' => $request->input('From'),
+                'response_digit' => $request->input('Digits',0),
+                'attempts' => 1,
+                'lang' => '',
+                'route_action' => 'ivr.dua.option',
+                'customer_options' => json_encode($options)
+    
+            ]);
+
+        }
+ 
+        
         return response($response, 200)->header('Content-Type', 'text/xml'); 
          
     }
