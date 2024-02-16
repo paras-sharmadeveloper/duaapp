@@ -56,6 +56,8 @@ class TwillioIVRHandleController extends Controller
     
             ]);
 
+        }else{
+            $existingData->update(['logs' => json_encode($request->all()) ]); 
         }
  
         
@@ -76,8 +78,16 @@ class TwillioIVRHandleController extends Controller
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         $lang = 'en';
+
+
+      
         
+        
+         
         if (!empty($existingData)) {
+            $existingData->update(['logs' => json_encode($request->all()) ]); 
+            
+
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
             }else{
@@ -87,9 +97,6 @@ class TwillioIVRHandleController extends Controller
                 $existingData->update(['attempts' =>  $attempts]);
                 $response->redirect(route('ivr.welcome'));      
             }
-        } 
-         
-        if(!$isWrongInput){
 
             if ($lang == 'en') {
                 $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
@@ -99,16 +106,17 @@ class TwillioIVRHandleController extends Controller
                 $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
             }
             $options = ['1' => 'dua', '2' => 'dum'];
-    
-            TwillioIvrResponse::create([
-                'mobile' => $request->input('From'),
-                'response_digit' => $request->input('Digits',0),
-                'attempts' => 1,
-                'lang' => $lang, 
-                'route_action' => 'ivr.makebooking',
-                'customer_options' => json_encode($options)
-    
-            ]);
+            if(!$isWrongInput){
+                TwillioIvrResponse::create([
+                    'mobile' => $request->input('From'),
+                    'response_digit' => $request->input('Digits',0),
+                    'attempts' => 1,
+                    'lang' => $lang, 
+                    'route_action' => 'ivr.pickcity',
+                    'customer_options' => json_encode($options)
+        
+                ]);
+            }
 
             $response->gather([
                 'numDigits' => 1,
@@ -117,7 +125,7 @@ class TwillioIVRHandleController extends Controller
             ]);
 
         }
- 
+          
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
     public function handleCity(Request $request)
