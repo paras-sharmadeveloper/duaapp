@@ -76,6 +76,7 @@ class TwillioIVRHandleController extends Controller
             $attempts  = $existingData->attempts + 1;
             $existingData->update(['attempts' =>  $attempts]);
             $response->redirect(route('ivr.welcome'));
+            return response($response, 200)->header('Content-Type', 'text/xml');
            
         }
 
