@@ -70,19 +70,15 @@ class TwillioIVRHandleController extends Controller
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
+            }else{
+                $response->play($this->statementUrl . 'en/wrong_number_input.wav');
+                $attempts  = $existingData->attempts + 1;
+                $existingData->update(['attempts' =>  $attempts]);
+                $response->redirect(route('ivr.welcome'));
             }
         }else{
-            $response->play($this->statementUrl . 'en/wrong_number_input.wav');
-            $attempts  = $existingData->attempts + 1;
-            $existingData->update(['attempts' =>  $attempts]);
-            $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu',['voice' => $this->voice]);
-            $existingData = $this->getexistingCustomer($request->input('From'));
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.dua.option'),
-                'timeout' => 10, // Set the timeout to 10 seconds
-            ]);
             
+           $lang = 'en';
            
         }
 
