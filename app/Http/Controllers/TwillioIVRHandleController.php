@@ -100,8 +100,13 @@ class TwillioIVRHandleController extends Controller
                     $language = 'ur-PK'; 
                     $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
                 }
- 
 
+ 
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.pickcity'),
+                    'timeout' => 20, // Set the timeout to 10 seconds
+                ]);
            
             if(!$isWrongInput ){
                 
@@ -116,11 +121,7 @@ class TwillioIVRHandleController extends Controller
                     'customer_options' => json_encode($options)
         
                 ]);
-                $response->gather([
-                    'numDigits' => 1,
-                    'action' => route('ivr.pickcity'),
-                    'timeout' => 20, // Set the timeout to 10 seconds
-                ]);
+               
     
             } 
         }
