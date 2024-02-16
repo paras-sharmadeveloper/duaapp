@@ -1017,7 +1017,7 @@ class HomeController extends Controller
       'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
       'city' => (isset($result['city'])) ? $result['city'] : null,
       'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
-      'complete_data' => $response
+      'complete_data' => $response.env('IP_API_KEY')
     ];
 
     Ipinformation::create($data);
