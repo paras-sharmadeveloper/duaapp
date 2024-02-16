@@ -69,7 +69,7 @@ class TwillioIVRHandleController extends Controller
     {
 
         $response = new VoiceResponse();
-        $isWrongInput = false; 
+        $isWrongInput = $request->input('wrong_input',false); 
         $existingData = $this->getexistingCustomer($request->input('From'));
         $userInput = $request->input('Digits'); 
         $customer_option = json_decode($existingData->customer_options, true);
@@ -85,11 +85,11 @@ class TwillioIVRHandleController extends Controller
             }else if(!empty($userInput)){
                 $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true; 
-                $response->say("handle Dua Option FUNCTION . You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
+                $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
-                $redirectUrl = route('ivr.welcome', ['redirect_from' => 'dua_option', 'redirect_to' => 'step1']); 
+                $redirectUrl = route('ivr.welcome', ['wrong_input' => true, 'redirect_to' => 'step1']); 
                 $response->redirect($redirectUrl);      
             }
  
@@ -128,7 +128,7 @@ class TwillioIVRHandleController extends Controller
     public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
-        $isWrongInput = false; 
+        $isWrongInput = $request->input('wrong_input',false); 
         $userInput = $request->input('Digits');
         $existingData = $this->getexistingCustomer($request->input('From'));
         $lang = $existingData->lang;
@@ -140,11 +140,11 @@ class TwillioIVRHandleController extends Controller
             }else  if(!empty($userInput)){
                 $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true;
-                $response->say("handle City FUNCTION You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
+                $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
-                $redirectUrl = route('ivr.dua.option', ['from' => 'city', 'to' => 'dua_option']); 
+                $redirectUrl = route('ivr.dua.option', ['wrong_input' => true, 'to' => 'dua_option']); 
                 $response->redirect($redirectUrl);
 
  
