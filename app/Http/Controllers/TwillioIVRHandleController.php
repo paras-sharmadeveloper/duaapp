@@ -90,6 +90,16 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }
         $options = ['1' => 'dua', '2' => 'dum'];
+
+        TwillioIvrResponse::create([
+            'mobile' => $request->input('From'),
+            'response_digit' => $request->input('Digits',0),
+            'attempts' => 1,
+            'lang' => $lang, 
+            'route_action' => 'ivr.makebooking',
+            'customer_options' => json_encode($options)
+
+        ]);
        
         $response->gather([
             'numDigits' => 1,
