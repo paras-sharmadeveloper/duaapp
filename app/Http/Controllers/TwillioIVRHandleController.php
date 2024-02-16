@@ -281,20 +281,20 @@ class TwillioIVRHandleController extends Controller
                         
  
                         $response->play($this->statementUrl.$lang . '/statement_your_token_number.wav');
-
+                        
                         if ($tokenId <= 9) {
-                            $number = '000' . $tokenId;
+                            $tokenNumber = '000' . $tokenId;
                         } else if ($tokenId <= 99) { 
-                            $number = '00'.$tokenId;
+                            $tokenNumber = '00'.$tokenId;
                         } else if ($tokenId <= 999) { 
-                            $number = '0'.$tokenId;
+                            $tokenNumber = '0'.$tokenId;
                         }
 
                         if($lang  == 'en'){
                             $response->say($tokenId,['voice' => $this->voice]);
                         
                         }else{ 
-                            $response->play($this->numbersUrl . $number . '.wav');  
+                            $response->play($this->numbersUrl . $tokenNumber . '.wav');  
                         }
                        
                     }
