@@ -227,7 +227,8 @@ class TwillioIVRHandleController extends Controller
                     $slotId = $tokenIs->id;
 
                     $venueAddress = $tokenIs->venueAddress;
-                    $tokenId = str_pad($tokenIs->token_id, 4, '0', STR_PAD_LEFT);
+                    // $tokenId = str_pad($tokenIs->token_id, 4, '0', STR_PAD_LEFT);
+                    $tokenId = $tokenIs->token_id;
 
 
                     $countryCode = $this->findCountryByPhoneNumber($customer);
