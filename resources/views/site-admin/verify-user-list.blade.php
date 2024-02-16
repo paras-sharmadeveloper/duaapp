@@ -45,9 +45,8 @@
                             @endif
                             <h5> Mobile: {{ ($visitor['country_code']) ? $visitor['country_code']  : '' }}{{ $visitor['phone'] }}</h5>
                             <div class="mt-3">
-                                <span class="text-muted d-block">Token<i class="fa fa-coins" aria-hidden="true"></i> : <a href="#" target="_blank" class="text-muted">{{ $visitor['booking_number'] }}</a></span>
-                                <span class="text-muted d-block Source">Source: <a href="#" target="_blank" class="text-muted"> # {{ $visitor['source'] }}</a></span>
-
+                             <h5> Token: # {{ $visitor['booking_number'] }}</h5>
+                                 <span class="text-muted d-block Source">Source: <a href="#" target="_blank" class="text-muted"> # {{ $visitor['source'] }}</a></span>
                             </div>
                             <div class="mt-3">
                                 @if (empty($visitor->confirmed_at))
@@ -178,11 +177,9 @@
                                         <div class="card-body p-4">
                                            ${userStatus}
                                             <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
-                                            <div class="mt-3"> <span class="text-muted d-block">Token<i class="fa fa-coins" aria-hidden="true"></i> :
-                                                    <a href="#" target="_blank" class="text-muted">
-                                                        # ${visitor.booking_number}</a></span>
-
-                                                        <span class="text-muted d-block Source">Source:
+                                            <div class="mt-3"> 
+                                            <h5> Token:  # ${visitor.booking_number}</h5>
+                                             <span class="text-muted d-block Source">Source:
                                                     <a href="#" target="_blank" class="text-muted">
                                                         ${visitor.source}</a></span>
 
