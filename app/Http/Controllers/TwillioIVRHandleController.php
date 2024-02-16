@@ -90,19 +90,7 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }
         $options = ['1' => 'dua', '2' => 'dum'];
-        if (array_key_exists($userInput,  $options)) {
-            $dua_option = $options[$userInput];
-        }
-        TwillioIvrResponse::create([
-            'mobile' => $request->input('From'),
-            'response_digit' => $request->input('Digits', 0),
-            'attempts' => 1,
-            'lang' => $lang,
-            'dua_option' => $dua_option,
-            'route_action' => 'ivr.pickcity',
-            'customer_options' => json_encode($options)
-
-        ]);
+       
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.pickcity'),
@@ -116,7 +104,7 @@ class TwillioIVRHandleController extends Controller
         $userInput = $request->input('Digits');
         $existingData = $this->getexistingCustomer($request->input('From'));
         $lang = $existingData->lang;
-
+        $customer_option = json_decode($existingData->customer_options, true);
         if (!empty($existingData)) {
 
             $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
@@ -163,9 +151,23 @@ class TwillioIVRHandleController extends Controller
                
               
             }
+            $dua_option = '';
+            if (array_key_exists($userInput,  $customer_option)) {
+                $dua_option = $customer_option[$userInput];
+            }
+            TwillioIvrResponse::create([
+                'mobile' => $request->input('From'),
+                'response_digit' => $request->input('Digits'),
+                'attempts' => 1,
+                'lang' => $lang,
+                'dua_option' => $dua_option,
+                'route_action' => 'ivr.makebooking',
+                'customer_options' => json_encode($cityArr)
+    
+            ]);
          
 
-            $this->SaveLog($request, $cityArr, 'ivr.dates');
+            // $this->SaveLog($request, $cityArr, 'ivr.dates');
         } else {
 
             $response->play($this->statementUrl .'wrong_number_input.wav');
