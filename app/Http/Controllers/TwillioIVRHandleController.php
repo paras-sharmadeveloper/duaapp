@@ -81,20 +81,8 @@ class TwillioIVRHandleController extends Controller
         $lang = 'en';
  
          
-        if (!empty($existingData) && $request->input('redirect_from')) {
-            $existingData->update(['logs' => json_encode($request->all()) ]); 
-            
-
-           
-
-            if ($lang == 'en') {
-                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
-            }else {
-                $language = 'ur-PK';
-                
-                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
-            }
-
+        if (!empty($existingData)) {
+            $existingData->update(['logs' => json_encode($request->all()) ]);  
 
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
@@ -107,10 +95,19 @@ class TwillioIVRHandleController extends Controller
                 $redirectUrl = route('ivr.welcome', ['redirect_from' => 'dua_option', 'redirect_to' => 'step1']); 
                 $response->redirect($redirectUrl);      
             }
+ 
 
-            
-            $options = ['1' => 'dua', '2' => 'dum'];
+           
             if(!$isWrongInput){
+                $options = ['1' => 'dua', '2' => 'dum'];
+                if ($lang == 'en') {
+                    $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+                }else {
+                    $language = 'ur-PK'; 
+                    $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+                }
+
+
                 TwillioIvrResponse::create([
                     'mobile' => $request->input('From'),
                     'response_digit' => $request->input('Digits',0),
@@ -126,9 +123,7 @@ class TwillioIVRHandleController extends Controller
                     'timeout' => 20, // Set the timeout to 10 seconds
                 ]);
     
-            }
-
-           
+            } 
         }
           
         return response($response, 200)->header('Content-Type', 'text/xml');
