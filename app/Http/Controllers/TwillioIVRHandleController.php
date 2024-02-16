@@ -141,9 +141,18 @@ class TwillioIVRHandleController extends Controller
 
 
                 $response->play($this->cityUrl . 'city_' . $city . '.wav');
-                $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
-                $response->play($this->numbersUrl . '/' . $number . '.wav');
-                $response->play($this->statementUrl . $lang . '/statement_press.wav');
+                if($lang =='en'){
+                    $response->play($this->statementUrl . $lang . '/statement_agar_aap_eng.wav');  
+                    $response->play($this->numbersUrl . '/' . $number . '.wav');
+                    $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');   
+                }else{
+                    $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
+                    $response->play($this->numbersUrl . '/' . $number . '.wav');
+                    $response->play($this->statementUrl . $lang . '/statement_press.wav');
+                }
+               
+               
+              
             }
             $response->gather([
                 'numDigits' => 1,
@@ -237,8 +246,8 @@ class TwillioIVRHandleController extends Controller
                         }
 
                         $response->play($this->numbersUrl. $number . '.wav');
-                        $response->play($this->monthsIvr. $lang . 'Month_' . $month . '.wav');
-                        $response->play($this->yearsIvr . $lang . 'Year_' . $year . '.wav'); 
+                        $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
+                        $response->play($this->yearsIvr . 'Year_' . $year . '.wav'); 
  
                         $response->play($this->statementUrl.$lang . '/statement_your_token_number.wav');
  
