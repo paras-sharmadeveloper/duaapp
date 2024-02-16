@@ -126,11 +126,7 @@ class TwillioIVRHandleController extends Controller
             $i = 1;
             $cityArr = [];
             foreach ($distinctCities as $key => $city) {
-                
-                $cityArr[$i] = strtolower($city);
-
-                // $cityArr[$i] =  strtolower($city); 
-
+                $cityArr[$i] = strtolower($city);  
                 $i++;
             }
             ksort($cityArr);
@@ -221,20 +217,12 @@ class TwillioIVRHandleController extends Controller
                         ->orderBy('id', 'ASC')
                         ->select(['venue_address_id', 'token_id', 'id'])->first();
                        
-
-
-
                     $slotId = $tokenIs->id;
-
                     $venueAddress = $tokenIs->venueAddress;
                     // $tokenId = str_pad($tokenIs->token_id, 4, '0', STR_PAD_LEFT);
                     $tokenId = $tokenIs->token_id;
-
-
                     $countryCode = $this->findCountryByPhoneNumber($customer);
-
                     $cleanNumber = str_replace($countryCode, '', $customer);
-
                     $uuid = Str::uuid()->toString();
                     $booking = Vistors::create([
                         'is_whatsapp' => 'yes',
@@ -269,7 +257,13 @@ class TwillioIVRHandleController extends Controller
                             $number = '0'.$day;
                         }
 
-                        $response->play($this->numbersUrl. $number . '.wav');
+                        if($lang  == 'en'){
+                            $response->say($day);
+                        }else{
+                            $response->play($this->numbersUrl. $number . '.wav');
+                        }
+
+                        
                         $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
                         $response->play($this->yearsIvr . 'Year_' . $year . '.wav'); 
  
@@ -284,8 +278,12 @@ class TwillioIVRHandleController extends Controller
                             $number = '0'.$tokenId;
                         }
 
-
-                        $response->play($this->numbersUrl . $number . '.wav');
+                        if($lang  == 'en'){
+                            $response->say($tokenId);
+                        }else{ 
+                            $response->play($this->numbersUrl . $number . '.wav');  
+                        }
+                       
                     }
                     $response->play($this->statementUrl.$lang . '/statement_15_min_before.wav');
                     $response->play($this->statementUrl .$lang . '/statement_goodbye.wav');
