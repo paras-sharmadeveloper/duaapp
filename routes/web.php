@@ -38,6 +38,16 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome');
 
+    Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.dua.option');
+
+    Route::post('/ivr/welcome/inputs', [TwillioIVRHandleController::class, 'handleWelcomeInputs'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.welcome.after-lang');
+
+    
+
 
     Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
     ->withoutMiddleware(['web', 'verified'])

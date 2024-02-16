@@ -18,6 +18,8 @@ return new class extends Migration
             $table->json('customer_options')->nullable();   
             $table->string('route_action')->nullable();  
             $table->unsignedInteger('attempts')->default(0);  
+            $table->string('lang')->nullable(); 
+            $table->string('dua_option')->nullable(); 
             $table->timestamps();
         });
     }

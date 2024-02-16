@@ -138,7 +138,7 @@ class WhatsAppController extends Controller
             $dua_option = ($Respond == 1) ? 'dua' : 'dum';
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
-                 ->take(3)
+                ->take(3)
                 ->get();
 
             if(empty($venuesListArr)){

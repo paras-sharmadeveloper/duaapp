@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('data_sent_to_customer')->nullable();
             $table->datetime('last_reply_time')->nullable(); 
             $table->tinyInteger('steps')->default(0)->comment('customer_init => 0');
+            $table->string('lang')->nullable(); 
+            $table->string('dua_option')->nullable(); 
             $table->string('response_options')->nullable(); 
             $table->timestamps();
         });
