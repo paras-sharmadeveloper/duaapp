@@ -82,8 +82,9 @@ Route::get('/run/queue', function () {
 
 
 Route::get('/config/clear', function () {
-    Artisan::call('config:clear'); // Replace with the name of your custom command
     Artisan::call('config:cache');
+    Artisan::call('config:clear'); // Replace with the name of your custom command
+   
     return 'Scheduled task triggered successfully.' . env('IP_API_KEY');
 });
 

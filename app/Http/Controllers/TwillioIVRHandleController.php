@@ -116,16 +116,12 @@ class TwillioIVRHandleController extends Controller
             $venuesListArr = $query->get();
             $distinctCities = $venuesListArr->pluck('city')->unique();
 
-            $cityToShow = [];
-            foreach ($venuesListArr as $venue) {
-                $cityToShow[$venue->combinationData->city_name] = $venue->combinationData->city_sequence_to_show;
-            }
-
+            
             $i = 1;
             $cityArr = [];
             foreach ($distinctCities as $key => $city) {
-                $seq = $cityToShow[$city];
-                $cityArr[$seq] = strtolower($city);
+                
+                $cityArr[$i] = strtolower($city);
 
                 // $cityArr[$i] =  strtolower($city); 
 
