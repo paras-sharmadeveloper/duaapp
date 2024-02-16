@@ -39,7 +39,7 @@ class TwillioIVRHandleController extends Controller
 
 
 
-        $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu');
+        $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu',['voice' => $this->voice]);
         $existingData = $this->getexistingCustomer($request->input('From'));
         $response->gather([
             'numDigits' => 1,
