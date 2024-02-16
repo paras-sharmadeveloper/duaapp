@@ -119,7 +119,7 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }else {
             $language = 'ur-PK';
-            $response->say('Ap Apni Dua ka type Btaye. Dua ke liye 1 dabaye Aur Dum ke Liye 2 dabaye', ['language' => $language]);
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum'); 
         }
         $options = ['1' => 'dua', '2' => 'dum'];
         TwillioIvrResponse::create([
