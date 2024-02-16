@@ -37,7 +37,7 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
         $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu',['voice' => $this->voice]);
-   
+        $redirect_from = $request->input('redirect_from'); 
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dua.option'),
@@ -75,14 +75,26 @@ class TwillioIVRHandleController extends Controller
         $isWrongInput = false; 
         $existingData = $this->getexistingCustomer($request->input('From'));
         $userInput = $request->input('Digits');
+        $redirect_from = $request->input('redirect_from'); 
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         $lang = 'en';
  
          
-        if (!empty($existingData)) {
+        if (!empty($existingData) && $request->input('redirect_from')) {
             $existingData->update(['logs' => json_encode($request->all()) ]); 
             
+
+           
+
+            if ($lang == 'en') {
+                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+            }else {
+                $language = 'ur-PK';
+                
+                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+            }
+
 
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
@@ -92,17 +104,11 @@ class TwillioIVRHandleController extends Controller
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
-                $redirectUrl = route('ivr.welcome', ['from' => 'dua_option', 'to' => 'step1']); 
+                $redirectUrl = route('ivr.welcome', ['redirect_from' => 'dua_option', 'redirect_to' => 'step1']); 
                 $response->redirect($redirectUrl);      
             }
 
-            if ($lang == 'en') {
-                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
-            }else {
-                $language = 'ur-PK';
-                
-                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
-            }
+            
             $options = ['1' => 'dua', '2' => 'dum'];
             if(!$isWrongInput){
                 TwillioIvrResponse::create([
@@ -114,14 +120,15 @@ class TwillioIVRHandleController extends Controller
                     'customer_options' => json_encode($options)
         
                 ]);
+                $response->gather([
+                    'numDigits' => 1,
+                    'action' => route('ivr.pickcity'),
+                    'timeout' => 20, // Set the timeout to 10 seconds
+                ]);
+    
             }
 
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.pickcity'),
-                'timeout' => 20, // Set the timeout to 10 seconds
-            ]);
-
+           
         }
           
         return response($response, 200)->header('Content-Type', 'text/xml');
