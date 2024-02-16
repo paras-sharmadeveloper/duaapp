@@ -79,7 +79,11 @@ class TwillioIVRHandleController extends Controller
                 $lang = $customer_option[$userInput]; 
             }
         }else{
-            $lang = 'en'; 
+            $response->play($this->statementUrl . 'en/wrong_number_input.wav');
+            $attempts  = $existingData->attempts + 1;
+            $existingData->update(['attempts' =>  $attempts]);
+            $response->redirect(route('ivr.welcome'));
+           
         }
 
         
@@ -164,6 +168,12 @@ class TwillioIVRHandleController extends Controller
             $dua_option = '';
             if (array_key_exists($userInput,  $customer_option)) {
                 $dua_option = $customer_option[$userInput];
+            }else {
+
+                $response->play($this->statementUrl .$lang . '/wrong_number_input.wav');
+                $attempts  = $existingData->attempts + 1;
+                $existingData->update(['attempts' =>  $attempts]);
+                $response->redirect(route('ivr.pickcity'));
             }
             TwillioIvrResponse::create([
                 'mobile' => $request->input('From'),
@@ -299,7 +309,7 @@ class TwillioIVRHandleController extends Controller
                             $response->say($tokenId,['voice' => $this->voice]);
                         
                         }else{ 
-                            if($tokenId>800){
+                            if($tokenId>800){ // delete onces file recived
                                 $response->say($tokenId,['voice' => $this->voice]);
                             }else{
                                 $response->play($this->numbersUrl . $tokenNumber . '.wav');  
@@ -317,7 +327,7 @@ class TwillioIVRHandleController extends Controller
             $response->play($this->statementUrl .$lang . '/wrong_number_input.wav');
             $attempts  = $existingData->attempts + 1;
             $existingData->update(['attempts' =>  $attempts]);
-            $response->redirect(route('ivr.time'));
+            $response->redirect(route('ivr.pickcity'));
         }
 
         return response($response, 200)->header('Content-Type', 'text/xml');
