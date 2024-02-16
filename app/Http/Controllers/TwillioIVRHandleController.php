@@ -140,9 +140,9 @@ class TwillioIVRHandleController extends Controller
                 }
 
 
-                $response->play($this->cityUrl . $lang . '/city_' . $city . '.wav');
+                $response->play($this->cityUrl . 'city_' . $city . '.wav');
                 $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
-                $response->play($this->numbersUrl . $lang . '/' . $number . '.wav');
+                $response->play($this->numbersUrl . '/' . $number . '.wav');
                 $response->play($this->statementUrl . $lang . '/statement_press.wav');
             }
             $response->gather([
