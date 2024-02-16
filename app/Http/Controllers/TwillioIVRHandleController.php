@@ -83,7 +83,7 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
             }else if(!empty($userInput)){
-                $existingData->update(['logs' => "UserINput".json_encode($request->all())]);  
+                $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true; 
                 $response->say("handle Dua Option FUNCTION . You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
@@ -138,7 +138,7 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) {
                 $dua_option = $customer_option[$userInput];
             }else  if(!empty($userInput)){
-                $existingData->update(['logs' => "UserINputa".json_encode($request->all())]);  
+                $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true;
                 $response->say("handle City FUNCTION You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
