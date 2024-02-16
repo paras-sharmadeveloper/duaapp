@@ -68,6 +68,12 @@ class TwillioIVRHandleController extends Controller
         $existingData = $this->getexistingCustomer($request->input('From'));
         $userInput = $request->input('Digits');
         $customer_option = json_decode($existingData->customer_options, true);
+        $dua_option = ''; 
+        if (array_key_exists($userInput,  $customer_option)) {
+            $dua_option = $customer_option[$userInput];
+        }
+
+
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
@@ -91,6 +97,7 @@ class TwillioIVRHandleController extends Controller
             'response_digit' => $request->input('Digits', 0),
             'attempts' => 1,
             'lang' => $lang,
+            'dua_option' => $dua_option,
             'route_action' => 'ivr.pickcity',
             'customer_options' => json_encode($options)
 
@@ -200,6 +207,7 @@ class TwillioIVRHandleController extends Controller
                         ->where(['type' => $dua_option])
                         ->orderBy('id', 'ASC')
                         ->select(['venue_address_id', 'token_id', 'id'])->first();
+                        Log::info("Token:",json_encode($tokenIs)); 
 
 
 
