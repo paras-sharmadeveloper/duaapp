@@ -143,11 +143,11 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->cityUrl . 'city_' . $city . '.wav');
                 if($lang =='en'){
                     $response->play($this->statementUrl . $lang . '/statement_agar_aap_eng.wav');  
-                    $response->play($this->numbersUrl . '/' . $number . '.wav');
+                    $response->play($this->numbersUrl . $number . '.wav');
                     $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');   
                 }else{
                     $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
-                    $response->play($this->numbersUrl . '/' . $number . '.wav');
+                    $response->play($this->numbersUrl . $number . '.wav');
                     $response->play($this->statementUrl . $lang . '/statement_press.wav');
                 }
                
