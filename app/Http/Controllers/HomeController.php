@@ -515,7 +515,7 @@ class HomeController extends Controller
       } else {
         $userDetail = $this->getIpDetails($request->ip());
       }
-      $phoneCode = $userDetail['phoneCode'];
+      $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
     } else {
       $userDetail['countryCode'] = 'IN';
       $userDetail['countryName'] = 'India';
