@@ -80,10 +80,7 @@ class TwillioIVRHandleController extends Controller
                 $response->say("You have Entered Wrong Input Please choose the Write Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
-                $response->redirect(route('ivr.welcome'));
-               
-              
-                   
+                $response->redirect(route('ivr.welcome'));      
             }
         } 
          
@@ -121,11 +118,25 @@ class TwillioIVRHandleController extends Controller
     public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
+        $isWrongInput = false; 
         $userInput = $request->input('Digits');
         $existingData = $this->getexistingCustomer($request->input('From'));
         $lang = $existingData->lang;
         $customer_option = json_decode($existingData->customer_options, true);
-        if (!empty($existingData)) {
+
+        $dua_option = '';
+            if (array_key_exists($userInput,  $customer_option)) {
+                $dua_option = $customer_option[$userInput];
+            }else {
+                $isWrongInput = true;
+                $response->say("You have Entered Wrong Input Please choose the Write Input",['voice' => $this->voice]);
+                $attempts  = $existingData->attempts + 1;
+                $existingData->update(['attempts' =>  $attempts]);
+                $response->redirect(route('ivr.dua.option'));
+            }
+
+
+        if (!$isWrongInput) {
 
             $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
             $query = $this->getDataFromVenue();
@@ -167,16 +178,7 @@ class TwillioIVRHandleController extends Controller
                
               
             }
-            $dua_option = '';
-            if (array_key_exists($userInput,  $customer_option)) {
-                $dua_option = $customer_option[$userInput];
-            }else {
-
-                $response->play($this->statementUrl .$lang . '/wrong_number_input.wav');
-                $attempts  = $existingData->attempts + 1;
-                $existingData->update(['attempts' =>  $attempts]);
-                $response->redirect(route('ivr.pickcity'));
-            }
+            
             TwillioIvrResponse::create([
                 'mobile' => $request->input('From'),
                 'response_digit' => $request->input('Digits'),
@@ -187,22 +189,14 @@ class TwillioIVRHandleController extends Controller
                 'customer_options' => json_encode($cityArr)
     
             ]);
-         
-
-            // $this->SaveLog($request, $cityArr, 'ivr.dates');
-        } else {
-
-            $response->play($this->statementUrl .'wrong_number_input.wav');
-            $response =  $this->handleWelcomeInputs($response, $request, false);
-            $attempts  = $existingData->attempts + 1;
-            $existingData->update(['attempts' =>  $attempts]);
-            $response->redirect(route('ivr.pickcity'));
-        } 
-        $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.makebooking'),
-            'timeout' => 10
-        ]);
+            $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.makebooking'),
+                'timeout' => 10
+            ]);
+            
+        }  
+        
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
