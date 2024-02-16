@@ -220,7 +220,7 @@ class TwillioIVRHandleController extends Controller
                         ->where(['type' => $dua_option])
                         ->orderBy('id', 'ASC')
                         ->select(['venue_address_id', 'token_id', 'id'])->first();
-                        Log::info("Token:",json_encode($tokenIs)); 
+                       
 
 
 
