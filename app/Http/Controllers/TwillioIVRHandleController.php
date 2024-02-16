@@ -74,15 +74,14 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $isWrongInput = false; 
         $existingData = $this->getexistingCustomer($request->input('From'));
-        $userInput = $request->input('Digits');
-        $redirect_from = $request->input('redirect_from'); 
+        $userInput = $request->input('Digits'); 
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         $lang = 'en';
  
          
         if (!empty($existingData)) {
-            $existingData->update(['logs' => json_encode($request->all()) ]);  
+            $existingData->update(['logs' => json_encode($request->all())]);  
 
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
