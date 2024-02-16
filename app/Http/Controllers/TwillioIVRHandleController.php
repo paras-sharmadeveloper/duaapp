@@ -143,8 +143,9 @@ class TwillioIVRHandleController extends Controller
                 $response->play($this->cityUrl . 'city_' . $city . '.wav');
                 if($lang =='en'){
                     $response->play($this->statementUrl . $lang . '/statement_agar_aap_eng.wav');  
-                    $response->play($this->numbersUrl . $number . '.wav');
                     $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');   
+                    $response->play($this->numbersUrl . $number . '.wav');
+                   
                 }else{
                     $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
                     $response->play($this->numbersUrl . $number . '.wav');
@@ -154,11 +155,7 @@ class TwillioIVRHandleController extends Controller
                
               
             }
-            $response->gather([
-                'numDigits' => 1,
-                'action' => route('ivr.makebooking'),
-                'timeout' => 10
-            ]);
+         
 
             $this->SaveLog($request, $cityArr, 'ivr.dates');
         } else {
@@ -168,6 +165,11 @@ class TwillioIVRHandleController extends Controller
             $attempts  = $existingData->attempts + 1;
             $existingData->update(['attempts' =>  $attempts]);
         } 
+        $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.makebooking'),
+            'timeout' => 10
+        ]);
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
