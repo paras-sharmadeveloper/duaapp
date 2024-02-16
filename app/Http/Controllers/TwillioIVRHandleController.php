@@ -119,7 +119,9 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }else {
             $language = 'ur-PK';
-            $response->say('URDU . Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum'); 
+            $response->say('براہ کرم دعا کی قسم منتخب کریں۔ دعا کے لیے 1 دبائیں اور دم کے لیے 2 دبائیں۔',
+                ['language' => $language]
+            );
         }
         $options = ['1' => 'dua', '2' => 'dum'];
         TwillioIvrResponse::create([
@@ -131,7 +133,7 @@ class TwillioIVRHandleController extends Controller
             'customer_options' => json_encode($options)
 
         ]);
-        return $response;
+        return response($response, 200)->header('Content-Type', 'text/xml');
     }
     public function handleCity(Request $request)
     {
