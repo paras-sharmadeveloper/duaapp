@@ -19,6 +19,7 @@ class TwillioIVRHandleController extends Controller
     protected $country;
     protected $monthsIvr;
     protected $yearsIvr;
+    protected $voice; 
 
     public function __construct()
     {
@@ -28,6 +29,7 @@ class TwillioIVRHandleController extends Controller
         $this->monthsIvr    = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
         $this->yearsIvr     = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
         $this->country      = Venue::where(['iso' => 'PK'])->get()->first();
+        $this->voice = 'Polly.Stephen-Neural'; 
     }
 
     public function handleIncomingCall(Request $request)
@@ -84,11 +86,11 @@ class TwillioIVRHandleController extends Controller
 
 
         if ($lang == 'en') {
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => 'Polly.Mathieu']);
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
         }else {
             $language = 'ur-PK';
             
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => 'Polly.Mathieu']);
+            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
         }
         $options = ['1' => 'dua', '2' => 'dum'];
 
@@ -147,7 +149,7 @@ class TwillioIVRHandleController extends Controller
                 if($lang =='en'){
                     $response->play($this->statementUrl . $lang . '/statement_agar_aap_eng.wav');  
                     $response->play($this->statementUrl . $lang . '/statement_press_eng.wav');
-                    $response->say($number,['voice' => 'Polly.Mathieu']);
+                    $response->say($k,['voice' => $this->voice]);
                     // $response->play($this->numbersUrl . $number . '.wav');
                    
                 }else{
@@ -262,9 +264,9 @@ class TwillioIVRHandleController extends Controller
                         
 
                         if($lang  == 'en'){
-                            $response->say($day,['voice' => 'Polly.Mathieu']);
-                            $response->say($month,['voice' => 'Polly.Mathieu']);
-                            $response->say($year,['voice' => 'Polly.Mathieu']);
+                            $response->say($day,['voice' => $this->voice]);
+                            $response->say($month,['voice' => $this->voice]);
+                            $response->say($year,['voice' => $this->voice]);
                         }else{ 
                             $response->play($this->numbersUrl. $number . '.wav');
                             $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
@@ -283,7 +285,7 @@ class TwillioIVRHandleController extends Controller
                         }
 
                         if($lang  == 'en'){
-                            $response->say($tokenId,['voice' => 'Polly.Mathieu']);
+                            $response->say($tokenId,['voice' => $this->voice]);
                         
                         }else{ 
                             $response->play($this->numbersUrl . $number . '.wav');  
