@@ -67,7 +67,7 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
         $userInput = $request->input('Digits');
-        
+        $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         
 
@@ -90,7 +90,6 @@ class TwillioIVRHandleController extends Controller
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
         }
         $options = ['1' => 'dua', '2' => 'dum'];
-
         if (array_key_exists($userInput,  $options)) {
             $dua_option = $options[$userInput];
         }
