@@ -58,6 +58,9 @@ class TwillioIVRHandleController extends Controller
          
     }
 
+
+
+
     public function handleDuaOption(Request $request)
     {
 
@@ -74,14 +77,11 @@ class TwillioIVRHandleController extends Controller
             }else{
                 $response->play($this->statementUrl . 'en/wrong_number_input.wav');
                 $response->say("Handle Welcome Inputs"); 
-                return response($response, 200)->header('Content-Type', 'text/xml');
-               
-                $attempts  = $existingData->attempts + 1;
-                $existingData->update(['attempts' =>  $attempts]);
-                return $response->redirect(route('ivr.welcome'));
+              
+                   
             }
         } 
-
+        return response($response, 200)->header('Content-Type', 'text/xml');
         if ($lang == 'en') {
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
         }else {
