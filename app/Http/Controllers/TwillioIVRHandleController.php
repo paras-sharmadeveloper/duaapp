@@ -87,7 +87,7 @@ class TwillioIVRHandleController extends Controller
                 $lang = $customer_option[$userInput]; 
             }else{
                 $isWrongInput = true; 
-                $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
+                $response->say("handle Dua Option FUNCTION . You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
@@ -141,7 +141,7 @@ class TwillioIVRHandleController extends Controller
                 $dua_option = $customer_option[$userInput];
             }else {
                 $isWrongInput = true;
-                $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
+                $response->say("handle City FUNCTION You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
