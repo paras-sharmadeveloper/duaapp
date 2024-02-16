@@ -66,6 +66,7 @@ class TwillioIVRHandleController extends Controller
         $userInput = $request->input('Digits');
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
+        $lang = 'en';
         
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
@@ -76,11 +77,7 @@ class TwillioIVRHandleController extends Controller
                 $existingData->update(['attempts' =>  $attempts]);
                 $response->redirect(route('ivr.welcome'));
             }
-        }else{
-            
-           $lang = 'en';
-           
-        }
+        } 
 
         if ($lang == 'en') {
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
