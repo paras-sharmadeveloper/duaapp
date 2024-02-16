@@ -78,11 +78,7 @@ class TwillioIVRHandleController extends Controller
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         $lang = 'en';
-
-
-      
-        
-        
+ 
          
         if (!empty($existingData)) {
             $existingData->update(['logs' => json_encode($request->all()) ]); 
@@ -95,7 +91,9 @@ class TwillioIVRHandleController extends Controller
                 $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
-                $response->redirect(route('ivr.welcome'));      
+
+                $redirectUrl = route('ivr.welcome', ['from' => 'dua_option', 'to' => 'step1']); 
+                $response->redirect($redirectUrl);      
             }
 
             if ($lang == 'en') {
@@ -145,7 +143,11 @@ class TwillioIVRHandleController extends Controller
                 $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
-                $response->redirect(route('ivr.dua.option'));
+
+                $redirectUrl = route('ivr.dua.option', ['from' => 'city', 'to' => 'dua_option']); 
+                $response->redirect($redirectUrl);
+
+ 
             }
 
 
