@@ -55,44 +55,12 @@ class TwillioIVRHandleController extends Controller
             'customer_options' => json_encode($options)
 
         ]);
-        return response($response, 200)->header('Content-Type', 'text/xml');
-        // return $response;
-
-
-        // $response = $this->handleLanguageSelection($response, $request, true);
-        // return response($response, 200)->header('Content-Type', 'text/xml');
+        return response($response, 200)->header('Content-Type', 'text/xml'); 
+         
     }
 
 
-
-    // public function handleLanguageSelection($response, $request, $isVaild = true)
-    // {
-    //     $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu');
-    //     $existingData = $this->getexistingCustomer($request->input('From'));
-    //     $response->gather([
-    //         'numDigits' => 1,
-    //         'action' => route('ivr.dua.option'),
-    //         'timeout' => 10, // Set the timeout to 10 seconds
-    //     ]);
-    //     $options = ['1' => 'en', '2' => 'ur'];
-
-    //     if ($request->input('Digits') == '1') {
-    //         $lang = 'en';
-    //     } else {
-    //         $lang = 'ur';
-    //     }
-
-    //     TwillioIvrResponse::create([
-    //         'mobile' => $request->input('From'),
-    //         'response_digit' => $request->input('Digits',0),
-    //         'attempts' => 1,
-    //         'lang' => $lang,
-    //         'route_action' => 'ivr.dua.option',
-    //         'customer_options' => json_encode($options)
-
-    //     ]);
-    //     return $response;
-    // }
+ 
     public function handleDuaOption(Request $request)
     {
 
@@ -108,11 +76,7 @@ class TwillioIVRHandleController extends Controller
             $lang = 'en'; 
         }
 
-        $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.pickcity'),
-            'timeout' => 20, // Set the timeout to 10 seconds
-        ]);
+        
 
 
         if ($lang == 'en') {
@@ -130,6 +94,11 @@ class TwillioIVRHandleController extends Controller
             'route_action' => 'ivr.pickcity',
             'customer_options' => json_encode($options)
 
+        ]);
+        $response->gather([
+            'numDigits' => 1,
+            'action' => route('ivr.pickcity'),
+            'timeout' => 20, // Set the timeout to 10 seconds
         ]);
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
