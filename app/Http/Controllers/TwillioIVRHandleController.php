@@ -65,6 +65,7 @@ class TwillioIVRHandleController extends Controller
     {
 
         $response = new VoiceResponse();
+        $isWrongInput = false; 
         $existingData = $this->getexistingCustomer($request->input('From'));
         $userInput = $request->input('Digits');
         $customer_option = json_decode($existingData->customer_options, true);
@@ -75,37 +76,46 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
             }else{
-                $response->play($this->statementUrl . 'en/wrong_number_input.wav');
-                $response->say("Handle Welcome Inputs"); 
+                $isWrongInput = true; 
+                $response->say("You have Entered Wrong Input Please choose the Write Input",['voice' => $this->voice]);
+                $attempts  = $existingData->attempts + 1;
+                $existingData->update(['attempts' =>  $attempts]);
+                $response->redirect(route('ivr.welcome'));
+               
               
                    
             }
         } 
-        return response($response, 200)->header('Content-Type', 'text/xml');
-        if ($lang == 'en') {
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
-        }else {
-            $language = 'ur-PK';
-            
-            $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+         
+        if(!$isWrongInput){
+
+            if ($lang == 'en') {
+                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+            }else {
+                $language = 'ur-PK';
+                
+                $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
+            }
+            $options = ['1' => 'dua', '2' => 'dum'];
+    
+            TwillioIvrResponse::create([
+                'mobile' => $request->input('From'),
+                'response_digit' => $request->input('Digits',0),
+                'attempts' => 1,
+                'lang' => $lang, 
+                'route_action' => 'ivr.makebooking',
+                'customer_options' => json_encode($options)
+    
+            ]);
+
+            $response->gather([
+                'numDigits' => 1,
+                'action' => route('ivr.pickcity'),
+                'timeout' => 20, // Set the timeout to 10 seconds
+            ]);
+
         }
-        $options = ['1' => 'dua', '2' => 'dum'];
-
-        TwillioIvrResponse::create([
-            'mobile' => $request->input('From'),
-            'response_digit' => $request->input('Digits',0),
-            'attempts' => 1,
-            'lang' => $lang, 
-            'route_action' => 'ivr.makebooking',
-            'customer_options' => json_encode($options)
-
-        ]);
-       
-        $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.pickcity'),
-            'timeout' => 20, // Set the timeout to 10 seconds
-        ]);
+ 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
     public function handleCity(Request $request)
