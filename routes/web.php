@@ -57,13 +57,13 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.pickcity');
 
-    Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
-        ->withoutMiddleware(['web', 'verified'])
-        ->name('ivr.dates');
+    // Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
+    //     ->withoutMiddleware(['web', 'verified'])
+    //     ->name('ivr.dates');
 
-    Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
-        ->withoutMiddleware(['web', 'verified'])
-        ->name('ivr.time');
+    // Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
+    //     ->withoutMiddleware(['web', 'verified'])
+    //     ->name('ivr.time');
     Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
         ->withoutMiddleware(['web', 'verified'])
         ->name('ivr.makebooking');
@@ -84,7 +84,7 @@ Route::get('/run/queue', function () {
 Route::get('/config/clear', function () {
     Artisan::call('config:clear'); // Replace with the name of your custom command
     Artisan::call('config:cache');
-    return 'Scheduled task triggered successfully.';
+    return 'Scheduled task triggered successfully.' . env('IP_API_KEY');
 });
 
 Route::get('/run/command', function () {
