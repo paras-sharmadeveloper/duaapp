@@ -71,39 +71,49 @@ class TwillioIVRHandleController extends Controller
 
 
 
-    public function handleLanguageSelection($response, $request, $isVaild = true)
-    {
-        $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu');
-        $existingData = $this->getexistingCustomer($request->input('From'));
-        $response->gather([
-            'numDigits' => 1,
-            'action' => route('ivr.dua.option'),
-            'timeout' => 10, // Set the timeout to 10 seconds
-        ]);
-        $options = ['1' => 'en', '2' => 'ur'];
+    // public function handleLanguageSelection($response, $request, $isVaild = true)
+    // {
+    //     $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu');
+    //     $existingData = $this->getexistingCustomer($request->input('From'));
+    //     $response->gather([
+    //         'numDigits' => 1,
+    //         'action' => route('ivr.dua.option'),
+    //         'timeout' => 10, // Set the timeout to 10 seconds
+    //     ]);
+    //     $options = ['1' => 'en', '2' => 'ur'];
 
-        if ($request->input('Digits') == '1') {
-            $lang = 'en';
-        } else {
-            $lang = 'ur';
-        }
+    //     if ($request->input('Digits') == '1') {
+    //         $lang = 'en';
+    //     } else {
+    //         $lang = 'ur';
+    //     }
 
-        TwillioIvrResponse::create([
-            'mobile' => $request->input('From'),
-            'response_digit' => $request->input('Digits',0),
-            'attempts' => 1,
-            'lang' => $lang,
-            'route_action' => 'ivr.dua.option',
-            'customer_options' => json_encode($options)
+    //     TwillioIvrResponse::create([
+    //         'mobile' => $request->input('From'),
+    //         'response_digit' => $request->input('Digits',0),
+    //         'attempts' => 1,
+    //         'lang' => $lang,
+    //         'route_action' => 'ivr.dua.option',
+    //         'customer_options' => json_encode($options)
 
-        ]);
-        return $response;
-    }
+    //     ]);
+    //     return $response;
+    // }
     public function handleDuaOption(Request $request)
     {
 
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
+        $userInput = $request->input('Digits');
+        $customer_option = json_decode($existingData->customer_options, true);
+        if (!empty($existingData)) {
+            if (array_key_exists($userInput,  $customer_option)) {
+                $lang = $customer_option[$userInput]; 
+            }
+        }else{
+            $lang = 'en'; 
+        }
+
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.pickcity'),
@@ -111,12 +121,11 @@ class TwillioIVRHandleController extends Controller
         ]);
 
 
-        if ($existingData->lang == 'en') {
+        if ($lang == 'en') {
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum');
-        } else {
+        }else {
             $language = 'ur-PK';
-            $response->say(
-                'براہ کرم دعا کی قسم منتخب کریں۔ دعا کے لیے 1 دبائیں اور دم کے لیے 2 دبائیں۔',
+            $response->say('براہ کرم دعا کی قسم منتخب کریں۔ دعا کے لیے 1 دبائیں اور دم کے لیے 2 دبائیں۔',
                 ['language' => $language]
             );
         }
@@ -125,8 +134,8 @@ class TwillioIVRHandleController extends Controller
             'mobile' => $request->input('From'),
             'response_digit' => $request->input('Digits', 0),
             'attempts' => 1,
-            'lang' => $existingData->lang,
-            'route_action' => 'ivr.dua.option',
+            'lang' => $lang,
+            'route_action' => 'ivr.pickcity',
             'customer_options' => json_encode($options)
 
         ]);
