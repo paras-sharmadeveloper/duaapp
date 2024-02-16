@@ -36,9 +36,6 @@ class TwillioIVRHandleController extends Controller
     {
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
-
-
-
         $response->say('Welcome to Kahay Faqeer. Please Choose Your Preferred Language. Press 1 for English and Press 2 for Urdu',['voice' => $this->voice]);
         $existingData = $this->getexistingCustomer($request->input('From'));
         $response->gather([
@@ -61,8 +58,6 @@ class TwillioIVRHandleController extends Controller
          
     }
 
-
- 
     public function handleDuaOption(Request $request)
     {
 
@@ -72,8 +67,6 @@ class TwillioIVRHandleController extends Controller
         $customer_option = json_decode($existingData->customer_options, true);
         $dua_option = ''; 
         
-
-
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $lang = $customer_option[$userInput]; 
@@ -85,9 +78,6 @@ class TwillioIVRHandleController extends Controller
             $response->redirect(route('ivr.welcome'));
            
         }
-
-        
-
 
         if ($lang == 'en') {
             $response->say('Please Select Type of Dua. Press 1 for Dua and Press 2 for Dum',['voice' => $this->voice]);
@@ -129,7 +119,6 @@ class TwillioIVRHandleController extends Controller
             $venuesListArr = $query->get();
             $distinctCities = $venuesListArr->pluck('city')->unique();
 
-            
             $i = 1;
             $cityArr = [];
             foreach ($distinctCities as $key => $city) {
@@ -194,6 +183,7 @@ class TwillioIVRHandleController extends Controller
             $response =  $this->handleWelcomeInputs($response, $request, false);
             $attempts  = $existingData->attempts + 1;
             $existingData->update(['attempts' =>  $attempts]);
+            $response->redirect(route('ivr.pickcity'));
         } 
         $response->gather([
             'numDigits' => 1,
