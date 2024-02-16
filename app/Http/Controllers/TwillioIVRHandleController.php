@@ -163,7 +163,7 @@ class TwillioIVRHandleController extends Controller
             $this->SaveLog($request, $cityArr, 'ivr.dates');
         } else {
 
-            $response->play($this->statementUrl . $lang .'/wrong_number_input.wav');
+            $response->play($this->statementUrl .'wrong_number_input.wav');
             $response =  $this->handleWelcomeInputs($response, $request, false);
             $attempts  = $existingData->attempts + 1;
             $existingData->update(['attempts' =>  $attempts]);
