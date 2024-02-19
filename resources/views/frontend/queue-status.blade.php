@@ -348,6 +348,7 @@
         span.text-center.text-success {
             font-size: 24px;
         }
+       
     </style>
     <section id="mainsection">
         <div class="container">
@@ -455,10 +456,8 @@
                 //     type: 'jpeg',
                 //     quality: 1.0
                 // },
-                html2canvas: {
-                    width: 900,
-                    height: 1200,
-                    scale: 2
+                html2canvas: {  
+                    scale: 3
                 },
                 jsPDF: {
                     unit: 'mm',
