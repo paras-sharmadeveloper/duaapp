@@ -80,6 +80,7 @@ class WhatsAppController extends Controller
                 'steps' => $step,
                 'response_options' => implode(',', $options)
             ];
+            
             WhatsApp::create($dataArr);
         }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
               // Welcome  Message
