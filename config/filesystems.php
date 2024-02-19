@@ -43,6 +43,11 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'public_uploads' => [
+            'driver' => 'local',
+            'root'   => (env('APP_ENV') == 'production') ? dirname(dirname(dirname(__FILE__))) :  public_path('/'),
+            'url' =>  (env('APP_ENV') == 'production') ? '' :  public_path('/'),
+        ],
 
         's3' => [
             'driver' => 's3',

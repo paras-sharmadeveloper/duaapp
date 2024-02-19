@@ -397,7 +397,8 @@
 
                         <div class="queue-qr-scan">
 
-                            <img src="{{ $imageUrl }}" alt="Image" id="image-enlarge">
+                          {!! QrCode::size(120)->generate($userBooking->booking_uniqueid) !!}
+ 
                         </div>
 
 
@@ -413,10 +414,10 @@
                             </p>
 
                             {{-- <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a> --}}
-                            <a href="{{ route('generate-pdf', [$userBooking->booking_uniqueid]) }}"
-                                class="btn btn-success">{{ trans('messages.pdf_download_btn_label') }}</a>
-                            {{-- <button type="button" class="btn btn-success download-apponit" id="cmd"
-                                onclick="downloadPdf()">{{ trans('messages.pdf_download_btn_label') }}</button> --}}
+                            {{-- <a href="{{ route('generate-pdf', [$userBooking->booking_uniqueid]) }}"
+                                class="btn btn-success">{{ trans('messages.pdf_download_btn_label') }}</a> --}}
+                            <button type="button" class="btn btn-success download-apponit" id="cmd"
+                                onclick="downloadPdf()">{{ trans('messages.pdf_download_btn_label') }}</button> 
 
                         </div>
 
@@ -428,9 +429,9 @@
 @endsection
 
 <!-- Include jsPDF -->
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+ 
 
 
 @section('page-script')
@@ -439,35 +440,9 @@
         var fileName =
             "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
 
+          
+
         function downloadPdf() {
-
-            var doc = new jsPDF("p", "pt", "a4", true);
-
-            var a4Width = Number(doc.internal.pageSize.getWidth());
-
-            doc.fromHTML($("#main-target").html(), 20, 0, {
-
-                    pagesplit: false,
-
-                    "width": (a4Width - 40) // for margin right
-
-                },
-
-                function(dispose) {
-
-                    doc.save("PHPLift.pdf");
-
-                }
-
-            );
-
-        }
-
-
-
-
-
-        function downloadPdf1() {
 
             $(".download-apponit").hide();
             const element = document.getElementById('main-target');
@@ -481,7 +456,7 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {
-                    width: 1000,
+                    width: 900,
                     height: 1200,
                     scale: 2
                 },
