@@ -172,34 +172,43 @@ class TwillioIVRHandleController extends Controller
                 $i++;
             }
             ksort($cityArr);
-            foreach ($cityArr as $k => $city) {
+
+            if(!empty($cityArr)){
+                foreach ($cityArr as $k => $city) {
                  
 
-                if ($k <= 9) {
-                    $number = '000' . $k;
-                } else if ($k <= 99) { 
-                    $number = '00'.$k;
-                } else if ($k <= 999) { 
-                    $number = '0'.$k;
+                    if ($k <= 9) {
+                        $number = '000' . $k;
+                    } else if ($k <= 99) { 
+                        $number = '00'.$k;
+                    } else if ($k <= 999) { 
+                        $number = '0'.$k;
+                    }
+    
+    
+                   
+                    if($lang =='en'){ 
+                        $response->play($this->statementUrl . $lang . '/statement_agar_aap.wav');  
+                        $response->play($this->cityUrl . 'city_' . $city . '.wav');
+                        $response->play($this->statementUrl . $lang . '/statement_press.wav');
+                        $response->say($k,['voice' => $this->voice]); 
+                    }else{
+                        $response->play($this->cityUrl . 'city_' . $city . '.wav');
+                        $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
+                        $response->play($this->numbersUrl . $number . '.wav');
+                        $response->play($this->statementUrl . $lang . '/statement_press.wav');
+                    }
+                   
+                   
+                  
                 }
-
-
-               
-                if($lang =='en'){ 
-                    $response->play($this->statementUrl . $lang . '/statement_agar_aap.wav');  
-                    $response->play($this->cityUrl . 'city_' . $city . '.wav');
-                    $response->play($this->statementUrl . $lang . '/statement_press.wav');
-                    $response->say($k,['voice' => $this->voice]); 
-                }else{
-                    $response->play($this->cityUrl . 'city_' . $city . '.wav');
-                    $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
-                    $response->play($this->numbersUrl . $number . '.wav');
-                    $response->play($this->statementUrl . $lang . '/statement_press.wav');
-                }
-               
-               
-              
+            }else{
+                $response->play($this->statementUrl . $lang . '/cant_book_dua_meeting.wav');  
+                $response->play($this->statementUrl . $lang . '/please_try_again_later.wav');  
+                $response->play($this->statementUrl . $lang . '/statement_goodbye.wav');  
+                
             }
+           
             $response->gather([
                 'numDigits' => 1,
                 'action' => route('ivr.makebooking'),
