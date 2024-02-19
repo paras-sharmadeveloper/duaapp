@@ -368,20 +368,20 @@ class WhatsAppController extends Controller
                 $message = <<<EOT
                 Welcome to the KahayFaqeer.org Dua Appointment Scheduler.
 
-                Please note that dua via online or phone is not available at this time.
+                Please note online or phone dua meeting is not possible at this time.
 
-                To schedule a dua meeting with Qibla Syed Sarfraz Ahmad Shah Sahab please enter 1
+                To schedule a dua meeting with Qibla Syed Sarfraz Ahmad Shah Sahab please enter 1
 
                 EOT;
 
             }else{
 
                 $message = <<<EOT
-                KahayFaqeer.org دعا اپائنٹمنٹ شیڈولر میں خوش آمدید۔
+                و KahayFaqeer.org دعا اپائنٹمنٹ شیڈولر میں خوش آمدید۔
 
-                براہ کرم نوٹ کریں کہ اس وقت آن لائن یا فون کے ذریعے دعا دستیاب نہیں ہے۔
+                براہ مہربانی نوٹ کریں کہ اس وقت آن لائن یا فون پر دعا ممکن نہیں ہے۔
 
-                قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ دعا ملاقات کا شیڈول کرنے کے لیے براہ کرم 1 درج کریں۔
+                قبلہ سید سرفراز احمد شاہ صاحب سے دعا ملاقات کا وقت طے کرنے کے لیے براہ مہربانی 1 درج کریں۔
                 EOT;
             }
 
