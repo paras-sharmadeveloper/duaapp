@@ -37,7 +37,7 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
         
-        $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');  
+        // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');  
         $response->play($this->statementUrl . 'ur/welcome_for_eng_press1_for_urdu_press2.wav');
            
        
@@ -45,7 +45,7 @@ class TwillioIVRHandleController extends Controller
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dua.option'),
-            'timeout' => 10, // Set the timeout to 10 seconds
+            'timeout' => 20, // Set the timeout to 10 seconds
         ]);
         $options = ['1' => 'en', '2' => 'ur'];
         if(empty($existingData)){
@@ -198,8 +198,7 @@ class TwillioIVRHandleController extends Controller
                         $response->play($this->numbersUrl . $number . '.wav');
                         $response->play($this->statementUrl . $lang . '/statement_press.wav');
                     }
-                   
-                   
+                    
                   
                 }
             }else{
