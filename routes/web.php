@@ -169,7 +169,7 @@ Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('sen
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
 Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
-Route::get('/waiting/queue/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
+Route::get('/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
 Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
 Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
