@@ -142,7 +142,7 @@
  
 
                     <div class="col-md-4">
-                    <label>Venue Addresses English</label>
+                    <label>Venue Addresses (English)</label>
                 
                         <div class="input-group">
                           
@@ -159,7 +159,7 @@
                     </div>
 
                     <div class="col-md-4 ">
-                     <label>Venue Addresses Urdu</label>
+                     <label>Venue Addresses (Urdu)</label>
                         <div class="input-group"> 
 
                             {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
