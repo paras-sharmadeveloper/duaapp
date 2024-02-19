@@ -80,9 +80,6 @@ class TwillioIVRHandleController extends Controller
         $dua_option = ''; 
        
         $lang = $existingData->lang;
-
-       
- 
          
         if (!empty($existingData)) {
             $existingData->update(['logs' => json_encode($request->all())]);  
@@ -106,7 +103,6 @@ class TwillioIVRHandleController extends Controller
             }
 
             $options = ['1' => 'dua', '2' => 'dum'];
-
 
             $response->play($this->statementUrl .$lang . '/if_dua_press1_if_dum_press2.wav');  
                
@@ -160,7 +156,7 @@ class TwillioIVRHandleController extends Controller
  
             }
 
-            $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
+            
             $query = $this->getDataFromVenue();
             $venuesListArr = $query->get();
             $distinctCities = $venuesListArr->pluck('city')->unique();
@@ -174,6 +170,7 @@ class TwillioIVRHandleController extends Controller
             ksort($cityArr);
 
             if(!empty($cityArr)){
+                $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
                 foreach ($cityArr as $k => $city) {
                  
 
