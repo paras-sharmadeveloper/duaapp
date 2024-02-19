@@ -40,15 +40,17 @@ class TwillioIVRHandleController extends Controller
         // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');  
         $response->play($this->statementUrl . 'ur/welcome_for_eng_press1_for_urdu_press2.wav');
            
-       
-        $redirect_from = $request->input('redirect_from'); 
+        $isWrongInput = $request->input('wrong_input',false);  
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dua.option'),
-            'timeout' => 20, // Set the timeout to 10 seconds
+            'timeout' => 20,  
         ]);
         $options = ['1' => 'en', '2' => 'ur'];
-        if(empty($existingData)){
+        if(!empty($existingData)){
+            $this->FlushEntries($request->input('From')); 
+        }
+        if(!$isWrongInput){
 
             TwillioIvrResponse::create([
                 'mobile' => $request->input('From'),
@@ -60,9 +62,7 @@ class TwillioIVRHandleController extends Controller
     
             ]);
 
-        }else{
-            $existingData->update(['logs' => json_encode($request->all()) ]); 
-        }
+        } 
  
         
         return response($response, 200)->header('Content-Type', 'text/xml'); 
@@ -430,5 +430,10 @@ class TwillioIVRHandleController extends Controller
             'customer_options' => json_encode($options)
 
         ]);
+    }
+
+    private function FlushEntries($phoneNUmber)
+    {
+        TwillioIvrResponse::where(['mobile' => $phoneNUmber])->delete();
     }
 }
