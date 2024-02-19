@@ -273,7 +273,8 @@ class TwillioIVRHandleController extends Controller
                         'booking_number' => $tokenId,
                         'country_code' => $countryCode,
                         'phone' => $cleanNumber,
-                        'source' => 'Phone'
+                        'source' => 'Phone',
+                        'lang' => $lang
                     ]);
 
                     if ($booking) {

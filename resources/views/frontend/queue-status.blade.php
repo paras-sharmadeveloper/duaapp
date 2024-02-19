@@ -385,7 +385,13 @@
 
                         <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} </h2>
                         <div class="venue-info">
+                        @if(empty($userBooking->lang) || $userBooking->lang == 'en')
                             <h4>{{ $venueAddress->address }}</h4>
+                        @else
+
+                         <h4>{{ $venueAddress->address_ur }}</h4>
+     
+                        @endif
                         </div>
                         {{-- <div class="ahead-number">
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
@@ -408,7 +414,12 @@
                         <p>{{ $venueAddress->slot_duration }} {{ trans('messages.pdf_event_token_mint') }} 1
                             {{ trans('messages.pdf_event_token_question') }} </p>
                         <div class="stats text-center">
+                          @if(empty($userBooking->lang) || $userBooking->lang == 'en')
                             <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
+                            @else 
+                            <p class="statement-notes">{{ $venueAddress->status_page_note_ur }}</p>
+
+                            @endif
                             <p>{{ trans('messages.pdf_event_token_view_label') }}:</p>
                             <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
                                     target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
@@ -457,7 +468,7 @@
                 //     quality: 1.0
                 // },
                 html2canvas: {  
-                    scale: 3
+                    scale: 2
                 },
                 jsPDF: {
                     unit: 'mm',

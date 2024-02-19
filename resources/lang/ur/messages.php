@@ -20,7 +20,7 @@ return [
     'back-btn' => 'پیچھے',
     'next-btn' => 'اگلے',
     'submit-btn' => 'جمع کرائیں',
-    'loading-btn' =>'لوڈ ہو رہا ہے۔',
+    'loading-btn' => 'لوڈ ہو رہا ہے۔',
     'submiting-btn' => 'جمع کروا رہا ہے۔',
     'done-btn' => 'ہو گیا',
     'select-option-card' => 'براہ کرم کم از کم ایک کارڈ منتخب کریں۔',
@@ -42,12 +42,12 @@ return [
     'pdf_download_btn_label' => 'اپوائنٹمنٹ ڈاؤن لوڈ کریں۔',
 
     'Week_day_Monday' => 'پیر',
-     'Week_day_Tuesday' => 'منگل',
-     'Week_day_Wednesday' => 'بدھ',
-     'Week_day_Thursday' => 'جمعرات',
-     'Week_day_Friday' => 'جمعہ',
-     'Week_day_Saturday' => 'ہفتہ',
-     'Week_day_Sunday' => 'اتوار',
+    'Week_day_Tuesday' => 'منگل',
+    'Week_day_Wednesday' => 'بدھ',
+    'Week_day_Thursday' => 'جمعرات',
+    'Week_day_Friday' => 'جمعہ',
+    'Week_day_Saturday' => 'ہفتہ',
+    'Week_day_Sunday' => 'اتوار',
 
 
 ];

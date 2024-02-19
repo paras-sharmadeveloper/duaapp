@@ -49,6 +49,9 @@ return new class extends Migration
             $table->integer('dum_slots')->default(0);
 
             $table->text('status_page_note')->nullable();
+            $table->text('venue_addresses_ur')->nullable();
+            $table->text('status_page_note_ur')->nullable();
+            
             $table->string('timezone')->nullable();
             
             $table->json('venue_available_country')->nullable(); 

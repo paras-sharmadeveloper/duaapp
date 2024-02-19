@@ -124,7 +124,7 @@
                             <td>{{ $venueAdd->venue->country_name }}  <img src="{{ env('AWS_GENERAL_PATH') . 'flags/' . $venueAdd->venue->flag_path }}"
                                     alt="Flag Image">
                             </td>
-                            <td>{{ $venueAdd->state }} / {{ $venueAdd->city }} </td>
+                            <td>  {{ $venueAdd->city }} </td>
                             <td>{{ $venueAdd->user->name }}</td>
                             <td>{{ $venueAdd->siteadmin->name }}</td>
                             <td>{{  strlen($venueAdd->address) > 80 ? substr($venueAdd->address,0,80)."..." : $venueAdd->address;}}</td>

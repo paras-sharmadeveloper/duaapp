@@ -64,6 +64,8 @@ class VenueController extends Controller
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
             'status_page_note' => 'required',
+            'status_page_note_ur' => 'required',
+            'address_ur' => 'required', 
             'dua_slots' => 'required|integer|between:1,1000',
             'dum_slots' => 'required|integer|between:1001,2000'
         ]);
@@ -129,6 +131,8 @@ class VenueController extends Controller
             'dum_slots' => $dumSlots,
             
             // 'timezone' => $timezone->timezone,
+            'status_page_note_ur' => $request->input('status_page_note_ur'),
+            'venue_addresses_ur' => $request->input('venue_addresses_ur'),
             'status_page_note' => $request->input('status_page_note')
         ];
        
@@ -193,7 +197,9 @@ class VenueController extends Controller
             'slot_appear_hours' => 'required', 
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
-            'status_page_note' => 'required'
+            'status_page_note' => 'required',
+            'status_page_note_ur' => 'required',
+            'venue_addresses_ur' => 'required', 
 
         ]);
         // $country = Venue::find($request->input('venue_id')); 
@@ -226,6 +232,7 @@ class VenueController extends Controller
             // 'combination_id' =>  $combination_id,
             // 'state' =>  $request->input('state', null),
             'address' => $venueAdd,
+           
             'venue_date' => $venueDate,
             // 'slot_starts_at_morning' =>  $venueStartsMorning,
             // 'slot_ends_at_morning' =>  $venueEndsMorning,
@@ -245,6 +252,8 @@ class VenueController extends Controller
             'venue_available_country' => $venue_available_country,
             'timezone' => $timezone->timezone,
             'status_page_note' => $request->input('status_page_note'),
+            'status_page_note_ur' => $request->input('status_page_note_ur'),
+            'address_ur' => $request->input('venue_addresses_ur'),
             'dua_slots' => $duaSlots,
             'dum_slots' => $dumSlots,
         ];

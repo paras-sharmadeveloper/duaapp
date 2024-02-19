@@ -204,7 +204,7 @@ class WhatsAppController extends Controller
 
             $cityAr = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
             $cityName = explode('-', $cityAr);
-
+            $lang =  $existingCustomer->lang;
             //  $getDate = $data_sent_to_customer[$Respond];
 
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
@@ -245,7 +245,8 @@ class WhatsAppController extends Controller
                         'booking_number' => $tokenId,
                         'country_code' => '+' . $countryCode,
                         'phone' => $cleanNumber,
-                        'source' => 'WhatsApp'
+                        'source' => 'WhatsApp',
+                        'lang' => ($lang == 'eng') ? 'en' : 'ur'
                     ]);
                     $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
 

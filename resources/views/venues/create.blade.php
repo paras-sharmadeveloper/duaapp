@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Date </span>
                             {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
@@ -141,13 +141,30 @@
                     </div>
  
 
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4">
+                    <label>Venue Addresses English</label>
+                
                         <div class="input-group">
-                            <span class="input-group-text">Venue Addresses</span>
+                          
 
                             {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Address',
+                                'cols' => 5,
+                                'rows' => 2,
+                            ]) !!}
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 ">
+                     <label>Venue Addresses Urdu</label>
+                        <div class="input-group"> 
+
+                            {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Address In Urdu',
                                 'cols' => 5,
                                 'rows' => 2,
                             ]) !!}
@@ -364,7 +381,7 @@
                             <label for="virtual">Online (Virtual)</label>
                         </div>
                     </div> --}}
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         @php
                             $savedCountries = isset($venueAddress) ? json_decode($venueAddress->venue_available_country) : [];
                         @endphp
@@ -406,12 +423,23 @@
                         
                     </div>
 
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <label>Status Page Note</label>
                         <div class="input-group"> 
                             <textarea name="status_page_note" 
                             class="form-control"
                             id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
+                            
+ 
+                        </div>
+                    </div>
+
+                     <div class="col-md-4 mt-4">
+                        <label>Status Page Note (Urdu)</label>
+                        <div class="input-group"> 
+                            <textarea name="status_page_note_ur" 
+                            class="form-control"
+                            id="status_page_note_ur" cols="10" rows="5" placeholder="User booking Status page note Urdu">{{ $venueAddress->status_page_note_ur ?? '' }}</textarea>
                             
  
                         </div>
