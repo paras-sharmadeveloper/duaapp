@@ -143,7 +143,7 @@ class WhatsAppController extends Controller
                 ->get();
 
             if(empty($venuesListArr)){
-                $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                $message = $this->WhatsAppbotMessages('', 9 , $lang);
                 $this->sendMessage($userPhoneNumber, $message);
             }
 
@@ -173,11 +173,12 @@ class WhatsAppController extends Controller
 
 
             if(empty($cityArr)){
-                $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔'  ;
+                $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔';
+                $message = $this->WhatsAppbotMessages($data, 9 , $lang);
             }else{
                 $data = implode("\n", $cityArr);
-            } 
-            $message = $this->WhatsAppbotMessages($data, $step,$lang);
+                $message = $this->WhatsAppbotMessages($data, $step,$lang);
+            }  
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
