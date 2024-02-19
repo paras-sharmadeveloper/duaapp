@@ -424,7 +424,7 @@
                     </div>
 
                     <div class="col-md-4 mt-4">
-                        <label>Status Page Note</label>
+                        <label>Status Page Note (English)</label>
                         <div class="input-group"> 
                             <textarea name="status_page_note" 
                             class="form-control"
