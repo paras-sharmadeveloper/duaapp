@@ -465,11 +465,11 @@
                     orientation: 'portrait'
                 }
             };
-            if (window.innerWidth < 768) {
+         //   if (window.innerWidth < 768) {
                 // Adjust options for mobile view
-                options.html2canvas.width = 1000; // Set the desired width for mobile view
-                options.html2canvas.height = 1200; // Set the desired height for mobile view
-            }
+            //    options.html2canvas.width = 1000; // Set the desired width for mobile view
+             //   options.html2canvas.height = 1200; // Set the desired height for mobile view
+           // }
             html2pdf(element, options);
             //  $(".download-apponit").hide();
         }
