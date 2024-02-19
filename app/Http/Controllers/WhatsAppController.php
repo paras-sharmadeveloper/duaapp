@@ -80,7 +80,7 @@ class WhatsAppController extends Controller
                 'steps' => $step,
                 'response_options' => implode(',', $options)
             ];
-            
+
             WhatsApp::create($dataArr);
         }else if (!empty($existingCustomer) && in_array($responseString, $responseAccept) && ($existingCustomer->steps == 0 )) {
               // Welcome  Message
@@ -135,7 +135,7 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $lang =  $existingCustomer->lang;
 
-            $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔'  ;
+            
             $dua_option = ($Respond == 1) ? 'dua' : 'dum';
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
@@ -171,8 +171,12 @@ class WhatsAppController extends Controller
             asort($cityArr);
             asort($options);
 
-            $data = implode("\n", $cityArr);
 
+            if(empty($cityArr)){
+                $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔'  ;
+            }else{
+                $data = implode("\n", $cityArr);
+            } 
             $message = $this->WhatsAppbotMessages($data, $step,$lang);
             $this->sendMessage($userPhoneNumber, $message);
 
