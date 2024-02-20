@@ -29,6 +29,7 @@ return [
     'pdf_title_confirm' => 'تصدیق ',
     'pdf_title_confirm_with' => ' قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ ',
     'pdf_event_date_label' => 'تاریخ',
+
     'pdf_event_venue_label' => 'دعا گھر',
     'pdf_event_token_label' => 'ٹوکن',
     'pdf_event_token_view_label' => 'اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں',

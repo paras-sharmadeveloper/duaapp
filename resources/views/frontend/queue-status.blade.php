@@ -380,8 +380,16 @@
                         $transofWeekDays = trans('messages.Week_day_' . $day);
                         $city =  trans('messages.' . $venueAddress->city);
                     @endphp
-                    <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
-                        {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>
+                     @if(empty($userBooking->lang) || $userBooking->lang == 'en')
+                        <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
+                             {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}
+                        </h4>
+                        @else 
+
+                        <h2 class="orng">
+                             <span>{{ trans('messages.pdf_event_date_label') }}</span>  :  {{ $transofWeekDays }} {{ date('Y-m-d', strtotime($venueAddress->venue_date)) }}  
+                        </h4> 
+                        @endif
 
                         <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} </h2>
                         <div class="venue-info">
