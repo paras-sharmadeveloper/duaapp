@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'select-lang' => 'ترجیحی زبان',
-    'startbooking' => 'بکنگ شروع کریں۔',
+    'select-lang' => 'زبان منتخب کریں',
+    'startbooking' => 'بکنگ شروع کریں',
     'dum' => 'دم',
     'dua' => 'دعا',
-    'select-option' => 'اختیارات منتخب کریں۔',
-    'select-city' => 'شہر منتخب کریں۔',
+    'select-option' => 'آپشن منتخب کریں',
+    'select-city' => 'شہر منتخب کریں',
     'mobile-label' => 'موبائل',
     'country-label' => 'ملک کا کوڈ',
     'nav-dua-option' => 'دعا کا آپشن',
@@ -18,26 +18,26 @@ return [
     'Islamabad' => 'اسلام آباد',
     'Karchi' => 'کرچی',
     'back-btn' => 'پیچھے',
-    'next-btn' => 'اگلے',
+    'next-btn' => 'آگے',
     'submit-btn' => 'جمع کرائیں',
-    'loading-btn' => 'لوڈ ہو رہا ہے۔',
-    'submiting-btn' => 'جمع کروا رہا ہے۔',
+    'loading-btn' => 'لوڈ ہو رہا ہے',
+    'submiting-btn' => 'جمع کروا رہا ہے',
     'done-btn' => 'ہو گیا',
     'select-option-card' => 'براہ کرم کم از کم ایک کارڈ منتخب کریں۔',
     'disclaimer' => 'اس فارم کو جمع کروا کر، آپ پرائیویسی پالیسی، سروس کی شرائط سے اپنے الیکٹرانک دستخط سے اتفاق کرتے ہیں اور KahayFaqeer.org کو اپنی پیشگی تحریری رضامندی دیتے ہیں تاکہ آپ کو ٹیلیفون کالز، ای میلز، اور ٹیکسٹ میسجز کے ذریعے نمبر اور ای میل ایڈریس پر ملاقات کی اطلاع بھیجیں۔ آپ نے اوپر فراہم کیا. آپ اتفاق کرتے ہیں اور سمجھتے ہیں کہ آپ کی رضامندی کسی بھی سامان یا خدمات کی خریداری کی شرط نہیں ہے اور یہ کہ آپ کسی بھی وقت اپنی رضامندی منسوخ کر سکتے ہیں۔ آپ سمجھتے ہیں کہ معیاری پیغام اور ڈیٹا کی شرحیں لاگو ہو سکتی ہیں۔',
 
 
-    'pdf_title_1' => 'دعا کی ملاقات',
-    'pdf_title_confirm' => 'تصدیق شدہ',
-    'pdf_title_confirm_with' => 'قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ',
-    'pdf_event_date_label' => 'واقعہ کی تاریخ',
-    'pdf_event_venue_label' => 'مقام',
+    'pdf_title_1' => 'دعا کی ملاقات کی',
+    'pdf_title_confirm' => 'تصدیق ',
+    'pdf_title_confirm_with' => ' قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ ',
+    'pdf_event_date_label' => 'تاریخ',
+    'pdf_event_venue_label' => 'دعا گھر',
     'pdf_event_token_label' => 'ٹوکن',
-    'pdf_event_token_view_label' => 'اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں۔',
+    'pdf_event_token_view_label' => 'اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں',
     'pdf_event_token_appointment_lable' => 'ملاقات کی مدت',
-    'pdf_event_token_question' => 'سوال',
-    'pdf_event_token_mint' => 'منٹ',
-    'pdf_event_token_mints' => 'منٹ',
+    'pdf_event_token_question' => ' سوال ',
+    'pdf_event_token_mint' => ' منٹ ',
+    'pdf_event_token_mints' => ' منٹ ',
 
     'pdf_download_btn_label' => 'اپوائنٹمنٹ ڈاؤن لوڈ کریں۔',
 
@@ -48,6 +48,5 @@ return [
     'Week_day_Friday' => 'جمعہ',
     'Week_day_Saturday' => 'ہفتہ',
     'Week_day_Sunday' => 'اتوار',
-
-
+ 
 ];
