@@ -143,7 +143,7 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) {
                 $dua_option = $customer_option[$userInput];
             }else if(!empty($userInput)){
-                $existingData->update(['logs' => json_encode($request->all())]);  
+                // $existingData->update(['logs' => json_encode($request->all())]);  
                 $isWrongInput = true;
                 $response->play($this->statementUrl .$lang . '/wrong_input.wav');  
                 // $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
