@@ -378,7 +378,7 @@
                     @php
                         $day = \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
                         $transofWeekDays = trans('messages.Week_day_' . $day);
-                        $city = $transofWeekDays = trans('messages.' . $venueAddress->city);
+                        $city =  trans('messages.' . $venueAddress->city);
                     @endphp
                     <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
                         {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}</h4>

@@ -28,7 +28,7 @@ return [
     'pdf_title_1' => 'Dua Appointment',
     'pdf_title_confirm' => 'Confirmed',
     'pdf_title_confirm_with' => 'With Qibla Syed Sarfraz Ahmed Shah Sahab',
-    'pdf_event_date_label' => 'Event Date',
+    'pdf_event_date_label' => 'Date',
     'pdf_event_venue_label' => 'Venue',
     'pdf_event_token_label' => 'Token',
     'pdf_event_token_appointment_lable' => 'Appointment Duration',
