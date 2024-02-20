@@ -336,11 +336,9 @@ class TwillioIVRHandleController extends Controller
                             $response->say($tokenId,['voice' => $this->voice]);
                         
                         }else{ 
-                            if($tokenId>800){ // delete onces file recived
-                                $response->say($tokenId,['voice' => $this->voice]);
-                            }else{
+                           
                                 $response->play($this->numbersUrl . $tokenNumber . '.wav');  
-                            }
+                             
                             
                         }
                        
