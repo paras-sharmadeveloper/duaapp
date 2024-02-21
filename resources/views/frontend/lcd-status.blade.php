@@ -71,9 +71,14 @@
 });
 $(document).on("change", "#venueDate", function() {
     var selectDate = $(this).find("option:selected").val();
-    let Url= "{{ route('waiting-queue', ':selectDate') }}".replace(':selectDate', selectDate);
-    $("#form").attr('action',Url)
-    $("#btnGo").show();
+    if(selectDate){
+        let Url= "{{ route('waiting-queue', ':selectDate') }}".replace(':selectDate', selectDate);
+        $("#form").attr('action',Url)
+        $("#btnGo").show();
+    }else{
+        alert("please choose date")
+    }
+
 });
 
 </script>
