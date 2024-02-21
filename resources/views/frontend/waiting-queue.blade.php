@@ -212,13 +212,18 @@
                 tokenNumber = tokenNumber;
             }
             console.log("tokenNumber" , tokenNumber)
-            var ToneUrl = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/${tokenNumber}.wav`;
 
+
+            var statementTokenNumber = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/ur/statement_token_number.wav`;
+            var ToneUrl = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/${tokenNumber}.wav`;
             // var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`;
             var statePlscome = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/ur/statement_please_come.wav`;
             // Use the Web Speech API to speak the token number
+                playSound(statementTokenNumber);
+                setTimeout(() => {
+                    playSound(ToneUrl);
+                }, 800);
 
-               playSound(ToneUrl);
                setTimeout(() => {
                  playSound(statePlscome);
                }, 1000);
