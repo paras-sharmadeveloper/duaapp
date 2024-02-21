@@ -73,11 +73,14 @@ class SiteAdminController extends Controller
             ->latest('meeting_start_at')
             ->first();
 
-            return $prevVisitor;
+            // return $prevVisitor;
 
 
             if ($prevVisitor) {
-                $totalTimeSpent = $prevVisitor->meeting_start_at->diffInSeconds($endAt);
+                $prevMeetingStartAt = Carbon::parse($prevVisitor->meeting_start_at);
+                $totalTimeSpent = $prevMeetingStartAt->diffInSeconds($endAt);
+
+               //  $totalTimeSpent = $prevVisitor->meeting_start_at->diffInSeconds($endAt);
 
                 $prevVisitor->update([
                     'meeting_ends_at' =>  $endAt,
