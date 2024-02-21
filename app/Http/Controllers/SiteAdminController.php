@@ -68,10 +68,8 @@ class SiteAdminController extends Controller
 
         if($request->input('type') == 'start'){
 
-            $prevVisitor = Vistors::where('user_status', 'in-meeting')
-            ->whereDate('meeting_start_at', '=', date('Y-m-d'))
-            ->latest('meeting_start_at')
-            ->first();
+            $prevVisitor = Vistors::where(['user_status' => 'in-meeting'])->where('meeting_start_at' ,'LIKE', '%'.date('Y-m-d').'%' );
+
 
             if ($prevVisitor) {
                 $totalTimeSpent = $prevVisitor->meeting_start_at->diffInSeconds($endAt);
@@ -82,6 +80,10 @@ class SiteAdminController extends Controller
                     'meeting_total_time' => $totalTimeSpent
                 ]);
             }
+
+
+
+
 
             $update = [
                 'meeting_start_at' => $startAt,
