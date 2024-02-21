@@ -99,8 +99,10 @@ class SiteAdminController extends Controller
                 return response()->json(['status' => true , 'data' => $visitors]);
             }
 
-            // echo "<pre>"; print_r( $visitors); die;
-        return view('frontend.waiting-queue',compact('visitors'));
+            $venueAddress = VenueAddress::find($id);
+
+
+        return view('frontend.waiting-queue',compact('visitors' , 'venueAddress'));
     }
 
 

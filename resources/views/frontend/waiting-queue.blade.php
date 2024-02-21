@@ -53,7 +53,7 @@
             font-size: 5rem;
             font-weight: 500;
             background-color: #ffffff;
-            padding: 30px;
+            padding: 10px;
             border-radius: 12px;
             font-weight: bold;
         }
@@ -134,8 +134,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="no_one">Token No.</th> 
+                            <th class="no_one">Token No. <h1>{{  $venueAddress->city}} /  {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}  </h1></th>
                             {{-- <th class="no_two">Status</th> --}}
+
                         </tr>
 
                     </thead>
@@ -151,7 +152,7 @@
             </div>
             <div style="display: none" id="soundBox">
             </div>
-            
+
         </div>
     </div>
 @endsection
@@ -159,10 +160,10 @@
 @section('page-script')
     <script>
 
-        var Moyeurl = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav"; 
+        var Moyeurl = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav";
 
-      
-     
+
+
 
         $(document).ready(function() {
             playNotificationTune();
@@ -173,7 +174,7 @@
         function startTokenSystem() {
 
             getList();
-         
+
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
@@ -201,28 +202,38 @@
         //     }
         // }
         function speakTokenNumber(tokenNumber) {
-            if(tokenNumber <= 99 ){
+            if(tokenNumber <= 9 ){
+                tokenNumber = '000'+tokenNumber;
+            }else if(tokenNumber <= 99 && tokenNumber >= 10 ){
+                tokenNumber = '00'+tokenNumber;
+            }else if(tokenNumber <= 999 && tokenNumber >= 100 ){
                 tokenNumber = '0'+tokenNumber;
+            }else if(tokenNumber <= 1999 && tokenNumber >= 1000 ){
+                tokenNumber = tokenNumber;
             }
             console.log("tokenNumber" , tokenNumber)
-            var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`; 
+            var ToneUrl = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/${tokenNumber}.wav`;
+
+            // var ToneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_${tokenNumber}.wav`;
+            var statePlscome = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/ur/statement_please_come.wav`;
             // Use the Web Speech API to speak the token number
-           
-               playSound(ToneUrl); 
-         
-             
+
+               playSound(ToneUrl);
+               playSound(statePlscome);
+
+
         }
 
         function playSound(url) {
-          
+
             var audio = new Audio(url);
             console.log("Moye Moye",audio)
             audio.play();
-           
+
         }
 
-       
-                
+
+
 
         // Add this variable
         var UserId = null;
@@ -243,7 +254,7 @@
                      var isRing = $("#curt-token").attr('data-ring');
                        var isToken = $("#curt-token").attr('data-token');
                     $.each(response.data, function(i, item) {
-                         
+
                         var className, textName, tokenNumber, meeting_start_at = '';
                         if (item.user_status === 'no_action' || item.user_status === 'in-queue') {
                             className = 'meeting-awating';
@@ -261,23 +272,23 @@
                             textName = 'Meeting End';
                             meeting_start_at = '00:00:00';
                             tunePlayed = false;
-                            
+
                         } else if (item.user_status == 'in-meeting') {
                             className = 'meetingstart-active';
                             textName = 'Meeting Started';
                             meeting_start_at = item.meeting_start_at;
-                            
+
                             isRing = $("#ring"+item.booking_number).val();
                             // Check if console.log has not been triggered
                             if (isRing!='played') {
                                //  console.log("One time",item.booking_number);
                                 playNotificationTune()
-                        
+
                                  speakTokenNumber(item.booking_number)
-                              
+
                                 $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
-                                
-                               
+
+
                             }
 
                             $("#active-token").text(item.booking_number)
@@ -307,6 +318,6 @@
 
             return formattedTime;
         }
-        document.title ="Token Status - KahayFaqeer.org"; 
+        document.title ="Token Status - KahayFaqeer.org";
     </script>
 @endsection
