@@ -9,6 +9,7 @@ class Vistors extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $dates = ['meeting_start_at', 'meeting_ends_at'];
 
     public function slot()
     {
@@ -30,5 +31,5 @@ class Vistors extends Model
         // Count visitors where meeting_ends_at is not null (already served)
         return $query->whereNotNull('meeting_ends_at')->count();
     }
-     
+
 }

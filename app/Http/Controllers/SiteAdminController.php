@@ -68,7 +68,10 @@ class SiteAdminController extends Controller
 
         if($request->input('type') == 'start'){
 
-            $prevVisitor = Vistors::where(['user_status' => 'in-meeting'])->where('meeting_start_at' ,'LIKE', '%'.date('Y-m-d').'%' )->first();
+            $prevVisitor = Vistors::where('user_status', 'in-meeting')
+            ->whereDate('meeting_start_at', '=', date('Y-m-d'))
+            ->latest('meeting_start_at')
+            ->first();
 
 
             if ($prevVisitor) {
