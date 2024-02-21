@@ -3,8 +3,8 @@
 <section id="mainsection">
     <style>
         .btn {
-            padding: 70px;
-            font-size: 24px;
+            padding: 40px;
+            font-size: 60px;
         }
         </style>
 
@@ -28,7 +28,7 @@
                 <div class="col-lg-12 col-md-6 col-sm-6">
                     @foreach($getDates as $city =>  $id)
                     <form action="{{ route('waiting-queue', $id) }}" id="form" method="get">
-                        <button type="submit" id="btnGo" class="btn btn-info mt-4 btn-xl py-8 w-100">{{$city}} </button>
+                        <button type="submit" id="btnGo" class="btn btn-dark mt-4 btn-xl py-8 w-100">{{$city}} </button>
                     </form>
                 </div>
                     @endforeach
