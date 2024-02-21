@@ -16,7 +16,9 @@ class VenueSloting extends Model
     }
     public function visitors()
     {
-        return $this->hasMany(Vistors::class, 'slot_id');
+        return $this->hasMany(Vistors::class, 'slot_id')->orderBy('confirmed_at', 'asc');
+
+        // return $this->hasMany(Vistors::class, 'slot_id');
     }
     public function visitor()
     {
