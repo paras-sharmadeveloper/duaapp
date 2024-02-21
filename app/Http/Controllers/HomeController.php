@@ -24,6 +24,20 @@ class HomeController extends Controller
     //  $this->middleware('auth');
   }
 
+  public function StatusLcdScreen(Request $request )
+  {
+    $venueAddress = VenueAddress::all();
+    $distinctCities = $venueAddress->pluck('city')->unique();
+
+    if($request->ajax()){
+        $city = $request->input('city');
+        $venueAddress = VenueAddress::where(['city' => $city])->select('id','venue_date')->get();;
+        return response()->json($venueAddress);
+
+    }
+    return view('frontend.lcd-status', compact('venueAddress','distinctCities'));
+  }
+
   public function bookingAdmin($id)
   {
     $slots = VenueSloting::where(['venue_address_id' => $id])

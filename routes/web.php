@@ -31,7 +31,7 @@ use App\Events\MyEvent;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
- 
+
 
 
 Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
@@ -46,7 +46,7 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome.after-lang');
 
-    
+
 
 
     Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
@@ -72,7 +72,7 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
         ->withoutMiddleware(['web', 'verified'])
         ->name('ivr.handle.timeout');
 
-       
+
 
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
@@ -84,27 +84,27 @@ Route::get('/run/queue', function () {
 Route::get('/config/clear', function () {
     Artisan::call('config:cache');
     Artisan::call('config:clear'); // Replace with the name of your custom command
-   
+
     return 'Scheduled task triggered successfully.' . env('IP_API_KEY');
 });
 
 Route::get('/run/command', function () {
     $type = request()->type;
     if($type == 'migrate'){
-        Artisan::call('migrate'); 
-    }  
+        Artisan::call('migrate');
+    }
     if($type == 'fresh'){
         Artisan::call('migrate:fresh'); // Replace with the name of your custom command
         Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
         return 'Scheduled task triggered successfully.';
-    } 
+    }
     if($type == 'refresh'){
         Artisan::call('migrate:refresh'); // Replace with the name of your custom command
         Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
         return 'Scheduled task triggered successfully.';
-    } 
-   
-    
+    }
+
+
     return 'Scheduled task triggered successfully.';
 });
 
@@ -136,7 +136,7 @@ Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::cla
 Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
 Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
- 
+
 Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
 
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
@@ -148,7 +148,7 @@ Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookin
 Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
 
 Route::get('/qr-code/{id}',[BookingController::class, 'generateQRCode'])->name('qr.code');
- 
+
 Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
 
 Route::post('/process-scan',[BookingController::class, 'processScan'])->name('process-scan');
@@ -169,7 +169,8 @@ Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('sen
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
 Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
-Route::get('/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
+Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
+Route::get('/sts', [HomeController::class, 'StatusLcdScreen'])->name('status-screen');
 
 Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
 Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
@@ -196,14 +197,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('venues', VenueController::class);
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
-    
+
     Route::post('/grid/fetch/booking', [AgGridManagement::class,'getDataMessageLog'])->name('fetch.bookings');
 
     Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
     Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
     Route::delete('/visitor/{id}/delete',[VistorsController::class,'DeleteNow'])->name('visitor.delete');
     Route::get('/book/{venueId}/add', [HomeController::class, 'bookingAdmin'])->name('book.add');
-    Route::any('delete-row', [HomeController::class, 'deleteRows'])->name('delete-row'); 
+    Route::any('delete-row', [HomeController::class, 'deleteRows'])->name('delete-row');
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
@@ -223,7 +224,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/booking/store', [VistorsController::class, 'storeOrUpdate'])->name('booking.store');
     Route::post('/booking/update/{id}', [VistorsController::class, 'storeOrUpdate'])->name('booking.update');
     Route::get('/bookings/list', [VistorsController::class, 'list'])->name('booking.list');
-    Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit'); 
+    Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit');
     Route::post('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
 });
 // RMb28cc2048ae67bf97983cab765febaa6
