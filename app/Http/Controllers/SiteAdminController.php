@@ -92,7 +92,7 @@ class SiteAdminController extends Controller
             ->where(['vistors.user_status' => 'admitted'])->orWhere(['vistors.user_status' => 'in-meeting'])
             ->select('vistors.*', 'venues_sloting.*','venue_addresses.*')
             // ->orderBy('venues_sloting.slot_time', 'asc')
-            ->orderBy('venues_sloting.token_id', 'asc')
+            ->orderBy('vistors.booking_number', 'asc')
             ->get();
 
             if($request->ajax()){
