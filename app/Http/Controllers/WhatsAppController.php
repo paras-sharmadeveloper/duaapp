@@ -40,7 +40,10 @@ class WhatsAppController extends Controller
         $cleanNumber = str_replace($countryCode, '', $waId);
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
 
-        $this->deleteRecordAfter30($existingCustomer);
+        if(!empty($existingCustomer)){
+            $this->deleteRecordAfter30($existingCustomer);
+        }
+
         // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
