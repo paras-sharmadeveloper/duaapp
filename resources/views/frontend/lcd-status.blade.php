@@ -1,6 +1,13 @@
 @extends('layouts.guest')
 @section('content')
 <section id="mainsection">
+    <style>
+        .btn {
+            padding: 70px;
+            font-size: 24px;
+        }
+        </style>
+
 <div class="container py-4" id="curt-token" data-ring="" data-token="">
 
     <div class="main-content" id="main-target">
@@ -13,30 +20,28 @@
 
         </div>
 
-        <div class="row py-8">
+        <div class="row text-center mt-5">
 
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <label>Select City</label>
-                <select name="city" id="city" class="form-control">
-                    <option>Choose City</option>
-                    @foreach($distinctCities as $cities)
-                    <option>{{$cities}}</option>
+
+
+                @if($getDates->count() > 0)
+                <div class="col-lg-12 col-md-6 col-sm-6">
+                    @foreach($getDates as $city =>  $id)
+                    <form action="{{ route('waiting-queue', $id) }}" id="form" method="get">
+                        <button type="submit" id="btnGo" class="btn btn-info mt-4 btn-xl py-8">{{$city}} </button>
+                    </form>
+                </div>
                     @endforeach
-                </select>
+                @else
+                    <h1> No Venue for Today</h1>
+                @endif
 
-            </div>
-             <div class="col-lg-6 col-md-6 col-sm-6">
-                <label>Select Date</label>
-                <select name="city" id="venueDate" class="form-control">
-                    <option>Choose City First</option>
 
-                </select>
 
-            </div>
         </div>
         <div class="row text-center d-flex justify-content-around">
 
-            <form action="" id="form" method="get">
+
                 <button type="submit" id="btnGo" style="display: none" class="btn btn-info mt-4 btn-xl"> Go to Screen </button>
             </form>
 

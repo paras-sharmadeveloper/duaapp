@@ -29,13 +29,19 @@ class HomeController extends Controller
     $venueAddress = VenueAddress::all();
     $distinctCities = $venueAddress->pluck('city')->unique();
 
+    $getDates = $venueAddress->whereIn('city',$distinctCities)
+    ->where('venue_date','=',date('Y-m-d'))
+    ->pluck('id','city');
+
+    // echo "<pre>"; print_r($getDates ); die;
+
     if($request->ajax()){
         $city = $request->input('city');
         $venueAddress = VenueAddress::where(['city' => $city] )->where('venue_date','>=',date('Y-m-d'))->select('id','venue_date')->get();;
         return response()->json($venueAddress);
 
     }
-    return view('frontend.lcd-status', compact('venueAddress','distinctCities'));
+    return view('frontend.lcd-status', compact('venueAddress','distinctCities','getDates'));
   }
 
   public function bookingAdmin($id)
