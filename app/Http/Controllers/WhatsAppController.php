@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Log;
 class WhatsAppController extends Controller
 {
 
+    public function deleteRecordAfter30($existingCustomer){
+        $createdAt = Carbon::parse($existingCustomer->created_at);
+        $currentTime = Carbon::now();
+        $differenceInMinutes = $createdAt->diffInMinutes($currentTime);
+
+        if ($differenceInMinutes > 30) {
+            $existingCustomer->delete();
+        }
+    }
+
     public function handleWebhook(Request $request)
     {
         $body = $request->all();
@@ -29,6 +39,8 @@ class WhatsAppController extends Controller
         $countryCode = $this->findCountryByPhoneNumber($waId);
         $cleanNumber = str_replace($countryCode, '', $waId);
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+
+        $this->deleteRecordAfter30($existingCustomer);
         // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
@@ -135,7 +147,7 @@ class WhatsAppController extends Controller
             $step = $existingCustomer->steps + 1;
             $lang =  $existingCustomer->lang;
 
-            
+
             $dua_option = ($Respond == 1) ? 'dua' : 'dum';
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
@@ -178,7 +190,7 @@ class WhatsAppController extends Controller
             }else{
                 $data = implode("\n", $cityArr);
                 $message = $this->WhatsAppbotMessages($data, $step,$lang);
-            }  
+            }
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
