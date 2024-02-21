@@ -38,6 +38,10 @@ class SiteAdminController extends Controller
             ->where('venue_address_id', $id)
             ->has('visitors')
             ->get();
+            $venueSloting->each(function ($item) {
+                $item->visitors = $item->visitors->sortBy('confirmed_at');
+            });
+
             return response()->json(['success' => true , 'data' => $venueSloting],200);
         }
         $venueSloting = VenueSloting::with('visitors','venueAddress')
