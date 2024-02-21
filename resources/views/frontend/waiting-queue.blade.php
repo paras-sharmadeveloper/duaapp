@@ -219,7 +219,10 @@
             // Use the Web Speech API to speak the token number
 
                playSound(ToneUrl);
-               playSound(statePlscome);
+               setTimeout(() => {
+                 playSound(statePlscome);
+               }, 1000);
+
 
 
         }
@@ -227,7 +230,6 @@
         function playSound(url) {
 
             var audio = new Audio(url);
-            console.log("Moye Moye",audio)
             audio.play();
 
         }
