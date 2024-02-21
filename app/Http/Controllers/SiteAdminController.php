@@ -28,20 +28,21 @@ class SiteAdminController extends Controller
     }
     public function ShowQueueList(Request $request, $id){
         if($request->ajax()){
-            $venueSloting = VenueSloting::with('visitors','venueAddress')
-            ->where(['venue_address_id' => $id])
-            ->with('visitors') // Include only records with visitors
+            // $venueSloting = VenueSloting::with('visitors','venueAddress')
+            // ->where(['venue_address_id' => $id])
+            // ->has('visitors') // Include only records with visitors
+            // ->get();
+            $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+                $query->orderBy('confirmed_at', 'asc');
+            }, 'venueAddress'])
+            ->where('venue_address_id', $id)
+            ->has('visitors')
             ->get();
-
-
-
-
-            // $venueSloting = VenueSloting::with('visitors')->where(['venue_address_id' => $id])->get();
             return response()->json(['success' => true , 'data' => $venueSloting],200);
         }
         $venueSloting = VenueSloting::with('visitors','venueAddress')
             ->where(['venue_address_id' => $id])
-            ->with('visitors') // Include only records with visitors
+            ->has('visitors') // Include only records with visitors
             ->get();
 
 
