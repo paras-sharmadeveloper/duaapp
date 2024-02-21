@@ -222,11 +222,11 @@
                 playSound(statementTokenNumber);
                 setTimeout(() => {
                     playSound(ToneUrl);
-                }, 800);
+                }, 1000);
 
                setTimeout(() => {
                  playSound(statePlscome);
-               }, 1000);
+               }, 2000);
 
 
 
