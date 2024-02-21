@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('vistors', function (Blueprint $table) {
             $table->id();
-            $table->string('booking_number');
+            $table->unsignedBigInteger('booking_number')->nullable();
+            // $table->string('booking_number');
             $table->string('fname')->nullable();
             $table->string('lname')->nullable();
             $table->string('email')->nullable();
