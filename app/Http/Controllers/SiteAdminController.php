@@ -31,11 +31,11 @@ class SiteAdminController extends Controller
             // $venueSloting = VenueSloting::with('visitors','venueAddress')
             // ->where(['venue_address_id' => $id])
             // ->has('visitors') // Include only records with visitors
-            // ->orderBy('venue_date','asc')
+
             // ->get();
 
             $venueSloting = VenueSloting::with(['visitors' => function ($query) {
-                $query->orderBy('confirmed_at', 'asc');
+                $query->orderByRaw("STR_TO_DATE(confirmed_at, '%Y-%m-%d %H:%i:%s') ASC");
             }, 'venueAddress'])
             ->where('venue_address_id', $id)
             ->has('visitors')
