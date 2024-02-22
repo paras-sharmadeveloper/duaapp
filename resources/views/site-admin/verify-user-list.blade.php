@@ -1,5 +1,23 @@
 @extends('layouts.app')
 @section('content')
+
+<style>
+    @media (min-width: 576px) {
+    .dua-side {
+        order: -1 !important; /* Move this column to the start */
+    }
+}
+
+div#users-list-main-dua,#users-list-main-dum {
+    max-height: 500px;
+    overflow: hidden;
+
+}
+div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
+    overflow: auto;
+
+}
+</style>
     <div class="row align-items-end   pb-2">
         <div class="row align-items-end mb-4 pb-2">
             <div class="col-md-8">
@@ -21,10 +39,26 @@
         </div>
     </div>
 
-    <div class="row align-items-end mb-4 pb-2" id="users-list-main">
+    <div class="d-flex justify-content-around">
+
+
+        <div class="row  mb-4 pb-1 w-100" id="users-list-main-dua">
+
+        </div>
+
+        <div class="row  mb-4 pb-1 w-100" id="users-list-main-dum">
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row align-items-end mb-4 pb-2 w-50 d-none" id="users-list-main">
         @foreach ($venueSloting as $visitoddr)
             @foreach ($visitoddr->visitors as $visitor)
-                <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 users-list">
+            {{-- col-lg-4 col-md-6 col-12 mt-4 pt-2 users-list --}}
+                <div class="col-6 mt-4 pt-2 users-list">
                     <div class="card border-0 bg-light rounded shadow">
                         <div class="card-body p-4">
                             @if ($visitor['user_status'] === 'no_action')
@@ -42,7 +76,7 @@
                             @elseif($visitor['user_status'] === 'meeting-end')
                                 <span class="badge rounded-pill bg-danger float-md-end mb-3 mb-sm-0">
                                     {{ $visitor['user_status'] }}
-                                </span> 
+                                </span>
                             @endif
                             <h5> Mobile: {{ ($visitor['country_code']) ? $visitor['country_code']  : '' }}{{ $visitor['phone'] }}</h5>
                             <div class="mt-3">
@@ -74,7 +108,7 @@
                 </div>
             @endforeach
         @endforeach
-    </div><!--end row-->
+    </div>
 @endsection
 
 @section('page-script')
@@ -88,7 +122,7 @@
                 console.log("search")
             }
 
-        }, 10000);
+        }, 100000);
         var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}";
 
         function getData() {
@@ -100,7 +134,8 @@
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
-                    var html = '';
+                    var htmlDua=htmlDum = '';
+
                     var i = 1;
                     $.each(response.data, function(key, slot) {
 
@@ -171,15 +206,22 @@
                                 ${visitor.user_status}
                                 </span>`;
                             }
-                           // console.log("userStatus" , userStatus)
-                          //  console.log("badgeHtml" , badgeHtml)
-                            html += `<div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 users-list">
+
+                            var divcls = '';
+
+                            console.log("response.type",slot.type)
+
+                            if(slot.type == 'dua'){
+                                htmlDua += `<div class="col-11 mt-4 pt-2 users-list">
                                     <div class="card border-0 bg-light rounded shadow">
                                         <div class="card-body p-4">
                                            ${userStatus}
+
                                             <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
-                                            <div class="mt-3"> 
-                                            <h5> Token:  # ${visitor.booking_number}</h5>
+                                            <div class="mt-3">
+                                            <h5> Token:  # ${visitor.booking_number} <span class="badge rounded-pill bg-dark float-md-end mb-3 mb-sm-0">
+                                            ${slot.type}
+                                            </span> </h5>
                                              <span class="text-muted d-block Source">Source:
                                                     <a href="#" target="_blank" class="text-muted">
                                                         ${visitor.source}</a></span>
@@ -203,38 +245,65 @@
                                         </div>
                                     </div>
                                 </div>`;
-                            // lhtml += `<div class="col-xl-12 mb-1 users-list">
-                            //     <div class="card">
-                            //         <div class="card-body">
-                            //             <div class="d-flex justify-content-between align-items-center">
+                            }else{
+                                htmlDum += `<div class="col-11 mt-4 pt-2 users-list">
+                                    <div class="card border-0 bg-light rounded shadow">
+                                        <div class="card-body p-4">
+                                           ${userStatus}
 
-                            //                 <div class="token">
-                            //                     <span class="rounded-circle text-center h6">${i}</span>
+                                            <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
+                                            <div class="mt-3">
+                                            <h5> Token:  # ${visitor.booking_number} <span class="badge rounded-pill bg-dark float-md-end mb-3 mb-sm-0">
+                                            ${slot.type}
+                                            </span></h5>
+                                             <span class="text-muted d-block Source">Source:
+                                                    <a href="#" target="_blank" class="text-muted">
+                                                        ${visitor.source}</a></span>
+
+                                            </div>
+                                            <div class="mt-3">
+                                                ${badgeHtml}
+                                                <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
+                                                data-minutes="${slot.venue_address.slot_duration}"
+                                                data-id="${visitor.id}" ${btnprop}>
+                                                    <div id="timer${visitor.id}">${btnText}</div>
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
+                                                data-minutes="${slot.venue_address.slot_duration}"
+                                                data-id="${visitor.id}" >
+                                                    <div id="timer${visitor.id}">Stop</div>
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                           // console.log("userStatus" , userStatus)
+                          //  console.log("badgeHtml" , badgeHtml)
+
+                            // html += `<div class="col-6 mt-4 pt-2 users-list ${divcls}">
+                            //         <div class="card border-0 bg-light rounded shadow">
+                            //             <div class="card-body p-4">
+                            //                ${userStatus}
+                            //                 <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
+                            //                 <div class="mt-3">
+                            //                 <h5> Token:  # ${visitor.booking_number}</h5>
+                            //                  <span class="text-muted d-block Source">Source:
+                            //                         <a href="#" target="_blank" class="text-muted">
+                            //                             ${visitor.source}</a></span>
+
                             //                 </div>
-                            //                 <div class="ms-3">
-
-
-                            //                     <h6 class="sub-title"> Token # ${visitor.booking_number} </h6>
-                            //                     <h6 class="sub-title"> ${formatDateTime(slot.venue_address.venue_date+' '+slot.slot_time)}</h6>
-                            //                         <h6 class="sub-title"> ${visitor.country_code} ${visitor.phone}</h6>
-                            //                         <h6 class="sub-title">${slot.venue_address.venue_date}</h6>
-                            //                         <h6 class="vert">${confirmedHtml}</h6>
-                            //                         <h6 class="sub-title"> Source : ${visitor.source} </h6>
-                            //                         <span class="badge bg-info ${nonetimer}"> total time : ${visitor.meeting_total_time} Seconds</span>
-                            //                     <p></p>
-                            //                 </div>
-                            //                 <div class="info text-end">
-
-                            //                         ${badgeHtml}
-
-
-                            //                     <button type="button" class="btn btn-success start mb-2 start${visitor.id} ${none}"
+                            //                 <div class="mt-3">
+                            //                     ${badgeHtml}
+                            //                     <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
                             //                     data-minutes="${slot.venue_address.slot_duration}"
                             //                     data-id="${visitor.id}" ${btnprop}>
                             //                         <div id="timer${visitor.id}">${btnText}</div>
                             //                     </button>
 
-                            //                     <button type="button" class="btn btn-danger stop mb-2 stop${visitor.id} ${none}"
+                            //                     <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
                             //                     data-minutes="${slot.venue_address.slot_duration}"
                             //                     data-id="${visitor.id}" >
                             //                         <div id="timer${visitor.id}">Stop</div>
@@ -243,28 +312,15 @@
                             //                 </div>
                             //             </div>
                             //         </div>
+                            //     </div>`;
 
-                            //     </div>
-                            // </div>`;
-                            // html += `<tr>
-                        //     <th scope="row">${visitor.booking_number }</th>
-                        //     <td>${visitor.fname}  ${visitor.lname}</td>
-                        //     <td>${convertTo12HourFormat(slot.slot_time)}</td>
-                        //     <td> ${badgeHtml}</td>
-                        //     <td class="action-td">
-
-                        //         <button type="button" class="btn btn-success start ${none}" data-minutes="${slot.venue_address.slot_duration}" data-id="${visitor.id}"><div id="timer${visitor.id}">Start</div></button>
-                        //         <button type="button" class="btn btn-danger stop ${none}" data-id="${visitor.id}">Stop</button>
-                        //         <button type="button" class="btn btn-info hold d-none ${none}">Hold</button>
-                        //         <span class="badge bg-info ${nonetimer}"> total time : ${minutes} minutes ${seconds} Sec </span>
-                        //     </td>
-                        //     </tr>`;
                             i++;
                         });
 
                     });
                     // $("#tbody").html(html)
-                    $("#users-list-main").html(html)
+                    $("#users-list-main-dua").html((htmlDua) ? htmlDua : '')
+                    $("#users-list-main-dum").html((htmlDum) ? htmlDum : '' )
 
                 },
                 error: function(xhr, status, error) {
