@@ -211,25 +211,8 @@
             }else if(tokenNumber <= 1999 && tokenNumber >= 1000 ){
                 tokenNumber = tokenNumber;
             }
-            console.log("tokenNumber" , tokenNumber)
-
-
-            //var statementTokenNumber = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/ur/statement_token_number.wav`;
-          //  var ToneUrl = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/numbers/${tokenNumber}.wav`;
-
-
-          var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
-
-          //  var statePlscome = `https://phoneivr.s3.ap-southeast-1.amazonaws.com/statements/ur/statement_please_come.wav`;
-            // Use the Web Speech API to speak the token number
-                playSound(ToneUrl);
-            //     setTimeout(() => {
-            //         playSound(ToneUrl);
-            //     }, 1000);
-
-            //    setTimeout(() => {
-            //      playSound(statePlscome);
-            //    }, 2000);
+         var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
+            playSound(ToneUrl);
 
 
 
