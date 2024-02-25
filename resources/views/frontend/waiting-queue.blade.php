@@ -241,8 +241,9 @@
                 dataType: 'json',
                 success: function(response) {
                     var consoleLogged = false;
-                     var isRing = $("#curt-token").attr('data-ring');
-                       var isToken = $("#curt-token").attr('data-token');
+                    var isRing = $("#curt-token").attr('data-ring');
+                    var isToken = $("#curt-token").attr('data-token');
+
                     $.each(response.data, function(i, item) {
 
                         var className, textName, tokenNumber, meeting_start_at = '';
