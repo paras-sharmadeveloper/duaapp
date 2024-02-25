@@ -21,33 +21,50 @@ class SiteAdminController extends Controller
         }else{
             $venueAddress = VenueAddress::where(['type' =>'on-site','siteadmin_id'=>Auth::user()->id])->get();
         }
-
-
-
        return view('site-admin.select-venue',compact('venueAddress'));
     }
     public function ShowQueueList(Request $request, $id){
+
+        $route = request()->route()->getName();
+
+
         if($request->ajax()){
-            // $venueSloting = VenueSloting::with('visitors','venueAddress')
-            // ->where(['venue_address_id' => $id])
-            // ->has('visitors') // Include only records with visitors
-            // ->get();
-            $venueSloting = VenueSloting::with(['visitors' => function ($query) {
-                $query->orderBy('confirmed_at', 'asc');
-            }, 'venueAddress'])
-            ->where('venue_address_id', $id)
-            ->has('visitors')
-            ->get();
-            return response()->json(['success' => true , 'data' => $venueSloting],200);
+            $from = $request->input('from');
+
+            if($from == 'siteadmin.pending.list'){
+
+                $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+                    $query->where('user_status', 'no_action');
+                    $query->orderBy('confirmed_at', 'asc');
+                }, 'venueAddress'])
+                ->where('venue_address_id', $id)
+                ->has('visitors')
+                ->get();
+
+            }else{
+
+                $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+                    $query->where('user_status', 'admitted');
+                    $query->orderBy('confirmed_at', 'asc');
+                }, 'venueAddress'])
+                ->where('venue_address_id', $id)
+                ->has('visitors')
+                ->get();
+
+
+
+
+
+            }
+
+             return response()->json(['success' => true , 'data' => $venueSloting ,'route' => $route],200);
         }
-        $venueSloting = VenueSloting::with('visitors','venueAddress')
+            $venueSloting = VenueSloting::with('visitors','venueAddress')
             ->where(['venue_address_id' => $id])
             ->has('visitors') // Include only records with visitors
             ->get();
 
-
-            return view('site-admin.verify-user-list',compact('venueSloting'));
-        //return view('site-admin.queue-list',compact('venueSloting'));
+            return view('site-admin.verify-user-list',compact('venueSloting' , 'route'));
     }
 
     public function VisitorUpdate(Request $request, $id){

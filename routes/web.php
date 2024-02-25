@@ -208,7 +208,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');
+    Route::get('/site/pending/verification', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.pending.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
+    Route::get('/site/queue/{id}/pending', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.pending.list');
     Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');
 
     // Route::get('/video-conference', [VideoConferenceController::class, 'index']);

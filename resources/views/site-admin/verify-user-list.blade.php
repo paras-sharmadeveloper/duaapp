@@ -42,6 +42,13 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
     <div class="d-flex justify-content-around">
 
 
+
+
+        @if(request()->route()->getName() == 'siteadmin.pending.list')
+            <div class="row  mb-4 pb-1 w-100" id="users-list-main">
+
+            </div>
+        @else
         <div class="row  mb-4 pb-1 w-100" id="users-list-main-dua">
 
         </div>
@@ -49,6 +56,8 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
         <div class="row  mb-4 pb-1 w-100" id="users-list-main-dum">
 
         </div>
+
+        @endif
 
     </div>
 
@@ -112,29 +121,33 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 @endsection
 
 @section('page-script')
+
+
     <script>
-        getData();
+
+        var routee =  "{{ $route }}";
+        var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}?from="+routee;
+        console.log("routee" , routee)
+        getData(url);
         setInterval(function() {
             if($("#search").val() == ''){
                 console.log("no search")
-                getData();
+                getData(url);
             }else{
                 console.log("search")
             }
+        }, 10000);
 
-        }, 100000);
-        var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}";
 
-        function getData() {
+        function getData(url) {
             var lastid = $("#last-running-id").val();
-
 
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
-                    var htmlDua=htmlDum = '';
+                    var htmlDua=htmlDum = html = '';
 
                     var i = 1;
                     $.each(response.data, function(key, slot) {
@@ -211,7 +224,42 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
                             console.log("response.type",slot.type)
 
-                            if(slot.type == 'dua'){
+
+                           // console.log("userStatus" , userStatus)
+                          //  console.log("badgeHtml" , badgeHtml)
+                          @if(request()->route()->getName() == 'siteadmin.pending.list')
+                            html += `<div class="col-6 mt-4 pt-2 users-list ${divcls}">
+                                    <div class="card border-0 bg-light rounded shadow">
+                                        <div class="card-body p-4">
+                                           ${userStatus}
+                                            <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
+                                            <div class="mt-3">
+                                            <h5> Token:  # ${visitor.booking_number}</h5>
+                                             <span class="text-muted d-block Source">Source:
+                                                    <a href="#" target="_blank" class="text-muted">
+                                                        ${visitor.source}</a></span>
+
+                                            </div>
+                                            <div class="mt-3">
+                                                ${badgeHtml}
+                                                <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
+                                                data-minutes="${slot.venue_address.slot_duration}"
+                                                data-id="${visitor.id}" ${btnprop}>
+                                                    <div id="timer${visitor.id}">${btnText}</div>
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
+                                                data-minutes="${slot.venue_address.slot_duration}"
+                                                data-id="${visitor.id}" >
+                                                    <div id="timer${visitor.id}">Stop</div>
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                @else
+                                if(slot.type == 'dua'){
                                 htmlDua += `<div class="col-11 mt-4 pt-2 users-list">
                                     <div class="card border-0 bg-light rounded shadow">
                                         <div class="card-body p-4">
@@ -280,47 +328,23 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                     </div>
                                 </div>`;
                             }
-                           // console.log("userStatus" , userStatus)
-                          //  console.log("badgeHtml" , badgeHtml)
-
-                            // html += `<div class="col-6 mt-4 pt-2 users-list ${divcls}">
-                            //         <div class="card border-0 bg-light rounded shadow">
-                            //             <div class="card-body p-4">
-                            //                ${userStatus}
-                            //                 <h5> Mobile: ${(visitor.country_code) ? visitor.country_code : ''} ${visitor.phone}</h5>
-                            //                 <div class="mt-3">
-                            //                 <h5> Token:  # ${visitor.booking_number}</h5>
-                            //                  <span class="text-muted d-block Source">Source:
-                            //                         <a href="#" target="_blank" class="text-muted">
-                            //                             ${visitor.source}</a></span>
-
-                            //                 </div>
-                            //                 <div class="mt-3">
-                            //                     ${badgeHtml}
-                            //                     <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
-                            //                     data-minutes="${slot.venue_address.slot_duration}"
-                            //                     data-id="${visitor.id}" ${btnprop}>
-                            //                         <div id="timer${visitor.id}">${btnText}</div>
-                            //                     </button>
-
-                            //                     <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
-                            //                     data-minutes="${slot.venue_address.slot_duration}"
-                            //                     data-id="${visitor.id}" >
-                            //                         <div id="timer${visitor.id}">Stop</div>
-                            //                     </button>
-
-                            //                 </div>
-                            //             </div>
-                            //         </div>
-                            //     </div>`;
-
+                                @endif
                             i++;
                         });
 
                     });
-                    // $("#tbody").html(html)
+                    @if(request()->route()->getName() == 'siteadmin.pending.list')
+
+                    console.log("asd");
+                        $("#users-list-main").html(html)
+                    @else
+                    console.log("as11");
+
                     $("#users-list-main-dua").html((htmlDua) ? htmlDua : '')
                     $("#users-list-main-dum").html((htmlDum) ? htmlDum : '' )
+                    @endif
+                    // $("#tbody").html(html)
+
 
                 },
                 error: function(xhr, status, error) {

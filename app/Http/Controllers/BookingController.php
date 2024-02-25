@@ -23,7 +23,6 @@ class BookingController extends Controller
     }
 
 
-
     public function processScan(Request $request)
     {
         // Process the scanned content here
