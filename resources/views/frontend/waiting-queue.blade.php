@@ -213,9 +213,6 @@
             }
          var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
             playSound(ToneUrl);
-
-
-
         }
 
         function playSound(url) {
