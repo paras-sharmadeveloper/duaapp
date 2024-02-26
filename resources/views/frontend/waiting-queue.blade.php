@@ -172,7 +172,7 @@
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
-            }, 2500);
+            }, 7000);
         }
 
         function playNotificationTune() {
