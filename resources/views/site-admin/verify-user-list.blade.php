@@ -242,18 +242,6 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                             </div>
                                             <div class="mt-3">
                                                 ${badgeHtml}
-                                                <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
-                                                data-minutes="${slot.venue_address.slot_duration}"
-                                                data-id="${visitor.id}" ${btnprop}>
-                                                    <div id="timer${visitor.id}">${btnText}</div>
-                                                </button>
-
-                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
-                                                data-minutes="${slot.venue_address.slot_duration}"
-                                                data-id="${visitor.id}" >
-                                                    <div id="timer${visitor.id}">Stop</div>
-                                                </button>
-
                                             </div>
                                         </div>
                                     </div>

@@ -160,47 +160,25 @@
 @section('page-script')
     <script>
 
-        var Moyeurl = "https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/Token_100.wav";
-
-
-
-
+        var audio = null;
         $(document).ready(function() {
             playNotificationTune();
         })
         var url = "{{ route('waiting-queue', request()->id) }}";
-
-
         function startTokenSystem() {
-
             getList();
-
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
-            }, 5000);
-
+            }, 2500);
         }
 
         function playNotificationTune() {
-            // Get the audio element and play the notification tune
-            let audio = document.getElementById('notificationTune');
+
+            audio = document.getElementById('notificationTune');
             audio.play();
         }
 
-
-
-        // function speakTokenNumber(tokenNumber) {
-        //     // Use the Web Speech API to speak the token number
-        //     if ('speechSynthesis' in window) {
-        //         let message = new SpeechSynthesisUtterance(`Token number ${tokenNumber}`);
-        //         window.speechSynthesis.speak(message);
-
-        //     } else {
-        //         // Fallback for browsers that do not support the Web Speech API or if already spoken
-        //         console.log(`Token number ${tokenNumber}`);
-        //     }
-        // }
         function speakTokenNumber(tokenNumber) {
             if(tokenNumber <= 9 ){
                 tokenNumber = '000'+tokenNumber;
@@ -211,20 +189,14 @@
             }else if(tokenNumber <= 1999 && tokenNumber >= 1000 ){
                 tokenNumber = tokenNumber;
             }
-         var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
+            var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
             playSound(toneUrl);
         }
 
         function playSound(url) {
-
             var audio = new Audio(url);
             audio.play();
-
         }
-
-
-
-
         // Add this variable
         var UserId = null;
 
@@ -263,7 +235,6 @@
                             textName = 'Meeting End';
                             meeting_start_at = '00:00:00';
                             tunePlayed = false;
-
                         } else if (item.user_status == 'in-meeting') {
                             className = 'meetingstart-active';
                             textName = 'Meeting Started';
@@ -274,11 +245,8 @@
                             if (isRing!='played') {
                                //  console.log("One time",item.booking_number);
                                 playNotificationTune()
-
-                                 speakTokenNumber(item.booking_number)
-
+                                speakTokenNumber(item.booking_number)
                                 $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
-
 
                             }
 
