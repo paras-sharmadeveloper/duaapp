@@ -212,7 +212,7 @@
                 tokenNumber = tokenNumber;
             }
          var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
-            playSound(ToneUrl);
+            playSound(toneUrl);
         }
 
         function playSound(url) {
