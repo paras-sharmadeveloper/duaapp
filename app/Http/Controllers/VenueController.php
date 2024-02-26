@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
-use PDO; 
-use App\Jobs\{CreateVenuesSlots,CreateFutureDateVenues}; 
+use PDO;
+use App\Jobs\{CreateVenuesSlots,CreateFutureDateVenues};
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
@@ -18,8 +18,8 @@ class VenueController extends Controller
     public function index()
     {
         $venuesAddress = VenueAddress::all();
-        $visitors = Vistors::all(); 
-       
+        $visitors = Vistors::all();
+
         return view('venues.list', compact('venuesAddress','visitors'));
     }
 
@@ -40,7 +40,7 @@ class VenueController extends Controller
             $query->where('name', 'site-admin');
         })->get();
 
-        $venueCountry = Country::all(); 
+        $venueCountry = Country::all();
         return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry'));
     }
 
@@ -60,20 +60,20 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
             // 'slot_duration' => 'required',
-            'slot_appear_hours' => 'required', 
+            'slot_appear_hours' => 'required',
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
-            'address_ur' => 'required', 
+            'venue_addresses_ur' => 'required',
             'dua_slots' => 'required|integer|between:1,1000',
             'dum_slots' => 'required|integer|between:1001,2000'
         ]);
 
-      
+
         $therapistRole = Role::where('name', 'therapist')->first();
 
- 
+
         $thripistId = $therapistRole->id ;
 
         $venueAdd = $request->input('venue_addresses');
@@ -89,7 +89,7 @@ class VenueController extends Controller
         $recuureingTill = $request->input('recurring_till',0);
         $rejoin_venue_after = $request->input('rejoin_venue_after',0);
         $venue_available_country = json_encode($request->input('venue_available_country',0));
-        
+
 
 
         $dataArr = [];
@@ -99,12 +99,12 @@ class VenueController extends Controller
         //     $roomName = str_replace(' ', '_', $request->input('video_room'));
         //     $roomDetail =  $this->createConferencePost($roomName);
         // }
-         
 
-        $country = Venue::where(['iso' => 'PK'])->first(); 
-        
-        // $timezone = Timezone::where(['country_code' => $country->iso])->first(); 
-        
+
+        $country = Venue::where(['iso' => 'PK'])->first();
+
+        // $timezone = Timezone::where(['country_code' => $country->iso])->first();
+
         $dataArr = [
             'city' => $request->input('city'),
             'combination_id' =>  $request->input('combination_id') ,
@@ -129,27 +129,27 @@ class VenueController extends Controller
             'venue_available_country' => $venue_available_country,
             'dua_slots' => $duaSlots,
             'dum_slots' => $dumSlots,
-            
+
             // 'timezone' => $timezone->timezone,
             'status_page_note_ur' => $request->input('status_page_note_ur'),
             'venue_addresses_ur' => $request->input('venue_addresses_ur'),
             'status_page_note' => $request->input('status_page_note')
         ];
-       
+
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
                 $dataArr['is_'. $key] = ($recuureing == 'on') ? 1 : 0;
-                $dayToSet[] = $key; 
+                $dayToSet[] = $key;
             }
         }
-       
+
         if(!empty($dayToSet)){
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
-                $venueAddress = VenueAddress::create($dataArr); 
-                CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database'); 
+                $venueAddress = VenueAddress::create($dataArr);
+                CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             }
-            CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill)->onQueue('create-future-dates')->onConnection("database"); 
-              
+            CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill)->onQueue('create-future-dates')->onConnection("database");
+
         }else{
             $venueAddress =   VenueAddress::create($dataArr);
             CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
@@ -168,7 +168,7 @@ class VenueController extends Controller
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
         })->get();
-        $venueCountry = Country::all(); 
+        $venueCountry = Country::all();
         return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry'));
     }
 
@@ -178,7 +178,7 @@ class VenueController extends Controller
 
         $therapistRole = Role::where('name', 'therapist')->first();
 
- 
+
         $thripistId = $therapistRole->id ;
 
         $VenueAddress = VenueAddress::findOrFail($id);
@@ -194,25 +194,25 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
            // 'slot_duration' => 'required',
-            'slot_appear_hours' => 'required', 
+            'slot_appear_hours' => 'required',
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
-            'venue_addresses_ur' => 'required', 
+            'venue_addresses_ur' => 'required',
 
         ]);
-        // $country = Venue::find($request->input('venue_id')); 
+        // $country = Venue::find($request->input('venue_id'));
 
-        $country = Venue::where(['iso' => 'PK'])->first(); 
+        $country = Venue::where(['iso' => 'PK'])->first();
 
-        $timezone = Timezone::where(['country_code' => $country->iso])->first(); 
+        $timezone = Timezone::where(['country_code' => $country->iso])->first();
         // $roomDetail = [];
         // if ($request->input('video_room') !== $VenueAddress->room_name) {
         //     $roomDetail =  $this->createConferencePost($request->input('video_room'));
         // }
-        $combination_id = $VenueAddress->combination_id; 
-        
+        $combination_id = $VenueAddress->combination_id;
+
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
 
@@ -232,7 +232,7 @@ class VenueController extends Controller
             // 'combination_id' =>  $combination_id,
             // 'state' =>  $request->input('state', null),
             'address' => $venueAdd,
-           
+
             'venue_date' => $venueDate,
             // 'slot_starts_at_morning' =>  $venueStartsMorning,
             // 'slot_ends_at_morning' =>  $venueEndsMorning,
@@ -257,14 +257,14 @@ class VenueController extends Controller
             'dua_slots' => $duaSlots,
             'dum_slots' => $dumSlots,
         ];
- 
+
         $VenueAddress->update($dataArr);
 
         if ($request->has('update_slots')) {
             if( VenueSloting::where(['venue_address_id' => $id])->exists()){
                 VenueSloting::where(['venue_address_id' => $id])->delete();
             }
-            
+
             CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
             //  $this->createVenueTimeSlots($id, $slotDuration);
         }
@@ -274,7 +274,7 @@ class VenueController extends Controller
     private function RecurringDays($tillMonths,$day){
         $currentDate = Carbon::now();
         $nextTwoMonths = $currentDate->copy()->addMonths($tillMonths);
-         
+
         $mondaysInNextTwoMonths = [];
 
         while ($currentDate->lte($nextTwoMonths)) {
@@ -300,13 +300,13 @@ class VenueController extends Controller
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
             $currentDate->addDay();
-        } 
+        }
         $allDates =[];
 
         foreach ($mondaysInNextTwoMonths as $monday) {
-            $allDates[] = $monday->format('Y-m-d');  
+            $allDates[] = $monday->format('Y-m-d');
         }
-        return  $allDates; 
+        return  $allDates;
     }
 
     public function destroy($id)
@@ -325,7 +325,7 @@ class VenueController extends Controller
         // ->select('timezone.*', 'venues.country_name')
         // ->get()->first();
 
-        //  echo "<pre>"; print_r( $venueAddress); die; 
+        //  echo "<pre>"; print_r( $venueAddress); die;
 
 
         if (!$venueAddress) {
@@ -351,7 +351,7 @@ class VenueController extends Controller
                 $currentTimeT->addMinute($slotDuration); // Move to the next minute
             }
 
-        } 
+        }
         // Create time slots
         $currentTime = $startTime;
         while ($currentTime < $endTime) {
