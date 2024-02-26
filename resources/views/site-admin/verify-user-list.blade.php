@@ -136,7 +136,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
             }else{
                 console.log("search")
             }
-        }, 10000);
+        }, 2000);
 
 
         function getData(url) {
