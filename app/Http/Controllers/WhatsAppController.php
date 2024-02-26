@@ -261,8 +261,8 @@ class WhatsAppController extends Controller
                         'booking_number' => $tokenId,
                         'country_code' => '+' . $countryCode,
                         'phone' => $cleanNumber,
-                        'source' => 'WhatsApp' . $duaType,
-                        'dua_type' => $duaType,
+                        'source' => 'WhatsApp',
+                        'dua_type' => ($duaType)?$duaType:'no',
                         'lang' => ($lang == 'eng') ? 'en' : 'ur'
                     ]);
                     $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
