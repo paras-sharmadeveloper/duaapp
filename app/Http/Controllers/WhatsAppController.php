@@ -261,7 +261,7 @@ class WhatsAppController extends Controller
                         'booking_number' => $tokenId,
                         'country_code' => '+' . $countryCode,
                         'phone' => $cleanNumber,
-                        'source' => 'WhatsApp',
+                        'source' => 'WhatsApp' . $duaType,
                         'dua_type' => $duaType,
                         'lang' => ($lang == 'eng') ? 'en' : 'ur'
                     ]);
