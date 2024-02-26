@@ -194,11 +194,13 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                             } else {
                                 nonetimer = 'd-none';
                             }
+                            var snone = 'd-none';
                             var btnText = 'Start';
                             var btnprop = '';
                             if (visitor.meeting_start_at != null) {
                                 btnText = 'Started';
                                 btnprop = 'disabled';
+                                snone = '';
                                 $("#last-running-id").val(visitor.id);
                             }
                             var userStatus = '';
@@ -271,7 +273,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                                     <div id="timer${visitor.id}">${btnText}</div>
                                                 </button>
 
-                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
+                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${snone} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" >
                                                     <div id="timer${visitor.id}">Stop</div>
