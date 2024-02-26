@@ -193,36 +193,9 @@
             playSound(toneUrl);
         }
 
-        // function playSound(url) {
-        //     var audio = new Audio(url);
-        //     audio.play();
-        // }
-
         function playSound(url) {
             var audio = new Audio(url);
-
-            if (audioQueue.length === 0) {
-                // If the queue is empty, play the audio immediately
-                playFromQueue(audio);
-            } else {
-                // If the queue is not empty, add the audio to the queue
-                audioQueue.push(audio);
-            }
-        }
-
-        function playFromQueue(audio) {
             audio.play();
-
-            // Remove the played audio from the queue
-            audio.onended = function() {
-                audioQueue.shift(); // Remove the first item from the queue
-
-                // Check if there are more audio files in the queue
-                if (audioQueue.length > 0) {
-                    // If yes, play the next audio file
-                    playFromQueue(audioQueue[0]);
-                }
-            };
         }
         // Add this variable
         var UserId = null;
@@ -271,9 +244,14 @@
                             // Check if console.log has not been triggered
                             if (isRing!='played') {
                                //  console.log("One time",item.booking_number);
-                                playNotificationTune()
-                                speakTokenNumber(item.booking_number)
-                                $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
+
+                                setInterval(() => {
+                                    playNotificationTune()
+                                    speakTokenNumber(item.booking_number)
+                                    $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
+                                },2500);
+
+
 
                             }
 
