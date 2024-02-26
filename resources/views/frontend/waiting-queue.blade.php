@@ -179,23 +179,37 @@
             audio.play();
         }
 
+        var isAudioPlaying = false; // flag to keep track of whether audio is playing
+
         function speakTokenNumber(tokenNumber) {
-            if(tokenNumber <= 9 ){
-                tokenNumber = '000'+tokenNumber;
-            }else if(tokenNumber <= 99 && tokenNumber >= 10 ){
-                tokenNumber = '00'+tokenNumber;
-            }else if(tokenNumber <= 999 && tokenNumber >= 100 ){
-                tokenNumber = '0'+tokenNumber;
-            }else if(tokenNumber <= 1999 && tokenNumber >= 1000 ){
+            if (tokenNumber <= 9) {
+                tokenNumber = '000' + tokenNumber;
+            } else if (tokenNumber <= 99 && tokenNumber >= 10) {
+                tokenNumber = '00' + tokenNumber;
+            } else if (tokenNumber <= 999 && tokenNumber >= 100) {
+                tokenNumber = '0' + tokenNumber;
+            } else if (tokenNumber <= 1999 && tokenNumber >= 1000) {
                 tokenNumber = tokenNumber;
             }
+
             var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
-            playSound(toneUrl);
+
+            if (!isAudioPlaying) { // Check if audio is not currently playing
+                var audio = new Audio(toneUrl);
+                audio.play();
+
+                // Set flag to true to indicate audio is playing
+                isAudioPlaying = true;
+
+                // Add event listener to reset the flag when audio finishes playing
+                audio.onended = function() {
+                    isAudioPlaying = false;
+                };
+            }
         }
 
         function playSound(url) {
-            var audio = new Audio(url);
-            audio.play();
+
         }
         // Add this variable
         var UserId = null;
