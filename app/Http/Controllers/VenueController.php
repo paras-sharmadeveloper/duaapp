@@ -132,7 +132,7 @@ class VenueController extends Controller
 
             // 'timezone' => $timezone->timezone,
             'status_page_note_ur' => $request->input('status_page_note_ur'),
-            'venue_addresses_ur' => $request->input('venue_addresses_ur'),
+            'address_ur' => $request->input('venue_addresses_ur'),
             'status_page_note' => $request->input('status_page_note')
         ];
 
