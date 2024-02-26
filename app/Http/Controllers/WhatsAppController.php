@@ -262,7 +262,7 @@ class WhatsAppController extends Controller
                         'country_code' => '+' . $countryCode,
                         'phone' => $cleanNumber,
                         'source' => 'WhatsApp',
-                        'dua_type' => ($duaType)?$duaType:'no',
+                        'dua_type' => $dua_option,
                         'lang' => ($lang == 'eng') ? 'en' : 'ur'
                     ]);
                     $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
