@@ -307,7 +307,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                                     <div id="timer${visitor.id}">${btnText}</div>
                                                 </button>
 
-                                                <button type="button" class="btn btn-danger w-100 stop mb-2 stop${visitor.id} ${none}"
+                                                <button type="button" class="btn btn-danger w-100 stop mb-2 ${snone} stop${visitor.id} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" >
                                                     <div id="timer${visitor.id}">Stop</div>
