@@ -245,11 +245,11 @@
                             if (isRing!='played') {
                                //  console.log("One time",item.booking_number);
 
-                                setInterval(() => {
+                                setTimeout(() => {
                                     playNotificationTune()
                                     speakTokenNumber(item.booking_number)
                                     $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
-                                },2500);
+                                }, 2000);
 
 
 
