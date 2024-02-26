@@ -224,8 +224,6 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
                             var divcls = '';
 
-                            console.log("response.type",slot.type)
-
 
                            // console.log("userStatus" , userStatus)
                           //  console.log("badgeHtml" , badgeHtml)
