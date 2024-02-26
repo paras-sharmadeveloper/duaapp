@@ -242,6 +242,7 @@ class WhatsAppController extends Controller
                     $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
                     // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
                     $slotId = $tokenIs->id;
+                    $duaType = $tokenIs->type;
                     $venueAddress = $tokenIs->venueAddress;
                     // $tokenId = $venueSlots->token_id;
                     $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
@@ -261,6 +262,7 @@ class WhatsAppController extends Controller
                         'country_code' => '+' . $countryCode,
                         'phone' => $cleanNumber,
                         'source' => 'WhatsApp',
+                        'dua_type' =>$duaType,
                         'lang' => ($lang == 'eng') ? 'en' : 'ur'
                     ]);
                     $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';

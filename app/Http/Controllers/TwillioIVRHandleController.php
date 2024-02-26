@@ -19,7 +19,7 @@ class TwillioIVRHandleController extends Controller
     protected $country;
     protected $monthsIvr;
     protected $yearsIvr;
-    protected $voice; 
+    protected $voice;
 
     public function __construct()
     {
@@ -29,26 +29,26 @@ class TwillioIVRHandleController extends Controller
         $this->monthsIvr    = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/months/';
         $this->yearsIvr     = 'https://phoneivr.s3.ap-southeast-1.amazonaws.com/years/';
         $this->country      = Venue::where(['iso' => 'PK'])->get()->first();
-        $this->voice = 'Polly.Stephen-Neural'; 
+        $this->voice = 'Polly.Stephen-Neural';
     }
 
     public function handleIncomingCall(Request $request)
     {
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
-        
-        // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');  
+
+        // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');
         $response->play($this->statementUrl . 'ur/welcome_for_eng_press1_for_urdu_press2.wav');
-           
-        $isWrongInput = $request->input('wrong_input',false);  
+
+        $isWrongInput = $request->input('wrong_input',false);
         $response->gather([
             'numDigits' => 1,
             'action' => route('ivr.dua.option'),
-            'timeout' => 20,  
+            'timeout' => 20,
         ]);
         $options = ['1' => 'en', '2' => 'ur'];
         if(!empty($existingData)){
-            $this->FlushEntries($request->input('From')); 
+            $this->FlushEntries($request->input('From'));
         }
         if(!$isWrongInput){
 
@@ -59,81 +59,81 @@ class TwillioIVRHandleController extends Controller
                 'lang' => '',
                 'route_action' => 'ivr.dua.option',
                 'customer_options' => json_encode($options)
-    
+
             ]);
 
-        } 
- 
-        
-        return response($response, 200)->header('Content-Type', 'text/xml'); 
-         
+        }
+
+
+        return response($response, 200)->header('Content-Type', 'text/xml');
+
     }
- 
+
     public function handleDuaOption(Request $request)
     {
 
         $response = new VoiceResponse();
-        $isWrongInput = $request->input('wrong_input',false); 
+        $isWrongInput = $request->input('wrong_input',false);
         $existingData = $this->getexistingCustomer($request->input('From'));
-        $userInput = $request->input('Digits'); 
+        $userInput = $request->input('Digits');
         $customer_option = json_decode($existingData->customer_options, true);
-        $dua_option = ''; 
-       
+        $dua_option = '';
+
         $lang = $existingData->lang;
-         
+
         if (!empty($existingData)) {
-            $existingData->update(['logs' => json_encode($request->all())]);  
+            $existingData->update(['logs' => json_encode($request->all())]);
 
             if (array_key_exists($userInput,  $customer_option)) {
-                $lang = $customer_option[$userInput]; 
+                $lang = $customer_option[$userInput];
             }else if(!empty($userInput)){
-                $existingData->update(['logs' => json_encode($request->all())]);  
-                $isWrongInput = true; 
-                
-                $response->play($this->statementUrl .$lang . '/wrong_input.wav');  
-                
+                $existingData->update(['logs' => json_encode($request->all())]);
+                $isWrongInput = true;
+
+                $response->play($this->statementUrl .$lang . '/wrong_input.wav');
+
 
 
                 // $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
-                $redirectUrl = route('ivr.welcome', ['wrong_input' => true, 'redirect_to' => 'step1']); 
-                $response->redirect($redirectUrl);      
+                $redirectUrl = route('ivr.welcome', ['wrong_input' => true, 'redirect_to' => 'step1']);
+                $response->redirect($redirectUrl);
             }
 
             $options = ['1' => 'dua', '2' => 'dum'];
 
-            $response->play($this->statementUrl .$lang . '/if_dua_press1_if_dum_press2.wav');  
-               
+            $response->play($this->statementUrl .$lang . '/if_dua_press1_if_dum_press2.wav');
+
                 $response->gather([
                     'numDigits' => 1,
                     'action' => route('ivr.pickcity'),
                     'timeout' => 20, // Set the timeout to 10 seconds
                 ]);
-           
+
             if(!$isWrongInput ){
-                 
+
                 TwillioIvrResponse::create([
                     'mobile' => $request->input('From'),
                     'response_digit' => $request->input('Digits',0),
                     'attempts' => 1,
-                    'lang' => $lang, 
+                    'lang' => $lang,
                     'route_action' => 'ivr.pickcity',
                     'customer_options' => json_encode($options)
-        
+
                 ]);
-               
-    
-            } 
+
+
+            }
         }
-          
+
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
     public function handleCity(Request $request)
     {
         $response = new VoiceResponse();
-        $isWrongInput = $request->input('wrong_input',false); 
+        $isWrongInput = $request->input('wrong_input',false);
         $userInput = $request->input('Digits');
         $existingData = $this->getexistingCustomer($request->input('From'));
         $lang = $existingData->lang;
@@ -143,20 +143,20 @@ class TwillioIVRHandleController extends Controller
             if (array_key_exists($userInput,  $customer_option)) {
                 $dua_option = $customer_option[$userInput];
             }else if(!empty($userInput)){
-                // $existingData->update(['logs' => json_encode($request->all())]);  
+                // $existingData->update(['logs' => json_encode($request->all())]);
                 $isWrongInput = true;
-                $response->play($this->statementUrl .$lang . '/wrong_input.wav');  
+                $response->play($this->statementUrl .$lang . '/wrong_input.wav');
                 // $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
                 $existingData->update(['attempts' =>  $attempts]);
 
-                $redirectUrl = route('ivr.dua.option', ['wrong_input' => true, 'to' => 'dua_option']); 
+                $redirectUrl = route('ivr.dua.option', ['wrong_input' => true, 'to' => 'dua_option']);
                 $response->redirect($redirectUrl);
 
- 
+
             }
 
-            
+
             $query = $this->getDataFromVenue();
             $venuesListArr = $query->get();
             $distinctCities = $venuesListArr->pluck('city')->unique();
@@ -164,7 +164,7 @@ class TwillioIVRHandleController extends Controller
             $i = 1;
             $cityArr = [];
             foreach ($distinctCities as $key => $city) {
-                $cityArr[$i] = strtolower($city);  
+                $cityArr[$i] = strtolower($city);
                 $i++;
             }
             ksort($cityArr);
@@ -172,39 +172,39 @@ class TwillioIVRHandleController extends Controller
             if(!empty($cityArr)){
                 $response->play($this->statementUrl . $lang . '/statement_select_city.wav');
                 foreach ($cityArr as $k => $city) {
-                 
+
 
                     if ($k <= 9) {
                         $number = '000' . $k;
-                    } else if ($k <= 99) { 
+                    } else if ($k <= 99) {
                         $number = '00'.$k;
-                    } else if ($k <= 999) { 
+                    } else if ($k <= 999) {
                         $number = '0'.$k;
                     }
-    
-    
-                   
-                    if($lang =='en'){ 
-                        $response->play($this->statementUrl . $lang . '/statement_agar_aap.wav');  
+
+
+
+                    if($lang =='en'){
+                        $response->play($this->statementUrl . $lang . '/statement_agar_aap.wav');
                         $response->play($this->cityUrl . 'city_' . $city . '.wav');
                         $response->play($this->statementUrl . $lang . '/statement_press.wav');
-                        $response->say($k,['voice' => $this->voice]); 
+                        $response->say($k,['voice' => $this->voice]);
                     }else{
                         $response->play($this->cityUrl . 'city_' . $city . '.wav');
                         $response->play($this->statementUrl . $lang . '/statement_kay_liye.wav');
                         $response->play($this->numbersUrl . $number . '.wav');
                         $response->play($this->statementUrl . $lang . '/statement_press.wav');
                     }
-                    
-                  
+
+
                 }
             }else{
-                $response->play($this->statementUrl . $lang . '/cant_book_dua_meeting.wav');  
-                $response->play($this->statementUrl . $lang . '/please_try_again_later.wav');  
-                $response->play($this->statementUrl . $lang . '/statement_goodbye.wav');  
-                
+                $response->play($this->statementUrl . $lang . '/cant_book_dua_meeting.wav');
+                $response->play($this->statementUrl . $lang . '/please_try_again_later.wav');
+                $response->play($this->statementUrl . $lang . '/statement_goodbye.wav');
+
             }
-           
+
             $response->gather([
                 'numDigits' => 1,
                 'action' => route('ivr.makebooking'),
@@ -212,7 +212,7 @@ class TwillioIVRHandleController extends Controller
             ]);
 
         if (!$isWrongInput) {
- 
+
             TwillioIvrResponse::create([
                 'mobile' => $request->input('From'),
                 'response_digit' => $request->input('Digits'),
@@ -221,12 +221,12 @@ class TwillioIVRHandleController extends Controller
                 'dua_option' => $dua_option,
                 'route_action' => 'ivr.makebooking',
                 'customer_options' => json_encode($cityArr)
-    
+
             ]);
-          
-            
-        }  
-        
+
+
+        }
+
         return response($response, 200)->header('Content-Type', 'text/xml');
     }
 
@@ -240,7 +240,7 @@ class TwillioIVRHandleController extends Controller
         $dua_option = $existingData->dua_option;
         $customer_option = json_decode($existingData->customer_options, true);
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
-        $lang  =  $existingData->lang; 
+        $lang  =  $existingData->lang;
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $CityName = $customer_option[$userInput];
@@ -257,8 +257,9 @@ class TwillioIVRHandleController extends Controller
                         ->where(['type' => $dua_option])
                         ->orderBy('id', 'ASC')
                         ->select(['venue_address_id', 'token_id', 'id'])->first();
-                       
+
                     $slotId = $tokenIs->id;
+                    $duaType = $tokenIs->type;
                     $venueAddress = $tokenIs->venueAddress;
                     // $tokenId = str_pad($tokenIs->token_id, 4, '0', STR_PAD_LEFT);
                     $tokenId = $tokenIs->token_id;
@@ -274,6 +275,7 @@ class TwillioIVRHandleController extends Controller
                         'country_code' => $countryCode,
                         'phone' => $cleanNumber,
                         'source' => 'Phone',
+                        'dua_type' =>$duaType,
                         'lang' => $lang
                     ]);
 
@@ -286,7 +288,7 @@ class TwillioIVRHandleController extends Controller
                     for ($i = 1; $i <= 2; $i++) {
 
                         $response->play($this->statementUrl . $lang . '/statement_your_token_date.wav');
-                        
+
                         $datesArr = explode('-', $venueAddress->venue_date);
                         $year = $datesArr[0];
                         $month = $datesArr[1];
@@ -294,52 +296,52 @@ class TwillioIVRHandleController extends Controller
 
                         if ($day <= 9) {
                             $number = '000' . $day;
-                        } else if ($day <= 99) { 
+                        } else if ($day <= 99) {
                             $number = '00'.$day;
-                        } else if ($day <= 999) { 
+                        } else if ($day <= 999) {
                             $number = '0'.$day;
-                        }else if ($day <= 2000) { 
+                        }else if ($day <= 2000) {
                             $number = $day;
                         }
 
 
-                        
+
 
                         if($lang  == 'en'){
                             $response->say($day,['voice' => $this->voice]);
                             $response->say($month,['voice' => $this->voice]);
                             $response->say($year,['voice' => $this->voice]);
-                        }else{ 
+                        }else{
 
                             $response->say($day,['voice' => $this->voice]);
                             $response->say($month,['voice' => $this->voice]);
                             $response->say($year,['voice' => $this->voice]);
                             // $response->play($this->numbersUrl. $number . '.wav');
                             // $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
-                            // $response->play($this->yearsIvr . 'Year_' . $year . '.wav'); 
+                            // $response->play($this->yearsIvr . 'Year_' . $year . '.wav');
                         }
-                        
- 
+
+
                         $response->play($this->statementUrl.$lang . '/statement_your_token_number.wav');
-                        
+
                         if ($tokenId <= 9) {
                             $tokenNumber = '000' . $tokenId;
-                        } else if ($tokenId <= 99) { 
+                        } else if ($tokenId <= 99) {
                             $tokenNumber = '00'.$tokenId;
-                        } else if ($tokenId <= 999) { 
+                        } else if ($tokenId <= 999) {
                             $tokenNumber = '0'.$tokenId;
-                        }else if ($tokenId <= 2000) { 
+                        }else if ($tokenId <= 2000) {
                             $tokenNumber = $tokenId;
                         }
 
                         if($lang  == 'en'){
                             $response->say($tokenId,['voice' => $this->voice]);
-                        
-                        }else{ 
-                           
-                            $response->play($this->numbersUrl . $tokenNumber . '.wav'); 
+
+                        }else{
+
+                            $response->play($this->numbersUrl . $tokenNumber . '.wav');
                         }
-                       
+
                     }
                     $response->play($this->statementUrl.$lang . '/statement_15_min_before.wav');
                     $response->play($this->statementUrl .$lang . '/statement_goodbye.wav');
@@ -347,14 +349,14 @@ class TwillioIVRHandleController extends Controller
             }else {
 
 
-                $response->play($this->statementUrl .$lang . '/wrong_input.wav');  
+                $response->play($this->statementUrl .$lang . '/wrong_input.wav');
                 // $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
                 $attempts  = $existingData->attempts + 1;
-                $existingData->update(['attempts' =>  $attempts]); 
-                $redirectUrl = route('ivr.pickcity', ['wrong_input' => true, 'to' => 'dua_option']); 
-                $response->redirect($redirectUrl); 
+                $existingData->update(['attempts' =>  $attempts]);
+                $redirectUrl = route('ivr.pickcity', ['wrong_input' => true, 'to' => 'dua_option']);
+                $response->redirect($redirectUrl);
             }
-        } 
+        }
 
         return response($response, 200)->header('Content-Type', 'text/xml');
     }

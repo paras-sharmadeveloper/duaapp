@@ -78,8 +78,12 @@ class SiteAdminController extends Controller
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
+        
+
 
         if($request->input('type') == 'start'){
+
+            $duaType = $request->input('duaType');
 
             $prevVisitor = Vistors::where('user_status', 'in-meeting')
             ->whereDate('meeting_start_at', '=', date('Y-m-d'))

@@ -277,7 +277,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                             </div>
                                             <div class="mt-3">
                                                 ${badgeHtml}
-                                                <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
+                                                <button type="button" data-id="${visitor.id}" data-type="${slot.type}" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" ${btnprop}>
                                                     <div id="timer${visitor.id}">${btnText}</div>
@@ -311,7 +311,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                             </div>
                                             <div class="mt-3">
                                                 ${badgeHtml}
-                                                <button type="button" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
+                                                <button type="button" data-id="${visitor.id}" data-type="${slot.type}" class="btn btn-success start w-100 mb-2 start${visitor.id} ${none}"
                                                 data-minutes="${slot.venue_address.slot_duration}"
                                                 data-id="${visitor.id}" ${btnprop}>
                                                     <div id="timer${visitor.id}">${btnText}</div>
@@ -391,6 +391,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
         $(document).on("click", ".start", function() {
             $this = $(this);
             var id = $this.attr('data-id');
+            var type = $this.attr('data-type');
             var lastid = $("#last-running-id").val();
 
             var duration = parseInt($this.attr('data-minutes')); // Parse the value as an integer
@@ -455,11 +456,14 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
             var url = "{{ route('siteadmin.queue.vistor.update', ['id' => ':id']) }}";
             url = url.replace(':id', id);
             event.find('span').show()
+            var duaType = event.attr('data-type');
+
             $.ajax({
                 url: url,
                 type: "POST",
                 data: {
                     type: type,
+                    duaType:duaType,
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: "json",
