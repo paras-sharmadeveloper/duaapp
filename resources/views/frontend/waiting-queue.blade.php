@@ -71,13 +71,13 @@
         }
 
         /* .no_one{
-        width: 60%;
-        max-width: 100%;
-    }
-    .no_two{
-        width: 40%;
-        max-width: 100%;
-    } */
+            width: 60%;
+            max-width: 100%;
+        }
+        .no_two{
+            width: 40%;
+            max-width: 100%;
+        } */
         .heading h2 {
             font-size: 30px;
             font-weight: 400;
@@ -134,7 +134,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="no_one">Token No. <h1>{{  $venueAddress->city}} /  {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}  </h1></th>
+                            <th class="no_one">Token No. <h1>{{ $venueAddress->city }} /
+                                    {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }} </h1>
+                            </th>
                             {{-- <th class="no_two">Status</th> --}}
 
                         </tr>
@@ -159,12 +161,12 @@
 
 @section('page-script')
     <script>
-
         var audio = null;
         var audioQueue = [];
 
 
         var url = "{{ route('waiting-queue', request()->id) }}";
+
         function startTokenSystem() {
             getList();
             $(".get-started").fadeOut()
@@ -181,22 +183,76 @@
 
         var isAudioPlaying = false; // flag to keep track of whether audio is playing
 
+        // function speakTokenNumber(tokenNumber) {
+        //     if (tokenNumber <= 9) {
+        //         tokenNumber = '000' + tokenNumber;
+        //     } else if (tokenNumber <= 99 && tokenNumber >= 10) {
+        //         tokenNumber = '00' + tokenNumber;
+        //     } else if (tokenNumber <= 999 && tokenNumber >= 100) {
+        //         tokenNumber = '0' + tokenNumber;
+        //     } else if (tokenNumber <= 1999 && tokenNumber >= 1000) {
+        //         tokenNumber = tokenNumber;
+        //     }
+
+        //     var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
+
+        //     if (!isAudioPlaying) { // Check if audio is not currently playing
+        //         var audio = new Audio(toneUrl);
+        //         audio.play();
+
+        //         // Set flag to true to indicate audio is playing
+        //         isAudioPlaying = true;
+
+        //         // Add event listener to reset the flag when audio finishes playing
+        //         audio.onended = function() {
+        //             isAudioPlaying = false;
+        //         };
+        //     }
+        // }
+
+        var isAudioPlaying = false; // flag to keep track of whether audio is playing
+        var audioQueue = []; // Queue to hold the audio URLs
+
         function speakTokenNumber(tokenNumber) {
-            if (tokenNumber <= 9) {
-                tokenNumber = '000' + tokenNumber;
-            } else if (tokenNumber <= 99 && tokenNumber >= 10) {
-                tokenNumber = '00' + tokenNumber;
-            } else if (tokenNumber <= 999 && tokenNumber >= 100) {
-                tokenNumber = '0' + tokenNumber;
-            } else if (tokenNumber <= 1999 && tokenNumber >= 1000) {
-                tokenNumber = tokenNumber;
-            }
-
-            var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
-
             if (!isAudioPlaying) { // Check if audio is not currently playing
-                var audio = new Audio(toneUrl);
-                audio.play();
+                // Construct the URL for the audio file
+                if (tokenNumber <= 9) {
+                    tokenNumber = '000' + tokenNumber;
+                } else if (tokenNumber <= 99 && tokenNumber >= 10) {
+                    tokenNumber = '00' + tokenNumber;
+                } else if (tokenNumber <= 999 && tokenNumber >= 100) {
+                    tokenNumber = '0' + tokenNumber;
+                } else if (tokenNumber <= 1999 && tokenNumber >= 1000) {
+                    tokenNumber = tokenNumber;
+                }
+                var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
+
+                // Add the URL to the audio queue
+                audioQueue.push(toneUrl);
+
+                // If audio is not currently playing, start playing from the queue
+                playFromQueue();
+            } else {
+                // If audio is already playing, add the URL to the queue
+                if (tokenNumber <= 9) {
+                    tokenNumber = '000' + tokenNumber;
+                } else if (tokenNumber <= 99 && tokenNumber >= 10) {
+                    tokenNumber = '00' + tokenNumber;
+                } else if (tokenNumber <= 999 && tokenNumber >= 100) {
+                    tokenNumber = '0' + tokenNumber;
+                } else if (tokenNumber <= 1999 && tokenNumber >= 1000) {
+                    tokenNumber = tokenNumber;
+                }
+                var toneUrl = `https://dua-token-numbers.s3.ap-southeast-1.amazonaws.com/TOKEN-${tokenNumber}.wav`;
+                audioQueue.push(toneUrl);
+            }
+        }
+
+        function playFromQueue() {
+            // Check if there are audio URLs in the queue
+            if (audioQueue.length > 0) {
+                var audio = new Audio(audioQueue.shift()); // Get the first URL from the queue
+                audio.play(); // Play the audio
 
                 // Set flag to true to indicate audio is playing
                 isAudioPlaying = true;
@@ -204,6 +260,8 @@
                 // Add event listener to reset the flag when audio finishes playing
                 audio.onended = function() {
                     isAudioPlaying = false;
+                    // Play the next audio in the queue
+                    playFromQueue();
                 };
             }
         }
@@ -243,7 +301,7 @@
                             textName = 'Waiting';
                             meeting_start_at = '00:00:00';
                             tunePlayed = false;
-                            $("#ring"+item.booking_number).remove()
+                            $("#ring" + item.booking_number).remove()
                         } else if (item.user_status == 'meeting-end') {
                             className = 'meetingend-active';
                             textName = 'Meeting End';
@@ -254,15 +312,17 @@
                             textName = 'Meeting Started';
                             meeting_start_at = item.meeting_start_at;
 
-                            isRing = $("#ring"+item.booking_number).val();
+                            isRing = $("#ring" + item.booking_number).val();
                             // Check if console.log has not been triggered
-                            if (isRing!='played') {
-                               //  console.log("One time",item.booking_number);
+                            if (isRing != 'played') {
+                                //  console.log("One time",item.booking_number);
 
                                 setTimeout(() => {
                                     playNotificationTune()
                                     speakTokenNumber(item.booking_number)
-                                    $('#soundBox').append(`<input type="hidden" id="ring${item.booking_number}" name="" value="played">`);
+                                    $('#soundBox').append(
+                                        `<input type="hidden" id="ring${item.booking_number}" name="" value="played">`
+                                        );
                                 }, 2000);
 
 
@@ -274,7 +334,8 @@
                             tunePlayed = true;
                         }
 
-                        html += `<tr class="${className}">  <td class="no_one">${item.booking_number}</td>   </tr>`;
+                        html +=
+                            `<tr class="${className}">  <td class="no_one">${item.booking_number}</td>   </tr>`;
                     })
                     $("#current-user-listing").html(html)
                 },
@@ -296,6 +357,6 @@
 
             return formattedTime;
         }
-        document.title ="Token Status - KahayFaqeer.org";
+        document.title = "Token Status - KahayFaqeer.org";
     </script>
 @endsection
