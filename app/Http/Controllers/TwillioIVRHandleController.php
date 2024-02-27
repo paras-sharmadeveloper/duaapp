@@ -246,7 +246,7 @@ class TwillioIVRHandleController extends Controller
                 $CityName = $customer_option[$userInput];
                 $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                     ->where('city',  $CityName)
-                    ->where('venue_date', '=', date('Y-m-d'))
+                    ->whereDate('venue_date',date('Y-m-d'))
                     ->orderBy('venue_date', 'ASC')
                     ->first();
 

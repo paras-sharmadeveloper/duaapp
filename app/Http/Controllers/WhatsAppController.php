@@ -224,7 +224,8 @@ class WhatsAppController extends Controller
 
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('city',  $cityName[0])
-                ->where('venue_date', '=', date('Y-m-d'))
+                ->whereDate('venue_date',date('Y-m-d'))
+
                 ->orderBy('venue_date', 'ASC')
                 ->first();
 
