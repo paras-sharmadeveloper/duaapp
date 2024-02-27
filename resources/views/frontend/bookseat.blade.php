@@ -1229,6 +1229,8 @@
     <script>
             var translations = {!! json_encode(trans('messages')) !!};
 
+            var lang = "{{$locale}}";
+
         $(".form-business").hide();
         var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}";
         var NoImage = "{{ asset('assets/theme/img/avatar.png') }}";
@@ -1628,18 +1630,33 @@
 
 
                             $("#slot_id_booked").val(response.slot_id);
-                            $("#successForm").find(".alert").text(response.message).addClass('d-none')
+                            if(lang == 'en'){
+                                $("#successForm").find(".alert").text(response.message).addClass('d-none')
+                            }else{
+                                $("#successForm").find(".alert").text(response.message_ur).addClass('d-none')
+                            }
+
                         }else if (response.status == false) {
                             dAte = '<p class="no-data">'+response.message+'</p>';
 
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
-                            $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+                            if(lang == 'en'){
+                                $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+                            }else{
+                                $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
+                            }
+                            // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 
                         }else if (response.status == false) {
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
-                            $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+                            if(lang == 'en'){
+                                $("#successForm").find(".alert").text(response.message).removeClass('d-none')
+                            }else{
+                                $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
+                            }
+                            // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 
 
                             dAte = '<p class="no-data">'+response.message+'</p>';
