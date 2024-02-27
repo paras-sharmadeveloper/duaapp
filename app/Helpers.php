@@ -10,6 +10,7 @@ if (!function_exists('isAllowedTokenBooking')) {
         $currentTime = now()->tz($timezone);
         $hoursRemaining = $currentTime->diffInHours($eventDateTime, false); // false ensures negative values if eventDateTime is in the past
         $slotsAppearBefore = intval($slot_appear_hours);
+        $waitTime = $hoursRemaining - $slotsAppearBefore;
         if ($hoursRemaining >= 0 && $hoursRemaining <= $slotsAppearBefore) {
             return [
                 'allowed' => true,
@@ -25,7 +26,7 @@ if (!function_exists('isAllowedTokenBooking')) {
         } else {
             return [
                 'allowed' => false,
-                'message' => 'Ticket booking is not yet allowed.  Kindly Wait for ' .$hoursRemaining.' hours' ,
+                'message' => 'Ticket booking is not yet allowed.  Kindly Wait for ' .$waitTime.' hours' ,
                 'hours_until_open' => $hoursRemaining,
             ];
         }
