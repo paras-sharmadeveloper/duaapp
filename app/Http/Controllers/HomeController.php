@@ -145,9 +145,9 @@ class HomeController extends Controller
         }
       }
 
-      if (!empty($isUsers) && $isUsers['status'] == false) {
-        return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
-      }
+    //   if (!empty($isUsers) && $isUsers['status'] == false) {
+    //     return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
+    //   }
 
 
 
@@ -185,26 +185,26 @@ class HomeController extends Controller
 
       // Save the booking record
       $booking->save();
-      $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
-      $slotDuration = $venueAddress->slot_duration;
-      $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
-      $dateTime = Carbon::parse($eventData);
-      $userSlot = VenueSloting::find($request->input('slot_id'));
-      $iso = $venue->iso;
+    //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
+    //   $slotDuration = $venueAddress->slot_duration;
+    //   $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
+    //   $dateTime = Carbon::parse($eventData);
+    //   $userSlot = VenueSloting::find($request->input('slot_id'));
+    //   $iso = $venue->iso;
 
-      $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-      $countryTz =  $venueTimezone->timezone;
+    //   $venueTimezone = Timezone::where(['country_code' => $iso])->first();
+    //   $countryTz =  $venueTimezone->timezone;
 
-      $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-      $currentContryTimezone = Carbon::parse($venueDate, $countryTz);
-      $currentContryTimezone->timezone($countryTz);
+    //   $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
+    //   $currentContryTimezone = Carbon::parse($venueDate, $countryTz);
+    //   $currentContryTimezone->timezone($countryTz);
 
-      $userSelectedTimezone = Carbon::parse($venueDate, $countryTz);
-      $userSelectedTimezone->timezone($request->input('timezone'));
+    //   $userSelectedTimezone = Carbon::parse($venueDate, $countryTz);
+    //   $userSelectedTimezone->timezone($request->input('timezone'));
 
-      $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
-      $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
-      $userLocationTime = ' As per Selected Timezone ' . $userTimezoneFormat . '(' . $request->input('timezone') . ')';
+    //   $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
+    //   $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
+    //   $userLocationTime = ' As per Selected Timezone ' . $userTimezoneFormat . '(' . $request->input('timezone') . ')';
 
       // $dynamicData = [
       //   'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
@@ -459,7 +459,7 @@ class HomeController extends Controller
     // echo "<pre>"; print_r($venueAddress); die;
 
     $mytime = Carbon::now()->tz($timezone);
-    $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $timezone);
+    $eventDate = Carbon::parse($venueAddress->venue_date, $timezone);
     $hoursRemaining = $eventDate->diffInHours($mytime);
 
     $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
@@ -597,8 +597,6 @@ class HomeController extends Controller
     $today = Carbon::now();
     $NextDate = $today->addDay();
     $newDate = $NextDate->format('Y-m-d');
-
-
 
     //  $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
     //$newDate = date('Y-m-d');
@@ -805,46 +803,63 @@ class HomeController extends Controller
 
     if ($type == 'get_slot_book') {
      // return date('Y-m-d');
+        $currentTimezone = $request->input('timezone', 'America/New_York');
+        $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
+
        $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
-      ->where('city',  $request->input('optional'))
-      ->where('venue_date','=', date('Y-m-d'))
-      ->orderBy('venue_date', 'ASC')
-      ->first();
+        ->where('city',  $request->input('optional'))
+        ->whereDate('venue_date',date('Y-m-d'))
+        ->orderBy('venue_date', 'ASC')
+        ->first();
+
+      $isVisible = false;
+        if ($venuesListArr) {
+
+            $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
 
+            if ($status['allowed']) {
 
-      if(!empty($venuesListArr)){
 
-         $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-        ->where(['type' => $request->input('duaType')])
-        ->orderBy('id', 'ASC')
-        ->select(['venue_address_id', 'token_id', 'id'])->first();
+                $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->where(['type' => $request->input('duaType')])
+                ->orderBy('id', 'ASC')
+                ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-        if($tokenIs){
-          return response()->json([
-            'status' =>  true ,
-            'token_id' => $tokenIs->token_id,
-            'slot_id' => $tokenIs->id
-          ]);
+                if($tokenIs){
+                    return response()->json([
+                      'status' =>  true ,
+                      'token_id' => $tokenIs->token_id,
+                      'slot_id' => $tokenIs->id
+                    ]);
+                  }else{
+                    return response()->json([
+                      'status' =>  false ,
+                      'message' => "There is no token avilable",
+                      'dt' =>$request->input('duaType'),
+                      'dtd' =>$venuesListArr->id
+                    ]);
+                  }
+
+            }else{
+
+                return response()->json([
+                    'status' => false,
+                    'message' => $status['message'],
+
+                  ]);
+
+            }
+
         }else{
-          return response()->json([
-            'status' =>  false ,
-            'message' => "There is no token avilable",
-            'dt' =>$request->input('duaType'),
-            'dtd' =>$venuesListArr->id
-          ]);
+            return response()->json([
+                'status' =>  false ,
+                'message' => "There is no venue for the Selected Date."
+              ]);
         }
-
-
-      }else{
-        return response()->json([
-          'status' =>  false ,
-          'message' => "There is no venue for the Selected Date."
-        ]);
-      }
-
     }
+
 
 
     if ($type == 'get_slots') {

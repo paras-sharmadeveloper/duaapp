@@ -100,7 +100,7 @@
 
                     <form method="POST" action="{{ route('venues.store') }}">
                 @endif
-                
+
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
@@ -117,7 +117,7 @@
                     <div class="col-md-6 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">City </span>
-                            <select name="city" class="form-control"> 
+                            <select name="city" class="form-control">
                                 <option name="Lahore">Lahore </option>
                                 <option name="Islamabad" >Islamabad</option>
                                 <option name="Karachi" >Karachi</option>
@@ -131,21 +131,21 @@
                     <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Date </span>
-                            {!! Form::date('venue_date', $venueAddress->venue_date ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'Date',
-                                'min' => date('Y-m-d'),
-                            ]) !!}
+                            <input type="datetime-local"
+                             value="{{ ($venueAddress->venue_date) ? $venueAddress->venue_date : '' }}"
+                             class="form-control" placeholder="Date Time"
+                             min="{{ date('Y-m-d') }}" name="venue_date">
+
 
                         </div>
                     </div>
- 
+
 
                     <div class="col-md-4">
                     <label>Venue Addresses (English)</label>
-                
+
                         <div class="input-group">
-                          
+
 
                             {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
                                 'class' => 'form-control',
@@ -160,7 +160,7 @@
 
                     <div class="col-md-4 ">
                      <label>Venue Addresses (Urdu)</label>
-                        <div class="input-group"> 
+                        <div class="input-group">
 
                             {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
                                 'class' => 'form-control',
@@ -179,7 +179,7 @@
 
 
                 <div class="row mt-3">
-                    
+
 
 
                     {{-- <div class="col-md-6 mt-4">
@@ -334,9 +334,9 @@
                     </div> --}}
                     <div class="col-md-4 mt-4">
                         <label>Recurring Till How many Month ? </label>
-                   
+
                         <div class="input-group">
-                            
+
                             {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'ends',
@@ -420,34 +420,34 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div class="col-md-4 mt-4">
                         <label>Status Page Note (English)</label>
-                        <div class="input-group"> 
-                            <textarea name="status_page_note" 
+                        <div class="input-group">
+                            <textarea name="status_page_note"
                             class="form-control"
                             id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
-                            
- 
+
+
                         </div>
                     </div>
 
                      <div class="col-md-4 mt-4">
                         <label>Status Page Note (Urdu)</label>
-                        <div class="input-group"> 
-                            <textarea name="status_page_note_ur" 
+                        <div class="input-group">
+                            <textarea name="status_page_note_ur"
                             class="form-control"
                             id="status_page_note_ur" cols="10" rows="5" placeholder="User booking Status page note Urdu">{{ $venueAddress->status_page_note_ur ?? '' }}</textarea>
-                            
- 
+
+
                         </div>
                     </div>
 
-                    
 
-                  
+
+
 
                     {{-- <div class="col-md-4 mt-4">
                         <div class="input-group">
@@ -599,7 +599,7 @@
         if (CurrentPage == 'venues.create') {
             $(".inner-wrap .ckkBox").each(function(item, key) {
 
-                $(this).prop('checked', true) 
+                $(this).prop('checked', true)
             })
         }
         $("#combination_id").change(function(){
@@ -610,27 +610,27 @@
 
         });
         $("#venue_id").change(function(){
-            var id = $(this).find(":selected").val(); 
+            var id = $(this).find(":selected").val();
             $.ajax({
                 url: "{{ route('get-states') }}",
                 type: 'GET',
                 data: {
                     venue_id : id
-                }, 
-                success: function(response) { 
-                    var options = '<option>Select Combination</option>'; 
+                },
+                success: function(response) {
+                    var options = '<option>Select Combination</option>';
                     $.each(response,function(i,item){
-                        options+=`<option value='${item.id}'  
+                        options+=`<option value='${item.id}'
                         data-state='${item.state_name}'
                         data-city='${item.city_name}'
-                        >${item.combination_name} (${item.columns_to_show}) </option>`; 
+                        >${item.combination_name} (${item.columns_to_show}) </option>`;
                     })
                     $("#combination_id").html(options)
-                     
+
                 },
                 error: function(error) {
-                     
-                    
+
+
                 }
             });
 

@@ -252,7 +252,11 @@ class TwillioIVRHandleController extends Controller
 
                 if (!empty($venuesListArr)) {
 
-                    $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+
+                    $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+                    if ($status['allowed']) {
+
+                        $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
                         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                         ->where(['type' => $dua_option])
                         ->orderBy('id', 'ASC')
@@ -282,8 +286,6 @@ class TwillioIVRHandleController extends Controller
                     if ($booking) {
                         TwillioIvrResponse::where(['mobile' => $customer])->delete();
                     }
-
-                    // $response->play($this->cityUrl . 'city_' . $city . '.wav');
 
                     for ($i = 1; $i <= 2; $i++) {
 
@@ -345,9 +347,13 @@ class TwillioIVRHandleController extends Controller
                     }
                     $response->play($this->statementUrl.$lang . '/statement_15_min_before.wav');
                     $response->play($this->statementUrl .$lang . '/statement_goodbye.wav');
+
+                    }else{
+                        $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
+                    }
+
                 }
             }else {
-
 
                 $response->play($this->statementUrl .$lang . '/wrong_input.wav');
                 // $response->say("You have Entered Wrong Input Please choose the Right Input",['voice' => $this->voice]);
