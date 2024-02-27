@@ -132,6 +132,10 @@ class HomeController extends Controller
       // }
 
       // $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
+      $rejoin = $venueAddress->rejoin_venue_after;
+    //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
+
+
       $user = Vistors::Where('phone', $validatedData['mobile'])->first();
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());

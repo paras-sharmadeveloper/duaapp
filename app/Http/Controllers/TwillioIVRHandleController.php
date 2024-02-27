@@ -241,6 +241,8 @@ class TwillioIVRHandleController extends Controller
         $customer_option = json_decode($existingData->customer_options, true);
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
         $lang  =  $existingData->lang;
+
+
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $CityName = $customer_option[$userInput];
@@ -270,6 +272,14 @@ class TwillioIVRHandleController extends Controller
                     $countryCode = $this->findCountryByPhoneNumber($customer);
                     $cleanNumber = str_replace($countryCode, '', $customer);
                     $uuid = Str::uuid()->toString();
+
+                        // Rejoin
+
+                    // $rejoin = $venueAddress->rejoin_venue_after;
+                    // $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+                    // if($rejoinStatus['allowed']){
+
+                    // }
                     $booking = Vistors::create([
                         'is_whatsapp' => 'yes',
                         'slot_id' => $slotId,
