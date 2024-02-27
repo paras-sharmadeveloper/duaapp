@@ -847,6 +847,7 @@ class HomeController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => $status['message'],
+                    'message_ur' => $status['message_ur'],
 
                   ]);
 
@@ -856,6 +857,7 @@ class HomeController extends Controller
             return response()->json([
                 'status' =>  false ,
                 'message' => "There is no venue for the Selected Date."
+
               ]);
         }
     }
