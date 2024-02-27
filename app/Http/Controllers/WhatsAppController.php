@@ -20,7 +20,7 @@ class WhatsAppController extends Controller
         $currentTime = Carbon::now();
         $differenceInMinutes = $createdAt->diffInMinutes($currentTime);
 
-        if ($differenceInMinutes > 30) {
+        if ($differenceInMinutes > 10) {
             $existingCustomer->delete();
         }
     }
