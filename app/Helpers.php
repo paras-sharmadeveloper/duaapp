@@ -14,19 +14,22 @@ if (!function_exists('isAllowedTokenBooking')) {
         if ($hoursRemaining >= 0 && $hoursRemaining <= $slotsAppearBefore) {
             return [
                 'allowed' => true,
-                'message' => 'Ticket booking is allowed.',
+                'message' => 'Token booking is allowed.',
+                'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
                 'hours_remaining' => $hoursRemaining,
             ];
         } elseif ($hoursRemaining < 0) {
             return [
                 'allowed' => false,
-                'message' => 'Ticket booking time has passed.',
+                'message' => 'Token booking time has passed.',
+                'message_ur' => 'ٹوکن بکنگ کا وقت گزر چکا ہے۔',
                 'hours_passed' => abs($hoursRemaining),
             ];
         } else {
             return [
                 'allowed' => false,
-                'message' => 'Ticket booking is not yet allowed.  Kindly Wait for ' .$waitTime.' hours' ,
+                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' .$waitTime.' hours' ,
+                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی '.$waitTime.' کا انتظار کریں۔ گھنٹے',
                 'hours_until_open' => $hoursRemaining,
             ];
         }

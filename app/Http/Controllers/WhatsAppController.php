@@ -350,7 +350,7 @@ class WhatsAppController extends Controller
                     }
 
                 }else{
-                    $data = ($lang =='eng') ? $status['message'] :  $status['message'];
+                    $data = ($lang =='eng') ? $status['message'] :  $status['message_ur'];
                     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
                     $this->sendMessage($userPhoneNumber, $message);
                 }
