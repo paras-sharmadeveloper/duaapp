@@ -17,11 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger('therapist_id');
             $table->unsignedBigInteger('siteadmin_id');
             $table->unsignedBigInteger('combination_id')->nullable();
-            
+
             $table->string('state')->nullable();
-            $table->string('city')->nullable(); 
+            $table->string('city')->nullable();
             $table->text('address');
-            $table->date('venue_date'); 
+            $table->dateTime('venue_date');
             $table->time('slot_starts_at_morning')->nullable();
             $table->time('slot_ends_at_morning')->nullable();
 
@@ -33,29 +33,29 @@ return new class extends Migration
             $table->string('room_sid')->nullable();
             $table->integer('slot_duration')->default(1);
             $table->integer('slot_appear_hours')->default(24);
-            $table->integer('is_monday')->default(0);  
-            $table->integer('is_tuesday')->default(0);  
-            $table->integer('is_wednesday')->default(0);  
-            $table->integer('is_thursday')->default(0);  
-            $table->integer('is_friday')->default(0);  
-            $table->integer('is_saturday')->default(0);  
-            $table->integer('is_sunday')->default(0); 
-            $table->integer('recurring_till')->default(0); 
-            $table->integer('rejoin_venue_after')->default(0); 
-            $table->integer('selfie_verification')->default(1); 
+            $table->integer('is_monday')->default(0);
+            $table->integer('is_tuesday')->default(0);
+            $table->integer('is_wednesday')->default(0);
+            $table->integer('is_thursday')->default(0);
+            $table->integer('is_friday')->default(0);
+            $table->integer('is_saturday')->default(0);
+            $table->integer('is_sunday')->default(0);
+            $table->integer('recurring_till')->default(0);
+            $table->integer('rejoin_venue_after')->default(0);
+            $table->integer('selfie_verification')->default(1);
 
 
-            $table->integer('dua_slots')->default(0); 
+            $table->integer('dua_slots')->default(0);
             $table->integer('dum_slots')->default(0);
 
             $table->text('status_page_note')->nullable();
             $table->text('venue_addresses_ur')->nullable();
             $table->text('status_page_note_ur')->nullable();
-            
+
             $table->string('timezone')->nullable();
-            
-            $table->json('venue_available_country')->nullable(); 
-            $table->timestamps(); 
+
+            $table->json('venue_available_country')->nullable();
+            $table->timestamps();
             $table->foreign('combination_id')
                   ->references('id')
                   ->on('venue_state_cities')->onDelete('cascade')->onUpdate('cascade');
