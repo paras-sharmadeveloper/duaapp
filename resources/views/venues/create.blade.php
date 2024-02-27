@@ -130,7 +130,7 @@
                 <div class="row mt-3">
                     <div class="col-md-4 mt-4">
                         <div class="input-group">
-                            <span class="input-group-text">Date </span>
+                            <span class="input-group-text">Date Time </span>
                             <input type="datetime-local"
                              value="{{ ($venueAddress->venue_date) ? $venueAddress->venue_date : '' }}"
                              class="form-control" placeholder="Date Time"
