@@ -251,6 +251,7 @@
         function playFromQueue() {
             // Check if there are audio URLs in the queue
             if (audioQueue.length > 0) {
+                playNotificationTune()
                 var audio = new Audio(audioQueue.shift()); // Get the first URL from the queue
                 audio.play(); // Play the audio
 
@@ -260,7 +261,7 @@
                 // Add event listener to reset the flag when audio finishes playing
                 audio.onended = function() {
                     isAudioPlaying = false;
-                    playNotificationTune()
+
                     // Play the next audio in the queue
                     playFromQueue();
                 };
