@@ -26,7 +26,9 @@ class HomeController extends Controller
 
   public function StatusLcdScreen(Request $request )
   {
-    $venueAddress = VenueAddress::all();
+    // $venueAddress = VenueAddress::all();
+    $venueAddress = VenueAddress::query()->get();
+
     $distinctCities = $venueAddress->pluck('city')->unique();
 
     $getDates = $venueAddress->whereIn('city',$distinctCities)
