@@ -258,7 +258,7 @@ class WhatsAppController extends Controller
                         $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
                         $uuid = Str::uuid()->toString();
 
-                        $venueDate = ($lang == 'eng') ? date("d M Y h:i A", strtotime($venueAddress->venue_date)) : date("d m Y h:i A", strtotime($venueAddress->venue_date));
+                        $venueDate = ($lang == 'eng') ? date("d M Y", strtotime($venueAddress->venue_date)) : date("d m Y", strtotime($venueAddress->venue_date));
                         Vistors::create([
                             'is_whatsapp' => 'yes',
                             'slot_id' => $slotId,

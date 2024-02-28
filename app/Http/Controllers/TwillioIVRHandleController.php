@@ -37,8 +37,9 @@ class TwillioIVRHandleController extends Controller
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
 
-        // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');
+        //
         $response->play($this->statementUrl . 'ur/welcome_for_eng_press1_for_urdu_press2.wav');
+        $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');
 
         $isWrongInput = $request->input('wrong_input',false);
         $response->gather([
@@ -325,12 +326,12 @@ class TwillioIVRHandleController extends Controller
                             $response->say($year,['voice' => $this->voice]);
                         }else{
 
-                            $response->say($day,['voice' => $this->voice]);
-                            $response->say($month,['voice' => $this->voice]);
-                            $response->say($year,['voice' => $this->voice]);
-                            // $response->play($this->numbersUrl. $number . '.wav');
-                            // $response->play($this->monthsIvr. 'Month_' . $month . '.wav');
-                            // $response->play($this->yearsIvr . 'Year_' . $year . '.wav');
+                            // $response->say($day,['voice' => $this->voice]);
+                            // $response->say($month,['voice' => $this->voice]);
+                            // $response->say($year,['voice' => $this->voice]);
+                             $response->play($this->numbersUrl. $number . '.wav');
+                             $response->play($this->monthsIvr. 'month_' . $month . '.wav');
+                             $response->play($this->yearsIvr .  $year . '.wav');
                         }
 
 
