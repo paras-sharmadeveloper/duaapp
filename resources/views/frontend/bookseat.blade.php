@@ -17,6 +17,9 @@
             font-family: Karla, sans-serif,
         }
 
+        ul#progress-bar li {
+    font-size: 20px;
+}
         .select2-container .select2-selection--single {
             height: 38px
         }
