@@ -283,7 +283,7 @@ class WhatsAppController extends Controller
 
                         if($lang == 'eng'){
 
-                            $message = <<<EOT
+                        $message = <<<EOT
 
                             Your Dua Appointment Confirmed $duaby ✅
 
@@ -310,7 +310,7 @@ class WhatsAppController extends Controller
                         EOT;
 
                         }else{
-                            $message = <<<EOT
+                        $message = <<<EOT
 
                             آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅
 
