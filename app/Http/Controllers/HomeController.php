@@ -26,16 +26,11 @@ class HomeController extends Controller
 
   public function StatusLcdScreen(Request $request )
   {
-    // $venueAddress = VenueAddress::all();
-    $venueAddress = VenueAddress::all();
-
+    $today = date('Y-m-d');
+    $venueAddress = VenueAddress::where('venue_date','LIKE',"%{$today}%")->get();
     $distinctCities = $venueAddress->pluck('city')->unique();
-
     $getDates = $venueAddress->whereIn('city',$distinctCities)
-    ->where('venue_date', 'LIKE' ,date('Y-m-d').'%')
     ->pluck('id','city');
-
-    // echo "<pre>"; print_r($getDates ); die;
 
     if($request->ajax()){
         $city = $request->input('city');
