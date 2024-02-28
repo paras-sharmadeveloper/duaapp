@@ -325,7 +325,7 @@ class TwillioIVRHandleController extends Controller
                             $response->say($month,['voice' => $this->voice]);
                             $response->say($year,['voice' => $this->voice]);
                         }else{
-
+                            $response->say($myday,['voice' => $this->voice]);
                              $response->play($this->numbersUrl. $myday .'.wav');
                              $response->play($this->monthsIvr. 'month_' . $month . '.wav');
                              $response->play($this->yearsIvr .  $year . '.wav');
