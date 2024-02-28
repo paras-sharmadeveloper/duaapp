@@ -35,6 +35,7 @@ class SiteAdminController extends Controller
 
                 $venueSloting = VenueSloting::with(['visitors' => function ($query) {
                     $query->where('user_status', 'no_action');
+                    $query->orWhere('is_available', 'not_confirmed');
                     $query->orderBy('confirmed_at', 'asc');
                 }, 'venueAddress'])
                 ->where('venue_address_id', $id)
