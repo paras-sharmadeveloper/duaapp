@@ -304,7 +304,9 @@ class TwillioIVRHandleController extends Controller
 
                         $response->play($this->statementUrl . $lang . '/statement_your_token_date.wav');
 
-                        $datesArr = explode('-', $venueAddress->venue_date);
+                        $correctVenueDate = date('Y-m-d', strtotime($venueAddress->venue_date));
+
+                        $datesArr = explode('-', $correctVenueDate);
                         $year = $datesArr[0];
                         $month = $datesArr[1];
                         $day = $datesArr[2];
@@ -325,6 +327,8 @@ class TwillioIVRHandleController extends Controller
                             $response->say($month,['voice' => $this->voice]);
                             $response->say($year,['voice' => $this->voice]);
                         }else{
+                            Log::info("Myday" . $myday);
+                            Log::info("Url" . $this->numbersUrl. $myday .'.wav');
                             $response->say($myday,['voice' => $this->voice]);
                              $response->play($this->numbersUrl. $myday .'.wav');
                              $response->play($this->monthsIvr. 'month_' . $month . '.wav');
