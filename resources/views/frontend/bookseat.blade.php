@@ -2046,7 +2046,7 @@
     </script>
 
     <script>
-        document.title = "Dua Meeting | KahayFaqeer.com";
+        document.title = "Book Dua Meeting | KahayFaqeer.org";
         $(document).ready(function() {
             // $('#mobile').on('input', function() {
             //     // Get the value of the phone input
