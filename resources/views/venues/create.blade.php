@@ -107,7 +107,7 @@
                             <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
                             <select class="form-control" name="siteadmin_id">
                                 @foreach ($siteAdmins as $siteadmin)
-                                    <option value="{{ ($siteadmin) ?? $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
+                                    <option value="{{ $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
                                         {{ $siteadmin->name }}</option>
                                 @endforeach
                             </select>

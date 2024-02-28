@@ -18,8 +18,8 @@
         }
 
         ul#progress-bar li {
-    font-size: 20px;
-}
+            font-size: 20px;
+        }
         .select2-container .select2-selection--single {
             height: 38px
         }
