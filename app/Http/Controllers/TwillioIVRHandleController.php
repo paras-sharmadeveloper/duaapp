@@ -292,7 +292,7 @@ class TwillioIVRHandleController extends Controller
                         'country_code' => $countryCode,
                         'phone' => $cleanNumber,
                         'source' => 'Phone',
-                        'dua_type' =>$duaType,
+                        'dua_type' => $dua_option,
                         'lang' => $lang
                     ]);
 
