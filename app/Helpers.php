@@ -12,6 +12,14 @@ if (!function_exists('isAllowedTokenBooking')) {
         $hoursRemaining = $currentTime->diffInHours($eventDateTime, false); // false ensures negative values if eventDateTime is in the past
         $slotsAppearBefore = intval($slot_appear_hours);
         $waitTime = $hoursRemaining - $slotsAppearBefore;
+        if($slotsAppearBefore == 0){
+            return [
+                'allowed' => true,
+                'message' => 'Token booking is allowed.',
+                'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
+                'hours_remaining' => $hoursRemaining,
+            ];
+        }
         if ($hoursRemaining >= 0 && $hoursRemaining <= $slotsAppearBefore) {
             return [
                 'allowed' => true,
