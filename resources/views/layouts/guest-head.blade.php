@@ -7,7 +7,7 @@
     <title>{{ ucwords(request()->route()->getName()) }} - {{ env('APP_NAME') ?? 'Laravel' }}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
 
@@ -19,7 +19,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.0.0/mdb.min.css" rel="stylesheet" />
     <!-- Favicons -->
     <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon">
-    <link href="{{ asset('assets/theme/img/logo.png')}}" rel="icon">
+    <link href="{{ asset('assets/theme/img/logo.png') }}" rel="icon">
     <link href="{{ asset('assets/theme/img/logo.png') }} " rel="apple-touch-icon">
     <link href="{{ asset('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') }}" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -30,6 +30,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+
+
 
     <!-- Vendor CSS Files -->
     {{-- <link href="{{ asset('assets/theme/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
@@ -45,14 +48,11 @@
 
 
     <style type="text/css">
-
-
-
         .logoo img {
             height: 140px;
             width: 150px;
         }
-     </style>
+    </style>
 
 
 

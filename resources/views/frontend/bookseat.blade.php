@@ -14,7 +14,7 @@
 
         body {
             background-color: rgb(29, 29, 29);
-            font-family: Karla, sans-serif
+            font-family: Karla, sans-serif,
         }
 
         .select2-container .select2-selection--single {
@@ -131,13 +131,21 @@
         }
 
         button.btn:hover {
-            color: #000 !important;
+            color: #fff !important;
             background-color: grey
+        }
+        .btn.back{
+            color: #000 !important;
+            background-color: grey;
+            font-size: 18px;
+        }
+        .btn.back:hover{
+            color: #fff !important;
         }
 
         .card-title {
-            padding: 10px 0 4px;
-            font-size: 14px;
+            padding: 10px 0 8px;
+            font-size: 24px;
             font-weight: 500;
             color: #012970;
             font-family: Poppins, sans-serif
@@ -318,9 +326,10 @@
 
         }
 
-        .btn.next,
-        #startBooking,.language-selection {
+        .btn.next,  #startBooking,.language-selection  {
             background: #f9d20a !important;
+            color: #000 !important;
+            font-size: 18px
         }
 
         @media (min-width:1024px) {
