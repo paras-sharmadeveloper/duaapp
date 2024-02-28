@@ -30,14 +30,14 @@ class HomeController extends Controller
     $distinctCities = $venueAddress->pluck('city')->unique();
 
     $getDates = $venueAddress->whereIn('city',$distinctCities)
-    ->whereDate('venue_date',date('Y-m-d'))
+    ->whereDate('venue_date', date('Y-m-d'))
     ->pluck('id','city');
 
     // echo "<pre>"; print_r($getDates ); die;
 
     if($request->ajax()){
         $city = $request->input('city');
-        $venueAddress = VenueAddress::where(['city' => $city] )->where('venue_date','>=',date('Y-m-d'))->select('id','venue_date')->get();;
+        $venueAddress = VenueAddress::where(['city' => $city] )->whereDate('venue_date','>=',date('Y-m-d'))->select('id','venue_date')->get();;
         return response()->json($venueAddress);
 
     }
