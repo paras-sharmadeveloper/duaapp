@@ -309,9 +309,7 @@ class TwillioIVRHandleController extends Controller
                         $month = $datesArr[1];
                         $day = $datesArr[2];
 
-                        if ($day <= 9) {
-                            $number = '000' . $day;
-                        } else if ($day <= 99) {
+                         if ($day <= 99) {
                             $number = '00'.$day;
                         } else if ($day <= 999) {
                             $number = '0'.$day;
