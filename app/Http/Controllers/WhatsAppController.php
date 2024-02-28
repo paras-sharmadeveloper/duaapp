@@ -285,54 +285,54 @@ class WhatsAppController extends Controller
 
                         $message = <<<EOT
 
-                            Your Dua Appointment Confirmed $duaby ✅
+                        Your Dua Appointment Confirmed $duaby ✅
 
-                            Event Date : $venueDate
+                        Event Date : $venueDate
 
-                            Venue : $venueAddress->city
+                        Venue : $venueAddress->city
 
-                            $venueAddress->address
+                        $venueAddress->address
 
-                            Token #$tokenId
+                        Token #$tokenId
 
-                            Your Mobile : $userMobile
+                        Your Mobile : $userMobile
 
-                            Appointment Duration : $appointmentDuration
+                        Appointment Duration : $appointmentDuration
 
-                            $statusNote
+                        $statusNote
 
-                            To view your token online please click below:
+                        To view your token online please click below:
 
-                            $statusLink
+                        $statusLink
 
-                            $pdfLink
+                        $pdfLink
 
                         EOT;
 
                         }else{
                         $message = <<<EOT
 
-                            آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅
+                        آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅
 
-                            تاریخ : $venueDate
+                        تاریخ : $venueDate
 
-                            دعا گھر : $venueAddress->city
+                        دعا گھر : $venueAddress->city
 
-                           $venueAddress->address_ur
+                        $venueAddress->address_ur
 
-                            ٹوکن #$tokenId
+                        ٹوکن #$tokenId
 
-                            آپ کا موبائل : $userMobile
+                        آپ کا موبائل : $userMobile
 
-                            ملاقات کا دورانیہ : $appointmentDuration
+                        ملاقات کا دورانیہ : $appointmentDuration
 
-                            $statusNote
+                        $statusNote
 
-                            اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+                        اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
 
-                            $statusLink
+                        $statusLink
 
-                            $pdfLink
+                        $pdfLink
 
                         EOT;
                         }
