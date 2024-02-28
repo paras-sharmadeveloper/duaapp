@@ -34,7 +34,7 @@ class HomeController extends Controller
 
     if($request->ajax()){
         $city = $request->input('city');
-        $venueAddress = VenueAddress::where(['city' => $city] )->where('venue_date', 'LIKE' ,date('Y-m-d').'%')->select('id','venue_date')->get();;
+        $venueAddress = VenueAddress::where(['city' => $city] )->where('venue_date','LIKE',"%{$today}%")->select('id','venue_date')->get();;
         return response()->json($venueAddress);
 
     }
