@@ -39,9 +39,9 @@ class VenueController extends Controller
         $siteAdmins = User::whereHas('roles', function ($query) {
             $query->where('name', 'site-admin');
         })->get();
-
+        $venueAddress = [];
         $venueCountry = Country::all();
-        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry'));
+        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry','venueAddress'));
     }
 
 

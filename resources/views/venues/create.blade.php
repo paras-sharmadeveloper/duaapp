@@ -107,7 +107,7 @@
                             <span class="input-group-text" id="inputGroupPrepend2">Select Field Admin</span>
                             <select class="form-control" name="siteadmin_id">
                                 @foreach ($siteAdmins as $siteadmin)
-                                    <option value="{{ $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
+                                    <option value="{{ ($siteadmin) ?? $siteadmin->id }}" @if (!empty($venueAddress) && $venueAddress->siteadmin_id == $siteadmin->id) selected @endif>
                                         {{ $siteadmin->name }}</option>
                                 @endforeach
                             </select>
@@ -132,7 +132,7 @@
                         <div class="input-group">
                             <span class="input-group-text">Date Time </span>
                             <input type="datetime-local"
-                             value="{{ ($venueAddress->venue_date) ? $venueAddress->venue_date : '' }}"
+                             value="{{ (!empty($venueAddress)) ? $venueAddress->venue_date : '' }}"
                              class="form-control" placeholder="Date Time"
                              min="{{ date('Y-m-d') }}" name="venue_date">
 
@@ -383,7 +383,7 @@
                     </div> --}}
                     <div class="col-md-4 mt-4">
                         @php
-                            $savedCountries = isset($venueAddress) ? json_decode($venueAddress->venue_available_country) : [];
+                            $savedCountries = (!empty($venueAddress)) ? json_decode($venueAddress->venue_available_country) : [];
                         @endphp
                         <label> Venue Available Country </label>
                         <div class="wrapper">
