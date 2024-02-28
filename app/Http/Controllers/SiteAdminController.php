@@ -89,7 +89,7 @@ class SiteAdminController extends Controller
             $prevVisitor = Vistors::where('user_status', 'in-meeting')
             ->whereDate('meeting_start_at', '=', date('Y-m-d'))
             ->where('dua_type',  $duaType)
-            ->latest('meeting_start_at')
+            ->orderBy('id', 'desc')
             ->first();
 
             // return $prevVisitor;
