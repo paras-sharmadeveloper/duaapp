@@ -275,11 +275,17 @@ class WhatsAppController extends Controller
 
                         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
+                        $statusNote =($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+
                         $statusLink = route('booking.status', $uuid);
                         $pdfLink = '';
+                        $duaby ='';
 
-                        $message = <<<EOT
-                            Your Dua Appointment Confirmed With $duaBy ✅
+                        if($lang == 'eng'){
+
+                            $message = <<<EOT
+
+                            Your Dua Appointment Confirmed $duaby ✅
 
                             Event Date : $venueDate
 
@@ -291,18 +297,74 @@ class WhatsAppController extends Controller
 
                             Your Mobile : $userMobile
 
-                            Your Appointment Time : $slotTime
-
                             Appointment Duration : $appointmentDuration
 
-                            $venueAddress->status_page_note
+                            $statusNote
+
                             To view your token online please click below:
 
                             $statusLink
 
                             $pdfLink
 
-                            EOT;
+                        EOT;
+
+                        }else{
+                            $message = <<<EOT
+
+                            آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅
+
+                            تاریخ : $venueDate
+
+                            دعا گھر : $venueAddress->city
+
+                           $venueAddress->address_ur
+
+                            ٹوکن #$tokenId
+
+                            آپ کا موبائل : $userMobile
+
+                            ملاقات کا دورانیہ : $appointmentDuration
+
+                            $statusNote
+
+                            اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+
+                            $statusLink
+
+                            $pdfLink
+
+                        EOT;
+                        }
+
+
+
+
+                        // $message = <<<EOT
+                        //     Your Dua Appointment Confirmed With $duaBy ✅
+
+                        //     Event Date : $venueDate
+
+                        //     Venue : $venueAddress->city
+
+                        //     $venueAddress->address
+
+                        //     Token #$tokenId
+
+                        //     Your Mobile : $userMobile
+
+                        //     Your Appointment Time : $slotTime
+
+                        //     Appointment Duration : $appointmentDuration
+
+                        //     $venueAddress->status_page_note
+                        //     To view your token online please click below:
+
+                        //     $statusLink
+
+                        //     $pdfLink
+
+                        //     EOT;
                         $this->sendMessage($userPhoneNumber, $message);
                         $dataArr = [
                             'customer_number' => $userPhoneNumber,
