@@ -310,11 +310,11 @@ class TwillioIVRHandleController extends Controller
                         $day = $datesArr[2];
 
                          if ($day <= 99) {
-                            $number = '00'.$day;
+                            $myday = '00'.$day;
                         } else if ($day <= 999) {
-                            $number = '0'.$day;
+                            $myday = '0'.$day;
                         }else if ($day <= 2000) {
-                            $number = $day;
+                            $myday = $day;
                         }
 
 
@@ -326,7 +326,7 @@ class TwillioIVRHandleController extends Controller
                             $response->say($year,['voice' => $this->voice]);
                         }else{
 
-                             $response->play($this->numbersUrl. $number .'.wav');
+                             $response->play($this->numbersUrl. $myday .'.wav');
                              $response->play($this->monthsIvr. 'month_' . $month . '.wav');
                              $response->play($this->yearsIvr .  $year . '.wav');
                         }
