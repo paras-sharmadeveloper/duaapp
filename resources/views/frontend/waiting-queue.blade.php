@@ -172,7 +172,7 @@
             $(".get-started").fadeOut()
             setInterval(() => {
                 getList();
-            }, 2500);
+            }, 3000);
         }
 
         function playNotificationTune() {
@@ -260,6 +260,7 @@
                 // Add event listener to reset the flag when audio finishes playing
                 audio.onended = function() {
                     isAudioPlaying = false;
+                    playNotificationTune()
                     // Play the next audio in the queue
                     playFromQueue();
                 };
@@ -318,7 +319,7 @@
                                 //  console.log("One time",item.booking_number);
 
                                 setTimeout(() => {
-                                    playNotificationTune()
+
                                     speakTokenNumber(item.booking_number)
                                     $('#soundBox').append(
                                         `<input type="hidden" id="ring${item.booking_number}" name="" value="played">`
