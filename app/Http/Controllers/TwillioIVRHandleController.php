@@ -280,9 +280,13 @@ class TwillioIVRHandleController extends Controller
 
                     // $rejoin = $venueAddress->rejoin_venue_after;
                     // $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
-                    // if($rejoinStatus['allowed']){
+                    // if(!$rejoinStatus['allowed']){
+                    //     $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
+                    //     return response($response, 200)->header('Content-Type', 'text/xml');
 
                     // }
+
+
                     $booking = Vistors::create([
                         'is_whatsapp' => 'yes',
                         'slot_id' => $slotId,
