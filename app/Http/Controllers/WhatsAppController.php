@@ -157,6 +157,9 @@ class WhatsAppController extends Controller
                 ->take(3)
                 ->get();
 
+
+
+
             if(empty($venuesListArr)){
                 $message = $this->WhatsAppbotMessages('', 9 , $lang);
                 $this->sendMessage($userPhoneNumber, $message);
@@ -248,6 +251,17 @@ class WhatsAppController extends Controller
                         $slotId = $tokenIs->id;
                         $duaType = $tokenIs->type;
                         $venueAddress = $tokenIs->venueAddress;
+
+                        $rejoin = $venueAddress->rejoin_venue_after;
+                        $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+                        if(!$rejoinStatus['allowed']){
+                            $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
+                            $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                            $this->sendMessage($userPhoneNumber, $message);
+                            return false;
+                        }
+
+
                         // $tokenId = $venueSlots->token_id;
                         $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
                         $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
