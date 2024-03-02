@@ -810,18 +810,15 @@ class HomeController extends Controller
 
 
 
-        $currentCountry = Venue::with('getTimezone')->find($request->input('id'));
-        return $currentCountry;
 
-        // $today = getCurrentContryTimezone($venueDate, $tz);
+         $today = getCurrentContryTimezone($request->input('id'));
 
        $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
         ->where('city',  $request->input('optional'))
         //->where('venue_date','LIKE',"%{$today}%")
-        ->whereDate('venue_date',date('Y-m-d'))
+        ->whereDate('venue_date', $today)
         ->orderBy('venue_date', 'asc')
         ->first();
-        return $venuesListArr ;
 
       $isVisible = false;
         if ($venuesListArr) {

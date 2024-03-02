@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Timezone;
+use App\Models\Venue;
 use App\Models\Vistors;
 use Carbon\Carbon;
 
@@ -82,6 +84,19 @@ if (!function_exists('userAllowedRejoin')) {
 }
 
 if (!function_exists('getCurrentContryTimezone')) {
+    function getCurrentContryTimezone($id)
+    {
+
+        $currentCountry = Venue::find($id);
+        $timezone =  Timezone::where(['country_code' => $currentCountry->iso])->first();
+        $countryDate = Carbon::parse(now(),$timezone->timezone);
+        return $countryDate->format('Y-m-d');
+
+    }
+}
+
+
+if (!function_exists('getCurrentTimezone')) {
     function getCurrentContryTimezone($venueDate, $tz)
     {
 
