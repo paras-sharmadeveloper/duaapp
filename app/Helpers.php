@@ -91,7 +91,6 @@ if (!function_exists('getCurrentContryTimezone')) {
         $timezone =  Timezone::where(['iso' => $currentCountry->iso])->first();
         $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
         return $countryDate->format('Y-m-d');
-
     }
 }
 
