@@ -89,7 +89,7 @@ if (!function_exists('getCurrentContryTimezone')) {
 
         $currentCountry = Venue::find($id);
         $timezone =  Timezone::where(['country_code' => $currentCountry->iso])->first();
-        $countryDate = Carbon::parse(now(),$timezone->timezone);
+        $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
         return $countryDate->format('Y-m-d');
 
     }
