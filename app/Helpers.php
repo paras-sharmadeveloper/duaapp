@@ -4,6 +4,8 @@ use App\Models\Timezone;
 use App\Models\Venue;
 use App\Models\Vistors;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
+
 
 if (!function_exists('isAllowedTokenBooking')) {
     function isAllowedTokenBooking($venuedateTime, $slot_appear_hours , $timezone)
@@ -89,6 +91,7 @@ if (!function_exists('getCurrentContryTimezone')) {
 
         $currentCountry = Venue::find($id);
         $timezone =  Timezone::where(['country_code' => $currentCountry->iso])->first();
+        Config::set('app.timezone', $timezone->timezone);
         $time = Carbon::now()->setTimezone($timezone->timezone);
        //  $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
         return $time ->format('Y-m-d');
