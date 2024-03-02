@@ -803,7 +803,7 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slot_book') {
-        $today = date('Y-m-d');
+
      // return date('Y-m-d');
         $currentTimezone = $request->input('timezone', 'America/New_York');
         $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
@@ -811,14 +811,14 @@ class HomeController extends Controller
 
 
 
-         $today = getCurrentContryTimezone($request->input('id'));
+         return $today = getCurrentContryTimezone($request->input('id'));
 
-       $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
-        ->where('city',  $request->input('optional'))
-        //->where('venue_date','LIKE',"%{$today}%")
-        ->whereDate('venue_date', $today)
-        ->orderBy('venue_date', 'asc')
-        ->first();
+        $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
+            ->where('city',  $request->input('optional'))
+            //->where('venue_date','LIKE',"%{$today}%")
+            ->whereDate('venue_date', $today)
+            ->orderBy('venue_date', 'asc')
+            ->first();
 
       $isVisible = false;
         if ($venuesListArr) {
