@@ -810,7 +810,8 @@ class HomeController extends Controller
 
 
 
-       return $currentCountry = Venue::find($request->input('id'))->with('getTimezone');
+        $currentCountry = Venue::find($request->input('id'));
+        return $currentCountry;
 
         // $today = getCurrentContryTimezone($venueDate, $tz);
 
@@ -819,7 +820,7 @@ class HomeController extends Controller
         //->where('venue_date','LIKE',"%{$today}%")
         ->whereDate('venue_date',date('Y-m-d'))
         ->orderBy('venue_date', 'asc')
-        ->toSql();
+        ->first();
         return $venuesListArr ;
 
       $isVisible = false;
