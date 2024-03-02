@@ -249,9 +249,10 @@ class TwillioIVRHandleController extends Controller
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
                 $CityName = $customer_option[$userInput];
+                $today = getCurrentContryTimezone($countryId->id);
                 $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                     ->where('city',  $CityName)
-                    ->whereDate('venue_date',date('Y-m-d'))
+                    ->whereDate('venue_date',$today)
                     ->orderBy('venue_date', 'ASC')
                     ->first();
 

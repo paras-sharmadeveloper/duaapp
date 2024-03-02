@@ -807,12 +807,7 @@ class HomeController extends Controller
      // return date('Y-m-d');
         $currentTimezone = $request->input('timezone', 'America/New_York');
         $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
-
-
-
-
-         return $today = getCurrentContryTimezone($request->input('id'));
-
+         $today = getCurrentContryTimezone($request->input('id'));
         $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
             ->where('city',  $request->input('optional'))
             //->where('venue_date','LIKE',"%{$today}%")

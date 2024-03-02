@@ -225,9 +225,11 @@ class WhatsAppController extends Controller
             $lang =  $existingCustomer->lang;
             //  $getDate = $data_sent_to_customer[$Respond];
 
+            $today = getCurrentContryTimezone($countryId->id);
+
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('city',  $cityName[0])
-                ->whereDate('venue_date',date('Y-m-d'))
+                ->whereDate('venue_date',$today)
                 ->orderBy('venue_date', 'ASC')
                 ->first();
 
