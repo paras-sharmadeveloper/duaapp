@@ -95,13 +95,5 @@ if (!function_exists('getCurrentContryTimezone')) {
 }
 
 
-if (!function_exists('getCurrentTimezone')) {
-    function getCurrentContryTimezone($venueDate, $tz)
-    {
 
-        $countryDate = Carbon::parse($venueDate, $tz);
-        return $countryDate->format('Y-m-d');
-
-    }
-}
 
