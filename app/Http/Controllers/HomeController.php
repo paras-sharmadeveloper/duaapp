@@ -810,8 +810,8 @@ class HomeController extends Controller
 
 
 
-        $currentCountry = Venue::find($request->input('id'));
-        return $currentCountry->timezone;
+        $currentCountry = Venue::with('getTimezone')->find($request->input('id'));
+        return $currentCountry->getTimezone;
 
         // $today = getCurrentContryTimezone($venueDate, $tz);
 
