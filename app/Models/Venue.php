@@ -22,7 +22,7 @@ class Venue extends Model
 
     public function getTimezone()
     {
-        return $this->belongsTo(Venue::class,'country_code' , 'iso');
+        return $this->hasOne(Venue::class,'iso' , 'country_code');
     }
 
     public function venueCity()
