@@ -816,7 +816,7 @@ class HomeController extends Controller
       //  ->whereDate('venue_date',date('Y-m-d'))
         ->orderBy('venue_date', 'asc')
         ->toSql();
-        return False;
+        return $venuesListArr ;
 
       $isVisible = false;
         if ($venuesListArr) {
