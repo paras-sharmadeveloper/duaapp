@@ -19771,3 +19771,29 @@ Stack trace:
 #57 C:\\xampp\\htdocs\\app.kahayFaqeer.org\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\xampp\\\\htdocs...')
 #58 {main}
 "} 
+[2024-03-01 21:46:28] local.ERROR: Uncaught ErrorException: Undefined variable $venueTimezone in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:94
+Stack trace:
+#0 C:\xampp\htdocs\app.kahayFaqeer.org\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(255): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 94)
+#1 C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php(94): Illuminate\Foundation\Bootstrap\HandleExceptions->Illuminate\Foundation\Bootstrap\{closure}(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 94)
+#2 C:\xampp\htdocs\app.kahayFaqeer.org\vendor\composer\ClassLoader.php(576): include('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\app.kahayFaqeer.org\vendor\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Helpers')
+#5 Command line code(1): class_exists('App\\Helpers')
+#6 [internal function]: {closure}('App\\Helpers')
+#7 Command line code(1): array_filter(Array, Object(Closure))
+#8 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ErrorException: Undefined variable $venueTimezone in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:94
+Stack trace:
+#0 C:\\xampp\\htdocs\\app.kahayFaqeer.org\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'C:\\\\xampp\\\\htdocs...', 94)
+#1 C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php(94): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(2, 'Undefined varia...', 'C:\\\\xampp\\\\htdocs...', 94)
+#2 C:\\xampp\\htdocs\\app.kahayFaqeer.org\\vendor\\composer\\ClassLoader.php(576): include('C:\\\\xampp\\\\htdocs...')
+#3 C:\\xampp\\htdocs\\app.kahayFaqeer.org\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\xampp\\\\htdocs...')
+#4 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('App\\\\Helpers')
+#5 Command line code(1): class_exists('App\\\\Helpers')
+#6 [internal function]: {closure}('App\\\\Helpers')
+#7 Command line code(1): array_filter(Array, Object(Closure))
+#8 {main}
+  thrown at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:94)
+[stacktrace]
+#0 {main}
+"} 

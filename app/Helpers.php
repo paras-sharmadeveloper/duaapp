@@ -80,3 +80,14 @@ if (!function_exists('userAllowedRejoin')) {
 
     }
 }
+
+if (!function_exists('getCurrentContryTimezone')) {
+    function getCurrentContryTimezone($venueDate, $tz)
+    {
+
+        $countryDate = Carbon::parse($venueDate, $tz);
+        return $countryDate->format('Y-m-d');
+
+    }
+}
+
