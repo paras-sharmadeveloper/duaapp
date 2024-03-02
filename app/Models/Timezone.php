@@ -8,12 +8,17 @@ use App\Models\Country;
 class Timezone extends Model
 {
     use HasFactory;
-    protected $table = 'timezone'; 
+    protected $table = 'timezone';
 
-    
+
 
     public function countryName(){
        return $this->belongsTo(Country::class,'country_code','iso');
     }
-    
+
+    public function getTimezone()
+    {
+        return $this->belongsTo(Venue::class,'country_code' , 'iso');
+    }
+
 }
