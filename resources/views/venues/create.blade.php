@@ -118,9 +118,9 @@
                         <div class="input-group">
                             <span class="input-group-text">City </span>
                             <select name="city" class="form-control">
-                                <option name="Lahore">Lahore </option>
-                                <option name="Islamabad" >Islamabad</option>
-                                <option name="Karachi" >Karachi</option>
+                                <option name="Lahore" @if (!empty($venueAddress) && $venueAddress->city == 'Lahore') selected @endif>Lahore </option>
+                                <option name="Islamabad"  @if (!empty($venueAddress) && $venueAddress->city == 'Islamabad') selected @endif >Islamabad</option>
+                                <option name="Karachi"@if (!empty($venueAddress) && $venueAddress->city == 'Karachi') selected @endif >Karachi</option>
                             </select>
                             {{-- {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!} --}}
 
