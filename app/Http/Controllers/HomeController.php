@@ -803,21 +803,24 @@ class HomeController extends Controller
 
 
     if ($type == 'get_slot_book') {
+        $today = date('Y-m-d');
      // return date('Y-m-d');
         $currentTimezone = $request->input('timezone', 'America/New_York');
         $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
 
+
+
        $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
         ->where('city',  $request->input('optional'))
-        ->whereDate('venue_date',date('Y-m-d'))
-        ->orderBy('venue_date', 'ASC')
+        ->where('venue_date','LIKE',"%{$today}%")
+      //  ->whereDate('venue_date',date('Y-m-d'))
+        ->orderBy('venue_date', 'asc')
         ->first();
 
       $isVisible = false;
         if ($venuesListArr) {
 
             $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
-
 
             if ($status['allowed']) {
 
