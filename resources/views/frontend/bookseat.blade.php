@@ -1606,6 +1606,8 @@
                                 if (item.type == 'on-site') {
                                     meetingType = translations[item.name] || item.name;
                                 }
+
+
                                 // <img src="${item.flag_path}" alt="Flag Image">
                                 city += `<div data-sq="${item.seq}" class="col col-lg-3 col-md-7 country-enable-n country-enable-${item.id}">
                                         <div class="card text-center h-60 py-2 shadow-sm date-selection" data-id="${item.id}" data-city="${item.name}">
@@ -1620,7 +1622,7 @@
 
 
                         } else {
-                            city = '<p class="no-data"> No Data Found </p>';
+                            city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
                         }
 
                         $("#city-listing").html(city);

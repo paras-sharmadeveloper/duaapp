@@ -13,6 +13,7 @@ return [
     'nav-city-option' => 'شہر',
     'nav-final-option' => 'ختم',
     'city' => 'شہر',
+    'no_dum_dua' => 'اس وقت کوئی دعا/دم ملاقات دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',
     'finish' => 'ختم کرنا',
     'Lahore' => 'لاہور',
     'Islamabad' => 'اسلام آباد',
@@ -29,7 +30,6 @@ return [
     'pdf_title_confirm' => 'تصدیق ',
     'pdf_title_confirm_with' => ' قبلہ سید سرفراز احمد شاہ صاحب کے ساتھ ',
     'pdf_event_date_label' => 'تاریخ',
-
     'pdf_event_venue_label' => 'دعا گھر',
     'pdf_event_token_label' => 'ٹوکن',
     'pdf_event_token_view_label' => 'اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں',
@@ -44,5 +44,5 @@ return [
     'Week_day_Thursday' => 'جمعرات',
     'Week_day_Friday' => 'جمعہ',
     'Week_day_Saturday' => 'ہفتہ',
-    'Week_day_Sunday' => 'اتوار', 
+    'Week_day_Sunday' => 'اتوار',
 ];

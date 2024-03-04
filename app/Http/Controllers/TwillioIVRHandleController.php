@@ -39,8 +39,6 @@ class TwillioIVRHandleController extends Controller
 
         $response->play($this->statementUrl . 'ur/welcome_for_eng_press1_for_urdu_press2.wav');
         // $response->play($this->statementUrl . 'en/welcome_for_eng_press1_for_urdu_press2.wav');
-
-
         $isWrongInput = $request->input('wrong_input',false);
         $response->gather([
             'numDigits' => 1,
@@ -418,10 +416,6 @@ class TwillioIVRHandleController extends Controller
         $response->redirect(route($route));
         return response($response)->header('Content-Type', 'text/xml');
     }
-
-
-
-
 
     public function handleTimeout(Request $request)
     {

@@ -14,6 +14,7 @@ return [
     'nav-city-option' => 'City',
     'nav-final-option' => 'Finish',
     'city' => 'City',
+    'no_dum_dua' => 'No dua/dum appointment is available at this time. Please try again later.',
     'Lahore' => 'Lahore',
     'Islamabad' => 'Islamabad',
     'Karchi' => 'Karchi',
