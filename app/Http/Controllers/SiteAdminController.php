@@ -86,6 +86,7 @@ class SiteAdminController extends Controller
         $venueSloting = VenueSloting::with('visitors')
             ->whereHas('visitors', function ($query) use ($search) {
                 $query->where('source', 'Phone');
+                $query->where('user_status', 'no_action');
                 $query->where('booking_number', 'like', '%' . $search . '%')
                     ->orWhere('user_status', 'like', '%' . $search . '%')
                     ->orWhere('country_code', 'like', '%' . $search . '%')
