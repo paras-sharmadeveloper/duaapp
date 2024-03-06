@@ -29,7 +29,7 @@
                                  <span class="text-muted d-block Source">Source: <a href="#" target="_blank" class="text-muted"> # {{ $visitor['source'] }}</a></span>
                             </div>
                             <div class="mt-3">
-                                @if (empty($visitor->confirmed_at))
+                                @if (empty($visitor->confirmed_at) && $visitor->user_status =='no_action')
                                     <button type="button" class="btn btn-info text-white bg-color-info verify w-100"
                                         data-loading="Verifying..." data-success="Verified" data-default="Verify"
                                         data-id="{{ $visitor->id }}">
@@ -39,14 +39,7 @@
                                         <b>Verify User </b>
                                     </button>
                                 @endif
-                                <button type="button"
-                                    @if (!empty($visitor->confirmed_at)) class="btn btn-success start mb-2 start{{ $visitor->id }} w-100"
-                                        @else
-                                        class="btn btn-success start mb-2 d-none start{{ $visitor->id }} w-100" @endif
-                                    data-minutes="{{ $visitoddr->venueAddress->slot_duration }}"
-                                    data-id="{{ $visitor->id }}">
-                                    <div id="timer{{ $visitor->id }}">Start</div>
-                                </button>
+
                             </div>
                         </div>
                     </div>
