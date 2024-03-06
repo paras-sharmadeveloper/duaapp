@@ -136,14 +136,19 @@ class HomeController extends Controller
       $user = Vistors::Where('phone', $validatedData['mobile'])->first();
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
+    // $rejoin = $venueAddress->rejoin_venue_after;
+
         $rejoin = $venueAddress->rejoin_venue_after;
-        if ($rejoin > 0 && $recordAge <= $rejoin   && $from != 'admin') {
-          $source="Website";
+        $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
+        if(!$rejoinStatus['allowed'] &&  $from != 'admin'){
+            $source="Website";
           return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
-        } else if ($rejoin > 0 && $recordAge <= $rejoin   && $from == 'admin') {
-          $source="Admin";
-          return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
+        }else if (!$rejoinStatus['allowed'] && $from == 'admin') {
+            $source="Admin";
+            return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
         }
+
+
       }
 
     //   if (!empty($isUsers) && $isUsers['status'] == false) {
