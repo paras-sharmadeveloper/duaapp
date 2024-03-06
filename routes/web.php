@@ -114,8 +114,12 @@ Route::get('/welcome', function () {
 
 Route::get('/event', function () {
 
-    $res = event(new MyEvent('hello world'));
-    return  $res;
+    $wifiAddress = $_SERVER;
+
+    echo "<pre>"; print_r( request()->getClientIp()); die;
+
+    // $res = event(new MyEvent('hello world'));
+    return  $wifiAddress;
     // return view('welcome');
 });
 
@@ -211,7 +215,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/site/pending/verification', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.pending.show');
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
     Route::get('/site/queue/{id}/pending', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.pending.list');
+    Route::get('/site/search/visitors', [SiteAdminController::class, 'searchVisitors'])->name('search.visitors');
+
+
     Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');
+
+
+
 
     // Route::get('/video-conference', [VideoConferenceController::class, 'index']);
     // Route::any('/start-conference', [VideoConferenceController::class, 'startConference']);

@@ -255,14 +255,14 @@ class WhatsAppController extends Controller
 
                         // Rejoin Stat
 
-                        // $rejoin = $venueAddress->rejoin_venue_after;
-                        // $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
-                        // if(!$rejoinStatus['allowed']){
-                        //     $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
-                        //     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
-                        //     $this->sendMessage($userPhoneNumber, $message);
-                        //     return false;
-                        // }
+                        $rejoin = $venueAddress->rejoin_venue_after;
+                        $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+                        if(!$rejoinStatus['allowed']){
+                            $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
+                            $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                            $this->sendMessage($userPhoneNumber, $message);
+                            return false;
+                        }
 
 
                         // $tokenId = $venueSlots->token_id;

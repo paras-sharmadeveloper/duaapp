@@ -145,6 +145,7 @@
           || $currentPath =='siteadmin.queue.list.request'
           || $currentPath == 'siteadmin.queue.list'
           || $currentPath =='siteadmin.pending.show'
+          || $currentPath == 'siteadmin.pending.list'
            ) ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
 
@@ -162,8 +163,8 @@
           </li>
 
           <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.pending.show') }}" class="{{ ( $currentPath == 'siteadmin.pending.show') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Verify Users</span>
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.pending.show') }}" class="{{ ( $currentPath == 'siteadmin.pending.list' ||  $currentPath == 'siteadmin.pending.show' ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Verify Ivr Users </span>
             </a>
           </li>
 

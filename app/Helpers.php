@@ -7,8 +7,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 
 
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\Printer;
+
+
 if (!function_exists('isAllowedTokenBooking')) {
-    function isAllowedTokenBooking($venuedateTime, $slot_appear_hours , $timezone)
+    function isAllowedTokenBooking($venuedateTime, $slot_appear_hours, $timezone)
     {
 
         $eventDateTime = Carbon::parse($venuedateTime, $timezone);
@@ -16,7 +22,7 @@ if (!function_exists('isAllowedTokenBooking')) {
         $hoursRemaining = $currentTime->diffInHours($eventDateTime, false); // false ensures negative values if eventDateTime is in the past
         $slotsAppearBefore = intval($slot_appear_hours);
         $waitTime = $hoursRemaining - $slotsAppearBefore;
-        if($slotsAppearBefore == 0){
+        if ($slotsAppearBefore == 0) {
             return [
                 'allowed' => true,
                 'message' => 'Token booking is allowed.',
@@ -41,16 +47,14 @@ if (!function_exists('isAllowedTokenBooking')) {
         } else {
             return [
                 'allowed' => false,
-                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' .$waitTime.' hours' ,
-                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی '.$waitTime.' کا انتظار کریں۔ گھنٹے',
+                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' . $waitTime . ' hours',
+                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی ' . $waitTime . ' کا انتظار کریں۔ گھنٹے',
                 'hours_until_open' => $hoursRemaining,
             ];
         }
 
         // return $hoursRemaining >= 0 && $hoursRemaining <= $slotsAppearBefore;
     }
-
-
 }
 
 if (!function_exists('userAllowedRejoin')) {
@@ -62,16 +66,15 @@ if (!function_exists('userAllowedRejoin')) {
             $recordAge = $user->created_at->diffInDays(now());
             $rejoin = $rejoin_venue_after;
             $daysRemaining = $rejoin  - $recordAge;
-            if ($rejoin > 0 && $recordAge <= $rejoin ){
+            if ($rejoin > 0 && $recordAge <= $rejoin) {
                 return [
                     'allowed' => false,
-                    'message' => 'You already Booked a Token with us. Please Try after '.$daysRemaining.' days',
-                    'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم '.$daysRemaining.' دن کے بعد کوشش کریں۔',
+                    'message' => 'You already Booked a Token with us. Please Try after ' . $daysRemaining . ' days',
+                    'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم ' . $daysRemaining . ' دن کے بعد کوشش کریں۔',
                     'days_remaining' => $daysRemaining,
                     'recordAge' => $recordAge
                 ];
-
-            }else{
+            } else {
                 return [
                     'allowed' => true,
                     'message' => 'allowed',
@@ -81,7 +84,6 @@ if (!function_exists('userAllowedRejoin')) {
                 ];
             }
         }
-
     }
 }
 
@@ -93,11 +95,46 @@ if (!function_exists('getCurrentContryTimezone')) {
         $timezone =  Timezone::where(['country_code' => $currentCountry->iso])->first();
         Config::set('app.timezone', $timezone->timezone);
         $time = Carbon::now()->setTimezone($timezone->timezone);
-       //  $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
-        return $time ->format('Y-m-d');
+        //  $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
+        return $time->format('Y-m-d');
     }
 }
 
 
 
+if (!function_exists('printToken')) {
 
+    // printToken($token, 'wifi', '00:11:22:33:44:55');
+    function printToken($token, $connectionType, $connectionAddress)
+    {
+        // Set up printer connection based on the provided connection type and address
+        if ($connectionType === 'wifi') {
+            $connector = new NetworkPrintConnector($connectionAddress, 9100);
+        } elseif ($connectionType === 'bluetooth') {
+            $connector = new BluetoothPrintConnector($connectionAddress);
+        } else {
+            // Default to file connector
+            $connector = new FilePrintConnector("/dev/usb/lp0"); // Adjust the path as per your system configuration
+        }
+
+        $printer = new Printer($connector);
+
+        try {
+            // Print token
+            $printer->text("Thank you for visiting here\n");
+            $printer->text("#" . $token . "\n");
+            $printer->text("Verified\n");
+
+            // Cut paper (if supported)
+            $printer->cut();
+
+            // Close printer connection
+            $printer->close();
+
+            return "Token printed successfully";
+        } catch (\Exception $e) {
+            // Handle any errors
+            return "Error printing token: " . $e->getMessage();
+        }
+    }
+}

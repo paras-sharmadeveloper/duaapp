@@ -61,13 +61,57 @@ class SiteAdminController extends Controller
 
              return response()->json(['success' => true , 'data' => $venueSloting ,'route' => $route],200);
         }
-            $venueSloting = VenueSloting::with('visitors','venueAddress')
-            ->where(['venue_address_id' => $id])
-            ->has('visitors') // Include only records with visitors
+            $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+                $query->where('source', 'Phone');
+                $query->where('user_status', 'no_action');
+            }, 'venueAddress'])
+            ->where('venue_address_id', $id)
+            ->has('visitors')
             ->get();
+            // $venueSloting = VenueSloting::with('visitors','venueAddress')
+            // ->where(['venue_address_id' => $id])
+            // ->has('visitors') // Include only records with visitors
+            // ->get();
 
-            return view('site-admin.verify-user-list',compact('venueSloting' , 'route'));
+            return view('site-admin.verify-phone-ivr',compact('venueSloting' , 'route'));
+
+            // return view('site-admin.verify-user-list',compact('venueSloting' , 'route'));
     }
+
+
+    public function searchVisitors(Request $request)
+    {
+        $search = $request->input('search');
+
+        $venueSloting = VenueSloting::with('visitors')
+            ->whereHas('visitors', function ($query) use ($search) {
+                $query->where('booking_number', 'like', '%' . $search . '%')
+                    ->orWhere('user_status', 'like', '%' . $search . '%')
+                    ->orWhere('country_code', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            })
+            ->get(); // Fetch all matching records
+
+            return view('site-admin.search-div',compact('venueSloting'));
+
+
+    }
+
+    public function verifyPhoneIvr($id){
+        $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+            $query->where('user_status', 'admitted');
+            $query->orWhere('user_status', 'in-meeting');
+            $query->orderBy('confirmed_at', 'asc');
+        }, 'venueAddress'])
+        ->where('venue_address_id', $id)
+        ->has('visitors')
+        ->get();
+
+
+        return view('site-admin.verify-phone-ivr',compact('venueSloting' , 'route'));
+    }
+
+
 
     public function VisitorUpdate(Request $request, $id){
         $update =[];
