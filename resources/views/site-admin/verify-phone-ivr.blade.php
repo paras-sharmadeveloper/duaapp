@@ -69,8 +69,8 @@
 
         </div>
     </div>
-
-    </div>
+    <input type="hidden" id="currentvenue" value="{{ request()->id }}">
+     </div>
 @endsection
 
 
@@ -80,10 +80,11 @@
 $(document).ready(function () {
     $('#search').on('keyup', function () {
         var searchQuery = $(this).val();
+        var id = $("#currentvenue").val();
         $.ajax({
             url: "{{ route('search.visitors') }}",
             method: 'GET',
-            data: { search: searchQuery },
+            data: { search: searchQuery,id : id },
             success: function (response) {
                 $('.users-list').html(response);
             },

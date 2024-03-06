@@ -82,6 +82,7 @@ class SiteAdminController extends Controller
     public function searchVisitors(Request $request)
     {
         $search = $request->input('search');
+        $id = $request->input('id');
 
         $venueSloting = VenueSloting::with('visitors')
             ->whereHas('visitors', function ($query) use ($search) {
@@ -92,6 +93,7 @@ class SiteAdminController extends Controller
                     ->orWhere('country_code', 'like', '%' . $search . '%')
                     ->orWhere('phone', 'like', '%' . $search . '%');
             })
+            ->where('venue_address_id', $id)
             ->get(); // Fetch all matching records
 
             return view('site-admin.search-div',compact('venueSloting'));
