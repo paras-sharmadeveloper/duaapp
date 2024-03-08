@@ -348,7 +348,7 @@
         span.text-center.text-success {
             font-size: 24px;
         }
-       
+
     </style>
     <section id="mainsection">
         <div class="container">
@@ -384,11 +384,11 @@
                         <h2 class="orng">{{ trans('messages.pdf_event_date_label') }} : {{ $transofWeekDays }}
                              {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}
                         </h4>
-                        @else 
+                        @else
 
                         <h2 class="orng">
-                             <span>{{ trans('messages.pdf_event_date_label') }}</span>  :  {{ $transofWeekDays }} {{ date('Y-m-d', strtotime($venueAddress->venue_date)) }}  
-                        </h4> 
+                             <span>{{ trans('messages.pdf_event_date_label') }}</span>  :  {{ $transofWeekDays }} {{ date('Y-m-d', strtotime($venueAddress->venue_date)) }}
+                        </h4>
                         @endif
 
                         <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} </h2>
@@ -398,7 +398,7 @@
                         @else
 
                          <h4>{{ $venueAddress->address_ur }}</h4>
-     
+
                         @endif
                         </div>
                         {{-- <div class="ahead-number">
@@ -412,8 +412,8 @@
 
                         <div class="queue-qr-scan">
 
-                          {!! QrCode::size(120)->generate($userBooking->booking_uniqueid) !!}
- 
+                          {!! QrCode::size(190)->generate($userBooking->booking_uniqueid) !!}
+
                         </div>
 
 
@@ -424,7 +424,7 @@
                         <div class="stats text-center">
                           @if(empty($userBooking->lang) || $userBooking->lang == 'en')
                             <p class="statement-notes">{{ $venueAddress->status_page_note }}</p>
-                            @else 
+                            @else
                             <p class="statement-notes">{{ $venueAddress->status_page_note_ur }}</p>
 
                             @endif
@@ -437,7 +437,7 @@
                             {{-- <a href="{{ route('generate-pdf', [$userBooking->booking_uniqueid]) }}"
                                 class="btn btn-success">{{ trans('messages.pdf_download_btn_label') }}</a> --}}
                             <button type="button" class="btn btn-success download-apponit" id="cmd"
-                                onclick="downloadPdf()">{{ trans('messages.pdf_download_btn_label') }}</button> 
+                                onclick="downloadPdf()">{{ trans('messages.pdf_download_btn_label') }}</button>
 
                         </div>
 
@@ -451,7 +451,7 @@
 <!-- Include jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script> --}}
- 
+
 
 
 @section('page-script')
@@ -460,7 +460,7 @@
         var fileName =
             "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
 
-          
+
 
         function downloadPdf() {
 
@@ -475,7 +475,7 @@
                 //     type: 'jpeg',
                 //     quality: 1.0
                 // },
-                html2canvas: {  
+                html2canvas: {
                     scale: 2
                 },
                 jsPDF: {

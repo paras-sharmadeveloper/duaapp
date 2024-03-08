@@ -2,15 +2,16 @@
 
 return [
     'select-lang' => 'زبان منتخب کریں',
+    'select-lang-head' =>'دعا کی ملاقات بک کرو',
     'startbooking' => 'بکنگ شروع کریں',
     'dum' => 'دم',
     'dua' => 'دعا',
     'select-option' => 'آپشن منتخب کریں',
-    'select-city' => 'شہر منتخب کریں',
+    'select-city' => 'دعا گھر کو منتخب کریں۔',
     'mobile-label' => 'موبائل',
     'country-label' => 'ملک کا کوڈ',
     'nav-dua-option' => 'دعا کا آپشن',
-    'nav-city-option' => 'شہر',
+    'nav-city-option' => 'دعا گھر',
     'nav-final-option' => 'ختم',
     'city' => 'شہر',
     'no_dum_dua' => 'اس وقت کوئی دعا/دم ملاقات دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',

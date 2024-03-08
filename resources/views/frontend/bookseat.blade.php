@@ -779,14 +779,13 @@
                         </div>
 
 
-
-                        <!-- /wizard -->
                     </div>
                 </div>
 
                 @if(empty($locale))
 
                     <div class="row justify-content-center"  id="Lang-Section">
+                        <h3 class="text-center">{{ trans('messages.select-lang-head') }}</h3>
 
                         <div class="col-lg-12 col-md-12">
                             @foreach (['en'=> 'English', 'ur'=> 'اردو'] as $key => $lang)
