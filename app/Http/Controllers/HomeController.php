@@ -133,7 +133,9 @@ class HomeController extends Controller
     //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
 
 
-      $user = Vistors::Where('phone', $validatedData['mobile'])->first();
+    //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
+      $user = Vistors::where('phone', 'like', '%' . $validatedData['mobile'] . '%')->first();
+
       if ($user) {
         $recordAge = $user->created_at->diffInDays(now());
     // $rejoin = $venueAddress->rejoin_venue_after;

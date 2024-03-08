@@ -30,7 +30,6 @@
 
         function onScanSuccess(decodedText, decodedResult) {
 
-            console.log("html5QrcodeScanner",html5QrcodeScanner)
             html5QrcodeScanner.pause(); // Pause scanner
 
                     $.ajax({
