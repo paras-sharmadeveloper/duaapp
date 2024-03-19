@@ -24858,3 +24858,11 @@ Did you mean this?
 [stacktrace]
 #0 {main}
 "} 
+[2024-03-19 04:41:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:42:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
