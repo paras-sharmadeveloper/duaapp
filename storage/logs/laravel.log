@@ -24866,3 +24866,59 @@ Did you mean this?
 [stacktrace]
 #0 {main}
 "} 
+[2024-03-19 04:43:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:44:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:45:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:46:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:47:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:48:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:49:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:50:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:51:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:52:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:53:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:54:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:55:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-19 04:56:33] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 

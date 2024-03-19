@@ -718,6 +718,8 @@ class HomeController extends Controller
         ->where('venue_date', '>=', now()->format('Y-m-d'))
         ->get();
 
+
+
       // $venuesListArr = VenueAddress::where('id', $id)
       //   ->where(function ($query) use ($newDate) {
       //     $query->whereDate('venue_date', $newDate)
@@ -726,6 +728,8 @@ class HomeController extends Controller
       //   ->get();
       $dataArr = [];
       foreach ($venuesListArr as $venuesList) {
+
+
         $cityName = $venuesList->city;
         $flagPath = $venuesList->venue->flag_path;
       //  $cityFlag = $venuesList->combinationData->city_image;
@@ -822,8 +826,10 @@ class HomeController extends Controller
             ->orderBy('venue_date', 'asc')
             ->first();
 
+
+
       $isVisible = false;
-        if ($venuesListArr) {
+        if ($venuesListArr && $venueSloting > 0) {
 
             $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
@@ -851,7 +857,7 @@ class HomeController extends Controller
                       'dt' =>$request->input('duaType'),
                       'dtd' =>$venuesListArr->id,
                       'hours_until_open' => $status['hours_until_open'],
-                    'slotsAppearBefore' => $status['slotsAppearBefore'],
+                      'slotsAppearBefore' => $status['slotsAppearBefore'],
                     ]);
                   }
 
