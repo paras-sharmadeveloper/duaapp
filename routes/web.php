@@ -112,14 +112,29 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/event', function () {
+Route::get('/print-this', function () {
 
-    $wifiAddress = $_SERVER;
+    return view('frontend.print-token');
 
-    echo "<pre>"; print_r( request()->getClientIp()); die;
+    $text = "thankyou for your visit at Dua Ghar\n\nYour Token Number #150\n\nVerified\nThank you\nTeam KahayFaqeer";
 
-    // $res = event(new MyEvent('hello world'));
-    return  $wifiAddress;
+    // Open a connection to the printer
+    $printer = fopen("php://printer", "w");
+
+    // Check if the printer connection is open
+    if ($printer) {
+        // Send the text to the printer
+        fwrite($printer, $text);
+
+        // Close the printer connection
+        fclose($printer);
+
+        echo "Text sent to printer successfully!";
+    } else {
+        echo "Failed to open printer connection!";
+    }
+
+
     // return view('welcome');
 });
 
