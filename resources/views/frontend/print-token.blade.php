@@ -406,11 +406,11 @@
 
             </div>
         </div> --}}
-        <div class="keepIt">
+        <div id="date">
            Read / listen All books for free
         </div>
-        <div id="date">
-             KahayFaqeer.org
+        <div class="headerSubTitle">
+            <b> KahayFaqeer.org </b>
         </div>
     </div>
 
@@ -426,9 +426,9 @@
 
     <script>
         // Trigger print dialog when document is ready
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     window.print();
-        // });
+        document.addEventListener('DOMContentLoaded', function() {
+            // window.print();
+        });
     </script>
 </body>
 
