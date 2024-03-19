@@ -405,7 +405,7 @@
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
                         </div> --}}
                         <div class="queue-number">
-                            {{ trans('messages.pdf_event_token_label') }} {{$userSlot->type}} # {{ $userBooking->booking_number }}
+                            {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }}
                             <br>
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
                         </div>
