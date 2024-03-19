@@ -295,6 +295,11 @@
         }
 
 
+        .headerr.d-flex.justify-content-around {
+    display: flex;
+    justify-content: space-between;
+}
+
         /* @media print {
             body {
                 width: 80mm;
@@ -325,33 +330,46 @@
     </style>
 </head>
 
-<body onload="window.print()">
+<body
+{{-- onload="window.print()" --}}
+>
 
 
 
     <!-- START RECEIPT -->
     <div class="receipt">
         <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
-        <div class="orderNo">
+        <div class="headerr d-flex justify-content-around">
+
+            <div class="qr">
+                {!! QrCode::size(90)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
+            </div>
+            <div class="logo">
+                <img style="height: 80px; width:80px" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+            </div>
+            <div class="qr">
+                {!! QrCode::size(90)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
+            </div>
+
+        </div>
+        {{-- <div class="orderNo">
             Token ID# <span id="Order #">71</span>: <span id="Order Name">Dua</span>
-        </div>
+        </div> --}}
         <div class="headerSubTitle">
-           Dua Ghar
+           <p> <b>Date : Monday 18-Mar-2024 </b> </p>
+           <span> Venue : Islamabad Dua Ghar </span>
         </div>
-        <div class="headerTitle">
-           KahayFaqeer.org
-        </div>
-        <div class="headerSubTitle">
-            Hayathnagar, Hyd-70, 8247524795
-        </div>
+
+
         <div id="location">
-            Token Details
+            Dum Token # 1056
         </div>
-        <div id="location">
-            Dua #122
-        </div>
+
         <div id="date">
-            In Time: Saturday, Jun 13 2018 1:05:18
+            +92 334 548 7789
+        </div>
+        <div id="location">
+            TOKEN VERIFIED <span class="checkmark"></span>
         </div>
         <svg id="barcode"></svg>
 
@@ -389,14 +407,10 @@
             </div>
         </div> --}}
         <div class="keepIt">
-            Keep your Token!
+           Read / listen All books for free
         </div>
-        <div class="keepItBody">
-            This original receipt is required to pick up any OnDemand items* or for Returns. Undamaged merchandise can
-            be returned for a refund within 24 hours. Faulty goods can be exchanged anytime during this convention while
-            the vendor hall is open. No returns are allowed for OnDemand items except at the discretion of BronyHouse
-            staff. *Unclaimed on-demand items can be claimed without receipt in the final hours of the convention by
-            describing the order in detail.
+        <div id="date">
+             KahayFaqeer.org
         </div>
     </div>
 
@@ -412,9 +426,9 @@
 
     <script>
         // Trigger print dialog when document is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            window.print();
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     window.print();
+        // });
     </script>
 </body>
 
