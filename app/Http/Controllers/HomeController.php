@@ -842,7 +842,7 @@ class HomeController extends Controller
                 ->orderBy('id', 'ASC')
                 ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-                if($tokenIs){
+                if(!empty($tokenIs)){
                     return response()->json([
                       'status' =>  true ,
                       'token_id' => $tokenIs->token_id,
