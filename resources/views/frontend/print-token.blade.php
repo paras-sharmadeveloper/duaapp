@@ -299,6 +299,17 @@
     display: flex;
     justify-content: space-between;
 }
+    #readAll{
+        font-size: 15px;
+        text-align: center
+    }
+
+    #token{
+        margin-top: 5pt;
+    text-align: center;
+    font-size: 22pt;
+    font-weight: bold;
+    }
 
         /* @media print {
             body {
@@ -361,7 +372,7 @@
         </div>
 
 
-        <div id="location">
+        <div id="token">
             Dum Token # 1056
         </div>
 
@@ -406,8 +417,8 @@
 
             </div>
         </div> --}}
-        <div id="date">
-           Read / listen All books for free
+        <div id="readAll">
+           Read / listen all books for free
         </div>
         <div class="headerSubTitle">
             <b> KahayFaqeer.org </b>
