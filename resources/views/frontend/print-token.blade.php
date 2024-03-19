@@ -353,13 +353,13 @@
         <div class="headerr d-flex justify-content-around">
 
             <div class="qr">
-                {!! QrCode::size(90)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
+                {!! QrCode::size(75)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
             </div>
             <div class="logo">
                 <img style="height: 80px; width:80px" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
             </div>
             <div class="qr">
-                {!! QrCode::size(90)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
+                {!! QrCode::size(75)->generate('https://app.kahayfaqeer.org/assets/theme/img/logo.png') !!}
             </div>
 
         </div>
