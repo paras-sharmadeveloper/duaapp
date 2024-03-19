@@ -385,7 +385,6 @@
                              {{ date('d-M-Y', strtotime($venueAddress->venue_date)) }}
                         </h4>
                         @else
-
                         <h2 class="orng">
                              <span>{{ trans('messages.pdf_event_date_label') }}</span>  :  {{ $transofWeekDays }} {{ date('Y-m-d', strtotime($venueAddress->venue_date)) }}
                         </h4>
@@ -405,7 +404,7 @@
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
                         </div> --}}
                         <div class="queue-number">
-                            {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }}
+                            {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }} ({{ $slotType}})
                             <br>
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
                         </div>

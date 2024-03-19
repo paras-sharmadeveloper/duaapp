@@ -257,6 +257,7 @@ class BookingController extends Controller
         $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
 
         $userSlotTime = $userSlot->slot_time;
+        $slotType = $userSlot->type;
         // Assuming 'time' is the column where you store the slot time
         $venueAddress = VenueAddress::find($userSlot->venue_address_id);
         // Calculate the start of slots
@@ -271,21 +272,9 @@ class BookingController extends Controller
         $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
 
 
-        if(empty($userBooking->qr_code_image)){
-           //  $disk = 's3_general';
-           // $imagePath = 'qrcodes/' . $id . '.png';
-           // Storage::disk($disk)->put($imagePath, QrCode::size(120)->generate($id));
-
-          //  Storage::disk($disk)->url($imagePath);
-
-           // $imageUrl = env('AWS_GENERAL_PATH'). $imagePath;
-           // Vistors::where('booking_uniqueid', $id)->update(['qr_code_image' => $imageUrl ]);
-        }else{
-           //  $imageUrl =$userBooking->qr_code_image;
-        }
         App::setLocale($userBooking->lang);
 
-        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking', 'imageUrl'));
+        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking' ,'slotType'));
     }
 
 
