@@ -21,7 +21,7 @@ class CreateVenuesSlots implements ShouldQueue
     public $slotDuration;
     public function __construct($venueId)
     {
-        $this->venueId = $venueId; 
+        $this->venueId = $venueId;
     }
 
     /**
@@ -29,8 +29,8 @@ class CreateVenuesSlots implements ShouldQueue
      */
     public function handle(): void
     {
-        
-        $venueAddress = VenueAddress::find($this->venueId); 
+
+        $venueAddress = VenueAddress::find($this->venueId);
 
         if (!empty($venueAddress)) {
 
@@ -42,16 +42,16 @@ class CreateVenuesSlots implements ShouldQueue
 
 
 
-            // if evening has set then 
+            // if evening has set then
 
-    
+
             // if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
-    
+
             //     $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
             //     $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
-    
+
             //     $currentTimeT = $startTimeevng;
-            //     $tokenId = 1; 
+            //     $tokenId = 1;
             //     while ($currentTimeT < $endTimeEvn) {
             //         $slotTime = $currentTimeT->format('H:i');
             //         VenueSloting::create([
@@ -60,15 +60,15 @@ class CreateVenuesSlots implements ShouldQueue
             //             'token_id' => $tokenId,
             //         ]);
             //         $currentTimeT->addMinute($this->slotDuration);
-            //         $tokenId++; 
+            //         $tokenId++;
             //         // Move to the next minute
             //     }
-    
-            // } 
+
+            // }
             // Create time slots
-            // if morning has set then 
+            // if morning has set then
             // $currentTime = $startTime;
-          
+
 
             for($token=1; $token<=$duaSlots; $token++){
 
@@ -82,7 +82,7 @@ class CreateVenuesSlots implements ShouldQueue
             }
 
 
-            for($token=1000; $token<=$dumSlots; $token++){
+            for($token=1001; $token<=$dumSlots; $token++){
 
                 VenueSloting::create([
                     'venue_address_id' => $this->venueId,
@@ -91,7 +91,7 @@ class CreateVenuesSlots implements ShouldQueue
                     'type' => 'dum'
                 ]);
             }
- 
+
 
 
             // while ($currentTime < $endTime) {
@@ -102,12 +102,12 @@ class CreateVenuesSlots implements ShouldQueue
             //         'token_id' => $tokenId,
             //     ]);
             //     $currentTime->addMinute($this->slotDuration); // Move to the next minute
-            //     $tokenId++; 
+            //     $tokenId++;
             // }
-             
+
         }
- 
-       
-        
+
+
+
     }
 }

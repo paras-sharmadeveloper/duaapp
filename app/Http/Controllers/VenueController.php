@@ -151,6 +151,7 @@ class VenueController extends Controller
             CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill)->onQueue('create-future-dates')->onConnection("database");
 
         }else{
+
             $venueAddress =   VenueAddress::create($dataArr);
             CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
              // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);

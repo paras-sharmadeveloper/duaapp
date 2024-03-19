@@ -69,7 +69,8 @@
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
-                        <th>Token Issued</th>
+                        <th>Token Issued Dua</th>
+                        <th>Token Issued Dum</th>
                         <th>Type</th>
                         <th>Slot Generated</th>
 
@@ -89,10 +90,21 @@
                         $slotCreated = $venueAdd->venueSloting->count();
 
                         $totalBookings = [];
+                        $totalTokens = [];
+
 
                         foreach($visitors as $visitor){
-                            if($slotCreated > 0){
-                                $totalBookings[$visitor->slot->venue_address_id][] = $visitor->slot->id ;
+
+
+                            if($slotCreated > 0 && $visitor->slot->type == 'dua' ){
+
+                                $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
+
+                            }else{
+                                $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
+                                // $totalTokens[$visitor->slot->venue_address_id][$visitor->slot->type][] =  $visitor->slot->id;
+
+
                             }
 
                         }
@@ -105,6 +117,7 @@
                         }else{
                             $hideClass  = 'd-none';
                         }
+
 
                     @endphp
 
@@ -127,7 +140,16 @@
                             <td>{{  strlen($venueAdd->address) > 80 ? substr($venueAdd->address,0,80)."..." : $venueAdd->address }}</td>
 
                             <td>{{ $formattedDate }} ({{ $weekDay }})</td>
-                            <td style="text-align: center">{{  (isset($totalBookings[$venueAdd->id]))?count($totalBookings[$venueAdd->id]):0 }}</td>
+                            <td style="text-align: center">
+                                {{  (isset($totalBookings[$venueAdd->id]['dua'])) ?count($totalBookings[$venueAdd->id]['dua']):0 }}
+                                 / {{getTotalTokens($venueAdd->id , 'dua')}}
+                            </td>
+                            <td style="text-align: center">{{
+                            (isset($totalBookings[$venueAdd->id]['dum']))?count($totalBookings[$venueAdd->id]['dum']):0 }}
+
+                            / {{getTotalTokens($venueAdd->id , 'dum')}}
+
+                        </td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td><span class="badge bg-{{  ($slotCreated > 0) ? "success" : "warning" }}"> {{  ($slotCreated > 0) ? 'Generated': 'In-porcess'  }} </span> </td>
                             <td class="d-flex-my cdt justify-content-between">

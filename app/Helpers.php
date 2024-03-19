@@ -2,7 +2,7 @@
 
 use App\Models\Timezone;
 use App\Models\Venue;
-use App\Models\Vistors;
+use App\Models\{Vistors,VenueSloting};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 
@@ -17,11 +17,12 @@ if (!function_exists('isAllowedTokenBooking')) {
     function isAllowedTokenBooking($venuedateTime, $slot_appear_hours, $timezone)
     {
 
-        $eventDateTime = Carbon::parse($venuedateTime, $timezone);
-        $currentTime = now()->tz($timezone);
+        $eventDateTime = Carbon::parse($venuedateTime,$timezone);
+        $currentTime = Carbon::now()->tz($timezone);
+
         $hoursRemaining = $currentTime->diffInHours($eventDateTime, false);
         $slotsAppearBefore = intval($slot_appear_hours);
-        $waitTime = $hoursRemaining - $slotsAppearBefore;
+        $waitTime = abs($hoursRemaining) - abs($slotsAppearBefore);
         if ($slotsAppearBefore == 0) {
             return [
                 'allowed' => true,
@@ -29,17 +30,19 @@ if (!function_exists('isAllowedTokenBooking')) {
                 'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
                 'hours_remaining' => $hoursRemaining,
                 'hours_until_open' => $hoursRemaining,
-                'slotsAppearBefore' => $slotsAppearBefore
+                'slotsAppearBefore' => $slotsAppearBefore,
+                'currentTime' => $currentTime->format('d M y h:i A')
             ];
         }
-        if ($hoursRemaining >= 0 && $hoursRemaining <= $slotsAppearBefore) {
+        if ($hoursRemaining <= $slotsAppearBefore) {
             return [
                 'allowed' => true,
                 'message' => 'Token booking is allowed.',
                 'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
                 'hours_remaining' => $hoursRemaining,
                 'hours_until_open' => $hoursRemaining,
-                'slotsAppearBefore' => $slotsAppearBefore
+                'slotsAppearBefore' => $slotsAppearBefore,
+                'currentTime' => $currentTime->format('d M y h:i A')
             ];
         } elseif ($hoursRemaining < 0) {
             return [
@@ -48,17 +51,19 @@ if (!function_exists('isAllowedTokenBooking')) {
                 'message_ur' => 'ٹوکن بکنگ کا وقت گزر چکا ہے۔',
                 'hours_passed' => abs($hoursRemaining),
                 'hours_until_open' => $hoursRemaining,
-                'slotsAppearBefore' => $slotsAppearBefore
+                'slotsAppearBefore' => $slotsAppearBefore,
+                'currentTime' => $currentTime->format('d M y h:i A')
 
 
             ];
         } else {
             return [
                 'allowed' => false,
-                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' . $waitTime . ' hours',
-                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی ' . $waitTime . ' کا انتظار کریں۔ گھنٹے',
+                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' . $hoursRemaining . ' hours ' ,
+                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی ' . $hoursRemaining . ' کا انتظار کریں۔ گھنٹے',
                 'hours_until_open' => $hoursRemaining,
-                'slotsAppearBefore' => $slotsAppearBefore
+                'slotsAppearBefore' => $slotsAppearBefore,
+                'asde' => Carbon::now()->format('d M Y h:i A')
             ];
         }
 
@@ -107,6 +112,11 @@ if (!function_exists('getCurrentContryTimezone')) {
         //  $countryDate = Carbon::parse(date('Y-m-d'),$timezone->timezone);
         return $time->format('Y-m-d');
     }
+}
+
+function getTotalTokens($venueId , $type){
+    return VenueSloting::where(['venue_address_id' => $venueId , 'type' => $type])->count();
+
 }
 
 
