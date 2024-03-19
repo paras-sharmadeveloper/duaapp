@@ -427,7 +427,7 @@
     <script>
         // Trigger print dialog when document is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // window.print();
+             window.print();
         });
     </script>
 </body>
