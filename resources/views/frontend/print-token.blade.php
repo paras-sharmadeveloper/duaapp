@@ -69,9 +69,9 @@
 
         .watermark {
             position: absolute;
-            left: 7mm;
-            top: 8mm;
-            width: 75mm;
+            left: 8mm;
+            top: 20mm;
+            width: 54mm;
             opacity: 0.1;
         }
 
