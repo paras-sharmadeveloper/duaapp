@@ -15,7 +15,8 @@ use App\Http\Controllers\{
     VideoConferenceController,
     NotificationController,
     AgGridManagement,
-    TwillioIVRHandleController
+    TwillioIVRHandleController,
+    PrintController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -74,6 +75,9 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
 
 
 
+
+
+
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
@@ -111,6 +115,8 @@ Route::get('/run/command', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
 
 Route::get('/print-this', function () {
 
