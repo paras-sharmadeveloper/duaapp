@@ -8,6 +8,7 @@ return [
     'dua' => 'دعا',
     'select-option' => 'آپشن منتخب کریں',
     'select-city' => 'دعا گھر کو منتخب کریں۔',
+    'location-dua-ghar' => 'دعا گھر',
     'mobile-label' => 'موبائل',
     'country-label' => 'ملک کا کوڈ',
     'nav-dua-option' => 'دعا کا آپشن',

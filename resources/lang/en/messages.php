@@ -9,6 +9,7 @@ return [
     'dua' => 'Dua',
     'select-option' => 'Select Option',
     'select-city' => 'Select Dua Ghar',
+    'location-dua-ghar' => 'Dua Ghar',
     'mobile-label' =>'Mobile',
     'country-label' => 'Country Code',
     'nav-dua-option' => 'Dua Option',

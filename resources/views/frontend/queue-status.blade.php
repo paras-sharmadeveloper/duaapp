@@ -390,7 +390,7 @@
                         </h4>
                         @endif
 
-                        <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} </h2>
+                        <h2 class="">{{ trans('messages.pdf_event_venue_label') }} : {{ $city }} {{ trans('messages.location-dua-ghar') }} </h2>
                         <div class="venue-info">
                         @if(empty($userBooking->lang) || $userBooking->lang == 'en')
                             <h4>{{ $venueAddress->address }}</h4>
