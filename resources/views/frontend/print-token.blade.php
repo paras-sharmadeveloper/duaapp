@@ -33,13 +33,13 @@
         }
 
         .headerSubTitle {
-            font-family: 'Equestria', 'Permanent Marker', cursive;
+            /* font-family: 'Equestria', 'Permanent Marker', cursive; */
             text-align: center;
             font-size: 12pt;
         }
 
         .headerTitle {
-            font-family: 'Equestria', 'Permanent Marker', cursive;
+            /* font-family: 'Equestria', 'Permanent Marker', cursive; */
             text-align: center;
             font-size: 24pt;
             font-weight: bold;
