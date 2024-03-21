@@ -8,7 +8,7 @@
 
         <div class="col-lg-12">
             <div class="cards">
-               <input type="number" id="search" placeholder="Search..." class="form-control w-100">
+               <input type="tel" id="search" placeholder="Search..." class="form-control w-100">
             </div>
             <div class="card1 users-list">
 

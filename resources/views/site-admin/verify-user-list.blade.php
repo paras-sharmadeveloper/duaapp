@@ -31,7 +31,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
                     <div class="form-outline" data-mdb-input-init>
                         <label class="form-label" for="form1">Search</label>
-                        <input type="number" id="search" class="form-control" placeholder="Search" />
+                        <input type="tel" id="search" class="form-control" placeholder="Search" />
 
                     </div>
                 </div>
