@@ -48,7 +48,7 @@
                 <h5 class="card-title">Manage Queue</h5>
                 <div class="row">
                     <div class="col-xl-12">
-                        <input type="text" name="" id="search" class="form-control" placeholder="search">
+                        <input type="number" name="" id="search" class="form-control" placeholder="search">
                     </div>
                 </div>
             </div>
