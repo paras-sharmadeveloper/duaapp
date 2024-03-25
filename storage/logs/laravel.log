@@ -27996,3 +27996,39 @@ Did you mean this?
 [stacktrace]
 #0 {main}
 "} 
+[2024-03-21 03:04:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-21 03:05:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-21 03:06:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-21 03:07:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-21 03:08:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-21 03:09:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-24 20:38:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-24 20:39:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 
+[2024-03-24 20:40:52] local.ERROR: Cannot redeclare getTotalTokens() (previously declared in C:\xampp\htdocs\app.kahayFaqeer.org\app\Helpers.php:117) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getTotalTokens() (previously declared in C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:117) at C:\\xampp\\htdocs\\app.kahayFaqeer.org\\app\\Helpers.php:118)
+[stacktrace]
+#0 {main}
+"} 

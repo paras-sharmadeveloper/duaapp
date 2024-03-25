@@ -829,7 +829,7 @@ class HomeController extends Controller
 
 
       $isVisible = false;
-        if ($venuesListArr && $venueSloting > 0) {
+        if ($venuesListArr) {
 
             $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
