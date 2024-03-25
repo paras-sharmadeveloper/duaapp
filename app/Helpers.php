@@ -76,25 +76,34 @@ if (!function_exists('userAllowedRejoin')) {
     {
 
         $user = Vistors::Where('phone', $mobile)->first();
-        if ($user) {
-            $recordAge = $user->created_at->diffInDays(now());
-            $rejoin = $rejoin_venue_after;
-            $daysRemaining = $rejoin  - $recordAge;
-            if ($rejoin > 0 && $recordAge <= $rejoin) {
-                return [
-                    'allowed' => false,
-                    'message' => 'You already Booked a Token with us. Please Try after ' . $daysRemaining . ' days',
-                    'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم ' . $daysRemaining . ' دن کے بعد کوشش کریں۔',
-                    'days_remaining' => $daysRemaining,
-                    'recordAge' => $recordAge
-                ];
-            } else {
+            if (!empty($user)) {
+                $recordAge = $user->created_at->diffInDays(now());
+                $rejoin = $rejoin_venue_after;
+                $daysRemaining = $rejoin  - $recordAge;
+                if ($rejoin > 0 && $recordAge <= $rejoin) {
+                    return [
+                        'allowed' => false,
+                        'message' => 'You already Booked a Token with us. Please Try after ' . $daysRemaining . ' days',
+                        'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم ' . $daysRemaining . ' دن کے بعد کوشش کریں۔',
+                        'days_remaining' => $daysRemaining,
+                        'recordAge' => $recordAge
+                    ];
+                } else {
+                    return [
+                        'allowed' => true,
+                        'message' => 'allowed',
+                        'message_ur' => 'اجازت دی',
+                        'recordAge' => $recordAge,
+                        'days_remaining' => $daysRemaining,
+                    ];
+                }
+            }else{
                 return [
                     'allowed' => true,
                     'message' => 'allowed',
                     'message_ur' => 'اجازت دی',
-                    'recordAge' => $recordAge,
-                    'days_remaining' => $daysRemaining,
+                    'recordAge' => 0,
+                    'days_remaining' =>0,
                 ];
             }
         }
