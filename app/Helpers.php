@@ -108,7 +108,7 @@ if (!function_exists('userAllowedRejoin')) {
             }
         }
     }
-}
+
 
 if (!function_exists('getCurrentContryTimezone')) {
     function getCurrentContryTimezone($id)
