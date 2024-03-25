@@ -18,9 +18,9 @@
 <div class="py-12">
     <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            
+
             <div class="p-6 text-gray-900 dark:text-gray-100">
-               
+
 
                 <div class="mt-1 d-flex justify-content-end mb-1 d-flex mx-3">
 
@@ -74,7 +74,7 @@
 <script>
     var licenseKey = "{{ env('AG_GRID_KEY') }}"
 
-   
+
     const columnDefs = [
         {
             headerName: 'BookingId',
@@ -87,7 +87,7 @@
             sort: 'desc',
             filter: "agNumberColumnFilter",
             checkboxSelection:true
-            
+
         },
         {
             headerName: 'Booking Source',
@@ -96,9 +96,9 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
-            filter: "agTextColumnFilter", 
-            
+            enablePivot: true,
+            filter: "agTextColumnFilter",
+
         },
 
         {
@@ -108,7 +108,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
 
@@ -119,7 +119,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
 
@@ -130,7 +130,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
         {
@@ -140,7 +140,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
         {
@@ -150,7 +150,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
         {
@@ -160,7 +160,7 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
         {
@@ -170,10 +170,10 @@
             enableRowGroup: true,
             floatingFilter: true,
             pivot: true,
-            enablePivot: true, 
+            enablePivot: true,
             filter: "agTextColumnFilter"
         },
-         
+
         {
             headerName: 'FirstName',
             field: 'fname',
@@ -205,7 +205,7 @@
             enablePivot: true,
             filter: "agTextColumnFilter"
         },
-        
+
         {
             headerName: 'Email',
             field: 'email',
@@ -271,7 +271,7 @@
             pivot: true,
             enablePivot: true,
             filter: "agTextColumnFilter",
-             
+
         },
 
         {
@@ -323,7 +323,7 @@
             pivot: true,
             enablePivot: true,
             filter: "agTextColumnFilter"
-        }, 
+        },
         {
             headerName: 'BookingId',
             field: 'id',
@@ -335,7 +335,7 @@
             filter: "agTextColumnFilter"
         },
 
-        
+
         {
             headerName: 'Meeting Total Time (In Seconds)',
             field: 'meeting_total_time',
@@ -346,7 +346,7 @@
             enablePivot: true,
             filter: "agTextColumnFilter"
         },
-         
+
         {
             headerName: 'BookingFrom',
             field: 'user_question',
@@ -368,7 +368,7 @@
         rowSelection: 'multiple',
         rowMultiSelectWithClick: true,
         columnDefs: columnDefs,
-        pagination: true, // Enable pagination
+        pagination: false, // Enable pagination
         paginationPageSize: 200, // Number of rows per page,
         defaultColDef: {
             flex: 1,
@@ -526,77 +526,77 @@
     function deleteModel() {
       var selected = gridOptions.api.getSelectedRows();
     if(selected.length > 0){
- 
-    $('#del-model').modal('show'); 
+
+    $('#del-model').modal('show');
     }else{
-        alert('Please select row to delete');  
+        alert('Please select row to delete');
     }
- 
+
   }
 
   function  DeleteRows() {
-    var table = 'vistors'; 
-    var confirm = $("#confirm-delete").val(); 
+    var table = 'vistors';
+    var confirm = $("#confirm-delete").val();
 
     if(confirm == ''){
-        $(".eror").text('Please write confirm delete'); 
-        return false; 
+        $(".eror").text('Please write confirm delete');
+        return false;
     }
 
     if(confirm === 'confirm delete'){
 
       var selected = gridOptions.api.getSelectedRows();
-      console.log("selected",selected)
+    //   console.log("selected",selected)
       var ids = [];
       for (var i = 0; i < selected.length ; i++ ) {
-        ids[i] = selected[i]['id']; 
-       
-      }  
+        ids[i] = selected[i]['id'];
+
+      }
 
        $.ajax({
-         type:'get', 
-         dataType: "json", 
-         url:"{{ route('delete-row') }}"+'?table_name='+table, 
+         type:'get',
+         dataType: "json",
+         url:"{{ route('delete-row') }}"+'?table_name='+table,
          data: { idsToDelete : ids },
 
          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
          success:function(response){
              alert("Row Deleted Successfully")
              location.reload()
-            // toastr.success('Row Deleted', "Success");  
-            $('#del-model').modal('hide');  
+            // toastr.success('Row Deleted', "Success");
+            $('#del-model').modal('hide');
           },
           error: function(e) {
-            // toastr.error('failed', "falied to load");  
-            $('#del-model').modal('hide');   
+            // toastr.error('failed', "falied to load");
+            $('#del-model').modal('hide');
           },
      });
 
     }else{
-        $(".eror").text('write correctly.. spelling mistake'); 
-        return false; 
-    } 
-       
+        $(".eror").text('write correctly.. spelling mistake');
+        return false;
+    }
+
   }
 
   $(".start-export").click(function(){
-        $this = $(this); 
+        $this = $(this);
 
         let UserEmail = prompt('Please enter email address you want to sent email ?');
         if(UserEmail){
             console.log("UserEmail",UserEmail)
             let getFilterModel = gridOptions.api.getFilterModel();
             let getFilterModel2 = gridOptions.columnApi.getColumnState();
-            const data = { filterModel: getFilterModel }; 
-            exportData( $this , data , UserEmail); 
+            const data = { filterModel: getFilterModel };
+            exportData( $this , data , UserEmail);
         }else{
-            alert("You have to enter email to start export"); 
+            alert("You have to enter email to start export");
             return false;
         }
-        
-	   
 
-   }); 
+
+
+   });
 
   function exportData(btnClick , data ,userEmail){
       var loadingText = btnClick.attr('data-loading');
@@ -613,21 +613,21 @@
         url:"{{ route('fetch.bookings') }}"+'?export=1&userEmail='+userEmail,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success:function(response){
-            
+
             if(response.success){
                 btnClick.find('b').text(successText)
 
                 setTimeout(() => { btnClick.find('b').text(defaultText)   }, 2000);
                 btnClick.find('span').hide()
-            }else{ 
+            }else{
                 alert(error)
-                 
+
             }
-             
-            
+
+
         },error: function(e) {
-              
-            
+
+
         },
     });
     }
