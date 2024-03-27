@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Twilio\TwiML\VoiceResponse;
-use App\Models\{VenueAddress, Venue, TwillioIvrResponse, VenueSloting, Vistors, Country};
+use App\Models\{VenueAddress, Venue, TwillioIvrResponse, VenueSloting, Vistors, Country , Reason};
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -156,9 +156,26 @@ class TwillioIVRHandleController extends Controller
             }
 
 
+
+
             $query = $this->getDataFromVenue();
             $venuesListArr = $query->get();
             $distinctCities = $venuesListArr->pluck('city')->unique();
+
+
+            if($dua_option=='dua' && !empty($venuesListArr->reject_dua_id)){
+                $reason  = Reason::find($venuesListArr->reject_dua_id);
+                $response->play($reason->reason_ivr_path);
+                return response($response, 200)->header('Content-Type', 'text/xml');
+
+          }
+          if($dua_option=='dum' && !empty($venuesListArr->reject_dum_id)){
+            $reason  = Reason::find($venuesListArr->reject_dum_id);
+            $response->play($reason->reason_ivr_path);
+            return response($response, 200)->header('Content-Type', 'text/xml');
+          }
+
+
 
             $i = 1;
             $cityArr = [];

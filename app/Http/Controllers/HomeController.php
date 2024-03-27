@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Events\BookingNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Reason;
 class HomeController extends Controller
 {
   use OtpTrait;
@@ -728,6 +728,7 @@ class HomeController extends Controller
     }
 
     if ($type == 'get_city') {
+
       $countryId = Venue::where(['iso' => 'PK'])->get()->first();
       $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
         ->where(function ($query) use ($newDate) {
@@ -833,6 +834,10 @@ class HomeController extends Controller
 
      // return date('Y-m-d');
         $currentTimezone = $request->input('timezone', 'America/New_York');
+        $duaType = $request->input('duaType');
+
+
+
         $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
         $today = getCurrentContryTimezone($request->input('id'));
         $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
@@ -845,6 +850,32 @@ class HomeController extends Controller
 
 
       $isVisible = false;
+
+      if($duaType=='dua' && !empty($venuesListArr->reject_dua_id)){
+            $reason  = Reason::find($venuesListArr->reject_dua_id);
+            return response()->json([
+                    'status' => false,
+                    'message' => $reason->reason_english,
+                    'message_ur' => $reason->reason_urdu,
+
+            ]);
+      }
+      if($duaType=='dum' && !empty($venuesListArr->reject_dum_id)){
+        $reason  = Reason::find($venuesListArr->reject_dum_id);
+        return response()->json([
+                'status' => false,
+                'message' => $reason->reason_english,
+                'message_ur' => $reason->reason_urdu,
+
+        ]);
+     }
+
+
+
+
+
+
+
       if($venuesListArr->status == 'inactive'){
          return response()->json([
                 'status' => false,

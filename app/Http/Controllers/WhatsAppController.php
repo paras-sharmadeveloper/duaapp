@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\{Notification, Country};
-use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors};
+use App\Models\{VenueAddress, Venue, WhatsApp, VenueSloting, Vistors,Reason};
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
@@ -163,6 +163,10 @@ class WhatsAppController extends Controller
 
 
             $dua_option = ($Respond == 1) ? 'dua' : 'dum';
+
+
+
+
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
@@ -174,6 +178,47 @@ class WhatsAppController extends Controller
             if(empty($venuesListArr)){
                 $message = $this->WhatsAppbotMessages('', 9 , $lang);
                 $this->sendMessage($userPhoneNumber, $message);
+            }
+
+            if($dua_option=='dua' && !empty($venuesListArr->reject_dua_id)){
+                $reason  = Reason::find($venuesListArr->reject_dua_id);
+                $data = ($lang =='eng') ?  $reason->reason_english :  $reason->reason_urdu;
+                $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+
+                $dataArr = [
+                    'lang' => $lang,
+                    'dua_option' => $dua_option,
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' =>  $data,
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => $step,
+                    'response_options' => null
+                ];
+                WhatsApp::create($dataArr);
+
+                return false;
+
+            }
+            if($dua_option=='dum' && !empty($venuesListArr->reject_dum_id)){
+                $reason  = Reason::find($venuesListArr->reject_dua_id);
+                $data = ($lang =='eng') ?  $reason->reason_english :  $reason->reason_urdu;
+                $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                $dataArr = [
+                    'lang' => $lang,
+                    'dua_option' => $dua_option,
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' =>  $data,
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => $step,
+                    'response_options' => null
+                ];
+                WhatsApp::create($dataArr);
+
+                return false;
             }
 
             $cityArr = [];
