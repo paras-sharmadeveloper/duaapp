@@ -128,20 +128,29 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-4 mt-4">
+                    <div class="col-md-6 mt-4">
                         <div class="input-group">
-                            <span class="input-group-text">Date Time </span>
+                            <span class="input-group-text">Date Start </span>
                             <input type="datetime-local"
                              value="{{ (!empty($venueAddress)) ? $venueAddress->venue_date : '' }}"
                              class="form-control" placeholder="Date Time"
                              min="{{ date('Y-m-d') }}" name="venue_date">
-
-
                         </div>
                     </div>
 
+                    <div class="col-md-6 mt-4">
+                        <div class="input-group">
+                            <span class="input-group-text">End Time For Booking</span>
+                            <input type="datetime-local"
+                             value="{{ (!empty($venueAddress)) ? $venueAddress->venue_date_end : '' }}"
+                             class="form-control" placeholder="Date Time"
+                             min="{{ date('Y-m-d') }}" name="venue_date_end">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                     <label>Venue Addresses (English)</label>
 
                         <div class="input-group">
@@ -158,7 +167,7 @@
 
                     </div>
 
-                    <div class="col-md-4 ">
+                    <div class="col-md-6 ">
                      <label>Venue Addresses (Urdu)</label>
                         <div class="input-group">
 
@@ -173,6 +182,7 @@
 
                     </div>
                 </div>
+
 
 
 
@@ -193,31 +203,84 @@
                         </div>
                     </div> --}}
                 </div>
-                <div class="row mt-3">
-                    <div class="col-md-6 mt-4 ">
-                        <div class="input-group">
-                            <span class="input-group-text">Dua Slots</span>
-                            {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'Dua Slots',
-                                'max' => 1000
-                            ]) !!}
 
-                        </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switch-dua"
+                            @if(!empty($venueAddress) && $venueAddress->reject_dua_id ==null )
+                                checked
+                            @endif
+
+                            name="swtich_dua" />
+                            <label class="form-check-label" for="swtich-dua">Dua </label>
+
+                            <div class="dua-token">
+                                {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
+                                    'class' => 'form-control dua_slots',
+                                    'placeholder' => 'Dua Slots',
+                                    'min' => 1,
+                                    'max' => 1000
+                                ]) !!}
+                            </div>
+
+
+                            <div class="reject-reason" style="display:none;">
+
+                                <select class="form-control" name="reject_dua_id">
+                                    <option value="">Select Reason</option>
+                                    @foreach ($reasons as $reason )
+                                    <option value="{{ $reason->id }}">{{ $reason->label }} </option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+
+
+
+                          </div>
                     </div>
                     <div class="col-md-6 mt-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Dum Slots</span>
-                            {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'Sum Slots',
-                                'min' => 1001,
-                                'max' => 2000
-                            ]) !!}
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switch-dum"
+                            @if(!empty($venueAddress) && $venueAddress->reject_dum_id==null )
+                               checked
+                            @endif
 
-                        </div>
+
+                              name="swtich_dum"  />
+                            <label class="form-check-label" for="swtich-dum">Dum</label>
+
+                            <div class="dum-token">
+                                {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
+                                    'class' => 'form-control dum_slots',
+                                    'placeholder' => 'dum Slots',
+                                    'min' => 1001,
+                                    'max' => 2000
+                                ]) !!}
+                            </div>
+
+
+                            <div class="reject-reason-dum" style="display:none;">
+
+                                <select class="form-control" name="reject_dum_id">
+                                    <option value="">Select Reason</option>
+                                    @foreach ($reasons as $reason )
+                                    <option value="{{ $reason->id }}">{{ $reason->label }} </option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+
+
+
+                          </div>
                     </div>
                 </div>
+
+
+
+
 
                 {{-- <div class="row mt-3">
                     <div class="col-md-6 mt-4 ">
@@ -355,17 +418,16 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 mt-4">
+                    {{-- <div class="col-md-4 mt-4">
                         <label>Slots Appear Before Hours ?</label>
                         <div class="input-group">
-                            {{-- <span class="input-group-text">Slots Appear Before Hours ?</span> --}}
                             {!! Form::number('slot_appear_hours', $venueAddress->slot_appear_hours ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'slot_appear_hours',
                             ]) !!}
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row mt-3">
                     {{-- <div class="col-md-4  mt-4">
@@ -428,7 +490,8 @@
                         <div class="input-group">
                             <textarea name="status_page_note"
                             class="form-control"
-                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
+                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">
+                            {{ $venueAddress->status_page_note ?? '' }}</textarea>
 
 
                         </div>
@@ -479,6 +542,62 @@
 @section('page-script')
     <script type="text/javascript">
         var CurrentPage = "{{ Route::currentRouteName() }}"
+
+
+        $(document).ready(function () {
+            $('#switch-dua').change(function () {
+
+                $this = $(this);
+
+                console.log("this",$this)
+                if ($(this).is(":checked")) {
+                    $('.dua-token').show();
+                    $('.reject-reason').hide();
+                } else {
+                    $('.dua-token').hide();
+                    $('.reject-reason').show();
+                }
+            });
+
+            // Trigger initial state
+            if ($('#switch-dua').is(":checked")) {
+                $('.dua-token').show();
+                $('.reject-reason').hide();
+            } else {
+                $('.dua-token').hide();
+                $('.reject-reason').show();
+            }
+        });
+
+        $(document).ready(function () {
+            $('#switch-dum').change(function () {
+
+                $this = $(this);
+
+                console.log("this",$this)
+                if ($(this).is(":checked")) {
+                    $('.dum-token').show();
+                    $('.reject-reason-dum').hide();
+                } else {
+                    $('.dum-token').hide();
+                    $('.reject-reason-dum').show();
+                }
+            });
+
+            // Trigger initial state
+            if ($('#switch-dum').is(":checked")) {
+                $('.dum-token').show();
+                $('.reject-reason-dum').hide();
+            } else {
+                $('.dum-token').hide();
+                $('.reject-reason-dum').show();
+            }
+        });
+
+
+
+
+
         $(document).ready(function() {
             var addAddressButton = $(".add-address");
             var venueAddresses = $(".venue-addresses");
@@ -635,6 +754,12 @@
             });
 
         })
+
+
+
+
+
+
         document.title = (CurrentPage == 'venues.edit') ? 'Edit Venue Booking' : 'Create Venue Booking';
     </script>
 @endsection

@@ -220,7 +220,12 @@
         </ul>
       </li>
       @endcanany
-
+      <li class="nav-item">
+        <a class="{{ ( $currentPath == 'reason') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('reasons.index') }}">
+          <i class="bi bi-grid"></i>
+          <span>Reject Reason</span>
+        </a>
+      </li>
 
 
 

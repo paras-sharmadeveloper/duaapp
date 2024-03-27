@@ -26,7 +26,7 @@
                             <td>
                                 <a href="{{ route('booking.edit', ['id' => $booking->id]) }}" class="btn btn-primary">Edit</a>
 
-                               
+
                                 <form action="{{ route('visitor.delete', ['id' => $booking->id]) }}" method="POST"
                                     style="display: inline;">
                                     @csrf

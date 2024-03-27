@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venue, VenueSloting, VenueAddress, User, Vistors, Timezone, Country};
+use App\Models\{Venue, VenueSloting, VenueAddress, User, Vistors, Timezone, Country, Reason};
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Twilio\Rest\Client;
@@ -41,7 +41,8 @@ class VenueController extends Controller
         })->get();
         $venueAddress = [];
         $venueCountry = Country::all();
-        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry','venueAddress'));
+        $reasons = Reason::all();
+        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry','venueAddress','reasons'));
     }
 
 
@@ -49,26 +50,41 @@ class VenueController extends Controller
     {
 
         $request->validate([
-            // 'venue_id' => 'required',
-            // 'therapist_id' => 'required',
             'siteadmin_id' => 'required',
-            // 'type' => 'required',
-            'venue_date' => 'required',
+            'venue_date' => 'required|date',
+            'venue_date_end' => 'required|date',
             'venue_addresses' => 'required',
-            // 'slot_starts_at_morning' => 'required',
-            // 'slot_ends_at_morning' => 'required',
             'city' => 'required',
-            // 'video_room' => 'required_if:type,virtual',
-            // 'slot_duration' => 'required',
-            'slot_appear_hours' => 'required',
+            // 'slot_appear_hours' => 'required',
             'rejoin_venue_after' => 'required',
-            // 'combination_id' => 'required',
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
             'venue_addresses_ur' => 'required',
-            'dua_slots' => 'required|integer|between:1,1000',
-            'dum_slots' => 'required|integer|between:1001,2000'
+            'swtich_dua' => 'required',
+            'swtich_dum' => 'required',
         ]);
+
+        // Conditional validation based on the values of 'swtich_dua' and 'swtich_dum'
+        if ($request->input('swtich_dua') == 'on') {
+            $request->validate([
+                'dua_slots' => 'required|integer|between:1,1000',
+            ]);
+        } else {
+            $request->validate([
+                'reject_dua_id' => 'required|integer',
+            ]);
+        }
+
+        if ($request->input('swtich_dum') == 'on') {
+            $request->validate([
+                'dum_slots' => 'required|integer|between:1001,2000',
+            ]);
+        } else {
+            $request->validate([
+                'reject_dum_id' => 'required|integer',
+            ]);
+        }
+
 
 
         $therapistRole = Role::where('name', 'therapist')->first();
@@ -78,6 +94,7 @@ class VenueController extends Controller
 
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
+        $venue_date_end = $request->input('venue_date_end');
         // $venueStartsMorning = $request->input('slot_starts_at_morning');
         // $venueEndsMorning = $request->input('slot_ends_at_morning');
         // $venueStartsEvening = $request->input('slot_starts_at_evening', null);
@@ -103,7 +120,7 @@ class VenueController extends Controller
 
         $country = Venue::where(['iso' => 'PK'])->first();
 
-        // $timezone = Timezone::where(['country_code' => $country->iso])->first();
+        $timezone = Timezone::where(['country_code' => $country->iso])->first();
 
         $dataArr = [
             'city' => $request->input('city'),
@@ -111,6 +128,7 @@ class VenueController extends Controller
             'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
+            'venue_date_end' => $venue_date_end,
             // 'slot_starts_at_morning' =>  $venueStartsMorning,
             // 'slot_ends_at_morning' =>  $venueEndsMorning,
             // 'slot_starts_at_evening' =>  $venueStartsEvening,
@@ -125,15 +143,18 @@ class VenueController extends Controller
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
-            'slot_appear_hours' => $request->input('slot_appear_hours'),
+            // 'slot_appear_hours' => $request->input('slot_appear_hours'),
             'venue_available_country' => $venue_available_country,
-            'dua_slots' => $duaSlots,
-            'dum_slots' => $dumSlots,
+            'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
+            'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
+            'reject_dua_id' => ($request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
             // 'timezone' => $timezone->timezone,
             'status_page_note_ur' => $request->input('status_page_note_ur'),
             'address_ur' => $request->input('venue_addresses_ur'),
-            'status_page_note' => $request->input('status_page_note')
+            'status_page_note' => $request->input('status_page_note'),
+            'timezone' => $timezone->timezone
         ];
 
         if (!empty($IsRecuureing)) {
@@ -170,7 +191,8 @@ class VenueController extends Controller
             $query->where('name', 'site-admin');
         })->get();
         $venueCountry = Country::all();
-        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry'));
+        $reasons = Reason::all();
+        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry','reasons' ));
     }
 
     public function update(Request $request, $id)
@@ -195,7 +217,7 @@ class VenueController extends Controller
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
            // 'slot_duration' => 'required',
-            'slot_appear_hours' => 'required',
+            // 'slot_appear_hours' => 'required',
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
             'status_page_note' => 'required',
@@ -216,6 +238,7 @@ class VenueController extends Controller
 
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
+        $venue_date_end = $request->input('venue_date_end');
 
         // $venueStartsMorning = $request->input('slot_starts_at_morning');
         // $venueEndsMorning = $request->input('slot_ends_at_morning');
@@ -235,6 +258,7 @@ class VenueController extends Controller
             'address' => $venueAdd,
 
             'venue_date' => $venueDate,
+            'venue_date_end' => $venue_date_end,
             // 'slot_starts_at_morning' =>  $venueStartsMorning,
             // 'slot_ends_at_morning' =>  $venueEndsMorning,
             // 'slot_starts_at_evening' =>  $venueStartsEvening,
@@ -246,7 +270,7 @@ class VenueController extends Controller
             //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             // 'slot_duration' => $slotDuration,
-            'slot_appear_hours' => $request->input('slot_appear_hours'),
+            // 'slot_appear_hours' => $request->input('slot_appear_hours'),
             'recurring_till' => $request->input('recurring_till'),
             // 'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
@@ -255,8 +279,13 @@ class VenueController extends Controller
             'status_page_note' => $request->input('status_page_note'),
             'status_page_note_ur' => $request->input('status_page_note_ur'),
             'address_ur' => $request->input('venue_addresses_ur'),
-            'dua_slots' => $duaSlots,
-            'dum_slots' => $dumSlots,
+            // 'dua_slots' => $duaSlots,
+            // 'dum_slots' => $dumSlots,
+
+            'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
+            'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
+            'reject_dua_id' => ($request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];
 
         $VenueAddress->update($dataArr);

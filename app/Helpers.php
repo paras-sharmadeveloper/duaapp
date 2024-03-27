@@ -12,6 +12,67 @@ use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 
+if (!function_exists('VenueAvilableInCountry')) {
+
+    function VenueAvilableInCountry($AllowedcountryArr,$callFromCountryId)
+    {
+
+        if (in_array($callFromCountryId, $AllowedcountryArr)) {
+            return [
+                'allowed' => true,
+                'message' => 'Token booking is allowed.',
+                'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
+
+            ];
+        }else{
+            return [
+                'allowed' => false,
+                'message' => 'Currently Your Country not allowed to book token with us. please try again in future venues.',
+                'message_ur' => 'فی الحال آپ کے ملک کو ہمارے ساتھ ٹوکن بک کرنے کی اجازت نہیں ہے۔ براہ کرم مستقبل کے مقامات پر دوبارہ کوشش کریں۔',
+            ];
+        }
+
+
+    }
+
+}
+
+if (!function_exists('TokenBookingAllowed')) {
+    function TokenBookingAllowed($venueStartDateTime, $venueEndDateTime, $timezone)
+    {
+
+        $venueStartTime = Carbon::parse($venueStartDateTime,$timezone);
+        $venueEndTime = Carbon::parse($venueEndDateTime,$timezone);
+
+        $currentTime = Carbon::now($timezone)->tz($timezone);
+
+        if($currentTime->gte($venueStartTime) && $currentTime->lte($venueEndTime)){
+
+            return [
+                'allowed' => true,
+                'message' => 'Token booking is allowed.',
+                'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
+                'currentTime' => $currentTime->format('d M y h:i A')
+            ];
+
+        }else{
+            return [
+                'allowed' => false,
+                'message' => 'Token booking is not yet allowed. Kindly Try at '.$venueStartTime->format('d M Y h:i').' ('.$timezone.')',
+                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی '.$venueStartTime->format('d M Y h:i').' ('.$timezone.') پر آزمائیں۔',
+                'currentTime' => Carbon::now()->format('d M Y h:i A')
+            ];
+
+        }
+
+
+
+    }
+}
+
+
+
+
 
 if (!function_exists('isAllowedTokenBooking')) {
     function isAllowedTokenBooking($venuedateTime, $slot_appear_hours, $timezone)
@@ -75,7 +136,7 @@ if (!function_exists('userAllowedRejoin')) {
     function userAllowedRejoin($mobile, $rejoin_venue_after)
     {
 
-        $user = Vistors::Where('phone', $mobile)->first();
+        $user = Vistors::Where('phone','LIKE',$mobile)->first();
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 $rejoin = $rejoin_venue_after;
@@ -136,33 +197,33 @@ if (!function_exists('printToken')) {
     function printToken($token, $connectionType, $connectionAddress)
     {
         // Set up printer connection based on the provided connection type and address
-        if ($connectionType === 'wifi') {
-            $connector = new NetworkPrintConnector($connectionAddress, 9100);
-        } elseif ($connectionType === 'bluetooth') {
-            $connector = new BluetoothPrintConnector($connectionAddress);
-        } else {
-            // Default to file connector
-            $connector = new FilePrintConnector("/dev/usb/lp0"); // Adjust the path as per your system configuration
-        }
+        // if ($connectionType === 'wifi') {
+        //     $connector = new NetworkPrintConnector($connectionAddress, 9100);
+        // } elseif ($connectionType === 'bluetooth') {
+        //     $connector = new BluetoothPrintConnector($connectionAddress);
+        // } else {
+        //     // Default to file connector
+        //     $connector = new FilePrintConnector("/dev/usb/lp0"); // Adjust the path as per your system configuration
+        // }
 
-        $printer = new Printer($connector);
+        // $printer = new Printer($connector);
 
-        try {
-            // Print token
-            $printer->text("Thank you for visiting here\n");
-            $printer->text("#" . $token . "\n");
-            $printer->text("Verified\n");
+        // try {
+        //     // Print token
+        //     $printer->text("Thank you for visiting here\n");
+        //     $printer->text("#" . $token . "\n");
+        //     $printer->text("Verified\n");
 
-            // Cut paper (if supported)
-            $printer->cut();
+        //     // Cut paper (if supported)
+        //     $printer->cut();
 
-            // Close printer connection
-            $printer->close();
+        //     // Close printer connection
+        //     $printer->close();
 
-            return "Token printed successfully";
-        } catch (\Exception $e) {
-            // Handle any errors
-            return "Error printing token: " . $e->getMessage();
-        }
+        //     return "Token printed successfully";
+        // } catch (\Exception $e) {
+        //     // Handle any errors
+        //     return "Error printing token: " . $e->getMessage();
+        // }
     }
 }

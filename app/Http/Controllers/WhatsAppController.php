@@ -36,8 +36,10 @@ class WhatsAppController extends Controller
         $waId = $body['WaId'];
         $Respond = $body['Body'];
         $responseString = strval($Respond);
+
         $countryCode = $this->findCountryByPhoneNumber($waId);
         $cleanNumber = str_replace($countryCode, '', $waId);
+
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
 
         if(!empty($existingCustomer)){
@@ -47,6 +49,15 @@ class WhatsAppController extends Controller
         // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
+
+
+
+
+
+
+
+
+
         // https://emojipedia.org/keycap-digit-five
         $whatsAppEmoji = [
             '1' => '1️⃣',
@@ -235,7 +246,49 @@ class WhatsAppController extends Controller
 
             if (!empty($venuesListArr)) {
 
-                $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+                $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+
+                $venue_available_country =  json_decode($venuesListArr->venue_available_country);
+                $waId = $request->input('WaId');
+
+                $countryCode = $this->findCountryByPhoneNumber($waId);
+                $cleanNumber = str_replace($countryCode, '', $waId);
+
+                $country = Country::where('phonecode', str_replace('+', '',$countryCode))->first();
+
+
+                $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
+
+                if(!$userCountry['allowed']){
+
+                    $data = ($lang =='eng') ?$userCountry['message']:  $userCountry['message_ur'];
+                    $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                    $this->sendMessage($userPhoneNumber, $message);
+
+                    $dataArr = [
+                        'lang' => $lang,
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' => $message,
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => $step,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    return false;
+
+
+
+                }
+
+
+
+
+
+
+              //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
                 if ($status['allowed']) {
 
                     $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
@@ -261,6 +314,19 @@ class WhatsAppController extends Controller
                             $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
                             $message = $this->WhatsAppbotMessages($data, 9 , $lang);
                             $this->sendMessage($userPhoneNumber, $message);
+
+                            $dataArr = [
+                                'lang' => $lang,
+                                'dua_option' => $dua_option,
+                                'customer_number' => $userPhoneNumber,
+                                'customer_response' => $Respond,
+                                'bot_reply' =>  $message,
+                                'data_sent_to_customer' => $message,
+                                'last_reply_time' => date('Y-m-d H:i:s'),
+                                'steps' => $step,
+                                'response_options' => null
+                            ];
+                            WhatsApp::create($dataArr);
                             return false;
                         }
 

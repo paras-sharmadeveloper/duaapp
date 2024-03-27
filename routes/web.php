@@ -16,7 +16,8 @@ use App\Http\Controllers\{
     NotificationController,
     AgGridManagement,
     TwillioIVRHandleController,
-    PrintController
+    PrintController,
+    ReasonController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -39,39 +40,39 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome');
 
-    Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
+Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.dua.option');
 
-    Route::post('/ivr/welcome/inputs', [TwillioIVRHandleController::class, 'handleWelcomeInputs'])
+Route::post('/ivr/welcome/inputs', [TwillioIVRHandleController::class, 'handleWelcomeInputs'])
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.welcome.after-lang');
 
 
 
 
-    Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
+Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.start');
 
-    Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
+Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.pickcity');
 
-    // Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
-    //     ->withoutMiddleware(['web', 'verified'])
-    //     ->name('ivr.dates');
+// Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.dates');
 
-    // Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
-    //     ->withoutMiddleware(['web', 'verified'])
-    //     ->name('ivr.time');
-    Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
-        ->withoutMiddleware(['web', 'verified'])
-        ->name('ivr.makebooking');
+// Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.time');
+Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.makebooking');
 
-        Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTimeout'])
-        ->withoutMiddleware(['web', 'verified'])
-        ->name('ivr.handle.timeout');
+Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTimeout'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.handle.timeout');
 
 
 
@@ -94,15 +95,15 @@ Route::get('/config/clear', function () {
 
 Route::get('/run/command', function () {
     $type = request()->type;
-    if($type == 'migrate'){
+    if ($type == 'migrate') {
         Artisan::call('migrate');
     }
-    if($type == 'fresh'){
+    if ($type == 'fresh') {
         Artisan::call('migrate:fresh'); // Replace with the name of your custom command
         Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
         return 'Scheduled task triggered successfully.';
     }
-    if($type == 'refresh'){
+    if ($type == 'refresh') {
         Artisan::call('migrate:refresh'); // Replace with the name of your custom command
         Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
         return 'Scheduled task triggered successfully.';
@@ -172,13 +173,13 @@ Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvail
 Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
 Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
 
-Route::get('/qr-code/{id}',[BookingController::class, 'generateQRCode'])->name('qr.code');
+Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
 
 Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
 
-Route::post('/process-scan',[BookingController::class, 'processScan'])->name('process-scan');
+Route::post('/process-scan', [BookingController::class, 'processScan'])->name('process-scan');
 
-Route::get('/scan-qr',[BookingController::class, 'showQrScan'])->name('qr.show.scan');
+Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
 
 
 
@@ -201,7 +202,7 @@ Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('g
 Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
 Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
 
-Auth::routes(['register' =>false]);
+Auth::routes(['register' => false]);
 
 Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
 Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
@@ -215,6 +216,21 @@ Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoi
 Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+
+
+    Route::get('/reasons', [ReasonController::class, 'index'])->name('reasons.index');
+    Route::get('/reasons/create', [ReasonController::class, 'create'])->name('reasons.create');
+    Route::post('/reasons', [ReasonController::class, 'store'])->name('reasons.store');
+    Route::get('/reasons/{id}/edit', [ReasonController::class, 'edit'])->name('reasons.edit');
+    // Update an existing reason
+    Route::put('/reasons/{id}', [ReasonController::class, 'update'])->name('reasons.update');
+
+    // Delete a reason
+    Route::delete('/reasons/{id}', [ReasonController::class, 'destroy'])->name('reasons.destroy');
+
+
+
+
     // Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
@@ -223,11 +239,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
 
-    Route::post('/grid/fetch/booking', [AgGridManagement::class,'getDataMessageLog'])->name('fetch.bookings');
+    Route::post('/grid/fetch/booking', [AgGridManagement::class, 'getDataMessageLog'])->name('fetch.bookings');
 
-    Route::get('/notifications', [NotificationController::class,'index'])->name('notification.get');
-    Route::post('/notifications/{id}/read',[NotificationController::class,'markAsRead'])->name('notification.mark.read');
-    Route::delete('/visitor/{id}/delete',[VistorsController::class,'DeleteNow'])->name('visitor.delete');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.get');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.mark.read');
+    Route::delete('/visitor/{id}/delete', [VistorsController::class, 'DeleteNow'])->name('visitor.delete');
     Route::get('/book/{venueId}/add', [HomeController::class, 'bookingAdmin'])->name('book.add');
     Route::any('delete-row', [HomeController::class, 'deleteRows'])->name('delete-row');
     // check-available

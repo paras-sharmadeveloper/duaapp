@@ -243,6 +243,12 @@ class TwillioIVRHandleController extends Controller
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
         $lang  =  $existingData->lang;
 
+        $calledCountry = $request->input('CallerCountry');
+
+        $country = Country::where('iso','LIKE',$calledCountry)->first();
+
+
+
 
         if (!empty($existingData)) {
             if (array_key_exists($userInput,  $customer_option)) {
@@ -256,8 +262,16 @@ class TwillioIVRHandleController extends Controller
 
                 if (!empty($venuesListArr)) {
 
+                    $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+                    $venue_available_country =  json_decode($venuesListArr->venue_available_country);
+                    $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
 
-                    $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+                    if(!$userCountry['allowed']){
+                        $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
+                        return response($response, 200)->header('Content-Type', 'text/xml');
+                    }
+
+                    // $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
                     if ($status['allowed']) {
 
                         $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
@@ -292,11 +306,12 @@ class TwillioIVRHandleController extends Controller
                         'meeting_type' => 'on-site',
                         'booking_uniqueid' =>  $uuid,
                         'booking_number' => $tokenId,
-                        'country_code' => $countryCode,
+                        'country_code' => '+'.$country->phonecode,
                         'phone' => $cleanNumber,
                         'source' => 'Phone',
                         'dua_type' => $dua_option,
                         'lang' => $lang
+
                     ]);
 
                     if ($booking) {

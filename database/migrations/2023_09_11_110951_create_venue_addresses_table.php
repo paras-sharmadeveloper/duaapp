@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->text('address');
             $table->dateTime('venue_date');
-            $table->time('slot_starts_at_morning')->nullable();
-            $table->time('slot_ends_at_morning')->nullable();
+            $table->dateTime('venue_date_end');
+            // $table->time('slot_starts_at_morning')->nullable();
+            // $table->time('slot_ends_at_morning')->nullable();
 
-            $table->time('slot_starts_at_evening')->nullable();
-            $table->time('slot_ends_at_evening')->nullable();
+            // $table->time('slot_starts_at_evening')->nullable();
+            // $table->time('slot_ends_at_evening')->nullable();
 
             $table->enum('type', ['on-site', 'virtual']);
             $table->string('room_name')->nullable();
@@ -49,7 +50,7 @@ return new class extends Migration
             $table->integer('dum_slots')->default(0);
 
             $table->text('status_page_note')->nullable();
-            $table->text('venue_addresses_ur')->nullable();
+            $table->text('addresses_ur')->nullable();
             $table->text('status_page_note_ur')->nullable();
 
             $table->string('timezone')->nullable();
@@ -68,6 +69,9 @@ return new class extends Migration
             $table->foreign('siteadmin_id')
                 ->references('id')
                 ->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+                $table->integer('reject_dua_id')->nullable();
+                $table->integer('reject_dum_id')->nullable();
         });
     }
 

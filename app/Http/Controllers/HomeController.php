@@ -119,6 +119,14 @@ class HomeController extends Controller
       // }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
+
+
+
+
+
+
+
+
       // $tokenId = $venueSlots->token_id;
       $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
 
@@ -162,6 +170,25 @@ class HomeController extends Controller
 
       $uuid = Str::uuid()->toString();
       $countryCode = $request->input('country_code');
+
+      $country = Country::where(['phonecode' =>$countryCode ])->first();
+
+      $venue_available_country =  json_decode($venueAddress->venue_available_country);
+      $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
+
+      if(!$userCountry['allowed']){
+
+          return response()->json([
+              'status' => false,
+              'message' => $userCountry['message'],
+              'message_ur' => $userCountry['message_ur'],
+
+            ]);
+
+      }
+
+
+
       $timestamp = Carbon::now()->format('Yis'); // Current timestamp
       $randomString = rand(2, 100); // Generate a random string of 6 characters
 
@@ -763,9 +790,6 @@ class HomeController extends Controller
       ->get();
 
       if(!empty($venuesListArr)){
-
-
-
           return response()->json([
             'status' =>  true ,
           ]);
@@ -831,7 +855,11 @@ class HomeController extends Controller
       $isVisible = false;
         if ($venuesListArr) {
 
-            $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+            $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+
+
+
+           //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
             if ($status['allowed']) {
 
@@ -867,8 +895,6 @@ class HomeController extends Controller
                     'status' => false,
                     'message' => $status['message'],
                     'message_ur' => $status['message_ur'],
-                    'hours_until_open' => $status['hours_until_open'],
-                    'slotsAppearBefore' => $status['slotsAppearBefore'],
 
                   ]);
 
