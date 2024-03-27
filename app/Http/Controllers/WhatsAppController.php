@@ -278,9 +278,6 @@ class WhatsAppController extends Controller
                     ];
                     WhatsApp::create($dataArr);
                     return false;
-
-
-
                 }
 
 
