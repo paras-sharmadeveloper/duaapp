@@ -168,7 +168,7 @@
 
                                 <a href="{{ $currentTime->gte($venueAdd->venue_date) ? '#' : route('venues.edit', $venueAdd->id) }}"
                                     class="btn btn-primary{{ $currentTime->gte($venueAdd->venue_date) ? ' disabled' : '' }}">
-                                     {{ ($currentTime->gte($venueAdd->venue_date)) ? 'Time up to Edit' : 'Edit' }}
+                                     {{ ($currentTime->gte($venueAdd->venue_date)) ? 'Time up for Edit' : 'Edit' }}
                                 </a>
 
 
