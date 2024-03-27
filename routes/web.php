@@ -239,6 +239,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('visitor', VistorsController::class);
     Route::resource('country', VenueCountryController::class);
 
+    Route::post('/venue/pause/{id}', [VenueController::class, 'pauseResumeVenue'])->name('venues.pause');
+
+
+
     Route::post('/grid/fetch/booking', [AgGridManagement::class, 'getDataMessageLog'])->name('fetch.bookings');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.get');

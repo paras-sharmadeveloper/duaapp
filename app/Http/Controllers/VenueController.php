@@ -183,6 +183,13 @@ class VenueController extends Controller
     public function edit($id)
     {
         $venueAddress = VenueAddress::findOrFail($id);
+
+        $currentTime = Carbon::now()->tz($venueAddress->timezone ?? 'Asia/Karachi');
+
+        if($currentTime->gte($venueAddress->venue_date)){
+            return redirect()->route('venues.index')->with('error', 'Edit Not Possiable at the momment you can Pause the venue');
+        }
+
         $countries = Venue::all();
         $therapists = User::whereHas('roles', function ($query) {
             $query->where('name', 'therapist');
@@ -404,5 +411,12 @@ class VenueController extends Controller
             'type' => 'peer-to-peer',
         ]);
         return ['room_name' => $roomName, 'room_sid' => $room->sid];
+    }
+
+    public function pauseResumeVenue( Request $request, $id){
+        $cuurentStatus  = ($request->input('status') == 'active') ? 'inactive' : 'active';
+        VenueAddress::find($id)->update(['status' => $cuurentStatus]);
+        return redirect()->back()->with(['success' => 'Updated']);
+
     }
 }

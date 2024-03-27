@@ -35,6 +35,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    @if ($err = Session::get('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        {{ $err }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Manage Venues</h5>
@@ -65,7 +73,7 @@
                         <th> Status </th>
                         <th>Country Name</th>
                         <th>State/City</th>
-                        <th style="width: 200px">Sahib-e-Dua Name</th>
+                        {{-- <th style="width: 200px">Sahib-e-Dua Name</th> --}}
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
@@ -135,7 +143,7 @@
                                     alt="Flag Image">
                             </td>
                             <td>  {{ $venueAdd->city }} </td>
-                            <td>{{ $venueAdd->user->name }}</td>
+                            {{-- <td>{{ $venueAdd->user->name }}</td> --}}
                             <td>{{ $venueAdd->siteadmin->name }}</td>
                             <td>{{  strlen($venueAdd->address) > 80 ? substr($venueAdd->address,0,80)."..." : $venueAdd->address }}</td>
 
@@ -153,7 +161,18 @@
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td><span class="badge bg-{{  ($slotCreated > 0) ? "success" : "warning" }}"> {{  ($slotCreated > 0) ? 'Generated': 'In-porcess'  }} </span> </td>
                             <td class="d-flex-my cdt justify-content-between">
-                                <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a>
+
+                                @php
+                                    $currentTime = \Carbon\Carbon::now()->tz($venueAdd->timezone ?? 'Asia/Karachi');
+                                @endphp
+
+                                <a href="{{ $currentTime->gte($venueAdd->venue_date) ? '#' : route('venues.edit', $venueAdd->id) }}"
+                                    class="btn btn-primary{{ $currentTime->gte($venueAdd->venue_date) ? ' disabled' : '' }}">
+                                     {{ ($currentTime->gte($venueAdd->venue_date)) ? 'Time up to Edit' : 'Edit' }}
+                                </a>
+
+
+                                {{-- <a href="{{ route('venues.edit', $venueAdd->id) }}" class="btn btn-primary">Edit</a> --}}
 
                                 <form action="{{ route('venues.destroy', $venueAdd->id) }}" method="POST"
                                     style="display: inline;">
@@ -165,6 +184,17 @@
                                 <a href="{{ route('book.add',[$venueAdd->id]) }}" class="btn btn-info">BookSlot</a>
 
                                 <button  id="copyButton" class="btn btn-warning copyButton" data-href="{{ route('waiting-queue',[$venueAdd->id]) }}">CopyLink</button>
+
+                                <form action="{{ route('venues.pause', $venueAdd->id) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="status" value="{{$venueAdd->status}}">
+                                    @if($venueAdd->status == 'active')
+                                       <button  id="pauseBtn" class="btn btn-danger" >Click to Pause</button>
+                                    @else
+                                      <button  id="pauseBtn" class="btn btn-success" >Click to Resume</button>
+                                    @endif
+
+                                </form>
                             </td>
                         </tr>
 

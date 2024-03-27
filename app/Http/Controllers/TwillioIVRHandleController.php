@@ -260,6 +260,11 @@ class TwillioIVRHandleController extends Controller
                     ->orderBy('venue_date', 'ASC')
                     ->first();
 
+                    if($venuesListArr->status == 'inactive'){
+                        $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
+                        return response($response, 200)->header('Content-Type', 'text/xml');
+                    }
+
                 if (!empty($venuesListArr)) {
 
                     $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);

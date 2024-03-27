@@ -72,6 +72,8 @@ return new class extends Migration
 
                 $table->integer('reject_dua_id')->nullable();
                 $table->integer('reject_dum_id')->nullable();
+
+                $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
 

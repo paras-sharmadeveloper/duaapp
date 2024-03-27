@@ -119,14 +119,6 @@ class HomeController extends Controller
       // }
       $venueSlots = VenueSloting::find($request->input('slot_id'));
       $venueAddress = $venueSlots->venueAddress;
-
-
-
-
-
-
-
-
       // $tokenId = $venueSlots->token_id;
       $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
 
@@ -490,7 +482,7 @@ class HomeController extends Controller
       //   $query->whereDate('venue_date', $newDate)
       //     ->orWhereDate('venue_date', date('Y-m-d'));
       // })
-      ->get()->first();
+      ->first();
     // echo "<pre>"; print_r($venueAddress); die;
 
     $mytime = Carbon::now()->tz($timezone);
@@ -853,9 +845,22 @@ class HomeController extends Controller
 
 
       $isVisible = false;
+      if($venuesListArr->status == 'inactive'){
+         return response()->json([
+                'status' => false,
+                'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
+                'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
+
+          ]);
+      }
+
+
+
         if ($venuesListArr) {
 
-            $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+
+
+            $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
 
 
 
