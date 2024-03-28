@@ -72,8 +72,10 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' => 'Token booking is not yet allowed. Kindly Try at '.$venueStartTime->format('d M Y h:i A').' ('.$timezone.')',
-                'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی '.$venueStartTime->format('d M Y h:i A').' ('.$timezone.') پر آزمائیں۔',
+                'message' =>'Token Booking for Dua / Dum Appointment has not yet started. Kindly try again at below mentioned time: '.$venueStartTime->format('d M Y h:i A').' at  '.$venueStartTime->format('h:i A').' ('.$timezone.') Time zone',
+                'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔
+                '.$venueStartTime->format('d M Y h:i A').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
+
 
             ];
 
@@ -197,10 +199,11 @@ if (!function_exists('getCurrentContryTimezone')) {
         return $time->format('Y-m-d');
     }
 }
+if (!function_exists('getTotalTokens')) {
+    function getTotalTokens($venueId , $type){
+        return VenueSloting::where(['venue_address_id' => $venueId , 'type' => $type])->count();
 
-function getTotalTokens($venueId , $type){
-    return VenueSloting::where(['venue_address_id' => $venueId , 'type' => $type])->count();
-
+    }
 }
 
 

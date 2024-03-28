@@ -52,19 +52,21 @@ class WhatsAppController extends Controller
 
 
 
-
-
-
-
-
-
         // https://emojipedia.org/keycap-digit-five
+        // $whatsAppEmoji = [
+        //     '1' => '1️⃣',
+        //     '2' => '2️⃣',
+        //     '3' => '3️⃣',
+        //     '4' => '4️⃣',
+        //     '5' => '5️⃣'
+        // ];
+
         $whatsAppEmoji = [
-            '1' => '1️⃣',
-            '2' => '2️⃣',
-            '3' => '3️⃣',
-            '4' => '4️⃣',
-            '5' => '5️⃣'
+            '1' => '1',
+            '2' => '2',
+            '3' => '3',
+            '4' => '4',
+            '5' => '5'
         ];
 
         $options = [];
@@ -197,7 +199,7 @@ class WhatsAppController extends Controller
                     'response_options' => null
                 ];
                 WhatsApp::create($dataArr);
-                
+
 
                 return false;
 
@@ -612,7 +614,7 @@ class WhatsAppController extends Controller
         if ($step == 0 && $lang == '') {
 
             $message = <<<EOT
-            Please select your language?
+            Please enter your language?
             1 English
             2 Urdu
             EOT;
@@ -646,7 +648,7 @@ class WhatsAppController extends Controller
         else if ($step == 2) {
             if($lang =='eng'){
                 $message = <<<EOT
-                Please select your type of dua?
+                Please enter your type of dua?
                 1 Dua
                 2 Dum
                 EOT;

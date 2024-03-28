@@ -1084,6 +1084,7 @@
                                         <input type="number" class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
 
+
                                         <p> </p>
                                     </div>
                                     <div id="otpVerifiedMessage" class="text-center">
@@ -2049,26 +2050,27 @@
     <script>
         document.title = "Book Dua Meeting | KahayFaqeer.org";
         $(document).ready(function() {
-            // $('#mobile').on('input', function() {
-            //     // Get the value of the phone input
-            //     let phoneNumber = $(this).val();
+             $('#mobile').on('input', function() {
+                 // Get the value of the phone input
+                 let phoneNumber = $(this).val();
 
-            //     // Remove any non-digit characters (e.g., spaces, dashes)
-            //     phoneNumber = phoneNumber.replace(/\D/g, '');
+                 // Remove any non-digit characters (e.g., spaces, dashes)
+                 phoneNumber = phoneNumber.replace(/\D/g, '');
 
-            //     // Check if the phone number has reached 10 digits
-            //     if (phoneNumber.length === 5 || phoneNumber.length >= 5) {
-            //         // $("#submitBtn").hide();
-            //         // $("#opt-form-confirm").fadeIn(500);
-            //         // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
-            //         $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
-            //     } else {
-            //         $("#submitBtn").show();
-            //         $("#opt-form-confirm").fadeOut(500);
-            //         $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
-            //         // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
-            //     }
-            // });
+                 // Check if the phone number has reached 10 digits
+                 if (phoneNumber.length === 10) {
+                      $("#submitBtn").hide();
+                      $("#mobile-number").find('p').text('');
+                     // $("#opt-form-confirm").fadeIn(500);
+                     // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
+                     $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+                 } else {
+                     $("#submitBtn").show();
+                    //  $("#opt-form-confirm").fadeOut(500);
+                     $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+                    // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
+                 }
+             });
             $("#sendOtp").click(function() {
 
                 $this = $(this);
