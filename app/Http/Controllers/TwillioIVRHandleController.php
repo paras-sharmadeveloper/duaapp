@@ -284,7 +284,7 @@ class TwillioIVRHandleController extends Controller
 
                 if (!empty($venuesListArr)) {
 
-                    $status = TokenBookingAllowed($venuesListArr->venue_date, $ $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+                    $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
                     $venue_available_country =  json_decode($venuesListArr->venue_available_country);
                     $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
 
