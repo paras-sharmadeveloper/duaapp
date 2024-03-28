@@ -569,7 +569,9 @@ class HomeController extends Controller
       $phoneCode = '91';
     }
 
-    Session('phoneCode',$phoneCode);
+    session(['phoneCode' => $phoneCode]);
+
+
 
 
 
@@ -900,7 +902,8 @@ class HomeController extends Controller
 
 
             $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
-            $phoneCode = Session('phoneCode');
+            $phoneCode = session('phoneCode');
+
 
 
             return response()->json([
