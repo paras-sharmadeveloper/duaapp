@@ -22,7 +22,7 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Events\MyEvent;
-
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -74,7 +74,22 @@ Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTi
     ->withoutMiddleware(['web', 'verified'])
     ->name('ivr.handle.timeout');
 
+    Route::get('/test-mail', function () {
+        try {
+            // Replace 'recipient@example.com' with the actual recipient email address
+            $recipient = 'parassharmadeveloper@gmail.com';
 
+            // Send a simple test email
+            Mail::raw('This is a test email.', function ($message) use ($recipient) {
+                $message->to($recipient)
+                    ->subject('Test Email');
+            });
+
+            return 'Email sent successfully.';
+        } catch (Exception $e) {
+            return 'Failed to send email: ' . $e->getMessage();
+        }
+    });
 
 
 

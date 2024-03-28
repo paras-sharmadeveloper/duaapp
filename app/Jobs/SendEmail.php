@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\BookingConfirmationEmail;
-use Illuminate\Support\Facades\Mail;  
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Models\Vistors;
 class SendEmail implements ShouldQueue
@@ -21,7 +21,7 @@ class SendEmail implements ShouldQueue
      */
     public $tries = 3; // Number of retry attempts
     public $retryAfter = 60; // Delay between retries (in seconds)
-    
+
     protected $data;
     protected $recipient;
     protected $visitorId;
@@ -29,24 +29,24 @@ class SendEmail implements ShouldQueue
     {
         $this->data = $data;
         $this->recipient = $recipient;
-        $this->visitorId = $id; 
+        $this->visitorId = $id;
     }
 
     /**
      * Execute the job.
      */
     public function handle(): void
-    { 
+    {
         try {
-           Mail::to($this->recipient)->send(new BookingConfirmationEmail($this->data)); 
-           Vistors::find($this->visitorId)->update(['email_sent_at' => date('y-m-d H:i:s')]); 
+           Mail::to($this->recipient)->send(new BookingConfirmationEmail($this->data));
+           Vistors::find($this->visitorId)->update(['email_sent_at' => date('y-m-d H:i:s')]);
 
-        
-  
+
+
         } catch (\Exception $e) {
             Log::error('Job failed: ' . $e->getMessage());
-         
-        } 
+
+        }
     }
- 
+
 }
