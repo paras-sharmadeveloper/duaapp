@@ -54,7 +54,7 @@ if (!function_exists('TokenBookingAllowed')) {
 
             return [
                 'allowed' => true,
-                'message' => 'Token booking is allowed.' . $currentTime->format('d M Y h:i A') ,
+                'message' => 'Token booking is allowed.' ,
                 'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
                 'currentTime' => $currentTime->format('d M y h:i A')
             ];
@@ -63,7 +63,7 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' => 'You are not allowed to book now . because time is already passed for this venue. Please try next time Thank You'. $currentTime->format('d M Y h:i A'),
+                'message' => 'You are not allowed to book now . because time is already passed for this venue. Please try next time Thank You',
                 'message_ur' =>  'آپ کو ابھی بک کرنے کی اجازت نہیں ہے۔ کیونکہ اس مقام کے لیے وقت گزر چکا ہے۔ براہ کرم اگلی بار کوشش کریں شکریہ',
 
             ];
@@ -72,7 +72,7 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' => 'Token booking is not yet allowed. Kindly Try at '.$venueStartTime->format('d M Y h:i A').' ('.$timezone.')' . $currentTime->format('d M Y h:i A'),
+                'message' => 'Token booking is not yet allowed. Kindly Try at '.$venueStartTime->format('d M Y h:i A').' ('.$timezone.')',
                 'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی '.$venueStartTime->format('d M Y h:i A').' ('.$timezone.') پر آزمائیں۔',
 
             ];
