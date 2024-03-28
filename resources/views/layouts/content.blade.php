@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>{{ ucwords(str_replace('/' , ' > ' , request()->path())) }}</h1>
       <nav>
         <div class="row">
           <div class="col-lg-8">
@@ -23,7 +23,7 @@
               </div>
           </div>
         </div>
-        
+
       </nav>
 
     </div><!-- End Page Title -->

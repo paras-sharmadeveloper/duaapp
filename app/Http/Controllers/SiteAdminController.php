@@ -15,7 +15,8 @@ class SiteAdminController extends Controller
         $role = Auth::user()->roles->pluck('name')->first();
         if($role == 'admin'){
             $venueAddress = VenueAddress::where(['type' =>'on-site'])
-           //  ->where('venue_date','>',date('Y-m-d'))
+            ->whereDate('venue_date','>=',date('Y-m-d'))
+             // ->where('venue_date','>=',date('Y-m-d'))
             ->orderBy('venue_date','asc')
             ->get();
         }else{

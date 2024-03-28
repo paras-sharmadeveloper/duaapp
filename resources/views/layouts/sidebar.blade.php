@@ -194,7 +194,7 @@
       @endcanany
 
       @canany('visitor-booking-access')
-      <li class="nav-item">
+      <li class="nav-item d-none">
         <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Visitor Booking</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
