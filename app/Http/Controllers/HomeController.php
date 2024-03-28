@@ -43,13 +43,13 @@ class HomeController extends Controller
 
   public function bookingAdmin($id)
   {
-    $slots = VenueSloting::where(['venue_address_id' => $id])
-      ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-      ->orderBy('slot_time','ASC')
-      ->get();
-    $countries = Country::all();
-    $venueAddress = VenueAddress::find($id);
-    return view('admin-booking', compact('id', 'slots', 'countries', 'venueAddress'));
+        $slots = VenueSloting::where(['venue_address_id' => $id])
+        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+        ->orderBy('slot_time','ASC')
+        ->get();
+        $countries = Country::all();
+        $venueAddress = VenueAddress::find($id);
+        return view('admin-booking', compact('id', 'slots', 'countries', 'venueAddress'));
   }
 
 
@@ -127,12 +127,9 @@ class HomeController extends Controller
       // if($venueAddress->rejoin_venue_after > 0){
       //   $isUsers = $this->IsRegistredAlready($selfieImage);
       // }
-
       // $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
       $rejoin = $venueAddress->rejoin_venue_after;
     //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
-
-
     //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
       $user = Vistors::where('phone', 'like', '%' . $validatedData['mobile'] . '%')->first();
 
@@ -905,10 +902,6 @@ class HomeController extends Controller
             $phoneCode = session('phoneCode');
 
 
-
-
-
-
             $country = Country::where('phonecode', $phoneCode)->first();
             $venue_available_country =  json_decode($venuesListArr->venue_available_country);
             $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
@@ -1187,6 +1180,20 @@ class HomeController extends Controller
     return ['success' => 1, 'message' => 'deleted'];
   }
 
+
+  public  function getSlotsAjax(Request $request)
+  {
+
+    $slotArr = VenueSloting::where(['venue_address_id' =>  $request->input('venueId') , 'type' => $request->dua_option ])
+    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+    ->orderBy('id', 'ASC')
+    ->get(['venue_address_id', 'token_id', 'id']);
+
+    return response()->json(['success' => true, 'data' => $slotArr ,'venueId' =>  $request->input('venueId') ], 200);
+
+
+
+  }
   private function bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus)
   {
     $message = <<<EOT

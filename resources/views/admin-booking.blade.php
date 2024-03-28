@@ -1,21 +1,22 @@
 @extends('layouts.app')
 @section('content')
-<style>
-.tr-overlay {
-    width: 100%;
-    background-color: #333;
-    overflow: hidden;
-    margin: 30px 0px;
-    text-align: center;
-}
+    <style>
+        .tr-overlay {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+            margin: 30px 0px;
+            text-align: center;
+        }
 
-.wrapper {
-  height: auto;
-}
-.tr-overlay .container {
-    color: white;
-}
-</style>
+        .wrapper {
+            height: auto;
+        }
+
+        .tr-overlay .container {
+            color: white;
+        }
+    </style>
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -54,20 +55,21 @@
                 <h5 class="card-title">Create Manual Booking</h5>
                 <div class="tr-overlay">
                     <div class="wrapper">
-                    <div class="container">
-                  
-                      <h4> About Venue</h4>
-                      <p>{{ $venueAddress->thripist->name }} </p>
-                      <p>{{ $venueAddress->venue_date }} </p> 
-                      <p>{{ $venueAddress->address }} </p>
-                      <p>{{ $venueAddress->venue->country_name }} </p>
-                      <p> <span class="badge bg-success"> {{ ($venueAddress->type == 'on-site') ? 'Physical' : 'Online' }} </span> </p>
-                    </div>
-                    
-                    </div>
-                    </div>
+                        <div class="container">
 
-               
+                            <h4> About Venue</h4>
+                            <p>{{ $venueAddress->thripist->name }} </p>
+                            <p>{{ $venueAddress->venue_date }} </p>
+                            <p>{{ $venueAddress->address }} </p>
+                            <p>{{ $venueAddress->venue->country_name }} </p>
+                            <p> <span class="badge bg-success">
+                                    {{ $venueAddress->type == 'on-site' ? 'Physical' : 'Online' }} </span> </p>
+                        </div>
+
+                    </div>
+                </div>
+
+
 
                 {!! Form::open([
                     'route' => 'booking.submit',
@@ -77,17 +79,26 @@
                 ]) !!}
                 <input type="hidden" name="from" value="admin">
                 {{-- Just for Tracking Purpose --}}
-                <input type="hidden" name="user_question" value="admin-side-booking"> 
-                
-                <div class="col-md-6">
-                  <div class="input-group">
-                      <span class="input-group-text" id="inputGroupPrepend2">Pick Time</span>
-                      <select class="form-control"  name="slot_id">
-                        @foreach($slots as $slot)
-                          <option value="{{ $slot->id }}">{{ Carbon\Carbon::parse($slot->slot_time)->format('h:i A') }}</option>
-                        @endforeach
-                      </select>
-                  </div>
+                <input type="hidden" name="user_question" value="admin-side-booking">
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Pick Time</span>
+                        <select class="form-control" name="type_dua" id="type_dua">
+                            <option> -- Select Dua Option-- </option>
+                            <option value="dum">Dum</option>
+                            <option value="dua">Dua</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">Pick Time</span>
+                        <select class="form-control" name="slot_id" id="token_id">
+
+                        </select>
+                    </div>
                 </div>
 
                 {{-- <div class="col-md-3">
@@ -110,15 +121,16 @@
                     </div>
                 </div> --}}
                 <div class="col-md-2">
-                  <div class="input-group">
-                   
-                    <select class="form-control js-states "  name="country_code" id="country_code">
-                      @foreach($countries as $country)
-                        <option value="{{ $country->phonecode }}">{{ $country->nicename }}  (+{{$country->phonecode }})</option>
-                      @endforeach
-                    </select>
-                  </div>
-              </div>
+                    <div class="input-group">
+
+                        <select class="form-control js-states " name="country_code" id="country_code">
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->phonecode }}">{{ $country->nicename }}
+                                    (+{{ $country->phonecode }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Phone</span>
@@ -126,7 +138,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Create Booking</button>
@@ -137,12 +149,53 @@
             </div>
         </div>
     </div>
-<style>
-  .select2-container--default .select2-selection--single {  height: 36px; }
-  </style>
+    <style>
+        .select2-container--default .select2-selection--single {
+            height: 36px;
+        }
+    </style>
 @endsection
 @section('page-script')
-<script>document.title = 'Manual Booking';
- $("#country_code").select2({ placeholder: "Select country", allowClear: true });
-</script>
+    <script>
+        document.title = 'Manual Booking';
+        $("#country_code").select2({
+            placeholder: "Select country",
+            allowClear: true
+        });
+
+        $("#type_dua").change(function() {
+
+            var typeDua = $(this).find(':selected').val();
+            var venueAddressId = "{{ $id  }}";
+
+            console.log("typeDua",typeDua)
+            console.log("venueAddressId",venueAddressId)
+
+            $.ajax({
+                url: "{{ route('get-slots') }}",
+                type: 'POST',
+                data: {
+                    dua_option: typeDua,
+                    venueId : venueAddressId,
+                    _token: "{{ csrf_token() }}"
+                },
+
+                success: function(response) {
+                    var options = '';
+
+                    $.each(response.data , function(i,item){
+                        options+=`<option value='${item.id}'> ${item.token_id} </option>`;
+
+                    })
+                    $("#token_id").html(options)
+
+                    // You can proceed with form submission here
+                },
+                error: function(xhr) {
+
+                }
+            });
+
+        });
+    </script>
 @endsection

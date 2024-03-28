@@ -404,6 +404,10 @@ class TwillioIVRHandleController extends Controller
                         $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
                     }
 
+                }else{
+                    // No venue
+                    $response->play($this->statementUrl.$lang . '/cant_book_dua_meeting.wav');
+
                 }
             }else {
 

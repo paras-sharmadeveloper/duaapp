@@ -162,20 +162,11 @@ class WhatsAppController extends Controller
           //   City
             $step = $existingCustomer->steps + 1;
             $lang =  $existingCustomer->lang;
-
-
             $dua_option = ($Respond == 1) ? 'dua' : 'dum';
-
-
-
-
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where('venue_date', '>=', date('Y-m-d'))
                 ->take(3)
                 ->get();
-
-
-
 
             if(empty($venuesListArr)){
                 $message = $this->WhatsAppbotMessages('', 9 , $lang);

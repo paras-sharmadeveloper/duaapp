@@ -207,6 +207,11 @@ Route::any('/book/reschedule/{id}', [BookingController::class, 'BookingReschdule
 Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
 
 Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
+Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
+
+
+
+
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
 Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
