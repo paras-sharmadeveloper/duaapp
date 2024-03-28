@@ -915,6 +915,7 @@ class HomeController extends Controller
                     'status' => false,
                     'message' => $userCountry['message'],
                     'message_ur' => $userCountry['message_ur'],
+                    'phoneCode' => $phoneCode
 
                   ]);
 
