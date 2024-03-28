@@ -911,8 +911,8 @@ class HomeController extends Controller
                       'status' =>  true ,
                       'token_id' => $tokenIs->token_id,
                       'slot_id' => $tokenIs->id,
-                      'hours_until_open' => $status['hours_until_open'],
-                    'slotsAppearBefore' => $status['slotsAppearBefore'],
+                    //   'hours_until_open' => $status['hours_until_open'],
+                    // 'slotsAppearBefore' => $status['slotsAppearBefore'],
                     ]);
                   }else{
                     return response()->json([
@@ -920,8 +920,8 @@ class HomeController extends Controller
                       'message' => "There is no token avilable",
                       'dt' =>$request->input('duaType'),
                       'dtd' =>$venuesListArr->id,
-                      'hours_until_open' => $status['hours_until_open'],
-                      'slotsAppearBefore' => $status['slotsAppearBefore'],
+                    //   'hours_until_open' => $status['hours_until_open'],
+                    //   'slotsAppearBefore' => $status['slotsAppearBefore'],
                     ]);
                   }
 
