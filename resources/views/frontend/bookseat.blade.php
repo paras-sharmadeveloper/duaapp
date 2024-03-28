@@ -1081,7 +1081,13 @@
 
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
                                         <label class="mb-2"> {{ trans('messages.mobile-label') }}</label>
-                                        <input type="number" class="form-control" id="mobile" name="mobile"
+                                        <input
+
+                                        type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+
+
+
+                                        class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
 
 
