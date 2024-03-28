@@ -939,7 +939,7 @@ class HomeController extends Controller
 
             if ($status['allowed']) {
 
-                Session('phoneCode','');
+                session()->forget('phoneCode');
 
 
                 $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
