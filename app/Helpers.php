@@ -59,7 +59,7 @@ if (!function_exists('TokenBookingAllowed')) {
                 'currentTime' => $currentTime->format('d M y h:i A')
             ];
 
-        }else if($currentTime->isPast()){
+        }else if ($currentTime->gt($venueEndTime)) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
@@ -68,8 +68,7 @@ if (!function_exists('TokenBookingAllowed')) {
 
             ];
 
-        }
-        else{
+        }else{
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
