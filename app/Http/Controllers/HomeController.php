@@ -903,8 +903,16 @@ class HomeController extends Controller
             $phoneCode = Session('phoneCode');
 
 
+            return response()->json([
+                'status' => false,
+                'message' => '',
+                'message_ur' => '',
+                'phoneCode' =>  Session('phoneCode')
 
-            $country = Country::where('phonecode', str_replace('+', '',$phoneCode))->first();
+              ]);
+
+
+            $country = Country::where('phonecode', $phoneCode)->first();
             $venue_available_country =  json_decode($venuesListArr->venue_available_country);
             $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
 
