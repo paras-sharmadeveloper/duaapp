@@ -1387,7 +1387,6 @@
                         var cardId = $activeCard.attr("data-id");
                         var CityName = $activeCard.attr("data-city");
                         var event = $activeCard;
-                        console.log("$activeCard",)
 
                         if (event.hasClass('dua-section')) {
                             $("#dua_type").val($activeCard.attr("data-id"));
@@ -1439,9 +1438,6 @@
                         $("#remeber-steps-app").val(oldTitle);
 
                         $(this).parents('.justify-content-center').find('.head>label').text(oldTitle);
-
-
-
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass(
                             'active');
 
@@ -2059,14 +2055,15 @@
 
                  // Check if the phone number has reached 10 digits
                  if (phoneNumber.length === 10) {
-                      $("#submitBtn").hide();
+                      $("#submitBtn").show();
                       $("#mobile-number").find('p').text('');
                      // $("#opt-form-confirm").fadeIn(500);
                      // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
                      $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
                  } else {
-                     $("#submitBtn").show();
+                     $("#submitBtn").hide();
                     //  $("#opt-form-confirm").fadeOut(500);
+                    $("#mobile-number").find('p').text('Please enter 10 digit Number');
                      $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
                     // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
                  }
