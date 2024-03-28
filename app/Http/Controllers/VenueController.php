@@ -147,8 +147,8 @@ class VenueController extends Controller
             'venue_available_country' => $venue_available_country,
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
-            'reject_dua_id' => ($request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
-            'reject_dum_id' => ($request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
+            'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
             // 'timezone' => $timezone->timezone,
             'status_page_note_ur' => $request->input('status_page_note_ur'),
@@ -291,8 +291,8 @@ class VenueController extends Controller
 
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
-            'reject_dua_id' => ($request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
-            'reject_dum_id' => ($request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
+            'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];
 
         $VenueAddress->update($dataArr);
