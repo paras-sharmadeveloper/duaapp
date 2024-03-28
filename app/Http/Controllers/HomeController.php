@@ -568,6 +568,14 @@ class HomeController extends Controller
       $userDetail['countryName'] = 'India';
       $phoneCode = '91';
     }
+
+    Session('phoneCode',$phoneCode);
+
+
+
+
+
+
     // echo "<pre>"; print_r($userDetail); die;
     $countryCode = $userDetail['countryCode'];
 
@@ -892,12 +900,39 @@ class HomeController extends Controller
 
 
             $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+            $phoneCode = Session('phoneCode');
+
+
+
+            $country = Country::where('phonecode', str_replace('+', '',$phoneCode))->first();
+            $venue_available_country =  json_decode($venuesListArr->venue_available_country);
+            $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
+
+            if(!$userCountry['allowed']){
+                Session('phoneCode','');
+
+                return response()->json([
+                    'status' => false,
+                    'message' => $userCountry['message'],
+                    'message_ur' => $userCountry['message_ur'],
+
+                  ]);
+
+            }
+
+
+
+
+
+
 
 
 
            //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
             if ($status['allowed']) {
+
+                Session('phoneCode','');
 
 
                 $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
