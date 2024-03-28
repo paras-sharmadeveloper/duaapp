@@ -2063,7 +2063,7 @@
                  } else {
                      $("#submitBtn").hide();
                     //  $("#opt-form-confirm").fadeOut(500);
-                    $("#mobile-number").find('p').text('Please enter 10 digit Number');
+                    $("#mobile-number").find('p').text('Please enter 10 digit Number').addClass('error');
                      $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
                     // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
                  }
