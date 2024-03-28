@@ -906,13 +906,7 @@ class HomeController extends Controller
 
 
 
-            return response()->json([
-                'status' => false,
-                'message' => '',
-                'message_ur' => '',
-                'phoneCode' =>  Session('phoneCode')
 
-              ]);
 
 
             $country = Country::where('phonecode', $phoneCode)->first();
@@ -920,7 +914,8 @@ class HomeController extends Controller
             $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
 
             if(!$userCountry['allowed']){
-                Session('phoneCode','');
+                session()->forget('phoneCode');
+
 
                 return response()->json([
                     'status' => false,
