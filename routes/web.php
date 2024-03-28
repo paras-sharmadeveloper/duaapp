@@ -34,45 +34,45 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
+// IVR is Temperory on hold form system
 
-
-Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.welcome');
-
-Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.dua.option');
-
-Route::post('/ivr/welcome/inputs', [TwillioIVRHandleController::class, 'handleWelcomeInputs'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.welcome.after-lang');
-
-
-
-
-Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.start');
-
-Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.pickcity');
-
-// Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
+// Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
 //     ->withoutMiddleware(['web', 'verified'])
-//     ->name('ivr.dates');
+//     ->name('ivr.welcome');
 
-// Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
+// Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
 //     ->withoutMiddleware(['web', 'verified'])
-//     ->name('ivr.time');
-Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.makebooking');
+//     ->name('ivr.dua.option');
 
-Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTimeout'])
-    ->withoutMiddleware(['web', 'verified'])
-    ->name('ivr.handle.timeout');
+// Route::post('/ivr/welcome/inputs', [TwillioIVRHandleController::class, 'handleWelcomeInputs'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.welcome.after-lang');
+
+
+
+
+// Route::post('/ivr/start/flow', [TwillioIVRHandleController::class, 'StartFlow'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.start');
+
+// Route::post('/ivr/pickcity', [TwillioIVRHandleController::class, 'handleCity'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.pickcity');
+
+//             // Route::post('/ivr/dates', [TwillioIVRHandleController::class, 'handleDates'])
+//             //     ->withoutMiddleware(['web', 'verified'])
+//             //     ->name('ivr.dates');
+
+//             // Route::post('/ivr/time', [TwillioIVRHandleController::class, 'handleSlots'])
+//             //     ->withoutMiddleware(['web', 'verified'])
+//             //     ->name('ivr.time');
+// Route::post('/ivr/makebooking', [TwillioIVRHandleController::class, 'MakeBooking'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.makebooking');
+
+// Route::post('/ivr/handle-timeout', [TwillioIVRHandleController::class, 'handleTimeout'])
+//     ->withoutMiddleware(['web', 'verified'])
+//     ->name('ivr.handle.timeout');
 
     Route::get('/test-mail', function () {
         try {
