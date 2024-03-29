@@ -1081,12 +1081,7 @@
 
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
                                         <label class="mb-2"> {{ trans('messages.mobile-label') }}</label>
-                                        <input
-
-                                        type="number" min="0" inputmode="numeric" pattern="[0-9]*"
-
-
-
+                                        <input type="number" min="0" inputmode="numeric" pattern="[0-9]*"
                                         class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
 
@@ -2052,6 +2047,7 @@
     <script>
         document.title = "Book Dua Meeting | KahayFaqeer.org";
         $(document).ready(function() {
+
              $('#mobile').on('input', function() {
                  // Get the value of the phone input
                  let phoneNumber = $(this).val();

@@ -241,7 +241,7 @@ class WhatsAppController extends Controller
 
 
             if(empty($cityArr)){
-                $data = ($lang =='eng') ?'Currently no venue or city available':  'فی الحال کوئی مقام یا شہر دستیاب نہیں ہے۔';
+                $data = ($lang =='eng') ?'No dua/dum appointment is available at this time. Please try again later.':  'اس وقت کوئی دعا/دم ملاقات دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.';
                 $message = $this->WhatsAppbotMessages($data, 9 , $lang);
             }else{
                 $data = implode("\n", $cityArr);
@@ -419,8 +419,10 @@ class WhatsAppController extends Controller
                         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
                         $statusNote =($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+                        $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
 
                         $statusLink = route('booking.status', $uuid);
+
                         $pdfLink = '';
                         $duaby ='';
 
@@ -546,7 +548,7 @@ class WhatsAppController extends Controller
 
                             EOT;
 
-                        $this->sendMessage($userPhoneNumber, $subScription);
+                        // $this->sendMessage($userPhoneNumber, $subScription);
                     } else {
 
 

@@ -101,7 +101,6 @@ class SiteAdminController extends Controller
 
             return view('site-admin.search-div',compact('venueSloting'));
 
-
     }
 
     public function verifyPhoneIvr($id){

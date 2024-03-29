@@ -36,9 +36,9 @@ use Illuminate\Support\Facades\Mail;
 
 // IVR is Temperory on hold form system
 
-// Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
-//     ->withoutMiddleware(['web', 'verified'])
-//     ->name('ivr.welcome');
+Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingCall'])
+    ->withoutMiddleware(['web', 'verified'])
+    ->name('ivr.welcome');
 
 // Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
 //     ->withoutMiddleware(['web', 'verified'])
@@ -196,9 +196,6 @@ Route::post('/process-scan', [BookingController::class, 'processScan'])->name('p
 
 Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
 
-
-
-
 Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
 
 Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
@@ -208,9 +205,6 @@ Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->nam
 
 Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
 Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
-
-
-
 
 Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
 Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');

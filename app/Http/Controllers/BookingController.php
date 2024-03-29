@@ -29,17 +29,19 @@ class BookingController extends Controller
         $id = $request->input('id');
 
         $update =[];
-        $vistor = Vistors::where(['booking_uniqueid' => $id ])->first();
+        $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
-        $timezone = $vistor->venueSloting->venueAddress->timezone;
+        $timezone = $visitor->venueSloting->venueAddress->timezone;
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
         $now = $currentTime->timezone($timezone);
 
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
-        if($vistor->user_status == 'admitted' && $vistor->is_available == 'confirmed') {
-            return response()->json(['success' => false , 'message' => 'User already Confirmed' ]);
+        $printToken = view('frontend.print-token',compact('visitor'))->render();
+
+        if($visitor->user_status == 'admitted' && $visitor->is_available == 'confirmed') {
+            return response()->json(['success' => false , 'message' => 'User already Confirmed and Already Printed','printToken' => $printToken ,'print' => false ]);
         }
 
 
@@ -65,8 +67,9 @@ class BookingController extends Controller
             ];
 
         }
-        $vistor->update( $update);
-        return response()->json(['success' => true , 'token' => $vistor->slot->token_id , 'message' => 'Confirmed. Token Number '. $vistor->slot->token_id  ]);
+        $visitor->update($update);
+
+        return response()->json(['success' => true ,'printToken' => $printToken ,'token' => $visitor->slot->token_id , 'message' => 'Confirmed. Token Number '. $visitor->slot->token_id  ]);
 
         // Perform necessary actions based on the scanned content
 

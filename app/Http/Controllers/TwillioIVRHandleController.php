@@ -34,6 +34,8 @@ class TwillioIVRHandleController extends Controller
 
     public function handleIncomingCall(Request $request)
     {
+
+        return false;  // This chanel no more needed
         $response = new VoiceResponse();
         $existingData = $this->getexistingCustomer($request->input('From'));
 
