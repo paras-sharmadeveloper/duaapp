@@ -52,3 +52,12 @@
            <b> KahayFaqeer.org </b>
        </div>
    </div>
+<!-- HTML content -->
+
+<script>
+    // Wait for the page to fully load
+    window.onload = function() {
+        // Call the print function
+        window.print();
+    };
+</script>
