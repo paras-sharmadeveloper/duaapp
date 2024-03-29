@@ -31,10 +31,10 @@ class HomeController extends Controller
         $today = date('Y-m-d');
         $venueAddress = VenueAddress::where('venue_date', 'LIKE', "%{$today}%")->get();
         $distinctCities = $venueAddress->pluck('city')->unique();
-        $getDates = $venueAddress->whereIn('city', $distinctCities)
-            ->pluck('id', 'city');
+        $getDates = $venueAddress->whereIn('city', $distinctCities)->pluck('id', 'city');
 
         if ($request->ajax()) {
+
             $city = $request->input('city');
             $venueAddress = VenueAddress::where(['city' => $city])->where('venue_date', 'LIKE', "%{$today}%")->select('id', 'venue_date')->get();;
             return response()->json($venueAddress);
@@ -134,7 +134,7 @@ class HomeController extends Controller
             //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
             $user = Vistors::where('phone', 'like', '%' . $validatedData['mobile'] . '%')->first();
 
-            if ($user) {
+            if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 // $rejoin = $venueAddress->rejoin_venue_after;
 
@@ -152,10 +152,6 @@ class HomeController extends Controller
             //   if (!empty($isUsers) && $isUsers['status'] == false) {
             //     return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
             //   }
-
-
-
-
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
 
@@ -170,7 +166,6 @@ class HomeController extends Controller
                     'status' => false,
                     'message' => $userCountry['message'],
                     'message_ur' => $userCountry['message_ur'],
-
                 ]);
             }
 
@@ -201,8 +196,6 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
-
-
 
 
             // Save the booking record
