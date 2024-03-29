@@ -136,7 +136,7 @@ Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
 
 Route::get('/print-this', function () {
 
-    return view('frontend.print-token');
+    return view('frontend.print-token-new');
 
     $text = "thankyou for your visit at Dua Ghar\n\nYour Token Number #150\n\nVerified\nThank you\nTeam KahayFaqeer";
 
