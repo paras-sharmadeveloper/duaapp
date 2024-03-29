@@ -31,7 +31,7 @@
 
 
        <div id="token">
-           Dum Token # 1
+           Dum Token #1
        </div>
 
        <div id="date">
