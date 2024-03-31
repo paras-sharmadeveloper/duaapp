@@ -161,8 +161,14 @@ if (!function_exists('userAllowedRejoin')) {
                 $recordAge = $user->created_at->diffInDays(now());
                 $rejoin = $rejoin_venue_after;
                 $daysRemaining = $rejoin  - $recordAge;
+
+                Log::info("rejoin".$rejoin);
+
+                Log::info("daysRemaining".$daysRemaining);
+                Log::info("recordAge".$recordAge);
+
                 if ($rejoin > 0 && $recordAge <= $rejoin) {
-                    Log::info("if".$user->phone);
+
                     return [
                         'allowed' => false,
                         'message' => 'You already Booked a Token with us. Please Try after ' . $daysRemaining . ' days',
