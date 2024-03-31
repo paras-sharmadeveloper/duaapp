@@ -325,7 +325,7 @@ class WhatsAppController extends Controller
 
 
 
-                if($venuesListArr->status == 'inactive'){
+                if(!empty($venuesListArr) && $venuesListArr->status == 'inactive'){
 
                     $data = ($lang =='eng') ? 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You':  'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ';
                     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
@@ -348,6 +348,26 @@ class WhatsAppController extends Controller
 
 
 
+                 }else{
+                    $data = ($lang =='eng') ?  'There is no Dua / Dum token booking available for today. Please try again later.':
+                        'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.';
+                    $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                    $this->sendMessage($userPhoneNumber, $message);
+
+                    $dataArr = [
+                        'lang' => $lang,
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' => $message,
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => $step,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
+                    return false;
                  }
 
             if (!empty($venuesListArr)) {

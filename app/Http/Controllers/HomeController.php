@@ -971,8 +971,8 @@ class HomeController extends Controller
             } else {
                 return response()->json([
                     'status' =>  false,
-                    'message' => "There is no venue for the Selected Date.",
-
+                    'message' => 'There is no Dua / Dum token booking available for today. Please try again later.',
+                    'message_ur' => 'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',
 
                 ]);
             }
