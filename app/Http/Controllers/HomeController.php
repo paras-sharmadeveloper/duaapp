@@ -134,7 +134,7 @@ class HomeController extends Controller
             $rejoin = $venueAddress->rejoin_venue_after;
             //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
             //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
-            $user = Vistors::where('phone', 'like', '%' . $validatedData['mobile'] . '%')->first();
+            $user = Vistors::where('phone',$validatedData['mobile'])->first();
 
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
@@ -178,6 +178,7 @@ class HomeController extends Controller
 
             // $bookingNumber = $timestamp . $randomString;
             $bookingNumber =  $tokenId;
+            $tokenType = $request->input('dua_type');
             // Create a new Vistors record in the database
             $mobile = $countryCode . $validatedData['mobile'];
             $booking = new Vistors;
@@ -205,7 +206,9 @@ class HomeController extends Controller
 
             $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
-             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $mymobile, $request->input('lang'));
+
+            $token  = $tokenId.' ('.ucwords($tokenType).')';
+             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('lang'));
              $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
             //   $slotDuration = $venueAddress->slot_duration;
@@ -294,7 +297,7 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             Log::error('Booking error' . $e);
 
-            return response()->json(['message' => $e, "status" => false], 422);
+            return response()->json(['message' => $e->getMessage(), "status" => false], 422);
         }
     }
 
