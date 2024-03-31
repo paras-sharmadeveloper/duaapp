@@ -907,12 +907,8 @@ class HomeController extends Controller
 
             if ($venuesListArr) {
 
-
-
                 $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
                 $phoneCode = session('phoneCode');
-
-
                 $country = Country::where('phonecode', $phoneCode)->first();
                 $venue_available_country =  json_decode($venuesListArr->venue_available_country);
                 $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
