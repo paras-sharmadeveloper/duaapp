@@ -70,9 +70,9 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' =>'Token Booking for Dua / Dum Appointment has not yet started. Kindly try again at below mentioned time: '.$venueStartTime->format('d M Y h:i A').' at  '.$venueStartTime->format('h:i A').' ('.$timezone.') Time zone',
+                'message' =>'Token Booking for Dua / Dum Appointment has not yet started. Kindly try again at below mentioned time: '.$venueStartTime->format('d M Y').' at  '.$venueStartTime->format('h:i A').' ('.$timezone.') Time zone',
                 'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔
-                '.$venueStartTime->format('d M Y h:i A').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
+                '.$venueStartTime->format('d M Y').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
 
 
             ];
