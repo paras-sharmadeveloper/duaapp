@@ -349,8 +349,7 @@ class WhatsAppController extends Controller
 
 
                  }else{
-                    $data = ($lang =='eng') ?  'There is no Dua / Dum token booking available for today. Please try again later.':
-                        'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.';
+                    $data = ($lang =='eng') ?  'There is no Dua / Dum token booking available for today. Please try again later.':  'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.';
                     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
                     $this->sendMessage($userPhoneNumber, $message);
 
