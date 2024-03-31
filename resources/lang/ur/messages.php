@@ -19,7 +19,7 @@ return [
     'finish' => 'ختم کرنا',
     'Lahore' => 'لاہور',
     'Islamabad' => 'اسلام آباد',
-    'Karchi' => 'کرچی',
+    'Karachi' => 'کراچی',
     'back-btn' => 'پیچھے',
     'next-btn' => 'آگے',
     'submit-btn' => 'جمع کرائیں',

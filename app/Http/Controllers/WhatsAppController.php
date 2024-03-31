@@ -85,6 +85,7 @@ class WhatsAppController extends Controller
                 EOT;
 
             $this->sendMessage($userPhoneNumber, $message);
+            $this->FlushEntries($userPhoneNumber);
 
             return false;
         }
@@ -194,7 +195,7 @@ class WhatsAppController extends Controller
                     'response_options' => null
                 ];
                 WhatsApp::create($dataArr);
-
+                $this->FlushEntries($userPhoneNumber);
 
                 return false;
 
@@ -215,6 +216,7 @@ class WhatsAppController extends Controller
                     'response_options' => null
                 ];
                 WhatsApp::create($dataArr);
+                $this->FlushEntries($userPhoneNumber);
 
                 return false;
             }
@@ -316,6 +318,7 @@ class WhatsAppController extends Controller
                         'response_options' => null
                     ];
                     WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
                     return false;
 
                 }
@@ -340,6 +343,7 @@ class WhatsAppController extends Controller
                         'response_options' => null
                     ];
                     WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
                     return false;
 
 
@@ -379,6 +383,7 @@ class WhatsAppController extends Controller
                         'response_options' => null
                     ];
                     WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
                     return false;
                 }
 

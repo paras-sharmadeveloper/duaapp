@@ -19,7 +19,7 @@ return [
     'no_dum_dua' => 'No dua/dum appointment is available at this time. Please try again later.',
     'Lahore' => 'Lahore',
     'Islamabad' => 'Islamabad',
-    'Karchi' => 'Karchi',
+    'Karachi' => 'Karachi',
     'back-btn' => 'Back',
     'next-btn' => 'Next',
     'submit-btn' => 'Finish',
