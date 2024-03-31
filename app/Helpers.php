@@ -150,7 +150,9 @@ if (!function_exists('userAllowedRejoin')) {
     function userAllowedRejoin($mobile, $rejoin_venue_after)
     {
 
-        $user = Vistors::where('phone', $mobile)->first();
+        $user = Vistors::where('phone', $mobile)
+               ->orderBy('id', 'desc')
+               ->first();
 
 
          Log::info("userAllowedRejoin".$user->phone);
