@@ -220,11 +220,31 @@
         </ul>
       </li>
       @endcanany
-      <li class="nav-item">
-        <a class="{{ ( $currentPath == 'reason') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('reasons.index') }}">
-          <i class="bi bi-grid"></i>
-          <span>Reject Reason</span>
+
+      <li class="nav-item ">
+        <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Reject Reason</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+        <ul id="visitor-booking-nav"
+        class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
+        data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('reasons.announcement') }}"
+            class="{{ ( $currentPath == 'reasons.announcement') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Announcement</span>
+            </a>
+          </li>
+
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('reasons.index') }}"
+            class="{{ ( $currentPath == 'reasons.index') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Reason/Announcement List</span>
+            </a>
+          </li>
+
+
+        </ul>
       </li>
 
 

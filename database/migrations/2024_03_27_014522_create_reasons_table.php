@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('reason_english')->nullable();
             $table->text('reason_urdu')->nullable();
             $table->string('reason_ivr_path')->nullable();
+            $table->enum('type',['reject_reason','announcement','general'])->nullable();
             $table->timestamps();
         });
     }

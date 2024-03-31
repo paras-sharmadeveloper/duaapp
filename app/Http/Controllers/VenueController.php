@@ -41,7 +41,7 @@ class VenueController extends Controller
         })->get();
         $venueAddress = [];
         $venueCountry = Country::all();
-        $reasons = Reason::all();
+        $reasons = Reason::where(['type' => 'reject_reason'])->get();
         return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry','venueAddress','reasons'));
     }
 
@@ -198,7 +198,7 @@ class VenueController extends Controller
             $query->where('name', 'site-admin');
         })->get();
         $venueCountry = Country::all();
-        $reasons = Reason::all();
+        $reasons = Reason::where(['type' => 'reject_reason'])->get();
         return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry','reasons' ));
     }
 

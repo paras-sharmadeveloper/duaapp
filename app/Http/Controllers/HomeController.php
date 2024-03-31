@@ -69,7 +69,9 @@ class HomeController extends Controller
         $countryList = Country::all();
         $therapists = $therapistRole->users;
         $timezones = Country::with('timezones')->get();
-        return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale'));
+
+        $reasons = Reason::where(['type' => 'announcement'])->first();
+        return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale' ,'reasons'));
     }
 
     public function BookingSubmit(Request $request)
@@ -137,7 +139,6 @@ class HomeController extends Controller
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 // $rejoin = $venueAddress->rejoin_venue_after;
-
                 $rejoin = $venueAddress->rejoin_venue_after;
                 $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
                 if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
@@ -202,10 +203,10 @@ class HomeController extends Controller
             // Save the booking record
             $booking->save();
 
-           // $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
-          //  $mymobile = '+' . $countryCode . $validatedData['mobile'];
-            // $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $mymobile, $request->input('lang'));
-            // $this->sendWhatsAppMessage($mobile, $message);
+            $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
+            $mymobile = '+' . $countryCode . $validatedData['mobile'];
+             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $mymobile, $request->input('lang'));
+             $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
             //   $slotDuration = $venueAddress->slot_duration;
             //   $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
@@ -950,7 +951,9 @@ class HomeController extends Controller
                     } else {
                         return response()->json([
                             'status' =>  false,
-                            'message' => "There is no token avilable",
+                            'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                            'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+                           //  'message' => "There is no token avilable",
                             'dt' => $request->input('duaType'),
                             'dtd' => $venuesListArr->id,
                             //   'hours_until_open' => $status['hours_until_open'],

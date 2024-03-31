@@ -428,6 +428,7 @@ class WhatsAppController extends Controller
 
                         // $tokenId = $venueSlots->token_id;
                         $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
+                        $tokenType = $tokenIs->type;
                         $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
                         $venue = $venueAddress->venue;
                         $result = $this->formatWhatsAppNumber($cleanedNumber);
@@ -435,6 +436,8 @@ class WhatsAppController extends Controller
                         $timestamp = strtotime($tokenIs->slot_time);
                         $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
                         $uuid = Str::uuid()->toString();
+
+                        $token  = $tokenId.' ('.ucwords($tokenType).')';
 
                         $venueDate = ($lang == 'eng') ? date("d M Y", strtotime($venueAddress->venue_date)) : date("d m Y", strtotime($venueAddress->venue_date));
                         Vistors::create([
@@ -473,7 +476,7 @@ class WhatsAppController extends Controller
 
                         $venueAddress->address
 
-                        Token #$tokenId
+                        Token #$token
 
                         Your Mobile : $userMobile
 
@@ -586,10 +589,8 @@ class WhatsAppController extends Controller
                         // $this->sendMessage($userPhoneNumber, $subScription);
                     } else {
 
-
-
-                        $data = implode("\n", []);
-                        $message = $this->WhatsAppbotMessages($data, $step);
+                        $data = ($lang == 'eng') ? 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.' : 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔';
+                        $message = $this->WhatsAppbotMessages($data, 9,$lang);
                         $this->sendMessage($userPhoneNumber, $message);
                     }
 

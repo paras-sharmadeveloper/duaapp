@@ -30,6 +30,7 @@
         <h5 class="card-title">Reasons List</h5>
 
         <a href="{{ route('reasons.create') }}" class="btn btn-primary mb-3">Add Reason</a>
+        <a href="{{ route('reasons.announcement') }}" class="btn btn-primary mb-3">Add Announcement</a>
 
         <table class="table-with-buttons table table-responsive cell-border dataTable no-footer ">
             <thead>
@@ -37,7 +38,8 @@
                     <th>Label</th>
                     <th>Reason English</th>
                     <th>Reason Urdu</th>
-                    <th>Reason IVR</th>
+                    <th>Type</th>
+                    {{-- <th>Reason IVR</th> --}}
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -47,13 +49,14 @@
                     <td>{{ $reason->label }}</td>
                     <td>{{ $reason->reason_english }}</td>
                     <td>{{ $reason->reason_urdu }}</td>
-                    <td>
+                    <td>{{ Str::ucfirst(str_replace('_',' ' , $reason->type))   }}</td>
+                    {{-- <td>
                         <audio controls>
                             <source src="{{ $reason->reason_ivr_path }}" type="audio/ogg">
                           </audio>
-                    </td>
+                    </td> --}}
                     <td>
-                        <a href="{{ route('reasons.edit', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{{ ($reason->type =='reject_reason') ? route('reasons.edit', $reason->id): route('reasons.edit.announcement', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
                         <form action="{{ route('reasons.destroy', $reason->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')

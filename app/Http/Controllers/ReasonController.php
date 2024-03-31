@@ -33,6 +33,8 @@ class ReasonController extends Controller
         $reason->reason_english = $request->reason_english;
         $reason->reason_urdu = $request->reason_urdu;
 
+        $reason->type = $request->from;
+
         if ($request->hasFile('reason_ivr')) {
             $path = $request->file('reason_ivr')->store('reason_ivr', 's3_general');
             $reason->reason_ivr_path = env('AWS_GENERAL_PATH'). $path;
@@ -63,6 +65,7 @@ class ReasonController extends Controller
         $reason->label = $request->label;
         $reason->reason_english = $request->reason_english;
         $reason->reason_urdu = $request->reason_urdu;
+        $reason->type = $request->from;
 
         if ($request->hasFile('reason_ivr')) {
             // Delete old IVR file

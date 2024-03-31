@@ -816,8 +816,16 @@
                                 </span>
                                 <b> {{ trans('messages.startbooking') }} </b>
                             </button>
+
                          </div>
+                         <div class="myanoucements text-center py-2">
+                            <p>{{$reasons->reason_english}}</p>
+                            <p> {{$reasons->reason_urdu}}</p>
+                         </div>
+
                     </div>
+
+
                 </div>
 
 
