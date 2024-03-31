@@ -894,7 +894,7 @@ class HomeController extends Controller
 
 
 
-            if ($venuesListArr->status == 'inactive') {
+            if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
                 return response()->json([
                     'status' => false,
                     'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
