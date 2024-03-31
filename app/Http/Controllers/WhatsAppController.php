@@ -407,30 +407,30 @@ class WhatsAppController extends Controller
                         $venueAddress = $tokenIs->venueAddress;
 
 
-                        // $rejoin = $venueAddress->rejoin_venue_after;
+                         $rejoin = $venueAddress->rejoin_venue_after;
                         // Rejoin Stat
 
 
-                        // $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
-                        // if(!$rejoinStatus['allowed']){
-                        //     $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
-                        //     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
-                        //     $this->sendMessage($userPhoneNumber, $message);
+                        $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+                        if(!$rejoinStatus['allowed']){
+                            $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
+                            $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                            $this->sendMessage($userPhoneNumber, $message);
 
-                        //     $dataArr = [
-                        //         'lang' => $lang,
-                        //         'dua_option' => $dua_option,
-                        //         'customer_number' => $userPhoneNumber,
-                        //         'customer_response' => $Respond,
-                        //         'bot_reply' =>  $message,
-                        //         'data_sent_to_customer' => $message,
-                        //         'last_reply_time' => date('Y-m-d H:i:s'),
-                        //         'steps' => $step,
-                        //         'response_options' => null
-                        //     ];
-                        //     WhatsApp::create($dataArr);
-                        //     return false;
-                        // }
+                            $dataArr = [
+                                'lang' => $lang,
+                                'dua_option' => $dua_option,
+                                'customer_number' => $userPhoneNumber,
+                                'customer_response' => $Respond,
+                                'bot_reply' =>  $message,
+                                'data_sent_to_customer' => $message,
+                                'last_reply_time' => date('Y-m-d H:i:s'),
+                                'steps' => $step,
+                                'response_options' => null
+                            ];
+                            WhatsApp::create($dataArr);
+                            return false;
+                        }
 
 
                         // $tokenId = $venueSlots->token_id;
