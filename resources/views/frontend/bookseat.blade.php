@@ -1041,7 +1041,7 @@
                     <div class="col-lg-12 col-md-12" id="successForm">
                         <div class="mb-5">
                             <!-- Final step -->
-                            <div class="alert alert-warning text-center d-none" role="alert">
+                            <div class="alert alert-danger text-center d-nne" role="alert" id="myalert">
                             </div>
 
                             <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
@@ -1089,7 +1089,7 @@
 
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
                                         <label class="mb-2"> {{ trans('messages.mobile-label') }}</label>
-                                        <input type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+                                        <input type="text" min="0" inputmode="numeric" pattern="[0-9]*"
                                         class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
 
@@ -1788,6 +1788,7 @@
     </script>
     <script>
         $(document).ready(function() {
+            $("#myalert").addClass('d-none')
             // Add an event listener to the form's submit event
             $('#booking-form').submit(function(event) {
                 $this = $("#submitBtn");
@@ -1826,10 +1827,12 @@
                     },
                     error: function(error, xhr) {
 
-                        console.log("error", error.status)
+                        console.log("error", error)
 
                         if (error.status == 406) {
-                            $("#errors").html(error.responseJSON.message).show();
+                            console.log("error", error.responseJSON.message)
+                            $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+                            // $("#errors").html(error.responseJSON.message).show();
                         }
                         $this.find('b').text(defaultText)
                         if (error.responseJSON || error.responseJSON.errors) {
@@ -1844,10 +1847,11 @@
                                 }, 2000);
                             }
                             var errors = error.responseJSON.errors;
-                            $("#errors").html(error.responseJSON.message);
+                            $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+                            // $("#errors").html(error.responseJSON.message);
 
                             // Clear any existing error messages
-                            $('.alert-danger').remove();
+                            // $('.alert-danger').remove();
                             $(".error").remove();
                             $.each(errors, function(field, messages) {
 
@@ -1910,11 +1914,11 @@
                         $("#slot-information-user").find('label').text("Your Current Timezone:" +
                             response.timezone);
                         $("#timezone-hidden").val(response.timezone)
-                        $("#slot-listing").html(html).find(".loader").hide();
+                        $("#myalert").html(html).removeClass('d-none');
                         $(".confirm").show();
                         $(".back").show();
                     } else {
-                        $("#slot-listing").html("<h1>" + response.message + "</h1>");
+                        $("#myalert").html("<h1>" + response.message + "</h1>").removeClass('d-none');
                         $(".confirm").hide();
                         $(".back").show();
 
