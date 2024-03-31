@@ -819,8 +819,8 @@
 
                          </div>
                          <div class="myanoucements text-center py-2">
-                            <p>{{ ($reasons) ?? $reasons->reason_english}}</p>
-                            <p> {{($reasons) ?? $reasons->reason_urdu}}</p>
+                            <p>{{ ($reasons) ? $reasons->reason_english : ''}}</p>
+                            <p> {{($reasons) ? $reasons->reason_urdu : ''}}</p>
                          </div>
 
                     </div>
