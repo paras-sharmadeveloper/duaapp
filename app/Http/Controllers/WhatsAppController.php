@@ -46,7 +46,11 @@ class WhatsAppController extends Controller
             $this->deleteRecordAfter30($existingCustomer);
         }
 
-        // $user = Vistors::Where('phone', $validatedData['mobile'])->first();
+       // $user = Vistors::where('phone', $cleanNumber)->first();
+
+
+
+
         $dataArr = [];
         $countryId = Venue::where(['iso' => 'PK'])->get()->first();
 
@@ -282,6 +286,37 @@ class WhatsAppController extends Controller
                 ->whereDate('venue_date',$today)
                 ->orderBy('venue_date', 'ASC')
                 ->first();
+
+                $rejoin = $venuesListArr->rejoin_venue_after;
+
+                $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+
+                if (!$rejoinStatus['allowed']){
+
+
+                    $data = ($lang =='eng') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
+
+                  //   $data = ($lang =='eng') ? 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You':  'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ';
+                    $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                    $this->sendMessage($userPhoneNumber, $message);
+
+                    $dataArr = [
+                        'lang' => $lang,
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' => $message,
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => $step,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    return false;
+
+                }
+
+
 
                 if($venuesListArr->status == 'inactive'){
 

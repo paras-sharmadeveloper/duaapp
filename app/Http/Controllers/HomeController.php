@@ -142,7 +142,8 @@ class HomeController extends Controller
                 $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
                 if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
                     $source = "Website";
-                    return response()->json(['message' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after . ' ', "status" => false], 406);
+                    $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
+                    return response()->json(['message' => $message, "status" => false], 406);
                 } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
                     $source = "Admin";
                     return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);

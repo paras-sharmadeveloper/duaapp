@@ -12,9 +12,7 @@ use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 
-// if (!function_exists('CheckVenueActiveOrNot')) {
 
-// }
 
 if (!function_exists('VenueAvilableInCountry')) {
 
