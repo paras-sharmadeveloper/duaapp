@@ -153,9 +153,9 @@ if (!function_exists('userAllowedRejoin')) {
         $user = Vistors::where('phone', $mobile)->first();
 
 
-        // Log::info("userAllowedRejoin",$user->phone);
-        Log::info("mobile",$mobile);
-        Log::info("rejoin_venue_after",$rejoin_venue_after);
+         Log::info("userAllowedRejoin".$user->phone);
+        Log::info("mobile". $mobile);
+        Log::info("rejoin_venue_after".$rejoin_venue_after);
 
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
