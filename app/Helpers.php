@@ -46,7 +46,7 @@ if (!function_exists('TokenBookingAllowed')) {
        // $venueStartTime = Carbon::parse($venueStartDateTime,$timezone);
         // $venueEndTime = Carbon::parse($venueEndDateTime,$timezone);
 
-        $currentTime = Carbon::now($timezone)->tz($timezone);
+        $currentTime = Carbon::now()->tz($timezone);
 
         if($currentTime->gte($venueStartDateTime) && $currentTime->lte($venueEndDateTime)){
 
