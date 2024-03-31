@@ -289,6 +289,10 @@ class WhatsAppController extends Controller
 
                 $rejoin = $venuesListArr->rejoin_venue_after;
 
+                $waId = $request->input('WaId');
+                $countryCode = $this->findCountryByPhoneNumber($waId);
+                $cleanNumber = str_replace($countryCode, '', $waId);
+
                 $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
 
                 if (!$rejoinStatus['allowed']){
@@ -390,7 +394,7 @@ class WhatsAppController extends Controller
                     ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                     ->where(['type' => $dua_option])
                     ->orderBy('id', 'ASC')
-                    ->select(['venue_address_id', 'token_id', 'id'])->first();
+                    ->select(['venue_address_id', 'token_id', 'id','type'])->first();
 
                     if ($tokenIs) {
 
@@ -399,31 +403,34 @@ class WhatsAppController extends Controller
                         // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
                         $slotId = $tokenIs->id;
                         $duaType = $tokenIs->type;
+
                         $venueAddress = $tokenIs->venueAddress;
 
+
+                        // $rejoin = $venueAddress->rejoin_venue_after;
                         // Rejoin Stat
 
-                        $rejoin = $venueAddress->rejoin_venue_after;
-                        $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
-                        if(!$rejoinStatus['allowed']){
-                            $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
-                            $message = $this->WhatsAppbotMessages($data, 9 , $lang);
-                            $this->sendMessage($userPhoneNumber, $message);
 
-                            $dataArr = [
-                                'lang' => $lang,
-                                'dua_option' => $dua_option,
-                                'customer_number' => $userPhoneNumber,
-                                'customer_response' => $Respond,
-                                'bot_reply' =>  $message,
-                                'data_sent_to_customer' => $message,
-                                'last_reply_time' => date('Y-m-d H:i:s'),
-                                'steps' => $step,
-                                'response_options' => null
-                            ];
-                            WhatsApp::create($dataArr);
-                            return false;
-                        }
+                        // $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+                        // if(!$rejoinStatus['allowed']){
+                        //     $data = ($lang =='eng') ? $rejoinStatus['message'] :  $rejoinStatus['message_ur'];
+                        //     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+                        //     $this->sendMessage($userPhoneNumber, $message);
+
+                        //     $dataArr = [
+                        //         'lang' => $lang,
+                        //         'dua_option' => $dua_option,
+                        //         'customer_number' => $userPhoneNumber,
+                        //         'customer_response' => $Respond,
+                        //         'bot_reply' =>  $message,
+                        //         'data_sent_to_customer' => $message,
+                        //         'last_reply_time' => date('Y-m-d H:i:s'),
+                        //         'steps' => $step,
+                        //         'response_options' => null
+                        //     ];
+                        //     WhatsApp::create($dataArr);
+                        //     return false;
+                        // }
 
 
                         // $tokenId = $venueSlots->token_id;
@@ -465,6 +472,8 @@ class WhatsAppController extends Controller
                         $duaby ='';
 
                         if($lang == 'eng'){
+                            $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+
 
                         $message = <<<EOT
 
@@ -493,6 +502,8 @@ class WhatsAppController extends Controller
                         EOT;
 
                         }else{
+                        $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+
                         $message = <<<EOT
 
                         آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅

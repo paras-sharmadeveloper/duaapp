@@ -69,7 +69,8 @@ class BookingController extends Controller
         }
         $visitor->update($update);
 
-        return response()->json(['success' => true ,'printToken' => $printToken ,'token' => $visitor->slot->token_id , 'message' => 'Confirmed. Token Number '. $visitor->slot->token_id  ]);
+        return response()->json(['success' => true ,'printToken' => $printToken ,'token' => $visitor->slot->token_id ,
+        'message' => 'Confirmed. Token Number '. $visitor->slot->token_id  ]);
 
         // Perform necessary actions based on the scanned content
 

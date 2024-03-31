@@ -29,8 +29,8 @@ if (!function_exists('VenueAvilableInCountry')) {
         }else{
             return [
                 'allowed' => false,
-                'message' => 'Currently Your Country not allowed to book token with us. please try again in future venues.',
-                'message_ur' => 'فی الحال آپ کے ملک کو ہمارے ساتھ ٹوکن بک کرنے کی اجازت نہیں ہے۔ براہ کرم مستقبل کے مقامات پر دوبارہ کوشش کریں۔',
+                'message' => 'You cannot book dua/dum token from your country as online or phone dua appointment is not possible. For more information you can submit query via  "Contact Us" on our website KahayFaqeer.org',
+                'message_ur' => 'آپ اپنے ملک سے دعا/دم ٹوکن بک نہیں کر سکتے کیونکہ آن لائن یا فون کی دعا اپائنٹمنٹ ممکن نہیں ہے۔ مزید معلومات کے لیے آپ ہماری ویب سائٹ KahayFaqeer.org پر "ہم سے رابطہ کریں" کے ذریعے استفسار جمع کر سکتے ہیں۔',
             ];
         }
 
@@ -61,8 +61,8 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' => 'You are not allowed to book now . because time is already passed for this venue. Please try next time Thank You',
-                'message_ur' =>  'آپ کو ابھی بک کرنے کی اجازت نہیں ہے۔ کیونکہ اس مقام کے لیے وقت گزر چکا ہے۔ براہ کرم اگلی بار کوشش کریں شکریہ',
+                'message' => 'Dua / Dum token booking is now closed as all tokens are now allocated to visitors. Please try again next week. Thank you',
+                'message_ur' =>  'دعا/دم ٹوکن کی بکنگ اب بند ہے کیونکہ تمام ٹوکنز اب زائرین کے لیے مختص ہیں۔ براہ کرم اگلے ہفتے دوبارہ کوشش کریں۔ شکریہ',
 
             ];
 
@@ -73,7 +73,7 @@ if (!function_exists('TokenBookingAllowed')) {
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
-                'message' =>'Token Booking for Dua / Dum Appointment has not yet started. Kindly try again at below mentioned time: '.$venueStartDateTime->format('d M Y').' at  '.$venueStartDateTime->format('h:i A').' ('.$timezone.') Time zone',
+                'message' =>'Token Booking for Dua / Dum has not started yet. Kindly try again at below mentioned time: '.$venueStartDateTime->format('d M Y').' at  '.$venueStartDateTime->format('h:i A').' ('.$timezone.') Time zone',
                 'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔ '.$venueStartDateTime->format('d-M-Y').' at '.$venueStartDateTime->format('h:i A').' ('.$timezone.') Timezon',
 
 
@@ -136,7 +136,7 @@ if (!function_exists('isAllowedTokenBooking')) {
         } else {
             return [
                 'allowed' => false,
-                'message' => 'Token booking is not yet allowed.  Kindly Wait for ' . $hoursRemaining . ' hours ' ,
+                'message' => 'Token booking has not started yet.  Kindly Wait for ' . $hoursRemaining . ' hours ' ,
                 'message_ur' => 'ٹوکن بکنگ کی ابھی اجازت نہیں ہے۔ برائے مہربانی ' . $hoursRemaining . ' کا انتظار کریں۔ گھنٹے',
                 'hours_until_open' => $hoursRemaining,
                 'slotsAppearBefore' => $slotsAppearBefore,
@@ -152,7 +152,7 @@ if (!function_exists('userAllowedRejoin')) {
     function userAllowedRejoin($mobile, $rejoin_venue_after)
     {
 
-        $user = Vistors::Where('phone','LIKE',$mobile)->first();
+        $user = Vistors::where('phone', $mobile)->first();
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 $rejoin = $rejoin_venue_after;

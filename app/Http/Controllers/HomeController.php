@@ -134,10 +134,10 @@ class HomeController extends Controller
             $rejoin = $venueAddress->rejoin_venue_after;
             //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
             //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
-            $user = Vistors::where('phone',$validatedData['mobile'])->first();
+            // $user = Vistors::where('phone',$validatedData['mobile'])->first();
 
-            if (!empty($user)) {
-                $recordAge = $user->created_at->diffInDays(now());
+            // if (!empty($user)) {
+                // $recordAge = $user->created_at->diffInDays(now());
                 // $rejoin = $venueAddress->rejoin_venue_after;
                 $rejoin = $venueAddress->rejoin_venue_after;
                 $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
@@ -149,7 +149,7 @@ class HomeController extends Controller
                     $source = "Admin";
                     return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
                 }
-            }
+            // }
 
             //   if (!empty($isUsers) && $isUsers['status'] == false) {
             //     return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
@@ -1253,7 +1253,7 @@ class HomeController extends Controller
         $duaby = '';
 
         if ($lang == 'en') {
-            //$pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+            $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
 
@@ -1282,7 +1282,7 @@ class HomeController extends Controller
             EOT;
         } else {
 
-            // $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+             $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
 
