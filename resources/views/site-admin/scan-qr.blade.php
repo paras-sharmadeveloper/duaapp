@@ -54,7 +54,7 @@ div#model-body {
             <!-- Modal footer -->
             <div class="modal-footer">
               <button type="button" class="btn btn-danger close" data-dismiss="modal">Close</button>
-              <button type="button" id="printButton" onclick="printDiv('model-body')" class="btn btn-dark ">Print </button>
+              {{-- <button type="button" id="printButton" onclick="printDiv('model-body')" class="btn btn-dark ">Print </button> --}}
             </div>
 
           </div>
