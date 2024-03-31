@@ -5,8 +5,7 @@ use App\Models\Venue;
 use App\Models\{Vistors,VenueSloting};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
-
-
+use Illuminate\Support\Facades\Log;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
@@ -152,6 +151,12 @@ if (!function_exists('userAllowedRejoin')) {
     {
 
         $user = Vistors::where('phone', $mobile)->first();
+
+
+        Log::info("userAllowedRejoin",$user->phone);
+        Log::info("mobile",$mobile);
+        Log::info("rejoin_venue_after",$rejoin_venue_after);
+
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 $rejoin = $rejoin_venue_after;
