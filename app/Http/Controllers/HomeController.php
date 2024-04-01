@@ -147,7 +147,7 @@ class HomeController extends Controller
                     return response()->json(['message' => $message, "status" => false], 406);
                 } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
                     $source = "Admin";
-                    return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before ' . $recordAge . ' Day You can Rejoin only After ' . $venueAddress->rejoin_venue_after]);
+                    return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before']);
                 }
             // }
 
