@@ -325,7 +325,7 @@ class WhatsAppController extends Controller
 
 
 
-                if($venuesListArr->status == 'inactive'){
+                if( !empty($venuesListArr) &&  $venuesListArr->status == 'inactive'){
 
                     $data = ($lang =='eng') ? 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You':  'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ';
                     $message = $this->WhatsAppbotMessages($data, 9 , $lang);
