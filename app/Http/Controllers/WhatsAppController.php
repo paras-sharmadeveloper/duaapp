@@ -14,6 +14,292 @@ use Illuminate\Support\Facades\Log;
 
 class WhatsAppController extends Controller
 {
+    private $countryId;
+    public function __construct($var = null) {
+
+
+        $this->countryId = Venue::where(['iso' => 'PK'])->get()->first();
+    }
+
+
+    public function handleWebhook(Request $request)
+    {
+
+        $body = $request->all();
+        $today = Carbon::now();
+        $NextDate = $today->addDay();
+        $newDate = $NextDate->format('Y-m-d');
+        // Extract necessary information from the incoming request
+        $userPhoneNumber = $body['From'];
+        $waId = $body['WaId'];
+        $Respond = $body['Body'];
+        $responseString = strval($Respond);
+
+        $countryCode = $this->findCountryByPhoneNumber($waId);
+        $cleanNumber = str_replace($countryCode, '', $waId);
+
+        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+
+        $venue = VenueAddress::where('venue_id', $this->countryId->id)
+               //  ->where('city',  $cityName[0])
+                ->whereDate('venue_date',$today)
+                ->orderBy('venue_date', 'ASC')
+                ->first();
+        $options = [];
+        $responseAccept = [];
+
+        $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
+
+        $venue_available_country =  json_decode($venue->venue_available_country);
+
+        $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
+
+        if(!empty($existingCustomer) && !empty($venue)){
+            $rejoin = $venue->rejoin_venue_after;
+            $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+            if( !empty($venue) &&  $venue->status == 'inactive'){
+
+                $message = $this->WhatsAppbotMessagesNew('For some reason currently this venue not accepting bookings. Please try after some time. Thank You', 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ');
+                $this->sendMessage($userPhoneNumber, $message);
+
+                $dataArr = [
+                    'lang' => 'en',
+                    'dua_option' => [],
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' => $message,
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => 0,
+                    'response_options' => null
+                ];
+                WhatsApp::create($dataArr);
+                // $this->FlushEntries($userPhoneNumber);
+                return false;
+
+             }
+             else if(!$userCountry['allowed']){
+
+                $message = $this->WhatsAppbotMessagesNew($userCountry['message'], $userCountry['message_ur']);
+
+                $this->sendMessage($userPhoneNumber, $message);
+
+                $dataArr = [
+                    'lang' => 'en',
+                    'dua_option' => [],
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' => $message,
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => 0,
+                    'response_options' => null
+                ];
+                WhatsApp::create($dataArr);
+                // $this->FlushEntries($userPhoneNumber);
+                return false;
+            }
+
+            else if (!$rejoinStatus['allowed']){
+                $message = $this->WhatsAppbotMessagesNew($rejoinStatus['message'], $rejoinStatus['message_ur']);
+                $this->sendMessage($userPhoneNumber, $message);
+                $dataArr = [
+                    'customer_number' => $userPhoneNumber,
+                    'customer_response' => $Respond,
+                    'bot_reply' =>  $message,
+                    'data_sent_to_customer' => json_encode([]),
+                    'last_reply_time' => date('Y-m-d H:i:s'),
+                    'steps' => 0,
+                    'response_options' => implode(',', $options)
+                ];
+
+                WhatsApp::create($dataArr);
+                return false;
+            }
+            else
+            if($status['allowed']){
+                $dua_option ='';
+                if(in_array($responseString, $responseAccept) && $responseString == 1){
+                    $dua_option ='dua';
+                }
+                if(in_array($responseString, $responseAccept) && $responseString == 2){
+                    $dua_option ='dum';
+                }
+
+                $tokenIs = VenueSloting::where('venue_address_id', $venue->id)
+                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->where(['type' => $dua_option])
+                ->orderBy('id', 'ASC')
+                ->select(['venue_address_id', 'token_id', 'id','type'])->first();
+
+                if ($tokenIs) {
+
+
+                    $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+                    // $slotId = $this->findKeyByValueInArray($data_sent_to_customer, $Respond);
+                    $slotId = $tokenIs->id;
+                    $duaType = $tokenIs->type;
+
+                    $venueAddress = $tokenIs->venueAddress;
+
+
+                     $rejoin = $venueAddress->rejoin_venue_after;
+                    // Rejoin Stat
+                    $tokenId = str_pad($tokenIs->token_id, 2, '0', STR_PAD_LEFT);
+                    $tokenType = $tokenIs->type;
+                    $cleanedNumber = str_replace('whatsapp:', '', $userPhoneNumber);
+                    $venue = $venueAddress->venue;
+                    $result = $this->formatWhatsAppNumber($cleanedNumber);
+                    $userMobile = $result['mobileNumber'];
+                    $timestamp = strtotime($tokenIs->slot_time);
+                    $slotTime = date('h:i A', $timestamp) . '(' . $venueAddress->timezone . ')';
+                    $uuid = Str::uuid()->toString();
+
+                    $token  = $tokenId.' ('.ucwords($tokenType).')';
+
+                    $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
+                    $venueDateUr =  date("d m Y", strtotime($venueAddress->venue_date));
+
+                    Vistors::create([
+                        'is_whatsapp' => 'yes',
+                        'slot_id' => $slotId,
+                        'meeting_type' => 'on-site',
+                        'booking_uniqueid' =>  $uuid,
+                        'booking_number' => $tokenId,
+                        'country_code' => '+' . $countryCode,
+                        'phone' => $cleanNumber,
+                        'source' => 'WhatsApp',
+                        'dua_type' => $dua_option,
+                        'lang' => 'en'
+                    ]);
+                    $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
+
+                    $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
+
+                   // $statusNote =($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+                  //  $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
+
+                    $statusLink = route('booking.status', $uuid);
+
+                    $pdfLink = '';
+                    $duaby ='';
+
+
+                    $pdfLinkEn = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+                    $pdfLinkUr = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+
+                    $message = <<<EOT
+
+                    پ کی دعا سے ملاقات کی تصدیق  $duaby ✅ سے ہوئی۔
+
+                    واقعہ کی تاریخ : $venueDateUr
+
+                    مقام: $venueAddress->city
+
+                    $venueAddress->address_ur
+
+                    ٹوکن #$token
+
+                    آپ کا موبائل : $userMobile
+
+                    ملاقات کا دورانیہ : $appointmentDuration
+
+                    $venueAddress->status_page_note_ur
+                    اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+
+                    $statusLink
+
+                    $pdfLinkUr
+
+                    Your Dua Appointment Confirmed With $duaby ✅
+
+                    Event Date : $venueDateEn
+
+                    Venue : $venueAddress->city
+
+                    $venueAddress->address
+
+                    Token #$token
+
+                    Your Mobile : $userMobile
+
+                    Appointment Duration : $appointmentDuration
+
+                    $venueAddress->status_page_note
+                    To view your token online please click below:
+
+                    $statusLink
+
+                    $pdfLinkEn
+                    EOT;
+
+
+                    $this->sendMessage($userPhoneNumber, $message);
+                    $dataArr = [
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' => 'Slot Booked',
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 1
+                    ];
+                    WhatsApp::create($dataArr);
+              }
+
+
+
+
+
+            }
+
+        }
+
+
+        if(empty($existingCustomer) && !empty($venue)){
+
+            $options = ['1' ,'2' ,'0'];
+
+
+            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below ,
+
+            Please enter your type of dua?
+            *1* Dua
+            *2* Dum
+            *0* Cancel';
+
+            $dataUr = 'فی الحال ہم *'.$venue->city.'* کے ساتھ کھلے ہیں۔ اگر آپ شہر کے لیے دعا/دم بک کرنا چاہتے ہیں تو براہ کرم نیچے نمبر درج کریں،
+
+            براہ کرم اپنی دعا کی قسم درج کریں؟
+            *1* دعا
+            *2* دم
+            *0* منسوخ کریں۔';
+
+            $message = $this->WhatsAppbotMessagesNew($dataEn, $dataUr);
+            $this->sendMessage($userPhoneNumber, $message);
+
+            $data = [
+                '1' => '*1* Dua' ,
+                '2' => '*2* Dum' ,
+                '0' => '*0* Cancel' ,
+             ];
+
+             $dataArr = [
+                 'customer_number' => $userPhoneNumber,
+                 'customer_response' => $Respond,
+                 'bot_reply' =>  $message,
+                 'data_sent_to_customer' => json_encode($data),
+                 'last_reply_time' => date('Y-m-d H:i:s'),
+                 'steps' => 0,
+                 'response_options' => implode(',', $options)
+             ];
+
+             WhatsApp::create($dataArr);
+        }
+
+
+    }
+
+
 
     public function deleteRecordAfter30($existingCustomer){
         $createdAt = Carbon::parse($existingCustomer->created_at);
@@ -25,7 +311,7 @@ class WhatsAppController extends Controller
         }
     }
 
-    public function handleWebhook(Request $request)
+    public function handleWebhook1(Request $request)
     {
         $body = $request->all();
         $today = Carbon::now();
@@ -664,6 +950,22 @@ class WhatsAppController extends Controller
         }
 
     }
+
+
+    private function WhatsAppbotMessagesNew($dataEn, $dataUr)
+    {
+
+        $message = <<<EOT
+            KahayFaqeer.org دعا اپائنٹمنٹ شیڈولر میں خوش آمدید۔
+            {{1}}
+            Welcome to the KahayFaqeer.org Dua Appointment Scheduler.
+            {{2}}
+            EOT;
+
+
+        return $message;
+    }
+
 
     private function WhatsAppbotMessages($data, $step,$lang='')
     {
