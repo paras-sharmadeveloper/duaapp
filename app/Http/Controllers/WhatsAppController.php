@@ -172,6 +172,8 @@ class WhatsAppController extends Controller
                     $dua_option ='dum';
                 }
 
+                Log::info('allowed dua_option'.$dua_option);
+
                 $tokenIs = VenueSloting::where('venue_address_id', $venue->id)
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                 ->where(['type' => $dua_option])
