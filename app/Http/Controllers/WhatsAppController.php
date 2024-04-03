@@ -58,7 +58,7 @@ class WhatsAppController extends Controller
             Log::info('Test'.$this->countryId->id);
 
 
-            $options = ['1' ,'2' ,'0'];
+            $options = ['1' ,'2'];
 
 
             $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below. Please enter your type of dua?
@@ -94,6 +94,14 @@ class WhatsAppController extends Controller
 
 
         if(!empty($existingCustomer) && !empty($venue)){
+
+            $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+            if(empty( $data_sent_to_customer)){
+                return false;
+            }
+
+
+
             $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
 
             $venue_available_country =  json_decode($venue->venue_available_country);
@@ -127,8 +135,7 @@ class WhatsAppController extends Controller
                 // $this->FlushEntries($userPhoneNumber);
                 return false;
 
-             }
-             else if(!$userCountry['allowed']){
+             }elseif(!$userCountry['allowed']){
 
                 $message = $this->WhatsAppbotMessagesNew($userCountry['message'], $userCountry['message_ur']);
 
@@ -235,7 +242,7 @@ class WhatsAppController extends Controller
                         'dua_type' => $dua_option,
                         'lang' => 'en'
                     ]);
-                    $duaBy = 'Qibla Syed Sarfraz Ahmad Shah';
+                    $duaby = 'Qibla Syed Sarfraz Ahmad Shah';
 
                     $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
@@ -245,7 +252,7 @@ class WhatsAppController extends Controller
                     $statusLink = route('booking.status', $uuid);
 
                     $pdfLink = '';
-                    $duaby ='';
+                    // $duaby ='';
 
 
                     $pdfLinkEn = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
@@ -307,6 +314,8 @@ class WhatsAppController extends Controller
                         'steps' => 1
                     ];
                     WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
+                    return false;
               }
 
 
