@@ -61,12 +61,10 @@ class WhatsAppController extends Controller
             $options = ['1' ,'2' ,'0'];
 
 
-            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below ,
-
-            Please enter your type of dua?
-            *1* Dua
-            *2* Dum
-            *0* Cancel';
+            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below. \nPlease enter your type of dua?\n
+            *1* Dua\n
+            *2* Dum\n
+            *0* Cancel\n';
 
             $dataUr = 'فی الحال ہم *'.$venue->city.'* کے ساتھ کھلے ہیں۔ اگر آپ شہر کے لیے دعا/دم بک کرنا چاہتے ہیں تو براہ کرم نیچے نمبر درج کریں،
 
@@ -102,8 +100,8 @@ class WhatsAppController extends Controller
             $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
 
             $venue_available_country =  json_decode($venue->venue_available_country);
-
-            $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
+            $country = Country::where('phonecode', str_replace('+', '',$countryCode))->first();
+            $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
 
 
             $rejoin = $venue->rejoin_venue_after;
