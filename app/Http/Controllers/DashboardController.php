@@ -29,8 +29,10 @@ class DashboardController extends Controller
     public function percentage()
     {
         $today = Carbon::now();
-        $whatsappCount = Vistors::where('source', 'WhatsApp')->whereDate('created_at', $today)->count();
-        $websiteCount = Vistors::where('source', 'Website')->whereDate('created_at', $today)->count();
+        $whatsappCountDua = Vistors::where('source', 'WhatsApp')->where('dua_type','dua')->whereDate('created_at', $today)->count();
+        $whatsappCountDum = Vistors::where('source', 'WhatsApp')->where('dua_type','dum')->whereDate('created_at', $today)->count();
+        $websiteCountDua = Vistors::where('source', 'Website')->where('dua_type','dua')->whereDate('created_at', $today)->count();
+        $websiteCountDum = Vistors::where('source', 'Website')->where('dua_type','dum')->whereDate('created_at', $today)->count();
         $todayVenue =VenueAddress::whereDate('venue_date', $today)->first();
         $duaTotal = 0;
         $dumTotal = 0;
@@ -43,10 +45,10 @@ class DashboardController extends Controller
 
        //  $totalCount = $whatsappCount + $websiteCount;
 
-       $percentageWhatsappDua = ($duaTotal > 0 ) ? ($whatsappCount / $duaTotal) * 100 : 0;
-       $percentageWhatsappDum = ($dumTotal > 0 ) ? ($whatsappCount / $dumTotal) * 100 : 0;
-       $percentageWebsiteDua = ($duaTotal > 0 ) ?  ($websiteCount / $dumTotal) * 100: 0;
-       $percentageWebsiteDum = ($dumTotal > 0 ) ?  ($websiteCount / $dumTotal) * 100: 0;
+       $percentageWhatsappDua = ($duaTotal > 0 ) ? ($whatsappCountDua / $duaTotal) * 100 : 0;
+       $percentageWhatsappDum = ($dumTotal > 0 ) ? ($whatsappCountDum / $dumTotal) * 100 : 0;
+       $percentageWebsiteDua = ($duaTotal > 0 ) ?  ($websiteCountDua / $dumTotal) * 100: 0;
+       $percentageWebsiteDum = ($dumTotal > 0 ) ?  ($websiteCountDum / $dumTotal) * 100: 0;
 
        $totalWhatsAppCount = $percentageWhatsappDua + $percentageWhatsappDum;
        $totalWebsiteCount = $percentageWebsiteDua + $percentageWebsiteDum;
