@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $date = $request->input('date');
         $type = $request->input('type');
 
-        $duas = Vistors::where('date', $date)->where('type', $type)->get();
+        $duas = Vistors::where('date', $date)->where('dua_type', $type)->get();
 
         return response()->json(['duas' => $duas]);
     }
