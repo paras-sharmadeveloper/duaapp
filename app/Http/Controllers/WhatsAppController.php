@@ -53,6 +53,47 @@ class WhatsAppController extends Controller
         $venue_available_country =  json_decode($venue->venue_available_country);
 
         $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
+        if(empty($existingCustomer) && !empty($venue)){
+
+            $options = ['1' ,'2' ,'0'];
+
+
+            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below ,
+
+            Please enter your type of dua?
+            *1* Dua
+            *2* Dum
+            *0* Cancel';
+
+            $dataUr = 'فی الحال ہم *'.$venue->city.'* کے ساتھ کھلے ہیں۔ اگر آپ شہر کے لیے دعا/دم بک کرنا چاہتے ہیں تو براہ کرم نیچے نمبر درج کریں،
+
+            براہ کرم اپنی دعا کی قسم درج کریں؟
+            *1* دعا
+            *2* دم
+            *0* منسوخ کریں۔';
+
+            $message = $this->WhatsAppbotMessagesNew($dataEn, $dataUr);
+            $this->sendMessage($userPhoneNumber, $message);
+
+            $data = [
+                '1' => '*1* Dua' ,
+                '2' => '*2* Dum' ,
+                '0' => '*0* Cancel' ,
+             ];
+
+             $dataArr = [
+                 'customer_number' => $userPhoneNumber,
+                 'customer_response' => $Respond,
+                 'bot_reply' =>  $message,
+                 'data_sent_to_customer' => json_encode($data),
+                 'last_reply_time' => date('Y-m-d H:i:s'),
+                 'steps' => 0,
+                 'response_options' => implode(',', $options)
+             ];
+
+             WhatsApp::create($dataArr);
+        }
+
 
         if(!empty($existingCustomer) && !empty($venue)){
             $rejoin = $venue->rejoin_venue_after;
@@ -255,46 +296,7 @@ class WhatsAppController extends Controller
         }
 
 
-        if(empty($existingCustomer) && !empty($venue)){
 
-            $options = ['1' ,'2' ,'0'];
-
-
-            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below ,
-
-            Please enter your type of dua?
-            *1* Dua
-            *2* Dum
-            *0* Cancel';
-
-            $dataUr = 'فی الحال ہم *'.$venue->city.'* کے ساتھ کھلے ہیں۔ اگر آپ شہر کے لیے دعا/دم بک کرنا چاہتے ہیں تو براہ کرم نیچے نمبر درج کریں،
-
-            براہ کرم اپنی دعا کی قسم درج کریں؟
-            *1* دعا
-            *2* دم
-            *0* منسوخ کریں۔';
-
-            $message = $this->WhatsAppbotMessagesNew($dataEn, $dataUr);
-            $this->sendMessage($userPhoneNumber, $message);
-
-            $data = [
-                '1' => '*1* Dua' ,
-                '2' => '*2* Dum' ,
-                '0' => '*0* Cancel' ,
-             ];
-
-             $dataArr = [
-                 'customer_number' => $userPhoneNumber,
-                 'customer_response' => $Respond,
-                 'bot_reply' =>  $message,
-                 'data_sent_to_customer' => json_encode($data),
-                 'last_reply_time' => date('Y-m-d H:i:s'),
-                 'steps' => 0,
-                 'response_options' => implode(',', $options)
-             ];
-
-             WhatsApp::create($dataArr);
-        }
 
 
     }
