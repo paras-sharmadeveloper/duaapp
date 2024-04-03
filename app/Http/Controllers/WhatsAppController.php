@@ -39,7 +39,7 @@ class WhatsAppController extends Controller
         $countryCode = $this->findCountryByPhoneNumber($waId);
         $cleanNumber = str_replace($countryCode, '', $waId);
 
-        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->orderBy('created_at', 'desc')->first();
+        $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->whereDate('created_at',$today)->orderBy('created_at', 'desc')->first();
 
         $venue = VenueAddress::where('venue_id', $this->countryId->id)
                //  ->where('city',  $cityName[0])
@@ -61,7 +61,9 @@ class WhatsAppController extends Controller
             $options = ['1' ,'2'];
 
 
-            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below. Please enter your type of dua?
+            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below.
+
+            Please enter your type of dua?
             *1* Dua
             *2* Dum';
 
@@ -244,6 +246,7 @@ class WhatsAppController extends Controller
                         'lang' => 'en'
                     ]);
                     $duaby = 'Qibla Syed Sarfraz Ahmad Shah';
+                    $duabyUr ='قبلہ سید سرفراز احمد شاہ';
 
                     $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
@@ -261,7 +264,7 @@ class WhatsAppController extends Controller
 
                     $message = <<<EOT
 
-                    پ کی دعا سے ملاقات کی تصدیق  $duaby ✅ سے ہوئی۔
+                    پ کی دعا سے ملاقات کی تصدیق  $duabyUr ✅ سے ہوئی۔
 
                     واقعہ کی تاریخ : $venueDateUr
 
