@@ -969,9 +969,9 @@ class WhatsAppController extends Controller
 
         $message = <<<EOT
             KahayFaqeer.org دعا اپائنٹمنٹ شیڈولر میں خوش آمدید۔
-            {{1}}
+            $dataUr
             Welcome to the KahayFaqeer.org Dua Appointment Scheduler.
-            {{2}}
+            $dataEn
             EOT;
 
 
