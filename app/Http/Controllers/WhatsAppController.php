@@ -165,14 +165,14 @@ class WhatsAppController extends Controller
             else
             if($status['allowed']){
                 $dua_option ='';
-                if(in_array($responseString, $responseAccept) && $responseString == 1){
+                if($responseString == 1){
                     $dua_option ='dua';
                 }
-                if(in_array($responseString, $responseAccept) && $responseString == 2){
+                if($responseString == 2){
                     $dua_option ='dum';
                 }
 
-                Log::info('allowed dua_option'.$responseString);
+                Log::info('allowed dua_option'.$dua_option);
 
                 $tokenIs = VenueSloting::where('venue_address_id', $venue->id)
                 ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
