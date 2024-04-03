@@ -179,7 +179,8 @@ class WhatsAppController extends Controller
                         Please see the below warning message:
                         $data
                         براہ کرم ذیل میں انتباہی پیغام دیکھیں:
-                        $data
+                        *1* دعا
+                        *2* دم'
                         EOT;
                     $this->sendMessage($userPhoneNumber, $message);
                     return false;
