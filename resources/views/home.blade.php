@@ -1,15 +1,42 @@
 @extends('layouts.app')
 @section('content')
  <section class="section dashboard ">
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Filtered Dua Entries</div>
+                    <div class="card-body">
+                        <ul id="duaList" class="list-group">
+                            <!-- Dua entries will be appended here dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Percentage Calculation</div>
+                    <div class="card-body">
+                        <p id="whatsappPercentage">WhatsApp Percentage: <span></span></p>
+                        <p id="websitePercentage">Website Percentage: <span></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
       <div class="row ">
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
- 
+
 
             <!-- Revenue Card -->
-            
-            
+
+
             <!-- End Revenue Card -->
 
             <!-- Customers Card -->
@@ -47,7 +74,7 @@
                 </div>
               </div>
 
-            </div> 
+            </div>
 
             <div class="col-xxl-4 col-xl-12  ">
 
@@ -83,7 +110,7 @@
                 </div>
               </div>
 
-            </div> 
+            </div>
 
             <div class="col-xxl-4 col-xl-12  ">
 
@@ -118,10 +145,10 @@
 
                 </div>
 
-                
+
               </div>
 
-            </div> 
+            </div>
             <!-- Reports -->
             <div class="col-12 d-none">
               <div class="card">
@@ -642,3 +669,55 @@
     </section>
 
     @endsection
+
+    @section('page-script')
+    <script>
+        $(document).ready(function() {
+            // Function to fetch filtered dua entries
+            function filterDuaEntries(date, type) {
+                $.ajax({
+                    url: '{{route('dashboard.filter')}}',
+                    method: 'POST',
+                    data: {
+                        date: date,
+                        type: type
+                    },
+                    success: function(response) {
+                        $('#duaList').empty();
+                        response.duas.forEach(function(dua) {
+                            $('#duaList').append('<li class="list-group-item">' + dua.content + '</li>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Function to fetch percentage calculation
+            function fetchPercentage() {
+                $.ajax({
+                    url: '{{route('dashboard.percentage')}}',
+                    method: 'GET',
+                    success: function(response) {
+                        $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) + '%');
+                        $('#websitePercentage span').text(response.website_percentage.toFixed(2) + '%');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Call the fetchPercentage function on page load
+            fetchPercentage();
+
+            // Example: Call filterDuaEntries function on filter button click
+            $('#filterBtn').click(function() {
+                var date = $('#dateFilter').val();
+                var type = $('#typeFilter').val();
+                filterDuaEntries(date, type);
+            });
+        });
+    </script>
+ @endsection
