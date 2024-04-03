@@ -25,6 +25,7 @@ class WhatsAppController extends Controller
     public function handleWebhook(Request $request)
     {
 
+        Log::info('landed'.$this->countryId->id);
         $body = $request->all();
         $today = Carbon::now();
         $NextDate = $today->addDay();
@@ -54,6 +55,8 @@ class WhatsAppController extends Controller
 
         $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
         if(empty($existingCustomer) && !empty($venue)){
+            Log::info('Test'.$this->countryId->id);
+
 
             $options = ['1' ,'2' ,'0'];
 
