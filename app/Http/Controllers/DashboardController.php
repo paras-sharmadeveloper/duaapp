@@ -32,10 +32,11 @@ class DashboardController extends Controller
         $whatsappCount = Vistors::where('source', 'WhatsApp')->whereDate('created_at', $today)->count();
         $websiteCount = Vistors::where('source', 'Website')->whereDate('created_at', $today)->count();
         $todayVenue =VenueAddress::whereDate('venue_date', $today)->first();
-        $duaTotal = $dumTotal = 0;
+        $duaTotal = 0;
+        $dumTotal = 0;
         if($todayVenue){
-            $duaTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('dua_type','dua')->count();
-            $dumTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('dua_type','dum')->count();
+            $duaTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('type','dua')->count();
+            $dumTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('type','dum')->count();
         }
 
 
