@@ -28,8 +28,8 @@ class WhatsAppController extends Controller
         Log::info('landed'.$this->countryId->id);
         $body = $request->all();
         $today = Carbon::now();
-        $NextDate = $today->addDay();
-        $newDate = $NextDate->format('Y-m-d');
+        // $NextDate = $today->addDay();
+        // $newDate = $NextDate->format('Y-m-d');
         // Extract necessary information from the incoming request
         $userPhoneNumber = $body['From'];
         $waId = $body['WaId'];
@@ -49,12 +49,12 @@ class WhatsAppController extends Controller
         $options = [];
         $responseAccept = [];
 
-        $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
 
-        $venue_available_country =  json_decode($venue->venue_available_country);
-
-        $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
         if(empty($existingCustomer) && !empty($venue)){
+
+
+
+
             Log::info('Test'.$this->countryId->id);
 
 
@@ -99,6 +99,13 @@ class WhatsAppController extends Controller
 
 
         if(!empty($existingCustomer) && !empty($venue)){
+            $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
+
+            $venue_available_country =  json_decode($venue->venue_available_country);
+
+            $userCountry = VenueAvilableInCountry($venue_available_country,$this->countryId->id);
+
+
             $rejoin = $venue->rejoin_venue_after;
             $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
             if( !empty($venue) &&  $venue->status == 'inactive'){
