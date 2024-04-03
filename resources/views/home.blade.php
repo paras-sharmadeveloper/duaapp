@@ -714,8 +714,8 @@
                         $('#whatsAppDua span').text(response.whatsAppDua.toFixed(2) + '%');
                         $('#whatsAppDum span').text(response.whatsAppDum.toFixed(2) + '%');
 
-                        $('#duatoken span').text( response.totalBookDua +'/'+ response.duatoken);
-                        $('#dumtoken span').text(response.totalBookDum +'/'+ response.dumtoken);
+                        $('#duatoken span').text( response.totalBookDua +' / '+ response.duatoken);
+                        $('#dumtoken span').text(response.totalBookDum +' / '+ response.dumtoken);
 
 
                         $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) + '%');
