@@ -61,17 +61,15 @@ class WhatsAppController extends Controller
             $options = ['1' ,'2' ,'0'];
 
 
-            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below. \nPlease enter your type of dua?\n
-            *1* Dua\n
-            *2* Dum\n
-            *0* Cancel\n';
+            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below. Please enter your type of dua?
+            *1* Dua
+            *2* Dum';
 
             $dataUr = 'فی الحال ہم *'.$venue->city.'* کے ساتھ کھلے ہیں۔ اگر آپ شہر کے لیے دعا/دم بک کرنا چاہتے ہیں تو براہ کرم نیچے نمبر درج کریں،
 
             براہ کرم اپنی دعا کی قسم درج کریں؟
             *1* دعا
-            *2* دم
-            *0* منسوخ کریں۔';
+            *2* دم';
 
             $message = $this->WhatsAppbotMessagesNew($dataEn, $dataUr);
             $this->sendMessage($userPhoneNumber, $message);
@@ -79,7 +77,6 @@ class WhatsAppController extends Controller
             $data = [
                 '1' => '*1* Dua' ,
                 '2' => '*2* Dum' ,
-                '0' => '*0* Cancel' ,
              ];
 
              $dataArr = [
@@ -117,7 +114,7 @@ class WhatsAppController extends Controller
                     'customer_number' => $userPhoneNumber,
                     'customer_response' => $Respond,
                     'bot_reply' =>  $message,
-                    'data_sent_to_customer' => $message,
+                    'data_sent_to_customer' => json_encode([]),
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => 0,
                     'response_options' => null
@@ -139,7 +136,7 @@ class WhatsAppController extends Controller
                     'customer_number' => $userPhoneNumber,
                     'customer_response' => $Respond,
                     'bot_reply' =>  $message,
-                    'data_sent_to_customer' => $message,
+                    'data_sent_to_customer' =>json_encode([]),
                     'last_reply_time' => date('Y-m-d H:i:s'),
                     'steps' => 0,
                     'response_options' => null
