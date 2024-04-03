@@ -97,6 +97,7 @@ class WhatsAppController extends Controller
 
             $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
             if(empty( $data_sent_to_customer)){
+                Log::info("data_sent_to_customer Log if one message delivered");
                 return false;
             }
 
