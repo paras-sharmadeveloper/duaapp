@@ -25,6 +25,10 @@
                         <p id="websiteDum">Website Dum Percentage: <span></span></p>
                         <p id="whatsAppDua">whatsApp Dua Percentage: <span></span></p>
                         <p id="whatsAppDum">whatsApp Dum Percentage: <span></span></p>
+
+                        <p id="duatoken">Total Dua: <span></span></p>
+                        <p id="dumtoken">Total Dum:: <span></span></p>
+
                     </div>
                 </div>
             </div>
@@ -709,6 +713,10 @@
 
                         $('#whatsAppDua span').text(response.whatsAppDua.toFixed(2) + '%');
                         $('#whatsAppDum span').text(response.whatsAppDum.toFixed(2) + '%');
+
+                        $('#duatoken span').text(response.duatoken.toFixed(2));
+                        $('#dumtoken span').text(response.dumtoken.toFixed(2));
+
 
                         $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) + '%');
                         $('#websitePercentage span').text(response.website_percentage.toFixed(2) + '%');

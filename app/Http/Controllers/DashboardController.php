@@ -62,6 +62,9 @@ class DashboardController extends Controller
                                   'whatsAppDum' =>$percentageWhatsappDum ,
                                   'websiteDua' =>$percentageWebsiteDua ,
                                   'websiteDum' =>$percentageWebsiteDum ,
+                                  'duatoken' => $duaTotal,
+                                  'dumtoken' => $dumTotal
+
                                 ]);
     }
 }
