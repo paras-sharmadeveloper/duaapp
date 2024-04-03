@@ -167,9 +167,23 @@ class WhatsAppController extends Controller
                 $dua_option ='';
                 if($responseString == 1){
                     $dua_option ='dua';
-                }
+                }else
                 if($responseString == 2){
                     $dua_option ='dum';
+                }else{
+                    $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+                    // $data = implode('\n',$data_sent_to_customer);
+
+                    $data = implode("\n", $data_sent_to_customer);
+                    $message = <<<EOT
+                        Please see the below warning message:
+                        $data
+                        براہ کرم ذیل میں انتباہی پیغام دیکھیں:
+                        $data
+                        EOT;
+                    $this->sendMessage($userPhoneNumber, $message);
+                    return false;
+
                 }
 
                 Log::info('allowed dua_option'.$dua_option);
