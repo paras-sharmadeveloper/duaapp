@@ -41,6 +41,12 @@ class DashboardController extends Controller
             $dumTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('type','dum')->count();
         }
 
+        $totalTokenBookedWhatsApp = $whatsappCountDua + $whatsappCountDum;
+        $totalTokenBookedWebsite = $websiteCountDua + $websiteCountDum;
+
+        $totalBookDua = $whatsappCountDua + $websiteCountDua;
+        $totalBookDum = $whatsappCountDum + $websiteCountDum;
+
 
 
        //  $totalCount = $whatsappCount + $websiteCount;
@@ -53,6 +59,10 @@ class DashboardController extends Controller
        $totalWhatsAppCount = $percentageWhatsappDua + $percentageWhatsappDum;
        $totalWebsiteCount = $percentageWebsiteDua + $percentageWebsiteDum;
 
+
+
+
+
       //   $percentageWhatsapp = ($totalCount > 0 ) ? ($whatsappCount / $totalCount) * 100 : 0;
       //  $percentageWebsite = ($totalCount > 0 ) ?  ($websiteCount / $totalCount) * 100: 0;
 
@@ -63,7 +73,12 @@ class DashboardController extends Controller
                                   'websiteDua' =>$percentageWebsiteDua ,
                                   'websiteDum' =>$percentageWebsiteDum ,
                                   'duatoken' => $duaTotal,
-                                  'dumtoken' => $dumTotal
+                                  'dumtoken' => $dumTotal,
+                                  'totalTokenBookedWhatsApp' => $totalTokenBookedWhatsApp,
+                                  'totalTokenBookedWebsite' => $totalTokenBookedWebsite,
+                                  'totalBookDua' => $totalBookDua,
+                                  'totalBookDum' => $totalBookDum
+
 
                                 ]);
     }
