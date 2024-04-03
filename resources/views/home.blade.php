@@ -21,6 +21,10 @@
                     <div class="card-body">
                         <p id="whatsappPercentage">WhatsApp Percentage: <span></span></p>
                         <p id="websitePercentage">Website Percentage: <span></span></p>
+                        <p id="websiteDua">Website Dua Percentage: <span></span></p>
+                        <p id="websiteDum">Website Dum Percentage: <span></span></p>
+                        <p id="whatsAppDua">whatsApp Dua Percentage: <span></span></p>
+                        <p id="whatsAppDum">whatsApp Dum Percentage: <span></span></p>
                     </div>
                 </div>
             </div>
@@ -700,6 +704,12 @@
                     url: '{{route('dashboard.percentage')}}',
                     method: 'GET',
                     success: function(response) {
+                        $('#websiteDua span').text(response.websiteDua.toFixed(2) + '%');
+                        $('#websiteDum span').text(response.websiteDum.toFixed(2) + '%');
+
+                        $('#whatsAppDua span').text(response.whatsAppDua.toFixed(2) + '%');
+                        $('#whatsAppDum span').text(response.whatsAppDum.toFixed(2) + '%');
+
                         $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) + '%');
                         $('#websitePercentage span').text(response.website_percentage.toFixed(2) + '%');
                     },
