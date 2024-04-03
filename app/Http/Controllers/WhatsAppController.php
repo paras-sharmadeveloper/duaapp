@@ -103,6 +103,10 @@ class WhatsAppController extends Controller
 
             $rejoin = $venue->rejoin_venue_after;
             $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
+
+            Log::info("status".$venue->status);
+            Log::info("userCountry".$userCountry['allowed']);
+            Log::info("Rejoin".$rejoinStatus['allowed']);
             if( !empty($venue) &&  $venue->status == 'inactive'){
 
                 $message = $this->WhatsAppbotMessagesNew('For some reason currently this venue not accepting bookings. Please try after some time. Thank You', 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ');
@@ -144,9 +148,7 @@ class WhatsAppController extends Controller
                 WhatsApp::create($dataArr);
                 // $this->FlushEntries($userPhoneNumber);
                 return false;
-            }
-
-            else if (!$rejoinStatus['allowed']){
+            }else if (!$rejoinStatus['allowed']){
                 $message = $this->WhatsAppbotMessagesNew($rejoinStatus['message'], $rejoinStatus['message_ur']);
                 $this->sendMessage($userPhoneNumber, $message);
                 $dataArr = [
@@ -161,9 +163,7 @@ class WhatsAppController extends Controller
 
                 WhatsApp::create($dataArr);
                 return false;
-            }
-            else
-            if($status['allowed']){
+            } elseif($status['allowed']){
                 $dua_option ='';
                 if($responseString == 1){
                     $dua_option ='dua';
@@ -180,7 +180,7 @@ class WhatsAppController extends Controller
                         $data
                         براہ کرم ذیل میں انتباہی پیغام دیکھیں:
                         *1* دعا
-                        *2* دم'
+                        *2* دم
                         EOT;
                     $this->sendMessage($userPhoneNumber, $message);
                     return false;
