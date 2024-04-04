@@ -903,9 +903,10 @@
             //   options.html2canvas.height = 1200; // Set the desired height for mobile view
             // }
             html2pdf(element, options);
+            $("#spinner-div").hide();
 
             //  $(".download-apponit").hide();
             }
-            $("#spinner-div").hide();
+
     </script>
 @endsection
