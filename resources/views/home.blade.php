@@ -46,7 +46,10 @@
                         <h5>Filtered Entries</h5>
                         <input type="date" name="venue_date" id="venue_date" value="{{ date('Y-m-d') }}"
                             class="form-control filter-input w-80">
-                        <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
+                            <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
+                            <button id="generatePdfBtn" class="btn btn-dark">Generate PDF</button>
+
+
 
                     </div>
                     <div class="card-body">
@@ -54,7 +57,7 @@
                             <div class="spinner-border text-primary" role="status">
                             </div>
                           </div>
-                        <table class="table custom-table">
+                        <table class="table custom-table" id="tokenTable">
                             <thead>
                                 <tr>
                                     <th>Row Label</th>
@@ -791,6 +794,7 @@
 @endsection
 
 @section('page-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script>
         $(document).ready(function() {
             var today = "{{ date('Y-m-d') }}";
@@ -865,5 +869,42 @@
                 // fetchPercentage(date)
             });
         });
+    </script>
+    <script>
+        $("#generatePdfBtn").click(function(){
+            $("#spinner-div").show();
+            downloadPdf()
+
+        })
+      function downloadPdf() {
+
+            const element = document.getElementById('tokenTable');
+            const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            const options = {
+                margin: 10,
+                format: 'a5',
+                filename: "{{date('dMY')}}"+ '-report.pdf',
+                // image: {
+                //     type: 'jpeg',
+                //     quality: 1.0
+                // },
+                html2canvas: {
+                    scale: 1
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a5',
+                    orientation: 'portrait'
+                }
+            };
+            //   if (window.innerWidth < 768) {
+                // Adjust options for mobile view
+            //    options.html2canvas.width = 1000; // Set the desired width for mobile view
+            //   options.html2canvas.height = 1200; // Set the desired height for mobile view
+            // }
+            html2pdf(element, options);
+            $("#spinner-div").hide();
+            //  $(".download-apponit").hide();
+            }
     </script>
 @endsection
