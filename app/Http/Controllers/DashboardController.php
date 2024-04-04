@@ -84,9 +84,10 @@ class DashboardController extends Controller
 }
 
 
-    public function percentage()
+    public function percentage(Request $request)
     {
-        $today = Carbon::now();
+        // $today = Carbon::now();
+        $today = $request->input('date');
         $whatsappCountDua = Vistors::where('source', 'WhatsApp')->where('dua_type','dua')->whereDate('created_at', $today)->count();
         $whatsappCountDum = Vistors::where('source', 'WhatsApp')->where('dua_type','dum')->whereDate('created_at', $today)->count();
         $websiteCountDua = Vistors::where('source', 'Website')->where('dua_type','dua')->whereDate('created_at', $today)->count();
