@@ -880,32 +880,26 @@
 
             const element = document.getElementById('tokenTable');
             const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-            const options = {
-                margin: 10,
-                format: 'a5',
-                filename: "{{date('dMY')}}"+ '-report.pdf',
-                // image: {
-                //     type: 'jpeg',
-                //     quality: 1.0
-                // },
-                html2canvas: {
-                    scale: 1
-                },
-                jsPDF: {
-                    unit: 'mm',
+                const options = {
+                    margin: 10,
                     format: 'a5',
-                    orientation: 'portrait'
-                }
-            };
-            //   if (window.innerWidth < 768) {
-                // Adjust options for mobile view
-            //    options.html2canvas.width = 1000; // Set the desired width for mobile view
-            //   options.html2canvas.height = 1200; // Set the desired height for mobile view
-            // }
-            html2pdf(element, options);
-            $("#spinner-div").hide();
+                    filename: "{{date('dMY')}}"+ '-report.pdf',
+                    // image: {
+                    //     type: 'jpeg',
+                    //     quality: 1.0
+                    // },
+                    html2canvas: {
+                        scale: 1
+                    },
+                    jsPDF: {
+                        unit: 'mm',
+                        format: 'a5',
+                        orientation: 'portrait'
+                    }
+                };
+                $("#spinner-div").hide();
 
-            //  $(".download-apponit").hide();
+                html2pdf(element, options);
             }
 
     </script>
