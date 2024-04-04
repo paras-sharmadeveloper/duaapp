@@ -36,6 +36,11 @@
                 background-color: rgba(255, 255, 255, 0.8);
                 z-index: 2;
             }
+            .dt-buttons {
+    float: right !important;
+}
+
+
         </style>
 
         <div class="row">
@@ -46,8 +51,8 @@
                         <h5>Filtered Entries</h5>
                         <input type="date" name="venue_date" id="venue_date" value="{{ date('Y-m-d') }}"
                             class="form-control filter-input w-80">
-                            <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
-                            <button id="generatePdfBtn" class="btn btn-dark">Generate PDF</button>
+                        <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
+                        <button id="generatePdfBtn" class="btn btn-dark">Generate PDF</button>
 
 
 
@@ -56,7 +61,7 @@
                         <div id="spinner-div" class="pt-5">
                             <div class="spinner-border text-primary" role="status">
                             </div>
-                          </div>
+                        </div>
                         <table class="table custom-table" id="tokenTable">
                             <thead>
                                 <tr>
@@ -111,6 +116,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="col-md-6 d-none">
                 <div class="card">
                     <div class="card-header">Percentage Calculation</div>
@@ -124,6 +131,50 @@
 
                         <p id="duatoken">Total Dua: <span></span></p>
                         <p id="dumtoken">Total Dum: <span></span></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5>Tokens</h5>
+                        <select class="form-control" name="dua_type" style="width: 40%">
+                            <option value=""> All</option>
+                            <option value="dua"> Dua</option>
+                            <option value="dum"> Dua</option>
+                        </select>
+                        <input type="date" name="created_at" id="table_date"
+                            class="form-control w-80" style="width: 40%">
+                        <button type="button" id="filtertable" class="btn btn-info"> filter </button>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="spinner-div" class="pt-5">
+                            <div class="spinner-border text-primary" role="status">
+                            </div>
+                        </div>
+                        <table id="datatable" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Token</th>
+                                    <th>Date</th>
+                                    <th>Dua Type</th>
+                                    <th>Dua Ghar</th>
+                                    <th>Country Code</th>
+                                    <th>Phone</th>
+                                    <th>Source</th>
+                                    <th>Token Url Link</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+
+
+
 
                     </div>
                 </div>
@@ -794,7 +845,7 @@
 @endsection
 
 @section('page-script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script>
         $(document).ready(function() {
             var today = "{{ date('Y-m-d') }}";
@@ -871,36 +922,144 @@
         });
     </script>
     <script>
-        $("#generatePdfBtn").click(function(){
+        $("#generatePdfBtn").click(function() {
             $("#spinner-div").show();
             downloadPdf()
 
         })
-      function downloadPdf() {
+
+        function downloadPdf() {
 
             const element = document.getElementById('tokenTable');
             const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-                const options = {
-                    margin: 10,
+            const options = {
+                margin: 10,
+                format: 'a5',
+                filename: "{{ date('dMY') }}" + '-report.pdf',
+                // image: {
+                //     type: 'jpeg',
+                //     quality: 1.0
+                // },
+                html2canvas: {
+                    scale: 1
+                },
+                jsPDF: {
+                    unit: 'mm',
                     format: 'a5',
-                    filename: "{{date('dMY')}}"+ '-report.pdf',
-                    // image: {
-                    //     type: 'jpeg',
-                    //     quality: 1.0
-                    // },
-                    html2canvas: {
-                        scale: 1
-                    },
-                    jsPDF: {
-                        unit: 'mm',
-                        format: 'a5',
-                        orientation: 'portrait'
-                    }
-                };
-                $("#spinner-div").hide();
+                    orientation: 'portrait'
+                }
+            };
+            $("#spinner-div").hide();
 
-                html2pdf(element, options);
-            }
+            html2pdf(element, options);
+        }
 
+        $(document).ready(function() {
+
+            $(document).ready(function () {
+            $('#filtertable').on('click', function () {
+                var duaType = $('[name="dua_type"]').val();
+               // name="created_at" id="table_date"
+                var venueDate = $('#table_date').val();
+
+                // Trigger DataTables search with the selected values
+                $('#datatable').DataTable().search(duaType + ' ' + venueDate).draw();
+
+
+            });
+        });
+
+
+        $('#datatable').DataTable({
+            "dom": 'lBrtip',
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{{ route('dashboard.data') }}",
+                "columns": [
+                    { "data": "token" },
+                    { "data": "date" },
+                    { "data": "dua_type" },
+                    { "data": "dua_ghar" },
+                    { "data": "country_code" },
+                    { "data": "phone" },
+                    { "data": "source" },
+                    { "data": "token_url_link" }
+                ],
+                "buttons": [
+                    'excel', 'pdf'
+                ],
+                // "initComplete": function () {
+                //     // Add Dua and Dum filter dropdown
+                //     this.api().columns(2).every(function () {
+                //         var column = this;
+                //         var select = $('<select><option value=""></option></select>')
+                //             .appendTo($(column.header()).empty())
+                //             .on('change', function () {
+                //                 var val = $.fn.dataTable.util.escapeRegex(
+                //                     $(this).val()
+                //                 );
+
+                //                 column
+                //                     .search(val ? '^' + val + '$' : '', true, false)
+                //                     .draw();
+                //             });
+
+                //         column.data().unique().sort().each(function (d, j) {
+                //             select.append('<option value="' + d + '">' + d + '</option>')
+                //         });
+                //     });
+
+                //     // Add Date filter
+                //     this.api().columns(1).every(function () {
+                //         var column = this;
+                //         var input = $('<input type="date" placeholder="Filter Date" />')
+                //             .appendTo($(column.header()).empty())
+                //             .on('change', function () {
+                //                 var val = $.fn.dataTable.util.escapeRegex(
+                //                     $(this).val()
+                //                 );
+
+                //                 column
+                //                     .search(val, true, false)
+                //                     .draw();
+                //             });
+                //     });
+                // }
+            });
+
+
+
+            // $('#datatable').DataTable({
+            //     "dom": 'lBrtip',
+            //     "processing": true,
+            //     "serverSide": true,
+            //     "ajax": "{{ route('dashboard.data') }}",
+            //     "columns": [{
+            //             "data": "token"
+            //         },
+            //         {
+            //             "data": "date"
+            //         },
+            //         {
+            //             "data": "dua_ghar"
+            //         },
+            //         {
+            //             "data": "country_code"
+            //         },
+            //         {
+            //             "data": "phone"
+            //         },
+            //         {
+            //             "data": "source"
+            //         },
+            //         {
+            //             "data": "token_url_link"
+            //         }
+            //     ],
+            //     "buttons": [
+            //         'excel', 'pdf'
+            //     ]
+            // });
+        });
     </script>
 @endsection

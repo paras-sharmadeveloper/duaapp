@@ -236,6 +236,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/duas/filter', [DashboardController::class,'filter'])->name('dashboard.filter');
     Route::post('/duas/percentage', [DashboardController::class,'percentage'])->name('dashboard.percentage');
 
+    Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');
+
+
     Route::get('/reasons', [ReasonController::class, 'index'])->name('reasons.index');
     Route::get('/reasons/create', [ReasonController::class, 'create'])->name('reasons.create');
     Route::get('/reasons/announcement', [ReasonController::class, 'create'])->name('reasons.announcement');
