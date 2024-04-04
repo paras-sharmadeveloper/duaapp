@@ -132,7 +132,7 @@
 
 
 
-        <div class="row ">
+        <div class="row d-none">
             <!-- Left side columns -->
             <div class="col-lg-8">
                 <div class="row">
