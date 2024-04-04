@@ -17,68 +17,64 @@ class DashboardController extends Controller
     }
 
     public function filter(Request $request)
-    {
-        $date = $request->input('date');
-      //  $type = $request->input('type');
-      //   $duas = Vistors::where('date', $date)->where('dua_type', $type)->get();
-    //   $visitors = Vistors::whereDate('created_at', $date)->get();
-      $todayVenue =VenueAddress::whereDate('venue_date', $date)->first();
+{
+    $date = $request->input('date');
 
-      $whatsappCountDua = Vistors::where('source', 'WhatsApp')->where('dua_type','dua')->whereDate('created_at', $date)->count();
-      $whatsappCountDum = Vistors::where('source', 'WhatsApp')->where('dua_type','dum')->whereDate('created_at', $date)->count();
-      $websiteCountDua = Vistors::where('source', 'Website')->where('dua_type','dua')->whereDate('created_at', $date)->count();
-      $websiteCountDum = Vistors::where('source', 'Website')->where('dua_type','dum')->whereDate('created_at', $date)->count();
-        $duaTotal = 0;
-        $dumTotal = 0;
-        if($todayVenue){
-            $duaTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('type','dua')->count();
-            $dumTotal = VenueSloting::where('venue_address_id',$todayVenue->id)->where('type','dum')->count();
-        }
-        $percentageWhatsappDua = ($duaTotal > 0 ) ? ($whatsappCountDua / $duaTotal) * 100 : 0;
-        $percentageWhatsappDum = ($dumTotal > 0 ) ? ($whatsappCountDum / $dumTotal) * 100 : 0;
-        $percentageWebsiteDua = ($duaTotal > 0 ) ?  ($websiteCountDua / $dumTotal) * 100: 0;
-        $percentageWebsiteDum = ($dumTotal > 0 ) ?  ($websiteCountDum / $dumTotal) * 100: 0;
+    // Fetch today's venue
+    $todayVenue = VenueAddress::whereDate('venue_date', $date)->first();
 
-        $totalTokenWebsite = $websiteCountDua + $websiteCountDum;
-        $totalTokenWhatsApp = $whatsappCountDua + $whatsappCountDum;
+    // Count visitors by source and type
+    $whatsappCountDua = Vistors::where('source', 'WhatsApp')->where('dua_type', 'dua')->whereDate('created_at', $date)->count();
+    $whatsappCountDum = Vistors::where('source', 'WhatsApp')->where('dua_type', 'dum')->whereDate('created_at', $date)->count();
+    $websiteCountDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->count();
+    $websiteCountDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->count();
 
-        $totalWhatsAppPercentage = $percentageWhatsappDua + $percentageWhatsappDum;
-        $totalWebsitePercentage = $percentageWebsiteDua + $percentageWebsiteDum;
-
-            $calculations = [];
-            $calculations['website-total'] = $totalTokenWebsite;
-            $calculations['website-total-percentage']= number_format($totalWebsitePercentage, 2).'%';
-
-            $calculations['website-total-dua'] = $websiteCountDua;
-            $calculations['website-total-percentage-dua']= number_format($percentageWebsiteDua, 2).'%';
-
-            $calculations['website-total-dum'] = $websiteCountDum;
-            $calculations['website-total-percentage-dum']=  number_format($percentageWebsiteDum, 2).'%';
-
-
-            $calculations['whatsapp-total']= $totalTokenWhatsApp;
-            $calculations['whatsapp-total-percentage']= number_format($totalWhatsAppPercentage, 2) .'%';
-
-
-            $calculations['whatsapp-total-dua'] = $whatsappCountDua;
-            $calculations['whatsapp-total-percentage-dua']= number_format($percentageWhatsappDua, 2).'%';
-
-            $calculations['whatsapp-total-dum'] = $whatsappCountDum;
-            $calculations['whatsapp-total-percentage-dum']= number_format($percentageWhatsappDum, 2).'%';
-
-            $totalCollectedTokens =$whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-            $totalTokens =$whatsappCountDua + $duaTotal + $dumTotal;
-
-
-
-            $percentageTotalTokens = ($totalTokens > 0 ) ?  ($totalCollectedTokens / $totalTokens) * 100: 0;
-
-            $calculations['grand-total']= $totalCollectedTokens;
-            $calculations['grand-percentage']= number_format($percentageTotalTokens, 2).'%';
-
-
-        return response()->json(['calculations' => $calculations]);
+    // Calculate total slots for dua and dum at today's venue
+    $duaTotal = 0;
+    $dumTotal = 0;
+    if ($todayVenue) {
+        $duaTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->count();
+        $dumTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->count();
     }
+
+    // Calculate percentages
+    $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $duaTotal) * 100 : 0;
+    $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $dumTotal) * 100 : 0;
+    $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $duaTotal) * 100 : 0;
+    $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $dumTotal) * 100 : 0;
+
+    // Calculate total tokens and percentages
+    $totalTokenWebsite = $websiteCountDua + $websiteCountDum;
+    $totalTokenWhatsApp = $whatsappCountDua + $whatsappCountDum;
+    $totalWhatsAppPercentage = $percentageWhatsappDua + $percentageWhatsappDum;
+    $totalWebsitePercentage = $percentageWebsiteDua + $percentageWebsiteDum;
+
+    // Calculate grand totals and percentages
+    $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
+    $totalTokens = $whatsappCountDua + $duaTotal + $dumTotal;
+    $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalTokens) * 100 : 0;
+
+    // Prepare response data
+    $calculations = [
+        'website-total' => $totalTokenWebsite,
+        'website-total-percentage' => number_format($totalWebsitePercentage, 2) . '%',
+        'website-total-dua' => $websiteCountDua,
+        'website-total-percentage-dua' => number_format($percentageWebsiteDua, 2) . '%',
+        'website-total-dum' => $websiteCountDum,
+        'website-total-percentage-dum' => number_format($percentageWebsiteDum, 2) . '%',
+        'whatsapp-total' => $totalTokenWhatsApp,
+        'whatsapp-total-percentage' => number_format($totalWhatsAppPercentage, 2) . '%',
+        'whatsapp-total-dua' => $whatsappCountDua,
+        'whatsapp-total-percentage-dua' => number_format($percentageWhatsappDua, 2) . '%',
+        'whatsapp-total-dum' => $whatsappCountDum,
+        'whatsapp-total-percentage-dum' => number_format($percentageWhatsappDum, 2) . '%',
+        'grand-total' => $totalCollectedTokens,
+        'grand-percentage' => number_format($percentageTotalTokens, 2) . '%'
+    ];
+
+    return response()->json(['calculations' => $calculations]);
+}
+
 
     public function percentage()
     {
