@@ -66,8 +66,15 @@ class DashboardController extends Controller
             $calculations['whatsapp-total-dum'] = $whatsappCountDum;
             $calculations['whatsapp-total-percentage-dum']= number_format($percentageWhatsappDum, 2).'%';
 
-            $calculations['grand-total']= $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-            $calculations['grand-percentage']= number_format($totalWhatsAppPercentage, 2)  + number_format($totalWebsitePercentage, 2).'%';
+            $totalCollectedTokens =$whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
+            $totalTokens =$whatsappCountDua + $duaTotal + $dumTotal;
+
+
+
+            $percentageTotalTokens = ($totalTokens > 0 ) ?  ($totalCollectedTokens / $totalTokens) * 100: 0;
+
+            $calculations['grand-total']= $totalCollectedTokens;
+            $calculations['grand-percentage']= number_format($percentageTotalTokens, 2).'%';
 
 
         return response()->json(['calculations' => $calculations]);
