@@ -988,6 +988,7 @@
                 "buttons": [
                     'excel', 'pdf'
                 ],
+                "lengthMenu": ['10', '25', '50', '100','500','1000', "All"]
                 // "initComplete": function () {
                 //     // Add Dua and Dum filter dropdown
                 //     this.api().columns(2).every(function () {
