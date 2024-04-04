@@ -52,7 +52,7 @@ class DashboardController extends Controller
 
     // Calculate grand totals and percentages
     $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-    $totalTokens = $whatsappCountDua + $duaTotal + $dumTotal;
+    $totalTokens =  $duaTotal + $dumTotal;
 
     $totalWebsitePercentage = ($totalTokenWebsite / $totalTokens) * 100 ;
     $totalWhatsAppPercentage = ($totalTokenWhatsApp / $totalTokens) * 100 ;
