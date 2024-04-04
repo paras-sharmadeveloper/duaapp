@@ -824,10 +824,14 @@
             }
 
             // Function to fetch percentage calculation
-            function fetchPercentage() {
+            function fetchPercentage(date) {
                 $.ajax({
                     url: '{{ route('dashboard.percentage') }}',
-                    method: 'GET',
+                    method: 'POST',
+                    data: {
+                        date: date,
+                        "_token": "{{ csrf_token() }}"
+                    },
                     success: function(response) {
                         $('#websiteDua span').text(response.websiteDua.toFixed(2) + '%');
                         $('#websiteDum span').text(response.websiteDum.toFixed(2) + '%');
@@ -858,6 +862,7 @@
                 var date = $('#venue_date').val();
                 var type = $('#typeFilter').val();
                 filterDuaEntries(date, type);
+                fetchPercentage(date)
             });
         });
     </script>
