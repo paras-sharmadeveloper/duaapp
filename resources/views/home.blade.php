@@ -2,16 +2,87 @@
 @section('content')
  <section class="section dashboard ">
 
-
+  <style>
+    .custom-table {
+      width: 100%;
+    }
+    .custom-table th {
+      text-align: left;
+    }
+    tr.highlighted td {
+    background: darkgray;
+}
+input#venue_date {
+    width: 50%;
+}
+tr.highlighted td {
+    background: darkgray;
+    color: white;
+    font-weight: 700;
+}
+  </style>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Filtered Dua Entries</div>
+                    <div class="card-header d-flex justify-content-between">
+                        <h5>Filtered Entries</h5>
+                        <input type="date" name="venue_date" id="venue_date" value="{{date('Y-m-d')}}" class="form-control filter-input w-80">
+                        <button type="button" id="filterBtn" class="btn btn-info" > filter </button>
+
+                    </div>
                     <div class="card-body">
-                        <ul id="duaList" class="list-group">
-                            <!-- Dua entries will be appended here dynamically -->
-                        </ul>
+                      <table class="table custom-table">
+                        <thead>
+                          <tr>
+                            <th>Row Label</th>
+                            <th>Count of Token</th>
+                            <th>%</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="highlighted">
+                            <td>Website</td>
+                            <td id="website-total">0</td>
+                            <td id="website-total-percentage">0%</td>
+                          </tr>
+                          <tr>
+                            <td>Website (Dua)</td>
+                            <td id="website-total-dua" >0</td>
+                            <td id="website-total-percentage-dua">0%</td>
+                          </tr>
+                          <tr>
+                            <td>Website (Dum)</td>
+                            <td id="website-total-dum">0</td>
+                            <td id="website-total-percentage-dum" >0%</td>
+                          </tr>
+
+                          <tr class="highlighted">
+                            <td>WhatsApp</td>
+                            <td id="whatsapp-total" >0</td>
+                            <td id="whatsapp-total-percentage" >0%</td>
+                          </tr>
+                          <tr>
+                            <td>WhatsApp (Dua)</td>
+                            <td id="whatsapp-total-dua">0</td>
+                            <td id="whatsapp-total-percentage-dua">0%</td>
+                          </tr>
+                          <tr>
+                            <td>WhatsApp (Dum)</td>
+                            <td id="whatsapp-total-dum">0</td>
+                            <td id="whatsapp-total-percentage-dum">0%</td>
+                          </tr>
+
+                          <tr class="highlighted">
+                            <td>Grand Total</td>
+                            <td id="grand-total">0</td>
+                            <td id="grand-percentage">0%</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+
                     </div>
                 </div>
             </div>
@@ -681,6 +752,8 @@
     @section('page-script')
     <script>
         $(document).ready(function() {
+            var today = "{{ date('Y-m-d') }}";
+            filterDuaEntries(today, '')
             // Function to fetch filtered dua entries
             function filterDuaEntries(date, type) {
                 $.ajax({
@@ -688,13 +761,20 @@
                     method: 'POST',
                     data: {
                         date: date,
-                        type: type
+                        type: type,
+                        "_token" : "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        $('#duaList').empty();
-                        response.duas.forEach(function(dua) {
-                            $('#duaList').append('<li class="list-group-item">' + dua.content + '</li>');
-                        });
+
+                        var res = response.calculations;
+
+                        $.each(res,function(target,item){
+
+                            $("#"+target).text(item)
+
+                        })
+
+
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -732,7 +812,7 @@
 
             // Example: Call filterDuaEntries function on filter button click
             $('#filterBtn').click(function() {
-                var date = $('#dateFilter').val();
+                var date = $('#venue_date').val();
                 var type = $('#typeFilter').val();
                 filterDuaEntries(date, type);
             });
