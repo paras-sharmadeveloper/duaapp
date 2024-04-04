@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 d-none">
                 <div class="card">
                     <div class="card-header">Percentage Calculation</div>
                     <div class="card-body">
@@ -854,7 +854,7 @@
             }
 
             // Call the fetchPercentage function on page load
-            fetchPercentage();
+            // fetchPercentage();
 
             // Example: Call filterDuaEntries function on filter button click
             $('#filterBtn').click(function() {
@@ -862,7 +862,7 @@
                 var date = $('#venue_date').val();
                 var type = $('#typeFilter').val();
                 filterDuaEntries(date, type);
-                fetchPercentage(date)
+                // fetchPercentage(date)
             });
         });
     </script>

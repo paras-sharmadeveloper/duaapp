@@ -54,8 +54,8 @@ class DashboardController extends Controller
     $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
     $totalTokens =  $duaTotal + $dumTotal;
 
-    $totalWebsitePercentage = ($totalTokenWebsite / $totalTokens) * 100 ;
-    $totalWhatsAppPercentage = ($totalTokenWhatsApp / $totalTokens) * 100 ;
+    $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalTokens) * 100 : 0 ;
+    $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalTokens) * 100 : 0 ;
 
 
     $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalTokens) * 100 : 0;
@@ -125,7 +125,8 @@ class DashboardController extends Controller
       //   $percentageWhatsapp = ($totalCount > 0 ) ? ($whatsappCount / $totalCount) * 100 : 0;
       //  $percentageWebsite = ($totalCount > 0 ) ?  ($websiteCount / $totalCount) * 100: 0;
 
-        return response()->json(['whatsapp_percentage' => $totalWhatsAppCount,
+        return response()->json([
+                                 'whatsapp_percentage' => $totalWhatsAppCount,
                                   'website_percentage' => $totalWebsiteCount ,
                                   'whatsAppDua' =>$percentageWhatsappDua ,
                                   'whatsAppDum' =>$percentageWhatsappDum ,
@@ -139,6 +140,6 @@ class DashboardController extends Controller
                                   'totalBookDum' => $totalBookDum
 
 
-                                ]);
+                        ]);
     }
 }
