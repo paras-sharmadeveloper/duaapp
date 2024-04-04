@@ -47,27 +47,27 @@ class DashboardController extends Controller
 
             $calculations = [];
             $calculations['website-total'] = $totalTokenWebsite;
-            $calculations['website-total-percentage']= $totalWebsitePercentage.'%';
+            $calculations['website-total-percentage']= number_format($totalWebsitePercentage, 2).'%';
 
             $calculations['website-total-dua'] = $websiteCountDua;
-            $calculations['website-total-percentage-dua']= $percentageWebsiteDua.'%';
+            $calculations['website-total-percentage-dua']= number_format($percentageWebsiteDua, 2).'%';
 
             $calculations['website-total-dum'] = $websiteCountDum;
-            $calculations['website-total-percentage-dum']= $percentageWebsiteDum.'%';
+            $calculations['website-total-percentage-dum']=  number_format($percentageWebsiteDum, 2).'%';
 
 
             $calculations['whatsapp-total']= $totalTokenWhatsApp;
-            $calculations['whatsapp-total-percentage']= $totalWhatsAppPercentage.'%';
+            $calculations['whatsapp-total-percentage']= number_format($totalWhatsAppPercentage, 2) .'%';
 
 
             $calculations['whatsapp-total-dua'] = $whatsappCountDua;
-            $calculations['whatsapp-total-percentage-dua']= $percentageWhatsappDua.'%';
+            $calculations['whatsapp-total-percentage-dua']= number_format($percentageWhatsappDua, 2).'%';
 
             $calculations['whatsapp-total-dum'] = $whatsappCountDum;
-            $calculations['whatsapp-total-percentage-dum']= $percentageWhatsappDum.'%';
+            $calculations['whatsapp-total-percentage-dum']= number_format($percentageWhatsappDum, 2).'%';
 
             $calculations['grand-total']= $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-            $calculations['grand-percentage']= $totalWhatsAppPercentage + $totalWebsitePercentage .'%';
+            $calculations['grand-percentage']= number_format($totalWhatsAppPercentage, 2)  + number_format($totalWebsitePercentage, 2).'%';
 
 
         return response()->json(['calculations' => $calculations]);
