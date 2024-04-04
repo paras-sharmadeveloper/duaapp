@@ -45,13 +45,19 @@ class DashboardController extends Controller
 
     // Calculate total tokens and percentages
     $totalTokenWebsite = $websiteCountDua + $websiteCountDum;
+
+
     $totalTokenWhatsApp = $whatsappCountDua + $whatsappCountDum;
     $totalWhatsAppPercentage = $percentageWhatsappDua + $percentageWhatsappDum;
-    $totalWebsitePercentage = $percentageWebsiteDua + $percentageWebsiteDum;
 
     // Calculate grand totals and percentages
     $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
     $totalTokens = $whatsappCountDua + $duaTotal + $dumTotal;
+
+    $totalWebsitePercentage = ($totalTokenWebsite / $totalTokens) * 100 ;
+    $totalWhatsAppPercentage = ($totalTokenWhatsApp / $totalTokens) * 100 ;
+
+
     $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalTokens) * 100 : 0;
 
     // Prepare response data
@@ -62,12 +68,14 @@ class DashboardController extends Controller
         'website-total-percentage-dua' => number_format($percentageWebsiteDua, 2) . '%',
         'website-total-dum' => $websiteCountDum,
         'website-total-percentage-dum' => number_format($percentageWebsiteDum, 2) . '%',
+
         'whatsapp-total' => $totalTokenWhatsApp,
         'whatsapp-total-percentage' => number_format($totalWhatsAppPercentage, 2) . '%',
         'whatsapp-total-dua' => $whatsappCountDua,
         'whatsapp-total-percentage-dua' => number_format($percentageWhatsappDua, 2) . '%',
         'whatsapp-total-dum' => $whatsappCountDum,
         'whatsapp-total-percentage-dum' => number_format($percentageWhatsappDum, 2) . '%',
+
         'grand-total' => $totalCollectedTokens,
         'grand-percentage' => number_format($percentageTotalTokens, 2) . '%'
     ];
