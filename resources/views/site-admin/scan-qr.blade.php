@@ -54,8 +54,7 @@ div#model-body {
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="close btn btn-info" data-dismiss="modal">Close</button>
-
-              <button type="button"   onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                <button type="button"   onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
             </div>
 
           </div>
