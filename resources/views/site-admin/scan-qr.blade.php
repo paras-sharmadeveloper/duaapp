@@ -40,20 +40,17 @@ div#model-body {
 
             <!-- Modal Header -->
             <div class="modal-header">
-              {{-- <h4 class="modal-title">Print Token </h4> --}}
-              {{-- <button type="button" class="close" data-dismiss="modal">&times;</button><br> --}}
               <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
               <div class="alert alert-success" id="vaild-token" style="display: none"></div>
             </div>
             <!-- Modal body -->
-            <div class="modal-body" id="model-body">
-
-            </div>
+                <div class="modal-body" id="model-body">
+                </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="close btn btn-info" data-dismiss="modal">Close</button>
-                <button type="button"   onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                <button type="button" class="close btn btn-warning">Close</button>
+                <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
             </div>
 
           </div>
@@ -124,6 +121,9 @@ div#model-body {
                     }
                 });
 
+                $(document).on("click",".close",function(){
+                    $('#myModal').modal('hide');
+                })
 
 
 
