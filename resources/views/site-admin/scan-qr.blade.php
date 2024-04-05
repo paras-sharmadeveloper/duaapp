@@ -53,7 +53,7 @@ div#model-body {
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="close btn btn-dark" data-dismiss="modal">Close &times;</button>
+                <button type="button" class="close btn btn-info" data-dismiss="modal">Close</button>
 
               <button type="button"   onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
             </div>
@@ -149,12 +149,28 @@ div#model-body {
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
-            document.body.innerHTML = printContents;
+            var printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print</title></head><body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
 
-            window.print();
-
-            document.body.innerHTML = originalContents;
+            printWindow.document.close(); // necessary for IE >= 10
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
         }
+
+    //    function printDiv(divId) {
+    //         var printContents = document.getElementById(divId).innerHTML;
+    //         var originalContents = document.body.innerHTML;
+
+    //         document.body.innerHTML = printContents;
+
+    //         window.print();
+
+    //         document.body.innerHTML = originalContents;
+    //     }
 
 
 
