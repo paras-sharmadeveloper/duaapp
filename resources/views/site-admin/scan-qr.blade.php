@@ -45,7 +45,6 @@ div#model-body {
               <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
               <div class="alert alert-success" id="vaild-token" style="display: none"></div>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body" id="model-body">
 
