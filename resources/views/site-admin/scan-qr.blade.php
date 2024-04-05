@@ -143,32 +143,32 @@ div#model-body {
 
        })
 
-       function printDiv(divId) {
-            var printContents = document.getElementById(divId).innerHTML;
-            var originalContents = document.body.innerHTML;
-
-            var printWindow = window.open('', '_blank');
-            printWindow.document.write('<html><head><title>Print</title></head><body>');
-            printWindow.document.write(printContents);
-            printWindow.document.write('</body></html>');
-
-            printWindow.document.close(); // necessary for IE >= 10
-            printWindow.onload = function() {
-                printWindow.print();
-                printWindow.close();
-            };
-        }
-
     //    function printDiv(divId) {
     //         var printContents = document.getElementById(divId).innerHTML;
     //         var originalContents = document.body.innerHTML;
 
-    //         document.body.innerHTML = printContents;
+    //         var printWindow = window.open('', '_blank');
+    //         printWindow.document.write('<html><head><title>Print</title></head><body>');
+    //         printWindow.document.write(printContents);
+    //         printWindow.document.write('</body></html>');
 
-    //         window.print();
-
-    //         document.body.innerHTML = originalContents;
+    //         printWindow.document.close(); // necessary for IE >= 10
+    //         printWindow.onload = function() {
+    //             printWindow.print();
+    //             printWindow.close();
+    //         };
     //     }
+
+       function printDiv(divId) {
+            var printContents = document.getElementById(divId).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
 
 
 
