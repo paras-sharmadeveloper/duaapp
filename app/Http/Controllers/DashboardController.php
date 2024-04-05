@@ -22,20 +22,24 @@ class DashboardController extends Controller
             ->select(['booking_number as token', 'created_at as date',  'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id']);
 
 
-            if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
-                $data->where('dua_type', $request->input('dua_type'));
-            }
+        if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
+            $data->where('dua_type', $request->input('dua_type'));
+        }
 
-            if ($request->has('venue_date')) {
-                $data->where('created_at', 'LIKE', $request->input('venue_date').'%');
-                // $data->whereDate('created_at', $request->input('date'));
-            }
-            $filteredData = $data->get();
+        if ($request->has('venue_date')) {
+            $data->where('created_at', 'LIKE', $request->input('venue_date') . '%');
+            // $data->whereDate('created_at', $request->input('date'));
+        }
+        $filteredData = $data->get();
 
         foreach ($filteredData as $visitor) {
             // Generate token_url_link URL
-            $visitor->token_url_link = route('booking.status', [$visitor->token_url_link]);
-             $visitor->date = date('Y-m-d',strtotime($visitor->date));
+            // $visitor->token_url_link = '<a href="'.route('booking.status', [$visitor->token_url_link]).'">Book Status</a>';
+            $url = route('booking.status', [$visitor->token_url_link]);
+            //    $visitor->token_url_link = '<a href="' . $url . '">Book Status</a>';
+            $visitor->token_url_link = $url;
+
+            $visitor->date = date('Y-m-d', strtotime($visitor->date));
 
 
             if ($visitor->venueSloting && $visitor->venueSloting->venueAddress) {
@@ -45,6 +49,23 @@ class DashboardController extends Controller
                 // Example: $visitor->venueSloting->venueAddress->some_attribute
             }
         }
+
+        // return DataTables::of($filteredData)
+        // ->addColumn('token_url_link', function ($visitor) {
+        //     $url = route('booking.status', [$visitor->token_url_link]);
+        //     return '<a href="' . $url . '">Book Status</a>';
+        // })
+        // ->editColumn('date', function ($visitor) {
+        //     return date('Y-m-d', strtotime($visitor->date));
+        // })
+        // ->editColumn('dua_ghar', function ($visitor) {
+        //     if ($visitor->venueSloting && $visitor->venueSloting->venueAddress) {
+        //         return $visitor->venueSloting->venueAddress->city;
+        //     }
+        //     return '';
+        // })
+        // ->rawColumns(['token_url_link'])
+        // ->make(true);
 
 
         return DataTables::of($filteredData)->make(true);

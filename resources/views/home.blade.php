@@ -142,10 +142,10 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h5>Tokens</h5>
-                        <select class="form-control" name="dua_type" style="width: 40%">
+                        <select class="form-control" name="dua_type"  id="dua_type" style="width: 40%">
                             <option value=""> All</option>
                             <option value="dua"> Dua</option>
-                            <option value="dum"> Dua</option>
+                            <option value="dum"> Dum</option>
                         </select>
                         <input type="date" name="created_at" id="table_date"
                             class="form-control w-80" style="width: 40%">
@@ -983,10 +983,31 @@
                     { "data": "country_code" },
                     { "data": "phone" },
                     { "data": "source" },
-                    { "data": "token_url_link" }
+                    {
+                        "data": "token_url_link",
+                        "render": function(data, type, row, meta) {
+                            return '<a href="' + data + '">' + data + '</a>';
+                        }
+                    }
                 ],
                 "buttons": [
-                    'excel', 'pdf'
+                    'excel',
+                    {
+                        extend: 'pdfHtml5',
+                        filename: function() {
+                            var dua_type = $("#dua_type").find(':selected').val();
+                            var filename = (dua_type) ? dua_type+'_'+$("#table_date").val() : 'all_'+$("#table_date").val();
+                            // Set custom filename
+                            return filename;
+                        },
+                        customize: function (doc) {
+                // Add custom content to PDF
+                            doc.content.unshift({
+                                text: "Custom PDF Heading", // Your custom heading
+                                style: 'header'
+                            });
+                        }
+                    }
                 ],
                 "lengthMenu": ['10', '25', '50', '100','500','1000', "All"]
                 // "initComplete": function () {

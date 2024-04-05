@@ -53,8 +53,9 @@ div#model-body {
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger close" data-dismiss="modal">Close</button>
-              <button type="button" id="printButton" onclick="printDiv('model-body')" class="btn btn-dark ">Print </button>
+                <button type="button" class="close btn btn-dark" data-dismiss="modal">Close &times;</button>
+
+              <button type="button"   onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
             </div>
 
           </div>
@@ -131,9 +132,7 @@ div#model-body {
         }
         html5QrcodeScanner.render(onScanSuccess);
 
-        $(".close").click(function(){
-            $('#myModal').modal('toggle');
-        })
+
 
 
 
