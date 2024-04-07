@@ -60,15 +60,15 @@ class VenueController extends Controller
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
             'venue_addresses_ur' => 'required',
-            'swtich_dua' => 'required',
-            'swtich_dum' => 'required',
+           // 'swtich_dua' => 'required',
+           // 'swtich_dum' => 'required',
         ]);
 
         // Conditional validation based on the values of 'swtich_dua' and 'swtich_dum'
         if ($request->input('swtich_dua') == 'on') {
-            $request->validate([
-                'dua_slots' => 'required|integer|between:1,1000',
-            ]);
+                $request->validate([
+                    'dua_slots' => 'required|integer|between:1,1000',
+                ]);
         } else {
             $request->validate([
                 'reject_dua_id' => 'required|integer',
