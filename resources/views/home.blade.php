@@ -988,7 +988,7 @@
                     {
                         "data": "token_url_link",
                         "render": function(data, type, row, meta) {
-                            return '<a href="' + data + '">' + data + '</a>';
+                            return '<a href="' + data + '" target="_blank">' + data + '</a>';
                         }
                     }
 
@@ -1004,14 +1004,17 @@
                             return filename;
                         },
                         customize: function (doc) {
+                            console.log("doc",doc)
                             var dua_type = $("#dua_type").find(':selected').val();
+                            var date = $("#table_date").val();
                             var filename = (dua_type) ? dua_type+'_'+$("#table_date").val() : 'all_'+$("#table_date").val();
+
+                            var name = (dua_type) ? dua_type : 'All'+' TOKEN - '+date+' - Islamabad Dua Ghar';
                             // Add custom content to PDF
                             doc.content.unshift({
-                                text: filename, // Your custom heading
-                                style: 'header'
+                                text: name, // Your custom heading
+                                style: 'title'
                             });
-                            document.title =filename
                         }
                     }
                 ],
@@ -1022,6 +1025,7 @@
                "lengthMenu": ['10', '25', '50', '100','500','1000','1500','2000','2500','3000']
 
             });
+
 
 
 

@@ -229,12 +229,12 @@
         class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
 
-          <li>
+          {{-- <li>
             <a data-href="{{ $currentPath }}" href="{{ route('reasons.announcement') }}"
             class="{{ ( $currentPath == 'reasons.announcement') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Announcement</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('reasons.index') }}"

@@ -19,7 +19,8 @@ class DashboardController extends Controller
     {
 
         $data = Vistors::with(['venueSloting'])
-            ->select(['booking_number as token','id', 'created_at as date',  'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id']);
+            ->select(['booking_number as token','id', 'created_at as date',
+             'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id' , 'user_question']);
 
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
@@ -41,18 +42,25 @@ class DashboardController extends Controller
             $visitor->token_url_link = $url;
 
             $visitor->date = date('Y-m-d', strtotime($visitor->date));
+            $daaate = date('l d-M-Y', strtotime($visitor->date));
 
 
             if ($visitor->venueSloting && $visitor->venueSloting->venueAddress) {
-                if($visitor->country_code){
-                    $visitor->phone =  $visitor->country_code.'  ' . $visitor->phone;
-                }
 
                 if($visitor->dua_type){
                     $visitor->dua_ghar =  $visitor->venueSloting->venueAddress->city.' / ' . $visitor->dua_type;
                 }else{
                     $visitor->dua_ghar =  $visitor->venueSloting->venueAddress->city;
                 }
+
+                $duaType = ($visitor->dua_type) ? $visitor->dua_type : 'Dua';
+                $visitor->user_question = ''.strtoupper($duaType).' TOKEN - '.$daaate.' - '.strtoupper($visitor->venueSloting->venueAddress->city).' Dua Ghar';
+
+                if($visitor->country_code){
+                    $visitor->phone =  $visitor->country_code.'  ' . $visitor->phone;
+                }
+
+
 
                 // Access VenueAddress data through venueSloting
                 // Example: $visitor->venueSloting->venueAddress->some_attribute
