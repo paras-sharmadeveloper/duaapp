@@ -6,6 +6,10 @@
         body {
             font-family: 'Jameel Noori Nastaleeq', 'Regular';
         }
+        .queue-number p {
+    font-size: 24px;
+    font-weight: 600;
+}
 
         @media print {
 
