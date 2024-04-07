@@ -1019,7 +1019,7 @@
                     "targets":[5], // index of the token_url_link column
                     "width": "250px" // set width to 100%
                 }],
-               "lengthMenu": ['10', '25', '50', '100','500','1000', "All"]
+               "lengthMenu": ['10', '25', '50', '100','500','1000','1500','2000','2500','3000']
 
             });
 
