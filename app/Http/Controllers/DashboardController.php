@@ -105,11 +105,13 @@ class DashboardController extends Controller
 
         $totalTokens =  $duaTotal + $dumTotal;
 
+        $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
+
         // Calculate percentages
-        $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $totalTokens) * 100 : 0;
-        $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $totalTokens) * 100 : 0;
-        $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $totalTokens) * 100 : 0;
-        $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $totalTokens) * 100 : 0;
+        $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $totalCollectedTokens) * 100 : 0;
+        $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $totalCollectedTokens) * 100 : 0;
 
         // Calculate total tokens and percentages
         $totalTokenWebsite = $websiteCountDua + $websiteCountDum;
@@ -119,7 +121,7 @@ class DashboardController extends Controller
         $totalWhatsAppPercentage = $percentageWhatsappDua + $percentageWhatsappDum;
 
         // Calculate grand totals and percentages
-        $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
+
 
 
         $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalTokens) * 100 : 0;
