@@ -124,11 +124,11 @@ class DashboardController extends Controller
 
 
 
-        $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalTokens) * 100 : 0;
-        $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalTokens) * 100 : 0;
+        $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalCollectedTokens) * 100 : 0;
+        $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalCollectedTokens) * 100 : 0;
 
 
-        $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalTokens) * 100 : 0;
+        $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalCollectedTokens) * 100 : 0;
 
         // Prepare response data
         $calculations = [
