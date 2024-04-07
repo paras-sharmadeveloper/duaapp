@@ -428,8 +428,11 @@
 
                             @endif
                             <p>{{ trans('messages.pdf_event_token_view_label') }}:</p>
-                            <p> <a href="{{ route('booking.status', [$userBooking->booking_uniqueid]) }}"
-                                    target="_blank">{{ route('booking.status', [$userBooking->booking_uniqueid]) }}</a>
+                            @php
+                                $userId =  base64_encode($userBooking->id);
+                            @endphp
+                            <p> <a href="{{ route('booking.status.withid', [$userId]) }}"
+                                    target="_blank">{{ route('booking.status.withid', [$userId]) }}</a>
                             </p>
 
                             {{-- <a href="{{ route('generate-pdf',[$userBooking->booking_uniqueid]) }}" class="btn btn-success" >{{ trans('messages.pdf_download_btn_label') }}</a> --}}

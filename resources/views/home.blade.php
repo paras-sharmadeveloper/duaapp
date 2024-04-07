@@ -1007,11 +1007,11 @@
                             var dua_type = $("#dua_type").find(':selected').val();
                             var filename = (dua_type) ? dua_type+'_'+$("#table_date").val() : 'all_'+$("#table_date").val();
                             // Add custom content to PDF
-                            // doc.content.unshift({
-                            //     text: "Custom PDF Heading", // Your custom heading
-                            //     style: 'header'
-                            // });
-                            doc.title = dua_type;
+                            doc.content.unshift({
+                                text: filename, // Your custom heading
+                                style: 'header'
+                            });
+                            document.title =filename
                         }
                     }
                 ],
@@ -1057,5 +1057,6 @@
             //     ]
             // });
         });
+
     </script>
 @endsection
