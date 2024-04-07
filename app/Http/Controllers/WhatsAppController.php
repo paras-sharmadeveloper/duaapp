@@ -233,7 +233,7 @@ class WhatsAppController extends Controller
                     $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
                     $venueDateUr =  date("d m Y", strtotime($venueAddress->venue_date));
 
-                    Vistors::create([
+                    $visitor = Vistors::create([
                         'is_whatsapp' => 'yes',
                         'slot_id' => $slotId,
                         'meeting_type' => 'on-site',
@@ -253,7 +253,8 @@ class WhatsAppController extends Controller
                    // $statusNote =($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
                   //  $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
 
-                    $statusLink = route('booking.status', $uuid);
+                    $bookId = base64_encode($visitor->id);
+                    $statusLink = route('booking.status.withid', $bookId);
 
                     $pdfLink = '';
                     // $duaby ='';
