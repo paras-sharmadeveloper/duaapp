@@ -230,7 +230,13 @@
                                 <select class="form-control" name="reject_dua_id">
                                     <option value="">Select Reason</option>
                                     @foreach ($reasons as $reason )
-                                    <option value="{{ $reason->id }}">{{ $reason->label }} </option>
+                                    <option value="{{ $reason->id }}"
+
+                                        @if($venueAddress->reject_dua_id == $reason->id)
+                                            selected
+                                        @endif
+
+                                        >{{ $reason->label }} </option>
                                     @endforeach
                                 </select>
 
@@ -266,7 +272,14 @@
                                 <select class="form-control" name="reject_dum_id">
                                     <option value="">Select Reason</option>
                                     @foreach ($reasons as $reason )
-                                    <option value="{{ $reason->id }}">{{ $reason->label }} </option>
+                                    <option
+
+                                    @if($venueAddress->reject_dum_id == $reason->id)
+                                            selected
+                                        @endif
+
+
+                                    value="{{ $reason->id }}">{{ $reason->label }} </option>
                                     @endforeach
                                 </select>
 
