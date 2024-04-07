@@ -975,6 +975,7 @@
 
             // "dom": 'lBrtip',
                 "processing": true,
+                "pageLength": 100,
                 "serverSide": true,
                 "ajax": "{{ route('dashboard.data') }}",
                 "columns": [
