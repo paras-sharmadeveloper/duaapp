@@ -184,6 +184,7 @@ Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->n
 Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 Route::get('/book/status/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
+Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
 
 Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
 Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');

@@ -162,12 +162,12 @@
                                 <tr>
                                     <th>Token</th>
                                     <th>Date</th>
-                                    <th>Dua Type</th>
                                     <th>Dua Ghar</th>
-                                    <th>Country Code</th>
+                                    {{-- <th>Country Code</th> --}}
                                     <th>Phone</th>
                                     <th>Source</th>
                                     <th>Token Url Link</th>
+
                                 </tr>
                             </thead>
                         </table>
@@ -971,16 +971,18 @@
 
 
         $('#datatable').DataTable({
-            "dom": 'lBrtip',
+            "dom": 'lBfrtip',
+
+            // "dom": 'lBrtip',
                 "processing": true,
                 "serverSide": true,
                 "ajax": "{{ route('dashboard.data') }}",
                 "columns": [
                     { "data": "token" },
                     { "data": "date" },
-                    { "data": "dua_type" },
+                    // { "data": "dua_type" },
                     { "data": "dua_ghar" },
-                    { "data": "country_code" },
+                    // { "data": "country_code" },
                     { "data": "phone" },
                     { "data": "source" },
                     {
@@ -989,6 +991,7 @@
                             return '<a href="' + data + '">' + data + '</a>';
                         }
                     }
+
                 ],
                 "buttons": [
                     'excel',
@@ -1012,44 +1015,12 @@
                         }
                     }
                 ],
-                "lengthMenu": ['10', '25', '50', '100','500','1000', "All"]
-                // "initComplete": function () {
-                //     // Add Dua and Dum filter dropdown
-                //     this.api().columns(2).every(function () {
-                //         var column = this;
-                //         var select = $('<select><option value=""></option></select>')
-                //             .appendTo($(column.header()).empty())
-                //             .on('change', function () {
-                //                 var val = $.fn.dataTable.util.escapeRegex(
-                //                     $(this).val()
-                //                 );
+                "columnDefs": [{
+                    "targets":[5], // index of the token_url_link column
+                    "width": "250px" // set width to 100%
+                }],
+               "lengthMenu": ['10', '25', '50', '100','500','1000', "All"]
 
-                //                 column
-                //                     .search(val ? '^' + val + '$' : '', true, false)
-                //                     .draw();
-                //             });
-
-                //         column.data().unique().sort().each(function (d, j) {
-                //             select.append('<option value="' + d + '">' + d + '</option>')
-                //         });
-                //     });
-
-                //     // Add Date filter
-                //     this.api().columns(1).every(function () {
-                //         var column = this;
-                //         var input = $('<input type="date" placeholder="Filter Date" />')
-                //             .appendTo($(column.header()).empty())
-                //             .on('change', function () {
-                //                 var val = $.fn.dataTable.util.escapeRegex(
-                //                     $(this).val()
-                //                 );
-
-                //                 column
-                //                     .search(val, true, false)
-                //                     .draw();
-                //             });
-                //     });
-                // }
             });
 
 

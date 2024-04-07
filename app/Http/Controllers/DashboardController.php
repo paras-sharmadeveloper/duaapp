@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
 
         $data = Vistors::with(['venueSloting'])
-            ->select(['booking_number as token', 'created_at as date',  'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id']);
+            ->select(['booking_number as token','id', 'created_at as date',  'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id']);
 
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
@@ -35,7 +35,8 @@ class DashboardController extends Controller
         foreach ($filteredData as $visitor) {
             // Generate token_url_link URL
             // $visitor->token_url_link = '<a href="'.route('booking.status', [$visitor->token_url_link]).'">Book Status</a>';
-            $url = route('booking.status', [$visitor->token_url_link]);
+            $id = base64_encode($visitor->id);
+            $url = route('booking.status.withid', [$id]);
             //    $visitor->token_url_link = '<a href="' . $url . '">Book Status</a>';
             $visitor->token_url_link = $url;
 
@@ -43,8 +44,16 @@ class DashboardController extends Controller
 
 
             if ($visitor->venueSloting && $visitor->venueSloting->venueAddress) {
+                if($visitor->country_code){
+                    $visitor->phone =  $visitor->country_code.'  ' . $visitor->phone;
+                }
 
-                $visitor->dua_ghar =  $visitor->venueSloting->venueAddress->city;
+                if($visitor->dua_type){
+                    $visitor->dua_ghar =  $visitor->venueSloting->venueAddress->city.' / ' . $visitor->dua_type;
+                }else{
+                    $visitor->dua_ghar =  $visitor->venueSloting->venueAddress->city;
+                }
+
                 // Access VenueAddress data through venueSloting
                 // Example: $visitor->venueSloting->venueAddress->some_attribute
             }
