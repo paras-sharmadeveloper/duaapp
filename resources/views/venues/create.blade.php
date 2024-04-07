@@ -232,7 +232,7 @@
                                     @foreach ($reasons as $reason )
                                     <option value="{{ $reason->id }}"
 
-                                        @if($venueAddress->reject_dua_id == $reason->id)
+                                        @if(!empty($venueAddress) && $venueAddress->reject_dua_id == $reason->id)
                                             selected
                                         @endif
 
@@ -274,7 +274,7 @@
                                     @foreach ($reasons as $reason )
                                     <option
 
-                                    @if($venueAddress->reject_dum_id == $reason->id)
+                                    @if(!empty($venueAddress) && $venueAddress->reject_dum_id == $reason->id)
                                             selected
                                         @endif
 
