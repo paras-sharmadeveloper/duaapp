@@ -503,8 +503,7 @@
                         <div class="input-group">
                             <textarea name="status_page_note"
                             class="form-control"
-                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">
-                            {{ $venueAddress->status_page_note ?? '' }}</textarea>
+                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
 
 
                         </div>
@@ -542,11 +541,11 @@
                         </label>
                     </div>
                 @endif
-                @if (Route::currentRouteName() == 'venues.edit')
-                    <button type="submit" class="btn btn-primary mt-4">{{ 'Update' }}</button>
-                @else
-                    <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
-                @endif
+                    @if (Route::currentRouteName() == 'venues.edit')
+                        <button type="submit" class="btn btn-primary mt-4">{{ 'Update' }}</button>
+                    @else
+                        <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
+                    @endif
                 </form>
             </div>
         </div>

@@ -164,7 +164,7 @@
 
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.pending.show') }}" class="{{ ( $currentPath == 'siteadmin.pending.list' ||  $currentPath == 'siteadmin.pending.show' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Search Users </span>
+              <i class="bi bi-circle"></i><span>Search Tokens </span>
             </a>
           </li>
 
