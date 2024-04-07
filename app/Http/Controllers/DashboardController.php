@@ -103,11 +103,13 @@ class DashboardController extends Controller
             $dumTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->count();
         }
 
+        $totalTokens =  $duaTotal + $dumTotal;
+
         // Calculate percentages
-        $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $duaTotal) * 100 : 0;
-        $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $dumTotal) * 100 : 0;
-        $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $duaTotal) * 100 : 0;
-        $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $dumTotal) * 100 : 0;
+        $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $totalTokens) * 100 : 0;
+        $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $totalTokens) * 100 : 0;
+        $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $totalTokens) * 100 : 0;
+        $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $totalTokens) * 100 : 0;
 
         // Calculate total tokens and percentages
         $totalTokenWebsite = $websiteCountDua + $websiteCountDum;
@@ -118,7 +120,7 @@ class DashboardController extends Controller
 
         // Calculate grand totals and percentages
         $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-        $totalTokens =  $duaTotal + $dumTotal;
+
 
         $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalTokens) * 100 : 0;
         $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalTokens) * 100 : 0;
