@@ -361,13 +361,13 @@ class WhatsAppController extends Controller
                     $dataArr = [
                         'customer_number' => $userPhoneNumber,
                         'customer_response' => $Respond,
-                        'bot_reply' =>  $message,
+                        'bot_reply' =>  'Slot Booked',
                         'data_sent_to_customer' => 'Slot Booked',
                         'last_reply_time' => date('Y-m-d H:i:s'),
                         'steps' => 1
                     ];
                     WhatsApp::create($dataArr);
-                    $this->FlushEntries($userPhoneNumber);
+                    // $this->FlushEntries($userPhoneNumber);
                     return false;
               }
 
