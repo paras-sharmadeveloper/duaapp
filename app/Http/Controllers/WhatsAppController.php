@@ -54,14 +54,13 @@ class WhatsAppController extends Controller
 
 
 
-
             Log::info('Test'.$this->countryId->id);
 
 
             $options = ['1' ,'2'];
 
 
-            $dataEn = 'Currently we are open with *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below.
+            $dataEn = 'Dua Ghar *'.$venue->city.'*. If you willing to book dua/dum for city then please enter number below.
 
             Please enter your type of dua?
             *1* Dua
@@ -103,21 +102,19 @@ class WhatsAppController extends Controller
                 return false;
             }
 
-
-
             $status = TokenBookingAllowed($venue->venue_date, $venue->venue_date_end,  $venue->timezone);
+
 
             $venue_available_country =  json_decode($venue->venue_available_country);
             $country = Country::where('phonecode', str_replace('+', '',$countryCode))->first();
             $userCountry = VenueAvilableInCountry($venue_available_country,$country->id);
-
-
             $rejoin = $venue->rejoin_venue_after;
             $rejoinStatus = userAllowedRejoin($cleanNumber, $rejoin);
 
-            Log::info("status".$venue->status);
-            Log::info("userCountry".$userCountry['allowed']);
-            Log::info("Rejoin".$rejoinStatus['allowed']);
+
+            // Log::info("status".$venue->status);
+            // Log::info("userCountry".$userCountry['allowed']);
+            // Log::info("Rejoin".$rejoinStatus['allowed']);
             if( !empty($venue) &&  $venue->status == 'inactive'){
 
                 $message = $this->WhatsAppbotMessagesNew('For some reason currently this venue not accepting bookings. Please try after some time. Thank You', 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ');
@@ -195,6 +192,56 @@ class WhatsAppController extends Controller
                     $this->sendMessage($userPhoneNumber, $message);
                     return false;
 
+                }
+
+                if($dua_option=='dua' && !empty($venue->reject_dua_id)){
+                    $reason  = Reason::find($venue->reject_dua_id);
+
+                    $message = $this->WhatsAppbotMessagesNew($reason->reason_english, $reason->reason_urdu);
+
+                    $this->sendMessage($userPhoneNumber, $message);
+
+                  //  $message = $this->WhatsAppbotMessages($data, 9 , $lang);
+
+                    $dataArr = [
+                        'lang' => 'en',
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' =>  $data,
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 1,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
+
+                    return false;
+
+                }
+                if($dua_option=='dum' && !empty($venue->reject_dum_id)){
+                    $reason  = Reason::find($venue->reject_dua_id);
+
+                    $message = $this->WhatsAppbotMessagesNew($reason->reason_english, $reason->reason_urdu);
+
+                    $this->sendMessage($userPhoneNumber, $message);
+
+                    $dataArr = [
+                        'lang' => 'en',
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' =>  $data,
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 1,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    $this->FlushEntries($userPhoneNumber);
+
+                    return false;
                 }
 
                 Log::info('allowed dua_option'.$dua_option);
