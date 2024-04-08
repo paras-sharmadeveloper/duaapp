@@ -215,7 +215,7 @@ class WhatsAppController extends Controller
                         'response_options' => null
                     ];
                     WhatsApp::create($dataArr);
-                    $this->FlushEntries($userPhoneNumber);
+                    // $this->FlushEntries($userPhoneNumber);
 
                     return false;
 
@@ -239,7 +239,7 @@ class WhatsAppController extends Controller
                         'response_options' => null
                     ];
                     WhatsApp::create($dataArr);
-                    $this->FlushEntries($userPhoneNumber);
+                    // $this->FlushEntries($userPhoneNumber);
 
                     return false;
                 }
