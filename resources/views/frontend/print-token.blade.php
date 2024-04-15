@@ -11,13 +11,13 @@
             @endphp
 
             <div class="qr">
-                {!! QrCode::size(92)->generate( $bookstatus  ) !!}
+                {!! QrCode::size(90)->generate( $bookstatus  ) !!}
             </div>
             <div class="logod">
-                <img style="height: 70px !important; width:70px !important" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+                <img style="height: 60px !important; width:60px !important" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
             </div>
             <div class="qr">
-                {!! QrCode::size(92)->generate( $bookstatus  ) !!}
+                {!! QrCode::size(90)->generate( $bookstatus  ) !!}
             </div>
 
         </div>
