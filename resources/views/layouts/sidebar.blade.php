@@ -131,7 +131,7 @@
               <i class="bi bi-circle"></i><span>List</span>
             </a>
           </li>
-
+S
         </ul>
       </li> --}}
       @endcanany
@@ -156,7 +156,7 @@
           </li>
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('qr.show.scan') }}" class="{{ ( $currentPath == 'qr.show.scan') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Scan QR Code</span>
+              <i class="bi bi-circle"></i><span>Print Tokens</span>
             </a>
           </li>
 
