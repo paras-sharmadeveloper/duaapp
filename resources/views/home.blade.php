@@ -43,6 +43,8 @@
         </style>
 
         <div class="row">
+@can('user-management-access')
+
 
             <div class="col-md-12">
                 <div class="card">
@@ -181,7 +183,7 @@
         </div>
 
 
-
+        @endcan
         <div class="row d-none">
             <!-- Left side columns -->
             <div class="col-lg-8">
