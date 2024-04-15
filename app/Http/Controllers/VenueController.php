@@ -15,11 +15,18 @@ use Spatie\Permission\Models\Role;
 
 class VenueController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $venuesAddress = VenueAddress::all();
-        $visitors = Vistors::all();
+        $post = $request->all();
+        // echo "<pre>"; print_r($post); die;
+        if($post['inactive'] == 'true'){
+            $venuesAddress = VenueAddress::whereDate('venue_date','<=',date('Y-m-d'))->get();
+            $visitors = Vistors::all();
 
+        }else{
+            $venuesAddress = VenueAddress::whereDate('venue_date',date('Y-m-d'))->get();
+            $visitors = Vistors::all();
+        }
         return view('venues.list', compact('venuesAddress','visitors'));
     }
 
