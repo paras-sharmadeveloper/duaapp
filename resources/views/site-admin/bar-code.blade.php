@@ -125,6 +125,7 @@
                     toastr.error('Error: Unable to process the scan.');
                 }
             });
+            $("#barcodeInput").reset();
 
 
             console.log("Scanned Barcode:", barcodeValue);
