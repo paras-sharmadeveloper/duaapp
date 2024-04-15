@@ -43,156 +43,156 @@
         </style>
 
         <div class="row">
-@can('user-management-access')
-
-
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <h5>Filtered Entries</h5>
-                        <input type="date" name="venue_date" id="venue_date" value="{{ date('Y-m-d') }}"
-                            class="form-control filter-input w-80">
-                        <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
-                        <button id="generatePdfBtn" class="btn btn-dark">Generate PDF</button>
+            @can('user-management-access')
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Filtered Entries</h5>
+                            <input type="date" name="venue_date" id="venue_date" value="{{ date('Y-m-d') }}"
+                                class="form-control filter-input w-80">
+                            <button type="button" id="filterBtn" class="btn btn-info"> filter </button>
+                            <button id="generatePdfBtn" class="btn btn-dark">Generate PDF</button>
 
 
 
-                    </div>
-                    <div class="card-body">
-                        <div id="spinner-div" class="pt-5">
-                            <div class="spinner-border text-primary" role="status">
-                            </div>
                         </div>
-                        <table class="table custom-table" id="tokenTable">
-
-                            <thead>
-                                <tr class=" ">
-                                    <td></td>
-                                    <td><div class="title text-center">
-                                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="" style="height: 70px; width:70px">
-                                        <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span></h4>
-                                    </div> </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>Row Label</th>
-                                    <th>Count of Token</th>
-                                    <th>%</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr class="highlighted">
-                                    <td>Website</td>
-                                    <td id="website-total">0</td>
-                                    <td id="website-total-percentage">0%</td>
-                                </tr>
-                                <tr>
-                                    <td>Website (Dua)</td>
-                                    <td id="website-total-dua">0</td>
-                                    <td id="website-total-percentage-dua">0%</td>
-                                </tr>
-                                <tr>
-                                    <td>Website (Dum)</td>
-                                    <td id="website-total-dum">0</td>
-                                    <td id="website-total-percentage-dum">0%</td>
-                                </tr>
-
-                                <tr class="highlighted">
-                                    <td>WhatsApp</td>
-                                    <td id="whatsapp-total">0</td>
-                                    <td id="whatsapp-total-percentage">0%</td>
-                                </tr>
-                                <tr>
-                                    <td>WhatsApp (Dua)</td>
-                                    <td id="whatsapp-total-dua">0</td>
-                                    <td id="whatsapp-total-percentage-dua">0%</td>
-                                </tr>
-                                <tr>
-                                    <td>WhatsApp (Dum)</td>
-                                    <td id="whatsapp-total-dum">0</td>
-                                    <td id="whatsapp-total-percentage-dum">0%</td>
-                                </tr>
-
-                                <tr class="highlighted">
-                                    <td>Grand Total</td>
-                                    <td id="grand-total">0</td>
-                                    <td id="grand-percentage">0%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-md-6 d-none">
-                <div class="card">
-                    <div class="card-header">Percentage Calculation</div>
-                    <div class="card-body">
-                        <p id="whatsappPercentage">WhatsApp Percentage: <span></span></p>
-                        <p id="websitePercentage">Website Percentage: <span></span></p>
-                        <p id="websiteDua">Website Dua Percentage: <span></span></p>
-                        <p id="websiteDum">Website Dum Percentage: <span></span></p>
-                        <p id="whatsAppDua">whatsApp Dua Percentage: <span></span></p>
-                        <p id="whatsAppDum">whatsApp Dum Percentage: <span></span></p>
-
-                        <p id="duatoken">Total Dua: <span></span></p>
-                        <p id="dumtoken">Total Dum: <span></span></p>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <h5>Tokens</h5>
-                        <select class="form-control" name="dua_type" id="dua_type" style="width: 40%">
-                            <option value=""> All</option>
-                            <option value="dua"> Dua</option>
-                            <option value="dum"> Dum</option>
-                        </select>
-                        <input type="date" name="created_at" id="table_date" class="form-control w-80"
-                            style="width: 40%">
-                        <button type="button" id="filtertable" class="btn btn-info"> filter </button>
-
-                    </div>
-                    <div class="card-body">
-                        <div id="spinner-div" class="pt-5">
-                            <div class="spinner-border text-primary" role="status">
+                        <div class="card-body">
+                            <div id="spinner-div" class="pt-5">
+                                <div class="spinner-border text-primary" role="status">
+                                </div>
                             </div>
+                            <table class="table custom-table" id="tokenTable">
+
+                                <thead>
+                                    <tr class=" ">
+                                        <td></td>
+                                        <td>
+                                            <div class="title text-center">
+                                                <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""
+                                                    style="height: 70px; width:70px">
+                                                <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span>
+                                                </h4>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Row Label</th>
+                                        <th>Count of Token</th>
+                                        <th>%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="highlighted">
+                                        <td>Website</td>
+                                        <td id="website-total">0</td>
+                                        <td id="website-total-percentage">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Website (Dua)</td>
+                                        <td id="website-total-dua">0</td>
+                                        <td id="website-total-percentage-dua">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Website (Dum)</td>
+                                        <td id="website-total-dum">0</td>
+                                        <td id="website-total-percentage-dum">0%</td>
+                                    </tr>
+
+                                    <tr class="highlighted">
+                                        <td>WhatsApp</td>
+                                        <td id="whatsapp-total">0</td>
+                                        <td id="whatsapp-total-percentage">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WhatsApp (Dua)</td>
+                                        <td id="whatsapp-total-dua">0</td>
+                                        <td id="whatsapp-total-percentage-dua">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WhatsApp (Dum)</td>
+                                        <td id="whatsapp-total-dum">0</td>
+                                        <td id="whatsapp-total-percentage-dum">0%</td>
+                                    </tr>
+
+                                    <tr class="highlighted">
+                                        <td>Grand Total</td>
+                                        <td id="grand-total">0</td>
+                                        <td id="grand-percentage">0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+
                         </div>
-                        <table id="datatable" class="display" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Token</th>
-                                    <th>Date</th>
-                                    <th>Dua Ghar</th>
-                                    {{-- <th>Country Code</th> --}}
-                                    <th>Phone</th>
-                                    <th>Source</th>
-                                    <th>Token Url Link</th>
-
-                                </tr>
-                            </thead>
-                        </table>
+                    </div>
+                </div>
 
 
+                <div class="col-md-6 d-none">
+                    <div class="card">
+                        <div class="card-header">Percentage Calculation</div>
+                        <div class="card-body">
+                            <p id="whatsappPercentage">WhatsApp Percentage: <span></span></p>
+                            <p id="websitePercentage">Website Percentage: <span></span></p>
+                            <p id="websiteDua">Website Dua Percentage: <span></span></p>
+                            <p id="websiteDum">Website Dum Percentage: <span></span></p>
+                            <p id="whatsAppDua">whatsApp Dua Percentage: <span></span></p>
+                            <p id="whatsAppDum">whatsApp Dum Percentage: <span></span></p>
 
+                            <p id="duatoken">Total Dua: <span></span></p>
+                            <p id="dumtoken">Total Dum: <span></span></p>
 
-
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Tokens</h5>
+                            <select class="form-control" name="dua_type" id="dua_type" style="width: 40%">
+                                <option value=""> All</option>
+                                <option value="dua"> Dua</option>
+                                <option value="dum"> Dum</option>
+                            </select>
+                            <input type="date" name="created_at" id="table_date" class="form-control w-80"
+                                style="width: 40%">
+                            <button type="button" id="filtertable" class="btn btn-info"> filter </button>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="spinner-div" class="pt-5">
+                                <div class="spinner-border text-primary" role="status">
+                                </div>
+                            </div>
+                            <table id="datatable" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Token</th>
+                                        <th>Date</th>
+                                        <th>Dua Ghar</th>
+                                        {{-- <th>Country Code</th> --}}
+                                        <th>Phone</th>
+                                        <th>Source</th>
+                                        <th>Token Url Link</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
 
 
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endcan
         <div class="row d-none">
             <!-- Left side columns -->
@@ -939,7 +939,7 @@
             $("#spinner-div").show();
 
 
-           var is =  downloadPdf()
+            var is = downloadPdf()
 
 
         })
@@ -1023,7 +1023,7 @@
                 ],
                 "buttons": [{
                         extend: 'pdfHtml5',
-                        filename: 'DUA/DUM TOKENS -'+new Date().toDateString()+' ',
+                        filename: 'DUA/DUM TOKENS -' + new Date().toDateString() + ' ',
                         customize: function(doc) {
                             // Add logo
                             var logo =
@@ -1066,6 +1066,7 @@
 
 
 
+
                             // doc.content.splice(1, 2);
 
                             doc.content.splice(1, 0, {
@@ -1076,7 +1077,6 @@
                             });
                             doc.content.splice(2, 1);
 
-                            // console.log(" doc" , doc)
 
                         }
                     },
@@ -1085,7 +1085,7 @@
 
                 "columnDefs": [{
                     "targets": [5], // index of the token_url_link column
-                    "width": "250px" // set width to 100%
+                    "width": "500px" // set width to 100%
                 }],
                 "lengthMenu": ['10', '25', '50', '100', '500', '1000', '1500', '2000', '2500', '3000']
 

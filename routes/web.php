@@ -170,10 +170,6 @@ Route::get('/', function () {
     }
 });
 
-
-
-
-
 Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
 Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
 Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
