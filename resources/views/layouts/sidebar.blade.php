@@ -5,13 +5,14 @@
   <aside id="sidebar" class="sidebar" data-route="{{ Route::currentRouteName() }}">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
+        @canany('user-management-access')
       <li class="nav-item">
         <a class="{{ ( $currentPath == 'home') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('home') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li>
+      @endcanany
 
 
 
