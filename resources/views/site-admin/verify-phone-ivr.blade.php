@@ -83,23 +83,27 @@ $(document).ready(function () {
     $('#search').on('keyup', function () {
         var searchQuery = $(this).val();
         var id = $("#currentvenue").val();
-        $.ajax({
-            url: "{{ route('search.visitors') }}",
-            method: 'GET',
-            data: { search: searchQuery,id : id ,'type':'token' },
-            success: function (response) {
-                $('.users-list').html(response);
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
+        if(searchQuery){
+            $.ajax({
+                url: "{{ route('search.visitors') }}",
+                method: 'GET',
+                data: { search: searchQuery,id : id ,'type':'token' },
+                success: function (response) {
+                    $('.users-list').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
     });
 
     $('#globalsearch').on('keyup', function () {
         var searchQuery = $(this).val();
         var id = $("#currentvenue").val();
-        $.ajax({
+        if(searchQuery){
+            $.ajax({
             url: "{{ route('search.visitors') }}",
             method: 'GET',
             data: { search: searchQuery,id : id ,'type':'global' },
@@ -110,6 +114,9 @@ $(document).ready(function () {
                 console.error(error);
             }
         });
+
+        }
+
     });
 });
 
