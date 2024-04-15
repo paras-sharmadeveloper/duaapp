@@ -32,12 +32,9 @@
             <div class="col-md-6 text-center">
                 <input id='barcodeInput' type='text'  class="form-control w-100"  />
                 <div class="tickmark" id="greenTick" style="display: none">
-                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1"  />
+                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1"/>
                     <p>You can start scaning</p>
                 </div>
-
-
-
             </div>
         </div>
 
@@ -99,7 +96,6 @@
                     if (response.success) {
                         $(".token-area").find('p').show();
                         $(".token-area").find('span').text(response.token)
-
                         $('#myModal').modal('toggle');
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
@@ -150,6 +146,7 @@
 
         $(document).on("click", ".close", function() {
             $('#myModal').modal('hide');
+            $("#barcodeInput").focus();
         })
 
 
