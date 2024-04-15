@@ -37,7 +37,7 @@ class DashboardController extends Controller
             // Generate token_url_link URL
             // $visitor->token_url_link = '<a href="'.route('booking.status', [$visitor->token_url_link]).'">Book Status</a>';
            // $id = base64_encode($visitor->id);
-            $url = route('booking.status', [$visitor->token_url_link]);
+            $url =   route('booking.status', $visitor->token_url_link);
             //    $visitor->token_url_link = '<a href="' . $url . '">Book Status</a>';
             $visitor->token_url_link = $url;
 
