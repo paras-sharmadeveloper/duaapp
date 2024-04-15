@@ -64,7 +64,16 @@
                             </div>
                         </div>
                         <table class="table custom-table" id="tokenTable">
+
                             <thead>
+                                <tr class=" ">
+                                    <td></td>
+                                    <td><div class="title text-center">
+                                        <img src="{{ asset('assets/theme/img/logo.png') }}" alt="" style="height: 70px; width:70px">
+                                        <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span></h4>
+                                    </div> </td>
+                                    <td></td>
+                                </tr>
                                 <tr>
                                     <th>Row Label</th>
                                     <th>Count of Token</th>
@@ -72,6 +81,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <tr class="highlighted">
                                     <td>Website</td>
                                     <td id="website-total">0</td>
@@ -917,6 +927,7 @@
                 $("#spinner-div").show();
                 var date = $('#venue_date').val();
                 var type = $('#typeFilter').val();
+                $("#tbdate").text(new Date(date).toDateString());
                 filterDuaEntries(date, type);
                 // fetchPercentage(date)
             });
@@ -924,18 +935,23 @@
     </script>
     <script>
         $("#generatePdfBtn").click(function() {
+
             $("#spinner-div").show();
-            downloadPdf()
+
+
+           var is =  downloadPdf()
+
 
         })
 
         function downloadPdf() {
 
             const element = document.getElementById('tokenTable');
+
             const formattedDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
             const options = {
                 margin: 10,
-                format: 'a5',
+                format: 'a4',
                 filename: "{{ date('dMY') }}" + '-report.pdf',
                 // image: {
                 //     type: 'jpeg',
@@ -946,13 +962,14 @@
                 },
                 jsPDF: {
                     unit: 'mm',
-                    format: 'a5',
+                    format: 'a4',
                     orientation: 'portrait'
                 }
             };
+            $(".myheading").addClass('d-none')
             $("#spinner-div").hide();
 
-            html2pdf(element, options);
+            return html2pdf(element, options);
         }
 
         $(document).ready(function() {
@@ -1006,6 +1023,7 @@
                 ],
                 "buttons": [{
                         extend: 'pdfHtml5',
+                        filename: 'DUA/DUM TOKENS -'+new Date().toDateString()+' ',
                         customize: function(doc) {
                             // Add logo
                             var logo =
@@ -1047,7 +1065,8 @@
 
 
 
-                            console.log(" doc" , doc.content)
+
+                            // doc.content.splice(1, 2);
 
                             doc.content.splice(1, 0, {
                                 text: heading,
@@ -1055,7 +1074,9 @@
                                 alignment: 'center',
                                 margin: [0, 0, 0, 20] // Top, right, bottom, left margins
                             });
+                            doc.content.splice(2, 1);
 
+                            // console.log(" doc" , doc)
 
                         }
                     },
