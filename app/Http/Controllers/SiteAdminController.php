@@ -84,8 +84,24 @@ class SiteAdminController extends Controller
     {
         $search = $request->input('search');
         $id = $request->input('id');
+        $type = $request->input('type');
+        if($type == 'token'){
+            $venueSloting = VenueSloting::with('visitors')
+            ->whereHas('visitors', function ($query) use ($search) {
+                $query->where('source', 'Phone');
+                $query ->whereIn('user_status',['no_action','admitted','in-meeting']);
+               //  $query->where('user_status', 'no_action');
+                $query->where('booking_number', 'like', '%' . $search . '%');
+                    // ->orWhere('user_status', 'like', '%' . $search . '%')
+                    // ->orWhere('country_code', 'like', '%' . $search . '%')
+                    // ->orWhere('phone', 'like', '%' . $search . '%');
+            })
 
-        $venueSloting = VenueSloting::with('visitors')
+            ->where('venue_address_id', $id)
+            ->get(); // Fetch all matching records
+
+        }else{
+            $venueSloting = VenueSloting::with('visitors')
             ->whereHas('visitors', function ($query) use ($search) {
                 $query->where('source', 'Phone');
                 $query ->whereIn('user_status',['no_action','admitted','in-meeting']);
@@ -98,6 +114,9 @@ class SiteAdminController extends Controller
 
             ->where('venue_address_id', $id)
             ->get(); // Fetch all matching records
+        }
+
+
 
             return view('site-admin.search-div',compact('venueSloting'));
 

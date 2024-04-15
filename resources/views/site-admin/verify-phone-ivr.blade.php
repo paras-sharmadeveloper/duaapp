@@ -84,7 +84,7 @@ $(document).ready(function () {
         $.ajax({
             url: "{{ route('search.visitors') }}",
             method: 'GET',
-            data: { search: searchQuery,id : id },
+            data: { search: searchQuery,id : id ,'type':'token' },
             success: function (response) {
                 $('.users-list').html(response);
             },
