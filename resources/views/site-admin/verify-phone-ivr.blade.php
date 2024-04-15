@@ -10,7 +10,6 @@
             <div class="cards">
                <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="search" placeholder="Search Token" class="form-control w-100">
                <input type="text" id="globalsearch" placeholder="Search Global" class="form-control w-100">
-
             </div>
             <div class="card1 users-list">
 

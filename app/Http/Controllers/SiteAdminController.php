@@ -63,7 +63,7 @@ class SiteAdminController extends Controller
              return response()->json(['success' => true , 'data' => $venueSloting ,'route' => $route],200);
         }
             $venueSloting = VenueSloting::with(['visitors' => function ($query) {
-                $query->where('source', 'Phone');
+                // $query->where('source', 'Phone');
                 $query->where('user_status', 'no_action');
             }, 'venueAddress'])
             ->where('venue_address_id', $id)
