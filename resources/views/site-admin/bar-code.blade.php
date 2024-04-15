@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <input id='barcodeInput'type='text'  class="form-control w-100" readonly/>
+                <input id='barcodeInput'type='text'  class="form-control w-100"/>
             </div>
         </div>
 
