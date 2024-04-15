@@ -121,7 +121,7 @@
       </li>
       @endcanany
       @canany('vistor-schduling-access')
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#vistor-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Public Booking</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -133,7 +133,7 @@
           </li>
 
         </ul>
-      </li>
+      </li> --}}
       @endcanany
       @canany('site-admin-access')
       <li class="nav-item">
