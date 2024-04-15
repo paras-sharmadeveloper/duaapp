@@ -8,7 +8,9 @@
 
         <div class="col-lg-12">
             <div class="cards">
-               <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="search" placeholder="Search..." class="form-control w-100">
+               <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="search" placeholder="Search Token" class="form-control w-100">
+               <input type="text" id="globalsearch" placeholder="Search Global" class="form-control w-100">
+
             </div>
             <div class="card1 users-list">
 
@@ -85,6 +87,22 @@ $(document).ready(function () {
             url: "{{ route('search.visitors') }}",
             method: 'GET',
             data: { search: searchQuery,id : id ,'type':'token' },
+            success: function (response) {
+                $('.users-list').html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+
+    $('#globalsearch').on('keyup', function () {
+        var searchQuery = $(this).val();
+        var id = $("#currentvenue").val();
+        $.ajax({
+            url: "{{ route('search.visitors') }}",
+            method: 'GET',
+            data: { search: searchQuery,id : id ,'type':'global' },
             success: function (response) {
                 $('.users-list').html(response);
             },
