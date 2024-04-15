@@ -4,8 +4,13 @@
     <div class="row justify-content-center">
         <div class="row">
 
-            <div class="col-lg-6 mt-2"> <input type="text" id="globalsearch" placeholder="Search Mobile Number"
-                    class="form-control w-100"></div>
+            <div class="col-lg-6 mt-2">
+                <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="globalsearch"
+                    placeholder="Search Mobile Number" class="form-control w-100">
+
+                {{-- <input type="text" id="globalsearch" placeholder="Search Mobile Number"
+                    class="form-control w-100"> --}}
+                </div>
             <div class="col-lg-6 mt-2">
                 <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" id="search"
                     placeholder="Search Exact Token Number" class="form-control w-100">
