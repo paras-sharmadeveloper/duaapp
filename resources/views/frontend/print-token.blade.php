@@ -7,7 +7,7 @@
         <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
         <div class="headerr d-flex justify-content-around">
             @php
-                $bookstatus = route('book.show',[$visitor->booking_uniqueid]);
+                $bookstatus = route('booking.status',[$visitor->booking_uniqueid]);
             @endphp
 
             <div class="qr">
@@ -31,7 +31,7 @@
 
 
         <div id="token">
-            Dum Token # {{ $visitor->slot->token_id }}
+            {{ ucwords($visitor->slot->type)  }} Token # {{ $visitor->slot->token_id }}
         </div>
 
         <div id="date">
