@@ -302,7 +302,7 @@ class WhatsAppController extends Controller
                   //  $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
 
                     $bookId = base64_encode($visitor->id);
-                    $statusLink = route('booking.status.withid', $bookId);
+                    $statusLink = route('booking.status', $uuid);
 
                     $pdfLink = '';
                     // $duaby ='';
