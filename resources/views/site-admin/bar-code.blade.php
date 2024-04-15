@@ -30,9 +30,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
-                <input id='barcodeInput' type='text'  class="form-control w-100" />
+                <input id='barcodeInput' type='hidden'  class="form-control w-100"  />
+                <div class="tickmark">
+                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1" id="greenTick" style="display: none"/>
+                    <p>You can start scaning</p>
+                </div>
 
-                <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1" id="greenTick" style="display: none"/>
 
 
             </div>
