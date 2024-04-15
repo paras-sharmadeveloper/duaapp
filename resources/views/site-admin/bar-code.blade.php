@@ -29,8 +29,12 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <input id='barcodeInput'type='text'  class="form-control w-100"/>
+            <div class="col-md-6 text-center">
+                <input id='barcodeInput' type='text'  class="form-control w-100" />
+
+                <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1" id="greenTick" style="display: none"/>
+
+
             </div>
         </div>
 
@@ -70,6 +74,7 @@
         });
 
         $("#barcodeInput").focus();
+        $("#greenTick").show()
         var barcodeValue ='';
         // document.getElementById('barcodeInput').addEventListener('input', function(event) {
         //     barcodeValue = event.target.value;
@@ -121,6 +126,27 @@
 
             console.log("Scanned Barcode:", barcodeValue);
         });
+
+
+        function printDiv(divId) {
+            var printContents = document.getElementById(divId).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            var printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print</title></head><body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+
+            printWindow.document.close(); // necessary for IE >= 10
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+
+        $(document).on("click", ".close", function() {
+            $('#myModal').modal('hide');
+        })
 
 
 
