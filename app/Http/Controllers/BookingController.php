@@ -21,6 +21,10 @@ class BookingController extends Controller
     {
         return view('site-admin.scan-qr');
     }
+    public function showGunScan(Request $request)
+    {
+        return view('site-admin.bar-code');
+    }
 
 
     public function processScan(Request $request)

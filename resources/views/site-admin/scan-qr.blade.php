@@ -23,6 +23,7 @@ div#model-body {
 </style>
     <div class="container">
         <div class="row justify-content-center">
+            <a href="{{route('qr.gun.scan')}}" class="btn btn-success">Scan Gun</a>
             <div class="col-md-6">
                 <div class="embed-responsive embed-responsive-1by1" id="reader"></div>
             </div>

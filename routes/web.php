@@ -193,6 +193,7 @@ Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.
 Route::post('/process-scan', [BookingController::class, 'processScan'])->name('process-scan');
 
 Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
+Route::get('/scan-gun', [BookingController::class, 'showGunScan'])->name('qr.gun.scan');
 
 Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
 
