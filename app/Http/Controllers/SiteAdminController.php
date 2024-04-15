@@ -91,7 +91,7 @@ class SiteAdminController extends Controller
                // $query->where('source', 'Phone');
                 $query ->whereIn('user_status',['no_action','admitted','in-meeting']);
                //  $query->where('user_status', 'no_action');
-                $query->where('booking_number', 'like', '%' . $search . '%');
+                $query->where('booking_number', $search);
                     // ->orWhere('user_status', 'like', '%' . $search . '%')
                     // ->orWhere('country_code', 'like', '%' . $search . '%')
                     // ->orWhere('phone', 'like', '%' . $search . '%');
