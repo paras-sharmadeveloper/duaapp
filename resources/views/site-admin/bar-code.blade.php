@@ -66,10 +66,15 @@
 
         $("#barcodeInput").focus();
         var barcodeValue ='';
-        document.getElementById('barcodeInput').addEventListener('input', function(event) {
+        // document.getElementById('barcodeInput').addEventListener('input', function(event) {
+        //     barcodeValue = event.target.value;
+        // });
+        // console.log("Scanned Barcode:", barcodeValue);
+
+        document.getElementById('barcodeInput').addEventListener('change', function(event) {
             barcodeValue = event.target.value;
+            console.log("Scanned Barcode:", barcodeValue);
         });
-        console.log("Scanned Barcode:", barcodeValue);
 
 
 
