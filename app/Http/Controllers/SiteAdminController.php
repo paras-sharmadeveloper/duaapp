@@ -88,7 +88,7 @@ class SiteAdminController extends Controller
         if($type == 'token'){
             $venueSloting = VenueSloting::with('visitors')
             ->whereHas('visitors', function ($query) use ($search) {
-                $query->where('source', 'Phone');
+               // $query->where('source', 'Phone');
                 $query ->whereIn('user_status',['no_action','admitted','in-meeting']);
                //  $query->where('user_status', 'no_action');
                 $query->where('booking_number', 'like', '%' . $search . '%');
@@ -103,7 +103,7 @@ class SiteAdminController extends Controller
         }else{
             $venueSloting = VenueSloting::with('visitors')
             ->whereHas('visitors', function ($query) use ($search) {
-                $query->where('source', 'Phone');
+              //  $query->where('source', 'Phone');
                 $query ->whereIn('user_status',['no_action','admitted','in-meeting']);
                //  $query->where('user_status', 'no_action');
                 $query->where('booking_number', 'like', '%' . $search . '%')
