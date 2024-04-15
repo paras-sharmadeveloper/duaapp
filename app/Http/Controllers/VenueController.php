@@ -19,7 +19,7 @@ class VenueController extends Controller
     {
         $post = $request->all();
         // echo "<pre>"; print_r($post); die;
-        if($post['inactive'] == 'true'){
+        if(isset($post['inactive']) && $post['inactive'] == 'true'){
             $venuesAddress = VenueAddress::whereDate('venue_date','<=',date('Y-m-d'))->get();
             $visitors = Vistors::all();
 
