@@ -220,7 +220,7 @@
         </ul>
       </li>
       @endcanany
-
+      @canany('user-management-access')
       <li class="nav-item ">
         <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Reject Reason</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -229,12 +229,6 @@
         class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
 
-          {{-- <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('reasons.announcement') }}"
-            class="{{ ( $currentPath == 'reasons.announcement') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Announcement</span>
-            </a>
-          </li> --}}
 
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('reasons.index') }}"
@@ -246,6 +240,7 @@
 
         </ul>
       </li>
+      @endcan
 
 
 
