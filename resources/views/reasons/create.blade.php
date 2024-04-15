@@ -20,6 +20,9 @@
                       <input type="hidden" name="from" value="reject_reason">
                     @elseif(Route::is('reasons.announcement') || Route::is('reasons.edit.announcement') )
                         <input type="hidden" name="from" value="announcement">
+
+                    @elseif(Route::is('reasons.novenue') || Route::is('reasons.edit.novenue') )
+                        <input type="hidden" name="from" value="novenue">
                     @endif
                     <div class="mb-3">
                         <label for="label" class="form-label">Label</label>

@@ -243,9 +243,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/reasons', [ReasonController::class, 'index'])->name('reasons.index');
     Route::get('/reasons/create', [ReasonController::class, 'create'])->name('reasons.create');
     Route::get('/reasons/announcement', [ReasonController::class, 'create'])->name('reasons.announcement');
+    Route::get('/reasons/novenue', [ReasonController::class, 'create'])->name('reasons.novenue');
     Route::post('/reasons', [ReasonController::class, 'store'])->name('reasons.store');
     Route::get('/reasons/{id}/edit', [ReasonController::class, 'edit'])->name('reasons.edit');
     Route::get('/reasons/announcement/{id}/edit', [ReasonController::class, 'edit'])->name('reasons.edit.announcement');
+    Route::get('/reasons/novenue/{id}/edit', [ReasonController::class, 'edit'])->name('reasons.edit.novenue');
+
+
     // Update an existing reason
     Route::put('/reasons/{id}', [ReasonController::class, 'update'])->name('reasons.update');
 

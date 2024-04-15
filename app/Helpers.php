@@ -2,7 +2,7 @@
 
 use App\Models\Timezone;
 use App\Models\Venue;
-use App\Models\{Vistors,VenueSloting};
+use App\Models\{Reason, Vistors,VenueSloting};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -218,6 +218,12 @@ if (!function_exists('getTotalTokens')) {
     function getTotalTokens($venueId , $type){
         return VenueSloting::where(['venue_address_id' => $venueId , 'type' => $type])->count();
 
+    }
+}
+
+if (!function_exists('getNoVenueReason')) {
+    function getNoVenueReason($lang){
+        return Reason::where(['type' => "novenue"])->pluck($lang);
     }
 }
 

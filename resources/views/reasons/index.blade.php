@@ -31,6 +31,7 @@
 
         <a href="{{ route('reasons.create') }}" class="btn btn-primary mb-3">Add Reason</a>
         <a href="{{ route('reasons.announcement') }}" class="btn btn-primary mb-3">Add Announcement</a>
+        <a href="{{ route('reasons.novenue') }}" class="btn btn-primary mb-3">Add NoVenue</a>
 
         <table class="table-with-buttons table table-responsive cell-border dataTable no-footer ">
             <thead>
@@ -56,7 +57,16 @@
                           </audio>
                     </td> --}}
                     <td>
-                        <a href="{{ ($reason->type =='reject_reason') ? route('reasons.edit', $reason->id): route('reasons.edit.announcement', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        @if($reason->type == 'reject_reason')
+                        <a href="{{route('reasons.edit', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                        @elseif ($reason->type == 'announcement')
+                        <a href="{{ route('reasons.edit.announcement', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                        @elseif ($reason->type == 'novenue')
+                        <a href="{{ route('reasons.edit.novenue', $reason->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        @endif
+
                         <form action="{{ route('reasons.destroy', $reason->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')

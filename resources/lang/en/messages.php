@@ -16,7 +16,7 @@ return [
     'nav-city-option' => 'Dua Ghar',
     'nav-final-option' => 'Finish',
     'city' => 'City',
-    'no_dum_dua' => 'No dua/dum appointment is available at this time. Please try again later.',
+    'no_dum_dua' =>  getNoVenueReason('reason_english'),
     'Lahore' => 'Lahore',
     'Islamabad' => 'Islamabad',
     'Karachi' => 'Karachi',
