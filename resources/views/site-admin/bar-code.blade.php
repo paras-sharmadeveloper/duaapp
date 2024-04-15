@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <input id='bCode'type='text' value='barcode appears here' class="form-control w-100"/>
+                <input id='barcodeInput'type='text'  class="form-control w-100" readonly/>
             </div>
         </div>
 
@@ -62,27 +62,21 @@
     </div>
 @endsection
 @section('page-script')
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script> --}}
-
     <script>
-        $(window).ready(function() {
 
-                    //$("#bCode").scannerDetection();
+        $("#barcodeInput").focus();
 
-                    console.log('all is well');
+        document.getElementById('barcodeInput').addEventListener('input', function(event) {
+    // Get the value of the barcode input field
+            var barcodeValue = event.target.value;
 
-                    $(window).scannerDetection();
-                    $(window).bind('scannerDetectionComplete', function(e, data) {
-                            console.log('complete ' + data.string);
-                            $("#bCode").val(data.string);
-                        })
-                        .bind('scannerDetectionError', function(e, data) {
-                            console.log('detection error ' + data.string);
-                        })
-                        .bind('scannerDetectionReceive', function(e, data) {
-                            console.log('Recieve');
-                            console.log(data.evt.which);
-                        })
+            // Log the value to the console
+            console.log("Scanned Barcode:", barcodeValue);
         });
+
+
+
+
+
     </script>
 @endsection
