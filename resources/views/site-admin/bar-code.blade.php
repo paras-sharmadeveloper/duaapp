@@ -65,14 +65,11 @@
     <script>
 
         $("#barcodeInput").focus();
-
+        var barcodeValue ='';
         document.getElementById('barcodeInput').addEventListener('input', function(event) {
-    // Get the value of the barcode input field
-            var barcodeValue = event.target.value;
-
-            // Log the value to the console
-            console.log("Scanned Barcode:", barcodeValue);
+            barcodeValue = event.target.value;
         });
+        console.log("Scanned Barcode:", barcodeValue);
 
 
 
