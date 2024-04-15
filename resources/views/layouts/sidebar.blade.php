@@ -149,6 +149,17 @@
           || $currentPath == 'siteadmin.pending.list'
            ) ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
+        <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.pending.show') }}" class="{{ ( $currentPath == 'siteadmin.pending.list' ||  $currentPath == 'siteadmin.pending.show' ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Search Tokens </span>
+            </a>
+          </li>
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('qr.show.scan') }}" class="{{ ( $currentPath == 'qr.show.scan') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Scan QR Code</span>
+            </a>
+          </li>
+
 
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}"
@@ -157,17 +168,9 @@
             </a>
           </li>
 
-          <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('qr.show.scan') }}" class="{{ ( $currentPath == 'qr.show.scan') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Scan QR Code</span>
-            </a>
-          </li>
 
-          <li>
-            <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.pending.show') }}" class="{{ ( $currentPath == 'siteadmin.pending.list' ||  $currentPath == 'siteadmin.pending.show' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Search Tokens </span>
-            </a>
-          </li>
+
+
 
         </ul>
       </li>
