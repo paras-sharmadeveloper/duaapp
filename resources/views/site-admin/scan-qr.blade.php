@@ -1,34 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .token-area {
-    text-align: center;
-    margin: 20px;
-}
-button#html5-qrcode-button-camera-stop {
-    padding: 10px;
-    border: white;
-}
-div#model-body {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-#footer{display: none;}
-.modal-header {
-    display: flex;
-    justify-content: center;
-}
-</style>
+    <style>
+        .token-area {
+            text-align: center;
+            margin: 20px;
+        }
+
+        button#html5-qrcode-button-camera-stop {
+            padding: 10px;
+            border: white;
+        }
+
+        div#model-body {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        #footer {
+            display: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
     <div class="container">
         <div class="row justify-content-center">
-            <a href="{{route('qr.gun.scan')}}" class="btn btn-success">Scan Gun</a>
+            <a href="{{ route('qr.gun.scan') }}" class="btn btn-success">Scan Gun</a>
             <div class="col-md-6">
                 <div class="embed-responsive embed-responsive-1by1" id="reader"></div>
             </div>
         </div>
-        <div class="token-area" >
+        <div class="token-area">
             <p style="display: none"><b>Token Number is: </b></p> <span></span>
         </div>
 
@@ -37,26 +43,26 @@ div#model-body {
 
     <div class="modal" id="myModal">
         <div class="modal-dialog">
-          <div class="modal-content">
+            <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
-              <div class="alert alert-success" id="vaild-token" style="display: none"></div>
-            </div>
-            <!-- Modal body -->
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
+                    <div class="alert alert-success" id="vaild-token" style="display: none"></div>
+                </div>
+                <!-- Modal body -->
                 <div class="modal-body" id="model-body">
                 </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="close btn btn-warning">Close</button>
-                <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
-            </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="close btn btn-warning">Close</button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                </div>
 
-          </div>
+            </div>
         </div>
-      </div>
+    </div>
 @endsection
 @section('page-script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -80,53 +86,51 @@ div#model-body {
 
             html5QrcodeScanner.pause(); // Pause scanner
 
-                    $.ajax({
-                    url: "{{ route('process-scan') }}",
-                    method: 'POST',
-                    data: {
-                        id: decodedText,
-                        type: 'verify'
-                    },
-                    success: function(response) {
-                        // Handle success
-                        if (response.success) {
-                            $(".token-area").find('p').show();
-                            $(".token-area").find('span').text(response.token)
+            $.ajax({
+                url: "{{ route('process-scan') }}",
+                method: 'POST',
+                data: {
+                    id: decodedText,
+                    type: 'verify'
+                },
+                success: function(response) {
+                    // Handle success
+                    if (response.success) {
+                        $(".token-area").find('p').show();
+                        $(".token-area").find('span').text(response.token)
 
-                            $('#myModal').modal('toggle');
-                            $("#vaild-token").text(response.message).show();
-                            $("#invaild-token").hide();
-                            $("#model-body").html(response.printToken)
+                        $('#myModal').modal('toggle');
+                        $("#vaild-token").text(response.message).show();
+                        $("#invaild-token").hide();
+                        $("#model-body").html(response.printToken)
 
-                           // toastr.success(response.message);
-                            html5QrcodeScanner.resume();
-                        } else {
-                            $(".token-area").find('p').hide();
-                            $('#myModal').modal('toggle');
-                            $("#model-body").html(response.printToken)
-                            if(!response.print){
-                                // $("#printButton").hide();
-                                $("#vaild-token").hide();
-                                $("#invaild-token").text(response.message).show();
-                            }
-
-                           // toastr.error(response.message);
-                            html5QrcodeScanner.resume();
+                        // toastr.success(response.message);
+                        html5QrcodeScanner.resume();
+                    } else {
+                        $(".token-area").find('p').hide();
+                        $('#myModal').modal('toggle');
+                        $("#model-body").html(response.printToken)
+                        if (!response.print) {
+                            // $("#printButton").hide();
+                            $("#vaild-token").hide();
+                            $("#invaild-token").text(response.message).show();
                         }
 
-                    },
-                    error: function(error) {
+                        // toastr.error(response.message);
                         html5QrcodeScanner.resume();
-                        // Handle error
-                        toastr.error('Error: Unable to process the scan.');
                     }
-                });
 
-                $(document).on("click",".close",function(){
-                    $('#myModal').modal('hide');
-                })
+                },
+                error: function(error) {
+                    html5QrcodeScanner.resume();
+                    // Handle error
+                    toastr.error('Error: Unable to process the scan.');
+                }
+            });
 
-
+            $(document).on("click", ".close", function() {
+                $('#myModal').modal('hide');
+            })
 
         }
         html5QrcodeScanner.render(onScanSuccess);
@@ -137,14 +141,14 @@ div#model-body {
 
 
 
-       $(document).ready(function(){
+        $(document).ready(function() {
             $("#html5-qrcode-button-camera-stop").addClass('btn btn-info');
             $("#html5-qrcode-button-camera-permission").addClass('btn btn-info');
             $("#html5-qrcode-button-camera-start").addClass('btn btn-info');
 
-       })
+        })
 
-       function printDiv(divId) {
+        function printDiv(divId) {
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
@@ -160,16 +164,16 @@ div#model-body {
             };
         }
 
-    //    function printDiv(divId) {
-    //         var printContents = document.getElementById(divId).innerHTML;
-    //         var originalContents = document.body.innerHTML;
+        //    function printDiv(divId) {
+        //         var printContents = document.getElementById(divId).innerHTML;
+        //         var originalContents = document.body.innerHTML;
 
-    //         document.body.innerHTML = printContents;
+        //         document.body.innerHTML = printContents;
 
-    //         window.print();
+        //         window.print();
 
-    //         document.body.innerHTML = originalContents;
-    //     }
+        //         document.body.innerHTML = originalContents;
+        //     }
 
 
 

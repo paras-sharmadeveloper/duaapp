@@ -63,6 +63,11 @@
 @endsection
 @section('page-script')
     <script>
+         $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         $("#barcodeInput").focus();
         var barcodeValue ='';
@@ -73,6 +78,47 @@
 
         document.getElementById('barcodeInput').addEventListener('change', function(event) {
             barcodeValue = event.target.value;
+
+            $.ajax({
+                url: "{{ route('process-scan') }}",
+                method: 'POST',
+                data: {
+                    id: barcodeValue,
+                    type: 'verify'
+                },
+                success: function(response) {
+                    // Handle success
+                    if (response.success) {
+                        $(".token-area").find('p').show();
+                        $(".token-area").find('span').text(response.token)
+
+                        $('#myModal').modal('toggle');
+                        $("#vaild-token").text(response.message).show();
+                        $("#invaild-token").hide();
+                        $("#model-body").html(response.printToken)
+
+                        // toastr.success(response.message);
+                        html5QrcodeScanner.resume();
+                    } else {
+                        $(".token-area").find('p').hide();
+                        $('#myModal').modal('toggle');
+                        $("#model-body").html(response.printToken)
+                        if (!response.print) {
+                            // $("#printButton").hide();
+                            $("#vaild-token").hide();
+                            $("#invaild-token").text(response.message).show();
+                        }
+
+                    }
+
+                },
+                error: function(error) {
+                    // Handle error
+                    toastr.error('Error: Unable to process the scan.');
+                }
+            });
+
+
             console.log("Scanned Barcode:", barcodeValue);
         });
 
