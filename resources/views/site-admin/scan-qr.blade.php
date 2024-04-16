@@ -29,10 +29,20 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <a href="{{ route('qr.gun.scan') }}" class="btn btn-success">Scan Gun</a>
-            <div class="col-md-6">
+            <div class="col-md-12">
+                <a href="{{ route('qr.gun.scan') }}" class="btn btn-success">Scan With Gun</a>
+                @if(request()->get('show') == null || request()->get('show') == 'false')
+                <a href="{{ route('qr.show.scan') }}?show=true" class="btn btn-success">Scan With Camera</a>
+                @endif
+            </div>
+
+        </div>
+        <div class="row justify-content-center mt-5">
+            @if(request()->get('show') == 'true')
+            <div class="col-md-12" >
                 <div class="embed-responsive embed-responsive-1by1" id="reader"></div>
             </div>
+            @endif
         </div>
         <div class="token-area">
             <p style="display: none"><b>Token Number is: </b></p> <span></span>
