@@ -18,6 +18,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
 }
 </style>
+
     <div class="row align-items-end   pb-2">
         <div class="row align-items-end mb-4 pb-2">
             <div class="col-md-8">
@@ -39,7 +40,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
         </div>
     </div>
 
-    <div class="d-flex justify-content-around">
+    <div class="d-flex1 justify-content-around1">
 
 
 
@@ -248,7 +249,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                 </div>`;
                                 @else
                                 if(slot.type == 'dua'){
-                                htmlDua += `<div class="col-11 mt-4 pt-2 users-list">
+                                htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
                                     <div class="card border-0 bg-light rounded shadow">
                                         <div class="card-body p-4">
                                            ${userStatus}
@@ -282,7 +283,7 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                                     </div>
                                 </div>`;
                             }else{
-                                htmlDum += `<div class="col-11 mt-4 pt-2 users-list">
+                                htmlDum += `<div class="col-12 mt-4 pt-2 users-list">
                                     <div class="card border-0 bg-light rounded shadow">
                                         <div class="card-body p-4">
                                            ${userStatus}
@@ -322,11 +323,8 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
                     });
                     @if(request()->route()->getName() == 'siteadmin.pending.list')
-
-                    console.log("asd");
                         $("#users-list-main").html(html)
                     @else
-                    console.log("as11");
 
                     $("#users-list-main-dua").html((htmlDua) ? htmlDua : '')
                     $("#users-list-main-dum").html((htmlDum) ? htmlDum : '' )

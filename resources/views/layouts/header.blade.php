@@ -211,10 +211,12 @@ ul#notification-center {
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{{ route('users.edit', Auth::user()->id) }}">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
+                @if(Auth::check())
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('users.edit', Auth::user()->id) }}">
+                    <i class="bi bi-person"></i>
+                    <span>My Profile</span>
+                </a>
+              @endif
             </li>
 
             <li>

@@ -75,22 +75,22 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
 //     ->withoutMiddleware(['web', 'verified'])
 //     ->name('ivr.handle.timeout');
 
-    Route::get('/test-mail', function () {
-        try {
-            // Replace 'recipient@example.com' with the actual recipient email address
-            $recipient = 'parassharmadeveloper@gmail.com';
+Route::get('/test-mail', function () {
+    try {
+        // Replace 'recipient@example.com' with the actual recipient email address
+        $recipient = 'parassharmadeveloper@gmail.com';
 
-            // Send a simple test email
-            Mail::raw('This is a test email.', function ($message) use ($recipient) {
-                $message->to($recipient)
-                    ->subject('Test Email');
-            });
+        // Send a simple test email
+        Mail::raw('This is a test email.', function ($message) use ($recipient) {
+            $message->to($recipient)
+                ->subject('Test Email');
+        });
 
-            return 'Email sent successfully.';
-        } catch (Exception $e) {
-            return 'Failed to send email: ' . $e->getMessage();
-        }
-    });
+        return 'Email sent successfully.';
+    } catch (Exception $e) {
+        return 'Failed to send email: ' . $e->getMessage();
+    }
+});
 
 
 
@@ -164,75 +164,79 @@ Route::get('/print-this', function () {
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('home');
+        return redirect()->route('home');
     } else {
         return redirect('login');
     }
 });
 
-Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
-Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
-Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
-
-Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
-
-Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
-
-Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
-Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
-
-Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
-Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
-Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
-
-Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
-
-Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
-
-Route::post('/process-scan', [BookingController::class, 'processScan'])->name('process-scan');
-
-Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
-Route::get('/scan-gun', [BookingController::class, 'showGunScan'])->name('qr.gun.scan');
-
-Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
-
-Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
-Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
-Route::any('/book/reschedule/{id}', [BookingController::class, 'BookingReschdule'])->name('book.reschdule');
-Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
-
-Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
-Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
-
-Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
-Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
-Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
-Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
-Route::get('/status', [HomeController::class, 'StatusLcdScreen'])->name('status-screen');
-
-Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
-Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
-Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
-
 Auth::routes(['register' => false]);
+    Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
+    Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
+    Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
+    Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
 
-Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
-Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
-Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
-Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-Route::post('/check-particepent/status', [VideoConferenceController::class, 'CheckParticpentStatus'])->name('checkparticepent-status');
-Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
-Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
-Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
-Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
+    Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
+    Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
+    Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
+
+    Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
+
+    Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+
+    Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
+    Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
+    Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
+
+    Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
+
+    Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
+
+    Route::post('/process-scan', [BookingController::class, 'processScan'])->name('process-scan');
+
+    Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
+    Route::get('/scan-gun', [BookingController::class, 'showGunScan'])->name('qr.gun.scan');
+
+    Route::get('/book/confirmation/{id}', [HomeController::class, 'bookingConfirmation'])->name('book.confirmation');
+
+    Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
+    Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
+    Route::any('/book/reschedule/{id}', [BookingController::class, 'BookingReschdule'])->name('book.reschdule');
+    Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
+
+    Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
+    Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
+
+    Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
+    Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');
+    Route::get('/booking/thankyou/{bookingId}', [HomeController::class, 'thankyouPage'])->name('thankyou-page');
+    Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
+    Route::get('/status', [HomeController::class, 'StatusLcdScreen'])->name('status-screen');
+
+    Route::get('/get-states', [VenueCountryController::class, 'getStates'])->name('get-states');
+    Route::post('/add-city-state', [VenueCountryController::class, 'CityImagesUplaod'])->name('add-city-state');
+    Route::post('/remove-city-state', [VenueCountryController::class, 'CityImagesRemove'])->name('remove-city-state');
+
+
+    Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
+    Route::post('/account/resend', [AuthController::class, 'ResendVerificationCode'])->name('user.resend');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+    Route::post('/check-particepent/status', [VideoConferenceController::class, 'CheckParticpentStatus'])->name('checkparticepent-status');
+    Route::get('/sendEmail', [App\Http\Controllers\HomeController::class, 'sendEmail'])->name('sendEmail');
+    Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
+    Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
+    Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+});
+
+
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
-    Route::get('/duas', [DashboardController::class,'index'])->name('dashboard.index');
-    Route::post('/duas/filter', [DashboardController::class,'filter'])->name('dashboard.filter');
-    Route::post('/duas/percentage', [DashboardController::class,'percentage'])->name('dashboard.percentage');
+    Route::get('/duas', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::post('/duas/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::post('/duas/percentage', [DashboardController::class, 'percentage'])->name('dashboard.percentage');
 
     Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');
 
