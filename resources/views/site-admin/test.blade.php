@@ -30,10 +30,10 @@
     </style>
 
     <div class="row align-items-end   pb-2">
-        <div class="row align-items-end mb-4 pb-2">
+        <div class="row align-items-end pb-2">
             <div class="col-md-8">
                 <div class="section-title text-center text-md-start">
-                    <h4 class="title mb-4">Verfied User List</h4>
+                    <h4 class="title">Verfied User List</h4>
                     <p class="text-muted mb-0 para-desc"> </p>
                 </div>
             </div>
@@ -60,11 +60,11 @@
 
             </div>
         @else
-            <div class="row  mb-4 pb-1 w-100" id="users-list-main-dua">
+            <div class="row  mb-1 pb-1 w-100" id="users-list-main-dua">
 
             </div>
 
-            <div class="row  mb-4 pb-1 w-100" id="users-list-main-dum">
+            <div class="row  mb-1 pb-1 w-100" id="users-list-main-dum">
 
             </div>
         @endif
@@ -120,12 +120,10 @@
 
         function plotData(visitor, visitorDum) {
 
-            console.log("visitor",visitor)
-            console.log("visitorDum",visitorDum)
             var htmlDua = htmlDum = ''
             if (visitor !== null) {
                 if(visitor.user_status == 'in-meeting'){
-                    htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
+                    htmlDua += `<div class="col-12 mt-2 pt-1 users-list">
                     <div class="card border-0 bg-light rounded shadow">
                         <button class="btn btn-danger launch-dua stop"
                         data-id="${visitor.id}" data-type="${visitor.dua_type}"
@@ -133,7 +131,7 @@
                     </div>
                 </div>`;
                 }else{
-                    htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
+                    htmlDua += `<div class="col-12 mt-2 pt-1 users-list">
                     <div class="card border-0 bg-light rounded shadow">
                         <button class="btn btn-success launch-dua start"
                         data-id="${visitor.id}" data-type="${visitor.dua_type}"

@@ -142,6 +142,7 @@
                 printWindow.print();
                 printWindow.close();
             };
+            $('#myModal').modal('hide');
         }
 
         $(document).on("click", ".close", function() {

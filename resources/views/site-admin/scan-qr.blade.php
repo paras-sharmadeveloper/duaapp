@@ -172,6 +172,7 @@
                 printWindow.print();
                 printWindow.close();
             };
+            $('#myModal').modal('hide');
         }
 
         //    function printDiv(divId) {

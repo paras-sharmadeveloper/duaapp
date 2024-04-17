@@ -46,10 +46,6 @@ class SiteAdminController extends Controller
             $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
         }
-
-
-
-
         return response()->json(['success' => true, 'data' => $data], 200);
     }
 
