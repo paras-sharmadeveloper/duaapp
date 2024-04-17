@@ -33,7 +33,7 @@
         <div class="row align-items-end pb-2">
             <div class="col-md-8">
                 <div class="section-title text-center text-md-start">
-                    <h4 class="title">Verfied User List</h4>
+                    <h4 class="title">Launch Token Area</h4>
                     <p class="text-muted mb-0 para-desc"> </p>
                 </div>
             </div>
