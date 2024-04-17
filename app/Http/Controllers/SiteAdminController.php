@@ -116,7 +116,7 @@ class SiteAdminController extends Controller
         ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
 
         $data['dua'] =   $query->first();
-        $data['dum'] =  $query2->first();
+        $data['dum'] =   $query2->first();
 
         if($query->count() == 0){
             $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
@@ -127,10 +127,6 @@ class SiteAdminController extends Controller
             $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
         }
-
-
-
-
         return response()->json(['success' => true , 'data' => $data]);
     }
 

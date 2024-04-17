@@ -44,7 +44,7 @@
 
         <div class="row">
             @can('user-management-access')
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h5>Filtered Entries</h5>
@@ -909,8 +909,7 @@
                         $('#dumtoken span').text(response.totalBookDum + ' / ' + response.dumtoken);
 
 
-                        $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) +
-                            '%');
+                        $('#whatsappPercentage span').text(response.whatsapp_percentage.toFixed(2) +'%');
                         $('#websitePercentage span').text(response.website_percentage.toFixed(2) + '%');
                     },
                     error: function(xhr, status, error) {
