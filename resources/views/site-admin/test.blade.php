@@ -1,28 +1,33 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        @media (min-width: 576px) {
+            .dua-side {
+                order: -1 !important;
+                /* Move this column to the start */
+            }
+        }
 
-<style>
-    @media (min-width: 576px) {
-    .dua-side {
-        order: -1 !important; /* Move this column to the start */
-    }
-}
+        div#users-list-main-dua,
+        #users-list-main-dum {
+            max-height: 500px;
+            overflow: hidden;
 
-div#users-list-main-dua,#users-list-main-dum {
-    max-height: 500px;
-    overflow: hidden;
+        }
 
-}
-div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
-    overflow: auto;
-    }
-    .launch-dum,.launch-dua{
-        padding: 40px !important;
-        font-size: 24px;
-        color: #FFF;
-        font-weight: 600;
-    }
-</style>
+        div#users-list-main-dua:hover,
+        #users-list-main-dum:hover {
+            overflow: auto;
+        }
+
+        .launch-dum,
+        .launch-dua {
+            padding: 40px !important;
+            font-size: 24px;
+            color: #FFF;
+            font-weight: 600;
+        }
+    </style>
 
     <div class="row align-items-end   pb-2">
         <div class="row align-items-end mb-4 pb-2">
@@ -50,47 +55,39 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
 
 
 
-        @if(request()->route()->getName() == 'siteadmin.pending.list')
+        @if (request()->route()->getName() == 'siteadmin.pending.list')
             <div class="row  mb-4 pb-1 w-100" id="users-list-main">
 
             </div>
         @else
-        <div class="row  mb-4 pb-1 w-100" id="users-list-main-dua">
+            <div class="row  mb-4 pb-1 w-100" id="users-list-main-dua">
 
-        </div>
+            </div>
 
-        <div class="row  mb-4 pb-1 w-100" id="users-list-main-dum">
+            <div class="row  mb-4 pb-1 w-100" id="users-list-main-dum">
 
-        </div>
-
+            </div>
         @endif
 
     </div>
-
-
-
-
 @endsection
 
 @section('page-script')
-
-
     <script>
+        var routee = "{{ $route }}";
+        // var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}?from="+routee;
+        var url = "{{ route('siteadmin.fetch.token') }}";
 
-        var routee =  "{{ $route }}";
-       // var url = "{{ route('siteadmin.queue.list', [request()->route('id')]) }}?from="+routee;
-        var url = "{{ route('siteadmin.fetch.token') }}
-
-        console.log("routee" , routee)
+        console.log("routee", routee)
         getData(url);
-        setInterval(function() {
-            if($("#search").val() == ''){
-                console.log("no search")
-                getData(url);
-            }else{
-                console.log("search")
-            }
-        }, 5000);
+        // setInterval(function() {
+        //     if ($("#search").val() == '') {
+        //         console.log("no search")
+        //         getData(url);
+        //     } else {
+        //         console.log("search")
+        //     }
+        // }, 5000);
 
 
         function getData(url) {
@@ -101,59 +98,14 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
-                    var htmlDua=htmlDum = html = '';
 
-                        console.log("response.data",response.data)
+                    var visitor = response.data.dua;
+                    var visitorDum = response.data.dum;
 
-
-
-
-
-
-                           // console.log("userStatus" , userStatus)
-                          //  console.log("badgeHtml" , badgeHtml)
-
-
-                                if(response.data.dua.visitors.length > 0){
-                                    var visitor = response.data.dua.visitors[0];
-                                    var slot = response.data.dua;
-                                        htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
-                                            <div class="card border-0 bg-light rounded shadow">
-
-                                                <button class="btn btn-success launch-dua start"
-
-                                                data-id="${visitor.id}" data-type="${slot.type}" data-id="${visitor.id}"
-
-                                                >LAUNCH DUA TOKEN # ${visitor.booking_number}</button>
-
-                                            </div>
-                                        </div>`;
-                                }
-                                if(response.data.dum.visitors.length > 0){
-                                    var visitorDum = response.data.dum.visitors[0];
-                                        var slotDum = response.data.dum;
-                                        htmlDum += `<div class="col-12 mt-4 pt-2 users-list">
-                                            <div class="card border-0 bg-light rounded shadow">
-                                                <button class="btn btn-primary  launch-dum start"
-                                                        data-id="${visitorDum.id}" data-id="${visitorDum.id}" data-type="${slotDum.type}">LAUNCH DUM TOKEN # ${visitorDum.booking_number}</button>
-
-                                            </div>
-                                        </div>`;
-
-                                }
-
-
-
-
-
-
-
-                    @if(request()->route()->getName() == 'siteadmin.pending.list')
+                    @if (request()->route()->getName() == 'siteadmin.pending.list')
                         $("#users-list-main").html(html)
                     @else
-
-                    $("#users-list-main-dua").html((htmlDua) ? htmlDua : '')
-                    $("#users-list-main-dum").html((htmlDum) ? htmlDum : '' )
+                        plotData(visitor, visitorDum)
                     @endif
                     // $("#tbody").html(html)
 
@@ -163,6 +115,66 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                     console.error(error);
                 }
             });
+
+        }
+
+        function plotData(visitor, visitorDum) {
+
+            console.log("visitor",visitor)
+            console.log("visitorDum",visitorDum)
+            var htmlDua = htmlDum = ''
+            if (visitor !== null) {
+                if(visitor.user_status == 'in-meeting'){
+                    htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
+                    <div class="card border-0 bg-light rounded shadow">
+                        <button class="btn btn-danger launch-dua stop"
+                        data-id="${visitor.id}" data-type="${visitor.dua_type}"
+                        >END DUA TOKEN # ${visitor.booking_number}</button>
+                    </div>
+                </div>`;
+                }else{
+                    htmlDua += `<div class="col-12 mt-4 pt-2 users-list">
+                    <div class="card border-0 bg-light rounded shadow">
+                        <button class="btn btn-success launch-dua start"
+                        data-id="${visitor.id}" data-type="${visitor.dua_type}"
+                        >LAUNCH DUA TOKEN # ${visitor.booking_number}</button>
+                    </div>
+                </div>`;
+                }
+
+            }
+            if (visitor == 'last') {
+                 $("#users-list-main-dua").find("button").removeClass('btn-success').addClass('btn-danger');
+                 $("#users-list-main-dua").find("button").removeClass('start').addClass('stop');
+            }
+            if (visitorDum == 'last') {
+                $("#users-list-main-dum").find("button").removeClass('btn-success').addClass('btn-danger');
+                $("#users-list-main-dum").find("button").addClass('stop');
+            }
+
+            if (visitorDum !== null) {
+                if(visitorDum.user_status == 'in-meeting'){
+                    htmlDum += `<div class="col-12 mt-4 pt-2 users-list">
+                            <div class="card border-0 bg-light rounded shadow">
+                                <button class="btn btn-danger  launch-dum stop"
+                                        data-id="${visitorDum.id}" data-id="${visitorDum.id}" data-type="${visitorDum.dua_type}">
+                                        END DUM TOKEN # ${visitorDum.booking_number}</button>
+                            </div>
+                        </div>`;
+                }else{
+                    htmlDum += `<div class="col-12 mt-4 pt-2 users-list">
+                            <div class="card border-0 bg-light rounded shadow">
+                                <button class="btn btn-primary  launch-dum start"
+                                        data-id="${visitorDum.id}" data-id="${visitorDum.id}" data-type="${visitorDum.dua_type}">
+                                        LAUNCH DUM TOKEN # ${visitorDum.booking_number}</button>
+                            </div>
+                        </div>`;
+                }
+
+            }
+
+            $("#users-list-main-dua").html((htmlDua) ? htmlDua : '')
+            $("#users-list-main-dum").html((htmlDum) ? htmlDum : '')
 
         }
 
@@ -275,19 +287,23 @@ div#users-list-main-dua:hover ,#users-list-main-dum:hover  {
                 type: "POST",
                 data: {
                     type: type,
-                    duaType:duaType,
+                    duaType: duaType,
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: "json",
                 success: function(response) {
-                    event.find('b').text(successText)
-                    setTimeout(() => {
-                        event.find('b').text(defaultText)
-                    }, 1500);
-                    event.find('span').hide()
-                    $(".start" + id).removeClass('d-none')
-                    event.fadeOut();
-                    $(".vert").html('<span class="badge bg-success">Confirmed</span>')
+                    var visitor = response.data.dua;
+                    var visitorDum = response.data.dum;
+
+                    plotData(visitor, visitorDum)
+                    // event.find('b').text(successText)
+                    // setTimeout(() => {
+                    //     event.find('b').text(defaultText)
+                    // }, 1500);
+                    // event.find('span').hide()
+                    // $(".start" + id).removeClass('d-none')
+                    // event.fadeOut();
+                    // $(".vert").html('<span class="badge bg-success">Confirmed</span>')
 
                     console.log(response);
                 },

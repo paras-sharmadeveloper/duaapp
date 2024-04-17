@@ -27,13 +27,111 @@ class SiteAdminController extends Controller
     }
 
 
-    public function fetchDuaDumTokens(Request $request,$id){
+    public function fetchDuaDumTokens(){
 
-        $data['dua'] = Vistors::where('dua_type','dua')->where(['user_status' => 'admitted'])->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
-        $data['dum'] = Vistors::where('dua_type','dum')->where(['user_status' => 'admitted'])->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        $q = Vistors::where('dua_type','dua')->whereIn('user_status' ,['admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+
+        $q2 = Vistors::where('dua_type','dum')->whereIn('user_status' ,['admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+
+        $data['dua'] = $q->first();
+        $data['dum'] = $q2->first();
+        if(!$q->count() >= 1){
+            $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        }
+
+        if(!$q2->count() >= 1){
+            $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        }
+
+
 
 
         return response()->json(['success' => true, 'data' => $data], 200);
+    }
+
+    public function VisitorUpdate(Request $request, $id)
+    {
+        $update = [];
+        $vistor = Vistors::find($id);
+
+        $timezone = $vistor->venueSloting->venueAddress->timezone;
+        $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
+        $now = $currentTime->timezone($timezone);
+
+        $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+        $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
+
+        if ($request->input('type') == 'start') {
+
+            $duaType = $request->input('duaType');
+
+            $prevVisitor = Vistors::where('user_status', 'in-meeting')
+                ->whereDate('meeting_start_at', '=', date('Y-m-d'))
+                ->where('dua_type',  $duaType)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            // return $prevVisitor;
+            if ($prevVisitor) {
+                $prevMeetingStartAt = Carbon::parse($prevVisitor->meeting_start_at);
+                $totalTimeSpent = $prevMeetingStartAt->diffInSeconds($endAt);
+
+                //  $totalTimeSpent = $prevVisitor->meeting_start_at->diffInSeconds($endAt);
+                $prevVisitor->update([
+                    'meeting_ends_at' =>  $endAt,
+                    'user_status' => 'meeting-end',
+                    'meeting_total_time' => $totalTimeSpent
+                ]);
+            }
+
+            $update = [
+                'meeting_start_at' => $startAt,
+                'user_status' => 'in-meeting'
+            ];
+        } else if ($request->input('type') == 'end') {
+
+            $totalTimeSpent = $startAt->diffInSeconds($endAt);
+            $update = [
+                'meeting_ends_at' =>  $endAt,
+                'user_status' => 'meeting-end',
+                'meeting_total_time' => $totalTimeSpent
+            ];
+        } else if ($request->input('type') == 'verify') {
+            $update = [
+                'confirmed_at' => $now->format('Y-m-d H:i:s'),
+                'user_status' => 'admitted',
+                'is_available' => 'confirmed'
+            ];
+        }
+        $vistor->update($update);
+
+        $query = Vistors::where('dua_type','dua')->where(['user_status' => 'admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+
+        $query2 = Vistors::where('dua_type','dum')->where(['user_status' => 'admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+
+        $data['dua'] =   $query->first();
+        $data['dum'] =  $query2->first();
+
+        if($query->count() == 0){
+            $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        }
+
+        if($query2->count() == 0){
+            $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        }
+
+
+
+
+        return response()->json(['success' => true , 'data' => $data]);
     }
 
 
@@ -205,69 +303,7 @@ class SiteAdminController extends Controller
 
 
 
-    public function VisitorUpdate(Request $request, $id)
-    {
-        $update = [];
-        $vistor = Vistors::find($id);
 
-        $timezone = $vistor->venueSloting->venueAddress->timezone;
-        $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
-        $now = $currentTime->timezone($timezone);
-
-        $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
-        $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
-
-
-
-
-        if ($request->input('type') == 'start') {
-
-            $duaType = $request->input('duaType');
-
-            $prevVisitor = Vistors::where('user_status', 'in-meeting')
-                ->whereDate('meeting_start_at', '=', date('Y-m-d'))
-                ->where('dua_type',  $duaType)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            // return $prevVisitor;
-
-
-            if ($prevVisitor) {
-                $prevMeetingStartAt = Carbon::parse($prevVisitor->meeting_start_at);
-                $totalTimeSpent = $prevMeetingStartAt->diffInSeconds($endAt);
-
-                //  $totalTimeSpent = $prevVisitor->meeting_start_at->diffInSeconds($endAt);
-
-                $prevVisitor->update([
-                    'meeting_ends_at' =>  $endAt,
-                    'user_status' => 'meeting-end',
-                    'meeting_total_time' => $totalTimeSpent
-                ]);
-            }
-
-            $update = [
-                'meeting_start_at' => $startAt,
-                'user_status' => 'in-meeting'
-            ];
-        } else if ($request->input('type') == 'end') {
-
-            $totalTimeSpent = $startAt->diffInSeconds($endAt);
-            $update = [
-                'meeting_ends_at' =>  $endAt,
-                'user_status' => 'meeting-end',
-                'meeting_total_time' => $totalTimeSpent
-            ];
-        } else if ($request->input('type') == 'verify') {
-            $update = [
-                'confirmed_at' => $now->format('Y-m-d H:i:s'),
-                'user_status' => 'admitted',
-                'is_available' => 'confirmed'
-            ];
-        }
-        $vistor->update($update);
-        return response()->json(['success' => true]);
-    }
 
     public function WaitingQueueShow(Request $request, $id)
     {
