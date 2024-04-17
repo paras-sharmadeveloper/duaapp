@@ -109,7 +109,15 @@ class HomeController extends Controller
             //    $vaildation['selfie'] =   'required';
             // }
         }
-        $validatedData = $request->validate($vaildation);
+        $messages = [
+            'slot_id.required' => 'The slot ID field is required.',
+            'slot_id.numeric' => 'The slot ID must be a number.',
+            'slot_id.unique' => trans('messages.slot_id'),
+        ];
+        $validatedData = $request->validate($vaildation, $messages);
+
+        // $validatedData = $request->validate($vaildation);
+
 
         try {
             $selfieData = "";
@@ -146,7 +154,7 @@ class HomeController extends Controller
                     $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
                     return response()->json(['message' => $message, "status" => false], 406);
                 } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
-                    $source = "Admin";
+                    $source = "Website";
                     return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before']);
                 }
             // }

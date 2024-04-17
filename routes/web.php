@@ -175,10 +175,11 @@ Auth::routes(['register' => false]);
     Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
+    Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-    Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
+
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
 
@@ -228,6 +229,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/detect-liveness',  [HomeController::class, 'detectLiveness']);
     Route::post('/ask-to-join/meeting', [VideoConferenceController::class, 'AskToJoin'])->name('asktojoin');
     Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
+
+    Route::post('/site/fetch/tokens', [SiteAdminController::class, 'fetchDuaDumTokens'])->name('siteadmin.fetch.token');
+
+
 });
 
 

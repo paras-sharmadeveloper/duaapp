@@ -83,8 +83,8 @@
 
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Pick Time</span>
-                        <select class="form-control" name="type_dua" id="type_dua">
+                        <span class="input-group-text" id="inputGroupPrepend2">Pick Dua Type</span>
+                        <select class="form-control" name="dua_type" id="type_dua">
                             <option> -- Select Dua Option-- </option>
                             <option value="dum">Dum</option>
                             <option value="dua">Dua</option>
@@ -94,7 +94,7 @@
 
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend2">Pick Time</span>
+                        <span class="input-group-text" id="inputGroupPrepend2">Pick Token</span>
                         <select class="form-control" name="slot_id" id="token_id">
 
                         </select>

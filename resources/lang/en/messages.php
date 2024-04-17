@@ -48,6 +48,7 @@ return [
      'Week_day_Friday' => 'Friday',
      'Week_day_Saturday' => 'Saturday',
      'Week_day_Sunday' => 'Sunday',
+     'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.'
 
 
 

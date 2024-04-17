@@ -25,6 +25,18 @@ class SiteAdminController extends Controller
         }
         return view('site-admin.select-venue', compact('venueAddress'));
     }
+
+
+    public function fetchDuaDumTokens(Request $request,$id){
+
+        $data['dua'] = Vistors::where('dua_type','dua')->where(['user_status' => 'admitted'])->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+        $data['dum'] = Vistors::where('dua_type','dum')->where(['user_status' => 'admitted'])->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+
+
+        return response()->json(['success' => true, 'data' => $data], 200);
+    }
+
+
     public function ShowQueueList(Request $request, $id)
     {
 
@@ -44,35 +56,59 @@ class SiteAdminController extends Controller
                     ->where('venue_address_id', $id)
                     ->has('visitors')
                     ->get();
+                    return response()->json(['success' => true, 'data' => $venueSloting, 'route' => $route], 200);
             } else {
 
-                $venueSloting = VenueSloting::with(['visitors' => function ($query) {
-                    $query->where('user_status', 'admitted');
-                    $query->orWhere('user_status', 'in-meeting');
-                    $query->orderBy('confirmed_at', 'asc');
-                }, 'venueAddress'])
-                    ->where('venue_address_id', $id)
-                    ->has('visitors')
-                    ->get();
+
+                $data['dua'] = VenueSloting::with(['visitors' => function ($query) {
+                    //  $query->where('user_status', 'admitted');
+
+                    },'venueAddress'])
+                        ->where('venue_address_id', $id)
+                        // ->where('type', 'dua')
+                        ->has('visitors')
+                        ->first();
+
+                    $data['dum'] = VenueSloting::with(['visitors' => function ($query) {
+                        $query->where('user_status', 'admitted');
+                        $query->whereNull('confirmed_at');
+                        // $query->orWhere('user_status', 'in-meeting');
+                        // $query->orderBy('confirmed_at', 'asc');
+                    }, 'venueAddress'])
+                        ->where('venue_address_id', $id)
+                        ->where('type', 'dum')
+                        ->has('visitors')
+                        ->first();
+                        $data['dua'] = Vistors::with(['venueSloting'])->get();
+                return response()->json(['success' => true, 'data' => $data, 'route' => $route], 200);
             }
-            return response()->json(['success' => true, 'data' => $venueSloting, 'route' => $route], 200);
+
         }
 
-        $venueSloting = VenueSloting::with(['visitors' => function ($query) {
-            // $query->where('source', 'Phone');
-            $query->where('user_status', 'no_action');
-        }, 'venueAddress'])
-            ->where('venue_address_id', $id)
-            ->has('visitors')
-            ->get();
+
         // $venueSloting = VenueSloting::with('visitors','venueAddress')
         // ->where(['venue_address_id' => $id])
         // ->has('visitors') // Include only records with visitors
         // ->get();
 
+        $venueSloting = VenueSloting::with(['visitors' => function ($query) {
+            // $query->where('source', 'Phone');
+            $query->where('user_status', 'admitted');
+        }, 'venueAddress'])
+            ->where('venue_address_id', $id)
+            ->has('visitors')
+            ->get();
         // return view('site-admin.verify-phone-ivr', compact('venueSloting', 'route'));
+        if(request()->routeIs('siteadmin.pending.list')) {
 
-        return view('site-admin.verify-user-list',compact('venueSloting' , 'route'));
+            return view('site-admin.verify-user-list',compact('venueSloting' , 'route'));
+        }else{
+            return view('site-admin.test',compact('venueSloting' , 'route'));
+        }
+
+
+
+
     }
 
 
