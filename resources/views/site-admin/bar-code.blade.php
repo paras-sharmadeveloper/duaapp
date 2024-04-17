@@ -37,10 +37,7 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
 
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -67,12 +64,7 @@
 @endsection
 @section('page-script')
     <script>
-         $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
+         $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  } });
         $("#barcodeInput").focus();
         $("#greenTick").show()
         var barcodeValue ='';

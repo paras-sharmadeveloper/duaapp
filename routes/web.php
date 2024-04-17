@@ -176,20 +176,23 @@ Auth::routes(['register' => false]);
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
-
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
-    Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
 
     Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
 
     Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
-
     Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
     Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
     Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
+
+
+
+
+
+
 
     Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
 

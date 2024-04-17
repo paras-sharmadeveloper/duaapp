@@ -19,7 +19,6 @@
         #users-list-main-dum:hover {
             overflow: auto;
         }
-
         .launch-dum,
         .launch-dua {
             padding: 40px !important;
@@ -39,7 +38,6 @@
             </div>
             <div class="col-md-4 mt-4 mt-sm-0 d-md-block">
                 <div class="text-center text-md-end">
-
                     {{-- <div class="form-outline" data-mdb-input-init>
                         <label class="form-label" for="form1">Search</label>
                         <input type="tel" id="search" class="form-control" placeholder="Search" />
@@ -53,7 +51,6 @@
 
         @if (request()->route()->getName() == 'siteadmin.pending.list')
             <div class="row  mb-4 pb-1 w-100" id="users-list-main">
-
             </div>
         @else
             <div class="row  mb-1 pb-1 w-100" id="users-list-main-dua">

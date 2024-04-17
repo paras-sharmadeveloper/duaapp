@@ -155,7 +155,7 @@ class HomeController extends Controller
                     return response()->json(['message' => $message, "status" => false], 406);
                 } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
                     $source = "Website";
-                    return redirect()->back()->withErrors(['error' => 'You already Booked a seat Before']);
+                    return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
                 }
             // }
 
@@ -171,7 +171,6 @@ class HomeController extends Controller
             $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
 
             if (!$userCountry['allowed']) {
-
                 return response()->json([
                     'status' => false,
                     'message' => $userCountry['message'],
@@ -298,7 +297,7 @@ class HomeController extends Controller
             if ($from == 'admin') {
                 return  redirect()->route('booking.status', $uuid);
                 // booking.status
-                return redirect()->back()->with('success', 'Booking created successfully');
+                // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
                 return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
             }
