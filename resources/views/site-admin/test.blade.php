@@ -43,7 +43,6 @@
                     {{-- <div class="form-outline" data-mdb-input-init>
                         <label class="form-label" for="form1">Search</label>
                         <input type="tel" id="search" class="form-control" placeholder="Search" />
-
                     </div> --}}
                 </div>
             </div>
@@ -52,20 +51,14 @@
 
     <div class="d-flex1 justify-content-around1">
 
-
-
-
         @if (request()->route()->getName() == 'siteadmin.pending.list')
             <div class="row  mb-4 pb-1 w-100" id="users-list-main">
 
             </div>
         @else
             <div class="row  mb-1 pb-1 w-100" id="users-list-main-dua">
-
             </div>
-
             <div class="row  mb-1 pb-1 w-100" id="users-list-main-dum">
-
             </div>
         @endif
 
