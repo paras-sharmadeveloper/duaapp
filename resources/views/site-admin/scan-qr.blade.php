@@ -115,7 +115,7 @@
                         $("#model-body").html(response.printToken)
 
                         // toastr.success(response.message);
-                        html5QrcodeScanner.resume();
+                        html5QrcodeScanner.pause();
                     } else {
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
@@ -127,12 +127,12 @@
                         }
 
                         // toastr.error(response.message);
-                        html5QrcodeScanner.resume();
+                        html5QrcodeScanner.pause();
                     }
 
                 },
                 error: function(error) {
-                    html5QrcodeScanner.resume();
+                    html5QrcodeScanner.pause();
                     // Handle error
                     toastr.error('Error: Unable to process the scan.');
                 }
@@ -140,6 +140,7 @@
 
             $(document).on("click", ".close", function() {
                 $('#myModal').modal('hide');
+                html5QrcodeScanner.resume();
             })
 
         }
@@ -173,6 +174,7 @@
                 printWindow.close();
             };
             $('#myModal').modal('hide');
+            html5QrcodeScanner.resume();
         }
 
         //    function printDiv(divId) {

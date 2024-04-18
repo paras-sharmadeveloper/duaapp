@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Events\MyEvent;
 use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Crypt;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,6 +103,31 @@ Route::get('/run/queue', function () {
     Artisan::call('db:seed', ['--class' => 'AdminSeeder']);
     return 'Scheduled task triggered successfully.';
 });
+Route::get('/en', function () {
+    $id = request()->get('id');
+
+    // Encryption key (replace 'your_key_here' with your actual key)
+    $key = 'kf.org';
+
+    // Encryption method and padding
+    $method = 'AES-256-CBC';
+    $options = 0;
+
+    // Generate an initialization vector (IV)
+    $iv_length = openssl_cipher_iv_length($method);
+    $iv = openssl_random_pseudo_bytes($iv_length);
+
+    // Encrypt the ID
+    $encrypted = openssl_encrypt($id, $method, $key, $options, $iv);
+
+    return $encrypted;
+});
+
+Route::get('/de', function () {
+   $encryptedId = request()->get('id');
+
+});
+
 
 
 Route::get('/config/clear', function () {
@@ -178,22 +206,17 @@ Auth::routes(['register' => false]);
     Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
-
     Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
-
     Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
     Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
     Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
     Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
+    Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
+    Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
+    Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
+
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
-
-
-
-
-
-
-
     Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
 
     Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
@@ -208,10 +231,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::any('/book/cancel/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle');
     Route::any('/book/cancel/opt/{id}', [BookingController::class, 'BookingCancle'])->name('book.cancle.otp');
     Route::any('/book/reschedule/{id}', [BookingController::class, 'BookingReschdule'])->name('book.reschdule');
-    Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
 
-    Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
-    Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
 
     Route::post('/book/verify-otp', [HomeController::class, 'verify'])->name('verify-otp');
     Route::post('/book/check-available/slot', [HomeController::class, 'CheckAvilableSolt'])->name('check-available');

@@ -282,6 +282,39 @@ class BookingController extends Controller
         return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking' ,'slotType'));
     }
 
+    public function CustomerBookingStatusD(Request $request)
+    {
+        $id = $request->input('i');
+        $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
+        if (!$userBooking) {
+            $message = "Not found.";
+            return view('frontend.not-found', compact('message'));
+        }
+
+        // Get the user's slot time
+        $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
+
+        $userSlotTime = $userSlot->slot_time;
+        $slotType = $userSlot->type;
+        // Assuming 'time' is the column where you store the slot time
+        $venueAddress = VenueAddress::find($userSlot->venue_address_id);
+        // Calculate the start of slots
+        $startTimemrg = $venueAddress->slot_starts_at_morning;
+
+
+        // Count bookings from the start time until the user's slot time
+        $aheadPeople = Vistors::whereHas('slot', function ($query) use ($startTimemrg, $userSlotTime) {
+            // $query->where('slot_time', '>=', $startTimemrg)
+            //     ->where('slot_time', '<', $userSlotTime);
+        })->count();
+        $serveredPeople = Vistors::whereNotNull('meeting_ends_at')->get()->count();
+
+
+        App::setLocale($userBooking->lang);
+
+        return view('frontend.queue-status', compact('aheadPeople', 'venueAddress', 'userSlot', 'serveredPeople', 'userBooking' ,'slotType'));
+    }
+
 
     public function CustomerBookingStatus(Request $request, $id)
     {
