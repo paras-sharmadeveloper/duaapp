@@ -1082,8 +1082,6 @@
                                 margin: [0, 0, 0, 20] // Top, right, bottom, left margins
                             });
                             doc.content.splice(2, 1);
-
-
                         }
                     },
                     'csv', 'excel'
