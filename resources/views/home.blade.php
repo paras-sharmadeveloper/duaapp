@@ -1032,6 +1032,7 @@
                 ],
                 "buttons": [{
                         extend: 'pdfHtml5',
+                        orientation: 'landscape',
                         filename: filename,
                         customize: function(doc) {
                             // Add logo
@@ -1070,6 +1071,7 @@
                                     duaghar.toUpperCase() + '  DUA GHAR';
                             }
 
+                            document.title  = heading
                             $("#filtertable").attr('data-filename' ,heading)
                             // doc.content.splice(1, 2);
 
