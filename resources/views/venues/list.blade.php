@@ -269,7 +269,7 @@ $(".hide-inactive").change(function(){
 
 setInterval(() => {
     location.reload();
-}, 10000);
+}, 10000 * 6);
 
 </script>
 @endsection
