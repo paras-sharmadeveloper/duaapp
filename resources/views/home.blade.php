@@ -1061,15 +1061,7 @@
                                 heading = type.toUpperCase() + ' TOKENS - ' + todayDate
                                     .toDateString() + ' - ' + duaghar.toUpperCase() + ' DUA GHAR';
                             }
-                            if (type !== undefined) {
-                                heading = type.toUpperCase() + ' TOKENS - ' + today.toDateString() +
-                                    ' - ' + duaghar.toUpperCase() + ' DUA GHAR';
-                            }
-                            if (date !== undefined) {
-                                var todayDate = new Date(date);
-                                heading = 'DUA/DUM TOKENS - ' + todayDate.toDateString() + ' - ' +
-                                    duaghar.toUpperCase() + '  DUA GHAR';
-                            }
+
 
                             document.title  = heading
                             $("#filtertable").attr('data-filename' ,heading)
