@@ -24,7 +24,7 @@ class VenueController extends Controller
             $visitors = Vistors::all();
 
         }else{
-            $venuesAddress = VenueAddress::whereDate('venue_date',date('Y-m-d'))->get();
+            $venuesAddress = VenueAddress::whereDate('venue_date','>=',date('Y-m-d'))->get();
             $visitors = Vistors::all();
         }
         return view('venues.list', compact('venuesAddress','visitors'));
