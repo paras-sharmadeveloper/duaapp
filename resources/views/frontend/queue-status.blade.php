@@ -463,7 +463,7 @@
 
 @section('page-script')
     <script>
-        document.title = "KahayFaqeer.com | Queue Status";
+        document.title = "kahayFaqeer.org | Queue Status";
         var fileName =
             "{{ $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number }}"
 

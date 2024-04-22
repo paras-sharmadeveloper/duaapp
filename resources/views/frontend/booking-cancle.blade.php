@@ -114,7 +114,7 @@
       </section>
 
       <script>
-        document.title = "KahayFaqeer.com| Cancle Booking";
+        document.title = "kahayFaqeer.org| Cancle Booking";
       </script>
 
 

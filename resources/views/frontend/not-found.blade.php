@@ -5,9 +5,9 @@
           <div class="col-sm-10 col-sm-offset-1  text-center">
             <div class="four_zero_four_bg">
               <h1 class="text-center ">404</h1>
-  
+
             </div>
-  
+
             <div class="contant_box_404">
               <h2 class="h2">
                 {{ $message  }}
@@ -20,10 +20,10 @@
                 <div class="alert alert-danger">
                     {{ session()->get('error') }}
                 </div>
-             @endif 
-              
-               
-              </h2> 
+             @endif
+
+
+              </h2>
               <a href="{{ route('book.show') }}" class="link_404">Book Seat</a>
             </div>
           </div>
@@ -73,8 +73,8 @@
 .contant_box_404 {
   margin-top: -50px;
 }
-  
+
 </style>
 <script>
-  document.title = "KahayFaqeer.com | 404";
+  document.title = "kahayFaqeer.org | 404";
 </script>

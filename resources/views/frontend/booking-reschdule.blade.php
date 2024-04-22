@@ -6,7 +6,7 @@
 </style>
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
-         
+
           <div class="row justify-content-center">
             <div class="col-lg-9 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
@@ -34,84 +34,84 @@
                         <div class="alert alert-danger">
                             {{ session()->get('error') }}
                         </div>
-                     @endif 
+                     @endif
                       @if(session()->has('email_verified_error'))
                         <div class="alert alert-danger">
                             {{ session()->get('email_verified_error') }}
                             <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#basicModal">Resend</a>
-                               
+
                         </div>
                      @endif
 
-                     
-                        
+
+
 
                   <form class="row g-3 needs-validation " action="{{ route('book.cancle',['id' => $vistor->booking_uniqueid]) }}" method="post">
                     <p class="text-center small">Your Mobile number Register with us {{ str_repeat('*', strlen($vistor->phone) - 4) . substr($vistor->phone, -4) }}                    </p>
                      @csrf
 
-                    <div class="col-12"> 
+                    <div class="col-12">
                          <label for="yourPassword" class="form-label">Enter You Mobile Number Here</label>
-                        <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" 
-                          value="{{ session()->get('booking_number') }}" 
-                          required autocomplete="phone" 
+                        <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                          value="{{ session()->get('booking_number') }}"
+                          required autocomplete="phone"
                           autofocus>
                          @error('phone')
                          <div class="invalid-feedback">{{ $message }}</div>
                          @enderror
-                     
+
                     </div>
                     <div class="col-12 text-center">
                       <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
 
                     @if(session()->has('book_seat'))
-                    
+
                       <a href="{{ route('book.show') }}">Book again</a>
-                         
+
                   @endif
-                     
+
                   </form>
 
-                  @if(session()->has('enable')) 
+                  @if(session()->has('enable'))
                   <form class="row g-3 needs-validation mt-5" action="{{ route('book.cancle.otp',['id' => $vistor->booking_uniqueid ]) }}" method="post">
-                    
+
                      @csrf
 
-                    <div class="col-12"> 
+                    <div class="col-12">
                          <label for="yourPassword" class="form-label">Enter You OTP (One Time Password)</label>
-                        <input id="otp" type="otp" class="form-control @error('otp') is-invalid @enderror" name="otp" 
-                          value="{{ old('otp') }}" 
-                          required autocomplete="otp" 
+                        <input id="otp" type="otp" class="form-control @error('otp') is-invalid @enderror" name="otp"
+                          value="{{ old('otp') }}"
+                          required autocomplete="otp"
                           autofocus>
                          @error('otp')
                          <div class="invalid-feedback">{{ $message }}</div>
                          @enderror
-                     
+
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Verify and Cancle</button>
                     </div>
-                     
+
                   </form>
 
 
-                  
+
 
                   @endif
 
                 </div>
               </div>
 
-              <div class="credits"> 
+              <div class="credits">
               </div>
 
             </div>
           </div>
         </div>
 
-      </section> 
+      </section>
       <script>
-        document.title = "KahayFaqeer.com| Reschdule Booking";
+        document.title = "kahayFaqeer.org| Reschdule Booking";
       </script>
 @endsection

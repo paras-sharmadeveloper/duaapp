@@ -6,7 +6,7 @@
 </style>
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
-         
+
           <div class="row justify-content-center">
             <div class="col-lg-9 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
@@ -34,79 +34,79 @@
                         <div class="alert alert-danger">
                             {{ session()->get('error') }}
                         </div>
-                     @endif 
+                     @endif
                       @if(session()->has('email_verified_error'))
                         <div class="alert alert-danger">
                             {{ session()->get('email_verified_error') }}
                             <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#basicModal">Resend</a>
-                               
+
                         </div>
                      @endif
 
-                     
+
                   <form class="row g-3 needs-validation " action="{{ route('booking.confirm-spot.post') }}" method="post">
-                    
+
                      @csrf
 
-                    <div class="col-12"> 
+                    <div class="col-12">
                          <label for="yourPassword" class="form-label">Enter You Mobile/Email/BookingId</label>
-                        <input id="booking_number" type="booking_number" class="form-control @error('booking_number') is-invalid @enderror" name="booking_number" 
-                          value="{{ session()->get('booking_number') }}" 
-                          required autocomplete="booking_number" 
+                        <input id="booking_number" type="booking_number" class="form-control @error('booking_number') is-invalid @enderror" name="booking_number"
+                          value="{{ session()->get('booking_number') }}"
+                          required autocomplete="booking_number"
                           autofocus>
                          @error('booking_number')
                          <div class="invalid-feedback">{{ $message }}</div>
                          @enderror
-                     
+
                     </div>
                     <div class="col-12 text-center">
                       <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
 
                     @if(session()->has('book_seat'))
-                    
+
                       <a href="{{ route('book.show') }}">Book again</a>
                     @endif
-                     
+
                   </form>
 
-                  @if(session()->has('enable')) 
+                  @if(session()->has('enable'))
                   <form class="row g-3 needs-validation mt-5" action="{{ route('booking.confirm-spot.otp.post') }}" method="post">
-                    
+
                      @csrf
                      @if(session()->has('booking_number'))
                      <input type="hidden" name="booking_number" value="{{ session()->get('booking_number') }}">
                      @endif
 
-                    <div class="col-12"> 
+                    <div class="col-12">
                          <label for="yourPassword" class="form-label">Enter You OTP (One Time Password)</label>
-                        <input id="otp" type="number" class="form-control 
+                        <input id="otp" type="number" class="form-control
                         @error('otp') is-invalid @enderror"
-                           name="otp" 
-                          value="{{ old('otp') }}" 
-                          required autocomplete="otp" 
+                           name="otp"
+                          value="{{ old('otp') }}"
+                          required autocomplete="otp"
                           autofocus>
                          @error('otp')
                          <div class="invalid-feedback">{{ $message }}</div>
                          @enderror
-                     
+
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Verify and Confirm</button>
                     </div>
-                     
+
                   </form>
 
 
-                  
+
 
                   @endif
- 
+
 
                 </div>
               </div>
 
-              <div class="credits"> 
+              <div class="credits">
               </div>
 
             </div>
@@ -115,11 +115,11 @@
 
       </section>
       <script>
-        document.title = "KahayFaqeer.com|Confirm Spot";
+        document.title = "kahayFaqeer.org|Confirm Spot";
       </script>
 
 
-     
 
- 
+
+
 @endsection

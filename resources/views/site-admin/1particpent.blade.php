@@ -140,9 +140,9 @@
 
 @section('page-script')
 
-    <script> document.title = "KahayFaqeer.com| Participant";</script>
+    <script> document.title = "kahayFaqeer.org| Participant";</script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script> 
+    <script>
         var id = "{{ $id }}";
         var audioToneUrl = '';
         const audioElement = new Audio('https://kahayfaqeer-general-bucket.s3.amazonaws.com/notification1.wav');
@@ -170,7 +170,7 @@
                 }
 
 
-            }); 
+            });
 
         })
     </script>
@@ -197,7 +197,7 @@
                         if(response.participants){
                             updateParticipantsList(response.participants);
                         }
-                       
+
                     },
                     error: function() {
                         console.error("An error occurred while fetching the participant list.");
@@ -288,6 +288,6 @@
 
         });
 
-     
+
     </script>
 @endsection

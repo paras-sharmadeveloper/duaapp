@@ -22,7 +22,7 @@
             color: #fff
         }
 
-        .container { 
+        .container {
             padding: 0 2.5%
         }
 
@@ -326,12 +326,12 @@
             <div class="joined">
                 <p>You</p>
                 <div>
-                    <div id="local-video"> 
+                    <div id="local-video">
                         <div class="text-center py-4 access-camera-div">
                             <button class="access-camera btn btn-secondary" > Start Camera </button>
                             <video id="video-local" autoplay playsinline style="display: none"></video>
                         </div>
-                        
+
                         {{-- <img src="https://i.postimg.cc/WzFnG0QG/people-1.png"> --}}
                     </div>
                 </div>
@@ -357,29 +357,29 @@
         <div class="col-lg-6 asktojoin-main">
 
             <div class="asktojoin">
-                
+
 
                 @if($timeRemaining > 0 || $minuteDifference > 0)
 
                     <div class="text alert alert-warning mt-2">
                         <h3> Meeting Join Button will be enabled before 15 minutes.</h3>
-                    
+
                         @if($timeRemaining<=1 && $timeRemaining >= 0)
                         <p> Minutes Left <strong>  {{ $minuteDifference }}</strong></p>
                         @else
                         <p> Total Time remaining in Meeting <strong> {{  $timeRemaining }}</strong> Hours.</p>
                         @endif
-                        <p> As Per Your Selected Timezome <strong> {{  $userTimeZone }}</strong></p> 
+                        <p> As Per Your Selected Timezome <strong> {{  $userTimeZone }}</strong></p>
                     </div>
 
-                @else  
+                @else
                     <div class="text alert alert-danger mt-2">
                         <h3>Ohh! You Missed the Meeting</h3>
                         <p> Meeting Already Passed Try Next Time </p>
-                    </div> 
+                    </div>
                 @endif
 
-               
+
 
 
                 @if (!empty($vistor) && $vistor->user_status == 'no_action' && $minuteDifference <=15 && $minuteDifference >= 0)
@@ -391,7 +391,7 @@
                         <div class="text alert alert-info mt-2 asktojoin-response" style="display: none">
                             Your Request in Queue Please Wait While Admin approved your request
                         </div>
-                    </div> 
+                    </div>
                 @endif
                 @if (!empty($vistor) && $vistor->user_status == 'in-queue')
                 <div class="text alert alert-info mt-2 asktojoin-response">
@@ -415,7 +415,7 @@
 
 @section('page-script')
     <script>
-        document.title = "KahayFaqeer.com| Online Meeting";
+        document.title = "kahayFaqeer.org| Online Meeting";
     </script>
     <script>
         document.addEventListener("touchstart", function() {}, true);
@@ -426,7 +426,7 @@
 
     <script>
         var accessToken = "{{ $accessToken }}";
-        var roomName = "{{ $roomName }}"; 
+        var roomName = "{{ $roomName }}";
         var visitorId = "{{ $vistor ? $vistor->id : 0 }}"
         let twillioRoom; // Declare room as a global variable
         var timeSlot = "{{ $timePerSlot }}"
@@ -453,10 +453,10 @@
 
                         // When the stream is loaded, start playing the video
                         video.onloadedmetadata = function(e) {
-                            video.play(); 
-                            $this.hide(); 
+                            video.play();
+                            $this.hide();
                         };
-                        
+
                     })
                     .catch(function(error) {
                         console.error('Error accessing camera:', error);
@@ -571,7 +571,7 @@
                                     .empty(); // Remove content if both video and audio tags are found
                             }
 
-                            //   $("#remote-video").empty(); 
+                            //   $("#remote-video").empty();
                             $("#remote-video").find('img').hide();
                             remoteVideoContainer.appendChild(track.attach());
                         });

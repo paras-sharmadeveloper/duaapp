@@ -61,6 +61,6 @@
 @endsection
 @section('page-script')
 <script>
-    document.title = "KahayFaqeer.com | Booking Thankyou";
+    document.title = "kahayFaqeer.org | Booking Thankyou";
   </script>
 @endsection

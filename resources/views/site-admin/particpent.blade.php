@@ -220,19 +220,19 @@
             <div class="name-box">{{ ($venueAddress) ? $venueAddress->thripist->name: "" }}</div>
             <div class="user-name-box d-none">{{ $venueAddress->thripist->name }}</div>
             @if(!empty( $venueAddress->thripist->status ))
-               <div id="user-status" 
+               <div id="user-status"
 
                @if($venueAddress->thripist->status == 'online')
                   class="level-indicator level-success mt-2 user-status"
                @else
                   class="level-indicator level-danger mt-2 user-status"
                @endif
-               
+
               >{{  $venueAddress->thripist->status }}</div>
             @else
                <div id="user-status" class="level-indicator level-success mt-2 user-status">Online</div>
             @endif
-           
+
         </div>
         @endif
     </div>
@@ -244,20 +244,20 @@
 
 @section('page-script')
     <script>
-        document.title = "KahayFaqeer.com | Participant";
-        
+        document.title = "kahayFaqeer.org | Participant";
+
     </script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
         var id = "{{ $id }}";
         var audioToneUrl = '';
-        
+
         const audioElement = new Audio('https://kahayfaqeer-general-bucket.s3.amazonaws.com/notification1.wav');
 
 
         $(document).ready(function() {
 
-            Pusher.logToConsole = true; 
+            Pusher.logToConsole = true;
             var pusherConnection = new Pusher(pusherKey, {
                 cluster: pusherKeyCluster
             });
@@ -266,22 +266,22 @@
                 console.log('Pusher connected');
             });
             channel.bind('siteadmin.status.notification', function(data) {
-              
+
                 var response = JSON.stringify(data);
                 var resp = JSON.parse(response)
-                
+
                 if (resp.message == 'online') {
                     $("#user-status").text(resp.message)
                     $("#user-status").removeClass('level-danger').addClass('level-success');
                 } else {
                     $("#user-status").text(resp.message)
                     $("#user-status").removeClass('level-success').addClass('level-danger');
-                     
+
                 }
 
 
             });
-            
+
 
         })
     </script>
@@ -331,8 +331,8 @@
 
                 }
 
-               
- 
+
+
                 $("#name").text(userinfo.name)
                 delete participants.user_info;
                 if (participants) {
@@ -353,7 +353,7 @@
                                     data-id="${item.id}">Decline</button>
                                 </div>
                         </div>`;
-                        
+
                     })
                 } else {
                     html = '<div class="friend-box"><div class="friend-box No-request"> <div class="name-box"> No Request Yet Received</div> </div></div>';
@@ -392,13 +392,13 @@
                     $(this).parents('.friend-box').fadeOut();
                 }, 2000);
                 AdmitRequest(participantId, 'admitted');
-                $(this).attr("disabled","disabled"); 
+                $(this).attr("disabled","disabled");
 
             });
             $(document).on("click", ".dismiss-button", function() {
                 var participantId = $(this).data("id");
                 AdmitRequest(participantId, 'dismissed');
-                $(this).attr("disabled","disabled"); 
+                $(this).attr("disabled","disabled");
             });
 
 
