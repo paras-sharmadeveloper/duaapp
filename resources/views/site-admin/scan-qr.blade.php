@@ -121,9 +121,9 @@
                         $("#invaild-token").hide();
 
                         $("#model-body").html(response.printToken)
-                        setTimeout(() => {
-                            printDiv('printableArea')
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     printDiv('printableArea')
+                        // }, 1500);
                         // toastr.success(response.message);
                         html5QrcodeScanner.pause();
                     } else {
@@ -138,9 +138,9 @@
                             $("#invaild-token").text(response.message).show();
 
                         }
-                        setTimeout(() => {
-                            printDiv('printableArea')
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     printDiv('printableArea')
+                        // }, 1500);
 
                         // toastr.error(response.message);
                         html5QrcodeScanner.pause();

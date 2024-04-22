@@ -97,9 +97,9 @@
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
                         $("#model-body").html(response.printToken)
-                        setTimeout(() => {
-                            printDiv('printableArea')
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     printDiv('printableArea')
+                        // }, 1500);
 
                         // toastr.success(response.message);
                         html5QrcodeScanner.resume();
@@ -107,9 +107,9 @@
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
-                        setTimeout(() => {
-                            printDiv('printableArea')
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     printDiv('printableArea')
+                        // }, 1500);
                         if (!response.print) {
                             // $("#printButton").hide();
                             $("#vaild-token").hide();
