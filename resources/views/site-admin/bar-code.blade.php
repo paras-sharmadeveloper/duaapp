@@ -188,5 +188,15 @@
                 }
             }
             });
+
+            document.addEventListener('keydown', function(event) {
+  // Check if the pressed key is the Escape key
+            if (event.key === 'Escape') {
+                // Your code to handle the Escape key press goes here
+                console.log('Escape key pressed!');
+                $('#myModal').modal('hide');
+                html5QrcodeScanner.resume();
+            }
+            });
     </script>
 @endsection
