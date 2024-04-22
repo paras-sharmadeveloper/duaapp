@@ -195,7 +195,6 @@
   // Check if the Enter key was pressed
             if (event.key === 'Enter') {
                 printDiv('printableArea')
-                console.log(":asdjasd")
                 // Check if the Ctrl key is also being held down
                 if (event.ctrlKey) {
                 // Trigger the desired command (e.g., Ctrl + P)
@@ -222,6 +221,16 @@
                 }
             });
         });
+
+        document.addEventListener('keydown', function(event) {
+  // Check if the pressed key is the Escape key
+            if (event.key === 'Escape') {
+                // Your code to handle the Escape key press goes here
+                console.log('Escape key pressed!');
+                $('#myModal').modal('hide');
+                html5QrcodeScanner.resume();
+            }
+            });
 
         //    function printDiv(divId) {
         //         var printContents = document.getElementById(divId).innerHTML;
