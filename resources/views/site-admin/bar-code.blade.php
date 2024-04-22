@@ -30,9 +30,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
-                <input id='barcodeInput' type='text'  class="form-control w-100"  />
+                <input id='barcodeInput' type='text' class="form-control w-100" />
                 <div class="tickmark" id="greenTick" style="display: none">
-                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png" alt="checked--v1"/>
+                    <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png"
+                        alt="checked--v1" />
                     <p>You can start scaning</p>
                 </div>
             </div>
@@ -64,10 +65,14 @@
 @endsection
 @section('page-script')
     <script>
-         $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  } });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $("#barcodeInput").focus();
         $("#greenTick").show()
-        var barcodeValue ='';
+        var barcodeValue = '';
         // document.getElementById('barcodeInput').addEventListener('input', function(event) {
         //     barcodeValue = event.target.value;
         // });
@@ -92,6 +97,9 @@
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
                         $("#model-body").html(response.printToken)
+                        setTimeout(() => {
+                            printDiv('printableArea')
+                        }, 1500);
 
                         // toastr.success(response.message);
                         html5QrcodeScanner.resume();
@@ -99,6 +107,9 @@
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
+                        setTimeout(() => {
+                            printDiv('printableArea')
+                        }, 1500);
                         if (!response.print) {
                             // $("#printButton").hide();
                             $("#vaild-token").hide();
@@ -142,9 +153,40 @@
             $("#barcodeInput").focus();
         })
 
+        document.addEventListener('DOMContentLoaded', function() {
 
 
 
+        });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const target = document.getElementById('body');
+
+            document.addEventListener('click', function(event) {
+                // Check if the click occurred inside or outside the target element
+                if (event.target === target) {
+                    $("#barcodeInput").focus();
+                    console.log('Clicked inside the target element.');
+                } else {
+                    $("#barcodeInput").focus();
+                    console.log('Clicked outside the target element.');
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(event) {
+  // Check if the Enter key was pressed
+            if (event.key === 'Enter') {
+                // Check if the Ctrl key is also being held down
+                if (event.ctrlKey) {
+                    $("#barcodeInput").focus();
+                // Trigger the desired command (e.g., Ctrl + P)
+                console.log('Ctrl + P command triggered!');
+
+                // Prevent the default behavior of the Enter key (e.g., form submission)
+                event.preventDefault();
+                }
+            }
+            });
     </script>
 @endsection

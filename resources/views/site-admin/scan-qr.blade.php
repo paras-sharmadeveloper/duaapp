@@ -65,7 +65,7 @@
                     <div class="alert alert-danger mt-3" id="invaild-token" style="display: none"></div>
                     <div class="alert alert-success mt-3" id="vaild-token" style="display: none"></div>
                     <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body" id="model-body">
@@ -74,7 +74,7 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
                 </div>
 
             </div>
@@ -119,19 +119,28 @@
                         $('#myModal').modal('toggle');
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
-                        $("#model-body").html(response.printToken)
 
+                        $("#model-body").html(response.printToken)
+                        setTimeout(() => {
+                            printDiv('printableArea')
+                        }, 1500);
                         // toastr.success(response.message);
                         html5QrcodeScanner.pause();
                     } else {
+                        console.log("else")
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
+
                         if (!response.print) {
                             // $("#printButton").hide();
                             $("#vaild-token").hide();
                             $("#invaild-token").text(response.message).show();
+
                         }
+                        setTimeout(() => {
+                            printDiv('printableArea')
+                        }, 1500);
 
                         // toastr.error(response.message);
                         html5QrcodeScanner.pause();
@@ -152,10 +161,6 @@
 
         }
         html5QrcodeScanner.render(onScanSuccess);
-
-
-
-
 
 
 
@@ -183,6 +188,40 @@
             $('#myModal').modal('hide');
             html5QrcodeScanner.resume();
         }
+
+        document.addEventListener('keydown', function(event) {
+            html5QrcodeScanner.pause();
+            html5QrcodeScanner.resume();
+  // Check if the Enter key was pressed
+            if (event.key === 'Enter') {
+                printDiv('printableArea')
+                console.log(":asdjasd")
+                // Check if the Ctrl key is also being held down
+                if (event.ctrlKey) {
+                // Trigger the desired command (e.g., Ctrl + P)
+
+                // Prevent the default behavior of the Enter key (e.g., form submission)
+                event.preventDefault();
+                }
+            }
+            });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+            const target = document.getElementById('myModal');
+
+            document.addEventListener('click', function(event) {
+
+                html5QrcodeScanner.resume();
+                // Check if the click occurred inside or outside the target element
+                if (event.target === target) {
+                    console.log('Clicked inside the target element.');
+                } else {
+                    console.log('Clicked outside the target element.');
+                }
+            });
+        });
 
         //    function printDiv(divId) {
         //         var printContents = document.getElementById(divId).innerHTML;
