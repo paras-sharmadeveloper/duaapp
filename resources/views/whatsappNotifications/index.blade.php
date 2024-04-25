@@ -112,23 +112,23 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-info" type="button" id="getList"> Get List </button>
+                        <button class="btn btn-info float-end" type="button" id="getList"> Get List </button>
                     </div>
 
                 </div>
 
                 <div class="row mt-5">
 
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="multiselect form-control" id="userMobile" style="height: 300px">
                             <label> Please Select Date and Dua Type</label>
 
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="input-group">
-                            <textarea name="whatsAppMessage" class="form-control" cols="30" rows="10" placeholder="Write message here"></textarea>
+                            <textarea name="whatsAppMessage" class="form-control" cols="40" rows="12" placeholder="Write message here"></textarea>
 
                         </div>
                     </div>
