@@ -193,8 +193,8 @@
                         $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>'+options)
                         $("#getList").text('Get List')
                     } else {
+                        $("#err").empty()
                         $("#getList").text('Get List')
-
                         $("#userMobile").html('No user for this input')
                     }
 
