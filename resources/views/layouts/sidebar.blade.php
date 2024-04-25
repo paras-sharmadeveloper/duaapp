@@ -240,9 +240,15 @@ S
 
         </ul>
       </li>
+
+      <li class="nav-item">
+        <a class="{{ ( $currentPath == 'home') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('whatsapp.notication.show') }}">
+          <i class="bi bi-whatsapp"></i>
+          <span>Whatsapp Notification</span>
+        </a>
+      </li>
+
       @endcan
-
-
 
     </ul>
 

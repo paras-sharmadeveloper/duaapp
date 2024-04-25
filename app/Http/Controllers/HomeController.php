@@ -26,6 +26,29 @@ class HomeController extends Controller
         //  $this->middleware('auth');
     }
 
+    public function WhatsAppNotifications(Request $request)
+    {
+        if ($request->ajax()) {
+            $request->validate([
+                'whatsAppMessage' => 'required',
+                'user_mobile' => 'required'
+            ]);
+            $userMobile = $request->input('user_mobile');
+            $dataMessage = $request->input('whatsAppMessage');
+
+            foreach ($userMobile as $phone) {
+                $message = <<<EOT
+                Please see below urgent message for your kind attention:
+                *$dataMessage*
+                EOT;
+                $response =   $this->sendMessage($phone, $message);
+            }
+            return response()->json(['success' => true, 'message' => $response]);
+        }
+
+        return view('whatsappNotifications.index');
+    }
+
     public function StatusLcdScreen(Request $request)
     {
         $today = date('Y-m-d');
@@ -71,7 +94,7 @@ class HomeController extends Controller
         $timezones = Country::with('timezones')->get();
 
         $reasons = Reason::where(['type' => 'announcement'])->first();
-        return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale' ,'reasons'));
+        return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
     }
 
     public function BookingSubmit(Request $request)
@@ -145,18 +168,18 @@ class HomeController extends Controller
             // $user = Vistors::where('phone',$validatedData['mobile'])->first();
 
             // if (!empty($user)) {
-                // $recordAge = $user->created_at->diffInDays(now());
-                // $rejoin = $venueAddress->rejoin_venue_after;
-                $rejoin = $venueAddress->rejoin_venue_after;
-                $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
-                if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
-                    $source = "Website";
-                    $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
-                    return response()->json(['message' => $message, "status" => false], 406);
-                } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
-                    $source = "Website";
-                    return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
-                }
+            // $recordAge = $user->created_at->diffInDays(now());
+            // $rejoin = $venueAddress->rejoin_venue_after;
+            $rejoin = $venueAddress->rejoin_venue_after;
+            $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
+            if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
+                $source = "Website";
+                $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
+                return response()->json(['message' => $message, "status" => false], 406);
+            } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
+                $source = "Website";
+                return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
+            }
             // }
 
             //   if (!empty($isUsers) && $isUsers['status'] == false) {
@@ -214,9 +237,9 @@ class HomeController extends Controller
             $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
 
-            $token  = $tokenId.' ('.ucwords($tokenType).')';
-             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('lang'));
-             $this->sendWhatsAppMessage($mobile, $message);
+            $token  = $tokenId . ' (' . ucwords($tokenType) . ')';
+            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('lang'));
+            $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
             //   $slotDuration = $venueAddress->slot_duration;
             //   $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
@@ -959,7 +982,7 @@ class HomeController extends Controller
                             'status' =>  false,
                             'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
                             'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                           //  'message' => "There is no token avilable",
+                            //  'message' => "There is no token avilable",
                             'dt' => $request->input('duaType'),
                             'dtd' => $venuesListArr->id,
                             //   'hours_until_open' => $status['hours_until_open'],
@@ -1192,6 +1215,25 @@ class HomeController extends Controller
         return ['success' => 1, 'message' => 'deleted'];
     }
 
+    public  function getVisitors(Request $request)
+    {
+        $request->validate([
+            'dua_option' => 'required',
+            'venueDate' => 'required'
+        ]);
+        $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])->whereDate('created_at', $request->input('venueDate'))->get();
+        return response()->json(['success' => (!$visitors->IsEmpty()) ? true : false, 'data' => $visitors], 200);
+    }
+
+    public  function SendWhatsAppNotifications(Request $request)
+    {
+
+        $request->validate([
+            'dua_option' => 'required',
+            'venueDate' => 'required'
+        ]);
+    }
+
 
     public  function getSlotsAjax(Request $request)
     {
@@ -1285,7 +1327,7 @@ class HomeController extends Controller
             EOT;
         } else {
 
-             $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+            $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
 
@@ -1314,5 +1356,24 @@ class HomeController extends Controller
             EOT;
         }
         return $message;
+    }
+
+    public function sendMessage($to, $message)
+    {
+        $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+
+        try {
+            $twilio->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
+                    'body' => $message,
+                ]
+            );
+            return response()->json(['data' => 'success']);
+        } catch (\Exception $e) {
+            //throw $th;
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 }

@@ -213,6 +213,7 @@ Auth::routes(['register' => false]);
     Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
     Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
     Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
+    Route::post('/book/get-visitors', [HomeController::class, 'getVisitors'])->name('get-visitor');
 
     Route::get('/status', [HomeController::class, 'StatusLcdScreen'])->name('status-screen');
     Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
@@ -256,6 +257,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 
     Route::get('/site/fetch/tokens', [SiteAdminController::class, 'fetchDuaDumTokens'])->name('siteadmin.fetch.token');
+    Route::any('/send/whatsapp/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
+
+
 
 
 });
