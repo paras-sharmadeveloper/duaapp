@@ -190,7 +190,7 @@
                             options +=
                                 `<label><span></span><input type="checkbox" name="user_mobile[]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
                         })
-                        $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll">Check All</lable>'+options)
+                        $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>'+options)
                         $("#getList").text('Get List')
                     } else {
                         $("#getList").text('Get List')
