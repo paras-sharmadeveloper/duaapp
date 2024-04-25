@@ -39,7 +39,7 @@ class HomeController extends Controller
             foreach ($userMobile as $phone) {
                 $message = <<<EOT
                 Please see below urgent message for your kind attention:
-                *$dataMessage*
+                $dataMessage
                 EOT;
                 $response =   $this->sendMessage($phone, $message);
             }
