@@ -229,6 +229,7 @@
 
                     alert("Message Send")
                     $("#sendNotification").text('Send Notification')
+                    location.reload();
                     // Handle success response after form submission
                 },
                 error: function(xhr) {
