@@ -16,6 +16,8 @@
             text-align: center;
             display: flex;
             justify-content: center;
+            height: 300px;
+            overflow: auto;
         }
 
         #footer {
@@ -46,8 +48,10 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
-                    <div class="alert alert-success" id="vaild-token" style="display: none"></div>
+                    <div class="alert alert-danger mt-3" id="invaild-token" style="display: none"></div>
+                    <div class="alert alert-success mt-3" id="vaild-token" style="display: none"></div>
+                    <button type="button" class="close btn btn-warning">Close</button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body" id="model-body">
@@ -193,10 +197,19 @@
   // Check if the pressed key is the Escape key
             if (event.key === 'Escape') {
                 // Your code to handle the Escape key press goes here
-                console.log('Escape key pressed!');
+                alert('Escape key pressed!');
                 $('#myModal').modal('hide');
                 html5QrcodeScanner.resume();
             }
             });
+
+            $(document).keydown(function(event) {
+    // Check if the pressed key is Enter (key code 13)
+            if (event.which == 13) {
+                // Show the alert
+                alert("Enter key pressed!");
+                printDiv('printableArea')
+            }
+        });
     </script>
 @endsection

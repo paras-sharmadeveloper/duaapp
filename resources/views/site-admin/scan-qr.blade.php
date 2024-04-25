@@ -16,6 +16,8 @@
             text-align: center;
             display: flex;
             justify-content: center;
+            height: 300px;
+            overflow: auto;
         }
 
         #footer {
@@ -244,7 +246,14 @@
         //     }
 
 
-
+        $(document).keydown(function(event) {
+    // Check if the pressed key is Enter (key code 13)
+            if (event.which == 13) {
+                // Show the alert
+                // alert("Enter key pressed!");
+                printDiv('printableArea')
+            }
+        });
 
         // Open camera on button click
     </script>
