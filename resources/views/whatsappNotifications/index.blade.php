@@ -76,11 +76,13 @@
             <div class="card-body">
                 <h5 class="card-title">Send WhatsApp Notifications</h5>
 
+                <div class="error" id="err"></div>
+
 
 
 
                 {!! Form::open([
-                    "id" => "sendnotiform",
+                    'id' => 'sendnotiform',
 
                     'method' => 'POST',
                     'class' => 'row g-3',
@@ -103,7 +105,7 @@
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroupPrepend2">Pick Dua Type</span>
                             <select class="form-control" name="dua_type" id="type_dua">
-                                <option> -- Select Dua Option-- </option>
+                                <option value=""> -- Select Dua Option-- </option>
                                 <option value="dum">Dum</option>
                                 <option value="dua">Dua</option>
                             </select>
@@ -132,7 +134,7 @@
                     </div>
 
                 </div>
-                <div class="error" id="err"></div>
+
 
 
 
@@ -165,10 +167,10 @@
             allowClear: true
         });
 
-        $("#getList").click(function(){
+        $("#getList").click(function() {
             var date = $("#pick_venue_date").val();
             var typeDua = $("#type_dua").val();
-
+            $(this).text('Searching ...')
             $.ajax({
                 url: "{{ route('get-visitor') }}",
                 type: 'POST',
@@ -181,14 +183,18 @@
                 success: function(response) {
                     var options = '';
 
-                    if(response.success){
+                    if (response.success) {
+                        $("#err").empty()
                         $.each(response.data, function(i, item) {
-                        options += `<label><span></span><input type="checkbox" name="user_mobile[]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
-                    })
-                       $("#userMobile").html(options)
-                    }else{
+                            options +=
+                                `<label><span></span><input type="checkbox" name="user_mobile[]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
+                        })
+                        $("#userMobile").html(options)
+                        $("#getList").text('Get List')
+                    } else {
+                        $("#getList").text('Get List')
 
-                      $("#userMobile").html('No user for this input')
+                        $("#userMobile").html('No user for this input')
                     }
 
 
@@ -196,7 +202,13 @@
                     // You can proceed with form submission here
                 },
                 error: function(xhr) {
+                    var err = '';
 
+                    $.each(xhr.responseJSON.errors, function(i, item) {
+                        err += `<p class="alert alert-danger" >${item}</p>`;
+                    });
+                    $("#err").html(err)
+                    $("#getList").text('Get List')
                 }
             });
         })
@@ -204,30 +216,31 @@
         $("#sendNotification").click(function() {
 
             var formData = new FormData($("#sendnotiform")[0]);
-                $(this).text('Sending ...')
+            $(this).text('Sending ...')
 
-                    $.ajax({
-                        url: "{{route('whatsapp.notication.show')}}", // Assuming the form action is set
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            $(this).text('Send Notification')
-                            alert("Message Send")
-                            // Handle success response after form submission
-                        },
-                        error: function(xhr) {
-                            var err = '';
+            $.ajax({
+                url: "{{ route('whatsapp.notication.show') }}", // Assuming the form action is set
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    $("#err").empty()
+                    $(this).text('Send Notification')
+                    alert("Message Send")
+                    // Handle success response after form submission
+                },
+                error: function(xhr) {
+                    var err = '';
 
-                            $.each(xhr.responseJSON.errors, function(i, item) {
-                                err += `<p class="alert alert-danger" >${item}</p>`;
-                            });
-                            $("#err").html(err)
-                            $("#sendNotification").text('Send Notification')
-
-                        }
+                    $.each(xhr.responseJSON.errors, function(i, item) {
+                        err += `<p class="alert alert-danger" >${item}</p>`;
                     });
+                    $("#err").html(err)
+                    $("#sendNotification").text('Send Notification')
+
+                }
+            });
 
         });
     </script>
