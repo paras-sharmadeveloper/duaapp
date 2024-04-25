@@ -197,7 +197,7 @@
   // Check if the pressed key is the Escape key
             if (event.key === 'Escape') {
                 // Your code to handle the Escape key press goes here
-                alert('Escape key pressed!');
+                // alert('Escape key pressed!');
                 $('#myModal').modal('hide');
                 html5QrcodeScanner.resume();
             }
@@ -207,7 +207,7 @@
     // Check if the pressed key is Enter (key code 13)
             if (event.which == 13) {
                 // Show the alert
-                alert("Enter key pressed!");
+                //alert("Enter key pressed!");
                 printDiv('printableArea')
             }
         });

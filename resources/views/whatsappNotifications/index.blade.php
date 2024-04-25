@@ -226,8 +226,9 @@
                 processData: false,
                 success: function(response) {
                     $("#err").empty()
-                    $(this).text('Send Notification')
+
                     alert("Message Send")
+                    $("#sendNotification").text('Send Notification')
                     // Handle success response after form submission
                 },
                 error: function(xhr) {
