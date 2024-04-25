@@ -120,7 +120,8 @@
                 <div class="row mt-5">
 
                     <div class="col-md-5">
-                        <div class="multiselect form-control" id="userMobile" style="height: 300px">
+
+                        <div class="multiselect form-control" id="userMobile" style="height: 300px;overflow:auto">
                             <label> Please Select Date and Dua Type</label>
 
                         </div>
@@ -189,7 +190,7 @@
                             options +=
                                 `<label><span></span><input type="checkbox" name="user_mobile[]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
                         })
-                        $("#userMobile").html(options)
+                        $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll">Check All</lable>'+options)
                         $("#getList").text('Get List')
                     } else {
                         $("#getList").text('Get List')
@@ -245,5 +246,15 @@
             });
 
         });
+
+        $(document).on("click", "#checkAll", function() {
+            var isChecked = $(this).prop("checked");
+            $("#userMobile input[type='checkbox']").prop("checked", function(_, oldProp) {
+                $(this).prop("checked",false)
+                return !oldProp;
+            });
+            $("#userMobile input[type='checkbox']").prop("checked", isChecked);
+        });
+
     </script>
 @endsection
