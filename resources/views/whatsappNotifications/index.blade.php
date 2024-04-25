@@ -120,6 +120,7 @@
                 <div class="row mt-5">
 
                     <div class="col-md-5">
+                        <label for="reason_english" class="form-label"> User Mobile List </label>
 
                         <div class="multiselect form-control" id="userMobile" style="height: 300px;overflow:auto">
                             <label> Please Select Date and Dua Type</label>
@@ -128,7 +129,9 @@
                     </div>
 
                     <div class="col-md-5">
+                        <label for="reason_english" class="form-label">WhatsApp Message </label>
                         <div class="input-group">
+
                             <textarea name="whatsAppMessage" class="form-control" cols="40" rows="12" placeholder="Write message here"></textarea>
 
                         </div>
