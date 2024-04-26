@@ -140,7 +140,7 @@
                 printWindow.print();
                 printWindow.close();
             };
-            $('#myModal').modal('hide');
+            $('#myModal').modal('toggle');
             $("#barcodeInput").focus();
         }
 
@@ -163,7 +163,7 @@
         // }
 
         $(document).on("click", ".close", function() {
-            $('#myModal').modal('hide');
+            $('#myModal').modal('toggle');
             $("#barcodeInput").focus();
         })
 
@@ -171,7 +171,7 @@
         document.addEventListener('keydown', function(event) {
 
             if (event.key === 'Escape') {
-                $('#myModal').modal('hide');
+                $('#myModal').modal('toggle');
                 $("#barcodeInput").focus();
 
 
