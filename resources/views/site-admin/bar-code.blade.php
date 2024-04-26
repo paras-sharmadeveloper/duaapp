@@ -50,8 +50,8 @@
                 <div class="modal-header">
                     <div class="alert alert-danger mt-3" id="invaild-token" style="display: none"></div>
                     <div class="alert alert-success mt-3" id="vaild-token" style="display: none"></div>
-                    <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
+                    {{-- <button type="button" class="close btn btn-warning">Close</button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button> --}}
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body" id="model-body">
@@ -84,6 +84,7 @@
 
         document.getElementById('barcodeInput').addEventListener('change', function(event) {
             barcodeValue = event.target.value;
+            event.preventDefault();
 
             $.ajax({
                 url: "{{ route('process-scan') }}",
@@ -95,7 +96,7 @@
                 success: function(response) {
                     // Handle success
                     if (response.success) {
-                        alert("if here")
+                     //   alert("if here")
                         $(".token-area").find('p').show();
                         $(".token-area").find('span').text(response.token)
 
@@ -105,7 +106,7 @@
                         $('#myModal').modal('toggle');
 
                     } else {
-                        alert("else here")
+                     //   alert("else here")
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
@@ -131,7 +132,7 @@
 
         function printDiv(divId) {
 
-            alert("in print code here")
+          //  alert("in print code here")
 
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
@@ -143,7 +144,7 @@
 
             printWindow.document.close(); // necessary for IE >= 10
             printWindow.onload = function() {
-                alert("in print code printing")
+               // alert("in print code printing")
                 printWindow.print();
                 printWindow.close();
             };
@@ -170,6 +171,7 @@
         });
 
         $(document).keydown(function(event) {
+            event.preventDefault();
             if (event.which == 13) {
                 alert("enter pressed")
                 printDiv('printableArea')
