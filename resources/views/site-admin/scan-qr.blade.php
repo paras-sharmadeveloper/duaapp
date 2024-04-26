@@ -28,9 +28,10 @@
             display: flex;
             justify-content: space-between;
         }
-        .alert{
+
+        .alert {
             padding: 10px;
-    text-align: left;
+            text-align: left;
 
         }
     </style>
@@ -38,17 +39,17 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <a href="{{ route('qr.gun.scan') }}" class="btn btn-success">Scan With Gun</a>
-                @if(request()->get('show') == null || request()->get('show') == 'false')
-                <a href="{{ route('qr.show.scan') }}?show=true" class="btn btn-success">Scan With Camera</a>
+                @if (request()->get('show') == null || request()->get('show') == 'false')
+                    <a href="{{ route('qr.show.scan') }}?show=true" class="btn btn-success">Scan With Camera</a>
                 @endif
             </div>
 
         </div>
         <div class="row justify-content-center mt-5">
-            @if(request()->get('show') == 'true')
-            <div class="col-md-12" >
-                <div class="embed-responsive embed-responsive-1by1" id="reader"></div>
-            </div>
+            @if (request()->get('show') == 'true')
+                <div class="col-md-12">
+                    <div class="embed-responsive embed-responsive-1by1" id="reader"></div>
+                </div>
             @endif
         </div>
         <div class="token-area">
@@ -191,24 +192,24 @@
             html5QrcodeScanner.resume();
         }
 
-        document.addEventListener('keydown', function(event) {
-            html5QrcodeScanner.pause();
-            html5QrcodeScanner.resume();
-  // Check if the Enter key was pressed
-            if (event.key === 'Enter') {
-                printDiv('printableArea')
-                // Check if the Ctrl key is also being held down
-                if (event.ctrlKey) {
-                // Trigger the desired command (e.g., Ctrl + P)
+        // document.addEventListener('keydown', function(event) {
+        //     html5QrcodeScanner.pause();
+        //     html5QrcodeScanner.resume();
+        //     // Check if the Enter key was pressed
+        //     if (event.key === 'Enter') {
+        //         printDiv('printableArea')
+        //         // Check if the Ctrl key is also being held down
+        //         if (event.ctrlKey) {
+        //             // Trigger the desired command (e.g., Ctrl + P)
 
-                // Prevent the default behavior of the Enter key (e.g., form submission)
-                event.preventDefault();
-                }
-            }
-            });
+        //             // Prevent the default behavior of the Enter key (e.g., form submission)
+        //             event.preventDefault();
+        //         }
+        //     }
+        // });
 
 
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
 
             const target = document.getElementById('myModal');
 
@@ -225,36 +226,22 @@
         });
 
         document.addEventListener('keydown', function(event) {
-  // Check if the pressed key is the Escape key
+
             if (event.key === 'Escape') {
-                // Your code to handle the Escape key press goes here
-                // console.log('Escape key pressed!');
                 $('#myModal').modal('hide');
                 html5QrcodeScanner.resume();
             }
-            });
+        });
 
-        //    function printDiv(divId) {
-        //         var printContents = document.getElementById(divId).innerHTML;
-        //         var originalContents = document.body.innerHTML;
-
-        //         document.body.innerHTML = printContents;
-
-        //         window.print();
-
-        //         document.body.innerHTML = originalContents;
-        //     }
 
 
         $(document).keydown(function(event) {
-    // Check if the pressed key is Enter (key code 13)
+            // Check if the pressed key is Enter (key code 13)
             if (event.which == 13) {
                 // Show the alert
                 // alert("Enter key pressed!");
                 printDiv('printableArea')
             }
         });
-
-        // Open camera on button click
     </script>
 @endsection

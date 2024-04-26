@@ -101,21 +101,13 @@
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
                         $("#model-body").html(response.printToken)
-                        // setTimeout(() => {
-                        //     printDiv('printableArea')
-                        // }, 1500);
 
-                        // toastr.success(response.message);
-                        html5QrcodeScanner.resume();
                     } else {
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
-                        // setTimeout(() => {
-                        //     printDiv('printableArea')
-                        // }, 1500);
+
                         if (!response.print) {
-                            // $("#printButton").hide();
                             $("#vaild-token").hide();
                             $("#invaild-token").text(response.message).show();
                         }
@@ -131,7 +123,6 @@
             $("#barcodeInput").val('');
 
 
-            console.log("Scanned Barcode:", barcodeValue);
         });
 
 
@@ -157,58 +148,22 @@
             $("#barcodeInput").focus();
         })
 
-        document.addEventListener('DOMContentLoaded', function() {
-
-
-
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const target = document.getElementById('body');
-
-            document.addEventListener('click', function(event) {
-                // Check if the click occurred inside or outside the target element
-                if (event.target === target) {
-                    $("#barcodeInput").focus();
-                    console.log('Clicked inside the target element.');
-                } else {
-                    $("#barcodeInput").focus();
-                    console.log('Clicked outside the target element.');
-                }
-            });
-        });
 
         document.addEventListener('keydown', function(event) {
-  // Check if the Enter key was pressed
-            if (event.key === 'Enter') {
-                // Check if the Ctrl key is also being held down
-                if (event.ctrlKey) {
-                    $("#barcodeInput").focus();
-                // Trigger the desired command (e.g., Ctrl + P)
-                console.log('Ctrl + P command triggered!');
 
-                // Prevent the default behavior of the Enter key (e.g., form submission)
-                event.preventDefault();
-                }
-            }
-            });
-
-            document.addEventListener('keydown', function(event) {
-  // Check if the pressed key is the Escape key
             if (event.key === 'Escape') {
-                // Your code to handle the Escape key press goes here
-                // alert('Escape key pressed!');
                 $('#myModal').modal('hide');
-                html5QrcodeScanner.resume();
-            }
-            });
+                $("#barcodeInput").focus();
 
-            $(document).keydown(function(event) {
-    // Check if the pressed key is Enter (key code 13)
+            }
+        });
+
+        $(document).keydown(function(event) {
             if (event.which == 13) {
                 // Show the alert
                 //alert("Enter key pressed!");
                 printDiv('printableArea')
+                $("#barcodeInput").focus();
             }
         });
     </script>
