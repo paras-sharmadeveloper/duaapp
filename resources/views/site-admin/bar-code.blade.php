@@ -95,14 +95,17 @@
                 success: function(response) {
                     // Handle success
                     if (response.success) {
+                        alert("if here")
                         $(".token-area").find('p').show();
                         $(".token-area").find('span').text(response.token)
-                        $('#myModal').modal('toggle');
+
                         $("#vaild-token").text(response.message).show();
                         $("#invaild-token").hide();
                         $("#model-body").html(response.printToken)
+                        $('#myModal').modal('toggle');
 
                     } else {
+                        alert("else here")
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
@@ -127,6 +130,9 @@
 
 
         function printDiv(divId) {
+
+            alert("in print code here")
+
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
@@ -137,10 +143,11 @@
 
             printWindow.document.close(); // necessary for IE >= 10
             printWindow.onload = function() {
+                alert("in print code printing")
                 printWindow.print();
                 printWindow.close();
             };
-            $("#barcodeInput").focus();
+             $("#barcodeInput").focus();
              $('#myModal').modal('hide');
 
         }
@@ -164,6 +171,7 @@
 
         $(document).keydown(function(event) {
             if (event.which == 13) {
+                alert("enter pressed")
                 printDiv('printableArea')
                 // $("#barcodeInput").focus();
             }
