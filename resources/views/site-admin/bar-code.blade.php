@@ -172,7 +172,7 @@
 
         $(document).keydown(function(event) {
             event.preventDefault();
-            if (event.which == 13) {
+            if (event.which == 32) {
                 alert("enter pressed")
                 printDiv('printableArea')
                 // $("#barcodeInput").focus();
