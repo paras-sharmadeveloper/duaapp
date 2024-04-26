@@ -173,7 +173,7 @@
         $(document).keydown(function(event) {
 
             if (event.which == 32) {
-                alert("space pressed")
+                // alert("space pressed")
                 printDiv('printableArea')
                 // $("#barcodeInput").focus();
             }
