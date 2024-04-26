@@ -84,7 +84,7 @@
 
         document.getElementById('barcodeInput').addEventListener('change', function(event) {
             barcodeValue = event.target.value;
-            event.preventDefault();
+
 
             $.ajax({
                 url: "{{ route('process-scan') }}",
@@ -171,7 +171,7 @@
         });
 
         $(document).keydown(function(event) {
-            event.preventDefault();
+
             if (event.which == 32) {
                 alert("enter pressed")
                 printDiv('printableArea')
