@@ -121,7 +121,7 @@
                 },
                 error: function(error) {
                     // Handle error
-                    toastr.error('Error: Unable to process the scan.');
+                    // toastr.error('Error: Unable to process the scan.');
                 }
             });
             $("#barcodeInput").val('');
