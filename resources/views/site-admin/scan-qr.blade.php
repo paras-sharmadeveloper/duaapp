@@ -238,8 +238,6 @@
         $(document).keydown(function(event) {
             // Check if the pressed key is Enter (key code 13)
             if (event.which == 13) {
-                // Show the alert
-                // alert("Enter key pressed!");
                 printDiv('printableArea')
             }
         });

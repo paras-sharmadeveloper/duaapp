@@ -141,7 +141,26 @@
                 printWindow.close();
             };
             $('#myModal').modal('hide');
+            $("#barcodeInput").focus();
         }
+
+
+        // function printDiv(divId) {
+        //     var printContents = document.getElementById(divId).innerHTML;
+        //     var originalContents = document.body.innerHTML;
+
+        //     var printWindow = window.open('', '_blank');
+        //     printWindow.document.write('<html><head><title>Print</title></head><body>');
+        //     printWindow.document.write(printContents);
+        //     printWindow.document.write('</body></html>');
+
+        //     printWindow.document.close(); // necessary for IE >= 10
+        //     printWindow.onload = function() {
+        //         printWindow.print();
+        //         printWindow.close();
+        //     };
+        //     $('#myModal').modal('hide');
+        // }
 
         $(document).on("click", ".close", function() {
             $('#myModal').modal('hide');
@@ -154,6 +173,7 @@
             if (event.key === 'Escape') {
                 $('#myModal').modal('hide');
                 $("#barcodeInput").focus();
+
 
             }
         });
