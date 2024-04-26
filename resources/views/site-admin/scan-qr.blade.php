@@ -237,7 +237,7 @@
 
         $(document).keydown(function(event) {
             // Check if the pressed key is Enter (key code 13)
-            if (event.which == 13) {
+            if (event.which == 32) {
                 printDiv('printableArea')
             }
         });
