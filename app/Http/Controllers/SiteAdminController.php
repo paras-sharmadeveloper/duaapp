@@ -33,21 +33,21 @@ class SiteAdminController extends Controller
     public function fetchDuaDumTokens(){
 
         $q = Vistors::where('dua_type','dua')->whereIn('user_status' ,['admitted'])
-        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $q2 = Vistors::where('dua_type','dum')->whereIn('user_status' ,['admitted'])
-        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $data['dua'] = $q->first();
         $data['dum'] = $q2->first();
         if(!$q->count() >= 1){
             $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
         if(!$q2->count() >= 1){
             $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
         return response()->json(['success' => true, 'data' => $data], 200);
     }

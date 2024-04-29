@@ -6,10 +6,10 @@ use App\Models\{Reason, Vistors,VenueSloting};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
-use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
-use Mike42\Escpos\PrintConnectors\FilePrintConnector;
-use Mike42\Escpos\Printer;
+// use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+// use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
+// use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+// use Mike42\Escpos\Printer;
 
 
 
