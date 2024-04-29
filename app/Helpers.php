@@ -169,7 +169,7 @@ if (!function_exists('userAllowedRejoin')) {
                 Log::info("daysRemaining".$daysRemaining);
                 Log::info("recordAge".$recordAge);
 
-                if ($rejoin > 0 && $recordAge <= $rejoin) {
+                if ($rejoin > 0 && $recordAge <= $rejoin &&  $daysRemaining > 0) {
 
                     return [
                         'allowed' => false,

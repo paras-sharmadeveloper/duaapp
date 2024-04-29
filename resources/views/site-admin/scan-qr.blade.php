@@ -237,6 +237,7 @@
 
         $(document).keydown(function(event) {
             // Check if the pressed key is Enter (key code 13)
+            // Check if the pressed key is Space (key code 32)
             if (event.which == 32) {
                 printDiv('printableArea')
             }
