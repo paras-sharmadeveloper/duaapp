@@ -40,15 +40,14 @@ return [
     'pdf_event_token_mint' => 'minute',
     'pdf_event_token_mints' => 'minutes',
     'pdf_download_btn_label' => 'Download Appointment',
-
-     'Week_day_Monday' => 'Monday',
-     'Week_day_Tuesday' => 'Tuesday',
-     'Week_day_Wednesday' => 'Wednesday',
-     'Week_day_Thursday' => 'Thursday',
-     'Week_day_Friday' => 'Friday',
-     'Week_day_Saturday' => 'Saturday',
-     'Week_day_Sunday' => 'Sunday',
-     'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.'
+    'Week_day_Monday' => 'Monday',
+    'Week_day_Tuesday' => 'Tuesday',
+    'Week_day_Wednesday' => 'Wednesday',
+    'Week_day_Thursday' => 'Thursday',
+    'Week_day_Friday' => 'Friday',
+    'Week_day_Saturday' => 'Saturday',
+    'Week_day_Sunday' => 'Sunday',
+    'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.'
 
 
 

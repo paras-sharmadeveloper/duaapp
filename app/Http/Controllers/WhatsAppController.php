@@ -281,6 +281,71 @@ class WhatsAppController extends Controller
                     $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
                     $venueDateUr =  date("d m Y", strtotime($venueAddress->venue_date));
 
+
+                    try {
+                        // Attempt to create the visitor
+                        $visitor = Vistors::create([
+                            'is_whatsapp' => 'yes',
+                            'slot_id' => $slotId,
+                            'meeting_type' => 'on-site',
+                            'booking_uniqueid' =>  $uuid,
+                            'booking_number' => $tokenId,
+                            'country_code' => '+' . $countryCode,
+                            'phone' => $cleanNumber,
+                            'source' => 'WhatsApp',
+                            'dua_type' => $dua_option,
+                            'lang' => 'en'
+                        ]);
+                    } catch (\Illuminate\Database\QueryException $e) {
+                        // Catch any database exceptions
+                        $errorCode = $e->errorInfo[1];
+
+                        // Check if the error is due to a unique constraint violation on 'slot_id'
+                        if ($errorCode === 1062) { // MySQL error code for duplicate entry
+                            // Produce a custom error message for slot_id not being unique
+                            // $errorMessage = trans('messages.slot_id');
+                            $errorMessageEnglish = trans('messages.slot_id', [], 'en');
+                            $errorMessageUrdu = trans('messages.slot_id', [], 'ur');
+                            $message = $this->WhatsAppNewWarning($errorMessageEnglish, $errorMessageUrdu);
+                            $this->sendMessage($userPhoneNumber, $message);
+                            $dataArr = [
+                                'lang' => 'en',
+                                'dua_option' => $dua_option,
+                                'customer_number' => $userPhoneNumber,
+                                'customer_response' => $Respond,
+                                'bot_reply' =>  $message,
+                                'data_sent_to_customer' =>  json_encode([]),
+                                'last_reply_time' => date('Y-m-d H:i:s'),
+                                'steps' => 1,
+                                'response_options' => null
+                            ];
+                            WhatsApp::create($dataArr);
+                            // $this->FlushEntries($userPhoneNumber);
+
+                            return false;
+                            // Now you can handle this error message accordingly, perhaps by returning it or using it in your response.
+                        } else {
+                            // Handle other types of database exceptions if needed
+                            // You can log the exception or return a generic error message
+                            $errorMessage = 'An error occurred while processing your request.';
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     $visitor = Vistors::create([
                         'is_whatsapp' => 'yes',
                         'slot_id' => $slotId,
