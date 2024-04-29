@@ -109,22 +109,22 @@ class SiteAdminController extends Controller
         $vistor->update($update);
 
         $query = Vistors::where('dua_type','dua')->where(['user_status' => 'admitted'])
-        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $query2 = Vistors::where('dua_type','dum')->where(['user_status' => 'admitted'])
-        ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc');
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $data['dua'] =   $query->first();
         $data['dum'] =   $query2->first();
 
         if($query->count() == 0){
             $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
         if($query2->count() == 0){
             $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))->orderBy('confirmed_at', 'asc')->first();
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')-> orderBy('slot_id', 'asc')->first();
         }
         return response()->json(['success' => true , 'data' => $data]);
     }
