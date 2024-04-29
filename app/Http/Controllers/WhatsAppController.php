@@ -407,8 +407,8 @@ class WhatsAppController extends Controller
 
                 } else {
 
-                    $errorMessageEnglish = trans('messages.slot_id', [], 'en');
-                            $errorMessageUrdu = trans('messages.slot_id', [], 'ur');
+                    $errorMessageEnglish = trans('messages.all_token_booked', [], 'en');
+                            $errorMessageUrdu = trans('messages.all_token_booked', [], 'ur');
                             $message = $this->WhatsAppNewWarning($errorMessageEnglish, $errorMessageUrdu);
                             $this->sendMessage($userPhoneNumber, $message);
                             $dataArr = [

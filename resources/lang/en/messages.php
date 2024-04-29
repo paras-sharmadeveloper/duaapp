@@ -47,9 +47,7 @@ return [
     'Week_day_Friday' => 'Friday',
     'Week_day_Saturday' => 'Saturday',
     'Week_day_Sunday' => 'Sunday',
-    'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.'
-
-
-
+    'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.',
+    'all_token_booked' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
 
 ];
