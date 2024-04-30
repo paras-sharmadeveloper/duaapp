@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vistors', function (Blueprint $table) {
+        Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('booking_number')->nullable();
             // $table->string('booking_number');
@@ -46,7 +46,6 @@ return new class extends Migration
             $table->string('dua_type',25)->nullable();
             $table->string('qr_code_image',2500)->nullable();
             $table->enum('lang',['en','ur'])->default('en');
-            $table->string('lang',25)->nullable();
             $table->timestamps();
 
         });
@@ -57,6 +56,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vistors');
+        Schema::dropIfExists('visitors');
     }
 };

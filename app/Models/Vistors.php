@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vistors extends Model
 {
     use HasFactory;
+    protected $table = 'visitors';
     protected $guarded = [];
     protected $dates = ['meeting_start_at', 'meeting_ends_at'];
 
