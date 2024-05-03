@@ -45,7 +45,7 @@
               <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
                 @csrf
                 <input type="hidden" value="inactive" name="formType">
-                <button type="submit" class="btn btn-danger">Reject Request</button>
+                <button type="submit" class="btn btn-danger">Reject</button>
             </form>
             @endif
         </div>
