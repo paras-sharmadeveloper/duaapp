@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Response;
+
 class WorkingLadyController extends Controller
 {
     //
@@ -44,21 +46,19 @@ class WorkingLadyController extends Controller
 
 
     }
-
     public function downloadQR($qr_id)
     {
-
         // Generate the QR code
         $qrCode = QrCode::size(200)->generate($qr_id);
 
         // Set response headers for download
         $headers = [
-            'Content-Type' => 'image/jpg',
-            'Content-Disposition' => 'attachment; filename="qr_code.jpg"',
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="qr_code.png"',
         ];
 
         // Return the response with the QR code image
-        return response($qrCode, 200, $headers);
+        return Response::make($qrCode, 200, $headers);
     }
 
 
