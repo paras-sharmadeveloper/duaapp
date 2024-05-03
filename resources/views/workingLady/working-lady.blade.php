@@ -31,7 +31,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        <h2>Registration Form</h2>
+        <h2>Registration Form For Working Lady</h2>
         <form action="{{ route('working.lady.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">

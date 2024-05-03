@@ -8,7 +8,8 @@
         @canany('user-management-access')
       <li class="nav-item">
         <a class="{{ ( $currentPath == 'home') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('home') }}">
-          <i class="bi bi-grid"></i>
+            <i class="bi bi-kanban"></i>
+
           <span>Dashboard</span>
         </a>
       </li>
@@ -78,7 +79,7 @@
       @canany('user-management-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#venue-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Venue Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-layout-wtf"></i><span>Venue Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="venue-nav"
         class="{{ ( $currentPath == 'venues.index'
@@ -138,7 +139,7 @@ S
       @canany('site-admin-access')
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#siteadmin-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-microsoft-teams"></i><span>Site Admin</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="siteadmin-nav"
         class="{{ (
@@ -223,7 +224,7 @@ S
       @canany('user-management-access')
       <li class="nav-item ">
         <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Reject Reason</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-pin-angle-fill"></i><span>Reject Reason</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="visitor-booking-nav"
         class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
@@ -250,7 +251,7 @@ S
 
       <li class="nav-item">
         <a class="{{ ( $currentPath == 'working.lady.list') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('working.lady.list') }}">
-          <i class="bi bi-whatsapp"></i>
+            <i class="bi bi-person-vcard"></i>
           <span>Working Lady </span>
         </a>
       </li>

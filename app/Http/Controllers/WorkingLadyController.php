@@ -32,13 +32,15 @@ class WorkingLadyController extends Controller
             'formType' => 'required|string'
         ]);
         $formType = $request->input('formType');
-
-       $workingLady = WorkingLady::findOrFail($id)->update(['is_active'  => $formType,'qr_id' => Str::uuid()]);
-
-        if ($formType == 'approved') {
-            // $workingLady->update();
+        $workingLady = WorkingLady::findOrFail($id);
+        if ($formType == 'active') {
+            $message = 'form approved';
+            $workingLady->update(['is_active'  => $formType,'qr_id' => Str::uuid()]);;
+        }else if($formType == 'inactive') {
+            $message = 'form reject';
+            $workingLady->update(['is_active'  => $formType]);;
         }
-        return  redirect()->back()->with('success', 'Employee approved saved successfully.');
+        return  redirect()->back()->with('success', $message);
 
 
     }
@@ -116,6 +118,6 @@ class WorkingLadyController extends Controller
 
         $employee->save();
 
-        return redirect()->back()->with('success', 'Employee information saved successfully.');
+        return redirect()->back()->with('success', 'Your Request has been submitted successfully. You will get your QR ID Once Admin approve your form.');
     }
 }
