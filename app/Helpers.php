@@ -6,12 +6,22 @@ use App\Models\{Reason, Vistors,VenueSloting};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
 // use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 // use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
 // use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 // use Mike42\Escpos\Printer;
 
+function isMobileDevice(Request $request)
+{
+    $userAgent = $request->header('User-Agent');
 
+    // Use a regular expression to check if the user agent contains common mobile device keywords
+    $isMobile = preg_match("/(android|blackberry|iphone|ipod|mobile|palm|phone|windows\s+ce)/i", $userAgent);
+
+    return $isMobile;
+}
 
 if (!function_exists('VenueAvilableInCountry')) {
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->text('address');
+            $table->text('address_ur')->nullable();
             $table->dateTime('venue_date');
             $table->dateTime('venue_date_end');
             // $table->time('slot_starts_at_morning')->nullable();
@@ -50,7 +51,7 @@ return new class extends Migration
             $table->integer('dum_slots')->default(0);
 
             $table->text('status_page_note')->nullable();
-            $table->text('addresses_ur')->nullable();
+
             $table->text('status_page_note_ur')->nullable();
 
             $table->string('timezone')->nullable();

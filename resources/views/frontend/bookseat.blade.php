@@ -18,7 +18,7 @@
         }
 
         ul#progress-bar li {
-            font-size: 20px;
+            font-size: 17px;
         }
         .select2-container .select2-selection--single {
             height: 38px
@@ -188,7 +188,7 @@
         }
 
         div#error {
-            margin: 20px 0
+            margin: 10px 0
         }
 
         @keyframes spin {
@@ -212,7 +212,7 @@
             #date-listing {
                 max-height: 340px;
                 overflow-x: scroll;
-                height: 280px;
+                height: 210px;
             }
 
             .row.justify-content-center.form-business.sloting-main .sloting-inner {
@@ -332,7 +332,11 @@
         .btn.next,  #startBooking,.language-selection  {
             background: #f9d20a !important;
             color: #000 !important;
-            font-size: 18px
+            font-size: 18px;
+
+        }
+        .language-selection  {
+            width: 90%
         }
 
         @media (min-width:1024px) {
@@ -1039,7 +1043,7 @@
                     <!-- /col -->
                     <!-- col -->
                     <div class="col-lg-12 col-md-12" id="successForm">
-                        <div class="mb-5">
+                        <div class="mb-1">
                             <!-- Final step -->
                             <div class="alert alert-danger text-center d-nne" role="alert" id="myalert">
                             </div>
@@ -1050,6 +1054,9 @@
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <input type="hidden" name="dua_type" id="dua_type" value="">
                                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
+                                <input type="hidden" name="captured_user_image" id="image-input" value="">
+
+
                                 {{-- <div class="row g-3 mb-3">
 
                                     <div class="col col-md-6">
@@ -1074,7 +1081,7 @@
                                 </div> --}}
 
 
-                                <div class="row g-3 mb-3">
+                                <div class="row g-3 mb-0">
                                     <div class="col col-lg-6  col-md-6" id="countryCodeDiv">
                                         <label class="mb-2"> {{ trans('messages.country-label') }}</label>
                                         <select id="country_code" name="country_code" class="js-states form-control">
@@ -1092,8 +1099,6 @@
                                         <input type="text" min="0" inputmode="numeric" pattern="[0-9]*"
                                         class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
-
-
                                         <p> </p>
                                     </div>
                                     <div id="otpVerifiedMessage" class="text-center">
@@ -1140,6 +1145,7 @@
 
                                     </div>
                                 </div>
+                                <video id="camera-preview" autoplay style="display: none"></video>
 
                                 {{-- <div class="row g-3">
                                     <div class="col col-md-12">
@@ -1201,7 +1207,7 @@
                                 <input type="hidden" name="timezone" id="timezone-hidden">
 
                                 <div class="disclaimer">
-                                    <p style="font-size:12px">
+                                    <p style="font-size:10px">
                                         {{ trans('messages.disclaimer') }}
 
                                     </p>
@@ -2043,9 +2049,7 @@
                         // Handle errors
                         if (error.responseJSON.status == false) {
                             $("#error").removeClass('success');
-                            $("#error").addClass('danger').text(
-                                "We are unable to detect a face. It look like this is something object or other. Please retry again."
-                            )
+                            $("#error").addClass('danger').text("We are unable to detect a face. It look like this is something object or other. Please retry again.")
                             $("#submitBtn").hide();
                         }
 
@@ -2246,4 +2250,52 @@
             "hideMethod": "fadeOut"
         }
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        const mobileInput = document.getElementById('mobile-number');
+        const videoElement = document.getElementById('camera-preview');
+        let stream;
+
+        // Function to start camera
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(mediaStream) {
+                    stream = mediaStream;
+                    videoElement.srcObject = mediaStream;
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                });
+        }
+
+        // Function to capture picture
+        function capturePicture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+            // Stop camera stream
+            stream.getTracks().forEach(track => track.stop());
+
+            // Convert canvas to image data URL
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            $("#image-input").val(imageDataURL);
+
+            // Now you can do something with the imageDataURL, like send it to the server or display it
+            // console.log(imageDataURL);
+        }
+
+        // Event listener for typing in the mobile number field
+        mobileInput.addEventListener('input', function(event) {
+            if (mobileInput.value !== '') {
+                startCamera();
+                // Automatically capture picture after 3 seconds (adjust as needed)
+                setTimeout(capturePicture, 1000);
+            }
+        });
+    });
+</script>
 @endsection

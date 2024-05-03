@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('user_ip')->nullable();
             $table->string('user_question')->nullable();
             $table->string('booking_uniqueid')->unique();
+
+
             $table->unsignedBigInteger('slot_id')->unique();
             $table->foreign('slot_id')
             ->references('id')

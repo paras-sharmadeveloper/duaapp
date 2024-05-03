@@ -248,6 +248,15 @@ S
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="{{ ( $currentPath == 'working.lady.list') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('working.lady.list') }}">
+          <i class="bi bi-whatsapp"></i>
+          <span>Working Lady </span>
+        </a>
+      </li>
+
+
+
       @endcan
 
     </ul>

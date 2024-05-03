@@ -18,7 +18,8 @@ use App\Http\Controllers\{
     TwillioIVRHandleController,
     PrintController,
     ReasonController,
-    DashboardController
+    DashboardController,
+    WorkingLadyController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -198,6 +199,12 @@ Route::get('/', function () {
 });
 
 Auth::routes(['register' => false]);
+
+    Route::get('/workinglady', [WorkingLadyController::class, 'show'])->name('working.lady.show');
+    Route::post('/working/lady/store', [WorkingLadyController::class, 'store'])->name('working.lady.store');
+
+
+
     Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
     Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
@@ -260,8 +267,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::any('/send/whatsapp/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
 
 
-
-
 });
 
 
@@ -273,6 +278,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/duas/percentage', [DashboardController::class, 'percentage'])->name('dashboard.percentage');
 
     Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');
+
+    Route::get('/working/lady/list', [WorkingLadyController::class, 'list'])->name('working.lady.list');
+    Route::get('/working/lady/{id}/view', [WorkingLadyController::class, 'view'])->name('working.lady.view');
+    Route::post('/working/lady/{id}/approve', [WorkingLadyController::class, 'ApproveForm'])->name('working.lady.approve');
+
+    Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
+
+
 
 
     Route::get('/reasons', [ReasonController::class, 'index'])->name('reasons.index');

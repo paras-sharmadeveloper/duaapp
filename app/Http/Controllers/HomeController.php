@@ -77,8 +77,11 @@ class HomeController extends Controller
     }
 
 
-    public function index($locale = '')
+    public function index(Request $request,$locale = '')
     {
+        // if (!isMobileDevice($request)) {
+        //     return abort('403');
+        // }
         if ($locale) {
             App::setLocale($locale);
         } else {
@@ -111,22 +114,22 @@ class HomeController extends Controller
                 'mobile' => 'required|string|max:255',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
-                'slot_id' => 'required|numeric|unique:vistors,slot_id'
+                'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
         } else {
 
             $vaildation =  [
                 // 'fname' => 'required|string|max:255',
                 //   'lname' => 'required|string|max:255',
-                // 'email' => 'required|email|max:255|unique:vistors', // Check for duplicate email
-                //'mobile' => 'required|string|max:255|unique:vistors,phone',
+                // 'email' => 'required|email|max:255|unique:visitors', // Check for duplicate email
+                //'mobile' => 'required|string|max:255|unique:visitors,phone',
                 // 'email' => 'required|email|max:255', // Check for duplicate email
                 'mobile' => 'required|string|max:255',
                 'user_question' => 'nullable|string',
                 // 'otp' => 'required',
                 'country_code' => 'required',
                 // 'otp-verified' => 'required',
-                'slot_id' => 'required|numeric|unique:vistors,slot_id'
+                'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
             // if($request->input('selfie_required') == 'yes'){
             //    $vaildation['selfie'] =   'required';
@@ -517,13 +520,10 @@ class HomeController extends Controller
 
     public function getTimzoneAjax(Request $request)
     {
-
         //  $venueAddress = VenueAddress::find($id);
         $id = $request->input('id');
         $timezone = $request->input('timezone');
-
         $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
-
         $venueAddress =  VenueAddress::where('id', $id)
             // ->where(function ($query) use ($newDate) {
             //   $query->whereDate('venue_date', $newDate)
@@ -787,7 +787,12 @@ class HomeController extends Controller
                 ->where('venue_date', '>=', now()->format('Y-m-d'))
                 ->get();
 
-
+                if(empty($venuesListArr)){
+                    return response()->json([
+                        'status' => false,
+                        'data' => []
+                    ]);
+                }
 
             // $venuesListArr = VenueAddress::where('id', $id)
             //   ->where(function ($query) use ($newDate) {
