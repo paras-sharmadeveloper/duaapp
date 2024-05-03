@@ -45,9 +45,10 @@
                 @foreach($registration as $list)
                 <tr>
                     <td>{{ $list->first_name }} {{ $list->last_name }}
-                        <span>{{ $list->email }}</span>
-                        <span>{{ $list->mobile }}</span>
-                        <span>{{ $list->email }}</span>
+                        <br>
+                        <span>{{ $list->email }}</span><br>
+                        <span>{{ $list->mobile }}</span><br>
+                        <span>{{ $list->email }}</span><br>
                     </td>
 
                     <td>{{ $list->designation }}</td>
