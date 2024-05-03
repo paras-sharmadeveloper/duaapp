@@ -38,7 +38,7 @@ class WorkingLadyController extends Controller
         if ($formType == 'approved') {
             // $workingLady->update();
         }
-        return redirect()->route('working.lady.list')->with('success', 'Employee approved saved successfully.');
+        return  redirect()->back()->with('success', 'Employee approved saved successfully.');
 
 
     }
