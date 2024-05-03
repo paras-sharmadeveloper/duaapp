@@ -42,6 +42,11 @@
             </form>
             @else
               <p class="text-success badge badge-success fs-2">Approved</p>
+              <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                @csrf
+                <input type="hidden" value="inactive" name="formType">
+                <button type="submit" class="btn btn-danger">Reject Request</button>
+            </form>
             @endif
         </div>
     </div>
