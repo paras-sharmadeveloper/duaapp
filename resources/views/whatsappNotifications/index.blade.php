@@ -139,15 +139,6 @@
 
                 </div>
 
-
-
-
-
-
-
-
-
-
                 <div class="col-12">
                     <button class="btn btn-primary" type="button" id="sendNotification">Send Notification</button>
                 </div>
@@ -191,7 +182,7 @@
                         $("#err").empty()
                         $.each(response.data, function(i, item) {
                             options +=
-                                `<label><span></span><input type="checkbox" name="user_mobile[]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
+                                `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
                         })
                         $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>'+options)
                         $("#getList").text('Get List')
