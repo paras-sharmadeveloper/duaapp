@@ -50,7 +50,7 @@ class HomeController extends Controller
                         Please see below urgent message for your kind attention:
                         $dataMessage
                         EOT;
-                        $response =   $this->sendMessage($phone, $message);
+                    $response =   $this->sendMessage($phone, $message);
                 }
 
                 // $message = <<<EOT
