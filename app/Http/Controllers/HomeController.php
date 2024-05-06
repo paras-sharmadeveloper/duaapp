@@ -34,15 +34,32 @@ class HomeController extends Controller
                 'user_mobile' => 'required'
             ]);
             $userMobile = $request->input('user_mobile');
+            $visitors = Vistors::whereLike('phone', $userMobile)->whereDate('created_at',date('Y-m-d'))->get();
+
+
             $dataMessage = $request->input('whatsAppMessage');
 
-            foreach ($userMobile as $phone) {
+            foreach($visitors  as $visitor){
+
+                $dataMessage = str_replace('{token_url}',route('booking.status',[$visitor->booking_uniqueid]),$dataMessage);
+                $dataMessage = str_replace('{dua_type}', $visitor->dua_type ,$dataMessage);
+                $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)) ,$dataMessage);
+                $dataMessage = str_replace('{mobile}', $visitor->phone ,$dataMessage);
+
                 $message = <<<EOT
-                Please see below urgent message for your kind attention:
-                $dataMessage
-                EOT;
-                $response =   $this->sendMessage($phone, $message);
+                    Please see below urgent message for your kind attention:
+                    $dataMessage
+                    EOT;
+                    $response =   $this->sendMessage($visitor->phone, $message);
             }
+
+            // foreach ($userMobile as $phone) {
+            //     $message = <<<EOT
+            //     Please see below urgent message for your kind attention:
+            //     $dataMessage
+            //     EOT;
+            //     $response =   $this->sendMessage($phone, $message);
+            // }
             return response()->json(['success' => true, 'message' => $response]);
         }
 
