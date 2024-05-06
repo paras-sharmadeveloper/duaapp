@@ -146,7 +146,7 @@ class WhatsAppController extends Controller
                     'lang' => 'en',
                     'dua_option' => [],
                     'customer_number' => $userPhoneNumber,
-                    'customer_response' => $Respond,
+                    'customer_response' => $message,
                     'bot_reply' =>  $message,
                     'data_sent_to_customer' => json_encode([]),
                     'last_reply_time' => date('Y-m-d H:i:s'),
