@@ -144,7 +144,7 @@ class WhatsAppController extends Controller
 
                 $dataArr = [
                     'lang' => 'en',
-                    'dua_option' => [],
+                    'dua_option' => json_encode([]),
                     'customer_number' => $userPhoneNumber,
                     'customer_response' => $message,
                     'bot_reply' =>  $message,
