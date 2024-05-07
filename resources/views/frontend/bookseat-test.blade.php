@@ -2259,7 +2259,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
-        const mobileInput = document.getElementById('mobile');
+        const mobileInput = document.getElementById('mobile-number');
         const videoElement = document.getElementById('camera-preview');
         let stream;
 
@@ -2328,18 +2328,12 @@
 
         // Event listener for typing in the mobile number field
         mobileInput.addEventListener('input', function(event) {
+            if (mobileInput.value !== '') {
 
-            console.log("mobileInput",mobileInput.value.length)
-                if (mobileInput.value.length == 1) {
-                    console.log("a",1)
-                    startCamera();
-                }
-
-                if (mobileInput.value !== '') {
-                    // Automatically capture picture after 3 seconds (adjust as needed)
-                    setTimeout(capturePicture, 3000);
-                }
-            });
+                // Automatically capture picture after 3 seconds (adjust as needed)
+                setTimeout(capturePicture, 3000);
+            }
+        });
     });
 </script>
 @endsection
