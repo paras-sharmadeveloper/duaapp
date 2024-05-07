@@ -312,50 +312,87 @@ class WhatsAppController extends Controller
                         $pdfLinkEn = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
                         $pdfLinkUr = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
+
                         $message = <<<EOT
 
-                    پ کی دعا سے ملاقات کی تصدیق  $duabyUr ✅ سے ہوئی۔
+                        آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
 
-                    واقعہ کی تاریخ : $venueDateUr
+                        واقعہ کی تاریخ : $venueDateUr
+                        مقام: $venueAddress->city
 
-                    مقام: $venueAddress->city
+                        $venueAddress->address_ur
 
-                    $venueAddress->address_ur
+                        ٹوکن # $token
 
-                    ٹوکن #$token
+                        کا موبائل : $userMobile
 
-                    آپ کا موبائل : $userMobile
+                        ملاقات کا دورانیہ :  $appointmentDuration
 
-                    ملاقات کا دورانیہ : $appointmentDuration
+                        ٹوکن URL:
+                        $statusLink
 
-                    $venueAddress->status_page_note_ur
-                    اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+                        Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
 
-                    $statusLink
+                        Event Date : $venueDateEn
 
-                    $pdfLinkUr
+                        Venue : $venueAddress->city
 
-                    Your Dua Appointment Confirmed With $duaby ✅
+                        $venueAddress->address
 
-                    Event Date : $venueDateEn
+                        Token # $token
 
-                    Venue : $venueAddress->city
+                        Your Mobile : $userMobile
 
-                    $venueAddress->address
+                        Appointment Duration : $appointmentDuration
 
-                    Token #$token
-
-                    Your Mobile : $userMobile
-
-                    Appointment Duration : $appointmentDuration
-
-                    $venueAddress->status_page_note
-                    To view your token online please click below:
-
-                    $statusLink
-
-                    $pdfLinkEn
+                        Token URL:
+                        $statusLink
                     EOT;
+
+                        //     $message = <<<EOT
+
+                        // پ کی دعا سے ملاقات کی تصدیق  $duabyUr ✅ سے ہوئی۔
+
+                        // واقعہ کی تاریخ : $venueDateUr
+
+                        // مقام: $venueAddress->city
+
+                        // $venueAddress->address_ur
+
+                        // ٹوکن #$token
+
+                        // آپ کا موبائل : $userMobile
+
+                        // ملاقات کا دورانیہ : $appointmentDuration
+
+                        // $venueAddress->status_page_note_ur
+                        // اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+
+                        // $statusLink
+
+                        // $pdfLinkUr
+
+                        // Your Dua Appointment Confirmed With $duaby ✅
+
+                        // Event Date : $venueDateEn
+
+                        // Venue : $venueAddress->city
+
+                        // $venueAddress->address
+
+                        // Token #$token
+
+                        // Your Mobile : $userMobile
+
+                        // Appointment Duration : $appointmentDuration
+
+                        // $venueAddress->status_page_note
+                        // To view your token online please click below:
+
+                        // $statusLink
+
+                        // $pdfLinkEn
+                        // EOT;
 
 
                         $this->sendMessage($userPhoneNumber, $message);
@@ -877,7 +914,7 @@ class WhatsAppController extends Controller
                         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
                         // $statusNote = ($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
-                        $statusNote  ='';
+                        $statusNote  = '';
                         $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
 
                         $statusLink = route('booking.status', $uuid);
