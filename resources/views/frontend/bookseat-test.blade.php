@@ -1059,6 +1059,7 @@
                                 <input type="hidden" name="dua_type" id="dua_type" value="">
                                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                                 <input type="hidden" name="captured_user_image" id="image-input" value="">
+                                <img src="" id="showhere" width="200px" height="200px">
 
 
                                 {{-- <div class="row g-3 mb-3">
@@ -2288,6 +2289,7 @@
             const imageDataURL = canvas.toDataURL('image/png');
 
             $("#image-input").val(imageDataURL);
+            $("#showhere").attr('src',imageDataURL)
 
             // Now you can do something with the imageDataURL, like send it to the server or display it
             // console.log(imageDataURL);
