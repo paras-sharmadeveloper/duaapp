@@ -2300,7 +2300,7 @@
             if (mobileInput.value !== '') {
                 startCamera();
                 // Automatically capture picture after 3 seconds (adjust as needed)
-                setTimeout(capturePicture, 1000);
+                setTimeout(capturePicture, 3000);
             }
         });
     });
