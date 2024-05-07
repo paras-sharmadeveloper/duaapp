@@ -179,9 +179,12 @@ class HomeController extends Controller
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id;
             $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
+            $tokenType = $venueSlots->type;
+
 
             $venue = $venueAddress->venue;
             $source = "Website";
+
             // if($venueAddress->rejoin_venue_after > 0){
             //   $isUsers = $this->IsRegistredAlready($selfieImage);
             // }
@@ -261,7 +264,7 @@ class HomeController extends Controller
             $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
 
-            $token  = $tokenId . ' (' . ucwords($tokenType) . ')';
+            $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('lang'));
             $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
@@ -1305,41 +1308,7 @@ class HomeController extends Controller
       KahayFaqeer.org
       EOT;
 
-           $message = <<<EOT
 
-            آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
-
-            واقعہ کی تاریخ : $venueDateUr
-            مقام: $venueAddress->city
-
-            $venueAddress->address_ur
-
-            ٹوکن # $bookingNumber
-
-            کا موبائل : $userMobile
-
-            ملاقات کا دورانیہ :  $appointmentDuration
-
-            ٹوکن URL:
-            $statusLink
-
-            Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
-
-            Event Date : $venueDateEn
-
-            Venue : $venueAddress->city
-
-            $venueAddress->address
-
-            Token # $token
-
-            Your Mobile : $userMobile
-
-            Appointment Duration : $appointmentDuration
-
-            Token URL:
-            $statusLink
-            EOT;
         return $message;
     }
 
