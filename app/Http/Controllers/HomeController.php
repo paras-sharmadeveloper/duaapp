@@ -38,9 +38,8 @@ class HomeController extends Controller
 
             foreach ($userMobile as $id => $phone) {
 
-                $visitor = Vistors::where('id',$id)->get()->first();
-
-
+                $visitors = Vistors::where('id',$id)->whereDate('created_at',date('Y-m-d'))->get();
+                foreach($visitors  as $visitor){
                     $dataMessage = str_replace('{token_url}',route('booking.status',[$visitor->booking_uniqueid]),$dataMessage);
                     $dataMessage = str_replace('{dua_type}', $visitor->dua_type ,$dataMessage);
                     $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)) ,$dataMessage);
@@ -53,7 +52,7 @@ class HomeController extends Controller
                         $dataMessage
                         EOT;
                     $response =   $this->sendMessage($mobile, $message);
-
+                }
 
                 // $message = <<<EOT
                 // Please see below urgent message for your kind attention:

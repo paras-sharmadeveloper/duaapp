@@ -404,28 +404,27 @@ class WhatsAppController extends Controller
                             $errorMessage = 'An error occurred while processing your request.';
                         }
                     }
-
                 } else {
 
                     $errorMessageEnglish = trans('messages.all_token_booked', [], 'en');
-                            $errorMessageUrdu = trans('messages.all_token_booked', [], 'ur');
-                            $message = $this->WhatsAppNewWarning($errorMessageEnglish, $errorMessageUrdu);
-                            $this->sendMessage($userPhoneNumber, $message);
-                            $dataArr = [
-                                'lang' => 'en',
-                                'dua_option' => $dua_option,
-                                'customer_number' => $userPhoneNumber,
-                                'customer_response' => $Respond,
-                                'bot_reply' =>  $message,
-                                'data_sent_to_customer' =>  json_encode([]),
-                                'last_reply_time' => date('Y-m-d H:i:s'),
-                                'steps' => 1,
-                                'response_options' => null
-                            ];
-                            WhatsApp::create($dataArr);
-                            // $this->FlushEntries($userPhoneNumber);
+                    $errorMessageUrdu = trans('messages.all_token_booked', [], 'ur');
+                    $message = $this->WhatsAppNewWarning($errorMessageEnglish, $errorMessageUrdu);
+                    $this->sendMessage($userPhoneNumber, $message);
+                    $dataArr = [
+                        'lang' => 'en',
+                        'dua_option' => $dua_option,
+                        'customer_number' => $userPhoneNumber,
+                        'customer_response' => $Respond,
+                        'bot_reply' =>  $message,
+                        'data_sent_to_customer' =>  json_encode([]),
+                        'last_reply_time' => date('Y-m-d H:i:s'),
+                        'steps' => 1,
+                        'response_options' => null
+                    ];
+                    WhatsApp::create($dataArr);
+                    // $this->FlushEntries($userPhoneNumber);
 
-                            return false;
+                    return false;
                 }
             }
         }
@@ -877,7 +876,8 @@ class WhatsAppController extends Controller
 
                         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
-                        $statusNote = ($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+                        // $statusNote = ($lang == 'eng') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+                        $statusNote  ='';
                         $venueAdrress = ($lang == 'en') ? $venueAddress->address : $venueAddress->address_ur;
 
                         $statusLink = route('booking.status', $uuid);
