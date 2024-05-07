@@ -349,7 +349,9 @@ class HomeController extends Controller
                 // booking.status
                 // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
-                return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid], 200);
+                return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid,
+                'redirect_url' => route('booking.status',[$uuid])
+            ], 200);
             }
         } catch (\Exception $e) {
             Log::error('Booking error' . $e);

@@ -1827,7 +1827,8 @@
                         // 'thankyou-page
 
                         $("#loader").hide();
-                        window.location.href = '/book/status/' + response.bookingId;
+                        window.location.href = response.redirect_url;
+
 
 
                     },
