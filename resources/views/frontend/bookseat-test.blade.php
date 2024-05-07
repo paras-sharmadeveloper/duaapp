@@ -2330,10 +2330,9 @@
         mobileInput.addEventListener('input', function(event) {
 
             console.log("mobileInput",mobileInput.value.length)
-                if (mobileInput.value.length === 1) {
+                if (mobileInput.value.length == 1) {
+                    console.log("a",1)
                     startCamera();
-                } else if (mobileInput.value.length === 0) {
-                    stopCamera(); // Stop the camera if the input is cleared
                 }
 
                 if (mobileInput.value !== '') {
