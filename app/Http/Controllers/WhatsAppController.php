@@ -347,7 +347,7 @@ class WhatsAppController extends Controller
 
                         Token URL:
                         $statusLink
-                    EOT;
+                        EOT;
 
                         //     $message = <<<EOT
 
