@@ -210,6 +210,8 @@ Auth::routes(['register' => false]);
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
+
+    Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
     Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
