@@ -2329,7 +2329,7 @@
         // Event listener for typing in the mobile number field
         mobileInput.addEventListener('input', function(event) {
             if (mobileInput.value !== '') {
-                startCamera();
+                // startCamera();
                 // Automatically capture picture after 3 seconds (adjust as needed)
                 setTimeout(capturePicture, 3000);
             }
