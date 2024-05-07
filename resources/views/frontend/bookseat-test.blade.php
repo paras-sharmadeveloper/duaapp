@@ -2275,11 +2275,16 @@
                 });
         }
 
-        // Function to capture picture
         function capturePicture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
+    // Check if the video element is playing and ready to capture
+    if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+
+        // Wait for the video to render on the canvas
+        videoElement.addEventListener('canplay', function() {
+            // Draw the video frame onto the canvas
             canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
             // Stop camera stream
@@ -2288,12 +2293,38 @@
             // Convert canvas to image data URL
             const imageDataURL = canvas.toDataURL('image/png');
 
+            // Set the image data URL as the value of an input field
             $("#image-input").val(imageDataURL);
-            $("#showhere").attr('src',imageDataURL)
 
-            // Now you can do something with the imageDataURL, like send it to the server or display it
-            // console.log(imageDataURL);
-        }
+            // Set the image data URL as the src of an <img> tag for display
+            $("#showhere").attr('src', imageDataURL);
+        });
+    } else {
+        // Handle the case where the video is not yet ready to capture
+        console.error('Video is not ready or paused.');
+    }
+}
+
+
+        // Function to capture picture
+        // function capturePicture() {
+        //     const canvas = document.createElement('canvas');
+        //     canvas.width = videoElement.videoWidth;
+        //     canvas.height = videoElement.videoHeight;
+        //     canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        //     // Stop camera stream
+        //     stream.getTracks().forEach(track => track.stop());
+
+        //     // Convert canvas to image data URL
+        //     const imageDataURL = canvas.toDataURL('image/png');
+
+        //     $("#image-input").val(imageDataURL);
+        //     $("#showhere").attr('src',imageDataURL)
+
+        //     // Now you can do something with the imageDataURL, like send it to the server or display it
+        //     // console.log(imageDataURL);
+        // }
 
         // Event listener for typing in the mobile number field
         mobileInput.addEventListener('input', function(event) {
