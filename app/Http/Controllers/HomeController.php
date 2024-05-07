@@ -38,12 +38,12 @@ class HomeController extends Controller
 
             foreach ($userMobile as $id => $phone) {
 
-                $visitors = Vistors::where('id',$id)->whereDate('created_at',date('Y-m-d'))->get();
-                foreach($visitors  as $visitor){
-                    $dataMessage = str_replace('{token_url}',route('booking.status',[$visitor->booking_uniqueid]),$dataMessage);
-                    $dataMessage = str_replace('{dua_type}', $visitor->dua_type ,$dataMessage);
-                    $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)) ,$dataMessage);
-                    $dataMessage = str_replace('{mobile}', $visitor->phone ,$dataMessage);
+                $visitors = Vistors::where('id', $id)->whereDate('created_at', date('Y-m-d'))->get();
+                foreach ($visitors  as $visitor) {
+                    $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
+                    $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
+                    $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
+                    $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
 
                     $mobile =  $visitor->country_code .  $visitor->phone;
 
@@ -64,7 +64,7 @@ class HomeController extends Controller
 
 
 
-             return response()->json(['success' => true, 'message' => $response]);
+            return response()->json(['success' => true, 'message' => $response]);
         }
 
         return view('whatsappNotifications.index');
@@ -98,7 +98,7 @@ class HomeController extends Controller
     }
 
 
-    public function index(Request $request,$locale = '')
+    public function index(Request $request, $locale = '')
     {
         // if (!isMobileDevice($request)) {
         //     return abort('403');
@@ -709,7 +709,6 @@ class HomeController extends Controller
                     'slot_ends' => Carbon::createFromFormat('H:i:s', $venuesList->slot_ends_at)->format('H:i A'),
                     'venue_address_id' => $venuesList->id,
                     'venue_date' => $venuesList->venue_date
-
                 ];
             }
 
@@ -808,12 +807,12 @@ class HomeController extends Controller
                 ->where('venue_date', '>=', now()->format('Y-m-d'))
                 ->get();
 
-                if(empty($venuesListArr)){
-                    return response()->json([
-                        'status' => false,
-                        'data' => []
-                    ]);
-                }
+            if (empty($venuesListArr)) {
+                return response()->json([
+                    'status' => false,
+                    'data' => []
+                ]);
+            }
 
             // $venuesListArr = VenueAddress::where('id', $id)
             //   ->where(function ($query) use ($newDate) {
@@ -1305,6 +1304,42 @@ class HomeController extends Controller
 
       KahayFaqeer.org
       EOT;
+
+           $message = <<<EOT
+
+            آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
+
+            واقعہ کی تاریخ : $venueDateUr
+            مقام: $venueAddress->city
+
+            $venueAddress->address_ur
+
+            ٹوکن # $bookingNumber
+
+            کا موبائل : $userMobile
+
+            ملاقات کا دورانیہ :  $appointmentDuration
+
+            ٹوکن URL:
+            $statusLink
+
+            Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
+
+            Event Date : $venueDateEn
+
+            Venue : $venueAddress->city
+
+            $venueAddress->address
+
+            Token # $token
+
+            Your Mobile : $userMobile
+
+            Appointment Duration : $appointmentDuration
+
+            Token URL:
+            $statusLink
+            EOT;
         return $message;
     }
 
@@ -1316,7 +1351,8 @@ class HomeController extends Controller
 
         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
-        $statusNote = ($lang == 'en') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+        // $statusNote = ($lang == 'en') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
+        $statusNote = '';
 
         $statusLink = route('booking.status', $uuid);
 
@@ -1324,7 +1360,7 @@ class HomeController extends Controller
         $duaby = '';
 
         if ($lang == 'en') {
-            $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+           // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
 
@@ -1353,7 +1389,7 @@ class HomeController extends Controller
             EOT;
         } else {
 
-            $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+           // $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
 
