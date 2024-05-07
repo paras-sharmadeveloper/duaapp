@@ -2329,7 +2329,7 @@
         // Event listener for typing in the mobile number field
         mobileInput.addEventListener('input', function(event) {
 
-            console.log("mobileInput",mobileInput)
+            console.log("mobileInput",mobileInput.value.length)
                 if (mobileInput.value.length === 1) {
                     startCamera();
                 } else if (mobileInput.value.length === 0) {
