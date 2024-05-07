@@ -2328,12 +2328,17 @@
 
         // Event listener for typing in the mobile number field
         mobileInput.addEventListener('input', function(event) {
-            if (mobileInput.value !== '') {
-                // startCamera();
-                // Automatically capture picture after 3 seconds (adjust as needed)
-                setTimeout(capturePicture, 3000);
-            }
-        });
+                if (mobileInput.value.length === 1) {
+                    startCamera();
+                } else if (mobileInput.value.length === 0) {
+                    stopCamera(); // Stop the camera if the input is cleared
+                }
+
+                if (mobileInput.value !== '') {
+                    // Automatically capture picture after 3 seconds (adjust as needed)
+                    setTimeout(capturePicture, 3000);
+                }
+            });
     });
 </script>
 @endsection
