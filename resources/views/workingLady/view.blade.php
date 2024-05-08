@@ -71,7 +71,7 @@
             width: 50px;
         }
 
-       .id-card-holder p {
+        .id-card-holder p {
             font-size: 5px;
             margin: 2px;
         }
@@ -143,89 +143,142 @@
         }
     </style>
     <div class="container-fluid">
-        <h2>Working Lady Details</h2>
+
 
         <div class="card">
+            <h1 class="text-center py-3 mt-2">Working Lady Details</h1>
             <div class="card-body">
-                <h5 class="card-title">Name: {{ $data->first_name }} {{ $data->last_name }} @if ($data->is_active == 'active')
-                        <span class="badge badge-success text-success"> Approved</span>
-                    @endif
-                </h5>
-                <p class="card-text">Designation: {{ $data->designation }}</p>
-                <p class="card-text">Employer: {{ $data->employer_name }}</p>
-                <p class="card-text">Place of Work: {{ $data->place_of_work }}</p>
-                <!-- Display employee ID image -->
-                <p class="card-text">Employee ID Image:
-                    <img src="{{ env('AWS_GENERAL_PATH') . 'employee_ids/' . $data->employee_id_image }}"
-                        alt="Employee ID Image" style="max-width: 200px;">
-                </p>
-                <!-- Display passport photo -->
-                <p class="card-text">Passport Photo:
-                    <img src="{{ env('AWS_GENERAL_PATH') . 'passport_photos/' . $data->passport_photo }}"
-                        alt="Passport Image" style="max-width: 200px;">
+                <form>
+                    {{-- <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+                        <img src="assets/img/profile-img.jpg" alt="Profile">
+                        <div class="pt-2">
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                        </div>
+                      </div>
+                    </div> --}}
 
-                </p>
-                <p class="card-text">Mobile: {{ $data->mobile }}</p>
-                <p class="card-text">Email: {{ $data->email }}</p>
+                    <div class="row mb-3">
+                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                        <div class="col-md-8 col-lg-9">
 
+                            <input name="fullName" type="text" class="form-control" id="fullName"
+                                value="{{ $data->first_name }} {{ $data->last_name }}" readonly>
+                        </div>
+                    </div>
 
-                @if ($data->is_active == 'active')
-                    {{-- <div class="id-card-tag"></div>
-                    <div class="id-card-tag-strip"></div>
-                    <div class="id-card-hook"></div> --}}
-                    <div class="id-card-holder">
-                        <div class="id-card">
-                            <div class="header" >
-                                <img src="https://kahayfaqeer.org/assets/kahe-faqeer.png" style="width:45px;margin-top:5px " alt="">
-                            </div>
-                            <div class="photo">
+                    <div class="row mb-3">
+                        <label for="about" class="col-md-4 col-lg-3 col-form-label">Designation</label>
+                        <div class="col-md-8 col-lg-9">
+                            {{ $data->designation }}
+                        </div>
+                    </div>
 
-                            </div>
-                            <h2>{{ $data->first_name }} {{ $data->first_name }}</h2>
-                            <div class="qr-code">
-                                {!! QrCode::size(80)->generate($data->mobile) !!}
-                            </div>
-                            <h3>Working Lady</h3>
-                            <h3>KF-{{$data->id}}</h3>
-                            <hr>
-                            <p><strong>NIIT University</strong> Neemrana, NH-8 Delhi-Jaipur highway
-                            <p>
-                            <p>District Alwar, Rajasthan <strong>301705</strong></p>
-                            <p>Ph: 01494-660600, 7073222393</p>
+                    <div class="row mb-3">
+                        <label for="company" class="col-md-4 col-lg-3 col-form-label">Employer</label>
+                        <div class="col-md-8 col-lg-9">
+                            {{ $data->employer_name }}
+                        </div>
+                    </div>
 
+                    <div class="row mb-3">
+                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Place of Work</label>
+                        <div class="col-md-8 col-lg-9">
+                            {{ $data->place_of_work }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Country" class="col-md-4 col-lg-3 col-form-label">Employee ID Image</label>
+                        <div class="col-md-8 col-lg-9">
+                            <img src="{{ env('AWS_GENERAL_PATH') . 'employee_ids/' . $data->employee_id_image }}"
+                                alt="Employee ID Image" style="max-width: 200px;">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Country" class="col-md-4 col-lg-3 col-form-label">Passport Photo</label>
+                        <div class="col-md-8 col-lg-9">
+                            <img src="{{ env('AWS_GENERAL_PATH') . 'passport_photos/' . $data->passport_photo }}"
+                                alt="Passport Image" style="max-width: 200px;">
                         </div>
                     </div>
 
 
-                    <p class="card-text">QR code : </p>
-                    <a href="{{ route('working.lady.qr', $data->qr_id) }}" class="btn btn-primary float-end">Download QR
-                        Code</a>
-                @endif
-                        <div class="d-flex justify-content-around">
+
+                    <div class="row mb-3">
+                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Mobile</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input name="phone" type="text" class="form-control" id="Phone"
+                                value="{{ $data->mobile }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                        <div class="col-md-8 col-lg-9">
+                            <input name="email" type="email" class="form-control" id="Email"
+                                value="{{ $data->email }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Status</label>
+                        <div class="col-md-8 col-lg-9">
+                            @if ($data->is_active == 'active')
+                                <span class="badge badge-success text-success"> Approved</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Or Code ID</label>
+                        <div class="col-md-8 col-lg-9">
+                            <div class="qr-code text-center">
+                                @if ($data->is_active == 'active')
+                                    {!! QrCode::size(200)->generate($data->mobile) !!}
+                                    <a href="{{ route('working.lady.qr', $data->qr_id) }}?filename={{$data->first_name.'_' .$data->last_name}}"
+                                        class="btn btn-primary float-end">Download QR
+                                        Code</a>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Actions</label>
+                        <div class="col-md-8 col-lg-9">
 
                             @if ($data->is_active == 'inactive')
-                            <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" value="active" name="formType">
-                                <button type="submit" class="btn btn-success">Approve</button>
-                            </form>
-                            <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" value="inactive" name="formType">
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                            </form>
-                        @else
-                            <p class="text-success badge badge-success fs-2">Approved</p>
-                            <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" value="inactive" name="formType">
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                            </form>
-                        @endif
-
+                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="active" name="formType">
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                </form>
+                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="inactive" name="formType">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            @else
+                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="inactive" name="formType">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            @endif
                         </div>
+                    </div>
+
 
             </div>
         </div>
     </div>
+@endsection
+
+@section('page-script')
+
 @endsection

@@ -2275,63 +2275,43 @@
                 });
         }
 
-//         function capturePicture() {
-//     // Check if the video element is playing and ready to capture
-//     if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-//         const canvas = document.createElement('canvas');
-//         canvas.width = videoElement.videoWidth;
-//         canvas.height = videoElement.videoHeight;
-
-//         // Wait for the video to render on the canvas
-//         videoElement.addEventListener('canplay', function() {
-//             // Draw the video frame onto the canvas
-//             canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-//             // Stop camera stream
-//             stream.getTracks().forEach(track => track.stop());
-
-//             // Convert canvas to image data URL
-//             const imageDataURL = canvas.toDataURL('image/png');
-
-//             // Set the image data URL as the value of an input field
-//             $("#image-input").val(imageDataURL);
-
-//             // Set the image data URL as the src of an <img> tag for display
-//             $("#showhere").attr('src', imageDataURL);
-//         });
-//     } else {
-//         // Handle the case where the video is not yet ready to capture
-//         console.error('Video is not ready or paused.');
-//     }
-// }
-
-
-        // Function to capture picture
         function capturePicture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-            canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            // Check if the video element is playing and ready to capture
+            if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                const canvas = document.createElement('canvas');
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
 
-            // Stop camera stream
-            stream.getTracks().forEach(track => track.stop());
+                // Wait for the video to render on the canvas
+                videoElement.addEventListener('canplay', function() {
+                    // Draw the video frame onto the canvas
+                    canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-            // Convert canvas to image data URL
-            const imageDataURL = canvas.toDataURL('image/png');
+                    // Stop camera stream
+                    stream.getTracks().forEach(track => track.stop());
 
-            $("#image-input").val(imageDataURL);
-            $("#showhere").attr('src',imageDataURL)
+                    // Convert canvas to image data URL
+                    const imageDataURL = canvas.toDataURL('image/png');
 
-            // Now you can do something with the imageDataURL, like send it to the server or display it
-            // console.log(imageDataURL);
-        }
+                    // Set the image data URL as the value of an input field
+                    $("#image-input").val(imageDataURL);
+
+                    // Set the image data URL as the src of an <img> tag for display
+                    $("#showhere").attr('src', imageDataURL);
+                });
+            } else {
+                // Handle the case where the video is not yet ready to capture
+                console.error('Video is not ready or paused.');
+            }
+}
 
         // Event listener for typing in the mobile number field
-        mobileInput.addEventListener('input', function(event) {
+        mobileInput.addEventListener('focusout', function(event) {
             if (mobileInput.value !== '') {
                 startCamera()
                 // Automatically capture picture after 3 seconds (adjust as needed)
-                setTimeout(capturePicture, 3000);
+                capturePicture()
+                stopCamera();
             }
         });
     });

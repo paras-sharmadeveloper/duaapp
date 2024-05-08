@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
+use Spatie\Browsershot\Browsershot;
 
 class WorkingLadyController extends Controller
 {
@@ -46,15 +48,16 @@ class WorkingLadyController extends Controller
 
 
     }
-    public function downloadQR($qr_id)
+    public function downloadQR(Request $request,$qr_id)
     {
         // Generate the QR code
-        $qrCode = QrCode::size(200)->generate($qr_id);
+        $fileName = $request->input('filename','qrcode');
+         $qrCode = QrCode::size(200)->generate($qr_id);
 
         // Set response headers for download
         $headers = [
-            'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="qr_code.png"',
+            'Content-Type' => 'image/svg',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'.svg"'
         ];
 
         // Return the response with the QR code image
