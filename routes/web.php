@@ -19,7 +19,8 @@ use App\Http\Controllers\{
     PrintController,
     ReasonController,
     DashboardController,
-    WorkingLadyController
+    WorkingLadyController,
+    NewBookingController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -210,6 +211,9 @@ Auth::routes(['register' => false]);
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
+    Route::get('/new-dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show.newdua');
+
+
 
     Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
@@ -272,7 +276,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 });
 
 
-
+Route::post('/working/lady/get-working-lady-deatils', [WorkingLadyController::class, 'getWorkingLadyDetails'])->name('get-working-lady-deatils');
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/duas', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -286,6 +290,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/working/lady/{id}/approve', [WorkingLadyController::class, 'ApproveForm'])->name('working.lady.approve');
 
     Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
+
 
 
 

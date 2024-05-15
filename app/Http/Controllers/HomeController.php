@@ -746,12 +746,12 @@ class HomeController extends Controller
             ]);
         }
 
-        if($type == 'working_lady'){
-            return response()->json([
-                'status' => true,
-                'data' => []
-            ]);
-        }
+        // if($type == 'working_lady'){
+        //     return response()->json([
+        //         'status' => true,
+        //         'data' => []
+        //     ]);
+        // }
 
         if ($type == 'get_type') {
             // return ['today' => $newDate, 'wde' => $newDate15Day];
@@ -832,7 +832,7 @@ class HomeController extends Controller
             ]);
         }
 
-        if ($type == 'get_city' || $type =='normal_person') {
+        if ($type == 'get_city' || $type =='normal_person' || $type == 'working_lady') {
 
             $countryId = Venue::where(['iso' => 'PK'])->get()->first();
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
@@ -858,8 +858,6 @@ class HomeController extends Controller
             //   ->get();
             $dataArr = [];
             foreach ($venuesListArr as $venuesList) {
-
-
                 $cityName = $venuesList->city;
                 $flagPath = $venuesList->venue->flag_path;
                 //  $cityFlag = $venuesList->combinationData->city_image;
@@ -944,6 +942,8 @@ class HomeController extends Controller
             // return date('Y-m-d');
             $currentTimezone = $request->input('timezone', 'America/New_York');
             $duaType = $request->input('duaType');
+            $selectionType = $request->input('selection_type');
+            // $duaType = $request->input('duaType');
 
 
 
@@ -966,6 +966,7 @@ class HomeController extends Controller
                     'status' => false,
                     'message' => $reason->reason_english,
                     'message_ur' => $reason->reason_urdu,
+                    'se' =>  $selectionType
 
                 ]);
             }
@@ -975,6 +976,7 @@ class HomeController extends Controller
                     'status' => false,
                     'message' => $reason->reason_english,
                     'message_ur' => $reason->reason_urdu,
+                    'se' =>  $selectionType
 
                 ]);
             }

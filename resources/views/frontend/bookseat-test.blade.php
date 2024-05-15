@@ -920,7 +920,7 @@ div#reader {
 
                         </div>
                     </div>
-                @endif`
+                @endif
 
 
                 <div class="row justify-content-center form-business" id="cardSection" style="display: none">
@@ -971,32 +971,57 @@ div#reader {
                         </div>
                         <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
                         <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing-normal" style="display: none">
 
                         </div>
 
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing"
-                            style="display: none">
+                        {{-- <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing"  style="display: none">
+                            <div class="card qr-code" data-id="get_city"  style="display: none"></div>
                             <div id="reader"></div>
-
-
                             <div class="card-1">
                                 <h3>Upload Files</h3>
                                 <div class="drop_box">
                                   <header>
                                     <h4>Select File here</h4>
                                   </header>
-                                  {{-- <p>Files Supported: PDF, TEXT, DOC , DOCX</p> --}}
                                   <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
                                   <button class="btn">Choose File</button>
                                 </div>
 
                               </div>
 
-                            {{-- <input type="file" id="qr-input-file"> --}}
+                        </div> --}}
+                        <!-- NEXT BUTTON-->
+                        <button type="button"
+                            class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
+                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
+                            data-loading="{{ trans('messages.loading-btn') }}..."
+                            data-success="{{ trans('messages.done-btn') }}"
+                            data-default="{{ trans('messages.next-btn') }}">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
+                            </span>
+                            <b>{{ trans('messages.next-btn') }}</b>
+                        </button>
+                        <!-- /NEXT BUTTON-->
+                    </div>
+                    <!-- /col -->
+                </div>
 
+                <div class="row justify-content-center form-business" style="display: none" id="qr-listing-mm" >
+                    <!-- col -->
+                    <div class="col-lg-12 col-md-12">
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">{{ trans('messages.select-city') }}</h3>
+                            <label></label>
+                        </div>
+                        <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
 
                         </div>
+
+
                         <!-- NEXT BUTTON-->
                         <button type="button"
                             class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
@@ -1040,6 +1065,8 @@ div#reader {
                                 </div>
                             @endforeach
                         </div>
+                        <button type="button"
+                        class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
                             data-loading="{{ trans('messages.loading-btn') }}..."
                             data-success="{{ trans('messages.done-btn') }}"
@@ -1080,6 +1107,9 @@ div#reader {
                                 @csrf
                                 <input type="hidden" name="slot_id" id="slot_id_booked" value="">
                                 <input type="hidden" name="dua_type" id="dua_type" value="">
+                                <input type="hidden" name="selectionType" id="selection_type" value="">
+
+
                                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                                 <input type="hidden" name="captured_user_image" id="image-input" value="">
                                 <img src="" id="showhere" width="200px" height="200px">
@@ -1283,11 +1313,8 @@ div#reader {
 @endsection
 
 @section('page-script')
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
-    <script
-    src="https://raw.githubusercontent.com/mebjas/html5-qrcode/master/minified/html5-qrcode.min.js">
-</script>
 
     <script>
         var translations = {!! json_encode(trans('messages')) !!};
@@ -1437,13 +1464,21 @@ div#reader {
                         var CityName = $activeCard.attr("data-city");
                         var event = $activeCard;
 
+                        console.log("event",event)
+
                         if (event.hasClass('dua-section')) {
-                            $("#dua_type").val($activeCard.attr("data-id"));
-                            getAjax(cardId, 'get_city', $this)
+                            $("#dua_type").val(cardId);
+                            var selectionType =   $("#dua_type").attr('data-type');
+                            $("#selectionType").val(selectionType)
+
+                            getAjax(cardId, 'get_slot_book', $this, optional = '', cardId)
+                            // getAjax(cardId, 'get_slot_book', $this)
                             // getAjax(cardId, 'get_country', $this)
                         } else if (event.hasClass('working_lady')) {
 
                             var cardType = $activeCard.attr("data-id");
+
+                            $("#dua_type").attr('data-type', cardType)
 
                             getAjax(cardId, cardType, $this)
 
@@ -1457,7 +1492,13 @@ div#reader {
                             var duaType = $("#dua_type").val();
                             getAjax(cardId, 'get_slot_book', $this, CityName, duaType)
 
+                        }else if (event.hasClass('qr-code')) {
+                            var cardType = $activeCard.attr("data-id");
+                            getAjax(cardId,cardType , $this, CityName, duaType)
+
                         }
+
+
 
 
 
@@ -1623,8 +1664,6 @@ div#reader {
                             city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
                         }
                         $("#city-listing-main").find(".head>h3").text('Select Dua Ghar')
-                        $("#city-listing").html(city);
-                        $("#qr-code-listing").fadeOut();
 
 
                         nextBtn.find('b').text(defaultText)
@@ -1633,13 +1672,38 @@ div#reader {
                     }
 
                     if (type == 'working_lady') {
-                        var uploadHtml = `<div class="col-lg-12 col-md-12">
-                            <div style="width: 500px" id="reader"></div>
-                        </div>`;
-                        $("#city-listing-main").find(".head>h3").text('Choose your QR Id')
-                        $("#city-listing").fadeOut();
-                        $("#qr-code-listing").fadeIn();
-                    }
+                            console.log("q")
+                            var hr = `<div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing"  style="display: none">
+                                    <div class="card qr-code" data-id="get_city"  style="display: none"></div>
+                                    <div id="reader"></div>
+                                    <div class="card-1">
+                                        <h3>Upload Files</h3>
+                                        <div class="drop_box">
+                                        <header>
+                                            <h4>Select File here</h4>
+                                        </header>
+                                        <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
+                                        <button class="btn">Choose File</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>`;
+
+                            $("#city-listing-normal").html(hr).fadeIn();
+
+                        }else{
+                            $("#city-listing-normal").html(city).fadeIn();
+
+                        }
+
+                    // if (type == 'working_lady') {
+
+                    //     $("#city-listing-main").find(".head>h3").text('Choose your QR Id')
+                    //     $("#city-listing").fadeOut();
+                    //     $("#qr-code-listing").fadeIn();
+                    //     $("#city-listing-normal").fadeOut();
+                    // }
 
 
 
@@ -1882,8 +1946,39 @@ div#reader {
             const imageFile = e.target.files[0];
             html5QrCode.scanFile(imageFile, /* showImage= */true)
             .then(qrCodeMessage => {
+
+
+                // alert(qrCodeMessage);
+
+                $.ajax({
+                url: "{{ route('get-working-lady-deatils') }}",
+                method: 'post',
+                data: {
+                    id: qrCodeMessage,
+                    'token': "{{ csrf_token() }}"
+
+                },
+                success: function(response) {
+                    // Handle success
+                    if (response.status) {
+                        // alert('true')
+                            $("#qr-code-listing").find(".card").addClass('active-card')
+
+                    } else {
+                        // alert('fale')
+                        $("#qr-code-listing").find(".card").remove('active-card')
+
+                    }
+
+                },
+                error: function(error) {
+                    html5QrCode.pause();
+                    // Handle error
+                    toastr.error('Error: Unable to process the scan.');
+                }
+            });
                 // success, use qrCodeMessage
-               alert(qrCodeMessage);
+
             })
             .catch(err => {
                 // failure, handle it.
@@ -1891,38 +1986,7 @@ div#reader {
             });
             });
 
-
-
-        // var html5QrcodeScanner = new Html5QrcodeScanner(
-        //     "reader", {
-        //         fps: 1,
-        //         qrbox: 350,
-        //         legacyMode: true
-        //     });
-
-        // function onScanSuccess(decodedText, decodedResult) {
-        //     // Handle on success condition with the decoded text or result.
-        //     console.log(`Scan result: ${decodedText}`, decodedResult);
-
-        //     html5QrcodeScanner.clear();
-        // }
-
-        // function onScanError(errorMessage) {
-        //     console.log(`errorMessage result: ${errorMessage}`, errorMessage);
-        //     // handle on error condition, with error message
-        // }
-
-        // function displayImage(imageUrl) {
-        //     imageContainer.innerHTML = ''; // Clear previous image
-        //     var img = document.createElement('img');
-        //     img.src = imageUrl;
-        //     img.style.maxWidth = '100%';
-        //     imageContainer.appendChild(img);
-        // }
-
-
-
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
+            // html5QrCode.render(onScanSuccess, onScanError);
 
         // html5QrcodeScanner.render(onScanSuccess);
 

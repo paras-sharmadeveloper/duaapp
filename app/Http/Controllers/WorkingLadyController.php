@@ -65,6 +65,20 @@ class WorkingLadyController extends Controller
     }
 
 
+    public function getWorkingLadyDetails(Request $request){
+
+        $id = $request->input('id');
+        $workingLady = WorkingLady::where(['qr_id' => $id])->get()->first();
+        if($workingLady['is_active'] == 'active'){
+            return response()->json(['message' => 'ok','status' => true, 'data' => $workingLady  ], 200);
+        }else{
+            return response()->json(['message' => 'This Qr code is not Approved by Admin Or not active','status' => false  ], 200);
+
+        }
+
+    }
+
+
 
     public function store(Request $request)
     {
