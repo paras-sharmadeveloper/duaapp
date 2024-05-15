@@ -1359,6 +1359,7 @@ class HomeController extends Controller
            // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
+
             Your Dua Appointment Confirmed $duaby
 
             Event Date :  $venueDate
