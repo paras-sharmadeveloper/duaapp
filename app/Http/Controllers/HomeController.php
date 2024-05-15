@@ -1360,39 +1360,39 @@ class HomeController extends Controller
 
 
                 $message = <<<EOT
+                آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
 
-                    آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
+                واقعہ کی تاریخ : $venueDateUr
 
-                    واقعہ کی تاریخ : $venueDateUr
-                    مقام: $venueAddress->city
+                مقام: $venueAddress->city
 
-                    $venueAddress->address_ur
+                $venueAddress->address_ur
 
-                    ٹوکن # $tokenId
+                ٹوکن # $tokenId
 
-                    کا موبائل : $userMobile
+                آپ کا موبائل : $userMobile
 
-                    ملاقات کا دورانیہ :  $appointmentDuration
+                ملاقات کا دورانیہ : $appointmentDuration
 
-                    ٹوکن URL:
-                    $statusLink
+                ٹوکن URL:
+                $statusLink
 
-                    Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
+                Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
 
-                    Event Date : $venueDateEn
+                Event Date : $venueDateEn
 
-                    Venue : $venueAddress->city
+                Venue : $venueAddress->city
 
-                    $venueAddress->address
+                $venueAddress->address
 
-                    Token # $tokenId
+                Token # $tokenId
 
-                    Your Mobile : $userMobile
+                Your Mobile : $userMobile
 
-                    Appointment Duration : $appointmentDuration
+                Appointment Duration : $appointmentDuration
 
-                    Token URL:
-                    $statusLink
+                Token URL:
+                $statusLink
                 EOT;
 
         // if ($lang == 'en') {
