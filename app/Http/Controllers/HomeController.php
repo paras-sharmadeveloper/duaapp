@@ -1359,41 +1359,41 @@ class HomeController extends Controller
         $duaby = '';
 
 
-        $message = <<<EOT
+                $message = <<<EOT
 
-        آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
+                    آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
 
-        واقعہ کی تاریخ : $venueDateUr
-        مقام: $venueAddress->city
+                    واقعہ کی تاریخ : $venueDateUr
+                    مقام: $venueAddress->city
 
-        $venueAddress->address_ur
+                    $venueAddress->address_ur
 
-        ٹوکن # $tokenId
+                    ٹوکن # $tokenId
 
-        کا موبائل : $userMobile
+                    کا موبائل : $userMobile
 
-        ملاقات کا دورانیہ :  $appointmentDuration
+                    ملاقات کا دورانیہ :  $appointmentDuration
 
-        ٹوکن URL:
-        $statusLink
+                    ٹوکن URL:
+                    $statusLink
 
-        Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
+                    Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
 
-        Event Date : $venueDateEn
+                    Event Date : $venueDateEn
 
-        Venue : $venueAddress->city
+                    Venue : $venueAddress->city
 
-        $venueAddress->address
+                    $venueAddress->address
 
-        Token # $tokenId
+                    Token # $tokenId
 
-        Your Mobile : $userMobile
+                    Your Mobile : $userMobile
 
-        Appointment Duration : $appointmentDuration
+                    Appointment Duration : $appointmentDuration
 
-        Token URL:
-        $statusLink
-        EOT;
+                    Token URL:
+                    $statusLink
+                EOT;
 
         // if ($lang == 'en') {
         //    // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
