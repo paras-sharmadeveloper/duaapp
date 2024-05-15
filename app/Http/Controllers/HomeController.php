@@ -1360,7 +1360,7 @@ class HomeController extends Controller
 
             $message = <<<EOT
 
-            Your Dua Appointment Confirmed $duaby ✅
+            Your Dua Appointment Confirmed $duaby
 
             Event Date : $venueDate
 
@@ -1389,7 +1389,7 @@ class HomeController extends Controller
 
             $message = <<<EOT
 
-            آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby ✅
+            آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby
 
             تاریخ : $venueDate
 
