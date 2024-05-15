@@ -20,6 +20,7 @@
         ul#progress-bar li {
             font-size: 17px;
         }
+
         .select2-container .select2-selection--single {
             height: 38px
         }
@@ -54,6 +55,7 @@
         .main-content .wizard-form .progressbar-list.active::after {
             background-color: #763cb0
         }
+
         .statement-notes {
             height: 300px;
             overflow: auto;
@@ -141,12 +143,14 @@
             color: #fff !important;
             background-color: grey
         }
-        .btn.back{
+
+        .btn.back {
             color: #000 !important;
             background-color: grey;
             font-size: 18px;
         }
-        .btn.back:hover{
+
+        .btn.back:hover {
             color: #fff !important;
         }
 
@@ -320,8 +324,8 @@
             }
 
             /* .card.text-center.h-60.shadow-sm.thripist-section img {
-                        max-height: 180px !important;
-                    } */
+                                    max-height: 180px !important;
+                                } */
             .col-xs-6.col-sm-4.col-md-4.col-lg-3 {
                 width: 50% !important;
             }
@@ -333,13 +337,16 @@
 
         }
 
-        .btn.next,  #startBooking,.language-selection  {
+        .btn.next,
+        #startBooking,
+        .language-selection {
             background: #f9d20a !important;
             color: #000 !important;
             font-size: 18px;
 
         }
-        .language-selection  {
+
+        .language-selection {
             width: 90%
         }
 
@@ -354,8 +361,8 @@
 
             /* .thripist-section img {
 
-                    max-height: 264px !important;
-                } */
+                                max-height: 264px !important;
+                            } */
 
 
         }
@@ -391,9 +398,9 @@
         }
 
         /* .col-lg-6 {
-                        flex: 0 0 auto;
-                        width: 20%;
-                    } */
+                                    flex: 0 0 auto;
+                                    width: 20%;
+                                } */
         .select2-container {
             width: 100%;
         }
@@ -549,9 +556,9 @@
         }
 
         /* button#sendOtp {
-            margin-top: 30px;
-            float: right;
-        } */
+                        margin-top: 30px;
+                        float: right;
+                    } */
         div#slot-information-user {
             padding: 10px;
             display: flex;
@@ -581,14 +588,14 @@
         }
 
         /* .box {
-         border: 1px solid #CCC;
-         padding: 40px 25px;
-         background: #FFF;
-         max-width: 400px;
-         position: relative;
-         border-radius: 3px;
-            margin: 30px auto;
-        } */
+                     border: 1px solid #CCC;
+                     padding: 40px 25px;
+                     background: #FFF;
+                     max-width: 400px;
+                     position: relative;
+                     border-radius: 3px;
+                        margin: 30px auto;
+                    } */
         .box.ofh {
             overflow: hidden;
         }
@@ -755,6 +762,89 @@
             font-size: 20px;
         }
 
+        /* div#qr-code-listing {
+            display: flex;
+            justify-content: center;
+        } */
+
+
+        #qr-code-listing .card-1 {
+            border-radius: 10px;
+            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+            width: 95%;
+            height: 130px;
+            background-color: #ffffff;
+            padding: 0px 10px 10px;
+            }
+            #qr-code-listing  .card-1 h3 {
+        font-size: 22px;
+        font-weight: 600;
+
+        }
+        #qr-code-listing .drop_box {
+            margin: 10px 0;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 3px dotted #a3a3a3;
+            border-radius: 5px;
+            }
+
+#qr-code-listing
+.drop_box h4 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e2e2e;
+}
+
+.drop_box p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #a3a3a3;
+}
+
+.btn {
+  text-decoration: none;
+  background-color: #005af0;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+}
+
+.btn:hover{
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #005af0;
+  padding: 10px 20px;
+  border: none;
+  outline: 1px solid #010101;
+}
+.form input {
+  margin: 10px 0;
+  width: 100%;
+  background-color: #e2e2e2;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+}
+#qr-canvas-visible {
+
+    width: 322px !important;
+    height: 150px !important;
+    display: inline-block;
+
+}
+
+div#reader {
+    display: flex;
+    justify-content: center;
+}
         /* css loader ends */
     </style>
     <!-- section -->
@@ -790,60 +880,142 @@
                     </div>
                 </div>
 
-                @if(empty($locale))
-
-                    <div class="row justify-content-center"  id="Lang-Section">
+                @if (empty($locale))
+                    <div class="row justify-content-center" id="Lang-Section">
                         <h3 class="text-center">{{ trans('messages.select-lang-head') }}</h3>
 
                         <div class="col-lg-12 col-md-12">
-                            @foreach (['en'=> 'English', 'ur'=> 'اردو'] as $key => $lang)
+                            @foreach (['en' => 'English', 'ur' => 'اردو'] as $key => $lang)
+                                <div class="row row-cols-3 d-flex justify-content-center">
+                                    <button type="button"
+                                        class="btn text-white float-end mt-4 rounded-3 bg-color-info language-selection"
+                                        data-lang="{{ route('book.show.test', [$key]) }}">
+                                        </span>
+                                        <b> {{ $lang }} </b>
 
-                            <div class="row row-cols-3 d-flex justify-content-center">
-                                <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info language-selection"
-                                    data-lang="{{ route('book.show.test',[$key]) }}">
-                                    </span>
-                                     <b> {{ $lang  }}   </b>
-
-                                </button>
-                                {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
-                            </div>
+                                    </button>
+                                    {{-- <button class="btn text-white float-end next mt-4 rounded-3 bg-color-info " id="startBooking"> Start Booking </button> --}}
+                                </div>
                             @endforeach
                         </div>
                     </div>
-                    @else
-
+                @else
                     <div class="row justify-content-center" id="booknowStart">
+                        <div class="col-lg-12 col-md-12">
 
-                    <div class="col-lg-12 col-md-12">
+                            <div class="row row-cols-3 d-flex justify-content-center">
+                                <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info"
+                                    id="startBooking" data-loading="Loading..." data-success="Done" data-default="Next">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                        style="display:none">
+                                    </span>
+                                    <b> {{ trans('messages.startbooking') }} </b>
+                                </button>
 
-                        <div class="row row-cols-3 d-flex justify-content-center">
-                            <button type="button" class="btn text-white float-end mt-4 rounded-3 bg-color-info"
-                                id="startBooking" data-loading="Loading..." data-success="Done" data-default="Next">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                    style="display:none">
-                                </span>
-                                <b> {{ trans('messages.startbooking') }} </b>
-                            </button>
+                            </div>
+                            <div class="myanoucements text-center py-2">
+                                <p>{{ $reasons ? $reasons->reason_english : '' }}</p>
+                                <p> {{ $reasons ? $reasons->reason_urdu : '' }}</p>
+                            </div>
 
-                         </div>
-                         <div class="myanoucements text-center py-2">
-                            <p>{{ ($reasons) ? $reasons->reason_english : ''}}</p>
-                            <p> {{($reasons) ? $reasons->reason_urdu : ''}}</p>
-                         </div>
-
+                        </div>
                     </div>
-
-
-                </div>
-
-
-                @endif
-
-
-
+                @endif`
 
 
                 <div class="row justify-content-center form-business" id="cardSection" style="display: none">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">Select Your Type</h3>
+
+                            <label></label>
+                        </div>
+
+                        <p class="error d-none text-center alertBox">Select Your Type</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="">
+
+                            @foreach (['normal_person' => 'Normal Person', 'working_lady' => 'Working Lady'] as $key => $item)
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
+                                    <div class="card text-center h-60  shadow-sm {{ $key }}"
+                                        data-id="{{ $key }}">
+                                        <div class="card-body px-0">
+                                            <h5 class="card-title title-binding">{{ $item }}</h5>
+                                            <p class="card-text">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
+                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
+                            data-loading="{{ trans('messages.loading-btn') }}..."
+                            data-success="{{ trans('messages.done-btn') }}"
+                            data-default="{{ trans('messages.next-btn') }}">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
+                            </span>
+                            <b>{{ trans('messages.next-btn') }}</b>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="row justify-content-center form-business" style="display: none" id="city-listing-main">
+                    <!-- col -->
+                    <div class="col-lg-12 col-md-12">
+                        <div class="head mb-4">
+                            <h3 class="fw-bold text-center">{{ trans('messages.select-city') }}</h3>
+                            <label></label>
+                        </div>
+                        <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
+                        <!-- cards -->
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
+
+                        </div>
+
+                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing"
+                            style="display: none">
+                            <div id="reader"></div>
+
+
+                            <div class="card-1">
+                                <h3>Upload Files</h3>
+                                <div class="drop_box">
+                                  <header>
+                                    <h4>Select File here</h4>
+                                  </header>
+                                  {{-- <p>Files Supported: PDF, TEXT, DOC , DOCX</p> --}}
+                                  <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
+                                  <button class="btn">Choose File</button>
+                                </div>
+
+                              </div>
+
+                            {{-- <input type="file" id="qr-input-file"> --}}
+
+
+                        </div>
+                        <!-- NEXT BUTTON-->
+                        <button type="button"
+                            class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
+                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
+                            data-loading="{{ trans('messages.loading-btn') }}..."
+                            data-success="{{ trans('messages.done-btn') }}"
+                            data-default="{{ trans('messages.next-btn') }}">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
+                            </span>
+                            <b>{{ trans('messages.next-btn') }}</b>
+                        </button>
+                        <!-- /NEXT BUTTON-->
+                    </div>
+                    <!-- /col -->
+                </div>
+
+
+                <div class="row justify-content-center form-business" style="display: none">
 
                     <div class="col-lg-12 col-md-12">
                         <div class="head mb-4">
@@ -856,12 +1028,12 @@
                         <!-- cards -->
                         <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom" id="thripis1t-main">
 
-                            @foreach (['dua' => 'Dua' , 'dum' => 'Dum'] as $key => $dua)
+                            @foreach (['dua' => 'Dua', 'dum' => 'Dum'] as $key => $dua)
                                 <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col">
                                     <div class="card text-center h-60  shadow-sm dua-section"
                                         data-id="{{ $key }}">
                                         <div class="card-body px-0">
-                                            <h5 class="card-title title-binding">{{ trans('messages.'. $key ) }}</h5>
+                                            <h5 class="card-title title-binding">{{ trans('messages.' . $key) }}</h5>
                                             <p class="card-text">
                                         </div>
                                     </div>
@@ -869,7 +1041,9 @@
                             @endforeach
                         </div>
                         <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="{{ trans('messages.loading-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="{{ trans('messages.next-btn') }}">
+                            data-loading="{{ trans('messages.loading-btn') }}..."
+                            data-success="{{ trans('messages.done-btn') }}"
+                            data-default="{{ trans('messages.next-btn') }}">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                 style="display:none">
                             </span>
@@ -885,148 +1059,6 @@
                     </div>
                 </div>
 
-                {{-- <div class="row justify-content-center  form-business" style="display: none">
-
-                    <div class="col-lg-12 col-md-12">
-                        <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select Type</h3>
-                            <label></label>
-                        </div>
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
-                        <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="type-listing">
-
-                        </div>
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
-                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="Loading..." data-success="Done" data-default="Next">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                style="display:none">
-                            </span>
-                            <b> Next</b>
-                        </button>
-                    </div>
-                </div> --}}
-
-                <!-- row -->
-                {{-- <div class="row justify-content-center  form-business" style="display: none">
-
-                    <div class="col-lg-12 col-md-12">
-                        <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select Country</h3>
-                            <label></label>
-                        </div>
-
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
-
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2 border-bottom main-inner" id="country-listing">
-
-                        </div>
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
-
-                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="Loading..." data-success="Done" data-default="Next">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                style="display:none">
-                            </span>
-                            <b> Next</b>
-                        </button>
-                    </div>
-                </div> --}}
-                <div class="row justify-content-center form-business" style="display: none">
-                    <!-- col -->
-                    <div class="col-lg-12 col-md-12">
-                        <div class="head mb-4">
-                            <h3 class="fw-bold text-center">{{ trans('messages.select-city') }}</h3>
-                            <label></label>
-                        </div>
-                        <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
-                        <!-- cards -->
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="city-listing">
-
-                        </div>
-                        <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
-                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="{{ trans('messages.loading-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="{{ trans('messages.next-btn') }}">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                style="display:none">
-                            </span>
-                            <b>{{ trans('messages.next-btn') }}</b>
-                        </button>
-                        <!-- /NEXT BUTTON-->
-                    </div>
-                    <!-- /col -->
-                </div>
-                <!-- /col -->
-
-                {{-- <div class="row justify-content-center form-business" style="display: none">
-
-                    <div class="col-lg-12 col-md-12">
-                        <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select Event Date</h3>
-                            <label></label>
-                        </div>
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
-
-                        <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="date-listing">
-
-                        </div>
-                        <button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
-                        <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="Loading..." data-success="Done" data-default="Next">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                style="display:none">
-                            </span>
-                            <b> Next</b>
-                        </button>
-                    </div>
-                </div> --}}
-
-                <!-- row -->
-                {{-- <div class="row justify-content-center form-business sloting-main" style="display: none">
-
-                    <div class="col-lg-12 col-md-12 slot-in">
-                        <div class="head mb-4">
-                            <h3 class="fw-bold text-center">Select Event Slot</h3>
-                            <label></label>
-                        </div>
-                        <p class="error d-none text-center alertBox">Please select at least one card</p>
-
-                        <div id="slot-information-user">
-                            <label> Your Current Timezone:</label>
-                            <select class="change-timezone form-control" name="timezone" class="js-states form-control"
-                                id="timezone">
-                                @foreach ($timezones as $country)
-                                    @foreach ($country->timezones as $timezone)
-                                        <option value="{{ $timezone->timezone }}"> {{ $timezone->timezone }}
-                                            ({{ $country->nicename }})
-                                        </option>
-                                    @endforeach
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="row row-cols-2 row-cols-lg-5 g-4 pb-0 border-bottom sloting-inner main-inner"
-                            id="slot-listing">
-
-                        </div>
-                        <button type="button"
-                            class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
-
-                        <button type="button" id="slot-next"
-                            class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm"
-                            data-loading="Loading..." data-success="Done" data-default="Next">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                style="display:none">
-                            </span>
-                            <b> Next</b>
-                        </button>
-
-                    </div>
-                </div> --}}
-                <!-- /row -->
-                <!-- row -->
                 <div class="row justify-content-center py-5 form-business" style="display: none">
 
                     <div class="head mb-4">
@@ -1034,16 +1066,7 @@
                         <label></label>
                     </div>
                     <!-- col -->
-                    {{-- <div class="col-lg-12 col-md-12" id="successMessage">
-                        <header class="site-header" id="header">
-                            <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
-                        </header>
-                        <div class="main-content">
-                            <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-                            <p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
-                        </div>
 
-                    </div> --}}
                     <!-- /col -->
                     <!-- col -->
                     <div class="col-lg-12 col-md-12" id="successForm">
@@ -1102,7 +1125,7 @@
                                     <div class="col col-lg-6 col-md-6" id="mobile-number">
                                         <label class="mb-2"> {{ trans('messages.mobile-label') }}</label>
                                         <input type="text" min="0" inputmode="numeric" pattern="[0-9]*"
-                                        class="form-control" id="mobile" name="mobile"
+                                            class="form-control" id="mobile" name="mobile"
                                             placeholder="Eg:8884445555" aria-label="Mobile">
                                         <p> </p>
                                     </div>
@@ -1227,11 +1250,13 @@
 
 
                         <!-- NEXT BUTTON-->
-                        <button type="button" class="btn btn-dark text-white float-start back rounded-3">{{ trans('messages.back-btn') }}</button>
+                        <button type="button"
+                            class="btn btn-dark text-white float-start back rounded-3">{{ trans('messages.back-btn') }}</button>
 
                         <button type="submit" id="submitBtn"
                             class="btn text-white float-end submit-button rounded-3 bg-color-info" type="submit"
-                            data-loading="{{ trans('messages.submiting-btn')}}..." data-success="{{ trans('messages.done-btn') }}" data-default="Finish">
+                            data-loading="{{ trans('messages.submiting-btn') }}..."
+                            data-success="{{ trans('messages.done-btn') }}" data-default="Finish">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                 style="display:none">
                             </span>
@@ -1258,19 +1283,25 @@
 @endsection
 
 @section('page-script')
-    <script>
-            var translations = {!! json_encode(trans('messages')) !!};
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script> --}}
 
-            var lang = "{{$locale}}";
+    <script
+    src="https://raw.githubusercontent.com/mebjas/html5-qrcode/master/minified/html5-qrcode.min.js">
+</script>
+
+    <script>
+        var translations = {!! json_encode(trans('messages')) !!};
+
+        var lang = "{{ $locale }}";
 
         $(".form-business").hide();
         var imagePath = "{{ env('AWS_GENERAL_PATH') . 'images/' }}";
         var NoImage = "{{ asset('assets/theme/img/avatar.png') }}";
 
-        $(".language-selection").click(function(){
+        $(".language-selection").click(function() {
             var link = $(this).attr('data-lang');
 
-            location.href= link
+            location.href = link
         })
 
 
@@ -1295,8 +1326,8 @@
                         $(this).find('span').hide()
                         $(this).find('b').text(defaultText)
                         var phoneCode = response.phoneCode;
-                        console.log("country_code",phoneCode)
-                        $("#country_code").attr("data-ud",phoneCode)
+                        console.log("country_code", phoneCode)
+                        $("#country_code").attr("data-ud", phoneCode)
                         $("#country_code").val(phoneCode).trigger('change');
                         $.each(response.data, function(key, item) {
                             var img = '';
@@ -1399,8 +1430,6 @@
                     var getValue = $(this).parents(".row").find(".card").hasClass("active-card");
                     $activeCard = $(this).parents(".row").find(".active-card");
                     if (getValue) {
-
-
                         var oldTitle = $("#remeber-steps-app").val();
 
                         var title = $activeCard.find(".title-binding").text();
@@ -1412,40 +1441,24 @@
                             $("#dua_type").val($activeCard.attr("data-id"));
                             getAjax(cardId, 'get_city', $this)
                             // getAjax(cardId, 'get_country', $this)
+                        } else if (event.hasClass('working_lady')) {
+
+                            var cardType = $activeCard.attr("data-id");
+
+                            getAjax(cardId, cardType, $this)
+
+                        } else if (event.hasClass('normal_person')) {
+
+                            var cardType = $activeCard.attr("data-id");
+
+                            getAjax(cardId, cardType, $this)
+
+                        } else if (event.hasClass('date-selection')) {
+                            var duaType = $("#dua_type").val();
+                            getAjax(cardId, 'get_slot_book', $this, CityName, duaType)
+
                         }
-                        // else if (event.hasClass('type-selection')) {
-                        //     getAjax(cardId, 'get_country', $this)
-                        // }
 
-                        // if (event.hasClass('thripist-section')) { )
-                        //     getAjax(cardId, 'get_country', $this)
-                        // } else if (event.hasClass('type-selection')) {
-                        //     getAjax(cardId, 'get_country', $this)
-                        // }
-                        // if (event.hasClass('city-selection')) {
-                        //     $("#dua_type").val(getValue);
-
-                        //     getAjax(cardId, 'get_city', $this)
-                        // }
-                        else if (event.hasClass('date-selection')) {
-                           var duaType = $("#dua_type").val();
-                            getAjax(cardId, 'get_slot_book', $this, CityName , duaType)
-                            //  $("#slot_id_booked").val(cardId);
-                            // getAjax(cardId, 'get_date', $this, CityName)
-                            //  $("#slot_id_booked").val(cardId);
-                        }
-                        // else if (event.hasClass('slot-selection')) {
-                        //     $("#slot-information-user").attr('data-id', cardId);
-                        //     getAjax(cardId, 'get_slots', $this)
-                        //     // $("#slot_id_booked").val(cardId);
-                        // } else if (event.hasClass('slot-capture')) {
-                        //     $("#slot_id_booked").val(cardId);
-                        //     $this.parents(".row").fadeOut("slow", function() {
-                        //         $(this).next(".row").fadeIn();
-                        //         $(this).next(".row").find('.head>label').text(oldTitle)
-
-                        //     });
-                        // }
 
 
                         if (oldTitle == '') {
@@ -1458,6 +1471,7 @@
                         $("#remeber-steps-app").val(oldTitle);
 
                         $(this).parents('.justify-content-center').find('.head>label').text(oldTitle);
+
                         $("#progress-bar").find(".active").next().addClass("active").prev().removeClass(
                             'active');
 
@@ -1521,7 +1535,7 @@
         });
 
 
-        function getAjax(id, type, nextBtn, optional = '' , duaType ='') {
+        function getAjax(id, type, nextBtn, optional = '', duaType = '') {
 
             var loadingText = nextBtn.attr('data-loading');
             var successText = nextBtn.attr('data-success');
@@ -1538,45 +1552,13 @@
                     "type": type,
                     'optional': optional,
                     "timezone": $("#timezone-hidden").val(),
-                    'duaType' : duaType
+                    'duaType': duaType
                 },
                 dataType: "json",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-
-
-                    // if (type == 'get_type') {
-
-                    //     var typed = '';
-                    //     if (response.status) {
-
-                    //     $.each(response.data.type, function(key, item) {
-
-                    //         var meetingType = 'Online';
-                    //         if (item.name == 'on-site') {
-                    //             meetingType = 'Physical';
-                    //         }
-                    //         typed += `<div class="col col-lg-3 col-md-7 box">
-                //             <div class="card text-center h-60 py-2 shadow-sm type-selection"
-                //              data-id="${item.venue_address_id}"
-                //              data-type="${item.name}">
-                //                 <img src="${item.flag_path}" alt="Flag Image">
-                //                 <div class="card-body px-0">
-                //                     <div class="arrow-ribbon">${item.day_left}</div>
-                //                     <h5 class="card-title title-binding">${meetingType}</h5>
-                //                 </div>
-                //             </div>
-                //         </div>`;
-                    //     })
-                    // }else{
-                    //     typed = '<p class="no-data"> No Data Found </p>';
-                    // }
-                    //     $("#type-listing").html(typed);
-                    //     nextBtn.find('b').text(defaultText)
-
-                    // }
 
 
                     if (type == 'get_country') {
@@ -1589,14 +1571,14 @@
                                     meetingType = item.name;
                                 }
                                 country += `<div class="col col-lg-3 col-md-7">
-                            <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.venue_id}">
-                                <img src="${item.flag_path}" alt="Flag Image">
-                                <div class="card-body px-0">
-                                    <h5 class="card-title title-binding">${meetingType}</h5>
+                                        <div class="card text-center h-60 py-2 shadow-sm city-selection" data-id="${item.venue_id}">
+                                            <img src="${item.flag_path}" alt="Flag Image">
+                                            <div class="card-body px-0">
+                                                <h5 class="card-title title-binding">${meetingType}</h5>
 
-                                </div>
-                            </div>
-                        </div>`;
+                                            </div>
+                                        </div>
+                                    </div>`;
                             })
                         } else {
                             country = '<p class="no-data"> No Data Found </p>';
@@ -1605,7 +1587,7 @@
                         nextBtn.find('b').text(defaultText)
 
                     }
-                    if (type == 'get_city') {
+                    if (type == 'get_city' || type == 'normal_person') {
 
                         var city = '';
                         if (response.status) {
@@ -1640,8 +1622,9 @@
                         } else {
                             city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
                         }
-
+                        $("#city-listing-main").find(".head>h3").text('Select Dua Ghar')
                         $("#city-listing").html(city);
+                        $("#qr-code-listing").fadeOut();
 
 
                         nextBtn.find('b').text(defaultText)
@@ -1649,10 +1632,19 @@
 
                     }
 
+                    if (type == 'working_lady') {
+                        var uploadHtml = `<div class="col-lg-12 col-md-12">
+                            <div style="width: 500px" id="reader"></div>
+                        </div>`;
+                        $("#city-listing-main").find(".head>h3").text('Choose your QR Id')
+                        $("#city-listing").fadeOut();
+                        $("#qr-code-listing").fadeIn();
+                    }
 
 
-                    if(type == 'get_slot_book'){
-                        var dAte='';
+
+                    if (type == 'get_slot_book') {
+                        var dAte = '';
 
                         if (response.token_id) {
                             $("#booking-form").show();
@@ -1660,126 +1652,42 @@
 
 
                             $("#slot_id_booked").val(response.slot_id);
-                            if(lang == 'en'){
+                            if (lang == 'en') {
                                 $("#successForm").find(".alert").text(response.message).addClass('d-none')
-                            }else{
+                            } else {
                                 $("#successForm").find(".alert").text(response.message_ur).addClass('d-none')
                             }
 
-                        }else if (response.status == false) {
-                            dAte = '<p class="no-data">'+response.message+'</p>';
+                        } else if (response.status == false) {
+                            dAte = '<p class="no-data">' + response.message + '</p>';
 
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
-                            if(lang == 'en'){
+                            if (lang == 'en') {
                                 $("#successForm").find(".alert").text(response.message).removeClass('d-none')
-                            }else{
+                            } else {
                                 $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
                             }
                             // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 
-                        }else if (response.status == false) {
+                        } else if (response.status == false) {
                             $("#booking-form").hide();
                             $("#submitBtn").hide();
-                            if(lang == 'en'){
+                            if (lang == 'en') {
                                 $("#successForm").find(".alert").text(response.message).removeClass('d-none')
-                            }else{
+                            } else {
                                 $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
                             }
                             // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 
 
-                            dAte = '<p class="no-data">'+response.message+'</p>';
+                            dAte = '<p class="no-data">' + response.message + '</p>';
 
                         }
                         $("#date-listing").html(dAte);
                     }
-                    // if (type == 'get_date') {
-
-                    //     var dAte = '';
-
-                    //     if (response.status) {
-                    //         //  console.log("response",response)
-                    //         var coulmtoShow = response.data.columnToShow;
 
 
-
-
-                    //         //  console.log("coulmtoShow",coulmtoShow)
-                    //         var count = 1;
-                    //         $.each(response.data.date, function(key, item) {
-
-
-                    //             if (coulmtoShow >= count ) {
-                    //                 dAte += `<div class="col col-lg-3 col-md-7 date-enable-n date-enable-${item.venue_address_id}">
-                    //                     <div class="card text-center h-60 py-2 shadow-sm slot-selection" data-id="${item.venue_address_id}">
-                    //                         <img src="${item.flag_path}" alt="Flag Image">
-                    //                         <div class="card-body px-0">
-                    //                             <h5 class="card-title title-binding">${convertDateToCustomFormat(item.venue_date)}</h5>
-                    //                         </div>
-                    //                     </div>
-                    //                 </div>`;
-                    //             }
-
-
-                    //             count++;
-
-
-                    //         })
-
-                    //     } else {
-                    //         dAte = '<p class="no-data"> No Data Found </p>';
-                    //     }
-                    //     nextBtn.find('b').text(defaultText)
-                    //     $("#date-listing").html(dAte);
-
-
-                    // }
-
-                    // if (type == 'get_slots') {
-                    //     var html = '';
-                    //     if (response.selfie) {
-                    //         // $("#selfie_required").val('yes')
-                    //         $("#make-selfie-area").show();
-                    //     } else {
-                    //         $("#make-selfie-area").hide();
-                    //         // $("#selfie_required").val('no')
-                    //     }
-                    //     $("#timezone").val(response.timezone).trigger("change");
-
-                    //     if (response.status) {
-                    //         $.each(response.slots, function(key, item) {
-                    //             html += `<div class="col col-lg-3 col-md-6">
-                    //             <div class="card text-center h-10 py-0 shadow-sm slot-capture checkSlot" data-id="${item.id}">
-
-                    //                 <div class="card-body px-0">
-                    //                     <h5 class="card-title title-binding">${convertTimeTo12HourFormat(item.slot_time)}</h5>
-                    //                     <img class="load-img" src="{{ asset('assets/sm-loader.gif') }}" style="display:none">
-
-                    //                 </div>
-                    //             </div>
-                    //             </div>`;
-                    //         });
-                    //         $("#slot-information-user").find('label').text("Your Current Timezone:" + response
-                    //             .timezone);
-
-                    //         $("#timezone-hidden").val(response.timezone)
-                    //         $("#slot-listing").html(html).find(".loader").hide();
-                    //         $(".confirm").show();
-                    //         $(".back").show();
-                    //         nextBtn.find('b').text(defaultText)
-                    //     } else {
-                    //         $("#slot-listing").html("<h1>" + response.message + "</h1>");
-                    //         $(".confirm").hide();
-                    //         $(".back").show();
-                    //         nextBtn.find('b').text('error')
-                    //         setTimeout(() => {
-                    //             nextBtn.find('b').text(defaultText)
-                    //         }, 2500);
-                    //     }
-
-
-                    // }
                     nextBtn.find('span').hide()
                     var oldTitle = $("#remeber-steps-app").val();
 
@@ -1843,7 +1751,8 @@
 
                         if (error.status == 406) {
                             console.log("error", error.responseJSON.message)
-                            $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+                            $("#myalert").html(error.responseJSON.message).removeClass(
+                                'd-none');
                             // $("#errors").html(error.responseJSON.message).show();
                         }
                         $this.find('b').text(defaultText)
@@ -1859,7 +1768,8 @@
                                 }, 2000);
                             }
                             var errors = error.responseJSON.errors;
-                            $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+                            $("#myalert").html(error.responseJSON.message).removeClass(
+                                'd-none');
                             // $("#errors").html(error.responseJSON.message);
 
                             // Clear any existing error messages
@@ -1951,6 +1861,71 @@
     </script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var scannerPaused = false;
+
+        const html5QrCode = new Html5Qrcode("reader");
+
+
+        const fileinput = document.getElementById('qr-input-file');
+            fileinput.addEventListener('change', e => {
+            if (e.target.files.length == 0) {
+                // No file selected, ignore
+                return;
+            }
+
+            // Use the first item in the list
+            const imageFile = e.target.files[0];
+            html5QrCode.scanFile(imageFile, /* showImage= */true)
+            .then(qrCodeMessage => {
+                // success, use qrCodeMessage
+               alert(qrCodeMessage);
+            })
+            .catch(err => {
+                // failure, handle it.
+                console.log(`Error scanning file. Reason: ${err}`)
+            });
+            });
+
+
+
+        // var html5QrcodeScanner = new Html5QrcodeScanner(
+        //     "reader", {
+        //         fps: 1,
+        //         qrbox: 350,
+        //         legacyMode: true
+        //     });
+
+        // function onScanSuccess(decodedText, decodedResult) {
+        //     // Handle on success condition with the decoded text or result.
+        //     console.log(`Scan result: ${decodedText}`, decodedResult);
+
+        //     html5QrcodeScanner.clear();
+        // }
+
+        // function onScanError(errorMessage) {
+        //     console.log(`errorMessage result: ${errorMessage}`, errorMessage);
+        //     // handle on error condition, with error message
+        // }
+
+        // function displayImage(imageUrl) {
+        //     imageContainer.innerHTML = ''; // Clear previous image
+        //     var img = document.createElement('img');
+        //     img.src = imageUrl;
+        //     img.style.maxWidth = '100%';
+        //     imageContainer.appendChild(img);
+        // }
+
+
+
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+        // html5QrcodeScanner.render(onScanSuccess);
+
         $(document).ready(function() {
             var video = document.getElementById('video');
             var startCameraButton = $('#start-camera');
@@ -2055,7 +2030,9 @@
                         // Handle errors
                         if (error.responseJSON.status == false) {
                             $("#error").removeClass('success');
-                            $("#error").addClass('danger').text("We are unable to detect a face. It look like this is something object or other. Please retry again.")
+                            $("#error").addClass('danger').text(
+                                "We are unable to detect a face. It look like this is something object or other. Please retry again."
+                            )
                             $("#submitBtn").hide();
                         }
 
@@ -2070,28 +2047,28 @@
         document.title = "Book Dua Meeting | KahayFaqeer.org";
         $(document).ready(function() {
 
-             $('#mobile').on('input', function() {
-                 // Get the value of the phone input
-                 let phoneNumber = $(this).val();
+            $('#mobile').on('input', function() {
+                // Get the value of the phone input
+                let phoneNumber = $(this).val();
 
-                 // Remove any non-digit characters (e.g., spaces, dashes)
-                 phoneNumber = phoneNumber.replace(/\D/g, '');
+                // Remove any non-digit characters (e.g., spaces, dashes)
+                phoneNumber = phoneNumber.replace(/\D/g, '');
 
-                 // Check if the phone number has reached 10 digits
-                 if (phoneNumber.length === 10) {
-                      $("#submitBtn").show();
-                      $("#mobile-number").find('p').text('');
-                     // $("#opt-form-confirm").fadeIn(500);
-                     // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
-                     $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
-                 } else {
-                     $("#submitBtn").hide();
+                // Check if the phone number has reached 10 digits
+                if (phoneNumber.length === 10) {
+                    $("#submitBtn").show();
+                    $("#mobile-number").find('p').text('');
+                    // $("#opt-form-confirm").fadeIn(500);
+                    // $("#mobile-number").removeClass('col-lg-7').addClass('col-lg-5');
+                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+                } else {
+                    $("#submitBtn").hide();
                     //  $("#opt-form-confirm").fadeOut(500);
                     $("#mobile-number").find('p').text('Please enter 10 digit Number').addClass('error');
-                     $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
+                    $("#mobile-number").removeClass('col-lg-6').addClass('col-lg-6');
                     // $("#mobile-number").removeClass('col-lg-5').addClass('col-lg-7');
-                 }
-             });
+                }
+            });
             $("#sendOtp").click(function() {
 
                 $this = $(this);
@@ -2257,63 +2234,76 @@
         }
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-        const mobileInput = document.getElementById('mobile-number');
-        const videoElement = document.getElementById('camera-preview');
-        let stream;
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const mobileInput = document.getElementById('mobile-number');
+            const videoElement = document.getElementById('camera-preview');
+            let stream;
 
-        // Function to start camera
-        function startCamera() {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function(mediaStream) {
-                    stream = mediaStream;
-                    videoElement.srcObject = mediaStream;
-                })
-                .catch(function(error) {
-                    console.error('Error accessing camera:', error);
-                });
-        }
-
-        function capturePicture() {
-            // Check if the video element is playing and ready to capture
-            if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                const canvas = document.createElement('canvas');
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-
-                // Wait for the video to render on the canvas
-                videoElement.addEventListener('canplay', function() {
-                    // Draw the video frame onto the canvas
-                    canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                    // Stop camera stream
-                    stream.getTracks().forEach(track => track.stop());
-
-                    // Convert canvas to image data URL
-                    const imageDataURL = canvas.toDataURL('image/png');
-
-                    // Set the image data URL as the value of an input field
-                    $("#image-input").val(imageDataURL);
-
-                    // Set the image data URL as the src of an <img> tag for display
-                    $("#showhere").attr('src', imageDataURL);
-                });
-            } else {
-                // Handle the case where the video is not yet ready to capture
-                console.error('Video is not ready or paused.');
+            // Function to start camera
+            function startCamera() {
+                navigator.mediaDevices.getUserMedia({
+                        video: true
+                    })
+                    .then(function(mediaStream) {
+                        stream = mediaStream;
+                        videoElement.srcObject = mediaStream;
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing camera:', error);
+                    });
             }
-}
 
-        // Event listener for typing in the mobile number field
-        mobileInput.addEventListener('focusout', function(event) {
-            if (mobileInput.value !== '') {
-                startCamera()
-                // Automatically capture picture after 3 seconds (adjust as needed)
-                capturePicture()
-                stopCamera();
+            function capturePicture() {
+                // Check if the video element is playing and ready to capture
+                if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+
+                    // Wait for the video to render on the canvas
+                    videoElement.addEventListener('canplay', function() {
+                        // Draw the video frame onto the canvas
+                        canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                        // Stop camera stream
+                        stream.getTracks().forEach(track => track.stop());
+
+                        // Convert canvas to image data URL
+                        const imageDataURL = canvas.toDataURL('image/png');
+
+                        // Set the image data URL as the value of an input field
+                        $("#image-input").val(imageDataURL);
+
+                        // Set the image data URL as the src of an <img> tag for display
+                        $("#showhere").attr('src', imageDataURL);
+                    });
+                } else {
+                    // Handle the case where the video is not yet ready to capture
+                    console.error('Video is not ready or paused.');
+                }
             }
+
+            // Event listener for typing in the mobile number field
+            mobileInput.addEventListener('focusout', function(event) {
+                if (mobileInput.value !== '') {
+                    startCamera()
+                    // Automatically capture picture after 3 seconds (adjust as needed)
+                    capturePicture()
+                    stopCamera();
+                }
+            });
         });
-    });
-</script>
+
+        const dropArea = document.querySelector(".drop_box"),
+            button = dropArea.querySelector("button"),
+            dragText = dropArea.querySelector("header"),
+            input = dropArea.querySelector("input");
+            let file;
+            var filename;
+
+            button.onclick = () => {
+            input.click();
+            };
+    </script>
 @endsection

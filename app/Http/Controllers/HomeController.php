@@ -745,6 +745,14 @@ class HomeController extends Controller
                 'data' => $dataArr
             ]);
         }
+
+        if($type == 'working_lady'){
+            return response()->json([
+                'status' => true,
+                'data' => []
+            ]);
+        }
+
         if ($type == 'get_type') {
             // return ['today' => $newDate, 'wde' => $newDate15Day];
             if (App::environment('production')) {
@@ -824,7 +832,7 @@ class HomeController extends Controller
             ]);
         }
 
-        if ($type == 'get_city') {
+        if ($type == 'get_city' || $type =='normal_person') {
 
             $countryId = Venue::where(['iso' => 'PK'])->get()->first();
             $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
