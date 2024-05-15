@@ -944,12 +944,9 @@ class HomeController extends Controller
             $duaType = $request->input('duaType');
             $selectionType = $request->input('selection_type');
             // $duaType = $request->input('duaType');
-
-
-
             $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
             $today = getCurrentContryTimezone($request->input('id'));
-            $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
+            return $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
                 ->where('city',  $request->input('optional'))
                 //->where('venue_date','LIKE',"%{$today}%")
                 ->whereDate('venue_date', $today)
