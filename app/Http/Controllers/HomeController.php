@@ -1359,20 +1359,19 @@ class HomeController extends Controller
            // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
             $message = <<<EOT
-
             Your Dua Appointment Confirmed $duaby
 
-            Event Date : $venueDate
+            Event Date :  $venueDate
 
-            Venue : $venueAddress->city
+            Venue :  $venueAddress->city
 
             $venueAddress->address
 
-            Token #$tokenId
+            Token # $tokenId
 
-            Your Mobile : $userMobile
+            Your Mobile :  $userMobile
 
-            Appointment Duration : $appointmentDuration
+            Appointment Duration :  $appointmentDuration
 
             $statusNote
 
@@ -1381,7 +1380,6 @@ class HomeController extends Controller
             $statusLink
 
             $pdfLink
-
             EOT;
         } else {
 
