@@ -1347,6 +1347,9 @@ class HomeController extends Controller
 
         $appointmentDuration = $venueAddress->slot_duration . ' minute 1 Question';
 
+        $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
+        $venueDateUr =  date("d m Y", strtotime($venueAddress->venue_date));
+
         // $statusNote = ($lang == 'en') ? $venueAddress->status_page_note : $venueAddress->status_page_note_ur;
         $statusNote = '';
 
@@ -1355,63 +1358,101 @@ class HomeController extends Controller
         $pdfLink = '';
         $duaby = '';
 
-        if ($lang == 'en') {
-           // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
-            $message = <<<EOT
+        $message = <<<EOT
 
-            Your Dua Appointment Confirmed $duaby
+        آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
 
-            Event Date :  $venueDate
+        واقعہ کی تاریخ : $venueDateUr
+        مقام: $venueAddress->city
 
-            Venue :  $venueAddress->city
+        $venueAddress->address_ur
 
-            $venueAddress->address
+        ٹوکن # $tokenId
 
-            Token # $tokenId
+        کا موبائل : $userMobile
 
-            Your Mobile :  $userMobile
+        ملاقات کا دورانیہ :  $appointmentDuration
 
-            Appointment Duration :  $appointmentDuration
+        ٹوکن URL:
+        $statusLink
 
-            $statusNote
+        Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
 
-            To view your token online please click below:
+        Event Date : $venueDateEn
 
-            $statusLink
+        Venue : $venueAddress->city
 
-            $pdfLink
-            EOT;
-        } else {
+        $venueAddress->address
 
-           // $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+        Token # $tokenId
 
-            $message = <<<EOT
+        Your Mobile : $userMobile
 
-            آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby
+        Appointment Duration : $appointmentDuration
 
-            تاریخ : $venueDate
+        Token URL:
+        $statusLink
+        EOT;
 
-            دعا گھر : $venueAddress->city
+        // if ($lang == 'en') {
+        //    // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
 
-            $venueAddress->address_ur
+        //     $message = <<<EOT
 
-            ٹوکن #$tokenId
 
-            آپ کا موبائل : $userMobile
+        //     Your Dua Appointment Confirmed $duaby
 
-            ملاقات کا دورانیہ : $appointmentDuration
+        //     Event Date :  $venueDate
 
-            $statusNote
+        //     Venue :  $venueAddress->city
 
-            اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+        //     $venueAddress->address
 
-            $statusLink
+        //     Token # $tokenId
 
-            $pdfLink
+        //     Your Mobile :  $userMobile
 
-            EOT;
-        }
+        //     Appointment Duration :  $appointmentDuration
+
+        //     $statusNote
+
+        //     To view your token online please click below:
+
+        //     $statusLink
+
+        //     $pdfLink
+        //     EOT;
+        // } else {
+
+        //    // $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
+
+        //     $message = <<<EOT
+
+        //     آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby
+
+        //     تاریخ : $venueDate
+
+        //     دعا گھر : $venueAddress->city
+
+        //     $venueAddress->address_ur
+
+        //     ٹوکن #$tokenId
+
+        //     آپ کا موبائل : $userMobile
+
+        //     ملاقات کا دورانیہ : $appointmentDuration
+
+        //     $statusNote
+
+        //     اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
+
+        //     $statusLink
+
+        //     $pdfLink
+
+        //     EOT;
+        // }
         return $message;
     }
 
