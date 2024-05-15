@@ -20,6 +20,8 @@ class NewBookingController extends Controller
             App::setLocale('en');
         }
 
+        // echo $locale; die;
+
         $therapistRole = Role::where('name', 'therapist')->first();
         $VenueList = Venue::all();
         $countryList = Country::all();

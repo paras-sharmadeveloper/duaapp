@@ -982,11 +982,6 @@ class HomeController extends Controller
             }
 
 
-
-
-
-
-
             if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
                 return response()->json([
                     'status' => false,

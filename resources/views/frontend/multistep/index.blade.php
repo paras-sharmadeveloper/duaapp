@@ -29,7 +29,7 @@
 
                     </div>
                 </div>
-                    @if (empty($locale))
+                    @if(empty($locale))
                        @include('frontend.multistep.inc.lang')
                     @else
                     @include('frontend.multistep.inc.start')

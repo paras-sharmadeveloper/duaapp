@@ -1,5 +1,5 @@
 
-<div class="row justify-content-center" id="Lang-Section" style="display: none">
+<div class="row justify-content-center" id="Lang-Section" style="display: block">
     <h3 class="text-center">{{ trans('messages.select-lang-head') }}</h3>
 
     <div class="col-lg-12 col-md-12">
