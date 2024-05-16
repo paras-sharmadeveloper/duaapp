@@ -71,8 +71,9 @@
 
     </div>
     <div class="userImag">
+        <label> Token Session Image </label>
         @if($visitor->captured_user_image)
-        <img src="{{$visitor->captured_user_image}}" alt="" style="height: 200px; width:150px">
+           <img src="{{$visitor->captured_user_image}}" alt="" style="height: 150px; width:150px">
         @endif
     </div>
 </div>

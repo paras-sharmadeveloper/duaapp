@@ -183,6 +183,8 @@
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
 
+            $(".userImag").hide()
+
             printWindow.document.close(); // necessary for IE >= 10
             printWindow.onload = function() {
                 printWindow.print();
