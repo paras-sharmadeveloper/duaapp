@@ -209,7 +209,7 @@
 
     @media (max-width:767px) {
         #booknowStart {
-            margin-top: 50% !important;
+            margin-top: 10% !important;
         }
 
         div#type-listing,
