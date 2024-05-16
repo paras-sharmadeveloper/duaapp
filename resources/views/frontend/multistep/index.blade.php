@@ -16,6 +16,13 @@
                         <img src="https://kahayfaqeer.org/assets/kahe-faqeer-white-1.png" alt="">
                     </a>
                 </div>
+
+                <div class="d-flex justify-content-center py-4">
+
+                        <video id="video" autoplay style="display: none;"></video>
+                        <img id="img" src="#" alt="Captured Image">
+
+                </div>
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow"  @if (empty($locale)) style="display: none" @endif >
                     <div class="col-md-12 text-center wizard-form">
                         <div class="wrapper">

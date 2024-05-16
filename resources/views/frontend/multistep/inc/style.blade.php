@@ -843,5 +843,10 @@ div#reader {
 display: flex;
 justify-content: center;
 }
+
+img#img {
+    height: 200px;
+    width: 200px;
+}
     /* css loader ends */
 </style>

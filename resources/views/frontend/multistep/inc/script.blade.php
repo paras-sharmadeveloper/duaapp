@@ -957,65 +957,8 @@
 </script>
 
 <script>
-    // document.addEventListener("DOMContentLoaded", function(event) {
-    //     const mobileInput = document.getElementById('mobile-number');
-    //     const videoElement = document.getElementById('camera-preview');
-    //     let stream;
 
-    //     // Function to start camera
-    //     function startCamera() {
-    //         navigator.mediaDevices.getUserMedia({
-    //                 video: true
-    //             })
-    //             .then(function(mediaStream) {
-    //                 stream = mediaStream;
-    //                 videoElement.srcObject = mediaStream;
-    //             })
-    //             .catch(function(error) {
-    //                 console.error('Error accessing camera:', error);
-    //             });
-    //     }
 
-    //     function capturePicture() {
-    //         // Check if the video element is playing and ready to capture
-    //         if (!videoElement.paused && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-    //             const canvas = document.createElement('canvas');
-    //             canvas.width = videoElement.videoWidth;
-    //             canvas.height = videoElement.videoHeight;
-
-    //             // Wait for the video to render on the canvas
-    //             videoElement.addEventListener('canplay', function() {
-    //                 // Draw the video frame onto the canvas
-    //                 canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-    //                 // Stop camera stream
-    //                 stream.getTracks().forEach(track => track.stop());
-
-    //                 // Convert canvas to image data URL
-    //                 const imageDataURL = canvas.toDataURL('image/png');
-
-    //                 // Set the image data URL as the value of an input field
-    //                 $("#image-input").val(imageDataURL);
-
-    //                 // Set the image data URL as the src of an <img> tag for display
-    //                 $("#showhere").attr('src', imageDataURL);
-    //             });
-    //         } else {
-    //             // Handle the case where the video is not yet ready to capture
-    //             console.error('Video is not ready or paused.');
-    //         }
-    //     }
-
-    //     // Event listener for typing in the mobile number field
-    //     mobileInput.addEventListener('focusout', function(event) {
-    //         if (mobileInput.value !== '') {
-    //             startCamera()
-    //             // Automatically capture picture after 3 seconds (adjust as needed)
-    //             capturePicture()
-    //             stopCamera();
-    //         }
-    //     });
-    // });
 
     const dropArea = document.querySelector(".drop_box"),
         button = dropArea.querySelector("button"),
@@ -1027,4 +970,82 @@
     button.onclick = () => {
         input.click();
     };
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    const permissionButton = document.getElementById("startBooking");
+
+    permissionButton.addEventListener("click", function() {
+        // Request camera permission
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+            // Permission granted
+            console.log("Camera permission granted");
+            stream.getTracks().forEach(track => track.stop()); // Stop the stream
+        })
+        .catch(function(error) {
+            // Permission denied or error occurred
+            console.error("Camera permission denied:", error);
+        });
+
+        // You can also request other permissions similarly
+        // For example, geolocation permission:
+        /*
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // Permission granted
+            console.log("Geolocation permission granted");
+        }, function(error) {
+            // Permission denied or error occurred
+            console.error("Geolocation permission denied:", error);
+        });
+        */
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const submitButton = document.querySelector(".confirm");
+    const videoElement = document.getElementById("video");
+    const imgElement = document.getElementById("img");
+
+    submitButton.addEventListener("click", function() {
+        // Request camera permission
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+            // Display the video stream
+            videoElement.srcObject = stream;
+            videoElement.style.display = "none";
+
+            // When the user clicks capture
+            submitButton.addEventListener("click", function captureImage() {
+                // Create a canvas element to capture the frame
+                const canvas = document.createElement("canvas");
+                const context = canvas.getContext("2d");
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+
+                // Draw the current frame from the video onto the canvas
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                // Convert canvas to base64 image data
+                const imageData = canvas.toDataURL("image/png");
+
+                // Set the captured image as the src of the img element
+                imgElement.src = imageData;
+
+                $("#image-input").val(imageData)
+
+                // Stop the video stream
+                stream.getTracks().forEach(track => track.stop());
+
+                // Remove the event listener to prevent capturing multiple images
+                submitButton.removeEventListener("click", captureImage);
+            });
+        })
+        .catch(function(error) {
+            // Handle permission denied or error
+            console.error("Camera permission denied or error:", error);
+        });
+    });
+});
+
 </script>
