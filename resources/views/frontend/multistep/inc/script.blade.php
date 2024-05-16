@@ -1009,7 +1009,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     submitButton.addEventListener("click", function() {
         // Request camera permission
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+        // navigator.mediaDevices.getUserMedia({ video: true })
         .then(function(stream) {
             // Display the video stream
             videoElement.srcObject = stream;
