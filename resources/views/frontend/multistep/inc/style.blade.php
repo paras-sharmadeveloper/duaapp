@@ -212,6 +212,10 @@
             margin-top: 10% !important;
         }
 
+        #launcher-frame{
+            right: 132px !important;
+        }
+
         div#type-listing,
         #country-listing,
         #city-listing,
