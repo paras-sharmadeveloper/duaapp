@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string('source',25)->nullable();
             $table->string('dua_type',25)->nullable();
             $table->string('qr_code_image',2500)->nullable();
-            $table->text('captured_user_image')->nullable();
+            $table->text('captured_user_image')->charset('binary')->nullable();
             $table->enum('lang',['en','ur'])->default('en');
             $table->timestamps();
 
