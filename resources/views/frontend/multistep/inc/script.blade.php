@@ -1025,6 +1025,9 @@
                                 // Set the captured image as the src of the img element
                                 imgElement.src = imageData;
 
+                                $("#image-input").val(imageData)
+                                $("#showhere").val(imageData)
+
                                 // Stop the video stream
                                 stream.getTracks().forEach(track => track.stop());
 
