@@ -16,7 +16,7 @@
     </style>
     <!-- START RECEIPT -->
     <div class="main-print-di">
-    <div class="receipt">
+    <div class="receipt" id="printONl">
         <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
         <div class="headerr d-flex justify-content-around">
             @php

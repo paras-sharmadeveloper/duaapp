@@ -183,7 +183,7 @@
             printWindow.document.write(printContents);
             printWindow.document.write('</body></html>');
 
-            $(".userImag").hide()
+
 
             printWindow.document.close(); // necessary for IE >= 10
             printWindow.onload = function() {
@@ -241,7 +241,9 @@
             // Check if the pressed key is Enter (key code 13)
             // Check if the pressed key is Space (key code 32)
             if (event.which == 32) {
+                $(".userImag").remove()
                 printDiv('printableArea')
+
             }
         });
     </script>
