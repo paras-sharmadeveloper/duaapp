@@ -175,6 +175,7 @@
         })
 
         function printDiv(divId) {
+            $(".userImag").remove()
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
