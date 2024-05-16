@@ -979,13 +979,8 @@
                         })
                         .then(function(permissionStatus) {
                             if (permissionStatus.state === 'granted') {
-                                console.log("ad",permissionStatus.state)
-                                // Camera permission is already granted
                                 startCamerDa();
                             } else {
-                                alert("requ", permissionStatus.state)
-                                console.log("ad",permissionStatus.state)
-                                // Camera permission is not granted, request it
                                 requestCameraPermission();
                             }
                         });
