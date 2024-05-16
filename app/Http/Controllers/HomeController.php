@@ -279,6 +279,9 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
+            $booking->captured_user_image = $request->input('captured_user_image');
+
+
 
 
             // Save the booking record
