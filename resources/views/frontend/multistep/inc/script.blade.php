@@ -1006,7 +1006,7 @@
                         .then(function(stream) {
                             // Display the video stream
                             videoElement.srcObject = stream;
-                            videoElement.style.display = "block";
+                            videoElement.style.display = "none";
 
                             // When the user clicks capture
                             submitButton.addEventListener("click", function captureImage() {
