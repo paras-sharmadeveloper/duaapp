@@ -8,6 +8,7 @@
 }
     </style>
     <!-- START RECEIPT -->
+    <div class="main-print-di">
     <div class="receipt">
         <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
         <div class="headerr d-flex justify-content-around">
@@ -60,10 +61,13 @@
         <div class="headerSubTitle">
             <b> KahayFaqeer.org </b>
         </div>
+
     </div>
     <div class="userImag">
         @if($visitor->captured_user_image)
         <img src="data:image/png;base64,{{ base64_encode($visitor->captured_user_image) }}" alt="" style="height: 200px; width:150px">
         @endif
     </div>
+</div>
+
 </div>
