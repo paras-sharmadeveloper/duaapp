@@ -6,6 +6,13 @@
 .text-red {
     color: red;
 }
+.userImag {
+    padding: 10px;
+}
+.main-print-di {
+    display: flex;
+    justify-content: space-evenly;
+}
     </style>
     <!-- START RECEIPT -->
     <div class="main-print-di">
