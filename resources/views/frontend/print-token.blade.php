@@ -63,7 +63,7 @@
     </div>
     <div class="userImag">
         @if($visitor->captured_user_image)
-        <img src="{{ base64_encode($visitor->captured_user_image) }}" alt="" style="height: 200px; width:150px">
+        <img src="data:image/png;base64,{{ base64_encode($visitor->captured_user_image) }}" alt="" style="height: 200px; width:150px">
         @endif
     </div>
 </div>
