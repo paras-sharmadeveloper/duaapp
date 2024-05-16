@@ -24,11 +24,6 @@
 
                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                 <input type="hidden" name="captured_user_image" id="image-input" value="">
-                <img src="" id="showhere" width="200px" height="200px">
-
-
-
-
                 <div class="row g-3 mb-0">
                     <div class="col col-lg-6  col-md-6" id="countryCodeDiv">
                         <label class="mb-2"> {{ trans('messages.country-label') }}</label>
@@ -93,7 +88,6 @@
 
                     </div>
                 </div>
-                <video id="camera-preview" autoplay style="display: none"></video>
 
 
 

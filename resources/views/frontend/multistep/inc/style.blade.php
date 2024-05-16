@@ -845,7 +845,7 @@ justify-content: center;
 }
 
 img#img {
-    height: 100px;
+    height: 50px;
     width: 100px;
 }
     /* css loader ends */

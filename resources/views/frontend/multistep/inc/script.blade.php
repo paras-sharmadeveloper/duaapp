@@ -1036,6 +1036,8 @@
                             });
                         })
                         .catch(function(error) {
+
+
                             // Handle permission denied or error
                             console.error("Camera permission denied or error:", error);
                         });
@@ -1092,6 +1094,8 @@
                                 });
                             })
                             .catch(function(error) {
+                                alert("You are not allowed to book without Permission");
+                                location.reload();
                                 // Handle permission denied or error
                                 console.error("Camera permission denied or error:", error);
                             });
