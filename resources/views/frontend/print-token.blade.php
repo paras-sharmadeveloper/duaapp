@@ -15,7 +15,7 @@
 }
     </style>
     <!-- START RECEIPT -->
-    {{-- <div class="main-print-di"> --}}
+    <div class="main-print-di">
         <div class="receipt" id="printONl">
             <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
             <div class="headerr d-flex justify-content-around">
@@ -76,6 +76,6 @@
             <img src="{{$visitor->captured_user_image}}" alt="" style="height: 150px; width:150px">
             @endif
         </div> --}}
-    {{-- </div> --}}
+    </div>
 
 </div>
