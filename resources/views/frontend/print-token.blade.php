@@ -15,67 +15,67 @@
 }
     </style>
     <!-- START RECEIPT -->
-    <div class="main-print-di">
-    <div class="receipt" id="printONl">
-        <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
-        <div class="headerr d-flex justify-content-around">
-            @php
-                $bookstatus = route('booking.status',[$visitor->booking_uniqueid]);
-            @endphp
+    {{-- <div class="main-print-di"> --}}
+        <div class="receipt" id="printONl">
+            <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+            <div class="headerr d-flex justify-content-around">
+                @php
+                    $bookstatus = route('booking.status',[$visitor->booking_uniqueid]);
+                @endphp
 
-            <div class="qr">
-                {!! QrCode::size(90)->generate( $bookstatus  ) !!}
+                <div class="qr">
+                    {!! QrCode::size(90)->generate( $bookstatus  ) !!}
+                </div>
+                <div class="logod">
+                    <img style="height: 60px !important; width:60px !important" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+                </div>
+                <div class="qr">
+                    {!! QrCode::size(90)->generate( $bookstatus  ) !!}
+                </div>
+
             </div>
-            <div class="logod">
-                <img style="height: 60px !important; width:60px !important" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+            {{-- <div class="orderNo">
+                Token ID# <span id="Order #">71</span>: <span id="Order Name">Dua</span>
+            </div> --}}
+            <div class="headerSubTitle mt-3">
+                <p>
+                    <b class="{{ date('Y-m-d', strtotime($visitor->slot->venueAddress->venue_date)) == date('Y-m-d') ? 'text-green' : 'text-red' }}">
+                        Date: {{ date('l d M Y', strtotime($visitor->slot->venueAddress->venue_date)) }}
+                    </b>
+                </p>
+            {{-- <p> <b>Date : {{ date('l d M Y',strtotime($visitor->slot->venueAddress->venue_date)) }} </b> </p> --}}
+            <span> Venue : {{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
             </div>
-            <div class="qr">
-                {!! QrCode::size(90)->generate( $bookstatus  ) !!}
+
+
+            <div id="token">
+                {{ ucwords($visitor->slot->type)  }} Token # {{ $visitor->slot->token_id }}
+            </div>
+
+            <div id="date">
+                {{ $visitor->country_code }} {{ $visitor->phone }}
+            </div>
+            <div id="location">
+                TOKEN VERIFIED <span class="checkmark"></span>
+            </div>
+            <svg id="barcode"></svg>
+
+            <hr>
+
+            <div id="readAll">
+            Read / listen all books for free
+            </div>
+            <div class="headerSubTitle">
+                <b> KahayFaqeer.org </b>
             </div>
 
         </div>
-        {{-- <div class="orderNo">
-            Token ID# <span id="Order #">71</span>: <span id="Order Name">Dua</span>
+        {{-- <div class="userImag">
+            <label> Token Session Image </label>
+            @if($visitor->captured_user_image)
+            <img src="{{$visitor->captured_user_image}}" alt="" style="height: 150px; width:150px">
+            @endif
         </div> --}}
-        <div class="headerSubTitle mt-3">
-            <p>
-                <b class="{{ date('Y-m-d', strtotime($visitor->slot->venueAddress->venue_date)) == date('Y-m-d') ? 'text-green' : 'text-red' }}">
-                    Date: {{ date('l d M Y', strtotime($visitor->slot->venueAddress->venue_date)) }}
-                </b>
-            </p>
-           {{-- <p> <b>Date : {{ date('l d M Y',strtotime($visitor->slot->venueAddress->venue_date)) }} </b> </p> --}}
-           <span> Venue : {{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
-        </div>
-
-
-        <div id="token">
-            {{ ucwords($visitor->slot->type)  }} Token # {{ $visitor->slot->token_id }}
-        </div>
-
-        <div id="date">
-            {{ $visitor->country_code }} {{ $visitor->phone }}
-        </div>
-        <div id="location">
-            TOKEN VERIFIED <span class="checkmark"></span>
-        </div>
-        <svg id="barcode"></svg>
-
-        <hr>
-
-        <div id="readAll">
-           Read / listen all books for free
-        </div>
-        <div class="headerSubTitle">
-            <b> KahayFaqeer.org </b>
-        </div>
-
-    </div>
-    <div class="userImag">
-        <label> Token Session Image </label>
-        @if($visitor->captured_user_image)
-           <img src="{{$visitor->captured_user_image}}" alt="" style="height: 150px; width:150px">
-        @endif
-    </div>
-</div>
+    {{-- </div> --}}
 
 </div>
