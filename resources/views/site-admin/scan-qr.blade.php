@@ -175,7 +175,7 @@
         })
 
         function printDiv(divId) {
-            $(".userImag").remove()
+            $(".userImag").hide()
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
