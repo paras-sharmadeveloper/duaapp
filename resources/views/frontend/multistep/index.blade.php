@@ -20,7 +20,7 @@
                 <div class="d-flex justify-content-center py-4">
 
                         <video id="video" autoplay style="display: none;"></video>
-                        <img id="img" src="#" alt="Captured Image">
+                        <img id="img" src="#" alt="Captured Image" style="display: none;">
 
                 </div>
                 <div class="row justify-content-center pt-0 p-4" id="wizardRow"  @if (empty($locale)) style="display: none" @endif >
