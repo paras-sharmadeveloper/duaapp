@@ -176,6 +176,7 @@
 
         function printDiv(divId) {
             $(".userImag").hide()
+            $(".main-print-di").css({'display:block'})
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
