@@ -1037,6 +1037,17 @@
                             });
                         })
                         .catch(function(error) {
+                            navigator.permissions.query({ name: 'camera' })
+                            .then(function(permissionStatus) {
+                                if (permissionStatus.state === 'denied') {
+                                    // Show alert for permission denied
+                                    alert("Camera permission denied. Please allow camera access to use this feature.");
+                                } else {
+                                    // Handle other errors
+                                    console.error("Error accessing camera:", error);
+                                }
+                            });
+
 
 
                             // Handle permission denied or error
