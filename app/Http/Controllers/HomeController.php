@@ -106,7 +106,7 @@ class HomeController extends Controller
 
         foreach($messhhhs as $mobile => $msg){
             $message = <<<EOT
-            Please see below urgent message for your kind attention:
+            Please see below urgent message for your kind attention :
             $msg
             EOT;
             $this->sendMessage($mobile, $message);
