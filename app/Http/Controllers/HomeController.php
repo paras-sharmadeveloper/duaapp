@@ -1280,7 +1280,8 @@ class HomeController extends Controller
             'dua_option' => 'required',
             'venueDate' => 'required'
         ]);
-        $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])->whereDate('created_at', $request->input('venueDate'))->get();
+        $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])->whereDate('created_at', $request->input('venueDate'))
+        ->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
         return response()->json(['success' => (!$visitors->IsEmpty()) ? true : false, 'data' => $visitors], 200);
     }
 
