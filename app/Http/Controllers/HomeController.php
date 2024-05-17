@@ -96,8 +96,8 @@ class HomeController extends Controller
             $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
             $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
             $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
-
-            $mobile = $phone; // Using the phone number from the array
+            $mobile =  $visitor->country_code .  $visitor->phone;
+            // $mobile = $phone; // Using the phone number from the array
             $message = <<<EOT
                 Please see below urgent message for your kind attention:
                 $dataMessage
