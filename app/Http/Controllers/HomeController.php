@@ -40,7 +40,7 @@ class HomeController extends Controller
 
                 // $visitor = Vistors::where(['id' => $id])->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code'])->first();
 
-                return $visitor = Vistors::find($id,['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+                  $visitor = Vistors::find($id,['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
                 // return response()->json(['success' => true, 'message' => $visitors]);
 
                     $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
