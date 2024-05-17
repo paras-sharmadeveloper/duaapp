@@ -89,17 +89,19 @@ class HomeController extends Controller
 
        $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
         foreach($visitors as $visitor){
+            $currentMessage = $request->input('whatsAppMessage');
+
             $mobile =  $visitor->country_code .  $visitor->phone;
-            $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $request->input('whatsAppMessage'));
-            $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
-            $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
-            $dataMessage = str_replace('{mobile}', $mobile, $dataMessage);
-            $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
+            $currentMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
+            $currentMessage = str_replace('{dua_type}', $visitor->dua_type, $currentMessage);
+            $currentMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage);
+            $currentMessage = str_replace('{mobile}', $mobile, $currentMessage);
+            $currentMessage = str_replace('{id}', $visitor->id, $currentMessage);
 
 
             $message = <<<EOT
                 Please see below urgent message for your kind attention:
-                $dataMessage
+                $currentMessage
                 EOT;
 
             $response = $this->sendMessage($mobile, $message);
