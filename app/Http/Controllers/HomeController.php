@@ -26,7 +26,7 @@ class HomeController extends Controller
         //  $this->middleware('auth');
     }
 
-    public function WhatsAppNotifications(Request $request)
+    public function WhatsAppNotificationsDDD(Request $request)
     {
         if ($request->ajax()) {
             $request->validate([
@@ -71,6 +71,47 @@ class HomeController extends Controller
 
         return view('whatsappNotifications.index');
     }
+
+    public function WhatsAppNotifications(Request $request)
+{
+    if ($request->ajax()) {
+        $request->validate([
+            'whatsAppMessage' => 'required',
+            'user_mobile.*' => 'required'
+        ]);
+
+        $userMobile = $request->input('user_mobile');
+        $dataMessage = $request->input('whatsAppMessage');
+
+        foreach ($userMobile as $id => $phone) {
+            $visitor = Vistors::find($id, ['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+
+            if ($visitor) {
+                $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
+                $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
+                $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
+                $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
+                $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
+
+                $mobile = $phone; // Using the phone number from the array
+                $message = <<<EOT
+                    Please see below urgent message for your kind attention:
+                    $dataMessage
+                    EOT;
+                $response = $this->sendMessage($mobile, $message);
+
+                // Assuming sendMessage returns something useful for response
+            } else {
+                // Handle case where visitor with given ID is not found
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => $response]);
+    }
+
+    return view('whatsappNotifications.index');
+}
+
 
     public function StatusLcdScreen(Request $request)
     {
