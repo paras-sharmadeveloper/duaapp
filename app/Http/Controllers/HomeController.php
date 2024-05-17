@@ -87,11 +87,9 @@ class HomeController extends Controller
             $userId[] = $id;
         }
 
-       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+    return   $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
         foreach($visitors as $visitor){
             $mobile =  $visitor->country_code .  $visitor->phone;
-
-
             $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
             $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
             $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
