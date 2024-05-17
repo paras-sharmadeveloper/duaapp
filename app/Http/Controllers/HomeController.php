@@ -88,25 +88,25 @@ class HomeController extends Controller
         }
 
        $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
-       $currentMessage = $request->input('whatsAppMessage');
+
         foreach($visitors as $visitor){
 
-
+            $currentMessage = $request->input('whatsAppMessage');
             $mobile =  $visitor->country_code .  $visitor->phone;
-            $currentMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
-            $currentMessage = str_replace('{dua_type}', $visitor->dua_type, $currentMessage);
-            $currentMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage);
-            $currentMessage = str_replace('{mobile}', $mobile, $currentMessage);
-            $currentMessage = str_replace('{id}', $visitor->id, $currentMessage);
+            $currentMessage0 = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
+            $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
+            $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
+            $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
+            $finalMessage = str_replace('{id}', $visitor->id, $currentMessage3);
 
 
             $message = <<<EOT
                 Please see below urgent message for your kind attention:
-                $currentMessage
+                $finalMessage
                 EOT;
 
             $response = $this->sendMessage($mobile, $message);
-            $currentMessage = '';
+
         }
 
         return response()->json(['success' => true, 'message' => $response]);
