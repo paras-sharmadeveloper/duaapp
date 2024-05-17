@@ -106,6 +106,7 @@ class HomeController extends Controller
                 EOT;
 
             $response = $this->sendMessage($mobile, $message);
+            $currentMessage = '';
         }
 
         return response()->json(['success' => true, 'message' => $response]);
