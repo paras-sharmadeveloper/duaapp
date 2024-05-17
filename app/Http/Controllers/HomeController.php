@@ -98,13 +98,14 @@ class HomeController extends Controller
                     Please see below urgent message for your kind attention:
                     $dataMessage
                     EOT;
-                $dataMessage = '';
+
                 $response = $this->sendMessage($mobile, $message);
 
                 // Assuming sendMessage returns something useful for response
             } else {
                 // Handle case where visitor with given ID is not found
             }
+            $message = '';
         }
 
         return response()->json(['success' => true, 'message' => $response]);
