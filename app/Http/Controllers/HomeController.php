@@ -88,8 +88,9 @@ class HomeController extends Controller
         }
 
        $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+       $currentMessage = $request->input('whatsAppMessage');
         foreach($visitors as $visitor){
-            $currentMessage = $request->input('whatsAppMessage');
+
 
             $mobile =  $visitor->country_code .  $visitor->phone;
             $currentMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
