@@ -98,6 +98,7 @@ class HomeController extends Controller
                     Please see below urgent message for your kind attention:
                     $dataMessage
                     EOT;
+                $dataMessage = '';
                 $response = $this->sendMessage($mobile, $message);
 
                 // Assuming sendMessage returns something useful for response
