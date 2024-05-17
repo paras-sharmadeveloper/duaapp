@@ -99,21 +99,19 @@ class HomeController extends Controller
             $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
             $finalMessage    = str_replace('{id}', $visitor->id, $currentMessage3);
 
-            $messhhhs[$mobile] =  $finalMessage;
-
-
-        }
-
-        foreach($messhhhs as $mobile => $msg){
             $message = <<<EOT
             Please see below urgent message for your kind attention :
-            $msg
+            $finalMessage
             EOT;
+
             $this->sendMessage($mobile, $message);
+
         }
 
 
-        return response()->json(['success' => true, 'message' => $messhhhs]);
+
+
+        return response()->json(['success' => true]);
     }
 
     return view('whatsappNotifications.index');
