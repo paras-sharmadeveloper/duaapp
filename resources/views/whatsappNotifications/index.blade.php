@@ -222,9 +222,9 @@
                 success: function(response) {
                     $("#err").empty()
 
-                    alert("Message Send")
+                   // alert("Message Send")
                     $("#sendNotification").text('Send Notification')
-                    location.reload();
+                    //location.reload();
                     // Handle success response after form submission
                 },
                 error: function(xhr) {
