@@ -82,30 +82,26 @@ class HomeController extends Controller
 
         $userMobile = $request->input('user_mobile');
         $dataMessage = $request->input('whatsAppMessage');
-
+        $userId = [];
         foreach ($userMobile as $id => $phone) {
+            $userId[] = $id;
+        }
+
+        foreach($userId as $id){
             $visitor = Vistors::find($id, ['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+            $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
+            $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
+            $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
+            $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
+            $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
 
-            if ($visitor) {
-                $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
-                $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
-                $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
-                $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
-                $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
+            $mobile = $phone; // Using the phone number from the array
+            $message = <<<EOT
+                Please see below urgent message for your kind attention:
+                $dataMessage
+                EOT;
 
-                $mobile = $phone; // Using the phone number from the array
-                $message = <<<EOT
-                    Please see below urgent message for your kind attention:
-                    $dataMessage
-                    EOT;
-
-                $response = $this->sendMessage($mobile, $message);
-
-                // Assuming sendMessage returns something useful for response
-            } else {
-                // Handle case where visitor with given ID is not found
-            }
-            $message = '';
+            $response = $this->sendMessage($mobile, $message);
         }
 
         return response()->json(['success' => true, 'message' => $response]);
