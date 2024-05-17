@@ -109,11 +109,11 @@ class HomeController extends Controller
             Please see below urgent message for your kind attention:
             $msg
             EOT;
-            $response = $this->sendMessage($mobile, $message);
+            $this->sendMessage($mobile, $message);
         }
 
 
-        return response()->json(['success' => true, 'message' => $response]);
+        return response()->json(['success' => true, 'message' => $messhhhs]);
     }
 
     return view('whatsappNotifications.index');
