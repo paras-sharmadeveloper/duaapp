@@ -89,9 +89,6 @@ class HomeController extends Controller
 
        $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
         foreach($visitors as $visitor){
-
-            $visitor = Vistors::find($id, ['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
-
             $mobile =  $visitor->country_code .  $visitor->phone;
 
 
