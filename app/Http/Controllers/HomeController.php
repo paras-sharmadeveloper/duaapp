@@ -38,7 +38,7 @@ class HomeController extends Controller
 
             foreach ($userMobile as $id => $phone) {
 
-                $visitor = Vistors::where('id', $id)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+                $visitor = Vistors::where('id', $id)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code'])->first();
                 // return response()->json(['success' => true, 'message' => $visitors]);
 
                     $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
