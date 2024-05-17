@@ -25,6 +25,7 @@ class WhatsAppController extends Controller
 
     public function handleWebhook(Request $request)
     {
+        return false;
 
         Log::info('landed' . $this->countryId->id);
         $body = $request->all();
