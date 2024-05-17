@@ -88,16 +88,18 @@ class HomeController extends Controller
         }
 
        $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
-
+        $messhhhs = [];
         foreach($visitors as $visitor){
 
-            $currentMessage = $request->input('whatsAppMessage');
-            $mobile =  $visitor->country_code .  $visitor->phone;
+            $currentMessage  = $request->input('whatsAppMessage');
+            $mobile          =  $visitor->country_code .  $visitor->phone;
             $currentMessage0 = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
             $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
             $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
             $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
-            $finalMessage = str_replace('{id}', $visitor->id, $currentMessage3);
+            $finalMessage    = str_replace('{id}', $visitor->id, $currentMessage3);
+
+            $messhhhs[] =  $finalMessage;
 
 
             $message = <<<EOT
@@ -105,11 +107,11 @@ class HomeController extends Controller
                 $finalMessage
                 EOT;
 
-            $response = $this->sendMessage($mobile, $message);
+            // $response = $this->sendMessage($mobile, $message);
 
         }
 
-        return response()->json(['success' => true, 'message' => $response]);
+        return response()->json(['success' => true, 'message' => $messhhhs]);
     }
 
     return view('whatsappNotifications.index');
