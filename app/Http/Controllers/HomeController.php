@@ -92,7 +92,7 @@ class HomeController extends Controller
 
         }
 
-       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','booking_number']);
+       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','booking_number','slot_id']);
         $messhhhs = [];
         foreach($visitors as $visitor){
 
