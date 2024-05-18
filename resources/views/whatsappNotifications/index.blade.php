@@ -174,19 +174,20 @@
             var nt  ='';
             if(isChecked){
             nt = `Asalamualaikum,
-        Please see below confirmation for your dua token.
+Please see below confirmation for your dua token.
 
-        Your Dua Ghar : {city}
-        Your Dua Date : {date}
-        Your Online Dua Token : {token_url}
-        Your Token Number : {token_number}
-        Your Dua Type : {dua_type}
-        Your registered mobile: {mobile}
+Your Dua Ghar : {city}
+Your Dua Date : {date}
+Your Online Dua Token : {token_url}
+Your Token Number : {token_number}
+Your Dua Type : {dua_type}
+Your registered mobile: {mobile}
 
-        Please reach by 1pm to validate and print your token.
+Please reach by 1pm to validate and print your token.
 
-        Read and listen all books for free. Please visit KahayFaqeer.org`;
-            }
+Read and listen all books for free. Please visit KahayFaqeer.org`;
+
+    }
 
 
                 $("#whatsAppMessage").val(nt)
