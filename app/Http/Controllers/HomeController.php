@@ -92,7 +92,7 @@ class HomeController extends Controller
 
         }
 
-       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','slot_id']);
+       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','booking_number']);
         $messhhhs = [];
         foreach($visitors as $visitor){
 
@@ -105,7 +105,7 @@ class HomeController extends Controller
             $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
             $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
             $currentMessage4 = str_replace('{city}', $vennueAdd->city, $currentMessage3);
-            $finalMessage    = str_replace('{token_number}', $visitor->slot_ud, $currentMessage4);
+            $finalMessage    = str_replace('{token_number}', $visitor->booking_number, $currentMessage4);
 
             if(isset($token_template)){
             $message = <<<EOT
