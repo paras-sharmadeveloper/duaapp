@@ -129,10 +129,16 @@
                     </div>
 
                     <div class="col-md-5">
-                        <label for="reason_english" class="form-label">WhatsApp Message </label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input token_template" id="token_template" name="token_template">
+                            <label class="form-check-label" for="check1">Load Token Template</label>
+                          </div>
+                        <label for="reason_english" class="form-label">WhatsApp Message
+
+                        </label>
                         <div class="input-group">
 
-                            <textarea name="whatsAppMessage" class="form-control" cols="40" rows="12" placeholder="Write message here"></textarea>
+                            <textarea name="whatsAppMessage" id="whatsAppMessage" class="form-control" cols="40" rows="12" placeholder="Write message here"></textarea>
 
                         </div>
                     </div>
@@ -161,6 +167,30 @@
             placeholder: "Select country",
             allowClear: true
         });
+
+        $(".token_template").change(function(){
+            var isChecked = $(this).prop("checked");
+            console.log("token_template",isChecked)
+            var nt  ='';
+            if(isChecked){
+            nt = `Asalamualaikum,
+        Please see below confirmation for your dua token.
+
+        Your Dua Ghar : {city}
+        Your Dua Date : {date}
+        Your Online Dua Token : {token_url}
+        Your Token Number : {token_number}
+        Your Dua Type : {dua_type}
+        Your registered mobile: {mobile}
+
+        Please reach by 1pm to validate and print your token.
+
+        Read and listen all books for free. Please visit KahayFaqeer.org`;
+            }
+
+
+                $("#whatsAppMessage").val(nt)
+        })
 
         $("#getList").click(function() {
             var date = $("#pick_venue_date").val();

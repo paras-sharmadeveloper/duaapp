@@ -81,15 +81,22 @@ class HomeController extends Controller
         ]);
 
         $userMobile = $request->input('user_mobile');
+        $token_template = $request->input('token_template');
         $dataMessage ='';
         $userId = [];
         foreach ($userMobile as $id => $phone) {
             $userId[] = $id;
         }
 
-       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+        if(isset($token_template)){
+
+        }
+
+       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','slot_id']);
         $messhhhs = [];
         foreach($visitors as $visitor){
+
+            $vennueAdd = $visitor->slot->venueAddress;
 
             $currentMessage  = $request->input('whatsAppMessage');
             $mobile          =  $visitor->country_code .  $visitor->phone;
@@ -97,12 +104,19 @@ class HomeController extends Controller
             $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
             $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
             $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
-            $finalMessage    = str_replace('{id}', $visitor->id, $currentMessage3);
+            $currentMessage4 = str_replace('{city}', $vennueAdd->city, $currentMessage3);
+            $finalMessage    = str_replace('{token_number}', $visitor->slot_ud, $currentMessage4);
 
-            $message = <<<EOT
-            Please see below urgent message for your kind attention :
-            $finalMessage
-            EOT;
+            if(isset($token_template)){
+                $message = <<<EOT
+                $finalMessage
+                EOT;
+            }else{
+                $message = <<<EOT
+                Please see below urgent message for your kind attention :
+                $finalMessage
+                EOT;
+            }
 
             $this->sendMessage($mobile, $message);
 
