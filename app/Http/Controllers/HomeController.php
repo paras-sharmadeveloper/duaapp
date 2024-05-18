@@ -108,9 +108,9 @@ class HomeController extends Controller
             $finalMessage    = str_replace('{token_number}', $visitor->slot_ud, $currentMessage4);
 
             if(isset($token_template)){
-                $message = <<<EOT
-                $finalMessage
-                EOT;
+            $message = <<<EOT
+            $finalMessage
+            EOT;
             }else{
                 $message = <<<EOT
                 Please see below urgent message for your kind attention :

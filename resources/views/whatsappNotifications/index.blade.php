@@ -187,7 +187,7 @@ Please reach by 1pm to validate and print your token.
 
 Read and listen all books for free. Please visit KahayFaqeer.org`;
 
-    }
+          }
 
 
                 $("#whatsAppMessage").val(nt)
