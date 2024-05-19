@@ -17,8 +17,6 @@ class WhatsAppController extends Controller
     private $countryId;
     public function __construct($var = null)
     {
-
-
         $this->countryId = Venue::where(['iso' => 'PK'])->get()->first();
     }
 
@@ -31,6 +29,12 @@ class WhatsAppController extends Controller
         $waId = $body['WaId'];
         $Respond = $body['Body'];
         $existingCustomer = WhatsApp::where(['customer_number' =>  $userPhoneNumber])->whereDate('created_at', $today)->orderBy('created_at', 'desc')->first();
+
+        $data_sent_to_customer = json_decode($existingCustomer->data_sent_to_customer, true);
+            if (empty($data_sent_to_customer)) {
+                Log::info("data_sent_to_customer Log if one message delivered");
+                return false;
+            }
 
         if (empty($existingCustomer)) {
             $msh= 'Dua / Dum tokens can ONLY be booked on official website https://kahayfaqeer.org/dua via mobile on Monday 08:00 AM on first come first serve basis.
@@ -52,6 +56,8 @@ class WhatsAppController extends Controller
                 'response_options' => null
             ];
             WhatsApp::create($dataArr);
+        }else{
+            return false;
         }
 
 
