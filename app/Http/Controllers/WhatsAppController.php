@@ -41,7 +41,7 @@ class WhatsAppController extends Controller
 
             دعا / دم ٹوکن صرف آفیشل ویب سائیٹ سے بزریعہ موبائل سوموار صبح ۸ بجے لئیے جاسکتے ہیں پہلے آئیے پہلے پائیے کی بنیاد پر۔
             https://kahayfaqeer.org/dua';
-            $message = $this->WhatsAppbotMessages($msh, 9, $lang = '');
+            $message = $this->WhatsAppbotMessages($msh, 9,'eng');
             $this->sendMessage($userPhoneNumber, $message);
 
             $dataArr = [
