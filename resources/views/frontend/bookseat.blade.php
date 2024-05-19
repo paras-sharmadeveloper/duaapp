@@ -2256,51 +2256,5 @@
         }
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-        const mobileInput = document.getElementById('mobile-number');
-        const videoElement = document.getElementById('camera-preview');
-        let stream;
 
-        // Function to start camera
-        function startCamera() {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function(mediaStream) {
-                    stream = mediaStream;
-                    videoElement.srcObject = mediaStream;
-                })
-                .catch(function(error) {
-                    console.error('Error accessing camera:', error);
-                });
-        }
-
-        // Function to capture picture
-        function capturePicture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-            canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-            // Stop camera stream
-            stream.getTracks().forEach(track => track.stop());
-
-            // Convert canvas to image data URL
-            const imageDataURL = canvas.toDataURL('image/png');
-
-            $("#image-input").val(imageDataURL);
-
-            // Now you can do something with the imageDataURL, like send it to the server or display it
-            // console.log(imageDataURL);
-        }
-
-        // Event listener for typing in the mobile number field
-        mobileInput.addEventListener('input', function(event) {
-            if (mobileInput.value !== '') {
-                startCamera();
-                // Automatically capture picture after 3 seconds (adjust as needed)
-                setTimeout(capturePicture, 1000);
-            }
-        });
-    });
-</script>
 @endsection
