@@ -25,7 +25,55 @@ class WhatsAppController extends Controller
 
     public function handleWebhook(Request $request)
     {
+        $body = $request->all();
+        $today = Carbon::now();
+        $userPhoneNumber = $body['From'];
+        $waId = $body['WaId'];
+        $Respond = $body['Body'];
+        $msh= 'Dua / Dum tokens can ONLY be booked on official website https://kahayfaqeer.org/dua via mobile on Monday 08:00 AM on first come first serve basis.
+
+        دعا / دم ٹوکن صرف آفیشل ویب سائیٹ سے بزریعہ موبائل سوموار صبح ۸ بجے لئیے جاسکتے ہیں پہلے آئیے پہلے پائیے کی بنیاد پر۔
+        https://kahayfaqeer.org/dua';
+        $message = $this->WhatsAppbotMessages($msh, 9, $lang = '');
+        $this->sendMessage($userPhoneNumber, $message);
+
+        $dataArr = [
+            'lang' => 'en',
+            'dua_option' => [],
+            'customer_number' => $userPhoneNumber,
+            'customer_response' => $Respond,
+            'bot_reply' =>  $message,
+            'data_sent_to_customer' => json_encode([]),
+            'last_reply_time' => date('Y-m-d H:i:s'),
+            'steps' => 0,
+            'response_options' => null
+        ];
+        WhatsApp::create($dataArr);
+
+
+
+
         return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Log::info('landed' . $this->countryId->id);
         $body = $request->all();
