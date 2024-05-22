@@ -103,8 +103,8 @@ class HomeController extends Controller
             $currentMessage0 = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
             $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
             $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
-            $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
-            $currentMessage4 = str_replace('{city}', $vennueAdd->city, $currentMessage3);
+            $currentMessage3 = str_replace('{mobile}',$mobile, $currentMessage2);
+            $currentMessage4 = str_replace('{city}',$vennueAdd->city, $currentMessage3);
             $finalMessage    = str_replace('{token_number}', $visitor->booking_number, $currentMessage4);
 
             if(isset($token_template)){
@@ -292,11 +292,19 @@ class HomeController extends Controller
                 $source = "Website";
                 return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
             }
-            // }
 
-            //   if (!empty($isUsers) && $isUsers['status'] == false) {
-            //     return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
-            //   }
+
+            $captured_user_image = $request->input('captured_user_image');
+            if($captured_user_image){
+                $captured_user_image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                $isUsers = $this->IsRegistredAlready($captured_user_image);
+                if (!empty($isUsers) && $isUsers['status'] == false) {
+                        return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers, "status" => false], 406);
+                }
+            }
+
+
+
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
 
@@ -324,9 +332,7 @@ class HomeController extends Controller
             // Create a new Vistors record in the database
             $mobile = $countryCode . $validatedData['mobile'];
             $booking = new Vistors;
-            // $booking->fname = $validatedData['fname'];
-            //  $booking->lname = $validatedData['lname'];
-            // $booking->email = $request->input('email',null);
+
             $booking->country_code = '+' . $countryCode;
             $booking->phone = $validatedData['mobile'];
             $booking->user_question =  $request->input('user_question', null);
@@ -341,7 +347,7 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
-            $booking->captured_user_image = $request->input('captured_user_image');
+            // $booking->captured_user_image = $request->input('captured_user_image');
 
 
 
@@ -535,7 +541,7 @@ class HomeController extends Controller
 
                     return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
                 } else {
-                    return ['message' => 'You already Registered with us', 'status' => false];
+                    return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
                 return ['message' => $e->getMessage(), 'status' => false];
@@ -900,13 +906,24 @@ class HomeController extends Controller
         if ($type == 'get_city' || $type =='normal_person' || $type == 'working_lady') {
 
             $countryId = Venue::where(['iso' => 'PK'])->get()->first();
-            $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
+            if(empty($countryId)){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'There is no Venue in the system. Please try after some time',
+                    'message_ur' => 'سسٹم میں کوئی وینیو نہیں ہے۔ تھوڑی دیر بعد کوشش کریں۔',
+
+                ]);
+
+            }else{
+                $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
                 ->where(function ($query) use ($newDate) {
                     $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
                         ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
                 })
                 ->where('venue_date', '>=', now()->format('Y-m-d'))
                 ->get();
+            }
+
 
             if (empty($venuesListArr)) {
                 return response()->json([

@@ -41,34 +41,8 @@ class CreateVenuesSlots implements ShouldQueue
             $dumSlots = $venueAddress->dum_slots;
 
 
-
-            // if evening has set then
-
-
-            // if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
-
-            //     $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
-            //     $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
-
-            //     $currentTimeT = $startTimeevng;
-            //     $tokenId = 1;
-            //     while ($currentTimeT < $endTimeEvn) {
-            //         $slotTime = $currentTimeT->format('H:i');
-            //         VenueSloting::create([
-            //             'venue_address_id' => $this->venueId,
-            //             'slot_time' => $slotTime,
-            //             'token_id' => $tokenId,
-            //         ]);
-            //         $currentTimeT->addMinute($this->slotDuration);
-            //         $tokenId++;
-            //         // Move to the next minute
-            //     }
-
-            // }
-            // Create time slots
-            // if morning has set then
-            // $currentTime = $startTime;
-
+            $working_lady_dum = $venueAddress->working_lady_dum;
+            $working_lady_dua = $venueAddress->working_lady_dua;
 
             for($token=1; $token<=$duaSlots; $token++){
 
@@ -81,7 +55,6 @@ class CreateVenuesSlots implements ShouldQueue
 
             }
 
-
             for($token=1001; $token<=$dumSlots; $token++){
 
                 VenueSloting::create([
@@ -89,6 +62,26 @@ class CreateVenuesSlots implements ShouldQueue
                     'slot_time' => date("Y-m-d H:i:s"),
                     'token_id' => $token,
                     'type' => 'dum'
+                ]);
+            }
+
+            for($token=8001; $token<=$working_lady_dua; $token++){
+
+                VenueSloting::create([
+                    'venue_address_id' => $this->venueId,
+                    'slot_time' => date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'working_lady_dua'
+                ]);
+            }
+
+            for($token=1801; $token<=$working_lady_dum; $token++){
+
+                VenueSloting::create([
+                    'venue_address_id' => $this->venueId,
+                    'slot_time' => date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'working_lady_dum'
                 ]);
             }
 

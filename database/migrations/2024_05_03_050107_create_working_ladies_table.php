@@ -23,11 +23,7 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
             $table->text('why_consider_you_as_working_lady')->nullable();
-
-
-
             $table->enum('is_active',['active','inactive'])->default('inactive');
-
             $table->string('qr_id')->nullable();
             $table->timestamps();
         });

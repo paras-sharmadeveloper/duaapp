@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('venue_address_id'); // Foreign key to venue_addresses
             $table->time('slot_time');
             $table->string('token_id')->nullable();
-            $table->enum('type',['dua','dum','none'])->default('none');
+            $table->enum('type',['dua','dum','working_lady_dua','working_lady_dum','none'])->default('none');
             $table->timestamps();
             $table->foreign('venue_address_id')
                   ->references('id')
                   ->on('venue_addresses')->onDelete('cascade')->onUpdate('cascade');
-                  
+
         });
     }
 

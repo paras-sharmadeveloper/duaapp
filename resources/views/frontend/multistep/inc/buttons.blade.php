@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">Back</button>
+<button type="button" class="btn btn-info text-white float-start back mt-4 rounded-3">{{ trans('messages.back-btn') }}</button>
 
 
 <button type="button" class="btn text-white float-end next mt-4 rounded-3 bg-color-info confirm" data-buttonId = "{{$buttonId }}"

@@ -39,10 +39,10 @@ class WorkingLadyController extends Controller
         $workingLady = WorkingLady::findOrFail($id);
         if ($formType == 'active') {
             $message = 'form approved';
-            $workingLady->update(['is_active'  => $formType,'qr_id' => Str::uuid()]);;
+            $workingLady->update(['is_active'  => $formType,'qr_id' => Str::uuid(),'type' =>  $request->input('type')]);
         }else if($formType == 'inactive') {
             $message = 'form reject';
-            $workingLady->update(['is_active'  => $formType]);;
+            $workingLady->update(['is_active'  => $formType , 'type' =>  $request->input('type')]);;
         }
         return  redirect()->back()->with('success', $message);
 
@@ -69,7 +69,7 @@ class WorkingLadyController extends Controller
 
         $id = $request->input('id');
         $workingLady = WorkingLady::where(['qr_id' => $id])->get()->first();
-        if($workingLady['is_active'] == 'active'){
+        if(!empty($workingLady) && $workingLady['is_active'] == 'active'){
             return response()->json(['message' => 'ok','status' => true, 'data' => $workingLady  ], 200);
         }else{
             return response()->json(['message' => 'This Qr code is not Approved by Admin Or not active','status' => false  ], 200);

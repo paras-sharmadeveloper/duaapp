@@ -110,6 +110,7 @@ class VenueController extends Controller
         $IsRecuureing = $request->input('is_recurring');
         $duaSlots = $request->input('dua_slots');
         $dumSlots = $request->input('dum_slots');
+
         $recuureingTill = $request->input('recurring_till',0);
         $rejoin_venue_after = $request->input('rejoin_venue_after',0);
         $venue_available_country = json_encode($request->input('venue_available_country',0));
@@ -154,6 +155,8 @@ class VenueController extends Controller
             'venue_available_country' => $venue_available_country,
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
+            'working_lady_dua' => $request->input('working_lady_dua'),
+            'working_lady_dum' => $request->input('working_lady_dum'),
             'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
@@ -298,6 +301,8 @@ class VenueController extends Controller
 
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
+            'working_lady_dua' => $request->input('working_lady_dua'),
+            'working_lady_dum' => $request->input('working_lady_dum'),
             'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];

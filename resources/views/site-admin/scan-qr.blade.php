@@ -16,7 +16,7 @@
             text-align: center;
             display: flex;
             justify-content: center;
-            height: 300px;
+            height: 350px;
             overflow: auto;
         }
 
@@ -26,7 +26,7 @@
 
         .modal-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
 
         .alert {
@@ -34,7 +34,17 @@
             text-align: left;
 
         }
+
     </style>
+
+@if(request()->get('showUserImage') != 'true')
+
+<style>
+    .userImag{
+        display: none;
+    }
+    </style>
+@endif
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -59,16 +69,14 @@
     </div>
 
 
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
+    <div class="modal fade bd-example-modal-lg" id="myModal">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <div class="alert alert-danger mt-3" id="invaild-token" style="display: none"></div>
-                    <div class="alert alert-success mt-3" id="vaild-token" style="display: none"></div>
-                    <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
+                    <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
+                    <div class="alert alert-success" id="vaild-token" style="display: none"></div>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body" id="model-body">
@@ -192,23 +200,6 @@
             $('#myModal').modal('hide');
             html5QrcodeScanner.resume();
         }
-
-        // document.addEventListener('keydown', function(event) {
-        //     html5QrcodeScanner.pause();
-        //     html5QrcodeScanner.resume();
-        //     // Check if the Enter key was pressed
-        //     if (event.key === 'Enter') {
-        //         printDiv('printableArea')
-        //         // Check if the Ctrl key is also being held down
-        //         if (event.ctrlKey) {
-        //             // Trigger the desired command (e.g., Ctrl + P)
-
-        //             // Prevent the default behavior of the Enter key (e.g., form submission)
-        //             event.preventDefault();
-        //         }
-        //     }
-        // });
-
 
         document.addEventListener('DOMContentLoaded', function() {
 

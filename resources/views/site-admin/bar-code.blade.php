@@ -16,7 +16,7 @@
             text-align: center;
             display: flex;
             justify-content: center;
-            height: 300px;
+            height: 350px;
             overflow: auto;
         }
 
@@ -42,16 +42,14 @@
         </div>
     </div>
 
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
+    <div class="modal fade bd-example-modal-lg" id="myModal">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <div class="alert alert-danger mt-3" id="invaild-token" style="display: none"></div>
-                    <div class="alert alert-success mt-3" id="vaild-token" style="display: none"></div>
-                    {{-- <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button> --}}
+                    <div class="alert alert-danger" id="invaild-token" style="display: none"></div>
+                    <div class="alert alert-success" id="vaild-token" style="display: none"></div>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body" id="model-body">
@@ -60,7 +58,7 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="close btn btn-warning">Close</button>
-                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark ">Print </button>
+                    <button type="button" onclick="printDiv('printableArea')" class="btn btn-dark printDiv">Print </button>
                 </div>
 
             </div>

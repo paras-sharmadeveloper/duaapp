@@ -21,6 +21,7 @@
                     </div>
 
                 </div>
+                <p id="cadr-1r" class="error"></p>
 
             </div>
             @include('frontend.multistep.inc.buttons', ['buttonId' => 'qr_section'])

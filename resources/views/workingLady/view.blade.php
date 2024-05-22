@@ -253,25 +253,36 @@
                         <div class="col-md-8 col-lg-9">
 
                             @if ($data->is_active == 'inactive')
-                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                            <form  >
+                            </form>
+
+                                <form  action="{{ route('working.lady.approve', $data->id) }}" method="POST" id="form-approve">
                                     @csrf
-                                    <input type="hidden" value="active" name="formType">
-                                    <button type="submit" class="btn btn-success">Approve</button>
-                                </form>
-                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="inactive" name="formType">
-                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                    <select class="form-control  mb-3" name="type">
+                                        <option @if($data->type == 'critical') selected @endif value="critical"> Critical </option>
+                                        <option  @if($data->type == 'normal') selected @endif value="normal" > Normal </option>
+                                    </select>
+                                    <input type="hidden" value="" id="formType" name="formType">
+                                    <button type="button" class="btn btn-success approve">Approve</button>
+                                    <button type="button" class="btn btn-danger disapprove">Reject</button>
                                 </form>
                             @else
-                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST">
+                            <form  >
+                            </form>
+                                <form action="{{ route('working.lady.approve', $data->id) }}" method="POST" id="form-approve">
                                     @csrf
-                                    <input type="hidden" value="inactive" name="formType">
-                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                    <select class="form-control mb-3" name="type">
+                                        <option  @if($data->type == 'critical') selected @endif value="critical"> Critical </option>
+                                        <option  @if($data->type == 'normal') selected @endif value="normal" > Normal </option>
+                                    </select>
+                                    <input type="hidden" value="inactive" id="formType" name="formType">
+                                    <button type="button" class="btn btn-danger disapprove">Reject</button>
                                 </form>
                             @endif
                         </div>
                     </div>
+
+
 
 
             </div>
@@ -280,5 +291,16 @@
 @endsection
 
 @section('page-script')
+
+<script>
+    $(".disapprove").click(function(){
+        $("#formType").val('inactive')
+        $("#form-approve").submit();
+    })
+    $(".approve").click(function(){
+        $("#formType").val('active')
+        $("#form-approve").submit();
+    })
+</script>
 
 @endsection

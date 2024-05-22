@@ -119,8 +119,9 @@
                             <span class="input-group-text">City </span>
                             <select name="city" class="form-control">
                                 <option name="Lahore" @if (!empty($venueAddress) && $venueAddress->city == 'Lahore') selected @endif>Lahore </option>
-                                <option name="Islamabad"  @if (!empty($venueAddress) && $venueAddress->city == 'Islamabad') selected @endif >Islamabad</option>
-                                <option name="Karachi"@if (!empty($venueAddress) && $venueAddress->city == 'Karachi') selected @endif >Karachi</option>
+                                <option name="Islamabad" @if (!empty($venueAddress) && $venueAddress->city == 'Islamabad') selected @endif>Islamabad
+                                </option>
+                                <option name="Karachi"@if (!empty($venueAddress) && $venueAddress->city == 'Karachi') selected @endif>Karachi</option>
                             </select>
                             {{-- {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!} --}}
 
@@ -132,9 +133,8 @@
                         <div class="input-group">
                             <span class="input-group-text">Date Start </span>
                             <input type="datetime-local"
-                             value="{{ (!empty($venueAddress)) ? $venueAddress->venue_date : '' }}"
-                             class="form-control" placeholder="Date Time"
-                             min="{{ date('Y-m-d') }}" name="venue_date">
+                                value="{{ !empty($venueAddress) ? $venueAddress->venue_date : '' }}" class="form-control"
+                                placeholder="Date Time" min="{{ date('Y-m-d') }}" name="venue_date">
                         </div>
                     </div>
 
@@ -142,16 +142,16 @@
                         <div class="input-group">
                             <span class="input-group-text">End Time For Booking</span>
                             <input type="datetime-local"
-                             value="{{ (!empty($venueAddress)) ? $venueAddress->venue_date_end : '' }}"
-                             class="form-control" placeholder="Date Time"
-                             min="{{ date('Y-m-d') }}" name="venue_date_end">
+                                value="{{ !empty($venueAddress) ? $venueAddress->venue_date_end : '' }}"
+                                class="form-control" placeholder="Date Time" min="{{ date('Y-m-d') }}"
+                                name="venue_date_end">
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3">
 
                     <div class="col-md-6">
-                    <label>Venue Addresses (English)</label>
+                        <label>Venue Addresses (English)</label>
 
                         <div class="input-group">
 
@@ -168,7 +168,7 @@
                     </div>
 
                     <div class="col-md-6 ">
-                     <label>Venue Addresses (Urdu)</label>
+                        <label>Venue Addresses (Urdu)</label>
                         <div class="input-group">
 
                             {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
@@ -208,19 +208,15 @@
                     <div class="col-md-6 mt-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="switch-dua"
-                            @if(!empty($venueAddress) && $venueAddress->reject_dua_id ==null )
-                                checked
-                            @endif
-
-                            name="swtich_dua" />
-                            <label class="form-check-label" for="swtich-dua">Dua </label>
+                                @if (!empty($venueAddress) && $venueAddress->reject_dua_id == null) checked @endif name="swtich_dua" />
+                            <label class="form-check-label" for="swtich-dua">Dua (From 1 - 800)</label>
 
                             <div class="dua-token">
                                 {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
                                     'class' => 'form-control dua_slots',
                                     'placeholder' => 'Dua Slots',
                                     'min' => 1,
-                                    'max' => 1000
+                                    'max' => 800,
                                 ]) !!}
                             </div>
 
@@ -229,14 +225,10 @@
 
                                 <select class="form-control" name="reject_dua_id">
                                     <option value="">Select Reason</option>
-                                    @foreach ($reasons as $reason )
-                                    <option value="{{ $reason->id }}"
-
-                                        @if(!empty($venueAddress) && $venueAddress->reject_dua_id == $reason->id)
-                                            selected
-                                        @endif
-
-                                        >{{ $reason->label }} </option>
+                                    @foreach ($reasons as $reason)
+                                        <option value="{{ $reason->id }}"
+                                            @if (!empty($venueAddress) && $venueAddress->reject_dua_id == $reason->id) selected @endif>{{ $reason->label }}
+                                        </option>
                                     @endforeach
                                 </select>
 
@@ -244,25 +236,22 @@
 
 
 
-                          </div>
+                        </div>
                     </div>
+
+
                     <div class="col-md-6 mt-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="switch-dum"
-                            @if(!empty($venueAddress) && $venueAddress->reject_dum_id==null )
-                               checked
-                            @endif
-
-
-                              name="swtich_dum"  />
-                            <label class="form-check-label" for="swtich-dum">Dum</label>
+                                @if (!empty($venueAddress) && $venueAddress->reject_dum_id == null) checked @endif name="swtich_dum" />
+                            <label class="form-check-label" for="swtich-dum">Dum (From 1001 - 1800)</label>
 
                             <div class="dum-token">
                                 {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
                                     'class' => 'form-control dum_slots',
                                     'placeholder' => 'dum Slots',
                                     'min' => 1001,
-                                    'max' => 2000
+                                    'max' => 1800,
                                 ]) !!}
                             </div>
 
@@ -271,15 +260,9 @@
 
                                 <select class="form-control" name="reject_dum_id">
                                     <option value="">Select Reason</option>
-                                    @foreach ($reasons as $reason )
-                                    <option
-
-                                    @if(!empty($venueAddress) && $venueAddress->reject_dum_id == $reason->id)
-                                            selected
-                                        @endif
-
-
-                                    value="{{ $reason->id }}">{{ $reason->label }} </option>
+                                    @foreach ($reasons as $reason)
+                                        <option @if (!empty($venueAddress) && $venueAddress->reject_dum_id == $reason->id) selected @endif
+                                            value="{{ $reason->id }}">{{ $reason->label }} </option>
                                     @endforeach
                                 </select>
 
@@ -287,7 +270,32 @@
 
 
 
-                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-4">
+                        <label>Working Lady Dua (From 8001 - 1000)</label>
+                        <div class="dua-token1">
+                            {!! Form::number('working_lady_dua', $venueAddress->dua_slots ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Working Lady Dua Slots',
+                                'min' => 8001,
+                                'max' => 1000,
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <label>Working Lady Dum (From 1801 - 2000)</label>
+                        <div class="dua-token2">
+                            {!! Form::number('working_lady_dum', $venueAddress->dua_slots ?? '', [
+                                'class' => 'form-control',
+                                'placeholder' => 'Working Lady Dua Slots',
+                                'min' => 1801,
+                                'max' => 2000,
+                            ]) !!}
+                        </div>
                     </div>
                 </div>
 
@@ -458,7 +466,9 @@
                     </div> --}}
                     <div class="col-md-4 mt-4">
                         @php
-                            $savedCountries = (!empty($venueAddress)) ? json_decode($venueAddress->venue_available_country) : [];
+                            $savedCountries = !empty($venueAddress)
+                                ? json_decode($venueAddress->venue_available_country)
+                                : [];
                         @endphp
                         <label> Venue Available Country </label>
                         <div class="wrapper">
@@ -501,20 +511,18 @@
                     <div class="col-md-4 mt-4">
                         <label>Status Page Note (English)</label>
                         <div class="input-group">
-                            <textarea name="status_page_note"
-                            class="form-control"
-                            id="status_page_note" cols="10" rows="5" placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
+                            <textarea name="status_page_note" class="form-control" id="status_page_note" cols="10" rows="5"
+                                placeholder="User booking Status page note">{{ $venueAddress->status_page_note ?? '' }}</textarea>
 
 
                         </div>
                     </div>
 
-                     <div class="col-md-4 mt-4">
+                    <div class="col-md-4 mt-4">
                         <label>Status Page Note (Urdu)</label>
                         <div class="input-group">
-                            <textarea name="status_page_note_ur"
-                            class="form-control"
-                            id="status_page_note_ur" cols="10" rows="5" placeholder="User booking Status page note Urdu">{{ $venueAddress->status_page_note_ur ?? '' }}</textarea>
+                            <textarea name="status_page_note_ur" class="form-control" id="status_page_note_ur" cols="10" rows="5"
+                                placeholder="User booking Status page note Urdu">{{ $venueAddress->status_page_note_ur ?? '' }}</textarea>
 
 
                         </div>
@@ -541,11 +549,11 @@
                         </label>
                     </div>
                 @endif
-                    @if (Route::currentRouteName() == 'venues.edit')
-                        <button type="submit" class="btn btn-primary mt-4">{{ 'Update' }}</button>
-                    @else
-                        <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
-                    @endif
+                @if (Route::currentRouteName() == 'venues.edit')
+                    <button type="submit" class="btn btn-primary mt-4">{{ 'Update' }}</button>
+                @else
+                    <button type="submit" class="btn btn-primary mt-4">{{ 'Create' }}</button>
+                @endif
                 </form>
             </div>
         </div>
@@ -556,12 +564,12 @@
         var CurrentPage = "{{ Route::currentRouteName() }}"
 
 
-        $(document).ready(function () {
-            $('#switch-dua').change(function () {
+        $(document).ready(function() {
+            $('#switch-dua').change(function() {
 
                 $this = $(this);
 
-                console.log("this",$this)
+                console.log("this", $this)
                 if ($(this).is(":checked")) {
                     $('.dua-token').show();
                     $('.reject-reason').hide();
@@ -581,12 +589,12 @@
             }
         });
 
-        $(document).ready(function () {
-            $('#switch-dum').change(function () {
+        $(document).ready(function() {
+            $('#switch-dum').change(function() {
 
                 $this = $(this);
 
-                console.log("this",$this)
+                console.log("this", $this)
                 if ($(this).is(":checked")) {
                     $('.dum-token').show();
                     $('.reject-reason-dum').hide();
@@ -733,25 +741,25 @@
                 $(this).prop('checked', true)
             })
         }
-        $("#combination_id").change(function(){
+        $("#combination_id").change(function() {
             var state = $(this).find(':selected').attr('data-state');
             var city = $(this).find(':selected').attr('data-city');
             $("#city_name").val(city);
             $("#state_name").val(state);
 
         });
-        $("#venue_id").change(function(){
+        $("#venue_id").change(function() {
             var id = $(this).find(":selected").val();
             $.ajax({
                 url: "{{ route('get-states') }}",
                 type: 'GET',
                 data: {
-                    venue_id : id
+                    venue_id: id
                 },
                 success: function(response) {
                     var options = '<option>Select Combination</option>';
-                    $.each(response,function(i,item){
-                        options+=`<option value='${item.id}'
+                    $.each(response, function(i, item) {
+                        options += `<option value='${item.id}'
                         data-state='${item.state_name}'
                         data-city='${item.city_name}'
                         >${item.combination_name} (${item.columns_to_show}) </option>`;

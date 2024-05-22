@@ -108,7 +108,6 @@
                     var CityName = $activeCard.attr("data-city");
                     var event = $activeCard;
 
-                    console.log("event", event)
 
                     if (event.hasClass('dua-section')) {
                         $("#dua_type").val(cardId);
@@ -116,8 +115,16 @@
                         var city = $("#citySelection").val();
                         var duaType = event.attr('data-type');
 
+                        if(selectionType == 'working_lady' && duaType == 'dua'){
+                            duaType ='working_lady_dua';
+                            $("#dua_type").val('working_lady_dua')
+                        }else if(selectionType == 'working_lady' && duaType == 'dum'){
+                            duaType ='working_lady_dum';
 
-                        $("#dua_type").val(duaType)
+                            $("#dua_type").val('working_lady_dum')
+                        }else{
+                            $("#dua_type").val(duaType)
+                        }
 
                         // getAjax(cardId, 'get_slot_book', $this, optional = '', cardId)
                         // getAjax(cardId, 'get_slot_book', $this)
@@ -313,7 +320,15 @@
 
 
                     } else {
-                        city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
+                        if(response.message && lang == 'en'){
+                            city = `<p class="no-data"> ${response.message}</p>`;
+                        }
+                        else if(response.message_ur  && lang == 'ur'){
+                            city = `<p class="no-data"> ${response.message_ur}</p>`;
+                        }else{
+                            city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
+                        }
+
                     }
                     $("#city-listing-main").find(".head>h3").text('Select Dua Ghar')
                     $("#city-listing").html(city).fadeIn();
@@ -621,10 +636,14 @@
                             // alert('true')
                             $("#qr-code-listing").find(".card").addClass('active-card')
                             $("#mobile").val(response.data.mobile)
+                            $("#cadr-1r").text('').hide()
 
                         } else {
-                            // alert('fale')
-                            $("#qr-code-listing").find(".card").remove('active-card')
+
+                            $("#cadr-1r").text(response.message).show()
+
+
+                        // $("#qr-code-listing").find(".card").remove('active-card')
 
                         }
 

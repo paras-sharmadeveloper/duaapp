@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Mpdf\Mpdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Aws\S3\S3Client;
 
 
 class BookingController extends Controller
@@ -36,13 +37,14 @@ class BookingController extends Controller
         $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
         $timezone = $visitor->venueSloting->venueAddress->timezone;
+        $UserImage = $this->getImagefromS3($visitor->recognized_code);
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
         $now = $currentTime->timezone($timezone);
 
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
-        $printToken = view('frontend.print-token',compact('visitor'))->render();
+        $printToken = view('frontend.print-token',compact('visitor','UserImage'))->render();
 
         if($visitor->user_status == 'admitted' && $visitor->is_available == 'confirmed') {
             return response()->json(['success' => false , 'message' => 'User already Confirmed and Already Printed','printToken' => $printToken ,'print' => false ]);
@@ -78,6 +80,31 @@ class BookingController extends Controller
 
         // Perform necessary actions based on the scanned content
 
+    }
+
+    public function getImagefromS3($imageName)
+    {
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' =>env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+
+        $bucket = 'kahayfaqeer-booking-bucket';
+
+        $imageObject = $s3->getObject([
+            'Bucket' => $bucket,
+            'Key' => $imageName,
+        ]);
+
+        $imageData = $imageObject['Body'];
+
+        return $imageData;
+
+        return view('image.show', compact('imageData'));
     }
 
 
