@@ -427,13 +427,13 @@
             <div class="link_wrap">
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal' }}</label>
                 @if( ($workingLady) && $workingLady->type == 'critical' )
-                <a class="acc_style04" href="#" style="background:red">
-                    {{ ($workingLady) ? $workingLady->type : '' }}
-                </a>
+                    <a class="acc_style04" href="#" style="background:red">
+                        {{ ($workingLady) ? $workingLady->type : '' }}
+                    </a>
                 @else
-                <a class="acc_style04" href="#" style="background:rgb(139, 125, 125)">
-                    {{ ($workingLady) ? $workingLady->type : '' }}
-                </a>
+                    <a class="acc_style04" href="#" style="background:rgb(139, 125, 125)">
+                        {{ ($workingLady) ? $workingLady->type : '' }}
+                    </a>
                 @endif
             </div>
             <div class="col-lg-6">
@@ -448,8 +448,8 @@
             </div>
             <div class="col-lg-6">
                 <label class="fw-bold"> Database Image</label>
-                @if(!$UserImage)
-                <img src="data:image/jpeg;base64,{{ base64_encode($UserImage) }}" alt="Preview Image"
+                @if($workingLady)
+                <img src="{{ env('AWS_GENERAL_PATH') . 'passport_photos/' . $workingLady->passport_photo }}" alt="Preview Image"
                     style="height: 150px; width:150px;border-radius:20%">
                 @else
                 <img src="https://kahayfaqeer-general-bucket.s3.amazonaws.com/na+(1).png" alt="Preview Image"
