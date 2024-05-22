@@ -426,9 +426,15 @@
         <div class="row userImag" >
             <div class="link_wrap">
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal' }}</label>
+                @if( ($workingLady) && $workingLady->type == 'critical' )
                 <a class="acc_style04" href="#" style="background:red">
                     {{ ($workingLady) ? $workingLady->type : '' }}
                 </a>
+                @else
+                <a class="acc_style04" href="#" style="background:rgb(139, 125, 125)">
+                    {{ ($workingLady) ? $workingLady->type : '' }}
+                </a>
+                @endif
             </div>
             <div class="col-lg-6">
                 <label class="fw-bold"> Token Session Image </label>
