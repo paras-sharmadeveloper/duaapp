@@ -425,9 +425,9 @@
 
         <div class="row userImag" >
             <div class="link_wrap">
-                <label class="wrkingLady">Working Lady </label>
+                <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal' }}</label>
                 <a class="acc_style04" href="#" style="background:red">
-                    critical
+                    {{ ($workingLady) ? $workingLady->type : '' }}
                 </a>
             </div>
             <div class="col-lg-6">

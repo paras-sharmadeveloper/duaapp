@@ -21,6 +21,8 @@
                 <input type="hidden" name="dua_type" id="dua_type" value="">
                 <input type="hidden" name="selectionType" id="selection_type" value="">
                 <input type="hidden" name="city" id="citySelection" value="">
+                <input type="hidden" name="working_lady_id" id="working_lady_id" value="">
+
 
                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                 <input type="hidden" name="captured_user_image" id="image-input" value="">

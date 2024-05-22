@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Vistors, VenueSloting, VenueAddress, Ipinformation, Timezone};
+use App\Models\{Vistors, VenueSloting, VenueAddress, Ipinformation, Timezone , WorkingLady};
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
@@ -36,6 +36,8 @@ class BookingController extends Controller
         $update =[];
         $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
+        $workingLady = WorkingLady::findOrFail($visitor->working_lady_id));
+
         $timezone = $visitor->venueSloting->venueAddress->timezone;
         $UserImage = $this->getImagefromS3($visitor->recognized_code);
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
@@ -44,7 +46,7 @@ class BookingController extends Controller
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
-        $printToken = view('frontend.print-token',compact('visitor','UserImage'))->render();
+        $printToken = view('frontend.print-token',compact('visitor','UserImage','workingLady'))->render();
 
         if($visitor->user_status == 'admitted' && $visitor->is_available == 'confirmed') {
             return response()->json(['success' => false , 'message' => 'User already Confirmed and Already Printed','printToken' => $printToken ,'print' => false ]);

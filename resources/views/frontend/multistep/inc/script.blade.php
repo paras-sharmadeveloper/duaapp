@@ -636,6 +636,7 @@
                             // alert('true')
                             $("#qr-code-listing").find(".card").addClass('active-card')
                             $("#mobile").val(response.data.mobile)
+                            $("#working_lady_id").val(response.data.id)
                             $("#cadr-1r").text('').hide()
 
                         } else {

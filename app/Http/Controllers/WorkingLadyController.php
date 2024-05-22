@@ -37,10 +37,11 @@ class WorkingLadyController extends Controller
         ]);
         $formType = $request->input('formType');
         $workingLady = WorkingLady::findOrFail($id);
+
         $uuid = ( $workingLady->qr_id ) ? $workingLady->qr_id : Str::uuid();
         if ($formType == 'active') {
             $message = 'form approved';
-            $workingLady->update(['is_active'  => $formType,'qr_id' =>$uuid,'type' =>  $request->input('type')]);
+            $workingLady->update(['is_active'  => $formType,'qr_id' => $uuid,'type' =>  $request->input('type')]);
         }else if($formType == 'inactive') {
             $message = 'form reject';
             $workingLady->update(['is_active'  => $formType , 'type' =>  $request->input('type')]);;

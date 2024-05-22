@@ -7,6 +7,8 @@ return [
     'select-sahib-e-dua' => 'Select Sahib-e-Dua',
     'dum' => 'Dum',
     'dua' => 'Dua',
+    'working_lady_dua' => 'Dua',
+    'working_lady_dum' => 'Dua',
     'select-option' => 'Select Option',
     'select-city' => 'Select Dua Ghar',
     'location-dua-ghar' => 'Dua Ghar',

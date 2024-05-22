@@ -347,10 +347,7 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
-            // $booking->captured_user_image = $request->input('captured_user_image');
-
-
-
+            $booking->working_lady_id = $request->input('working_lady_id');
 
             // Save the booking record
             $booking->save();
@@ -492,7 +489,7 @@ class HomeController extends Controller
 
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-        $userAll = Vistors::get(['recognized_code', 'id'])->whereDate('create_at',date('Y-m-d'))->toArray();
+        $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         $userArr = [];
 
         if (!empty($userAll)) {
