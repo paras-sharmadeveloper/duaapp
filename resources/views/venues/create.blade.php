@@ -276,12 +276,12 @@
 
                 <div class="row mt-3">
                     <div class="col-md-6 mt-4">
-                        <label>Working Lady Dua (From 8001 - 1000)</label>
+                        <label>Working Lady Dua (From 801 - 1000)</label>
                         <div class="dua-token1">
                             {!! Form::number('working_lady_dua', $venueAddress->dua_slots ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Working Lady Dua Slots',
-                                'min' => 8001,
+                                'min' => 801,
                                 'max' => 1000,
                             ]) !!}
                         </div>

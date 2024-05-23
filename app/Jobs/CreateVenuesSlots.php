@@ -65,7 +65,7 @@ class CreateVenuesSlots implements ShouldQueue
                 ]);
             }
 
-            for($token=8001; $token<=$working_lady_dua; $token++){
+            for($token=801; $token<=$working_lady_dua; $token++){
 
                 VenueSloting::create([
                     'venue_address_id' => $this->venueId,
