@@ -26,7 +26,7 @@ function isMobileDevice(Request $request)
 function getImagefromS3($imageName)
     {
 
-         return "D".env('AWS_ACCESS_KEY_ID');
+        //  return "D".env('AWS_ACCESS_KEY_ID');
         $s3 = new S3Client([
             'version' => 'latest',
             'region' => 'us-east-1',
