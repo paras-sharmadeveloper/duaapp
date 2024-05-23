@@ -448,9 +448,9 @@
             </div>
             <div class="col-lg-6">
                 <label class="fw-bold"> Database Image</label>
-                @if($workingLady)
-                <img src="{{ env('AWS_GENERAL_PATH') . 'passport_photos/' . $workingLady->passport_photo }}" alt="Preview Image"
-                    style="height: 150px; width:150px;border-radius:20%">
+                @if($databaseImage)
+                <img src="data:image/jpeg;base64,{{ base64_encode($databaseImage) }}" alt="Preview Image"
+                style="height: 150px; width:150px;border-radius:20%">
                 @else
                 <img src="https://kahayfaqeer-general-bucket.s3.amazonaws.com/na+(1).png" alt="Preview Image"
                 style="height: 150px; width:150px;border-radius:20%">

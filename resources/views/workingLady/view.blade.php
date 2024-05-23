@@ -205,7 +205,13 @@
                                 alt="Passport Image" style="max-width: 200px;">
                         </div>
                     </div>
-
+                    <div class="row mb-3">
+                        <label for="Country" class="col-md-4 col-lg-3 col-form-label">Session Image Photo</label>
+                        <div class="col-md-8 col-lg-9">
+                            <img src="data:image/jpeg;base64,{{  getImagefromS3($data->session_image) }}"
+                                alt="Session Image" style="max-width: 200px;">
+                        </div>
+                    </div>
 
 
                     <div class="row mb-3">

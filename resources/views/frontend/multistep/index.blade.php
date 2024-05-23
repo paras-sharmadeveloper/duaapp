@@ -39,12 +39,12 @@
                     @if(empty($locale))
                        @include('frontend.multistep.inc.lang')
                     @else
-                    @include('frontend.multistep.inc.start')
-                    @include('frontend.multistep.inc.choosetype')
-                    @include('frontend.multistep.inc.city')
-                    @include('frontend.multistep.inc.uploadQr')
-                    @include('frontend.multistep.inc.selectdua')
-                    @include('frontend.multistep.inc.submit')
+                        @include('frontend.multistep.inc.start')
+                        @include('frontend.multistep.inc.choosetype')
+                        @include('frontend.multistep.inc.city')
+                        @include('frontend.multistep.inc.uploadQr')
+                        @include('frontend.multistep.inc.selectdua')
+                        @include('frontend.multistep.inc.submit')
 
                     @endif
 

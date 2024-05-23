@@ -50,7 +50,7 @@ class PrintController extends Controller
             $printer->close();
 
             return "Receipt printed successfully!";
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return "Error printing receipt: " . $e->getMessage();
         }
     }

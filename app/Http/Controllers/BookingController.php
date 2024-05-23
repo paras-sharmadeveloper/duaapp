@@ -40,13 +40,15 @@ class BookingController extends Controller
 
         $timezone = $visitor->venueSloting->venueAddress->timezone;
         $UserImage = $this->getImagefromS3($visitor->recognized_code);
+
+        $databaseImage = $this->getImagefromS3($workingLady->session_image);
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
         $now = $currentTime->timezone($timezone);
 
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
-        $printToken = view('frontend.print-token',compact('visitor','UserImage','workingLady'))->render();
+        $printToken = view('frontend.print-token',compact('visitor','UserImage','workingLady','databaseImage'))->render();
 
         if($visitor->user_status == 'admitted' && $visitor->is_available == 'confirmed') {
             return response()->json(['success' => false , 'message' => 'User already Confirmed and Already Printed','printToken' => $printToken ,'print' => false ]);
@@ -105,8 +107,6 @@ class BookingController extends Controller
         $imageData = $imageObject['Body'];
 
         return $imageData;
-
-        return view('image.show', compact('imageData'));
     }
 
 

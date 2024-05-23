@@ -22,6 +22,7 @@ class WorkingLadyController extends Controller
 
     public function view($id){
         $data = WorkingLady::findOrFail($id);
+
         return view('workingLady.view',compact('data'));
     }
 
@@ -97,6 +98,8 @@ class WorkingLadyController extends Controller
         ]);
         $employeeIdPath = $passportPhotoPath = '';
 
+        // echo "<pre>"; print_r($request->all()); die;
+
 
         // Save employee ID image
     //    $employeeIdPath = $request->file('employeeId')->store('employee_ids');
@@ -126,6 +129,16 @@ class WorkingLadyController extends Controller
 
         }
 
+        $working_lady_session = $request->input('working_lady_session');
+            if($working_lady_session){
+                $captured_user_image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $working_lady_session));
+                $filename = 'session_imageWorkingLady' . time() . '.jpg';
+                $objectKey = $this->encryptFilename($filename);
+                Storage::disk('s3')->put($objectKey, $captured_user_image);
+                $employee->session_image = $objectKey;
+            }
+        // session_image
+
         if ($request->hasFile('passportPhoto')) {
             $passport_photos = $request->file('passportPhoto');
             $passportPhotoPath = time() . 'passport_photos.' . $passport_photos->getClientOriginalExtension();
@@ -138,5 +151,12 @@ class WorkingLadyController extends Controller
         $employee->save();
 
         return redirect()->back()->with('success', 'Your Request has been submitted successfully. You will get your QR ID Once Admin approve your form.');
+    }
+
+    protected function encryptFilename($filename)
+    {
+        $key = hash('sha256', date('Y-m-d') . $filename . now());
+        //  $hashedPassword = Hash::make($filename.now());
+        return $key;
     }
 }

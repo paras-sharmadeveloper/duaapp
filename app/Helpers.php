@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-
+use Aws\S3\S3Client;
 // use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 // use Mike42\Escpos\PrintConnectors\BluetoothPrintConnector;
 // use Mike42\Escpos\PrintConnectors\FilePrintConnector;
@@ -23,6 +23,30 @@ function isMobileDevice(Request $request)
     return $isMobile;
 }
 
+function getImagefromS3($imageName)
+    {
+
+         return "D".env('AWS_ACCESS_KEY_ID');
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' =>env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+
+        $bucket = 'kahayfaqeer-booking-bucket';
+
+        $imageObject = $s3->getObject([
+            'Bucket' => $bucket,
+            'Key' => $imageName,
+        ]);
+
+        $imageData = $imageObject['Body'];
+
+        return $imageData;
+    }
 if (!function_exists('VenueAvilableInCountry')) {
 
     function VenueAvilableInCountry($AllowedcountryArr,$callFromCountryId)
