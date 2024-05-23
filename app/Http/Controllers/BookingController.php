@@ -36,7 +36,7 @@ class BookingController extends Controller
         $update =[];
         $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
-        $workingLady = WorkingLady::findOrFail($visitor->working_lady_id));
+        $workingLady = WorkingLady::findOrFail($visitor->working_lady_id);
 
         $timezone = $visitor->venueSloting->venueAddress->timezone;
         $UserImage = $this->getImagefromS3($visitor->recognized_code);

@@ -32,7 +32,7 @@
         "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0",
         "laravel/ui": "^4.2",
-        "laravelcollective/html": "^6.4",
+        "spatie/laravel-html": "*",
         "league/flysystem-aws-s3-v3": "^3.15",
         "predis/predis": "^2.1",
         "spatie/laravel-permission": "^5.10"
