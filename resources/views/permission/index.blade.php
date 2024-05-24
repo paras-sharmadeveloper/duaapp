@@ -45,7 +45,7 @@
                         <th width="280px">Action</th>
                     </tr>
                 </thead>
-               
+
                 @foreach ($permissions as $key => $permission)
                 <tbody>
                     <tr>
@@ -55,13 +55,12 @@
 
                             <a class="btn btn-primary" href="{{ route('permissions.edit', $permission->id) }}">Edit</a>
 
-                            {!! Form::open([
-                                'method' => 'DELETE',
-                                'route' => ['permissions.destroy', $permission->id],
-                                'style' => 'display:inline',
-                            ]) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                            {!! Form::close() !!}
+                            <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+
 
                         </td>
                     </tr>

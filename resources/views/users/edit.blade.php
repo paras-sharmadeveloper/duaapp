@@ -36,35 +36,36 @@
             <div class="card-body">
                 <h5 class="card-title">Edit User </h5>
 
-                {!! Form::model($user, [
-                    'enctype' => 'multipart/form-data',
-                    'class' => 'row g-3',
-                    'method' => 'PATCH',
-                    'route' => ['users.update', $user->id],
-                ]) !!}
+                <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="row g-3">
+                    @method('PATCH')
+                    @csrf
 
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Name</span>
-                        {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
+                        <input type="text" name="name" placeholder="Name" class="form-control">
+
+
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Email</span>
-                        {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
+                        <input type="text" name="email" placeholder="Email" class="form-control">
+
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Password</span>
-                        {!! Form::password('password', ['placeholder' => 'Password', 'class' => 'form-control']) !!}
+                        <input type="password" name="password" placeholder="Password" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">C.Password</span>
-                        {!! Form::password('confirm-password', ['placeholder' => 'Confirm Password', 'class' => 'form-control']) !!}
+                        <input type="password" name="confirm-password" placeholder="Confirm Password" class="form-control">
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -109,11 +110,7 @@
                 <button class="btn btn-primary" type="submit">Update</button>
             </div>
         </div>
-
-
-
-
-        {!! Form::close() !!}
+    </form>
 
 
     </div>

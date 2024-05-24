@@ -43,12 +43,14 @@
 
 
 
-                {!! Form::open(['route' => 'permissions.store', 'method' => 'POST', 'class' => 'row g-3']) !!}
+                <form action="{{ route('permissions.store') }}" method="POST" class="row g-3">
+                    @csrf
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
                             <strong>Name:</strong>
-                            {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
+                            <input type="text" name="name" placeholder="Name" class="form-control">
+
                         </div>
                     </div>
 
@@ -57,7 +59,7 @@
                         <button type="submit" class="btn btn-primary mt-5 ">Submit</button>
                     </div>
                 </div>
-                {!! Form::close() !!}
+                </form>
 
             </div>
         </div>

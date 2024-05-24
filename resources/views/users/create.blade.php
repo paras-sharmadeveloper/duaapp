@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('content') 
- 
+@section('content')
+
 <div class="row">
     <div class="col-lg-12 margin-tb">
 
-        <div class="action-top float-end mb-3"> 
+        <div class="action-top float-end mb-3">
             <a class="btn btn-outline-primary" href="{{ route('users.index') }}"> <i class="bi bi-skip-backward-circle me-1"></i> Back</a>
         </div>
-         
+
     </div>
 </div>
 @if (count($errors) > 0)
@@ -28,7 +28,7 @@
     {{ $message }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
- 
+
 @endif
 
     <div class="col-lg-12">
@@ -37,39 +37,50 @@
             <div class="card-body">
               <h5 class="card-title">Create New User</h5>
 
-              {!! Form::open(array('route' => 'users.store','method'=>'POST' , 'class' =>'row g-3','enctype' => "multipart/form-data")) !!}
-            
+              <form action="{{ route('users.store') }}" method="POST" class="row g-3" enctype="multipart/form-data">
+                @csrf
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text" id="inputGroupPrepend2">Name</span>
-                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                    <input type="text" name="name" placeholder="Name" class="form-control">
+
+                    {{-- {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!} --}}
+
                  </div>
-                  
+
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Email</span>
-                       {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                        <input type="text" name="email" placeholder="Email" class="form-control">
+                       {{-- {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!} --}}
                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Password</span>
-                       {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                        <input type="password" name="password" placeholder="Password" class="form-control">
+                       {{-- {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!} --}}
                    </div>
                 </div>
                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">C.Password</span>
-                        {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                        <input type="password" name="confirm-password" placeholder="Confirm Password" class="form-control">
+                        {{-- {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!} --}}
                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Roles</span>
-                         {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!}
+                          {{-- {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!} --}}
+                          <select name="roles[]" class="form-control">
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
                    </div>
-                </div> 
+                </div>
                 <div class="row">
                   <div class="col-md-12 d-flex justify-content-center">
                       <div class="profile-pic">
@@ -79,23 +90,24 @@
                           </label>
                           <input id="file" type="file"  name="profile_pic" onchange="loadFile(event)" />
                           @if (!empty($user->profile_pic) && Storage::disk('s3_general')->exists('images/' . $user->profile_pic))
-                          <img id="output" src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}"  
+                          <img id="output" src="{{ env('AWS_GENERAL_PATH') . 'images/' . $user->profile_pic }}"
                               alt="Profile Image">
                            @else
                           <img id="output" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                                width="200"  alt="Profile Image">
                           @endif
-                           
+
                       </div>
-                  </div> 
+                  </div>
                   <span class="text-center text-warning mt-1" > Recommended  Size <strong class="text-info">300 X 300</strong> Pixel </span>
-              </div>  
-                
+              </div>
+
 
                 <div class="col-12">
                   <button class="btn btn-primary" type="submit">Create User</button>
                 </div>
-              {!! Form::close() !!}
+              </form>
+              {{-- {!! Form::close() !!} --}}
               <!-- End Browser Default Validation -->
 
             </div>
@@ -156,11 +168,11 @@
   height: 2em;
 }
 
- 
- 
+
+
   </style>
 
- 
+
 @endsection
 @section('page-script')
 

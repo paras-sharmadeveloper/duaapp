@@ -46,13 +46,15 @@
             <div class="card-body">
                 <h5 class="card-title">Edit Role</h5>
 
-                {!! Form::model($role, ['method' => 'PATCH', 'class' => 'row g-3', 'route' => ['roles.update', $role->id]]) !!}
-
+                <form method="POST" action="{{ route('roles.update', $role->id) }}" class="row g-3">
+                    @method('PATCH')
+                    @csrf
 
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Name</span>
-                        {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
+                        <input type="text" name="name" placeholder="Name" class="form-control">
+
                     </div>
 
                 </div>
@@ -63,7 +65,8 @@
                         <span class="input-group-text" id="inputGroupPrepend2">Permission</span>
                         <ul>
                             @foreach ($permission as $value)
-                                <li>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, ['class' => 'name']) }}
+                                <li><input type="checkbox" name="permission[]" value="{{ $value->id }}" class="name" {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+
                                     {{ $value->name }} </li>
                             @endforeach
                         </ul>
@@ -78,7 +81,7 @@
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
-                {!! Form::close() !!}
+                </form>
                 <!-- End Browser Default Validation -->
 
             </div>

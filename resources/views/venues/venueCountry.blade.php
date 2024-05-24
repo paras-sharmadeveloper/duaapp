@@ -57,15 +57,13 @@
                 @if (Route::currentRouteName() == 'country.edit')
                     <h5 class="card-title">Edit</h5>
 
-                    {!! Form::model($venue, [
-                        'route' => ['country.update', $venue->id],
-                        'method' => 'PUT',
-                        'enctype' => 'multipart/form-data',
-                        'class' => 'country-form'
-                    ]) !!}
+                    <form action="{{ route('country.update', $venue->id) }}" method="POST" enctype="multipart/form-data" class="country-form">
+                        @csrf
+                        @method('PUT')
                 @else
-                    {!! Form::open(['route' => 'country.store', 'method' => 'POST', 'enctype' => 'multipart/form-data','class' => 'country-form']) !!}
-                    <h5 class="card-title">Create</h5>
+                <form action="{{ route('country.store') }}" method="POST" enctype="multipart/form-data" class="country-form">
+                    @csrf
+                                    <h5 class="card-title">Create</h5>
                 @endif
                 <div class="row">
                     <div class="col-md-4">
@@ -101,7 +99,7 @@
                     </div>
                     <div class="col-md-4">  <button type="submit" class="btn btn-primary mt-4">{{ isset($venue) ? 'Update' : 'Create' }}</button> </div>
                 </div>
-               
+
 
                 </form>
 
@@ -115,7 +113,7 @@
                         @csrf
                         <input type="hidden" name="venue_id" value="{{ $venueCity->venue_id }}">
                         <input type="hidden" name="id" value="{{ $venueCity->id }}">
-                        
+
                         <div class="row mt-4">
                             <div class=" col-md-2 form-group">
                                 <label for="state">State:</label>
@@ -123,30 +121,30 @@
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="city">City:</label> 
+                                <label for="city">City:</label>
                                 <input type="text" name="city_name"  class="city_name form-control" value="{{ $venueCity->city_name }}">
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="city">Date Column to Show:</label> 
+                                <label for="city">Date Column to Show:</label>
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="{{ $venueCity->columns_to_show }}">
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="city">City Sequence to Show:</label> 
+                                <label for="city">City Sequence to Show:</label>
                                 <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" value="{{ $venueCity->city_sequence_to_show }}">
                             </div>
-                            
+
 
                             <div class="col-md-2 image-container">
                                 <label for="city">Upload City Flag 48 X 48 :</label>
-                               
+
                                 <input type="file" name="city_image" id="city_image" class="city-image"
                                     accept="image/png, image/gif, image/jpeg" >
                                 @if (isset($venueCity->city_image) && !empty($venueCity->city_image) && Storage::disk('s3_general')->exists('city_image/' . $venueCity->city_image))
-                             
+
                                 <img src="{{ env('AWS_GENERAL_PATH') . 'city_image/' . $venueCity->city_image }}" class="city-image-preview" alt="Flag Image"
-                                        style="height: 100px;margin-top:10px"> 
+                                        style="height: 100px;margin-top:10px">
                                 @endif
-                                
+
                             </div>
 
                             <div class="col-md-2 act-btn mt-4">
@@ -157,24 +155,24 @@
                                         style="display:none">
                                     </span>
                                     <b> Remove</b>
-                                </button>  
-                                
+                                </button>
+
                                 <button type="button" class="btn text-white mt-4 rounded-3 bg-success update"
                                     data-loading="updating..." data-success="Done" data-default="Update">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                         style="display:none">
                                     </span>
                                     <b> Update</b>
-                                </button>  
+                                </button>
                             </div>
                         </div>
                     </form>
                     @endforeach
 
                 @endif
-                
-                
-                
+
+
+
                 <div id="form-city-state">
                     <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data">
                         @csrf
@@ -194,55 +192,55 @@
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="city">Date Column to Show:</label> 
+                                <label for="city">Date Column to Show:</label>
                                 <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="">
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="city">City Sequence to Show:</label> 
-                                <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" 
+                                <label for="city">City Sequence to Show:</label>
+                                <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control"
                                  >
                             </div>
-                            
+
 
                             <div class="col-md-2 image-container">
                                 <label for="city">Upload City Flag 48 X 48 :</label>
-                                
+
                                 <input type="file" name="city_image" id="city_image" class="city-image"
                                     accept="image/png, image/gif, image/jpeg" >
                                 <img src= "" class="city-image-preview d-none" alt="Flag Image"
-                                    style="height: 100px;margin-top:10px"> 
+                                    style="height: 100px;margin-top:10px">
                             </div>
 
                             <div class="col-md-2 act-btn ">
-                                {{-- <button class="btn btn-info add" type="button">Add</button> --}} 
+                                {{-- <button class="btn btn-info add" type="button">Add</button> --}}
                                 <button  type="button" class="btn text-white mt-4 rounded-3 bg-danger remove d-none"
                                     data-loading="removing..." data-success="Done" data-default="Remove">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                         style="display:none">
                                     </span>
                                     <b> Remove</b>
-                                </button>  
+                                </button>
                                 <button type="button" class="btn text-white mt-4 rounded-3 bg-success update"
                                     data-loading="updating..." data-success="Done" data-default="Update">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                         style="display:none">
                                     </span>
                                     <b> Update</b>
-                                </button>  
+                                </button>
                             </div>
                         </div>
                     </form>
                 </div>
-                    
-                 
+
+
                 <div class="new-form">
 
                 </div>
                     <div id="errors" class="error">
                     </div>
                 </div>
-                @endif 
+                @endif
             </div>
 
             {{--  add city --}}
@@ -251,7 +249,7 @@
 
         </div>
     </div>
- 
+
 
     <div id="form-city-state-fresh" style="display: none">
         <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -272,40 +270,40 @@
                 </div>
 
                 <div class="col-md-2 form-group">
-                    <label for="city">Date Column to Show:</label> 
+                    <label for="city">Date Column to Show:</label>
                     <input type="text" name="columns_to_show"  class="columns_to_show form-control" value="">
                 </div>
                 <div class="col-md-2 form-group">
-                    <label for="city">City Sequence to Show:</label> 
-                    <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control" 
+                    <label for="city">City Sequence to Show:</label>
+                    <input type="text" name="city_sequence_to_show"  class="city_sequence_to_show form-control"
                      >
                 </div>
 
                 <div class="col-md-2 image-container">
                     <label for="city">Upload City Flag 48 X 48 :</label>
-                    
+
                     <input type="file" name="city_image" id="city_image" class="city-image"
                         accept="image/png, image/gif, image/jpeg" >
                     <img src= "" class="city-image-preview d-none" alt="Flag Image"
-                        style="height: 100px;margin-top:10px"> 
+                        style="height: 100px;margin-top:10px">
                 </div>
 
                 <div class="col-md-2 act-btn ">
-                    {{-- <button class="btn btn-info add" type="button">Add</button> --}} 
+                    {{-- <button class="btn btn-info add" type="button">Add</button> --}}
                     <button  type="button" class="btn text-white mt-4 rounded-3 bg-danger remove d-none"
                         data-loading="removing..." data-success="Done" data-default="Remove">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                             style="display:none">
                         </span>
                         <b> Remove</b>
-                    </button>  
+                    </button>
                     <button type="button" class="btn text-white mt-4 rounded-3 bg-success update"
                         data-loading="updating..." data-success="Done" data-default="Update">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                             style="display:none">
                         </span>
                         <b> Update</b>
-                    </button>  
+                    </button>
                 </div>
             </div>
         </form>
@@ -321,63 +319,63 @@
 @endsection
 @section('page-script')
     <script type="text/javascript">
-        var imageURl = "{{ env('AWS_GENERAL_PATH') . 'city_image/' }}"; 
+        var imageURl = "{{ env('AWS_GENERAL_PATH') . 'city_image/' }}";
         $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         }
     });
-        $(document).on('click', ".remove", function() {   
-            $this = $(this); 
+        $(document).on('click', ".remove", function() {
+            $this = $(this);
             var loadingText = $this.attr('data-loading');
             var successText = $this.attr('data-success');
             var defaultText = $this.attr('data-default');
-            
-            var id = $this.attr('data-id'); 
+
+            var id = $this.attr('data-id');
             $this.find('span').show()
             $this.find('b').text(loadingText)
             if(id){
                     $.ajax({
                     url: "{{ route('remove-city-state') }}",
                     type: 'POST',
-                    data: { 'id' : id}, 
+                    data: { 'id' : id},
                     success: function(data) {
                         $this.find('span').hide()
                         $this.find('b').text(defaultText)
-                        $this.parents('form').fadeOut(); 
+                        $this.parents('form').fadeOut();
                         // You can update the UI or show a success message
                     },
                     error: function(error) {
-                        var errors = error.responseJSON.errors; 
+                        var errors = error.responseJSON.errors;
                         $this.find('b').text(defaultText)
                         $this.find('span').hide()
                         $.each(errors,function(i,err){
                             console.error('Error:', err);
                         });
-                        
+
                     }
                 });
             }else{
                 $this.find('span').hide()
                 $this.find('b').text(defaultText)
-                $this.parents('form').fadeOut(); 
+                $this.parents('form').fadeOut();
             }
-            
+
 
         });
-     
-    $(document).on('click', ".update", function() { 
-        $this = $(this)  
-        
+
+    $(document).on('click', ".update", function() {
+        $this = $(this)
+
         var loadingText = $this.attr('data-loading');
         var successText = $this.attr('data-success');
         var defaultText = $this.attr('data-default');
-            var form = $(this).parents('form'); 
+            var form = $(this).parents('form');
             // Serialize form data
             const formData = new FormData(form[0]);
             $this.find('span').show()
             $this.find('b').text(loadingText)
-            $imageCon = $this.parents('.row').find('.image-container > img'); 
+            $imageCon = $this.parents('.row').find('.image-container > img');
             // Send data to the server using AJAX
             $.ajax({
                 url: "{{ route('add-city-state') }}",
@@ -385,8 +383,8 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(response) { 
-                    $("#errors").empty(); 
+                success: function(response) {
+                    $("#errors").empty();
                     $imageCon.attr('src',imageURl+response.image)
                     $imageCon.removeClass('d-none')
                     $this.find('span').hide()
@@ -394,33 +392,33 @@
                     $this.parents('.act-btn').find('.remove').removeClass('d-none').attr('data-id',response.id)
                     // Handle the response data here
                     if(response.update == false){
-                        var form = $("#form-city-state-fresh").html(); 
+                        var form = $("#form-city-state-fresh").html();
                         $(".new-form").append(form)
                         $(".new-form").find(".image-container>img").removeClass('d-none')
-                        // $(".new-form").find(".remove").attr('data-id',''); 
+                        // $(".new-form").find(".remove").attr('data-id','');
                     }
 
                     // You can update the UI or show a success message
                 },
                 error: function(error) {
-                    var errors = error.responseJSON.errors; 
+                    var errors = error.responseJSON.errors;
                     $this.find('b').text(defaultText)
                     $this.find('span').hide()
-                    $("#errors").empty(); 
+                    $("#errors").empty();
                     $.each(errors,function(i,err){
-                        $("#errors").append("<p>"+err+"</p>"); 
+                        $("#errors").append("<p>"+err+"</p>");
                         console.error('Error:', err);
                     });
-                    
+
                 }
             });
         });
 
-        
 
 
-        
-        
+
+
+
         // Handle state selection
 
         $(document).ready(function() {
@@ -452,14 +450,14 @@
         });
 
         $("#country_id").change(function(){
-            $this = $(this); 
+            $this = $(this);
             var text = $this.find(":selected").text();
             var iso = $this.find(":selected").attr('data-iso');
             $("#country_name").val(text.replace(/ /g,''))
             $("#iso").val(iso.replace(/ /g,''))
             console.log("iso",iso)
         })
-        
+
     </script>
     <script>
         document.title = 'Add/Edit Countries';

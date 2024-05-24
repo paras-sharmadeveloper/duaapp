@@ -40,16 +40,16 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Edit Permission </h5>
-            {!! Form::model($permission, [
-                'method' => 'PATCH',
-                'class' => 'row g-3',
-                'route' => ['permissions.update', $permission->id],
-            ]) !!}
+            <form action="{{ route('permissions.update', $permission->id) }}" method="POST" class="row g-3">
+                @method('PATCH')
+                @csrf
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">
                         <strong>Name:</strong>
-                        {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
+                        <input type="text" name="name" placeholder="Name" class="form-control" value="{{ $permission->name }}">
+
+                        {{-- {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!} --}}
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                     <button type="submit" class="btn btn-primary mt-5 ">Submit</button>
                 </div>
             </div>
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
     </div>

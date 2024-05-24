@@ -3,10 +3,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
 
-        <div class="action-top float-end mb-3"> 
+        <div class="action-top float-end mb-3">
             <a class="btn btn-outline-primary" href="{{ route('roles.index') }}"> <i class="bi bi-skip-backward-circle me-1"></i> Back</a>
         </div>
-         
+
     </div>
 </div>
 
@@ -28,7 +28,7 @@
     {{ $message }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
- 
+
 @endif
 
 <div class="col-lg-12">
@@ -36,47 +36,48 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Create Permission</h5>
-             
- 
-              {!! Form::open(array('route' => 'roles.store','method'=>'POST' , 'class' =>'row g-3' )) !!}
-            
+
+
+              <form action="{{ route('roles.store') }}" method="POST" class="row g-3">
+                @csrf
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text" id="inputGroupPrepend2">Name</span>
-                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                    <input type="text" name="name" placeholder="Name" class="form-control">
+
                  </div>
-                  
+
                 </div>
-               
+
 
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text" id="inputGroupPrepend2">Permission</span>
                     <ul >
                     @foreach($permission as $value)
-                        <li>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                        {{ $value->name }} </li>
+                        <li><input type="checkbox" name="permission[]" value="{{ $value->id }}" class="name">
+                            {{ $value->name }} </li>
                     @endforeach
                     </ul>
-                   
-                 </div>
-                  
-                </div>
-              
 
-               
-                
+                 </div>
+
+                </div>
+
+
+
+
                 <div class="col-12">
                   <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
-              {!! Form::close() !!}
+              </form>
               <!-- End Browser Default Validation -->
 
             </div>
           </div>
     </div>
 
- 
 
- 
+
+
 @endsection
