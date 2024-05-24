@@ -523,7 +523,7 @@ class HomeController extends Controller
                             ],
                         ],
                     ]);
-
+                    return ['message' =>'a', 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') , 'match' => $response ];
                     $faceMatches = $response['FaceMatches'];
                     if (count($faceMatches) > 0) {
 
