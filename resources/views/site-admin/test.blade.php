@@ -96,7 +96,11 @@
                         $("#users-list-main").html(html)
                     @else
                         plotData(visitor, visitorDum)
+                        if(response.data.working_dum || response.data.working_dua  ){
+                            plotData(response.data.working_dua, response.data.working_dum)
+                        }
                     @endif
+
                     // $("#tbody").html(html)
 
 
