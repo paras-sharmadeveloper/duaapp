@@ -283,6 +283,10 @@
                     var visitor = response.data.dua;
                     var visitorDum = response.data.dum;
 
+                    if(response.data.working_dum || response.data.working_dua  ){
+                        plotData(response.data.working_dua, response.data.working_dum)
+                    }
+
                     plotData(visitor, visitorDum)
                     // event.find('b').text(successText)
                     // setTimeout(() => {
