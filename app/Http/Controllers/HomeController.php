@@ -544,7 +544,7 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') , 'match' => $response ];
+                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') . ' '  . env('AWS_ACCESS_KEY_ID') ];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
