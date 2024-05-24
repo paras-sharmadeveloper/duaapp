@@ -300,7 +300,7 @@ class HomeController extends Controller
                 $captured_user_image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 $isUsers = $this->IsRegistredAlready($captured_user_image);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
-                        return response()->json(['message' => $isUsers['message'], 'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                        return response()->json(['message' => $isUsers['message'], 'dd' => $isUsers['userInfo'],  'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
                 }
             }
 
@@ -490,7 +490,9 @@ class HomeController extends Controller
 
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-       return $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+
+
         $userArr = [];
 
         if (!empty($userAll)) {
@@ -537,12 +539,12 @@ class HomeController extends Controller
 
                 if (empty($userArr)) {
 
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'userInfo' => $userArr];
                 } else {
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false];
+                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userArr];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
