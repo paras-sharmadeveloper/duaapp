@@ -29,6 +29,12 @@ class WorkingLadyController extends Controller
         return view('workingLady.view',compact('data'));
     }
 
+    public function deleteImages($id){
+        $data = WorkingLady::findOrFail($id);
+
+        return view('workingLady.deleteImages',compact('data'));
+    }
+
 
     public function list(){
         $registration  = WorkingLady::all();

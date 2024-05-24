@@ -32,10 +32,10 @@ class SiteAdminController extends Controller
 
     public function fetchDuaDumTokens(){
 
-        $q = Vistors::where('dua_type','dua')->whereIn('user_status' ,['admitted'])
+        $q = Vistors::where('dua_type','dua')->orWhere('dua_type','working_lady_dua')->whereIn('user_status' ,['admitted'])
         ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
-        $q2 = Vistors::where('dua_type','dum')->whereIn('user_status' ,['admitted'])
+        $q2 = Vistors::where('dua_type','dum')->orWhere('dua_type','working_lady_dum')->whereIn('user_status' ,['admitted'])
         ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $data['dua'] = $q->first();
@@ -49,6 +49,8 @@ class SiteAdminController extends Controller
             $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
+
+
         return response()->json(['success' => true, 'data' => $data], 200);
     }
 
