@@ -55,6 +55,7 @@ class SiteAdminController extends Controller
                       ->orWhere('dua_type','working_lady_dua');
             })
             ->whereIn('user_status', ['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))
             ->whereNotNull('confirmed_at')
             ->orderBy('slot_id', 'asc')
             ->first();
@@ -66,6 +67,7 @@ class SiteAdminController extends Controller
                       ->orWhere('dua_type','working_lady_dum');
             })
             ->whereIn('user_status', ['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))
             ->whereNotNull('confirmed_at')
             ->orderBy('slot_id', 'asc')
             ->first();
