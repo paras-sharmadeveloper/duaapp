@@ -523,7 +523,7 @@ class HomeController extends Controller
                 Storage::disk('s3')->put($objectKey, $selfieImage);
 
 
-                if(!empty($user)){
+                if(!empty($userAll)){
                     foreach ($userAll as $user) {
 
                         $response = $rekognition->compareFaces([
