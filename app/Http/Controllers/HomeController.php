@@ -573,12 +573,12 @@ class HomeController extends Controller
 
                 if (empty($userArr)) {
 
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'userInfo' => $userAll];
+                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
                 } else {
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') . ' '  . env('AWS_ACCESS_KEY_ID') ];
+                return ['message' => $e->getMessage(), 'status' => false ,'buclet' =>  env('AWS_BUCKET') . ' '  . env('AWS_ACCESS_KEY_ID') ];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
