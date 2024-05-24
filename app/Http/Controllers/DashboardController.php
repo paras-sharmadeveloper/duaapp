@@ -31,7 +31,7 @@ class DashboardController extends Controller
             $data->where('created_at', 'LIKE', $request->input('venue_date') . '%');
             // $data->whereDate('created_at', $request->input('date'));
         }
-        $filteredData = $data->get();
+        $filteredData = $data->orderBy('created_at','desc') ->get();
 
         foreach ($filteredData as $visitor) {
             // Generate token_url_link URL
