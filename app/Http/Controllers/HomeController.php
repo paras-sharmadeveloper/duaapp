@@ -517,6 +517,7 @@ class HomeController extends Controller
                             'S3Object' => [
                                 'Bucket' => env('AWS_BUCKET'),
                                 'Name' => $objectKey,
+                                'version' => 'latest',
                             ],
                         ],
                         'TargetImage' => [
