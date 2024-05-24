@@ -298,20 +298,18 @@ class HomeController extends Controller
             $captured_user_image = $request->input('captured_user_image');
             if($captured_user_image){
                 $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                $rekognition = new RekognitionClient([
-                    'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
-                    'credentials' => [
-                        'key' => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                    ],
-                ]);
-                dd($rekognition) ;
+                // $rekognition = new RekognitionClient([
+                //     'version' => 'latest',
+                //     'region' => env('AWS_DEFAULT_REGION'),
+                //     'credentials' => [
+                //         'key' => env('AWS_ACCESS_KEY_ID'),
+                //         'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                //     ],
+                // ]);
+                // dd($rekognition) ;
 
-                echo "<pre>"; print_r($rekognition); die;
 
                 $isUsers = $this->IsRegistredAlready($imahee);
-                return response()->json(['message' => $isUsers], 406);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
                         return response()->json(['message' => $isUsers['message'], 'dd' => $isUsers['userInfo'],  'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
@@ -525,7 +523,7 @@ class HomeController extends Controller
 
                 foreach ($userAll as $user) {
 
-                    $response = $rekognition->compareFaces([
+                    $response = $rekognition->CompareFacesMatch([
                         'SimilarityThreshold' => 80,
                         'SourceImage' => [
                             'S3Object' => [
