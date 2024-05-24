@@ -497,20 +497,7 @@ class HomeController extends Controller
 
         if (!empty($userAll)) {
 
-               $response = $rekognition->compareFaces([
-                        'SourceImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $objectKey,
-                            ],
-                        ],
-                        'TargetImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $user['recognized_code'],
-                            ],
-                        ],
-                    ]);
+
             try {
                 $rekognition = new RekognitionClient([
                     'version' => 'latest',
