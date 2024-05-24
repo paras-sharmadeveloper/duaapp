@@ -9,7 +9,7 @@ use Twilio\Rest\Client;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Auth;
 use PDO;
-use App\Jobs\{CreateVenuesSlots,CreateFutureDateVenues};
+use App\Jobs\{CreateVenuesSlots, CreateFutureDateVenues};
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
@@ -19,15 +19,14 @@ class VenueController extends Controller
     {
         $post = $request->all();
         // echo "<pre>"; print_r($post); die;
-        if(isset($post['inactive']) && $post['inactive'] == 'true'){
-            $venuesAddress = VenueAddress::whereDate('venue_date','<=',date('Y-m-d'))->get();
+        if (isset($post['inactive']) && $post['inactive'] == 'true') {
+            $venuesAddress = VenueAddress::whereDate('venue_date', '<=', date('Y-m-d'))->get();
             $visitors = Vistors::all();
-
-        }else{
-            $venuesAddress = VenueAddress::whereDate('venue_date','>=',date('Y-m-d'))->get();
+        } else {
+            $venuesAddress = VenueAddress::whereDate('venue_date', '>=', date('Y-m-d'))->get();
             $visitors = Vistors::all();
         }
-        return view('venues.list', compact('venuesAddress','visitors'));
+        return view('venues.list', compact('venuesAddress', 'visitors'));
     }
 
 
@@ -49,7 +48,7 @@ class VenueController extends Controller
         $venueAddress = [];
         $venueCountry = Country::all();
         $reasons = Reason::where(['type' => 'reject_reason'])->get();
-        return view('venues.create', compact('countries', 'therapists', 'siteAdmins','venueCountry','venueAddress','reasons'));
+        return view('venues.create', compact('countries', 'therapists', 'siteAdmins', 'venueCountry', 'venueAddress', 'reasons'));
     }
 
 
@@ -67,15 +66,15 @@ class VenueController extends Controller
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
             'venue_addresses_ur' => 'required',
-           // 'swtich_dua' => 'required',
-           // 'swtich_dum' => 'required',
+            // 'swtich_dua' => 'required',
+            // 'swtich_dum' => 'required',
         ]);
 
         // Conditional validation based on the values of 'swtich_dua' and 'swtich_dum'
         if ($request->input('swtich_dua') == 'on') {
-                $request->validate([
-                    'dua_slots' => 'required|integer|between:1,1000',
-                ]);
+            $request->validate([
+                'dua_slots' => 'required|integer|between:1,1000',
+            ]);
         } else {
             $request->validate([
                 'reject_dua_id' => 'required|integer',
@@ -97,7 +96,7 @@ class VenueController extends Controller
         $therapistRole = Role::where('name', 'therapist')->first();
 
 
-        $thripistId = $therapistRole->id ;
+        $thripistId = $therapistRole->id;
 
         $venueAdd = $request->input('venue_addresses');
         $venueDate = $request->input('venue_date');
@@ -111,9 +110,9 @@ class VenueController extends Controller
         $duaSlots = $request->input('dua_slots');
         $dumSlots = $request->input('dum_slots');
 
-        $recuureingTill = $request->input('recurring_till',0);
-        $rejoin_venue_after = $request->input('rejoin_venue_after',0);
-        $venue_available_country = json_encode($request->input('venue_available_country',0));
+        $recuureingTill = $request->input('recurring_till', 0);
+        $rejoin_venue_after = $request->input('rejoin_venue_after', 0);
+        $venue_available_country = json_encode($request->input('venue_available_country', 0));
 
 
 
@@ -132,7 +131,7 @@ class VenueController extends Controller
 
         $dataArr = [
             'city' => $request->input('city'),
-            'combination_id' =>  $request->input('combination_id') ,
+            'combination_id' =>  $request->input('combination_id'),
             'state' =>  $request->input('state', null),
             'address' => $venueAdd,
             'venue_date' => $venueDate,
@@ -144,10 +143,10 @@ class VenueController extends Controller
             'venue_id' => $country->id,
             'therapist_id' =>  $thripistId,
             'siteadmin_id' =>  $request->input('siteadmin_id'),
-            'type' => $request->input('type','on-site'),
+            'type' => $request->input('type', 'on-site'),
             //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
-           //  'slot_duration' => $slotDuration,
+            //  'slot_duration' => $slotDuration,
             'recurring_till' => (!empty($recuureingTill)) ? $recuureingTill : 0,
             'selfie_verification' => ($request->has('selfie_verification')) ? 1 : 0,
             'rejoin_venue_after' => $rejoin_venue_after,
@@ -157,8 +156,8 @@ class VenueController extends Controller
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
             'working_lady_dua' => $request->input('working_lady_dua'),
             'working_lady_dum' => $request->input('working_lady_dum'),
-            'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
-            'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
+            'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
             // 'timezone' => $timezone->timezone,
             'status_page_note_ur' => $request->input('status_page_note_ur'),
@@ -169,25 +168,24 @@ class VenueController extends Controller
 
         if (!empty($IsRecuureing)) {
             foreach ($IsRecuureing as $key => $recuureing) {
-                $dataArr['is_'. $key] = ($recuureing == 'on') ? 1 : 0;
+                $dataArr['is_' . $key] = ($recuureing == 'on') ? 1 : 0;
                 $dayToSet[] = $key;
             }
         }
 
-        if(!empty($dayToSet)){
-            if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
+        if (!empty($dayToSet)) {
+            if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id', $dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
-                $this->CraeteVenueSlots ($venueAddress->id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+                $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
                 // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             }
-            CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill)->onQueue('create-future-dates')->onConnection("database");
-
-        }else{
+            CreateFutureDateVenues::dispatch($dataArr, $dayToSet, $recuureingTill)->onQueue('create-future-dates')->onConnection("database");
+        } else {
 
             $venueAddress =   VenueAddress::create($dataArr);
-            $this->CraeteVenueSlots ($venueAddress->id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+            $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
             // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
-             // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
+            // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue Creating In backend . Please wait for few seconds');
     }
@@ -198,7 +196,7 @@ class VenueController extends Controller
 
         $currentTime = Carbon::now()->tz($venueAddress->timezone ?? 'Asia/Karachi');
 
-        if($currentTime->gte($venueAddress->venue_date)){
+        if ($currentTime->gte($venueAddress->venue_date)) {
             return redirect()->route('venues.index')->with('error', 'Edit Not Possiable at the momment you can Pause the venue');
         }
 
@@ -211,7 +209,7 @@ class VenueController extends Controller
         })->get();
         $venueCountry = Country::all();
         $reasons = Reason::where(['type' => 'reject_reason'])->get();
-        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins','venueCountry','reasons' ));
+        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins', 'venueCountry', 'reasons'));
     }
 
     public function update(Request $request, $id)
@@ -221,7 +219,7 @@ class VenueController extends Controller
         $therapistRole = Role::where('name', 'therapist')->first();
 
 
-        $thripistId = $therapistRole->id ;
+        $thripistId = $therapistRole->id;
 
         $VenueAddress = VenueAddress::findOrFail($id);
         $request->validate([
@@ -232,10 +230,10 @@ class VenueController extends Controller
             'venue_date' => 'required',
             'venue_addresses' => 'required',
             //'slot_starts_at_morning' => 'required',
-           // 'slot_ends_at_morning' => 'required',
+            // 'slot_ends_at_morning' => 'required',
             'city' => 'required',
             // 'video_room' => 'required_if:type,virtual',
-           // 'slot_duration' => 'required',
+            // 'slot_duration' => 'required',
             // 'slot_appear_hours' => 'required',
             'rejoin_venue_after' => 'required',
             // 'combination_id' => 'required',
@@ -264,8 +262,8 @@ class VenueController extends Controller
         // $venueStartsEvening = $request->input('slot_starts_at_evening', null);
         // $venueEndsEvening = $request->input('slot_ends_at_evening', null);
         // $slotDuration = $request->input('slot_duration');
-        $rejoin_venue_after = $request->input('rejoin_venue_after',0);
-        $venue_available_country = json_encode($request->input('venue_available_country',0));
+        $rejoin_venue_after = $request->input('rejoin_venue_after', 0);
+        $venue_available_country = json_encode($request->input('venue_available_country', 0));
 
         $duaSlots = $request->input('dua_slots');
         $dumSlots = $request->input('dum_slots');
@@ -285,7 +283,7 @@ class VenueController extends Controller
             'venue_id' => $VenueAddress->venue_id,
             'therapist_id' => $thripistId,
             'siteadmin_id' =>  $request->input('siteadmin_id'),
-            'type' => $request->input('type','on-site'),
+            'type' => $request->input('type', 'on-site'),
             //'room_name' => (isset($roomDetail['room_name'])) ? $roomDetail['room_name'] : null,
             //'room_sid' => (isset($roomDetail['room_sid'])) ? $roomDetail['room_sid'] : null,
             // 'slot_duration' => $slotDuration,
@@ -305,27 +303,28 @@ class VenueController extends Controller
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
             'working_lady_dua' => $request->input('working_lady_dua'),
             'working_lady_dum' => $request->input('working_lady_dum'),
-            'reject_dua_id' => ($request->input('swtich_dua')!=='on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
-            'reject_dum_id' => ($request->input('swtich_dum')!=='on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
+            'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
+            'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];
 
         $VenueAddress->update($dataArr);
 
         if ($request->has('update_slots')) {
-            if( VenueSloting::where(['venue_address_id' => $id])->exists()){
+            if (VenueSloting::where(['venue_address_id' => $id])->exists()) {
                 VenueSloting::where(['venue_address_id' => $id])->delete();
             }
 
-            $this->CraeteVenueSlots ($id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+            $this->CraeteVenueSlots($id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
             // CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
             //  $this->createVenueTimeSlots($id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
     }
 
-    private function CraeteVenueSlots ($venueId , $duaSlots , $dumSlots , $working_lady_dua , $working_lady_dum ){
+    private function CraeteVenueSlots($venueId, $duaSlots, $dumSlots, $working_lady_dua, $working_lady_dum)
+    {
 
-        for($token=1; $token<=$duaSlots; $token++){
+        for ($token = 1; $token <= $duaSlots; $token++) {
 
             VenueSloting::create([
                 'venue_address_id' => $venueId,
@@ -333,10 +332,9 @@ class VenueController extends Controller
                 'token_id' => $token,
                 'type' => 'dua'
             ]);
-
         }
 
-        for($token=1001; $token<=$dumSlots; $token++){
+        for ($token = 1001; $token <= $dumSlots; $token++) {
 
             VenueSloting::create([
                 'venue_address_id' => $venueId,
@@ -346,7 +344,7 @@ class VenueController extends Controller
             ]);
         }
 
-        for($token=801; $token<=$working_lady_dua; $token++){
+        for ($token = 801; $token <= $working_lady_dua; $token++) {
 
             VenueSloting::create([
                 'venue_address_id' => $venueId,
@@ -356,49 +354,49 @@ class VenueController extends Controller
             ]);
         }
 
-        for($token=1801; $token<=$working_lady_dum; $token++){
+        for ($token = 1801; $token <= $working_lady_dum; $token++) {
 
             VenueSloting::create([
-                'venue_address_id' =>$venueId,
+                'venue_address_id' => $venueId,
                 'slot_time' => date("Y-m-d H:i:s"),
                 'token_id' => $token,
                 'type' => 'working_lady_dum'
             ]);
         }
-
     }
 
-    private function RecurringDays($tillMonths,$day){
+    private function RecurringDays($tillMonths, $day)
+    {
         $currentDate = Carbon::now();
         $nextTwoMonths = $currentDate->copy()->addMonths($tillMonths);
 
         $mondaysInNextTwoMonths = [];
 
         while ($currentDate->lte($nextTwoMonths)) {
-            if ($day=='monday' && $currentDate->dayOfWeek === Carbon::MONDAY) {
+            if ($day == 'monday' && $currentDate->dayOfWeek === Carbon::MONDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='tuesday' && $currentDate->dayOfWeek === Carbon::TUESDAY) {
+            if ($day == 'tuesday' && $currentDate->dayOfWeek === Carbon::TUESDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='wednesday' && $currentDate->dayOfWeek === Carbon::WEDNESDAY) {
+            if ($day == 'wednesday' && $currentDate->dayOfWeek === Carbon::WEDNESDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='thursday' && $currentDate->dayOfWeek === Carbon::THURSDAY) {
+            if ($day == 'thursday' && $currentDate->dayOfWeek === Carbon::THURSDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='friday' && $currentDate->dayOfWeek === Carbon::FRIDAY) {
+            if ($day == 'friday' && $currentDate->dayOfWeek === Carbon::FRIDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='saturday' && $currentDate->dayOfWeek === Carbon::SATURDAY) {
+            if ($day == 'saturday' && $currentDate->dayOfWeek === Carbon::SATURDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
-            if ($day=='sunday' && $currentDate->dayOfWeek === Carbon::SUNDAY) {
+            if ($day == 'sunday' && $currentDate->dayOfWeek === Carbon::SUNDAY) {
                 $mondaysInNextTwoMonths[] = $currentDate->copy();
             }
             $currentDate->addDay();
         }
-        $allDates =[];
+        $allDates = [];
 
         foreach ($mondaysInNextTwoMonths as $monday) {
             $allDates[] = $monday->format('Y-m-d');
@@ -433,7 +431,7 @@ class VenueController extends Controller
         $startTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_morning);
         $endTime = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_morning);
 
-        if(!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)){
+        if (!empty($venueAddress->slot_starts_at_evening) && !empty($venueAddress->slot_ends_at_evening)) {
 
             $startTimeevng = Carbon::createFromFormat('H:i:s', $venueAddress->slot_starts_at_evening);
             $endTimeEvn = Carbon::createFromFormat('H:i:s', $venueAddress->slot_ends_at_evening);
@@ -447,7 +445,6 @@ class VenueController extends Controller
                 ]);
                 $currentTimeT->addMinute($slotDuration); // Move to the next minute
             }
-
         }
         // Create time slots
         $currentTime = $startTime;
@@ -473,10 +470,10 @@ class VenueController extends Controller
         return ['room_name' => $roomName, 'room_sid' => $room->sid];
     }
 
-    public function pauseResumeVenue( Request $request, $id){
+    public function pauseResumeVenue(Request $request, $id)
+    {
         $cuurentStatus  = ($request->input('status') == 'active') ? 'inactive' : 'active';
         VenueAddress::find($id)->update(['status' => $cuurentStatus]);
         return redirect()->back()->with(['success' => 'Updated']);
-
     }
 }
