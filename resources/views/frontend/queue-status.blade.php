@@ -408,7 +408,7 @@
                         Ahead You #{{ sprintf("%03s", $aheadPeople)  }}
                         </div> --}}
                         <div class="queue-number">
-                            <p> {{ ($slotType == 'working_lday_dua' || $slotType == 'working_lday_dum' ) ? 'Working Lady' : '' }} </p>
+                            <p> {{ ($slotType == 'working_lady_dua' || $slotType == 'working_lady_dum' ) ? 'Working Lady' : '' }} </p>
                             {{ ucwords(trans('messages.'.$slotType))  }} {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }}
                             <br>
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
