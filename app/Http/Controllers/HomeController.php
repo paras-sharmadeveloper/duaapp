@@ -524,35 +524,48 @@ class HomeController extends Controller
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
 
-                        $response = $rekognition->compareFaces([
-                            "QualityFilter" =>'AUTO',
-                            "SimilarityThreshold" => 80,
-
-                            'SourceImage' => [
+                        $result = $rekognition->detectFaces([
+                            'Attributes' => ['ALL'],
+                            'Image' => [
                                 'S3Object' => [
-                                    "Bytes" =>  'blob',
                                     'Bucket' => env('AWS_BUCKET'),
-                                    'Name' => $objectKey,
-                                ],
-                            ],
-                            'TargetImage' => [
-                                'S3Object' => [
-                                    "Bytes" =>  'blob',
-                                    'Bucket' => env('AWS_BUCKET'),
-                                    'Name' => $user['recognized_code'],
+                                    'Name' => $objectKey, // path to the photo in your S3 bucket
                                 ],
                             ],
                         ]);
 
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
-                        if (count($faceMatches) > 0) {
+                        // $response = $rekognition->compareFaces([
+                        //     "QualityFilter" =>'AUTO',
+                        //     "SimilarityThreshold" => 80,
 
-                            foreach ($faceMatches as $match) {
-                                if ($match['Similarity'] >= 80) {
-                                    $userArr[] = $user['id'];
-                                }
-                            }
+                        //     'SourceImage' => [
+                        //         'S3Object' => [
+                        //             "Bytes" =>  'blob',
+                        //             'Bucket' => env('AWS_BUCKET'),
+                        //             'Name' => $objectKey,
+                        //         ],
+                        //     ],
+                        //     'TargetImage' => [
+                        //         'S3Object' => [
+                        //             "Bytes" =>  'blob',
+                        //             'Bucket' => env('AWS_BUCKET'),
+                        //             'Name' => $user['recognized_code'],
+                        //         ],
+                        //     ],
+                        // ]);
+
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
+                        if (count($result['FaceDetails']) > 0) {
+                            $userArr[] = $user['id'];
                         }
+                        // if (count($faceMatches) > 0) {
+
+                        //     foreach ($faceMatches as $match) {
+                        //         if ($match['Similarity'] >= 80) {
+                        //             $userArr[] = $user['id'];
+                        //         }
+                        //     }
+                        // }
                     }
 
 
