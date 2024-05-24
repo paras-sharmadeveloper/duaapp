@@ -522,33 +522,38 @@ class HomeController extends Controller
                 ]);
                 Storage::disk('s3')->put($objectKey, $selfieImage);
 
-                foreach ($userAll as $user) {
 
-                    $response = $rekognition->compareFaces([
-                        'SourceImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $objectKey,
+                if(!empty($user)){
+                    foreach ($userAll as $user) {
+
+                        $response = $rekognition->compareFaces([
+                            'SourceImage' => [
+                                'S3Object' => [
+                                    'Bucket' => env('AWS_BUCKET'),
+                                    'Name' => $objectKey,
+                                ],
                             ],
-                        ],
-                        'TargetImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $user['recognized_code'],
+                            'TargetImage' => [
+                                'S3Object' => [
+                                    'Bucket' => env('AWS_BUCKET'),
+                                    'Name' => $user['recognized_code'],
+                                ],
                             ],
-                        ],
-                    ]);
+                        ]);
 
-                    $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
-                    if (count($faceMatches) > 0) {
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
+                        if (count($faceMatches) > 0) {
 
-                        foreach ($faceMatches as $match) {
-                            if ($match['Similarity'] >= 80) {
-                                $userArr[] = $user['id'];
+                            foreach ($faceMatches as $match) {
+                                if ($match['Similarity'] >= 80) {
+                                    $userArr[] = $user['id'];
+                                }
                             }
                         }
                     }
                 }
+
+
 
                 if (empty($userArr)) {
 
