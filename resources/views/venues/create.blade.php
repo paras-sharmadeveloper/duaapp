@@ -89,13 +89,17 @@
                 @if (Route::currentRouteName() == 'venues.edit')
                     <h5 class="card-title">Edit Venue</h5>
 
-                    {!! Form::model($venueAddress, [
+                    <form action="{{ route('venues.update', $venueAddress->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                    {{-- {!! Form::model($venueAddress, [
                         'route' => ['venues.update', $venueAddress->id],
                         'method' => 'PUT',
                         'enctype' => 'multipart/form-data',
-                    ]) !!}
+                    ]) !!} --}}
                 @else
-                    {!! Form::open(['route' => 'venues.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                <form action="{{ route('venues.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <h5 class="card-title">Create Venue</h5>
 
                     <form method="POST" action="{{ route('venues.store') }}">
@@ -154,14 +158,15 @@
                         <label>Venue Addresses (English)</label>
 
                         <div class="input-group">
+                            <textarea name="venue_addresses" class="form-control" placeholder="Address" cols="5" rows="2">{{ isset($venueAddress->address) ? $venueAddress->address : '' }}</textarea>
 
 
-                            {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
+                            {{-- {!! Form::textarea('venue_addresses', $venueAddress->address ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Address',
                                 'cols' => 5,
                                 'rows' => 2,
-                            ]) !!}
+                            ]) !!} --}}
 
                         </div>
 
@@ -170,13 +175,15 @@
                     <div class="col-md-6 ">
                         <label>Venue Addresses (Urdu)</label>
                         <div class="input-group">
+                            <textarea name="venue_addresses_ur" class="form-control" placeholder="Address In Urdu" cols="5" rows="2">{{ isset($venueAddress->address_ur) ? $venueAddress->address_ur : '' }}</textarea>
 
-                            {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
+
+                            {{-- {!! Form::textarea('venue_addresses_ur', $venueAddress->address_ur ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Address In Urdu',
                                 'cols' => 5,
                                 'rows' => 2,
-                            ]) !!}
+                            ]) !!} --}}
 
                         </div>
 
