@@ -428,12 +428,12 @@
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if( ($workingLady) && $workingLady->type == 'critical' )
                     <a class="acc_style04" href="#" style="background:red">
-                        {{ ($workingLady) ? $workingLady->type : '' }}
+                        {{ ($workingLady) ? ucwords($workingLady->type)  : '' }}
                     </a>
                 @endif
                 @if( ($workingLady) && $workingLady->type == 'normal' )
                     <a class="acc_style04" href="#" style="background:rgb(70, 148, 70)">
-                        {{ ($workingLady) ? $workingLady->type : 'Normal' }}
+                        {{ ($workingLady) ? ucwords($workingLady->type) : '' }}
                     </a>
                 @endif
             </div>
