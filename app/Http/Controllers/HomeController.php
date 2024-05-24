@@ -511,7 +511,7 @@ class HomeController extends Controller
 
 
             try {
-               return $rekognition = new RekognitionClient([
+                $rekognition = new RekognitionClient([
                     'version' => 'latest',
                     'region' => env('AWS_DEFAULT_REGION'),
                     'credentials' => [
