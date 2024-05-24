@@ -534,7 +534,7 @@ class HomeController extends Controller
                         'TargetImage' => [
                             'S3Object' => [
                                 'Bucket' => env('AWS_BUCKET'),
-                                'Name' => '583633444438ac3b410c75f550c3a190809d953629a51c3cf0ff6dc579dc1ef8',
+                                'Name' => $user['recognized_code'],
                             ],
                         ],
                     ]);
