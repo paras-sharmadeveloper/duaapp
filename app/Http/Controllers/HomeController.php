@@ -300,6 +300,7 @@ class HomeController extends Controller
                 $captured_user_image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 $isUsers = $this->IsRegistredAlready($captured_user_image);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
+                        return response()->json(['message' => $isUsers], 406);
                         return response()->json(['message' => $isUsers['message'], 'dd' => $isUsers['userInfo'],  'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
                 }
             }
@@ -499,7 +500,7 @@ class HomeController extends Controller
 
 
             try {
-                $rekognition = new RekognitionClient([
+               return $rekognition = new RekognitionClient([
                     'version' => 'latest',
                     'region' => env('AWS_DEFAULT_REGION'),
                     'credentials' => [
