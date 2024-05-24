@@ -300,7 +300,7 @@ class HomeController extends Controller
                 $captured_user_image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 $isUsers = $this->IsRegistredAlready($captured_user_image);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
-                        return response()->json(['message' => $isUsers['message'], 'isUser' => $isUsers . env('AWS_ACCESS_KEY_ID'), "status" => false], 406);
+                        return response()->json(['message' => $isUsers['message'], 'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
                 }
             }
 
