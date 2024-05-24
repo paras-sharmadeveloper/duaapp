@@ -306,6 +306,7 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
+                return $rekognition;
 
                 echo "<pre>"; print_r($rekognition); die;
 
