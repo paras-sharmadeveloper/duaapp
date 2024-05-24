@@ -539,12 +539,12 @@ class HomeController extends Controller
 
                 if (empty($userArr)) {
 
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'userInfo' => $userArr];
+                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'userInfo' => $userAll];
                 } else {
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userArr];
+                return ['message' => $e->getMessage(), 'status' => false ,'userInfo' => $userAll];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
