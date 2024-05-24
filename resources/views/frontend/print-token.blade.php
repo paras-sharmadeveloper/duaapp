@@ -426,12 +426,12 @@
         <div class="row userImag" >
             <div class="link_wrap">
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
-                @if( ($workingLady) && $workingLady->type == 'critical' )
+                @if(!empty($workingLady) && $workingLady->type == 'critical' )
                     <a class="acc_style04" href="#" style="background:red">
                         {{ ($workingLady) ? ucwords($workingLady->type)  : '' }}
                     </a>
                 @endif
-                @if( ($workingLady) && $workingLady->type == 'normal' )
+                @if(!empty($workingLady) && $workingLady->type == 'normal' )
                     <a class="acc_style04" href="#" style="background:rgb(70, 148, 70)">
                         {{ ($workingLady) ? ucwords($workingLady->type) : '' }}
                     </a>
