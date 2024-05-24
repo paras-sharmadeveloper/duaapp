@@ -496,44 +496,78 @@ class HomeController extends Controller
         $userArr = [];
 
         if (!empty($userAll)) {
-            try {
-                $rekognition = new RekognitionClient([
-                    'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
-                    'credentials' => [
-                        'key' => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+
+            $rekognition = new RekognitionClient([
+                'version' => 'latest',
+                'region' => env('AWS_DEFAULT_REGION'),
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+            ]);
+
+            foreach ($userAll as $user) {
+
+                $response = $rekognition->compareFaces([
+                    'SourceImage' => [
+                        'S3Object' => [
+                            'Bucket' => env('AWS_BUCKET'),
+                            'Name' => $objectKey,
+                        ],
+                    ],
+                    'TargetImage' => [
+                        'S3Object' => [
+                            'Bucket' => env('AWS_BUCKET'),
+                            'Name' => $user['recognized_code'],
+                        ],
                     ],
                 ]);
-                Storage::disk('s3')->put($objectKey, $selfieImage);
+                return ['message' =>'a', 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') , 'match' => $response ];
+                $faceMatches = $response['FaceMatches'];
+                if (count($faceMatches) > 0) {
 
-                foreach ($userAll as $user) {
-
-                    $response = $rekognition->compareFaces([
-                        'SourceImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $objectKey,
-                            ],
-                        ],
-                        'TargetImage' => [
-                            'S3Object' => [
-                                'Bucket' => env('AWS_BUCKET'),
-                                'Name' => $user['recognized_code'],
-                            ],
-                        ],
-                    ]);
-                    return ['message' =>'a', 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') , 'match' => $response ];
-                    $faceMatches = $response['FaceMatches'];
-                    if (count($faceMatches) > 0) {
-
-                        foreach ($faceMatches as $match) {
-                            if ($match['Similarity'] >= 80) {
-                                $userArr[] = $user['id'];
-                            }
+                    foreach ($faceMatches as $match) {
+                        if ($match['Similarity'] >= 80) {
+                            $userArr[] = $user['id'];
                         }
                     }
                 }
+            }
+
+
+
+
+            try {
+
+                Storage::disk('s3')->put($objectKey, $selfieImage);
+
+                // foreach ($userAll as $user) {
+
+                //     $response = $rekognition->compareFaces([
+                //         'SourceImage' => [
+                //             'S3Object' => [
+                //                 'Bucket' => env('AWS_BUCKET'),
+                //                 'Name' => $objectKey,
+                //             ],
+                //         ],
+                //         'TargetImage' => [
+                //             'S3Object' => [
+                //                 'Bucket' => env('AWS_BUCKET'),
+                //                 'Name' => $user['recognized_code'],
+                //             ],
+                //         ],
+                //     ]);
+                //     return ['message' =>'a', 'status' => false ,'userInfo' => $userAll ,'buclet' =>  env('AWS_BUCKET') , 'match' => $response ];
+                //     $faceMatches = $response['FaceMatches'];
+                //     if (count($faceMatches) > 0) {
+
+                //         foreach ($faceMatches as $match) {
+                //             if ($match['Similarity'] >= 80) {
+                //                 $userArr[] = $user['id'];
+                //             }
+                //         }
+                //     }
+                // }
 
                 if (empty($userArr)) {
 
