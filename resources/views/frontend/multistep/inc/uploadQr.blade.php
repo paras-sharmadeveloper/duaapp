@@ -20,7 +20,7 @@
                     <button class="btn">Choose File</button>
                     </div>
 
-                    <p> {{ trans('messages.workingLady_notRegister') }} <a href="{{ route('working.lady.show')}} ">Working Lady</a></p>
+                    <p> {{ trans('messages.workingLady_notRegister') }} <a href="{{ route('working.lady.show')}} ">Register</a></p>
 
                 </div>
                 <p id="cadr-1r" class="error"></p>
