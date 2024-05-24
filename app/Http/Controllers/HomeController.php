@@ -525,14 +525,19 @@ class HomeController extends Controller
                     foreach ($userAll as $user) {
 
                         $response = $rekognition->compareFaces([
+                            "QualityFilter" =>'AUTO',
+                            "SimilarityThreshold" => 80,
+
                             'SourceImage' => [
                                 'S3Object' => [
+                                    "Bytes" =>  'blob',
                                     'Bucket' => env('AWS_BUCKET'),
                                     'Name' => $objectKey,
                                 ],
                             ],
                             'TargetImage' => [
                                 'S3Object' => [
+                                    "Bytes" =>  'blob',
                                     'Bucket' => env('AWS_BUCKET'),
                                     'Name' => $user['recognized_code'],
                                 ],
