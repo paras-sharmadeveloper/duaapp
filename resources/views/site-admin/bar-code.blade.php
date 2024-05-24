@@ -129,6 +129,7 @@
 
 
         function printDiv(divId) {
+            $(".userImag").hide()
 
           //  alert("in print code here")
 
@@ -172,6 +173,7 @@
 
             if (event.which == 32) {
                 // alert("space pressed")
+                $(".userImag").remove()
                 printDiv('printableArea')
                 // $("#barcodeInput").focus();
             }
