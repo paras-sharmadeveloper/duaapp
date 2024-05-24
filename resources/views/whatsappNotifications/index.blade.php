@@ -81,13 +81,8 @@
 
 
 
-                {!! Form::open([
-                    'id' => 'sendnotiform',
 
-                    'method' => 'POST',
-                    'class' => 'row g-3',
-                    'enctype' => 'multipart/form-data',
-                ]) !!}
+                <form method="POST" class="row g-3" enctype="multipart/form-data"  id="sendnotiform">
                 <input type="hidden" name="from" value="admin">
                 {{-- Just for Tracking Purpose --}}
                 <input type="hidden" name="user_question" value="admin-side-booking">
@@ -148,7 +143,7 @@
                 <div class="col-12">
                     <button class="btn btn-primary" type="button" id="sendNotification">Send Notification</button>
                 </div>
-                {!! Form::close() !!}
+                </form>
                 <!-- End Browser Default Validation -->
 
             </div>
