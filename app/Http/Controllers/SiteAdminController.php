@@ -47,8 +47,8 @@ class SiteAdminController extends Controller
         $data['dua'] = $q->first();
         $data['dum'] = $q2->first();
 
-        $data['working_dua'] = $q3->first();
-        $data['working_dum'] = $q4->first();
+        // $data['working_dua'] = $q3->first();
+        // $data['working_dum'] = $q4->first();
         if(!$q->count() >= 1){
             $data['dua'] =Vistors::where('dua_type','dua')->orWhere('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
@@ -143,8 +143,8 @@ class SiteAdminController extends Controller
 
         $data['dua'] =   $query->first();
         $data['dum'] =   $query2->first();
-        $data['working_dua'] =   $query3->first();
-        $data['working_dum'] =   $query4->first();
+        // $data['working_dua'] =   $query3->first();
+        // $data['working_dum'] =   $query4->first();
 
         if($query->count() == 0){
             $data['dua'] =Vistors::where('dua_type','dua')->orWhere('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
