@@ -308,8 +308,8 @@ class HomeController extends Controller
                 // ]);
                 // dd($rekognition) ;
 
-                $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-                return response()->json(['message' => $userAll]);
+                // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+                // return response()->json(['message' => $userAll]);
                 $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
@@ -522,9 +522,6 @@ class HomeController extends Controller
                     ],
                 ]);
                 Storage::disk('s3')->put($objectKey, $selfieImage);
-
-
-                if(!empty($userAll)){
                     foreach ($userAll as $user) {
 
                         $response = $rekognition->compareFaces([
@@ -552,7 +549,7 @@ class HomeController extends Controller
                             }
                         }
                     }
-                }
+
 
 
 
