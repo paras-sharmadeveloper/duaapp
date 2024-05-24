@@ -177,14 +177,16 @@ class VenueController extends Controller
         if(!empty($dayToSet)){
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id',$dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
-                CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
+                $this->CraeteVenueSlots ($venueAddress->id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+                // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             }
             CreateFutureDateVenues::dispatch($dataArr,$dayToSet,$recuureingTill)->onQueue('create-future-dates')->onConnection("database");
 
         }else{
 
             $venueAddress =   VenueAddress::create($dataArr);
-            CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
+            $this->CraeteVenueSlots ($venueAddress->id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+            // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
              // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue Creating In backend . Please wait for few seconds');
@@ -314,10 +316,56 @@ class VenueController extends Controller
                 VenueSloting::where(['venue_address_id' => $id])->delete();
             }
 
-            CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
+            $this->CraeteVenueSlots ($id , $duaSlots , $dumSlots , $request->input('working_lady_dua') , $request->input('working_lady_dum') );
+            // CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
             //  $this->createVenueTimeSlots($id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
+    }
+
+    private function CraeteVenueSlots ($venueId , $duaSlots , $dumSlots , $working_lady_dua , $working_lady_dum ){
+
+        for($token=1; $token<=$duaSlots; $token++){
+
+            VenueSloting::create([
+                'venue_address_id' => $venueId,
+                'slot_time' =>  date("Y-m-d H:i:s"),
+                'token_id' => $token,
+                'type' => 'dua'
+            ]);
+
+        }
+
+        for($token=1001; $token<=$dumSlots; $token++){
+
+            VenueSloting::create([
+                'venue_address_id' => $venueId,
+                'slot_time' => date("Y-m-d H:i:s"),
+                'token_id' => $token,
+                'type' => 'dum'
+            ]);
+        }
+
+        for($token=801; $token<=$working_lady_dua; $token++){
+
+            VenueSloting::create([
+                'venue_address_id' => $venueId,
+                'slot_time' => date("Y-m-d H:i:s"),
+                'token_id' => $token,
+                'type' => 'working_lady_dua'
+            ]);
+        }
+
+        for($token=1801; $token<=$working_lady_dum; $token++){
+
+            VenueSloting::create([
+                'venue_address_id' =>$venueId,
+                'slot_time' => date("Y-m-d H:i:s"),
+                'token_id' => $token,
+                'type' => 'working_lady_dum'
+            ]);
+        }
+
     }
 
     private function RecurringDays($tillMonths,$day){
