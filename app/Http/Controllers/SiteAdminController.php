@@ -303,16 +303,16 @@ class SiteAdminController extends Controller
     public function WaitingQueueShow(Request $request, $id)
     {
 
-        $visitors = Vistors::join('venues_sloting', 'vistors.slot_id', '=', 'venues_sloting.id')
+        $visitors = Vistors::join('venues_sloting', 'visitors.slot_id', '=', 'venues_sloting.id')
             ->join('venue_addresses', 'venues_sloting.venue_address_id', '=', 'venue_addresses.id')
             ->where(['venues_sloting.venue_address_id' => $id])
-            ->where(['vistors.meeting_ends_at' => null])
-            ->where(['vistors.user_status' => 'in-meeting'])
-            // ->where(['vistors.user_status' => 'admitted'])
-            // ->orWhere(['vistors.user_status' => 'in-meeting'])
-            ->select('vistors.*', 'venues_sloting.*', 'venue_addresses.*')
+            ->where(['visitors.meeting_ends_at' => null])
+            ->where(['visitors.user_status' => 'in-meeting'])
+            // ->where(['visitors.user_status' => 'admitted'])
+            // ->orWhere(['visitors.user_status' => 'in-meeting'])
+            ->select('visitors.*', 'venues_sloting.*', 'venue_addresses.*')
             // ->orderBy('venues_sloting.slot_time', 'asc')
-            ->orderBy('vistors.booking_number', 'asc')
+            ->orderBy('visitors.booking_number', 'asc')
             ->get();
 
         if ($request->ajax()) {
