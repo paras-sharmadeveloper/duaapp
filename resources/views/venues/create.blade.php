@@ -471,7 +471,7 @@
                             ]) !!} --}}
 
                                 <input type="number" name="rejoin_venue_after"
-                                value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : '' }}"
+                                value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : 0 }}"
                                 class="form-control dum_slots"
                                 placeholder="Rejoin Venue Afer" >
 
