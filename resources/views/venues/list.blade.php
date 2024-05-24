@@ -111,7 +111,8 @@
 
                                 $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
 
-                            }else{
+                            }
+                            if($slotCreated > 0 && $visitor->slot->type == 'dum' ){
                                 $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
 
 
