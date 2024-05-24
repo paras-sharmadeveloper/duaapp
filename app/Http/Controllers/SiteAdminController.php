@@ -49,41 +49,25 @@ class SiteAdminController extends Controller
 
         $data['working_dua'] = $q3->first();
         $data['working_dum'] = $q4->first();
-        if(!$q->count() >= 1 || !$q3->count() >=1){
-            $data['dua'] = Vistors::where(function($query) {
-                $query->where('dua_type','dua')
-                      ->orWhere('dua_type','working_lady_dua');
-            })
-            ->whereIn('user_status', ['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))
-            ->whereNotNull('confirmed_at')
-            ->orderBy('slot_id', 'asc')
-            ->first();
+        if(!$q->count() >= 1){
+            $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
-        if(!$q2->count() >= 1  || !$q4->count() >=1){
-            $data['dum'] = Vistors::where(function($query) {
-                $query->where('dua_type','dua')
-                      ->orWhere('dua_type','working_lady_dum');
-            })
-            ->whereIn('user_status', ['in-meeting'])
-            ->whereDate('created_at',date('Y-m-d'))
-            ->whereNotNull('confirmed_at')
-            ->orderBy('slot_id', 'asc')
-            ->first();
-            //$data['dum'] =Vistors::where('dua_type','dum')->orWhere('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
-            // ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
+        if(!$q2->count() >= 1){
+            $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
-        // if(!$q3->count() >= 1){
-        //     $data['working_dua'] =Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
-        //     ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
-        // }
+        if(!$q3->count() >= 1){
+            $data['working_dua'] =Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
+        }
 
-        // if(!$q4->count() >= 1){
-        //     $data['working_dum'] =Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
-        //     ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
-        // }
+        if(!$q4->count() >= 1){
+            $data['working_dum'] =Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
+        }
 
 
         return response()->json(['success' => true, 'data' => $data], 200);
@@ -159,28 +143,28 @@ class SiteAdminController extends Controller
 
         $data['dua'] =   $query->first();
         $data['dum'] =   $query2->first();
-        // $data['working_dua'] =   $query3->first();
-        // $data['working_dum'] =   $query4->first();
+        $data['working_dua'] =   $query3->first();
+        $data['working_dum'] =   $query4->first();
 
         if($query->count() == 0){
-            $data['dua'] =Vistors::where('dua_type','dua')->orWhere('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
+            $data['dua'] =Vistors::where('dua_type','dua')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
         if($query2->count() == 0){
-            $data['dum'] =Vistors::where('dua_type','dum')->orWhere('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
+            $data['dum'] =Vistors::where('dua_type','dum')->whereIn('user_status' ,['in-meeting'])
             ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
         }
 
-        // if($query3->count() == 0){
-        //     $data['working_dua'] =Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
-        //     ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
-        // }
+        if($query3->count() == 0){
+            $data['working_dua'] =Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
+        }
 
-        // if($query4->count() == 0){
-        //     $data['working_dum'] =Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
-        //     ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
-        // }
+        if($query4->count() == 0){
+            $data['working_dum'] =Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['in-meeting'])
+            ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc')->first();
+        }
         return response()->json(['success' => true , 'data' => $data]);
     }
 
