@@ -7,12 +7,11 @@
             font-family: 'Jameel Noori Nastaleeq', 'Regular';
         }
         .queue-number p {
-    font-size: 24px;
-    font-weight: 600;
-}
+                font-size: 24px;
+                font-weight: 600;
+        }
 
         @media print {
-
             /* Adjust widths for better print layout */
             .column {
                 width: 100%;
@@ -20,11 +19,9 @@
                 padding: 10px;
                 /* Adjust padding as needed */
             }
-
             #mainsection {
                 margin: 0 !important;
             }
-
 
         }
 

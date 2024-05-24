@@ -212,12 +212,18 @@
                             <label class="form-check-label" for="swtich-dua">Dua (From 1 - 800)</label>
 
                             <div class="dua-token">
-                                {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
+                                <input type="number" name="dua_slots"
+                                    value="{{ isset($venueAddress->dua_slots) ? $venueAddress->dua_slots : '' }}"
+                                    class="form-control dum_slots"
+                                    placeholder="Working Lady Dua Slot" min="1" max="800">
+
+
+                                {{-- {!! Form::number('dua_slots', $venueAddress->dua_slots ?? '', [
                                     'class' => 'form-control dua_slots',
                                     'placeholder' => 'Dua Slots',
                                     'min' => 1,
                                     'max' => 800,
-                                ]) !!}
+                                ]) !!} --}}
                             </div>
 
 
@@ -247,12 +253,14 @@
                             <label class="form-check-label" for="swtich-dum">Dum (From 1001 - 1800)</label>
 
                             <div class="dum-token">
-                                {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
+                                <input type="number" name="dum_slots" value="{{ isset($venueAddress->dum_slots) ? $venueAddress->dum_slots : '' }}" class="form-control dum_slots" placeholder="dum Slots" min="1001" max="1800">
+
+                                {{-- {!! Form::number('dum_slots', $venueAddress->dum_slots ?? '', [
                                     'class' => 'form-control dum_slots',
                                     'placeholder' => 'dum Slots',
                                     'min' => 1001,
                                     'max' => 1800,
-                                ]) !!}
+                                ]) !!} --}}
                             </div>
 
 
@@ -278,23 +286,36 @@
                     <div class="col-md-6 mt-4">
                         <label>Working Lady Dua (From 801 - 1000)</label>
                         <div class="dua-token1">
-                            {!! Form::number('working_lady_dua', $venueAddress->dua_slots ?? '', [
+                            {{-- {!! Form::number('working_lady_dua', $venueAddress->dua_slots ?? '', [
+
                                 'class' => 'form-control',
                                 'placeholder' => 'Working Lady Dua Slots',
                                 'min' => 801,
                                 'max' => 1000,
-                            ]) !!}
+                            ]) !!} --}}
+                           <input type="number" name="working_lady_dua"
+                           value="{{ isset($venueAddress->working_lady_dua) ? $venueAddress->working_lady_dua : '' }}"
+                           class="form-control dum_slots"
+                           placeholder="Working Lady Dua Slot" min="801" max="1000">
+
                         </div>
                     </div>
                     <div class="col-md-6 mt-4">
                         <label>Working Lady Dum (From 1801 - 2000)</label>
                         <div class="dua-token2">
-                            {!! Form::number('working_lady_dum', $venueAddress->dua_slots ?? '', [
+
+                            <input type="number" name="working_lady_dum"
+                           value="{{ isset($venueAddress->dua_slots) ? $venueAddress->working_lady_dum : '' }}"
+                           class="form-control dum_slots"
+                           placeholder="Working Lady Dum Slot" min="1801" max="2000">
+
+
+                            {{-- {!! Form::number('working_lady_dum', $venueAddress->working_lady_dum ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Working Lady Dua Slots',
                                 'min' => 1801,
                                 'max' => 2000,
-                            ]) !!}
+                            ]) !!} --}}
                         </div>
                     </div>
                 </div>
@@ -421,10 +442,15 @@
 
                         <div class="input-group">
 
-                            {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
+                            <input type="number" name="recurring_till"
+                            value="{{ isset($venueAddress->recurring_till) ? $venueAddress->recurring_till : '' }}"
+                            class="form-control dum_slots"
+                            placeholder="ends" >
+
+                            {{-- {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'ends',
-                            ]) !!}
+                            ]) !!} --}}
 
                         </div>
                     </div>
@@ -432,10 +458,15 @@
                         <label>User Rejoin After Days? </label>
                         <div class="input-group">
                             {{-- <span class="input-group-text">User Rejoin After Days? </span>  --}}
-                            {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
+                            {{-- {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
                                 'class' => 'form-control',
                                 'placeholder' => 'rejoin_venue_after',
-                            ]) !!}
+                            ]) !!} --}}
+
+                                <input type="number" name="rejoin_venue_after"
+                                value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : '' }}"
+                                class="form-control dum_slots"
+                                placeholder="Rejoin Venue Afer" >
 
                         </div>
                     </div>
@@ -527,11 +558,6 @@
 
                         </div>
                     </div>
-
-
-
-
-
                     {{-- <div class="col-md-4 mt-4">
                         <div class="input-group">
                             <span class="input-group-text">Video Room Name</span>
@@ -544,7 +570,8 @@
                 </div>
                 @if (Route::currentRouteName() == 'venues.edit')
                     <div class="form-check">
-                        {!! Form::checkbox('update_slots', 'yes', null, ['class' => 'form-check-input', 'id' => 'checkbox_id']) !!}
+                        <input type="checkbox" name="update_slots" value="yes" class="form-check-input" id="checkbox_id">
+
                         <label class="form-check-label" for="checkbox_id">Check If you also want to Update Slots and Date
                         </label>
                     </div>
