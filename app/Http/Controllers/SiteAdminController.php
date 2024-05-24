@@ -38,18 +38,18 @@ class SiteAdminController extends Controller
         $q2 = Vistors::where('dua_type','dum')->whereIn('user_status' ,['admitted'])
         ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
-       // $q3 = Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['admitted'])
-       // ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
+        $q3 = Vistors::where('dua_type','working_lady_dua')->whereIn('user_status' ,['admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
-       // $q4 = Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['admitted'])
-       // ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
+        $q4 = Vistors::where('dua_type','working_lady_dum')->whereIn('user_status' ,['admitted'])
+        ->whereDate('created_at',date('Y-m-d'))->whereNotNull('confirmed_at')->orderBy('slot_id', 'asc');
 
         $data['dua'] = $q->first();
         $data['dum'] = $q2->first();
 
-        // $data['working_dua'] = $q3->first();
-        // $data['working_dum'] = $q4->first();
-        if(!$q->count() >= 1){
+        $data['working_dua'] = $q3->first();
+        $data['working_dum'] = $q4->first();
+        if(!$q->count() >= 1 || !$q3->count() >=1){
             $data['dua'] = Vistors::where(function($query) {
                 $query->where('dua_type','dua')
                       ->orWhere('dua_type','working_lady_dua');
@@ -61,7 +61,7 @@ class SiteAdminController extends Controller
             ->first();
         }
 
-        if(!$q2->count() >= 1){
+        if(!$q2->count() >= 1  || !$q4->count() >=1){
             $data['dum'] = Vistors::where(function($query) {
                 $query->where('dua_type','dua')
                       ->orWhere('dua_type','working_lady_dum');
