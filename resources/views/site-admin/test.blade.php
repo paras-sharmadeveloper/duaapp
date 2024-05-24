@@ -289,9 +289,11 @@
 
                     if(response.data.working_dum || response.data.working_dua  ){
                         plotData(response.data.working_dua, response.data.working_dum)
+                    }else{
+                        plotData(visitor, visitorDum)
                     }
 
-                    plotData(visitor, visitorDum)
+
                     // event.find('b').text(successText)
                     // setTimeout(() => {
                     //     event.find('b').text(defaultText)
