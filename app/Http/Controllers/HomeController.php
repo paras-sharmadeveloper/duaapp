@@ -313,7 +313,7 @@ class HomeController extends Controller
                 $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
-                        return response()->json(['message' => $isUsers['message'], 'dd' => $isUsers['userInfo'],  'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
                 }
             }
 
