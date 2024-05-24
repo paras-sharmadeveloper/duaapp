@@ -308,7 +308,8 @@ class HomeController extends Controller
                 // ]);
                 // dd($rekognition) ;
 
-
+                $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+                return response()->json(['message' => $userAll]);
                 $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
