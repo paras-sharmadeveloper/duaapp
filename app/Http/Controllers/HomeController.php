@@ -164,6 +164,7 @@ class HomeController extends Controller
         // if (!isMobileDevice($request)) {
         //     return abort('403');
         // }
+
         if ($locale) {
             App::setLocale($locale);
         } else {
@@ -185,9 +186,9 @@ class HomeController extends Controller
 
     public function index(Request $request, $locale = '')
     {
-        // if (!isMobileDevice($request)) {
-        //     return abort('403');
-        // }
+        if (!isMobileDevice($request)) {
+            return abort('403');
+        }
         if ($locale) {
             App::setLocale($locale);
         } else {

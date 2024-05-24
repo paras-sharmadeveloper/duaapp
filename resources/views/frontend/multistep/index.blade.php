@@ -37,8 +37,10 @@
                     </div>
                 </div>
                     @if(empty($locale))
+
                        @include('frontend.multistep.inc.lang')
                     @else
+
                         @include('frontend.multistep.inc.start')
                         @include('frontend.multistep.inc.choosetype')
                         @include('frontend.multistep.inc.city')
