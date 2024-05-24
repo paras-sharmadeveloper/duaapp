@@ -32,7 +32,7 @@ class BookingController extends Controller
     {
         // Process the scanned content here
         $id = $request->input('id');
-        $workingLady = $UserImage = '';
+        $workingLady = $databaseImage = '';
 
         $update =[];
         $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
