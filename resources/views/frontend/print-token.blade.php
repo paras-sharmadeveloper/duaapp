@@ -397,7 +397,7 @@
 
 
                     <div id="token">
-                        {{ ucwords($visitor->slot->type) }} Token # {{ $visitor->slot->token_id }}
+                        {{  ucwords(str_replace("_"," ",$visitor->slot->type)) }} Token # {{ $visitor->slot->token_id }}
                     </div>
 
                     <div id="date">
