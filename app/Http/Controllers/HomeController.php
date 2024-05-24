@@ -523,6 +523,7 @@ class HomeController extends Controller
                             'S3Object' => [
                                 'Bucket' => env('AWS_BUCKET'),
                                 'Name' => $user['recognized_code'],
+                                'version' => 'latest',
                             ],
                         ],
                     ]);
