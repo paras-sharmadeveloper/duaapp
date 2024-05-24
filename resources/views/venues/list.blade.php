@@ -77,11 +77,11 @@
                         <th>Site Admin</th>
                         <th>Venue Address</th>
                         <th>Venue Detail</th>
-                        <th>Token Issued Dua</th>
-                        <th>Token Issued Dum</th>
+                        <th>Issued Dua</th>
+                        <th>Issued Dum</th>
 
-                        <th>Token Issued Working Dua</th>
-                        <th>Token Issued Working Dum</th>
+                        <th>Issued WorkingDua</th>
+                        <th>Issued WorkingDum</th>
                         <th>Type</th>
                         <th>Slot Generated</th>
 
