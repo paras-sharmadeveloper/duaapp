@@ -425,12 +425,13 @@
 
         <div class="row userImag" >
             <div class="link_wrap">
-                <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : '' }}</label>
+                <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if( ($workingLady) && $workingLady->type == 'critical' )
                     <a class="acc_style04" href="#" style="background:red">
                         {{ ($workingLady) ? $workingLady->type : '' }}
                     </a>
-                @else
+                @endif
+                @if( ($workingLady) && $workingLady->type == 'normal' )
                     <a class="acc_style04" href="#" style="background:rgb(70, 148, 70)">
                         {{ ($workingLady) ? $workingLady->type : 'Normal' }}
                     </a>
