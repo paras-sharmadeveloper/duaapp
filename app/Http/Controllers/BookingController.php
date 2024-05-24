@@ -32,16 +32,22 @@ class BookingController extends Controller
     {
         // Process the scanned content here
         $id = $request->input('id');
+        $workingLady = $UserImage = '';
 
         $update =[];
         $visitor = Vistors::where(['booking_uniqueid' => $id ])->first();
 
-        $workingLady = WorkingLady::findOrFail($visitor->working_lady_id);
+        if(!empty($visitor->working_lady_id) ){
+            $workingLady = WorkingLady::findOrFail($visitor->working_lady_id);
+            $databaseImage = $this->getImagefromS3($workingLady->session_image);
+        }
+
+
 
         $timezone = $visitor->venueSloting->venueAddress->timezone;
         $UserImage = $this->getImagefromS3($visitor->recognized_code);
 
-        $databaseImage = $this->getImagefromS3($workingLady->session_image);
+
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
         $now = $currentTime->timezone($timezone);
 
