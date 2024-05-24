@@ -505,7 +505,7 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
-
+                Storage::disk('s3')->put($objectKey, $selfieImage);
 
                 foreach ($userAll as $user) {
 
@@ -534,7 +534,6 @@ class HomeController extends Controller
                         }
                     }
                 }
-                Storage::disk('s3')->put($objectKey, $selfieImage);
 
                 if (empty($userArr)) {
 
