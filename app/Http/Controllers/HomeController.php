@@ -564,7 +564,7 @@ class HomeController extends Controller
                         if(!empty($user['recognized_code'])){
 
                             $params = [
-                                'CollectionId' => 'arn:aws:s3:::kahayfaqeer-booking-bucket', // Replace with the ID of your collection
+                                'CollectionId' => '72c970c2153b327a678281bc9c6374dd78897887a04e56a0449deb648cc31595', // Replace with the ID of your collection
                                 'Image' => [
                                     'S3Object' => [
                                         'Bucket' =>  $bucket,
