@@ -539,8 +539,10 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
+
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
+                        $bucket = 'kahayfaqeer-booking-bucket';
 
 
 
@@ -554,28 +556,40 @@ class HomeController extends Controller
                         //         ],
                         //     ],
                         // ]);
-                        $bucket = 'kahayfaqeer-booking-bucket';
+
                         $response = [];
 
-                        $sourceImage =  getObjectfromS3($objectKey);
-                        $targetImage  =  getObjectfromS3($user['recognized_code']);
+                        // $sourceImage =  getObjectfromS3($objectKey);
+                        // $targetImage  =  getObjectfromS3($user['recognized_code']);
                         if(!empty($user['recognized_code'])){
 
+                            $params = [
+                                'CollectionId' => $user['recognized_code'], // Replace with the ID of your collection
+                                'Image' => [
+                                    'S3Object' => [
+                                        'Bucket' =>  $bucket,
+                                        'Name'   => $objectKey,
+                                    ],
+                                ],
+                                // Optionally specify additional parameters like 'MaxFaces' or 'FaceMatchThreshold'
+                            ];
 
-                            $response = $rekognition->compareFaces([
-                                'SourceImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $sourceImage,
-                                    ],
-                                ],
-                                'TargetImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $targetImage,
-                                    ],
-                                ],
-                            ]);
+                            $response = $rekognition->searchFacesByImage($params);
+
+                            // $response = $rekognition->compareFaces([
+                            //     'SourceImage' => [
+                            //         'S3Object' => [
+                            //             'Bucket' => $bucket,
+                            //             'Name' => $sourceImage,
+                            //         ],
+                            //     ],
+                            //     'TargetImage' => [
+                            //         'S3Object' => [
+                            //             'Bucket' => $bucket,
+                            //             'Name' => $targetImage,
+                            //         ],
+                            //     ],
+                            // ]);
                         }
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
