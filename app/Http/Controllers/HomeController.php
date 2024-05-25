@@ -527,6 +527,9 @@ class HomeController extends Controller
 
         $userArr = [];
 
+        Storage::disk('s3')->put($objectKey, $selfieImage);
+        return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+
         if (!empty($userAll)) {
 
 
