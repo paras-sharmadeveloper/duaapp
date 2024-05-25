@@ -315,8 +315,7 @@ class HomeController extends Controller
 
             $captured_user_image = $request->input('captured_user_image');
             if($captured_user_image){
-                $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-             //    $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 // $rekognition = new RekognitionClient([
                 //     'version' => 'latest',
                 //     'region' => env('AWS_DEFAULT_REGION'),
@@ -329,9 +328,10 @@ class HomeController extends Controller
 
                 // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
                 // return response()->json(['message' => $userAll]);
-                $isUsers = $this->IsRegistredAlready($selfieImage);
+                $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
-                        return response()->json(['message' => $isUsers['message'],   'isUser' => $isUsers , "status" => false], 406);
+
+                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
                 }
             }
 
@@ -519,9 +519,9 @@ class HomeController extends Controller
     protected function IsRegistredAlready($selfieImage)
     {
 
-        $filename = 'sddelfie_' . time() . '.jpg';
+        $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
 
 
@@ -539,13 +539,8 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
-
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
-                        $bucket = 'kahayfaqeer-booking-bucket';
-
-
-
 
                         // $result = $rekognition->detectFaces([
                         //     'Attributes' => ['ALL'],
@@ -556,47 +551,25 @@ class HomeController extends Controller
                         //         ],
                         //     ],
                         // ]);
+                        $bucket ='kahayfaqeer-booking-bucket';
 
-                        $response = [];
-
-                        // $sourceImage =  getObjectfromS3($objectKey);
-                        // $targetImage  =  getObjectfromS3($user['recognized_code']);
-                        if(!empty($user['recognized_code'])){
-
-                            $params = [
-                                'CollectionId' => '72c970c2153b327a678281bc9c6374dd78897887a04e56a0449deb648cc31595', // Replace with the ID of your collection
-                                'Image' => [
-                                    'S3Object' => [
-                                        'Bucket' =>  $bucket,
-                                        'Name'   => $objectKey,
-                                    ],
+                        $response = $rekognition->compareFaces([
+                            'SourceImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $objectKey,
                                 ],
-                                // Optionally specify additional parameters like 'MaxFaces' or 'FaceMatchThreshold'
-                            ];
+                            ],
+                            'TargetImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $user['recognized_code'],
+                                ],
+                            ],
+                        ]);
 
-                            $response = $rekognition->searchFacesByImage($params);
-                            print_r($response); die;
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
 
-                            // $response = $rekognition->compareFaces([
-                            //     'SourceImage' => [
-                            //         'S3Object' => [
-                            //             'Bucket' => $bucket,
-                            //             'Name' => $sourceImage,
-                            //         ],
-                            //     ],
-                            //     'TargetImage' => [
-                            //         'S3Object' => [
-                            //             'Bucket' => $bucket,
-                            //             'Name' => $targetImage,
-                            //         ],
-                            //     ],
-                            // ]);
-                        }
-
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-                        // if (count($result['FaceDetails']) > 0) {
-                        //     $userArr[] = $user['id'];
-                        // }
                         if (count($faceMatches) > 0) {
 
                             foreach ($faceMatches as $match) {
@@ -617,7 +590,7 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false ];
+                return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
