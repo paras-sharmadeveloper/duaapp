@@ -328,11 +328,11 @@ class HomeController extends Controller
 
                 // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
                 // return response()->json(['message' => $userAll]);
-                $isUsers = $this->IsRegistredAlready($imahee);
-                if (!empty($isUsers) && $isUsers['status'] == false) {
+                // $isUsers = $this->IsRegistredAlready($imahee);
+                // if (!empty($isUsers) && $isUsers['status'] == false) {
 
-                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
-                }
+                //         return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                // }
             }
 
 
