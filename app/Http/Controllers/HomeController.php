@@ -209,7 +209,7 @@ class HomeController extends Controller
 
 
     public function deleteVisitorShow(){
-        $visitors = Vistors::all();
+        $visitors = Vistors::get();
         return view('workingLady.visitorsdelete', compact('visitors'));
 
     }
