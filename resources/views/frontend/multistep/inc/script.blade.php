@@ -1042,6 +1042,7 @@
                                 imgElement.src = imageData;
 
                                 $("#image-input").val(imageData)
+                                $("#imginpuyte").attr('src',imageData)
                                 $("#showhere").val(imageData)
 
                                 // Stop the video stream
