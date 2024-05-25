@@ -539,6 +539,14 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
+                $result = $rekognition->listCollections();
+
+                // Process the result
+                $collections = $result['CollectionIds'];
+                return ['message' => $collections, 'status' => false];
+                return $collections;
+
+
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
 
