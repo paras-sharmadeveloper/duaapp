@@ -575,6 +575,7 @@ class HomeController extends Controller
                             ];
 
                             $response = $rekognition->searchFacesByImage($params);
+                            print_r($response); die;
 
                             // $response = $rekognition->compareFaces([
                             //     'SourceImage' => [
