@@ -561,30 +561,21 @@ class HomeController extends Controller
                         $targetImage  =  getObjectfromS3($user['recognized_code']);
                         if(!empty($user['recognized_code'])){
 
-                            $result = $rekognition->compareFaces([
+
+                            $response = $rekognition->compareFaces([
                                 'SourceImage' => [
-                                    'Bytes' => $sourceImage,
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $sourceImage,
+                                    ],
                                 ],
                                 'TargetImage' => [
-                                    'Bytes' => $targetImage,
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $targetImage,
+                                    ],
                                 ],
                             ]);
-
-
-                            // $response = $rekognition->compareFaces([
-                            //     'SourceImage' => [
-                            //         'S3Object' => [
-                            //             'Bucket' => $bucket,
-                            //             'Name' => $sourceImage,
-                            //         ],
-                            //     ],
-                            //     'TargetImage' => [
-                            //         'S3Object' => [
-                            //             'Bucket' => $bucket,
-                            //             'Name' => $targetImage,
-                            //         ],
-                            //     ],
-                            // ]);
                         }
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
