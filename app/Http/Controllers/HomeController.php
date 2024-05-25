@@ -573,8 +573,7 @@ class HomeController extends Controller
                             ]);
                         }
 
-
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
                         // if (count($result['FaceDetails']) > 0) {
                         //     $userArr[] = $user['id'];
                         // }
