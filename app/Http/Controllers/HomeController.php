@@ -209,7 +209,7 @@ class HomeController extends Controller
 
 
     public function deleteVisitorShow(){
-        $visitors = Vistors::get();
+        $visitors = Vistors::whereNotNull(['recognized_code'])->get();
         return view('workingLady.visitorsdelete', compact('visitors'));
 
     }
