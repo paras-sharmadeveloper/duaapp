@@ -563,10 +563,10 @@ class HomeController extends Controller
 
                             $result = $rekognition->compareFaces([
                                 'SourceImage' => [
-                                    'Bytes' => $sourceImage['Body']->getContents(),
+                                    'Bytes' => $sourceImage,
                                 ],
                                 'TargetImage' => [
-                                    'Bytes' => $targetImage['Body']->getContents(),
+                                    'Bytes' => $targetImage,
                                 ],
                             ]);
 
