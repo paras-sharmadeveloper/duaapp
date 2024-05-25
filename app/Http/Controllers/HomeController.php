@@ -551,24 +551,28 @@ class HomeController extends Controller
                         //         ],
                         //     ],
                         // ]);
-                        $bucket ='kahayfaqeer-booking-bucket';
+                        $response = [];
+                        if(!empty( $user['recognized_code'])){
+                            $bucket ='kahayfaqeer-booking-bucket';
 
-                        $response = $rekognition->compareFaces([
-                            'SourceImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $objectKey,
+                            $response = $rekognition->compareFaces([
+                                'SourceImage' => [
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $objectKey,
+                                    ],
                                 ],
-                            ],
-                            'TargetImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $user['recognized_code'],
+                                'TargetImage' => [
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $user['recognized_code'],
+                                    ],
                                 ],
-                            ],
-                        ]);
+                            ]);
+                        }
 
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
+
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
 
                         if (count($faceMatches) > 0) {
 
