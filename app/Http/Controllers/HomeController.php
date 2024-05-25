@@ -539,8 +539,8 @@ class HomeController extends Controller
                         'secret' => env('AWS_SECRET_ACCESS_KEY'),
                     ],
                 ]);
-                $path = 'SessionImages/';
-                Storage::disk('s3_general')->put($path.$objectKey, $selfieImage);
+
+                Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
 
                         // $result = $rekognition->detectFaces([
@@ -561,8 +561,8 @@ class HomeController extends Controller
                                 'SourceImage' => [
                                     'Bytes' => 'blob',
                                     'S3Object' => [
-                                        'Bucket' => 'kahayfaqeer-general-bucket',
-                                        'Name' => $path . $objectKey,
+                                        'Bucket' => $bucket,
+                                        'Name' => $objectKey,
                                     ],
                                 ],
                                 'TargetImage' => [
