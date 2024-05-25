@@ -556,6 +556,7 @@ class HomeController extends Controller
                             $bucket ='kahayfaqeer-booking-bucket';
 
                             $response = $rekognition->compareFaces([
+                                'SimilarityThreshold' => 90,
                                 'SourceImage' => [
                                     'S3Object' => [
                                         'Bucket' => $bucket,
