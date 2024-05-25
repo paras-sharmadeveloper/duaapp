@@ -10,7 +10,8 @@
                         <th>BookingNo</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Purpose</th>
+                        <th>Code</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -21,9 +22,10 @@
                             <td>{{ $booking->email }}</td>
                             <td>{{ $booking->phone }}</td>
                             <td>{{ $booking->recognized_code }}</td>
+                            <td>{{ $booking->created_at }}</td>
 
 
-                                <form action="{{ route('delete.object', ['id' => $booking->recognized_code]) }}" method="POST"
+                            <td><form action="{{ route('delete.object', ['id' => $booking->recognized_code]) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
                                     @method('delete')
