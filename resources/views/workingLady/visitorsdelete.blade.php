@@ -8,7 +8,6 @@
                 <thead>
                     <tr>
                         <th>BookingNo</th>
-                        <th>Email</th>
                         <th>Phone</th>
                         <th>Code</th>
                         <th>Date</th>
@@ -19,7 +18,6 @@
                     @foreach ($visitors as $booking)
                         <tr>
                             <td>{{ $booking->booking_number }}</td>
-                            <td>{{ $booking->email }}</td>
                             <td>{{ $booking->phone }}</td>
                             <td>{{ $booking->recognized_code }}</td>
                             <td>{{ $booking->created_at }}</td>
