@@ -559,14 +559,12 @@ class HomeController extends Controller
                             $response = $rekognition->compareFaces([
                                 'SimilarityThreshold' => 90,
                                 'SourceImage' => [
-                                    'Bytes' => 'blob',
                                     'S3Object' => [
                                         'Bucket' => 'kahayfaqeer-general-bucket',
                                         'Name' => $path . $objectKey,
                                     ],
                                 ],
                                 'TargetImage' => [
-                                    'Bytes' => 'blob',
                                     'S3Object' => [
                                         'Bucket' => $bucket,
                                         'Name' => $user['recognized_code'],
