@@ -315,7 +315,8 @@ class HomeController extends Controller
 
             $captured_user_image = $request->input('captured_user_image');
             if($captured_user_image){
-                $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+             //    $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 // $rekognition = new RekognitionClient([
                 //     'version' => 'latest',
                 //     'region' => env('AWS_DEFAULT_REGION'),
@@ -328,9 +329,8 @@ class HomeController extends Controller
 
                 // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
                 // return response()->json(['message' => $userAll]);
-                $isUsers = $this->IsRegistredAlready($imahee);
+                $isUsers = $this->IsRegistredAlready($selfieImage);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
-
                         return response()->json(['message' => $isUsers['message'],   'isUser' => $isUsers , "status" => false], 406);
                 }
             }
@@ -519,7 +519,7 @@ class HomeController extends Controller
     protected function IsRegistredAlready($selfieImage)
     {
 
-        $filename = 'selfie_' . time() . '.jpg';
+        $filename = 'sddelfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
          $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
