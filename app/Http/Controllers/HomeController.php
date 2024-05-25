@@ -555,20 +555,24 @@ class HomeController extends Controller
                         //     ],
                         // ]);
                         $bucket = 'kahayfaqeer-booking-bucket';
-                        $response = $rekognition->compareFaces([
-                            'SourceImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $objectKey,
+                        $response = [];
+                        if( $user['recognized_code']){
+                            $response = $rekognition->compareFaces([
+                                'SourceImage' => [
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $objectKey,
+                                    ],
                                 ],
-                            ],
-                            'TargetImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $user['recognized_code'],
+                                'TargetImage' => [
+                                    'S3Object' => [
+                                        'Bucket' => $bucket,
+                                        'Name' => $user['recognized_code'],
+                                    ],
                                 ],
-                            ],
-                        ]);
+                            ]);
+                        }
+
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
                         // if (count($result['FaceDetails']) > 0) {
