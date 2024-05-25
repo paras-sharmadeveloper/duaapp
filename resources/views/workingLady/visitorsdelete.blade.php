@@ -26,7 +26,7 @@
                             <td><form action="{{ route('delete.object', ['id' => $booking->recognized_code]) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
-                                    @method('delete')
+                                    @method('post')
                                     <button type="submit" class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
                                 </form>
