@@ -290,6 +290,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/working/lady/{id}/approve', [WorkingLadyController::class, 'ApproveForm'])->name('working.lady.approve');
 
     Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
+    Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
+    Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
 
 
 
@@ -333,6 +335,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::delete('/visitor/{id}/delete', [VistorsController::class, 'DeleteNow'])->name('visitor.delete');
     Route::get('/book/{venueId}/add', [HomeController::class, 'bookingAdmin'])->name('book.add');
     Route::any('delete-row', [HomeController::class, 'deleteRows'])->name('delete-row');
+
+    Route::get('/visitors/object', [HomeController::class, 'deleteVisitorShow'])->name('visitorsobj.show');
+    Route::post('/visitors/delete/{id}', [HomeController::class, 'deleteVisitor'])->name('delete.object');
+
+
+
     // check-available
     Route::post('/update/status', [UserController::class, 'updateStatus'])->name('update.status');
     Route::get('/site/queue', [SiteAdminController::class, 'ShowQueue'])->name('siteadmin.queue.show');

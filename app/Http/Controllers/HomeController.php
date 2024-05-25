@@ -207,6 +207,24 @@ class HomeController extends Controller
         return view('frontend.bookseat', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
     }
 
+
+    public function deleteVisitorShow(){
+        $visitors = Vistors::all();
+        return view('workingLady.visitorsdelete', compact('visitors'));
+
+    }
+
+    public function deleteVisitor(Request $request, $id ){
+
+        $is = deleteObject($id);
+        if($is){
+            Vistors::where(['recognized_code' => $id])->delete();
+            return redirect()->back()->with(['success' => "Object Cleared"]);
+        }else{
+            return redirect()->back()->with(['error' => "Failed to delete object"]);
+        }
+    }
+
     public function BookingSubmit(Request $request)
     {
         $from = $request->input('from', 'null');

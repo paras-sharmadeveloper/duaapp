@@ -256,6 +256,15 @@ S
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="{{ ( $currentPath == 'visitorsobj.show') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('visitorsobj.show') }}">
+            <i class="bi bi-person-vcard"></i>
+          <span>Clear Object </span>
+        </a>
+      </li>
+
+
+
 
 
       @endcan
