@@ -543,14 +543,7 @@ class HomeController extends Controller
                     foreach ($userAll as $user) {
 
 
-                        $response = $rekognition->compareFaces([
-                            'SourceImage' => [
-                                'Bytes' => $objectKey,
-                            ],
-                            'TargetImage' => [
-                                'Bytes' => $objectKey,
-                            ],
-                        ]);
+
 
                         // $result = $rekognition->detectFaces([
                         //     'Attributes' => ['ALL'],
@@ -561,26 +554,21 @@ class HomeController extends Controller
                         //         ],
                         //     ],
                         // ]);
-
-                        // $response = $rekognition->compareFaces([
-                        //     "QualityFilter" =>'AUTO',
-                        //     "SimilarityThreshold" => 80,
-
-                        //     'SourceImage' => [
-                        //         'S3Object' => [
-                        //             "Bytes" =>  'blob',
-                        //             'Bucket' => env('AWS_BUCKET'),
-                        //             'Name' => $objectKey,
-                        //         ],
-                        //     ],
-                        //     'TargetImage' => [
-                        //         'S3Object' => [
-                        //             "Bytes" =>  'blob',
-                        //             'Bucket' => env('AWS_BUCKET'),
-                        //             'Name' => $user['recognized_code'],
-                        //         ],
-                        //     ],
-                        // ]);
+                        $bucket = 'kahayfaqeer-booking-bucket';
+                        $response = $rekognition->compareFaces([
+                            'SourceImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $objectKey,
+                                ],
+                            ],
+                            'TargetImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $user['recognized_code'],
+                                ],
+                            ],
+                        ]);
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
                         // if (count($result['FaceDetails']) > 0) {
