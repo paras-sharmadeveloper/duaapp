@@ -562,7 +562,7 @@ class HomeController extends Controller
                                     'Bytes' => 'blob',
                                     'S3Object' => [
                                         'Bucket' => 'kahayfaqeer-general-bucket',
-                                        'Name' => $objectKey,
+                                        'Name' => $path . $objectKey,
                                     ],
                                 ],
                                 'TargetImage' => [
