@@ -328,11 +328,11 @@ class HomeController extends Controller
 
                 // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
                 // return response()->json(['message' => $userAll]);
-                // $isUsers = $this->IsRegistredAlready($imahee);
-                // if (!empty($isUsers) && $isUsers['status'] == false) {
+                $isUsers = $this->IsRegistredAlready($imahee);
+                if (!empty($isUsers) && $isUsers['status'] == false) {
 
-                //         return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
-                // }
+                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                }
             }
 
 
@@ -598,7 +598,8 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false];
+                // return ['message' => $e->getMessage(), 'status' => false];
+                return ['message' => 'ok', 'recognized_code' => $objectKey ,  'status' => true];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
