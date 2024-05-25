@@ -331,7 +331,7 @@ class HomeController extends Controller
                 $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
-                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                        return response()->json(['message' => $isUsers['message'],   'isUser' => $isUsers , "status" => false], 406);
                 }
             }
 
@@ -542,15 +542,25 @@ class HomeController extends Controller
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
 
-                        $result = $rekognition->detectFaces([
-                            'Attributes' => ['ALL'],
-                            'Image' => [
-                                'S3Object' => [
-                                    'Bucket' => env('AWS_BUCKET'),
-                                    'Name' => $objectKey, // path to the photo in your S3 bucket
-                                ],
+
+                        $response = $rekognition->compareFaces([
+                            'SourceImage' => [
+                                'Bytes' => $objectKey,
+                            ],
+                            'TargetImage' => [
+                                'Bytes' => $objectKey,
                             ],
                         ]);
+
+                        // $result = $rekognition->detectFaces([
+                        //     'Attributes' => ['ALL'],
+                        //     'Image' => [
+                        //         'S3Object' => [
+                        //             'Bucket' => env('AWS_BUCKET'),
+                        //             'Name' => $objectKey, // path to the photo in your S3 bucket
+                        //         ],
+                        //     ],
+                        // ]);
 
                         // $response = $rekognition->compareFaces([
                         //     "QualityFilter" =>'AUTO',
@@ -573,17 +583,17 @@ class HomeController extends Controller
                         // ]);
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : 0;
-                        if (count($result['FaceDetails']) > 0) {
-                            $userArr[] = $user['id'];
-                        }
-                        // if (count($faceMatches) > 0) {
-
-                        //     foreach ($faceMatches as $match) {
-                        //         if ($match['Similarity'] >= 80) {
-                        //             $userArr[] = $user['id'];
-                        //         }
-                        //     }
+                        // if (count($result['FaceDetails']) > 0) {
+                        //     $userArr[] = $user['id'];
                         // }
+                        if (count($faceMatches) > 0) {
+
+                            foreach ($faceMatches as $match) {
+                                if ($match['Similarity'] >= 80) {
+                                    $userArr[] = $user['id'];
+                                }
+                            }
+                        }
                     }
 
 
@@ -596,7 +606,7 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e->getMessage(), 'status' => false ,'buclet' =>  env('AWS_BUCKET') . ' '  . env('AWS_ACCESS_KEY_ID') ];
+                return ['message' => $e->getMessage(), 'status' => false ];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
