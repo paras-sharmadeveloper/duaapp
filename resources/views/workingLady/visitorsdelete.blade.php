@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="card">
+        @include('alerts')
         <div class="card-body">
             <h5 class="card-title">Visitor Bookings</h5>
             <table class="table-with-buttons table table-responsive cell-border">
