@@ -556,7 +556,7 @@ class HomeController extends Controller
                         // ]);
                         $bucket = 'kahayfaqeer-booking-bucket';
                         $response = [];
-                        if( $user['recognized_code']){
+                        if(!empty($user['recognized_code'])){
                             $response = $rekognition->compareFaces([
                                 'SourceImage' => [
                                     'S3Object' => [
