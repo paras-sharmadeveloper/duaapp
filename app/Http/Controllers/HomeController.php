@@ -559,13 +559,13 @@ class HomeController extends Controller
                                 'SourceImage' => [
                                     'S3Object' => [
                                         'Bucket' => $bucket,
-                                        'Name' => base64_encode(getImagefromS3($objectKey)),
+                                        'Name' => getObjectfromS3($objectKey),
                                     ],
                                 ],
                                 'TargetImage' => [
                                     'S3Object' => [
                                         'Bucket' => $bucket,
-                                        'Name' => base64_encode(getImagefromS3($user['recognized_code']))  ,
+                                        'Name' => getObjectfromS3($user['recognized_code']),
                                     ],
                                 ],
                             ]);
