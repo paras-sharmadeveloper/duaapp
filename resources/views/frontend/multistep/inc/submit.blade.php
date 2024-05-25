@@ -26,7 +26,7 @@
 
                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                 <input type="hidden" name="captured_user_image" id="image-input" value="">
-                <img src="" id="imginpuyte" style="height:100px; ">
+                <img src="" id="imginpuyte" style="height:100px;display:none ">
 
                 <div class="row g-3 mb-0">
                     <div class="col col-lg-6  col-md-6" id="countryCodeDiv">
