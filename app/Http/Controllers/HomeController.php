@@ -521,7 +521,7 @@ class HomeController extends Controller
 
         $filename = 'sddelfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
         //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
 
 
