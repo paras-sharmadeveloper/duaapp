@@ -556,21 +556,35 @@ class HomeController extends Controller
                         // ]);
                         $bucket = 'kahayfaqeer-booking-bucket';
                         $response = [];
+
+                        $sourceImage =  getObjectfromS3($objectKey);
+                        $targetImage  =  getObjectfromS3($user['recognized_code']);
                         if(!empty($user['recognized_code'])){
-                            $response = $rekognition->compareFaces([
+
+                            $result = $rekognition->compareFaces([
                                 'SourceImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $objectKey,
-                                    ],
+                                    'Bytes' => $sourceImage['Body']->getContents(),
                                 ],
                                 'TargetImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $user['recognized_code'],
-                                    ],
+                                    'Bytes' => $targetImage['Body']->getContents(),
                                 ],
                             ]);
+
+
+                            // $response = $rekognition->compareFaces([
+                            //     'SourceImage' => [
+                            //         'S3Object' => [
+                            //             'Bucket' => $bucket,
+                            //             'Name' => $sourceImage,
+                            //         ],
+                            //     ],
+                            //     'TargetImage' => [
+                            //         'S3Object' => [
+                            //             'Bucket' => $bucket,
+                            //             'Name' => $targetImage,
+                            //         ],
+                            //     ],
+                            // ]);
                         }
 
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];

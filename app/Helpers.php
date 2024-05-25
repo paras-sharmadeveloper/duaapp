@@ -23,6 +23,25 @@ function isMobileDevice(Request $request)
     return $isMobile;
 }
 
+function getObjectfromS3($sourceImageKey)
+    {
+        $bucket = 'kahayfaqeer-booking-bucket';
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' =>env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+        $sourceImage = $s3->getObject([
+            'Bucket' =>  $bucket,
+            'Key' => $sourceImageKey,
+        ]);
+      return  $sourceImage['Body']->getContents();
+
+    }
+
 function getImagefromS3($imageName)
     {
 
