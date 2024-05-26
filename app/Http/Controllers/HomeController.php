@@ -388,7 +388,7 @@ class HomeController extends Controller
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
 
             $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
-            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('dua_type'),  $request->input('lang'));
+            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
             $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
             //   $slotDuration = $venueAddress->slot_duration;
