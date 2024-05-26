@@ -388,7 +388,7 @@ class HomeController extends Controller
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
 
             $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
-            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('lang'));
+            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, $request->input('dua_type'),  $request->input('lang'));
             $this->sendWhatsAppMessage($mobile, $message);
             //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
             //   $slotDuration = $venueAddress->slot_duration;
@@ -590,9 +590,6 @@ class HomeController extends Controller
                             }
                         }
                     }
-
-
-
 
                 if (empty($userArr)) {
 
@@ -1443,6 +1440,8 @@ class HomeController extends Controller
     }
     private function bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus)
     {
+
+
         $message = <<<EOT
       Hi $name,
       Your dua appointment is confirmed as below:
@@ -1481,7 +1480,7 @@ class HomeController extends Controller
     }
 
 
-    private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $lang)
+    private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType, $lang)
     {
 
         $venueDate = ($lang == 'en') ? date("d M Y", strtotime($venueAddress->venue_date)) : date("d m Y", strtotime($venueAddress->venue_date));
@@ -1499,42 +1498,58 @@ class HomeController extends Controller
         $pdfLink = '';
         $duaby = '';
 
+        $message  = <<<EOT
+        Asalamualaikum,
+        Please see below confirmation for your dua token.
 
-                $message = <<<EOT
-                آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
+        Your Dua Ghar : $venueAddress->city
+        Your Dua Date : $venueDateEn
+        Your Online Dua Token : $statusLink
+        Your Token Number :  $tokenId
+        Your Dua Type : $duaType
+        Your registered mobile: $userMobile
 
-                واقعہ کی تاریخ : $venueDateUr
+        Please reach by 1pm to validate and print your token.
 
-                مقام: $venueAddress->city
+        Read and listen all books for free. Please visit KahayFaqeer.org
+        EOT;
 
-                $venueAddress->address_ur
 
-                ٹوکن # $tokenId
+                // $message = <<<EOT
+                // آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
 
-                آپ کا موبائل : $userMobile
+                // واقعہ کی تاریخ : $venueDateUr
 
-                ملاقات کا دورانیہ : $appointmentDuration
+                // مقام: $venueAddress->city
 
-                ٹوکن URL:
-                $statusLink
+                // $venueAddress->address_ur
 
-                Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
+                // ٹوکن # $tokenId
 
-                Event Date : $venueDateEn
+                // آپ کا موبائل : $userMobile
 
-                Venue : $venueAddress->city
+                // ملاقات کا دورانیہ : $appointmentDuration
 
-                $venueAddress->address
+                // ٹوکن URL:
+                // $statusLink
 
-                Token # $tokenId
+                // Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
 
-                Your Mobile : $userMobile
+                // Event Date : $venueDateEn
 
-                Appointment Duration : $appointmentDuration
+                // Venue : $venueAddress->city
 
-                Token URL:
-                $statusLink
-                EOT;
+                // $venueAddress->address
+
+                // Token # $tokenId
+
+                // Your Mobile : $userMobile
+
+                // Appointment Duration : $appointmentDuration
+
+                // Token URL:
+                // $statusLink
+                // EOT;
 
         // if ($lang == 'en') {
         //    // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';

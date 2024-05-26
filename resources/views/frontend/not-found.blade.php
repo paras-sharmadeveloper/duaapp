@@ -21,8 +21,6 @@
                     {{ session()->get('error') }}
                 </div>
              @endif
-
-
               </h2>
               <a href="{{ route('book.show') }}" class="link_404">Book Seat</a>
             </div>
