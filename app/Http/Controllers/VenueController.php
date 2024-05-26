@@ -154,8 +154,8 @@ class VenueController extends Controller
             'venue_available_country' => $venue_available_country,
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
-            'working_lady_dua' => $request->input('working_lady_dua'),
-            'working_lady_dum' => $request->input('working_lady_dum'),
+            'working_lady_dua' => $request->input('working_lady_dua',0),
+            'working_lady_dum' => $request->input('working_lady_dum',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
@@ -301,8 +301,8 @@ class VenueController extends Controller
 
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
-            'working_lady_dua' => $request->input('working_lady_dua'),
-            'working_lady_dum' => $request->input('working_lady_dum'),
+            'working_lady_dua' => $request->input('working_lady_dua',0),
+            'working_lady_dum' => $request->input('working_lady_dum',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];
@@ -343,25 +343,29 @@ class VenueController extends Controller
                 'type' => 'dum'
             ]);
         }
+        if($working_lady_dua){
+            for ($token = 801; $token <= $working_lady_dua; $token++) {
 
-        for ($token = 801; $token <= $working_lady_dua; $token++) {
-
-            VenueSloting::create([
-                'venue_address_id' => $venueId,
-                'slot_time' => date("Y-m-d H:i:s"),
-                'token_id' => $token,
-                'type' => 'working_lady_dua'
-            ]);
+                VenueSloting::create([
+                    'venue_address_id' => $venueId,
+                    'slot_time' => date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'working_lady_dua'
+                ]);
+            }
         }
+
+        if($working_lady_dum){
 
         for ($token = 1801; $token <= $working_lady_dum; $token++) {
 
-            VenueSloting::create([
-                'venue_address_id' => $venueId,
-                'slot_time' => date("Y-m-d H:i:s"),
-                'token_id' => $token,
-                'type' => 'working_lady_dum'
-            ]);
+                VenueSloting::create([
+                    'venue_address_id' => $venueId,
+                    'slot_time' => date("Y-m-d H:i:s"),
+                    'token_id' => $token,
+                    'type' => 'working_lady_dum'
+                ]);
+            }
         }
     }
 

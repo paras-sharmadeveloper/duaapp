@@ -50,8 +50,8 @@ return new class extends Migration
             $table->integer('dua_slots')->default(0);
             $table->integer('dum_slots')->default(0);
 
-            $table->integer('working_lady_dua')->default(0);
-            $table->integer('working_lady_dum')->default(0);
+            $table->integer('working_lady_dua')->nullable();
+            $table->integer('working_lady_dum')->nullable();
 
             $table->text('status_page_note')->nullable();
 
