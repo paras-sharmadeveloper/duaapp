@@ -30,7 +30,7 @@ h2,h3{
             <img src="https://kahayfaqeer.org/assets/kahe-faqeer-white-1.png" alt="">
         </a>
     </div>
-    <h1>403</h1>
+    <h1>Error</h1>
     <h2>This website you can access only via mobile. Please open this website from your mobile phone.</h2>
 
     <h2>اس ویب سائٹ تک آپ صرف موبائل کے ذریعے ہی رسائی حاصل کر سکتے ہیں۔ براہ کرم اس ویب سائٹ کو اپنے موبائل فون سے کھولیں۔ </h2>
