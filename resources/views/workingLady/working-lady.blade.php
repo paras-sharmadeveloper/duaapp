@@ -169,13 +169,17 @@
         }
 
         /* #submitBtn{
-            background:#f9d20a !important
-        } */
+                background:#f9d20a !important
+            } */
 
         #mobile-error,
         #email-error {
             margin-top: 1px;
 
+        }
+
+        span#checkBox-error {
+            margin: 21px -6px;
         }
     </style>
 
@@ -251,6 +255,11 @@
             <img id="img" src="#" alt="Captured Image" style="display: none;">
             <input type="hidden" name="working_lady_session" id="working_lady_session">
 
+            <div class="form-check input__box mt-5">
+                <input class="form-check-input" type="checkbox" id="checkBox" name="checkBox" value="">
+                <label class="form-check-label">I agree that above information is correct and Best of my knowledge</label>
+            </div>
+
             <div class="button">
                 <input type="submit" value="Register" id="submitBtn">
             </div>
@@ -292,6 +301,9 @@
                     },
                     why_consider_you_as_working_lady: {
                         required: true
+                    },
+                    checkBox: {
+                        required: true
                     }
                 },
                 messages: {
@@ -320,7 +332,10 @@
                     },
                     why_consider_you_as_working_lady: {
                         required: "Please provide why you consider yourself as a working lady"
-                    }
+                    },
+                    checkBox: {
+                        required: "Please confirm this checkbox"
+                    },
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
@@ -335,16 +350,33 @@
                 },
                 submitHandler: function(form) {
 
-                    $("#submitBtn").val('Checking... ').prop('disabled', false)
                     navigator.permissions.query({
                             name: 'camera'
                         })
                         .then(function(permissionStatus) {
                             if (permissionStatus.state === 'granted') {
-                                requestCameraPermission();
+
+                                $("#submitBtn").val("Submitting ...").prop('disable',true)
+
+                                const videoElement = document.getElementById("video");
+                                const imgElement = document.getElementById("img");
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = videoElement.videoWidth;
+                                    canvas.height = videoElement.videoHeight;
+                                    canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                                    const imageData = canvas.toDataURL('image/png');
+                                    console.log("Image Data:", imageData);
+                                    $("#working_lady_session").val(imageData)
+
+                                    // Display captured image
+                                    imgElement.src = imageData;
 
 
-                                // form.submit();
+                                setTimeout(() => {
+                                    form.submit();
+                                }, 2000);
+
+
                             } else {
                                 requestCameraPermission();
                             }
@@ -355,55 +387,126 @@
             });
         });
 
+        function handlePermission() {
+              const videoElement = document.getElementById("video");
+                navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: "user"
+                        }
+                    })
+                    .then(function(stream) {
+                        // Display the video stream
+                        videoElement.srcObject = stream;
+                        console.log("Permission Granted");
+                    })
+                    .catch(function(error) {
+                        navigator.permissions.query({
+                                name: 'camera'
+                            })
+                            .then(function(permissionStatus) {
+                                if (permissionStatus.state === 'denied') {
+                                    // Show alert for permission denied
+                                    alert(
+                                        "Camera permission denied. Please allow camera access to use this feature.");
+                                } else {
+                                    // Handle other errors
+                                    console.error("Error accessing camera:", error);
+                                }
+                            });
 
-
-        function requestCameraPermission() {
-            const imgElement = document.getElementById("img");
-            const videoElement = document.getElementById("video");
-            const submitButton = document.getElementById("submitBtn");
-
-            navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: "user"
-                    }
-                })
-                .then(function(stream) {
-                    // Display the video stream
-                    videoElement.srcObject = stream;
-                    $("#submitBtn").val('Proceed Submit').prop('disabled', false)
-                    // Capture picture when submit button is clicked
-                    submitButton.addEventListener('click', function() {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = videoElement.videoWidth;
-                        canvas.height = videoElement.videoHeight;
-                        canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                        const imageData = canvas.toDataURL('image/png');
-                        console.log("Image Data:", imageData);
-
-                        // Display captured image
-                        imgElement.src = imageData;
-                        $("#submitBtn").val('Submitting ... ').prop('disabled', true)
-                        $("#workingLadyForm").submit();
-
+                        // Handle permission denied or error
+                        console.error("Camera permission denied or error:", error);
                     });
-                })
-                .catch(function(error) {
-                    navigator.permissions.query({
-                            name: 'camera'
-                        })
-                        .then(function(permissionStatus) {
-                            if (permissionStatus.state === 'denied') {
-                                // Show alert for permission denied
-                                alert("Camera permission denied. Please allow camera access to use this feature.");
-                            } else {
-                                // Handle other errors
-                                console.error("Error accessing camera:", error);
-                            }
-                        });
+            }
 
-                    // Handle permission denied or error
-                    console.error("Camera permission denied or error:", error);
-                });
-        }
+
+            $("#checkBox").change(function(){
+                if ($(this).is(':checked')) {
+                    console.log("checked")
+                    // Request camera permission
+                    handlePermission();
+                } else {
+                    console.log("not")
+                    // Clear video stream if checkbox is unchecked
+                    videoElement.srcObject = null;
+                }
+            })
+
+        // function requestCameraPermission() {
+        //     const imgElement = document.getElementById("img");
+        //     const videoElement = document.getElementById("video");
+        //     const submitButton = document.getElementById("submitBtn");
+        //     const checkBox = document.getElementById("checkBox");
+
+
+        //     // Capture picture when submit button is clicked
+        //     submitButton.addEventListener('click', function() {
+
+
+        //         if ($("#checkBox").is(':checked')) {
+        //             const canvas = document.createElement('canvas');
+        //             canvas.width = videoElement.videoWidth;
+        //             canvas.height = videoElement.videoHeight;
+        //             canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        //             const imageData = canvas.toDataURL('image/png');
+        //             console.log("Image Data:", imageData);
+        //             $("#working_lady_session").val(imageData)
+
+        //             // Display captured image
+        //             imgElement.src = imageData;
+        //         } else {
+        //             console.log("Please grant camera permission by checking the checkbox.");
+        //         }
+        //     });
+        // }
+
+        // function requestCameraPermission() {
+        //     const imgElement = document.getElementById("img");
+        //     const videoElement = document.getElementById("video");
+        //     const submitButton = document.getElementById("checkBox");
+
+        //     navigator.mediaDevices.getUserMedia({
+        //             video: {
+        //                 facingMode: "user"
+        //             }
+        //         })
+        //         .then(function(stream) {
+        //             // Display the video stream
+        //             videoElement.srcObject = stream;
+        //             $("#submitBtn").val('Proceed Submit').prop('disabled', false)
+        //             // Capture picture when submit button is clicked
+        //             submitButton.addEventListener('click', function() {
+        //                 const canvas = document.createElement('canvas');
+        //                 canvas.width = videoElement.videoWidth;
+        //                 canvas.height = videoElement.videoHeight;
+        //                 canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        //                 const imageData = canvas.toDataURL('image/png');
+        //                 console.log("Image Data:", imageData);
+
+        //                 // Display captured image
+        //                 imgElement.src = imageData;
+        //                 $("#submitBtn").val('Submitting ... ').prop('disabled', true)
+
+
+        //             });
+        //         })
+        //         .catch(function(error) {
+        //             navigator.permissions.query({
+        //                     name: 'camera'
+        //                 })
+        //                 .then(function(permissionStatus) {
+        //                     if (permissionStatus.state === 'denied') {
+        //                         // Show alert for permission denied
+        //                         alert("Camera permission denied. Please allow camera access to use this feature.");
+        //                     } else {
+        //                         // Handle other errors
+        //                         console.error("Error accessing camera:", error);
+        //                     }
+        //                 });
+
+        //             // Handle permission denied or error
+        //             console.error("Camera permission denied or error:", error);
+        //         });
+        // }
     </script>
 @endsection
