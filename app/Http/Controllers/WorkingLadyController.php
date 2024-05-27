@@ -17,9 +17,9 @@ class WorkingLadyController extends Controller
     //
 
     public function show(Request $request){
-        if (!isMobileDevice($request)) {
-            return abort('403');
-        }
+        // if (!isMobileDevice($request)) {
+        //     return abort('403');
+        // }
         return view('workingLady.working-lady');
     }
 
@@ -100,9 +100,9 @@ class WorkingLadyController extends Controller
             'designation' => 'required|string',
             'employerName' => 'required|string',
             'placeOfWork' => 'required|string',
-            'employeeId' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'passportPhoto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'mobile' => 'required|string|min:10|max:10',
+            // 'employeeId' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'passportPhoto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'mobile' => 'required|numeric',
             'email' => 'required|email',
         ]);
         $employeeIdPath = $passportPhotoPath = '';
@@ -128,15 +128,15 @@ class WorkingLadyController extends Controller
         $employee->mobile = $request->mobile;
         $employee->email = $request->email;
         $employee->why_consider_you_as_working_lady = $request->why_consider_you_as_working_lady;
-        if ($request->hasFile('employeeId')) {
-            $employee_ids = $request->file('employeeId');
-            $employeeIdPath = time() . 'employee_ids.' . $employee_ids->getClientOriginalExtension();
-            Storage::disk('s3_general')->put('employee_ids/' . $employeeIdPath, file_get_contents($employee_ids));
-            $employee->employee_id_image = $employeeIdPath;
+        // if ($request->hasFile('employeeId')) {
+        //     $employee_ids = $request->file('employeeId');
+        //     $employeeIdPath = time() . 'employee_ids.' . $employee_ids->getClientOriginalExtension();
+        //     Storage::disk('s3_general')->put('employee_ids/' . $employeeIdPath, file_get_contents($employee_ids));
+        //     $employee->employee_id_image = $employeeIdPath;
 
-            // $image->move(public_path('/flags'), $imageName);
+        //     // $image->move(public_path('/flags'), $imageName);
 
-        }
+        // }
 
         $working_lady_session = $request->input('working_lady_session');
             if($working_lady_session){
@@ -148,14 +148,14 @@ class WorkingLadyController extends Controller
             }
         // session_image
 
-        if ($request->hasFile('passportPhoto')) {
-            $passport_photos = $request->file('passportPhoto');
-            $passportPhotoPath = time() . 'passport_photos.' . $passport_photos->getClientOriginalExtension();
-            Storage::disk('s3_general')->put('passport_photos/' . $passportPhotoPath, file_get_contents($passport_photos));
-            $employee->passport_photo = $passportPhotoPath;
-            // $image->move(public_path('/flags'), $imageName);
+        // if ($request->hasFile('passportPhoto')) {
+        //     $passport_photos = $request->file('passportPhoto');
+        //     $passportPhotoPath = time() . 'passport_photos.' . $passport_photos->getClientOriginalExtension();
+        //     Storage::disk('s3_general')->put('passport_photos/' . $passportPhotoPath, file_get_contents($passport_photos));
+        //     $employee->passport_photo = $passportPhotoPath;
+        //     // $image->move(public_path('/flags'), $imageName);
 
-        }
+        // }
 
         $employee->save();
 
