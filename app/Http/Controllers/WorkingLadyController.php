@@ -17,9 +17,9 @@ class WorkingLadyController extends Controller
     //
 
     public function show(Request $request){
-        // if (!isMobileDevice($request)) {
-        //     return abort('403');
-        // }
+        if (!isMobileDevice($request)) {
+            return abort('403');
+        }
         return view('workingLady.working-lady');
     }
 
