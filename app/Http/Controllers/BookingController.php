@@ -43,7 +43,7 @@ class BookingController extends Controller
         }
 
 
-
+        $UserImage = '';
         $timezone = $visitor->venueSloting->venueAddress->timezone;
         if(!empty($visitor->recognized_code)){
             $UserImage = getImagefromS3($visitor->recognized_code);
