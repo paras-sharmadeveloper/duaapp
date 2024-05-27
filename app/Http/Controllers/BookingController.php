@@ -45,7 +45,10 @@ class BookingController extends Controller
 
 
         $timezone = $visitor->venueSloting->venueAddress->timezone;
-        $UserImage = getImagefromS3($visitor->recognized_code);
+        if(!empty($visitor->recognized_code)){
+            $UserImage = getImagefromS3($visitor->recognized_code);
+        }
+
 
 
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
