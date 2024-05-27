@@ -179,7 +179,7 @@
         }
 
         span#checkBox-error {
-            margin: 21px -6px;
+            margin: 0;
         }
     </style>
 
