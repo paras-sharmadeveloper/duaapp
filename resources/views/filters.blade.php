@@ -57,7 +57,7 @@
 
                     @php
                           $image = (!empty($visitor->recognized_code))  ? getImagefromS3($visitor->recognized_code) : '';
-                          $workingLady = (!empty($visitor->working_lady_id)) ?  getWorkingLady($working_lady_id) : [];
+                          $workingLady = (!empty($visitor->working_lady_id)) ?  getWorkingLady($visitor->working_lady_id) : [];
                           $workingLadySession = (!empty($workingLady)) ? getImagefromS3($workingLady->session_image) : '';
 
                     @endphp
