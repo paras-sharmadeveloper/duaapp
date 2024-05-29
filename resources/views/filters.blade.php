@@ -104,7 +104,7 @@
                         <td>{{ $visitor->phone }}</td>
                         <td>{{ $visitor->source }}</td>
                         <td>{{ $visitor->booking_uniqueid  }}</td>
-                        <td><a href="{{ route('booking.status' , [$visitor->booking_number])}}" > Token Status </a> </td>
+                        <td><a href="{{ route('booking.status' , [$visitor->booking_number])}}" target="_blank"> Token Status </a> </td>
 
                         <td>
                             @if($visitor->token_status  == 'invaild')
