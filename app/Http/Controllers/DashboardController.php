@@ -42,8 +42,8 @@ class DashboardController extends Controller
             $visitor->token_url_link = $url;
 
             $visitor->date = date('Y-m-d', strtotime($visitor->date));
-            $image = getImagefromS3($visitor->recognized_code);
-            $visitor->recognized_code =  base64_encode($image);
+            $image = ($visitor->recognized_code)  ? getImagefromS3($visitor->recognized_code) : '';
+            $visitor->recognized_code = ($image) ? base64_encode($image) : '';
             $daaate = date('l d-M-Y', strtotime($visitor->date));
 
 
