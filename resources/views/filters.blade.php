@@ -13,6 +13,15 @@
     @php
         $inactive = request()->get('inactive');
     @endphp
+    <style>
+          th, td {
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+        div.dataTables_wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+        </style>
 
     @include('alerts')
     <div class="card">
@@ -38,7 +47,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Search Entries</h5>
-            <table class="table-with-buttons1 table table-responsive cell-border" id="tokenFilter">
+            <table class="table-with-buttons1 table table-responsive cell-border" id="tokenFilter" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>DbId</th>
@@ -160,6 +169,8 @@
         $(document).ready(function() {
             var table =    $('#tokenFilter').DataTable({
                 "dom": 'lBfrtip',
+               // scrollY: '300px',
+                  scrollX: true,
                 "buttons": [{
                         extend: 'pdfHtml5',
                         orientation: 'landscape'

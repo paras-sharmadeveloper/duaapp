@@ -972,6 +972,7 @@
 
             $('#datatable').DataTable({
                 "dom": 'lBfrtip',
+                scrollX: true,
                 "processing": true,
                 "pageLength": 100,
                 "serverSide": true,
