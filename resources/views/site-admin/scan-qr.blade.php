@@ -40,9 +40,9 @@
 @if(request()->get('showUserImage') != 'true')
 
 <style>
-    .userImag{
+    /* .userImag{
         display: none;
-    }
+    } */
     </style>
 @endif
     <div class="container">
