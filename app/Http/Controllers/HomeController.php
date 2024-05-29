@@ -312,17 +312,19 @@ class HomeController extends Controller
                 return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
             }
 
-
-            $captured_user_image = $request->input('captured_user_image');
-            if($captured_user_image){
-                $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-
-                $isUsers = $this->IsRegistredAlready($imahee);
-                if (!empty($isUsers) && $isUsers['status'] == false) {
-
-                        return response()->json(['message' => $isUsers['message'],   'ites' => env('AWS_ACCESS_KEY_ID'), 'isUser' => $isUsers , "status" => false], 406);
+                $captured_user_image = $request->input('captured_user_image');
+                if(!empty($captured_user_image)){
+                    $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                    $isUsers = $this->IsRegistredAlready($myImage , $rejoin);
+                    if (!empty($isUsers) && $isUsers['status'] == false) {
+                        return response()->json(['message' => $isUsers['message'],  'isUser' => $isUsers , "status" => false], 406);
+                    }
                 }
-            }
+
+
+
+
+
 
 
 
@@ -440,7 +442,7 @@ class HomeController extends Controller
     }
 
 
-    protected function IsRegistredAlready($selfieImage)
+    protected function IsRegistredAlready($selfieImage , $rejoin)
     {
 
         $filename = 'selfie_' . time() . '.jpg';
@@ -450,10 +452,8 @@ class HomeController extends Controller
 
         $userArr = [];
 
-        Storage::disk('s3')->put($objectKey, $selfieImage);
-        // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
 
-        if (!empty($userAll)) {
+        if (!empty($userAll) &&  $rejoin > 0) {
 
 
             try {
