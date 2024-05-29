@@ -266,7 +266,7 @@ S
       <li class="nav-item">
         <a class="{{ ( $currentPath == 'admin.filter') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('admin.filter') }}">
             <i class="bi bi-person-vcard"></i>
-          <span>Lead Filter </span>
+          <span>Token Filter </span>
         </a>
       </li>
 
