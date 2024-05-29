@@ -412,6 +412,7 @@ class HomeController extends Controller
                 [
                     'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
                     'body' => $message,
+                    "statusCallback" => route('twillio.status.callback')
                 ]
             );
             $messageSid = $messageInstance->sid; // Get MessageSid

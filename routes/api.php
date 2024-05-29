@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{TicketWebhook,WhatsAppController,TwillioIVRHandleController}; 
+use App\Http\Controllers\{NewBookingController, TicketWebhook,WhatsAppController,TwillioIVRHandleController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,5 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
 Route::post('/handle-incoming-message', [WhatsAppController::class, 'handleWebhook']);
 Route::post('/handle-fallback', [WhatsAppController::class, 'handleFallback']);
+// https://app.kahayfaqeer.org/api//twilio/status
+
+
 
 

@@ -53,5 +53,23 @@ class NewBookingController extends Controller
 
     }
 
+    public function handleStatusUpdate(Request $request)
+    {
+        // Extract information from the Twilio webhook request
+        $messageSid = $request->input('MessageSid');
+        $status = $request->input('MessageStatus');
+
+        // Update your database or take any other necessary action based on the status update
+        // Example: Update the message status in the database
+        $message = Vistors::where('sid', $messageSid)->first();
+        if ($message) {
+            $message->status = $status;
+            $message->save();
+        }
+
+        // Respond to Twilio's webhook request with a 200 OK status
+        return response()->json(['status' => 'success'], 200);
+    }
+
 
 }
