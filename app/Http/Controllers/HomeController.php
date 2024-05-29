@@ -588,7 +588,7 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => $e, 'status' => false];
+                return ['message' => $e->getMessage(), 'status' => false];
               //  return ['message' => 'ok', 'recognized_code' => $objectKey ,  'status' => true];
             }
         } else {
