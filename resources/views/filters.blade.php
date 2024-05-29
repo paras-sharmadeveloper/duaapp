@@ -72,7 +72,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($image)
+                            @if($workingLadySession)
                                 <img src="data:image/jpeg;base64,{{ base64_encode($workingLadySession) }}" alt="Preview Image"
                                     style="height: 150px; width:150px;border-radius:20%">
                                 @else
