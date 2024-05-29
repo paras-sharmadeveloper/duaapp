@@ -18,9 +18,7 @@ class DashboardController extends Controller
     public function getData(Request $request)
     {
 
-        $data = Vistors::with(['venueSloting'])
-            ->select(['booking_number as token','id', 'created_at as date',
-             'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id' , 'user_question' , 'recognized_code']);
+        $data = Vistors::with(['venueSloting']);
 
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
@@ -31,7 +29,8 @@ class DashboardController extends Controller
             $data->where('created_at', 'LIKE', $request->input('venue_date') . '%');
             // $data->whereDate('created_at', $request->input('date'));
         }
-        $filteredData = $data->orderBy('id','desc')->get();
+        $filteredData = $data->orderBy('id','desc')->get(['booking_number as token','id', 'created_at as date',
+        'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id' , 'user_question' , 'recognized_code']);
 
         foreach ($filteredData as $visitor) {
             // Generate token_url_link URL
@@ -61,32 +60,8 @@ class DashboardController extends Controller
                 if($visitor->country_code){
                     $visitor->phone =  $visitor->country_code.'  ' . $visitor->phone;
                 }
-
-
-
-                // Access VenueAddress data through venueSloting
-                // Example: $visitor->venueSloting->venueAddress->some_attribute
             }
         }
-
-        // return DataTables::of($filteredData)
-        // ->addColumn('token_url_link', function ($visitor) {
-        //     $url = route('booking.status', [$visitor->token_url_link]);
-        //     return '<a href="' . $url . '">Book Status</a>';
-        // })
-        // ->editColumn('date', function ($visitor) {
-        //     return date('Y-m-d', strtotime($visitor->date));
-        // })
-        // ->editColumn('dua_ghar', function ($visitor) {
-        //     if ($visitor->venueSloting && $visitor->venueSloting->venueAddress) {
-        //         return $visitor->venueSloting->venueAddress->city;
-        //     }
-        //     return '';
-        // })
-        // ->rawColumns(['token_url_link'])
-        // ->make(true);
-
-
         return DataTables::of($filteredData)->make(true);
     }
 
