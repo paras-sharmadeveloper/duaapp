@@ -61,7 +61,7 @@ class NewBookingController extends Controller
 
         // Update your database or take any other necessary action based on the status update
         // Example: Update the message status in the database
-        $message = Vistors::where('sid', $messageSid)->first();
+        $message = Vistors::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
             $message->save();
