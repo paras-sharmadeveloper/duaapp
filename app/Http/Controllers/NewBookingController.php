@@ -45,9 +45,9 @@ class NewBookingController extends Controller
     }
 
     public function StatusLead(Request $request,$id){
-        $visitors = [];
-        $visitors =  Vistors::find($id)->update([
-            'status' => $request->input('status')
+
+        Vistors::find($id)->update([
+            'token_status' => $request->input('status')
         ]);
         return redirect()->back()->with(['success' => 'Status updated']);
 
