@@ -58,6 +58,25 @@
 
                         <th style="width: 300px">Action</th>
                     </tr>
+                    <tr>
+                        <th><input type="text" placeholder="Search DbId" /></th>
+                        <th><input type="text" placeholder="Search Dua Type" /></th>
+                        <th><input type="text" placeholder="Search Phone" /></th>
+                        <th><input type="text" placeholder="Search Source" /></th>
+                        <th><input type="text" placeholder="Search Token Url" /></th>
+                        <th><input type="text" placeholder="Search Token" /></th>
+                        <th><input type="text" placeholder="Search Token Session Image" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search Working Lady Session Image" style="width: 100%;" />
+                        </th>
+                        <th><input type="text" placeholder="Search Checkin Time Stamp" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search Token Print Count" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search 1st Msg Sent Status" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search 1st Msg Sent Date" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search 1st Msg Sid" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search Status" style="width: 100%;" /></th>
+                        <th><input type="text" placeholder="Search Action" style="width: 100%;" /></th>
+                    </tr>
+
                 </thead>
                 <tbody>
                     @foreach ($visitors as $visitor)
@@ -138,25 +157,40 @@
 @endsection
 @section('page-script')
     <script>
-      $('#tokenFilter').DataTable({
-    "dom": 'lBfrtip',
-    "buttons": [
-        {
-            extend: 'pdfHtml5',
-            orientation: 'landscape'
-        },
-        'csv',
-        'excel'
-    ],
-    "columnDefs": [
-        {
-            "targets": [5], // index of the token_url_link column
-            "width": "500px" // set width to 500px
-        }
-    ],
-    "lengthMenu": [10, 25, 50, 100, 500, 1000, 1500, 2000, 2500, 3000],
-    "pageLength": 300 // set default length to 1000
-});
+        $(document).ready(function() {
+            var table =    $('#tokenFilter').DataTable({
+                "dom": 'lBfrtip',
+                "buttons": [{
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape'
+                    },
+                    'csv',
+                    'excel'
+                ],
+                "columnDefs": [{
+                    "targets": [5], // index of the token_url_link column
+                    "width": "500px" // set width to 500px
+                }],
+                "lengthMenu": [10, 25, 50, 100, 500, 1000, 1500, 2000, 2500, 3000],
+                "pageLength": 300 // set default length to 1000
+            });
 
+            // $('#tokenFilter tfoot th').each(function (i) {
+            //     var title = $('#tokenFilter thead th')
+            //         .eq($(this).index())
+            //         .text();
+            //     $(this).html(
+            //         '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
+            //     );
+            // });
+
+            $('#tokenFilter thead tr:eq(1) th input').on('keyup', function() {
+                let columnIndex = $(this).parent().index();
+
+                table.column(columnIndex)
+                    .search(this.value)
+                    .draw();
+            });
+        })
     </script>
 @endsection
