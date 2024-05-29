@@ -12,7 +12,7 @@ class NewBookingController extends Controller
 {
     //
 
-    public function index( Request $request, $locale = ''){
+    public function index(Request $request, $locale = ''){
         // if (!isMobileDevice($request)) {
         //     return abort('403');
         // }
@@ -35,4 +35,23 @@ class NewBookingController extends Controller
         $reasons = Reason::where(['type' => 'announcement'])->first();
         return view('frontend.multistep.index', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
     }
+
+    public function ShowFilterPage(Request $request){
+        $visitors = [];
+        if($request->input('date')){
+            $visitors =  Vistors::whereDate('created_at',$request->input('date'))->get();
+        }
+        return view('filters',compact('visitors'));
+    }
+
+    public function StatusLead(Request $request,$id){
+        $visitors = [];
+        $visitors =  Vistors::find($id)->update([
+            'status' => $request->input('status')
+        ]);
+        return redirect()->back()->with(['success' => 'Status updated']);
+
+    }
+
+
 }

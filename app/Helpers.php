@@ -2,7 +2,7 @@
 
 use App\Models\Timezone;
 use App\Models\Venue;
-use App\Models\{Reason, Vistors,VenueSloting};
+use App\Models\{Reason, Vistors,VenueSloting, WorkingLady};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -46,26 +46,41 @@ function getImagefromS3($imageName)
     {
 
         //  return "D".env('AWS_ACCESS_KEY_ID');
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => 'us-east-1',
-            'credentials' => [
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' =>env('AWS_SECRET_ACCESS_KEY'),
-            ],
-        ]);
+        try {
+            $s3 = new S3Client([
+                'version' => 'latest',
+                'region' => 'us-east-1',
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' =>env('AWS_SECRET_ACCESS_KEY'),
+                ],
+            ]);
 
-        $bucket = 'kahayfaqeer-booking-bucket';
+            $bucket = 'kahayfaqeer-booking-bucket';
 
-        $imageObject = $s3->getObject([
-            'Bucket' => $bucket,
-            'Key' => $imageName,
-        ]);
+            $imageObject = $s3->getObject([
+                'Bucket' => $bucket,
+                'Key' => $imageName,
+            ]);
 
-        $imageData = $imageObject['Body'];
+            $imageData = $imageObject['Body'];
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            $imageData = '';
+        }
 
         return $imageData;
     }
+
+    function getWorkingLady($working_lady_id){
+
+        return WorkingLady::findOrFail($working_lady_id);
+
+
+    }
+
+
 
     function deleteObject($key){
         $bucket = 'kahayfaqeer-booking-bucket';

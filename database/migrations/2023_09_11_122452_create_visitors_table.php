@@ -46,7 +46,12 @@ return new class extends Migration
             $table->string('dua_type',25)->nullable();
             $table->string('qr_code_image',2500)->nullable();
             $table->unsignedBigInteger('working_lady_id')->default(0);
+
             $table->text('captured_user_image')->charset('binary')->nullable();
+            $table->string('msg_sid')->nullable();
+            $table->string('msg_sent_status')->nullable();
+            $table->string('msg_date')->nullable();
+            $table->enum('token_status',['vaild','invaild'])->default('vaild');
             $table->enum('lang',['en','ur'])->default('en');
             $table->timestamps();
 

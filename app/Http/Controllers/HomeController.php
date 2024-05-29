@@ -370,92 +370,21 @@ class HomeController extends Controller
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id',0);
 
-            // Save the booking record
-            $booking->save();
 
             $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
             $mymobile = '+' . $countryCode . $validatedData['mobile'];
 
             $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
-            $this->sendWhatsAppMessage($mobile, $message);
-            //   $eventData = $venueAddress->venue_date . ' ' . $venueSlots->slot_time;
-            //   $slotDuration = $venueAddress->slot_duration;
-            //   $userTimeZone = Carbon::parse($eventData)->tz($request->input('timezone'));
-            //   $dateTime = Carbon::parse($eventData);
-            //   $userSlot = VenueSloting::find($request->input('slot_id'));
-            //   $iso = $venue->iso;
+            $twillioStatus =  $this->sendWhatsAppMessage($mobile, $message);
+            $booking->msg_sent_status = (!empty( $twillioStatus)) ?   $twillioStatus['status'] : '';
+            $booking->msg_sid = (!empty( $twillioStatus)) ?  $twillioStatus['sid'] : '';
+            $booking->msg_date = Carbon::now();
+            $booking->token_status = 'vaild';
+             // Save the booking record
+            $booking->save();
 
-            //   $venueTimezone = Timezone::where(['country_code' => $iso])->first();
-            //   $countryTz =  $venueTimezone->timezone;
 
-            //   $venueDate = $venueAddress->venue_date . ' ' . $userSlot->slot_time;
-            //   $currentContryTimezone = Carbon::parse($venueDate, $countryTz);
-            //   $currentContryTimezone->timezone($countryTz);
-
-            //   $userSelectedTimezone = Carbon::parse($venueDate, $countryTz);
-            //   $userSelectedTimezone->timezone($request->input('timezone'));
-
-            //   $formattedDateTime = $currentContryTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $currentContryTimezone->addMinutes(30)->format('g:ia');
-            //   $userTimezoneFormat = $userSelectedTimezone->format('l F j, Y ⋅ g:i a') . ' – ' . $userSelectedTimezone->addMinutes(30)->format('g:ia');
-            //   $userLocationTime = ' As per Selected Timezone ' . $userTimezoneFormat . '(' . $request->input('timezone') . ')';
-
-            // $dynamicData = [
-            //   'subject' => $validatedData['fname'] . ', your online dua appointment is confirmed - ' . $userTimezoneFormat . '('.$request->input('timezone').')',
-            //   'userTime' => $userTimezoneFormat,
-            //   'venueTz' => $countryTz,
-            //   'userTz' => $request->input('timezone'),
-            //   'first_name' => $validatedData['fname'],
-            //   // 'email' => $validatedData['email'],
-            //   'mobile' =>  '+' . $mobile,
-            //   'country' =>  $venue->country_name,
-            //   'event_name' => $slotDuration . " Minute Online Dua Appointment",
-            //   'location' => ($venueAddress->type == 'on-site') ? $venueAddress->address : "Online Video Call",
-            //   'userLocationTime' => $userLocationTime,
-            //   'spot_confirmation' => route('booking.confirm-spot', [$uuid]),
-            //   "meeting_status_link" => route('booking.status', [$uuid]),
-            //   'meeting_cancel_link' => route('book.cancle', [$uuid]),
-            //   'meeting_reschedule_link' => route('book.reschdule', [$uuid]),
-            //   'unsubscribe_link' => '',
-            //   'meeting_date_time' => $formattedDateTime,
-            //   'meeting_location' =>  ($venueAddress->type == 'on-site') ? $venueAddress->address . ' At' .   $userLocationTime   : "Online Video Call",
-            //   'therapist_name' => $venueAddress->user->name,
-            //   'booking_number' => $bookingNumber,
-            //   'slotDuration' => $slotDuration,
-            //   'venue_address' => $venueAddress->address,
-            //   'video_conference_link' => ($venueAddress->type == 'virtual') ? route('join.conference.frontend', [$uuid]) : ''
-            // ];
-
-            // $appointMentStatus = route('booking.status', [$uuid]);
-            // $confirmSpot = route('booking.confirm-spot');
-            // $cancelBooking = route('book.cancle', [$uuid]);
-            // $rescheduleBooking = route('book.reschdule', [$uuid]);
-            // $name = $validatedData['fname'];
-            // $therapistName = $venueAddress->thripist->name;
-
-            // // $venueString =  $venueAddress->venue_date  . ' At.' . date("g:i A", strtotime($userSlot->slot_time));
-            // $whatsappTims = Carbon::parse($venueDate,$countryTz); // IST timezone
-            // $whatsappTims->timezone($request->input('timezone'));
-            // $venueString = $whatsappTims->format('d-M-Y g:i A') . ' ('.$countryTz.')';
-            // $slot_duration = $venueAddress->slot_duration;
-            // if ($venueAddress->type == 'on-site') {
-            //   $location = $venueAddress->address;
-            //   $confirmSpot = route('booking.confirm-spot');
-            // } else {
-            //   $location = 'Online Meeting';
-            //   $confirmSpot = route('join.conference.frontend', [$uuid]);
-            // }
-            //WhatsApp Template
-            // $message = $this->bookingMessageTemplate($name, $therapistName, $location, $bookingNumber, $venueString, $slot_duration, $rescheduleBooking, $cancelBooking, $confirmSpot, $appointMentStatus);
-            // SendMessage::dispatch($mobile, $message, $booking->is_whatsapp, $booking->id)->onQueue('send-message')->onConnection('database');
-            // SendEmail::dispatch($validatedData['email'], $dynamicData, $booking->id)->onQueue('send-email')->onConnection('database');
-
-            // PushEmailToSandlane::dispatch($validatedData['email'], $name)->onQueue('push-to-sandlane')->onConnection('database');
-
-            // $NotificationMessage = "Just recived a booking for <b> " . $venue->country_name . " </b> at <b> " . $eventData . "</b> by: <br></b>" . $validatedData['fname'] . " " . $validatedData['lname'] . "</b>";
-            // Notification::create(['message' => $NotificationMessage, 'read' => false]);
-
-            // event(new BookingNotification($NotificationMessage));
             if ($from == 'admin') {
                 return  redirect()->route('booking.status', $uuid);
                 // booking.status
@@ -477,14 +406,16 @@ class HomeController extends Controller
         $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
 
         try {
-            $twilio->messages->create(
+            $messageInstance =  $twilio->messages->create(
                 "$to",
                 [
                     'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
                     'body' => $message,
                 ]
             );
-            return response()->json(['data' => 'success']);
+            $messageSid = $messageInstance->sid; // Get MessageSid
+            $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
+            return response()->json(['data' => 'success', 'sid' => $messageSid, 'status' => $messageSentStatus]);
         } catch (\Exception $e) {
             //throw $th;
             return response()->json(['error' => $e->getMessage()]);

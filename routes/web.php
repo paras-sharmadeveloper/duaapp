@@ -215,6 +215,9 @@ Auth::routes(['register' => false]);
 
 
 
+
+
+
     Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
@@ -232,6 +235,16 @@ Auth::routes(['register' => false]);
     Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+
+
+    Route::get('/filter', [NewBookingController::class, 'ShowFilterPage'])->name('admin.filter');
+    Route::post('/filter/status/{id}', [NewBookingController::class, 'StatusLead'])->name('admin.filter.status');
+
+
+
+
+
+
     Route::get('/video/{bookingId}/join-conference', [VideoConferenceController::class, 'joinConferenceFrontend'])->name('join.conference.frontend');
     Route::get('/qr-code/{id}', [BookingController::class, 'generateQRCode'])->name('qr.code');
 
