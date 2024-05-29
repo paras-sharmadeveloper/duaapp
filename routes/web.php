@@ -211,7 +211,7 @@ Auth::routes(['register' => false]);
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     // Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
-     Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show.newdua');
+    Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show');
 
 
 
