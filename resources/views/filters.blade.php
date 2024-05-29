@@ -49,6 +49,18 @@
                         <th>1st Msg Sent Date</th>
                         <th>1st Msg Sid </th>
                         <th>Status</th>
+
+                        <th>Phone</th>
+                        <th>Source</th>
+                        <th>Token Url</th>
+                        <th>Token</th>
+
+
+
+
+
+
+
                         <th style="width: 300px">Action</th>
                     </tr>
                 </thead>
@@ -88,6 +100,12 @@
                         <td>{{ $visitor->msg_date }}</td>
                         <td>{{ $visitor->msg_sid }}</td>
                         <td>{{ $visitor->token_status }}</td>
+
+                        <td>{{ $visitor->phone }}</td>
+                        <td>{{ $visitor->source }}</td>
+                        <td>{{ $visitor->booking_uniqueid  }}</td>
+                        <td><a href="{{ route('booking.status' , [$visitor->booking_number])}}" > Token Status </a> </td>
+
                         <td>
                             @if($visitor->token_status  == 'invaild')
                                 <form method="post" action="{{ route('admin.filter.status',[$visitor->id]) }}">
