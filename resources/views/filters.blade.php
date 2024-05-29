@@ -67,7 +67,7 @@
 
                         <th style="width: 300px">Action</th>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th><input type="text" placeholder="Search DbId" /></th>
                         <th><input type="text" placeholder="Search Dua Type" /></th>
                         <th><input type="text" placeholder="Search Phone" /></th>
@@ -84,7 +84,7 @@
                         <th><input type="text" placeholder="Search 1st Msg Sid" style="width: 100%;" /></th>
                         <th><input type="text" placeholder="Search Status" style="width: 100%;" /></th>
                         <th><input type="text" placeholder="Search Action" style="width: 100%;" /></th>
-                    </tr>
+                    </tr> --}}
 
                 </thead>
                 <tbody>
@@ -167,6 +167,18 @@
 @section('page-script')
     <script>
         $(document).ready(function() {
+
+            $('#tokenFilter thead th').each(function (i) {
+                var title = $('#tokenFilter thead th')
+                    .eq($(this).index())
+                    .text();
+                $(this).html(
+                    '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
+                );
+            });
+
+
+
             var table =    $('#tokenFilter').DataTable({
                 "dom": 'lBfrtip',
                // scrollY: '300px',
@@ -194,12 +206,12 @@
             //         '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
             //     );
             // });
-            $(table.table().container()).on('keyup', ' thead tr:eq(1) th input', function () {
-                table
-                    .column($(this).data('index'))
-                    .search(this.value)
-                    .draw();
-            });
+            $(table.table().container()).on('keyup', 'thead input', function () {
+        table
+            .column($(this).data('index'))
+            .search(this.value)
+            .draw();
+    });
             // $('#tokenFilter thead tr:eq(1) th input').on('keyup change', function() {
             //     let columnIndex = $(this).parent().index();
 
