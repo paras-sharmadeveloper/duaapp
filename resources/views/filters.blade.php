@@ -195,7 +195,7 @@
                     "width": "500px" // set width to 500px
                 }],
                 "lengthMenu": [10, 25, 50, 100, 500, 1000, 1500, 2000, 2500, 3000],
-                "pageLength": 300 // set default length to 1000
+                "pageLength": 500 // set default length to 1000
             });
 
             // $('#tokenFilter thead tr:eq(1) th input').each(function (i) {
