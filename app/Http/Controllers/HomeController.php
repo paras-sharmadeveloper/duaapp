@@ -379,7 +379,7 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
-            $booking->working_lady_id = $request->input('working_lady_id');
+            $booking->working_lady_id = $request->input('working_lady_id',0);
 
             // Save the booking record
             $booking->save();
@@ -528,7 +528,7 @@ class HomeController extends Controller
         $userArr = [];
 
         Storage::disk('s3')->put($objectKey, $selfieImage);
-        return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+        // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
 
         if (!empty($userAll)) {
 
@@ -545,16 +545,6 @@ class HomeController extends Controller
 
                 Storage::disk('s3')->put($objectKey, $selfieImage);
                     foreach ($userAll as $user) {
-
-                        // $result = $rekognition->detectFaces([
-                        //     'Attributes' => ['ALL'],
-                        //     'Image' => [
-                        //         'S3Object' => [
-                        //             'Bucket' => env('AWS_BUCKET'),
-                        //             'Name' => $objectKey, // path to the photo in your S3 bucket
-                        //         ],
-                        //     ],
-                        // ]);
                         $response = [];
                         if(!empty( $user['recognized_code'])){
                             $bucket ='kahayfaqeer-booking-bucket';
@@ -598,8 +588,8 @@ class HomeController extends Controller
                     return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                // return ['message' => $e->getMessage(), 'status' => false];
-                return ['message' => 'ok', 'recognized_code' => $objectKey ,  'status' => true];
+                return ['message' => $e->getMessage(), 'status' => false];
+              //  return ['message' => 'ok', 'recognized_code' => $objectKey ,  'status' => true];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
