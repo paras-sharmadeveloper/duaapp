@@ -100,21 +100,21 @@
                                         <td id="website-total-percentage-dum">0%</td>
                                     </tr>
 
-                                    <tr class="highlighted">
+                                    {{-- <tr class="highlighted">
                                         <td>WhatsApp</td>
                                         <td id="whatsapp-total">0</td>
                                         <td id="whatsapp-total-percentage">0%</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> --}}
+                                    {{-- <tr>
                                         <td>WhatsApp (Dua)</td>
                                         <td id="whatsapp-total-dua">0</td>
                                         <td id="whatsapp-total-percentage-dua">0%</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> --}}
+                                    {{-- <tr>
                                         <td>WhatsApp (Dum)</td>
                                         <td id="whatsapp-total-dum">0</td>
                                         <td id="whatsapp-total-percentage-dum">0%</td>
-                                    </tr>
+                                    </tr> --}}
 
                                     <tr class="highlighted">
                                         <td>Grand Total</td>
@@ -179,6 +179,7 @@
                                         {{-- <th>Country Code</th> --}}
                                         <th>Phone</th>
                                         <th>Source</th>
+                                        <th>Session Image </th>
                                         <th>Token Url Link</th>
 
                                     </tr>
@@ -211,16 +212,7 @@
                         <div class="card info-card customers-card">
 
                             <div class="filter">
-                                {{-- <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a> --}}
-                                {{-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul> --}}
                             </div>
 
                             <div class="card-body">
@@ -247,16 +239,7 @@
                         <div class="card info-card customers-card">
 
                             <div class="filter">
-                                {{-- <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a> --}}
-                                {{-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul> --}}
                             </div>
 
                             <div class="card-body">
@@ -283,16 +266,7 @@
                         <div class="card info-card customers-card">
 
                             <div class="filter">
-                                {{-- <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a> --}}
-                                {{-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul> --}}
                             </div>
 
                             <div class="card-body">
@@ -1020,6 +994,13 @@
                     },
                     {
                         "data": "source"
+                    },
+                    {
+                        "data": "recognized_code",
+                        "render": function(data, type, row, meta) {
+                            return `<img src="data:image/jpeg;base64,${data}" alt="Preview Image"
+                                     style="height: 150px; width:150px;border-radius:20%">`;
+                        }
                     },
                     {
                         "data": "token_url_link",

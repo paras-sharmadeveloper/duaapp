@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
         $data = Vistors::with(['venueSloting'])
             ->select(['booking_number as token','id', 'created_at as date',
-             'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id' , 'user_question']);
+             'country_code', 'phone', 'source', 'booking_uniqueid as token_url_link', 'id as dua_ghar', 'dua_type', 'slot_id' , 'user_question' , 'recognized_code']);
 
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
@@ -42,6 +42,8 @@ class DashboardController extends Controller
             $visitor->token_url_link = $url;
 
             $visitor->date = date('Y-m-d', strtotime($visitor->date));
+            $image = getImagefromS3($visitor->recognized_code);
+            $visitor->recognized_code =  base64_encode($image);
             $daaate = date('l d-M-Y', strtotime($visitor->date));
 
 
