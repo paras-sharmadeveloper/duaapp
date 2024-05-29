@@ -98,10 +98,10 @@
                             @endif
 
                             @if($visitor->token_status  == 'vaild')
-                                <form method="post" action="{{ route('admin.filter.status') }}">
+                                <form method="post" action="{{ route('admin.filter.status',[$visitor->id]) }}">
                                     @csrf
                                     <input type="hidden" name="status" value="invaild">
-                                    <button type="submit" class="btn btn-danger">InVaild</button>
+                                    <button type="submit" class="btn btn-danger">Invaild</button>
                                 </form>
                             @endif
 
