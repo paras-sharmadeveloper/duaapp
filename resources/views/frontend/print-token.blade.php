@@ -426,9 +426,9 @@
         <div class="row userImag" >
             <div class="link_wrap">
                 @if(!empty($visitor) && $visitor->token_status == 'vaild')
-                 <span class="badge bg-success"> Vaild </span>
+                 <span class="badge bg-success fs-5"> VALID TOKEN </span>
                 @else
-                  <span class="badge bg-danger"> Invaild </span>
+                  <span class="badge bg-danger fs-5"> INVALID TOKEN </span>
                 @endif
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if(!empty($workingLady) && $workingLady->type == 'critical' )
