@@ -41,6 +41,7 @@
             <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
+                        <th>DbId</th>
                         <th>Phone</th>
                         <th>Source</th>
                         <th>Token Url</th>
@@ -67,6 +68,7 @@
 
                     @endphp
                     <tr>
+                        <td>{{ $visitor->id }}</td>
                         <td>{{ $visitor->phone }}</td>
                         <td>{{ $visitor->source }}</td>
                         <td><a href="{{ route('booking.status' , [$visitor->booking_uniqueid])}}" target="_blank"> Token Status </a> </td>
