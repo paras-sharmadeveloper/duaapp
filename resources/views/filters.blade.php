@@ -41,6 +41,10 @@
             <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
+                        <th>Phone</th>
+                        <th>Source</th>
+                        <th>Token Url</th>
+                        <th>Token</th>
                         <th>Token Session Image </th>
                         <th>Working Lady Session Image </th>
                         <th>Checkin Time Stamp (PK Time Zone)</th>
@@ -49,17 +53,6 @@
                         <th>1st Msg Sent Date</th>
                         <th>1st Msg Sid </th>
                         <th>Status</th>
-
-                        <th>Phone</th>
-                        <th>Source</th>
-                        <th>Token Url</th>
-                        <th>Token</th>
-
-
-
-
-
-
 
                         <th style="width: 300px">Action</th>
                     </tr>
@@ -74,6 +67,10 @@
 
                     @endphp
                     <tr>
+                        <td>{{ $visitor->phone }}</td>
+                        <td>{{ $visitor->source }}</td>
+                        <td><a href="{{ route('booking.status' , [$visitor->booking_uniqueid])}}" target="_blank"> Token Status </a> </td>
+                        <td>{{ $visitor->booking_number}}</td>
                         <td>
                             @if($image)
                                 <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
@@ -101,10 +98,7 @@
                         <td>{{ $visitor->msg_sid }}</td>
                         <td>{{ $visitor->token_status }}</td>
 
-                        <td>{{ $visitor->phone }}</td>
-                        <td>{{ $visitor->source }}</td>
-                        <td><a href="{{ route('booking.status' , [$visitor->booking_uniqueid])}}" target="_blank"> Token Status </a> </td>
-                        <td>{{ $visitor->booking_number}}</td>
+
 
 
                         <td>
