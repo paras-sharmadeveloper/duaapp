@@ -63,7 +63,7 @@ class NewBookingController extends Controller
         // Example: Update the message status in the database
         $message = Vistors::where('sid', $messageSid)->first();
         if ($message) {
-            $message->status = $status;
+            $message->msg_sent_status = $status;
             $message->save();
         }
 
