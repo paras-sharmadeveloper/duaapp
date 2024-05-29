@@ -186,7 +186,7 @@
                 "pageLength": 300 // set default length to 1000
             });
 
-            // $('#tokenFilter tfoot th').each(function (i) {
+            // $('#tokenFilter thead tr:eq(1) th input').each(function (i) {
             //     var title = $('#tokenFilter thead th')
             //         .eq($(this).index())
             //         .text();
@@ -194,14 +194,19 @@
             //         '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
             //     );
             // });
-
-            $('#tokenFilter thead tr:eq(1) th input').on('keyup change', function() {
-                let columnIndex = $(this).parent().index();
-
-                table.column(columnIndex)
+            $(table.table().container()).on('keyup', ' thead tr:eq(1) th input', function () {
+                table
+                    .column($(this).data('index'))
                     .search(this.value)
                     .draw();
             });
+            // $('#tokenFilter thead tr:eq(1) th input').on('keyup change', function() {
+            //     let columnIndex = $(this).parent().index();
+
+            //     table.column(columnIndex)
+            //         .search(this.value)
+            //         .draw();
+            // });
         })
     </script>
 @endsection
