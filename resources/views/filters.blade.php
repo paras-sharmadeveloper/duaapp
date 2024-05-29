@@ -14,14 +14,17 @@
         $inactive = request()->get('inactive');
     @endphp
     <style>
-          th, td {
-            white-space: nowrap; /* Prevent text from wrapping */
+        th,
+        td {
+            white-space: nowrap;
+            /* Prevent text from wrapping */
         }
+
         div.dataTables_wrapper {
             width: 100%;
             margin: 0 auto;
         }
-        </style>
+    </style>
 
     @include('alerts')
     <div class="card">
@@ -168,7 +171,7 @@
     <script>
         $(document).ready(function() {
 
-            $('#tokenFilter thead th').each(function (i) {
+            $('#tokenFilter thead th').each(function(i) {
                 var title = $('#tokenFilter thead th')
                     .eq($(this).index())
                     .text();
@@ -179,10 +182,10 @@
 
 
 
-            var table =    $('#tokenFilter').DataTable({
+            var table = $('#tokenFilter').DataTable({
                 "dom": 'lBfrtip',
-               // scrollY: '300px',
-                  scrollX: true,
+                // scrollY: '300px',
+                scrollX: true,
                 "buttons": [{
                         extend: 'pdfHtml5',
                         orientation: 'landscape'
@@ -198,27 +201,14 @@
                 "pageLength": 500 // set default length to 1000
             });
 
-            // $('#tokenFilter thead tr:eq(1) th input').each(function (i) {
-            //     var title = $('#tokenFilter thead th')
-            //         .eq($(this).index())
-            //         .text();
-            //     $(this).html(
-            //         '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
-            //     );
-            // });
-            $(table.table().container()).on('keyup', 'thead input', function () {
-        table
-            .column($(this).data('index'))
-            .search(this.value)
-            .draw();
-    });
-            // $('#tokenFilter thead tr:eq(1) th input').on('keyup change', function() {
-            //     let columnIndex = $(this).parent().index();
 
-            //     table.column(columnIndex)
-            //         .search(this.value)
-            //         .draw();
-            // });
+            $(table.table().container()).on('keyup', 'thead input', function() {
+                table
+                    .column($(this).data('index'))
+                    .search(this.value)
+                    .draw();
+            });
+
         })
     </script>
 @endsection

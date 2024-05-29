@@ -80,12 +80,12 @@
 
     $(document).ready(function() {
         $('.table-with-buttons').DataTable({
-            // dom: 'Blfrtip',
+            dom: 'Blfrtip',
             paging: true,
             autoWidth: true,
             responsive: true,
             scrollX: true,
-            pagingType: 'full_numbers',
+            // pagingType: 'full_numbers',
             "lengthMenu": [10, 25, 50, 75, 100],
             aoColumnDefs: [{
                     "aTargets": [0],
