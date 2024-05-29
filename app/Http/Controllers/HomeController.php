@@ -377,6 +377,7 @@ class HomeController extends Controller
             $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
             $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
             $twillioStatus =  $this->sendWhatsAppMessage($mobile, $message);
+
             $booking->msg_sent_status = (!empty( $twillioStatus)) ?   $twillioStatus['status'] : '';
             $booking->msg_sid = (!empty( $twillioStatus)) ?  $twillioStatus['sid'] : '';
             $booking->msg_date = Carbon::now();
@@ -415,7 +416,9 @@ class HomeController extends Controller
             );
             $messageSid = $messageInstance->sid; // Get MessageSid
             $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
-            return response()->json(['data' => 'success', 'sid' => $messageSid, 'status' => $messageSentStatus]);
+            return ['data' => 'success',
+            'sid' => $messageSid,
+            'status' => $messageSentStatus];
         } catch (\Exception $e) {
             //throw $th;
             return response()->json(['error' => $e->getMessage()]);
