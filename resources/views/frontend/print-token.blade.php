@@ -425,6 +425,11 @@
 
         <div class="row userImag" >
             <div class="link_wrap">
+                @if(!empty($visitor) && $visitor->token_status == 'vaild')
+                 <span class="badge bg-success"> Vaild </span>
+                @else
+                  <span class="badge bg-danger"> Invaild </span>
+                @endif
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if(!empty($workingLady) && $workingLady->type == 'critical' )
                     <a class="acc_style04" href="#" style="background:red">
