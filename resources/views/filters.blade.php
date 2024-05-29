@@ -56,9 +56,9 @@
                     @foreach ($visitors as  $visitor)
 
                     @php
-                          $image = ($visitor->recognized_code)  ? getImagefromS3($visitor->recognized_code) : '';
-                          $workingLady = ($visitor->working_lady_id) ?  getWorkingLady($working_lady_id) : [];
-                          $workingLadySession = ($workingLady) ? getImagefromS3($workingLady->session_image) : '';
+                          $image = (!empty($visitor->recognized_code))  ? getImagefromS3($visitor->recognized_code) : '';
+                          $workingLady = (!empty($visitor->working_lady_id)) ?  getWorkingLady($working_lady_id) : [];
+                          $workingLadySession = (!empty($workingLady)) ? getImagefromS3($workingLady->session_image) : '';
 
                     @endphp
                     <tr>
