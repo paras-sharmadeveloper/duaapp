@@ -195,7 +195,7 @@
             //     );
             // });
 
-            $('#tokenFilter thead tr:eq(1) th input').on('keyup', function() {
+            $('#tokenFilter thead tr:eq(1) th input').on('keyup change', function() {
                 let columnIndex = $(this).parent().index();
 
                 table.column(columnIndex)
