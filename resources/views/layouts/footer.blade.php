@@ -84,7 +84,8 @@
             paging: true,
             autoWidth: true,
             responsive: true,
-            scrollX: true,
+            // scrollX: '1200px',
+            // scrollCollapse: true,
             // pagingType: 'full_numbers',
             "lengthMenu": [10, 25, 50, 75, 100],
             aoColumnDefs: [{
