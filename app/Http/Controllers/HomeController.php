@@ -316,18 +316,7 @@ class HomeController extends Controller
             $captured_user_image = $request->input('captured_user_image');
             if($captured_user_image){
                 $imahee = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                // $rekognition = new RekognitionClient([
-                //     'version' => 'latest',
-                //     'region' => env('AWS_DEFAULT_REGION'),
-                //     'credentials' => [
-                //         'key' => env('AWS_ACCESS_KEY_ID'),
-                //         'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                //     ],
-                // ]);
-                // dd($rekognition) ;
 
-                // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-                // return response()->json(['message' => $userAll]);
                 $isUsers = $this->IsRegistredAlready($imahee);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
 
@@ -523,7 +512,6 @@ class HomeController extends Controller
         $objectKey = $this->encryptFilename($filename);
          $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
-
 
         $userArr = [];
 
