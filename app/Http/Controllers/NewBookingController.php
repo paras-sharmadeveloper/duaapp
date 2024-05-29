@@ -6,6 +6,7 @@ use App\Models\{Venue, Reason , VenueSloting, VenueAddress, Vistors, Country, Us
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class NewBookingController extends Controller
@@ -58,6 +59,10 @@ class NewBookingController extends Controller
         // Extract information from the Twilio webhook request
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
+
+
+        Log::info('messageSid:'.$messageSid);
+        Log::info('Status:'.$status);
 
         // Update your database or take any other necessary action based on the status update
         // Example: Update the message status in the database
