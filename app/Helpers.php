@@ -243,19 +243,11 @@ if (!function_exists('userAllowedRejoin')) {
                ->first();
 
 
-       //  Log::info("userAllowedRejoin".$user->phone);
-        //Log::info("mobile". $mobile);
-       // Log::info("rejoin_venue_after".$rejoin_venue_after);
-
             if (!empty($user)) {
                 $recordAge = $user->created_at->diffInDays(now());
                 $rejoin = $rejoin_venue_after;
                 $daysRemaining = $rejoin  - $recordAge;
 
-                Log::info("rejoin".$rejoin);
-
-                Log::info("daysRemaining".$daysRemaining);
-                Log::info("recordAge".$recordAge);
 
                 if ($rejoin > 0 && $recordAge <= $rejoin &&  $daysRemaining > 0) {
 

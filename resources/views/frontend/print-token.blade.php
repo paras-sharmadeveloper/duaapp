@@ -377,10 +377,6 @@
                     <div class="Qrcode" style="display:flex; justify-content:center; ">
                         {!! QrCode::size(120)->generate($visitor->booking_uniqueid) !!}
                     </div>
-
-                    {{-- <div class="orderNo">
-                            Token ID# <span id="Order #">71</span>: <span id="Order Name">Dua</span>
-                        </div> --}}
                     <div class="headerSubTitle mt-3">
                         <p>
                             <b
@@ -388,11 +384,8 @@
                                 Date: {{ date('l d M Y', strtotime($visitor->slot->venueAddress->venue_date)) }}
                             </b>
                         </p>
-                        {{-- <p> <b>Date : {{ date('l d M Y',strtotime($visitor->slot->venueAddress->venue_date)) }} </b> </p> --}}
-                        <span> Venue : {{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
+                         <span> Venue : {{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
                     </div>
-
-
                     <div id="token">
                         {{  ucwords(str_replace("_"," ",$visitor->slot->type)) }} Token # {{ $visitor->slot->token_id }}
                     </div>
@@ -404,9 +397,7 @@
                         TOKEN VERIFIED <span class="checkmark"></span>
                     </div>
                     <svg id="barcode"></svg>
-
                     <hr>
-
                     <div id="readAll">
                         Read / listen all books for free
                     </div>
