@@ -113,6 +113,7 @@
                             $("#vaild-token").hide();
                             $("#invaild-token").text(response.message).show();
                         }
+                        toastr.error('There Might be some issue at backend');
 
                     }
 

@@ -8,7 +8,7 @@
 
         .receipt {
             padding: 3mm;
-            width: 70mm;
+            width: 72mm;
             border: 1px solid black;
         }
         label.wrkingLady {
@@ -357,30 +357,27 @@
             height: 90%;
         }
     </style>
+     @php
+     $bookstatus = route('booking.status', [$visitor->booking_uniqueid]);
+ @endphp
     <div class="mycont d-flex justify-content-between">
         <div class="row">
 
 
             <div class="col-lg-6">
                 <div class="receipt" id="printONl">
-                    <img class="watermark" src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
-                    <div class="headerr d-flex justify-content-around">
-                        @php
-                            $bookstatus = route('booking.status', [$visitor->booking_uniqueid]);
-                        @endphp
+                    <div class="headerr d-flex justify-content-center mb-2" style="display:flex; justify-content:center;margin-bottom:2px; ">
 
-                        <div class="qr">
-                            {!! QrCode::size(90)->generate($bookstatus) !!}
-                        </div>
                         <div class="logod">
                             <img style="height: 60px !important; width:60px !important"
-                                src="https://app.kahayfaqeer.org/assets/theme/img/logo.png">
+                                src="{{ asset('/assets/theme/img/logo.png') }}">
                         </div>
-                        <div class="qr">
-                            {!! QrCode::size(90)->generate($bookstatus) !!}
-                        </div>
-
                     </div>
+
+                    <div class="Qrcode" style="display:flex; justify-content:center; ">
+                        {!! QrCode::size(120)->generate($visitor->booking_uniqueid) !!}
+                    </div>
+
                     {{-- <div class="orderNo">
                             Token ID# <span id="Order #">71</span>: <span id="Order Name">Dua</span>
                         </div> --}}
@@ -426,9 +423,9 @@
         <div class="row userImag" >
             <div class="link_wrap">
                 @if(!empty($visitor) && $visitor->token_status == 'vaild')
-                 <span class="badge bg-success fs-5"> VALID TOKEN </span>
+                 <span class="badge bg-success fs-5"> VALID TOKEN </span><br>
                 @else
-                  <span class="badge bg-danger fs-5"> INVALID TOKEN </span>
+                  <span class="badge bg-danger fs-5"> INVALID TOKEN </span> <br>
                 @endif
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if(!empty($workingLady) && $workingLady->type == 'critical' )

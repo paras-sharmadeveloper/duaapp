@@ -16,7 +16,7 @@
             text-align: center;
             display: flex;
             justify-content: center;
-            height: 350px;
+            height: 380px;
             overflow: auto;
         }
 
@@ -27,6 +27,7 @@
         .modal-header {
             display: flex;
             justify-content: center;
+            padding: 4px;
         }
 
         .alert {
@@ -138,7 +139,7 @@
                         // toastr.success(response.message);
                         html5QrcodeScanner.pause();
                     } else {
-                        console.log("else")
+
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
@@ -148,18 +149,19 @@
                             $("#vaild-token").hide();
                             $("#invaild-token").text(response.message).show();
 
+
                         }
                         // setTimeout(() => {
                         //     printDiv('printableArea')
                         // }, 1500);
 
-                        // toastr.error(response.message);
-                        html5QrcodeScanner.pause();
+
+                        html5QrcodeScanner.resume();
                     }
 
                 },
                 error: function(error) {
-                    html5QrcodeScanner.pause();
+                    html5QrcodeScanner.resume();
                     // Handle error
                     toastr.error('Error: Unable to process the scan.');
                 }
