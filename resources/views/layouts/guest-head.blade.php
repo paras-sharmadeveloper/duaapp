@@ -32,6 +32,15 @@
         }
     </style>
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKTQMG8C33"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JKTQMG8C33');
+    </script>
+
 </head>
 
 <body>
