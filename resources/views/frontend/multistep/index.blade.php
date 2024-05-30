@@ -1,10 +1,6 @@
 @extends('layouts.guest')
 @section('content')
 @include('frontend.multistep.inc.style')
-
-
-
-
     <section>
         <!-- container -->
         <div class="container">
