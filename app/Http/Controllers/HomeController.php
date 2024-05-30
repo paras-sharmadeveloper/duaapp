@@ -439,14 +439,13 @@ class HomeController extends Controller
 
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+        $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
 
         $userArr = [];
 
 
         if (!empty($userAll) &&  $rejoin > 0) {
-
 
             try {
                 $rekognition = new RekognitionClient([
@@ -503,7 +502,6 @@ class HomeController extends Controller
             } catch (\Exception $e) {
                 return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false];
                 // return ['message' => $e->getMessage(), 'status' => false];
-              //  return ['message' => 'ok', 'recognized_code' => $objectKey ,  'status' => true];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
