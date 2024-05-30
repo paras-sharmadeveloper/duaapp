@@ -375,7 +375,7 @@
                     </div>
 
                     <div class="Qrcode" style="display:flex; justify-content:center; ">
-                        {!! QrCode::size(110)->generate($visitor->booking_uniqueid) !!}
+                        {!! QrCode::size(100)->generate($visitor->booking_uniqueid) !!}
                     </div>
                     <div class="headerSubTitle mt-3">
                         <p>
