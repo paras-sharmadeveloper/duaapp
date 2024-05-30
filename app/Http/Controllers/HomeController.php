@@ -320,14 +320,6 @@ class HomeController extends Controller
                         return response()->json(['message' => $isUsers['message'],  'isUser' => $isUsers , "status" => false], 406);
                     }
                 }
-
-
-
-
-
-
-
-
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
 

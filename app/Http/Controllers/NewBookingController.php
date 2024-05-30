@@ -14,9 +14,9 @@ class NewBookingController extends Controller
     //
 
     public function index(Request $request, $locale = ''){
-        // if (!isMobileDevice($request)) {
-        //     return abort('403');
-        // }
+        if (!isMobileDevice($request)) {
+            return abort('403');
+        }
         if ($locale) {
             App::setLocale($locale);
         } else {
