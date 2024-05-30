@@ -369,7 +369,7 @@
                     <div class="headerr d-flex justify-content-center mb-2" style="display:flex; justify-content:center;margin-bottom:2px; ">
 
                         <div class="logod">
-                            <img style="height: 60px !important; width:60px !important"
+                            <img style="height: 50px !important; width:50px !important"
                                 src="{{ asset('/assets/theme/img/logo.png') }}">
                         </div>
                     </div>
