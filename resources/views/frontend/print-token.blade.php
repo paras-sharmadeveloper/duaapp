@@ -375,16 +375,16 @@
                     </div>
 
                     <div class="Qrcode" style="display:flex; justify-content:center; ">
-                        {!! QrCode::size(115)->generate($visitor->booking_uniqueid) !!}
+                        {!! QrCode::size(110)->generate($visitor->booking_uniqueid) !!}
                     </div>
                     <div class="headerSubTitle mt-3">
                         <p>
                             <b
                                 class="{{ date('Y-m-d', strtotime($visitor->slot->venueAddress->venue_date)) == date('Y-m-d') ? 'text-green' : 'text-red' }}">
-                                Date: {{ date('l d M Y', strtotime($visitor->slot->venueAddress->venue_date)) }}
+                                {{ date('l d M Y', strtotime($visitor->slot->venueAddress->venue_date)) }}
                             </b>
                         </p>
-                         <span> Venue : {{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
+                         <span>{{ $visitor->slot->venueAddress->city }} Dua Ghar </span>
                     </div>
                     <div id="token">
                         {{  ucwords(str_replace("_"," ",$visitor->slot->type)) }} Token # {{ $visitor->slot->token_id }}
