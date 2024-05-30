@@ -889,7 +889,7 @@ div#reader {
                                 <div class="row row-cols-3 d-flex justify-content-center">
                                     <button type="button"
                                         class="btn text-white float-end mt-4 rounded-3 bg-color-info language-selection"
-                                        data-lang="{{ route('book.show.test', [$key]) }}">
+                                        data-lang="{{ route('book.show', [$key]) }}">
                                         </span>
                                         <b> {{ $lang }} </b>
 

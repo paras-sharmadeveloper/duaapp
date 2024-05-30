@@ -220,7 +220,7 @@ Auth::routes(['register' => false]);
 
 
 
-    Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
+    // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
     Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
