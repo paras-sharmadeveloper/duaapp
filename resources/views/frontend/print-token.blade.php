@@ -8,7 +8,7 @@
 
         .receipt {
             padding: 3mm;
-            width: 72mm;
+            width: 70mm;
             border: 1px solid black;
         }
         label.wrkingLady {
@@ -375,7 +375,7 @@
                     </div>
 
                     <div class="Qrcode" style="display:flex; justify-content:center; ">
-                        {!! QrCode::size(120)->generate($visitor->booking_uniqueid) !!}
+                        {!! QrCode::size(115)->generate($visitor->booking_uniqueid) !!}
                     </div>
                     <div class="headerSubTitle mt-3">
                         <p>
