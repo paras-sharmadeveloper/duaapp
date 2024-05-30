@@ -253,8 +253,9 @@ if (!function_exists('userAllowedRejoin')) {
 
                     return [
                         'allowed' => false,
-                        'message' => 'You already Booked a Token with us. Please Try after ' . $daysRemaining . ' days',
-                        'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم ' . $daysRemaining . ' دن کے بعد کوشش کریں۔',
+                        'message' => 'You already Booked a Token with us. Please Try after some days',
+                        'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم کچھ دنوں کے بعد کوشش کریں۔',
+                       // 'message_ur' => 'آپ نے پہلے ہی ہمارے ساتھ ایک ٹوکن بک کر رکھا ہے۔ براہ کرم ' . $daysRemaining . ' دن کے بعد کوشش کریں۔',
                         'days_remaining' => $daysRemaining,
                         'recordAge' => $recordAge
                     ];
