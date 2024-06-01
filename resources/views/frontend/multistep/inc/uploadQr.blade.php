@@ -19,7 +19,7 @@
                     <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
                     <button class="btn">Choose File</button>
                     </div>
-
+                    <p>{{ trans('messages.working_lady_note') }}</p>
                     {{-- <p> {{ trans('messages.workingLady_notRegister') }} <a href="{{ route('working.lady.show')}} ">Register</a></p> --}}
 
                 </div>

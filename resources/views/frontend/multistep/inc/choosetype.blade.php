@@ -16,7 +16,14 @@
                     <div class="card text-center h-60  shadow-sm {{ $key }}"
                         data-id="{{ $key }}">
                         <div class="card-body px-0">
-                            <h5 class="card-title title-binding">{{ $item }}</h5>
+
+
+
+
+                            <h5  class="card-title title-binding"> {{ trans('messages.dua_type_'.$key) }}
+
+
+                            </h5>
                             <p class="card-text">
                         </div>
                     </div>

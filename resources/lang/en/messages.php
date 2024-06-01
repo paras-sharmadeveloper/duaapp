@@ -51,6 +51,9 @@ return [
     'Week_day_Sunday' => 'Sunday',
     'slot_id' => 'This token has been booked by someone else at this second. Please refresh your browser to book token again. There are hundreds of other people also trying to book the token at a same time.',
     'all_token_booked' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button at kahayfaqeer.org.',
-    'workingLady_notRegister' => 'If you are a working lady and not registered with us yet, you may register by clicking here.'
+    'workingLady_notRegister' => 'If you are a working lady and not registered with us yet, you may register by clicking here.',
+    'dua_type_normal_person' => 'Normal Person',
+    'dua_type_working_lady' => 'Working Lady',
+    'working_lady_note' => 'if you want to register as a working lady please contact dua ghar management staff.'
 
 ];
