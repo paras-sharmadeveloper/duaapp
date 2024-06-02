@@ -18,15 +18,15 @@
                     </header>
                     <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
                     <button class="btn">Choose File</button>
-                    <p>{{ trans('messages.working_lady_note') }}</p>
                     </div>
-
+                    <p>{{ trans('messages.working_lady_note') }}</p>
                     {{-- <p> {{ trans('messages.workingLady_notRegister') }} <a href="{{ route('working.lady.show')}} ">Register</a></p> --}}
 
                 </div>
-                <p id="cadr-1r" class="error"></p>
+
 
             </div>
+            <p id="cadr-1r " class="error"></p>
             @include('frontend.multistep.inc.buttons', ['buttonId' => 'qr_section'])
         </div>
     </div>
