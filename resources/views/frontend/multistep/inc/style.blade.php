@@ -852,5 +852,13 @@ img#img {
     height: 50px;
     width: 100px;
 }
+
+#cadr-1r {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
     /* css loader ends */
 </style>
