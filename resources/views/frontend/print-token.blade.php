@@ -7,14 +7,14 @@
         }
 
         .receipt {
-            padding: 3mm;
+            padding: 1mm;
             width: 70mm;
             border: 1px solid black;
         }
         label.wrkingLady {
-    font-size: 22px;
-    font-weight: 700;
-}
+            font-size: 22px;
+            font-weight: 700;
+        }
 
         .orderNo {
             width: 100%;
@@ -30,7 +30,7 @@
 
         .headerSubTitle {
             text-align: center;
-            font-size: 12pt;
+            font-size: 12.5px;
         }
 
         .headerTitle {
@@ -40,16 +40,16 @@
         }
 
         #location {
-            margin-top: 5pt;
+            margin-top: 3pt;
             text-align: center;
-            font-size: 16pt;
+            font-size: 15pt;
             font-weight: bold;
         }
 
         #date {
-            margin: 5pt 0px;
+            margin: 3pt 0px;
             text-align: center;
-            font-size: 16pt;
+            font-size: 15pt;
         }
 
         #barcode {
@@ -294,14 +294,14 @@
         }
 
         #readAll {
-            font-size: 15px;
+            font-size: 14px;
             text-align: center
         }
 
         #token {
-            margin-top: 5pt;
+            margin-top: 3pt;
             text-align: center;
-            font-size: 20pt;
+            font-size: 18pt;
             font-weight: bold;
         }
 
