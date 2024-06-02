@@ -414,9 +414,9 @@
         <div class="row userImag" >
             <div class="link_wrap">
                 @if(!empty($visitor) && $visitor->token_status == 'vaild')
-                 <span class="badge bg-success fs-5 mb-3"> VALID TOKEN </span><br>
+                 <span class="badge bg-success fs-5 mb-2"> VALID TOKEN </span><br>
                 @else
-                  <span class="badge bg-danger fs-5 mb-3"> INVALID TOKEN </span> <br>
+                  <span class="badge bg-danger fs-5 mb-2"> INVALID TOKEN </span> <br>
                 @endif
                 <label class="wrkingLady"> {{ ($workingLady) ? 'Working Lady' : 'Normal Person' }}</label>
                 @if(!empty($workingLady) && $workingLady->type == 'critical' )
@@ -441,7 +441,7 @@
                 @endif
             </div>
             <div class="col-lg-6">
-                <label class="fw-bold"> Working Lady Database Image </label>
+                <label class="fw-bold" style="font-size:14px"> Working Lady Database Image </label>
                 @if($databaseImage)
                 <img src="data:image/jpeg;base64,{{ base64_encode($databaseImage) }}" alt="Preview Image"
                 style="height: 150px; width:150px;border-radius:20%">
