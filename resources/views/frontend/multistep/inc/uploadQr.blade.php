@@ -10,7 +10,7 @@
             <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing">
                 <div class="card qr-code" data-id="get_city"  style="display: none"></div>
                 <div id="reader"></div>
-                <p id="cadr-1r " class="error"></p>
+                <p id="cadr-1r" class="error"></p>
                 <div class="card-1">
                     <h3>Upload Files</h3>
                     <div class="drop_box">
