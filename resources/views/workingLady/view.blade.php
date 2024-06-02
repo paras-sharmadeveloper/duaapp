@@ -244,7 +244,7 @@
                         <div class="col-md-8 col-lg-9">
                             <div class="qr-code text-center">
                                 @if ($data->is_active == 'active')
-                                    {!! QrCode::size(200)->generate($data->mobile) !!}
+                                    {!! QrCode::size(200)->generate($data->qr_id) !!}
                                     <a href="{{ route('working.lady.qr', $data->qr_id) }}?filename={{$data->first_name.'_' .$data->last_name}}"
                                         class="btn btn-primary float-end">Download QR
                                         Code</a>
