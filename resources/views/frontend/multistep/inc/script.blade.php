@@ -637,11 +637,11 @@
                             $("#qr-code-listing").find(".card").addClass('active-card')
                             $("#mobile").val(response.data.mobile)
                             $("#working_lady_id").val(response.data.id)
-                            $(".alertBox").text('').hide()
+                            $("#cadr-1r").text('').hide()
 
                         } else {
 
-                            $(".alertBox").text(response.message).show()
+                            $("#cadr-1r").text(response.message).show()
 
 
                         // $("#qr-code-listing").find(".card").remove('active-card')
