@@ -7,7 +7,7 @@
             </div>
             <p class="error d-none text-center alertBox">{{ trans('messages.select-option') }}</p>
 
-            <div class="row row-cols-1 row-cols-lg-3 g-4 pb-5 border-bottom main-inner" id="qr-code-listing">
+            <div class="row row-cols-1 row-cols-lg-3 g-2 pb-5 border-bottom main-inner" id="qr-code-listing">
                 <div class="card qr-code" data-id="get_city"  style="display: none"></div>
                 <p id="cadr-1r" class="error"></p>
                 <div id="reader"></div>
