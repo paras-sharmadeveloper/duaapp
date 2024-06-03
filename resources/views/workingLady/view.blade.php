@@ -230,6 +230,19 @@
                         </div>
                     </div>
 
+
+                    <div class="row mb-3">
+                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Why Consider ?</label>
+                        <div class="col-md-8 col-lg-9">
+                            <textarea name="why_consider_you_as_working_lady" id="why_consider_you_as_working_lady" readonly cols="3" rows="4">
+                                {{ ($data->why_consider_you_as_working_lady) ? $data->why_consider_you_as_working_lady:'' }}
+                            </textarea>
+                        </div>
+                    </div>
+
+
+
+
                     <div class="row mb-3">
                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Status</label>
                         <div class="col-md-8 col-lg-9">

@@ -159,29 +159,7 @@ class HomeController extends Controller
         return view('admin-booking', compact('id', 'slots', 'countries', 'venueAddress'));
     }
 
-    // public function indexTest(Request $request, $locale = '')
-    // {
-    //     // if (!isMobileDevice($request)) {
-    //     //     return abort('403');
-    //     // }
 
-    //     if ($locale) {
-    //         App::setLocale($locale);
-    //     } else {
-    //         App::setLocale('en');
-    //     }
-
-    //     // You can store the chosen locale in the user's preferences if needed
-
-    //     $therapistRole = Role::where('name', 'therapist')->first();
-    //     $VenueList = Venue::all();
-    //     $countryList = Country::all();
-    //     $therapists = $therapistRole->users;
-    //     $timezones = Country::with('timezones')->get();
-
-    //     $reasons = Reason::where(['type' => 'announcement'])->first();
-    //     return view('frontend.bookseat-test', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
-    // }
 
 
     public function index(Request $request, $locale = '')

@@ -14,7 +14,7 @@ class NewBookingController extends Controller
     //
 
     public function index(Request $request, $locale = ''){
-        if (!isMobileDevice($request)) {
+        if (!isMobileDevice($request) && env('APP_ENV')!='local') {
             return abort('403');
         }
         if ($locale) {
