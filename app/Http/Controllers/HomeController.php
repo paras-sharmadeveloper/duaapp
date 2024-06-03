@@ -497,10 +497,10 @@ class HomeController extends Controller
 
                     return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
                 } else {
-                    return ['message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
+                    return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
                 }
             } catch (\Exception $e) {
-                return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false];
+                return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false , 'recognized_code' => $objectKey];
                 // return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
