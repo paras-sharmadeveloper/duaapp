@@ -234,9 +234,7 @@
                     <div class="row mb-3">
                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Why Consider ?</label>
                         <div class="col-md-8 col-lg-9">
-                            <textarea name="why_consider_you_as_working_lady" class="form-control" id="why_consider_you_as_working_lady" readonly cols="30" rows="4">
-                                {{ ($data->why_consider_you_as_working_lady) ? $data->why_consider_you_as_working_lady:'' }}
-                            </textarea>
+                            <textarea name="why_consider_you_as_working_lady" class="form-control" id="why_consider_you_as_working_lady" readonly cols="30" rows="4">{{ ($data->why_consider_you_as_working_lady) ? $data->why_consider_you_as_working_lady:'' }}</textarea>
                         </div>
                     </div>
 
