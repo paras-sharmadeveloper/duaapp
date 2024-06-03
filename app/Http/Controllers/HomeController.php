@@ -232,10 +232,6 @@ class HomeController extends Controller
         if ($from == 'admin') {
 
             $vaildation =  [
-                // 'fname' => 'required|string|max:255',
-                //  'lname' => 'required|string|max:255',
-                // 'email' => 'required|email|max:255',
-
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
@@ -243,15 +239,13 @@ class HomeController extends Controller
             ];
         } else {
 
-            $validation = [
+            $vaildation = [
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
                 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
-            // if($request->input('selfie_required') == 'yes'){
-            //    $vaildation['selfie'] =   'required';
-            // }
+
         }
         $messages = [
             'slot_id.required' => 'The slot ID field is required.',
@@ -259,6 +253,8 @@ class HomeController extends Controller
             'slot_id.unique' => trans('messages.slot_id'),
         ];
         $validatedData = $request->validate($vaildation, $messages);
+
+
 
         // $validatedData = $request->validate($vaildation);
 
