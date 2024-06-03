@@ -444,7 +444,7 @@ class HomeController extends Controller
 
         $userArr = [];
 
-
+        Storage::disk('s3')->put($objectKey, $selfieImage);
         if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
@@ -457,7 +457,7 @@ class HomeController extends Controller
                     ],
                 ]);
 
-                Storage::disk('s3')->put($objectKey, $selfieImage);
+
                     foreach ($userAll as $user) {
                         $response = [];
                         if(!empty( $user['recognized_code'])){
