@@ -440,7 +440,7 @@ class HomeController extends Controller
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-        //  $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+        // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
 
         $userArr = [];
 
@@ -478,19 +478,20 @@ class HomeController extends Controller
                                     ],
                                 ],
                             ]);
-                        }
+                            $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
 
+                                if (count($faceMatches) > 0) {
 
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-
-                        if (count($faceMatches) > 0) {
-
-                            foreach ($faceMatches as $match) {
-                                if ($match['Similarity'] >= 80) {
-                                    $userArr[] = $user['id'];
+                                    foreach ($faceMatches as $match) {
+                                        if ($match['Similarity'] >= 80) {
+                                            $userArr[] = $user['id'];
+                                        }
+                                    }
                                 }
-                            }
                         }
+
+
+
                     }
 
                 if (empty($userArr)) {
