@@ -236,24 +236,17 @@ class HomeController extends Controller
                 //  'lname' => 'required|string|max:255',
                 // 'email' => 'required|email|max:255',
 
-                'mobile' => 'required|string|max:255',
+                'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
                 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
         } else {
 
-            $vaildation =  [
-                // 'fname' => 'required|string|max:255',
-                //   'lname' => 'required|string|max:255',
-                // 'email' => 'required|email|max:255|unique:visitors', // Check for duplicate email
-                //'mobile' => 'required|string|max:255|unique:visitors,phone',
-                // 'email' => 'required|email|max:255', // Check for duplicate email
-                'mobile' => 'required|string|max:255',
+            $validation = [
+                'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
-                // 'otp' => 'required',
                 'country_code' => 'required',
-                // 'otp-verified' => 'required',
                 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
             // if($request->input('selfie_required') == 'yes'){
