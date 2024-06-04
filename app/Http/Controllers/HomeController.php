@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{SendMessage, SendEmail, PushEmailToSandlane};
+use App\Jobs\{WhatsAppConfirmation};
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -331,20 +331,21 @@ class HomeController extends Controller
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id',0);
 
+            // $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
+            // $mymobile = '+' . $countryCode . $validatedData['mobile'];
+            // $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
+            // $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
+            // $twillioStatus =  $this->sendWhatsAppMessage($mobile, $message);
 
-            $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
-            $mymobile = '+' . $countryCode . $validatedData['mobile'];
-
-            $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
-            $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
-            $twillioStatus =  $this->sendWhatsAppMessage($mobile, $message);
-
-            $booking->msg_sent_status = (!empty( $twillioStatus)) ?   $twillioStatus['status'] : '';
-            $booking->msg_sid = (!empty( $twillioStatus)) ?  $twillioStatus['sid'] : '';
-            $booking->msg_date = Carbon::now();
+            // $booking->msg_sent_status = (!empty( $twillioStatus)) ?   $twillioStatus['status'] : '';
+            // $booking->msg_sid = (!empty( $twillioStatus)) ?  $twillioStatus['sid'] : '';
+            // $booking->msg_date = Carbon::now();
             $booking->token_status = 'vaild';
              // Save the booking record
             $booking->save();
+
+            WhatsAppConfirmation::dispatch($booking->id)->onQueue('whatsapp-send');
+
 
 
             if ($from == 'admin') {
