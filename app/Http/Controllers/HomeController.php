@@ -298,9 +298,9 @@ class HomeController extends Controller
 
 
 
-            Log::error('Booking id' . $booking->id);
-            Log::error('Booking bookingId' . $bookingId);
-            WhatsAppConfirmation::dispatch(1)->onQueue('whatsapp-test1')->onConnection('database');
+            // Log::error('Booking id' . $booking->id);
+            // Log::error('Booking bookingId' . $bookingId);
+            // WhatsAppConfirmation::dispatch(1)->onQueue('whatsapp-test1')->onConnection('database');
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send')->onConnection('database');
 
 
