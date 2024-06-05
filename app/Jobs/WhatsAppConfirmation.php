@@ -41,29 +41,26 @@ class WhatsAppConfirmation implements ShouldQueue
             $venueAddress = $visitor->venueSloting->venueAddress;
             $countryCode   = $visitor->country_code;
             $mobile =  'whatsapp:+' . $countryCode . $userMobile;
-            $message = $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType );
+            $message = $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType);
 
-           $result = $this->sendWhatsAppMessage($mobile, $message);
-           if($result['data'] == 'success'){
+            $result = $this->sendWhatsAppMessage($mobile, $message);
+            if ($result['data'] == 'success') {
                 $visitor->update([
-                    'msg_sent_status' =>  (!empty( $result)) ?   $result['status'] : '',
-                    'msg_sid' =>  (!empty( $result)) ? $result['sid'] : '',
+                    'msg_sent_status' => (!empty($result)) ?   $result['status'] : '',
+                    'msg_sid' => (!empty($result)) ? $result['sid'] : '',
                     'msg_date' =>  Carbon::now(),
 
                 ]);
                 Log::info('true');
-            return true;
-           }
-           Log::info('false');
-           return false;
+                return true;
+            }
+            Log::info('false check Env'.env('TWILIO_ACCOUNT_SID'));
+            return false;
         } catch (\Exception $e) {
 
-            Log::info('ex'.$e->getMessage());
+            Log::info('ex' . $e->getMessage());
             //throw $th;
         }
-
-
-
     }
 
     private function sendWhatsAppMessage($to, $message)
@@ -82,20 +79,20 @@ class WhatsAppConfirmation implements ShouldQueue
             $messageSid = $messageInstance->sid; // Get MessageSid
             $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
             return [
-            'data' => 'success',
-            'sid' => $messageSid,
-            'status' => $messageSentStatus
+                'data' => 'success',
+                'sid' => $messageSid,
+                'status' => $messageSentStatus
             ];
         } catch (\Exception $e) {
             //throw $th;
             return [
-            'data' => 'error',
-            'sid' => '',
-            'status' => ''
+                'data' => 'error',
+                'sid' => '',
+                'status' => ''
             ];
         }
     }
-    private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType )
+    private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType)
     {
 
         $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
