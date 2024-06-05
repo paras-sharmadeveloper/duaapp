@@ -304,7 +304,7 @@ class HomeController extends Controller
              // Save the booking record
             $booking->save();
 
-            WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
+
 
 
 
@@ -313,6 +313,7 @@ class HomeController extends Controller
                 // booking.status
                 // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
+                WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
                 return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid,
                 'redirect_url' => route('booking.status',[$uuid])
             ], 200);
