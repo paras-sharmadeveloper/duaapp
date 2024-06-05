@@ -303,7 +303,7 @@ class HomeController extends Controller
                 // booking.status
                 // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
-                WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-ok')->onConnection('database');
+                WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send')->onConnection('database');
 
                 // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
                 return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid,
@@ -313,7 +313,7 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             Log::error('Booking error' . $e);
 
-            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
+            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
 
             return response()->json(['message' => $e->getMessage(), "status" => false], 422);
         }
