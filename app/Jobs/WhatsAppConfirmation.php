@@ -40,7 +40,7 @@ class WhatsAppConfirmation implements ShouldQueue
             $duaType = $visitor->dua_type;
             $venueAddress = $visitor->venueSloting->venueAddress;
             $countryCode   = $visitor->country_code;
-            $mobile =  'whatsapp:+' . $countryCode . $userMobile;
+            $mobile =  'whatsapp:' . $countryCode . $userMobile;
             $message = $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType);
 
             $result = $this->sendWhatsAppMessage($mobile, $message);
