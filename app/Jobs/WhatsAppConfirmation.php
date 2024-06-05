@@ -52,10 +52,9 @@ class WhatsAppConfirmation implements ShouldQueue
 
                 ]);
                 Log::info('true');
-                return true;
             }
             // Log::info('false check Env'.env('TWILIO_ACCOUNT_SID'));
-            return false;
+
         } catch (\Exception $e) {
 
             Log::info('ex' . $e->getMessage());
