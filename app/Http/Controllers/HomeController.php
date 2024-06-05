@@ -304,7 +304,7 @@ class HomeController extends Controller
              // Save the booking record
             $booking->save();
 
-            WhatsAppConfirmation::dispatch($booking->id)->onQueue('whatsapp-send');
+            WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
 
 
 
