@@ -313,7 +313,7 @@ class HomeController extends Controller
         } catch (\Exception $e) {
             Log::error('Booking error' . $e);
 
-            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
+            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
 
             return response()->json(['message' => $e->getMessage(), "status" => false], 422);
         }
