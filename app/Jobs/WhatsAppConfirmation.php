@@ -10,6 +10,8 @@ use Illuminate\Queue\SerializesModels;
 use Twilio\Rest\Client;
 use App\Models\{Vistors};
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+
 class WhatsAppConfirmation implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -28,6 +30,8 @@ class WhatsAppConfirmation implements ShouldQueue
      */
     public function handle()
     {
+
+        Log::info('Dispatched');
         $visitor = Vistors::find($this->visitorId);
         $uuid = $visitor->booking_uniqueid;
         $tokenId = $visitor->booking_number;
