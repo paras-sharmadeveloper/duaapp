@@ -300,6 +300,8 @@ class HomeController extends Controller
 
             Log::error('Booking id' . $booking->id);
             Log::error('Booking bookingId' . $bookingId);
+            WhatsAppConfirmation::dispatch(1)->onQueue('whatsapp-test1')->onConnection('database');
+            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send')->onConnection('database');
 
 
             if ($from == 'admin') {
@@ -307,7 +309,6 @@ class HomeController extends Controller
                 // booking.status
                 // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
-                WhatsAppConfirmation::dispatch($booking->id)->onQueue('whatsapp-send')->onConnection('database');
 
                 // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
                 return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid,
@@ -1343,102 +1344,6 @@ class HomeController extends Controller
 
         Read and listen all books for free. Please visit KahayFaqeer.org
         EOT;
-
-
-                // $message = <<<EOT
-                // آپ کی دعا قبلہ سید سرفراز احمد شاہ سے تصدیق شدہ ✅
-
-                // واقعہ کی تاریخ : $venueDateUr
-
-                // مقام: $venueAddress->city
-
-                // $venueAddress->address_ur
-
-                // ٹوکن # $tokenId
-
-                // آپ کا موبائل : $userMobile
-
-                // ملاقات کا دورانیہ : $appointmentDuration
-
-                // ٹوکن URL:
-                // $statusLink
-
-                // Your Dua Appointment Confirmed With Qibla Syed Sarfraz Ahmad Shah ✅
-
-                // Event Date : $venueDateEn
-
-                // Venue : $venueAddress->city
-
-                // $venueAddress->address
-
-                // Token # $tokenId
-
-                // Your Mobile : $userMobile
-
-                // Appointment Duration : $appointmentDuration
-
-                // Token URL:
-                // $statusLink
-                // EOT;
-
-        // if ($lang == 'en') {
-        //    // $pdfLink = 'Subscribe to Syed Sarfraz Ahmad Shah Official YouTube Channel  https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
-
-        //     $message = <<<EOT
-
-
-        //     Your Dua Appointment Confirmed $duaby
-
-        //     Event Date :  $venueDate
-
-        //     Venue :  $venueAddress->city
-
-        //     $venueAddress->address
-
-        //     Token # $tokenId
-
-        //     Your Mobile :  $userMobile
-
-        //     Appointment Duration :  $appointmentDuration
-
-        //     $statusNote
-
-        //     To view your token online please click below:
-
-        //     $statusLink
-
-        //     $pdfLink
-        //     EOT;
-        // } else {
-
-        //    // $pdfLink = 'سید سرفراز احمد شاہ آفیشل یوٹیوب چینل کو سبسکرائب کریں https://www.youtube.com/@syed-sarfraz-a-shah-official/?sub_confirmation=1';
-
-        //     $message = <<<EOT
-
-        //     آپ کی دعا ملاقات کی تصدیق ہوگئ ہے سید سرفراز احمد شاہ صاحب کے ساتھ $duaby
-
-        //     تاریخ : $venueDate
-
-        //     دعا گھر : $venueAddress->city
-
-        //     $venueAddress->address_ur
-
-        //     ٹوکن #$tokenId
-
-        //     آپ کا موبائل : $userMobile
-
-        //     ملاقات کا دورانیہ : $appointmentDuration
-
-        //     $statusNote
-
-        //     اپنا ٹوکن آن لائن دیکھنے کے لیے براہ کرم نیچے کلک کریں:
-
-        //     $statusLink
-
-        //     $pdfLink
-
-        //     EOT;
-        // }
         return $message;
     }
 
