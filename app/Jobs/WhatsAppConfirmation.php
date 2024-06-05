@@ -67,14 +67,18 @@ class WhatsAppConfirmation implements ShouldQueue
             );
             $messageSid = $messageInstance->sid; // Get MessageSid
             $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
-            return ['data' => 'success',
+            return [
+            'data' => 'success',
             'sid' => $messageSid,
-            'status' => $messageSentStatus];
+            'status' => $messageSentStatus
+            ];
         } catch (\Exception $e) {
             //throw $th;
-            return ['data' => 'error',
+            return [
+            'data' => 'error',
             'sid' => '',
-            'status' => ''];
+            'status' => ''
+            ];
         }
     }
     private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType )

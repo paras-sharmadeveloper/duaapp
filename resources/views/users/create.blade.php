@@ -74,9 +74,13 @@
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Roles</span>
                           {{-- {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!} --}}
+
+                          @php
+                            //   echo "<pre>"; print_r($roles); die;
+                          @endphp
                           <select name="roles[]" class="form-control">
                             @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                <option value="{{ $role }}">{{ $role }}</option>
                             @endforeach
                         </select>
                    </div>

@@ -121,10 +121,6 @@ class HomeController extends Controller
             $this->sendMessage($mobile, $message);
 
         }
-
-
-
-
         return response()->json(['success' => true]);
     }
 
@@ -158,9 +154,6 @@ class HomeController extends Controller
         $venueAddress = VenueAddress::find($id);
         return view('admin-booking', compact('id', 'slots', 'countries', 'venueAddress'));
     }
-
-
-
 
     public function index(Request $request, $locale = '')
     {
@@ -231,43 +224,21 @@ class HomeController extends Controller
             'slot_id.unique' => trans('messages.slot_id'),
         ];
         $validatedData = $request->validate($vaildation, $messages);
-
-
-
         // $validatedData = $request->validate($vaildation);
-
 
         try {
             $selfieData = "";
             $selfieImage = "";
             $isUsers = [];
-            // if ($from != 'admin') {
-            //   $selfieData = $request->input('selfie');
-            //   $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $selfieData));
 
-            // }
             $venueSlots = VenueSloting::find($request->input('slot_id'));
             $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id;
             $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
             $tokenType = $venueSlots->type;
-
-
             $venue = $venueAddress->venue;
             $source = "Website";
-
-            // if($venueAddress->rejoin_venue_after > 0){
-            //   $isUsers = $this->IsRegistredAlready($selfieImage);
-            // }
-            // $user = Vistors::where('email', $validatedData['email'])->orWhere('phone', $validatedData['mobile'])->first();
             $rejoin = $venueAddress->rejoin_venue_after;
-            //   $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
-            //   $user = Vistors::Where('phone', $validatedData['mobile'])->first();
-            // $user = Vistors::where('phone',$validatedData['mobile'])->first();
-
-            // if (!empty($user)) {
-            // $recordAge = $user->created_at->diffInDays(now());
-            // $rejoin = $venueAddress->rejoin_venue_after;
             $rejoin = $venueAddress->rejoin_venue_after;
             $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
             if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
@@ -289,12 +260,9 @@ class HomeController extends Controller
                 }
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
-
             $country = Country::where(['phonecode' => $countryCode])->first();
-
             $venue_available_country =  json_decode($venueAddress->venue_available_country);
             $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
-
             if (!$userCountry['allowed']) {
                 return response()->json([
                     'status' => false,
@@ -303,16 +271,8 @@ class HomeController extends Controller
                 ]);
             }
 
-
-
-            $timestamp = Carbon::now()->format('Yis'); // Current timestamp
-            $randomString = rand(2, 100); // Generate a random string of 6 characters
-
-            // $bookingNumber = $timestamp . $randomString;
             $bookingNumber =  $tokenId;
-            $tokenType = $request->input('dua_type');
-            // Create a new Vistors record in the database
-            $mobile = $countryCode . $validatedData['mobile'];
+            // $mobile = $countryCode . $validatedData['mobile'];
             $booking = new Vistors;
 
             $booking->country_code = '+' . $countryCode;
