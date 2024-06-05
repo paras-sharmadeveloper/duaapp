@@ -291,15 +291,6 @@ class HomeController extends Controller
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id',0);
 
-            // $mobile =  'whatsapp:+' . $countryCode . $validatedData['mobile'];
-            // $mymobile = '+' . $countryCode . $validatedData['mobile'];
-            // $token  = $tokenId . ' (' . ucwords($tokenType) . ')' . ' (' . $source . ')';
-            // $message =  $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $token, $mymobile, ucwords($tokenType),  $request->input('lang'));
-            // $twillioStatus =  $this->sendWhatsAppMessage($mobile, $message);
-
-            // $booking->msg_sent_status = (!empty( $twillioStatus)) ?   $twillioStatus['status'] : '';
-            // $booking->msg_sid = (!empty( $twillioStatus)) ?  $twillioStatus['sid'] : '';
-            // $booking->msg_date = Carbon::now();
             $booking->token_status = 'vaild';
              // Save the booking record
             $booking->save();
@@ -1082,7 +1073,7 @@ class HomeController extends Controller
 
                 $mytime = Carbon::now()->tz($currentTimezone);
                 $countryTimeZone = $venueAddress->timezone;
-                $eventDate = Carbon::parse($venueAddress->venue_date . ' ' . $venueAddress->slot_starts_at_morning, $countryTimeZone);
+                $eventDate = Carbon::parse($venueAddress->venue_date, $countryTimeZone);
                 $hoursRemaining = $eventDate->diffInHours($mytime);
 
                 $slotsAppearAfter = intval($venueAddress->slot_appear_hours);
