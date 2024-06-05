@@ -31,28 +31,38 @@ class WhatsAppConfirmation implements ShouldQueue
     public function handle()
     {
 
-        Log::info('Dispatched');
-        $visitor = Vistors::find($this->visitorId);
-        $uuid = $visitor->booking_uniqueid;
-        $tokenId = $visitor->booking_number;
-        $userMobile = $visitor->phone;
-        $duaType = $visitor->dua_type;
-        $venueAddress = $visitor->venueSloting->venueAddress;
-        $countryCode   = $visitor->country_code;
-        $mobile =  'whatsapp:+' . $countryCode . $userMobile;
-        $message = $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType );
+        try {
+            Log::info('Dispatched');
+            $visitor = Vistors::find($this->visitorId);
+            $uuid = $visitor->booking_uniqueid;
+            $tokenId = $visitor->booking_number;
+            $userMobile = $visitor->phone;
+            $duaType = $visitor->dua_type;
+            $venueAddress = $visitor->venueSloting->venueAddress;
+            $countryCode   = $visitor->country_code;
+            $mobile =  'whatsapp:+' . $countryCode . $userMobile;
+            $message = $this->whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType );
 
-       $result = $this->sendWhatsAppMessage($mobile, $message);
-       if($result['data'] == 'success'){
-            $visitor->update([
-                'msg_sent_status' =>  (!empty( $result)) ?   $result['status'] : '',
-                'msg_sid' =>  (!empty( $result)) ? $result['sid'] : '',
-                'msg_date' =>  Carbon::now(),
+           $result = $this->sendWhatsAppMessage($mobile, $message);
+           if($result['data'] == 'success'){
+                $visitor->update([
+                    'msg_sent_status' =>  (!empty( $result)) ?   $result['status'] : '',
+                    'msg_sid' =>  (!empty( $result)) ? $result['sid'] : '',
+                    'msg_date' =>  Carbon::now(),
 
-            ]);
-        return true;
-       }
-       return false;
+                ]);
+                Log::info('true');
+            return true;
+           }
+           Log::info('false');
+           return false;
+        } catch (\Exception $e) {
+
+            Log::info('ex'.$e->getMessage());
+            //throw $th;
+        }
+
+
 
     }
 
