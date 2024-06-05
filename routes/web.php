@@ -25,6 +25,7 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use App\Events\MyEvent;
+use App\Jobs\WhatsAppConfirmation;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Crypt;
@@ -97,6 +98,10 @@ Route::get('/test-mail', function () {
     } catch (Exception $e) {
         return 'Failed to send email: ' . $e->getMessage();
     }
+});
+
+Route::get('/dispatch', function () {
+    WhatsAppConfirmation::dispatch(1)->onQueue('whatsapp-test')->onConnection('database');
 });
 
 

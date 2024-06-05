@@ -260,7 +260,6 @@ if (!function_exists('userAllowedRejoin')) {
                         'recordAge' => $recordAge
                     ];
                 } else {
-                    Log::info("else2");
                     return [
                         'allowed' => true,
                         'message' => 'allowed',
@@ -270,7 +269,6 @@ if (!function_exists('userAllowedRejoin')) {
                     ];
                 }
             }else{
-                Log::info("else3");
                 return [
                     'allowed' => true,
                     'message' => 'allowed',
