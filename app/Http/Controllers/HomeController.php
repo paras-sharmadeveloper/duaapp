@@ -303,9 +303,12 @@ class HomeController extends Controller
             $booking->token_status = 'vaild';
              // Save the booking record
             $booking->save();
+            $bookingId = $booking->id;
 
 
 
+            Log::error('Booking id' . $booking->id);
+            Log::error('Booking bookingId' . $bookingId);
 
 
             if ($from == 'admin') {
