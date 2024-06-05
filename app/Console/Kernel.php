@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('queue:work --queue=default,high,low,create-slots,create-future-dates,whatsapp-notification-send')
+        $schedule->command('queue:work --queue=default,high,low,create-slots,create-future-dates')
         ->everyFiveMinutes()
         ->withoutOverlapping();
     }
