@@ -60,7 +60,7 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <div class="loading-spinner mb-2"></div>
-                    <div id="textPop">Please Wait... Token Booking In Process...n</div>
+                    <div id="textPop"><b>Please Wait... Token Booking In Process...</b></div>
                 </div>
             </div>
         </div>
