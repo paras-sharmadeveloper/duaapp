@@ -312,7 +312,7 @@ class HomeController extends Controller
                 return response()->json(['message' => 'Booking submitted successfully',
                 "totalTime" => $totalTime,
                  "status" => true, 'bookingId' => $uuid,
-                'redirect_url' => route('booking.status',[$uuid])
+                'redirect_url' => route('booking.status',[$uuid]).'?time='.$totalTime
             ], 200);
             }
         } catch (\Exception $e) {
