@@ -368,6 +368,7 @@ class HomeController extends Controller
 
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
+        sleep(5);
         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
        // $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
         // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
@@ -378,7 +379,7 @@ class HomeController extends Controller
         if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
-                sleep(5);
+
 
                 $rekognition = new RekognitionClient([
                     'version' => 'latest',
