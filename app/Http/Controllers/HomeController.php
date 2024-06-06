@@ -198,6 +198,7 @@ class HomeController extends Controller
 
     public function BookingSubmit(Request $request)
     {
+        $start = microtime(true);
         $from = $request->input('from', 'null');
         $vaildation = [];
         if ($from == 'admin') {
@@ -304,9 +305,13 @@ class HomeController extends Controller
                 // return redirect()->back()->with('success', 'Booking created successfully');
             } else {
                 WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+                $end = microtime(true);
+                $totalTime = $end - $start;
 
                 // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
-                return response()->json(['message' => 'Booking submitted successfully', "status" => true, 'bookingId' => $uuid,
+                return response()->json(['message' => 'Booking submitted successfully',
+                "totalTime" => $totalTime,
+                 "status" => true, 'bookingId' => $uuid,
                 'redirect_url' => route('booking.status',[$uuid])
             ], 200);
             }
