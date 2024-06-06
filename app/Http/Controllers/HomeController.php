@@ -378,6 +378,8 @@ class HomeController extends Controller
         if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
+                sleep(5);
+
                 $rekognition = new RekognitionClient([
                     'version' => 'latest',
                     'region' => env('AWS_DEFAULT_REGION'),
