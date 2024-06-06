@@ -88,9 +88,9 @@ class UserController extends Controller
             $image = $request->file('profile_pic');
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
-            
+
             $input['profile_pic'] = $imageName;
-            // $image->move(public_path('images'), $imageName); 
+            // $image->move(public_path('images'), $imageName);
         }
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
@@ -145,8 +145,8 @@ class UserController extends Controller
             $imageName = time() . 'profile_pic.' . $image->getClientOriginalExtension();
             Storage::disk('s3_general')->put('images/' . $imageName, file_get_contents($image));
             $input['profile_pic'] = $imageName;
-            // $image->move(public_path('images'), $imageName); 
-        } 
+            // $image->move(public_path('images'), $imageName);
+        }
         $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();

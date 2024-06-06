@@ -43,7 +43,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Name</span>
-                        <input type="text" name="name" placeholder="Name" class="form-control">
+                        <input type="text" name="name" placeholder="Name" class="form-control" value="{{ ($user) ? $user->name : '' }}">
 
 
                     </div>
@@ -51,7 +51,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">Email</span>
-                        <input type="text" name="email" placeholder="Email" class="form-control">
+                        <input type="text" name="email" placeholder="Email" class="form-control"  value="{{ ($user) ? $user->email : '' }}">
 
                     </div>
                 </div>
