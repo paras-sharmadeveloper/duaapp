@@ -256,7 +256,9 @@ class HomeController extends Controller
                     $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                     $isUsers = $this->IsRegistredAlready($myImage , $rejoin);
                     if (!empty($isUsers) && $isUsers['status'] == false) {
-                        return response()->json(['message' => $isUsers['message'],  'isUser' => $isUsers , "status" => false], 406);
+                        $end = microtime(true);
+                $totalTime = $end - $start;
+                        return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers , "status" => false], 406);
                     }
                 }
             $uuid = Str::uuid()->toString();
