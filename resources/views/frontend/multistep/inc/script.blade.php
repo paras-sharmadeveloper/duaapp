@@ -457,7 +457,7 @@
             $("#loader").show();
             // Serialize the form data
             var formData = $(this).serialize();
-
+            $('#modal-loading').modal('show');
             // Perform the AJAX request
             $.ajax({
                 url: $(this).attr('action'), // Get the form's action URL
@@ -474,6 +474,7 @@
                         $("#successForm").fadeOut(300);
                     }, 1000);
                     // 'thankyou-page
+                    $('#modal-loading').modal('hide');
 
                     $("#loader").hide();
                     window.location.href = response.redirect_url;
@@ -484,6 +485,7 @@
                 error: function(error, xhr) {
 
                     console.log("error", error)
+                    $('#modal-loading').modal('hide');
 
                     if (error.status == 406) {
                         console.log("error", error.responseJSON.message)
