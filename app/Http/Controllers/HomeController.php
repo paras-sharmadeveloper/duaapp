@@ -356,8 +356,82 @@ class HomeController extends Controller
         }
     }
 
-
     protected function IsRegistredAlready($selfieImage , $rejoin)
+    {
+
+        $filename = 'selfie_' . time() . '.jpg';
+        $objectKey = $this->encryptFilename($filename);
+        $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+        // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+
+        $userArr = [];
+
+        Storage::disk('s3')->put($objectKey, $selfieImage);
+        if (!empty($userAll) &&  $rejoin > 0) {
+
+            try {
+                $rekognition = new RekognitionClient([
+                    'version' => 'latest',
+                    'region' => env('AWS_DEFAULT_REGION'),
+                    'credentials' => [
+                        'key' => env('AWS_ACCESS_KEY_ID'),
+                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                    ],
+                ]);
+                $targetImages = [];
+                $bucket ='kahayfaqeer-booking-bucket';
+                foreach ($userAll as $user) {
+                    if (!empty($user['recognized_code'])) {
+                        $targetImages[] = [
+                            'S3Object' => [
+                                'Bucket' => $bucket,
+                                'Name' => $user['recognized_code'],
+                            ],
+                        ];
+                    }
+                }
+                $response = $rekognition->compareFaces([
+                    'SimilarityThreshold' => 90,
+                    'SourceImage' => [
+                        'S3Object' => [
+                            'Bucket' => $bucket,
+                            'Name' => $objectKey,
+                        ],
+                    ],
+                    'TargetImage' => [
+                        'S3Object' => [
+                            'Bucket' => $bucket,
+                            'Name' => $user['recognized_code'],
+                        ],
+                    ],
+                    'TargetFaces' => $targetImages, // Array of target images for batch comparison
+                ]);
+
+                $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+                foreach ($faceMatches as $match) {
+                    if ($match['Similarity'] >= 80) {
+                        $userArr[] = $user['id'];
+                    }
+                }
+
+                if (empty($userArr)) {
+                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+                } else {
+                    return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
+                }
+            } catch (\Exception $e) {
+                Log::info("aws".$e->getMessage());
+
+                return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false , 'recognized_code' => $objectKey];
+                // return ['message' => $e->getMessage(), 'status' => false];
+            }
+        } else {
+            Storage::disk('s3')->put($objectKey, $selfieImage);
+            return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+        }
+    }
+
+    protected function IsRegistredAlreadyOLd($selfieImage , $rejoin)
     {
 
         $filename = 'selfie_' . time() . '.jpg';
@@ -434,6 +508,9 @@ class HomeController extends Controller
             return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
         }
     }
+
+
+
 
     public function detectLiveness(Request $request)
     {
