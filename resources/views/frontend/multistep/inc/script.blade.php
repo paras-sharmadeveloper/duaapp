@@ -484,11 +484,11 @@
                 },
                 error: function(error, xhr) {
 
-                    console.log("error", error)
+
+
                     $('#modal-loading').modal('hide');
 
                     if (error.status == 406) {
-                        console.log("error", error.responseJSON.message)
                         $("#myalert").html(error.responseJSON.message).removeClass(
                             'd-none');
                         // $("#errors").html(error.responseJSON.message).show();
