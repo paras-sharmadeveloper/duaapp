@@ -732,7 +732,7 @@ class HomeController extends Controller
         }
 
         session(['phoneCode' => $phoneCode]);
-        // echo "<pre>"; print_r($userDetail); die;
+        echo "<pre>"; print_r($userDetail); die;
         $countryCode = $userDetail['countryCode'];
 
         $countryName = ucwords($userDetail['countryName']);
