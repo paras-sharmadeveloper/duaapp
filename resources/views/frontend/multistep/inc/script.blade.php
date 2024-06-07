@@ -647,8 +647,6 @@
                             $("#cadr-1r").text(response.message).show()
 
 
-                        // $("#qr-code-listing").find(".card").remove('active-card')
-
                         }
 
                     },
