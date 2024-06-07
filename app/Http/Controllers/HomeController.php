@@ -231,6 +231,8 @@ class HomeController extends Controller
 
         $tokenStatus = $this->FinalBookingCheck($request);
 
+        echo "<pre>"; print_r($tokenStatus); die;
+
         if($tokenStatus['status']){
             $slotId = $tokenStatus['slot_id'];
         }else{
