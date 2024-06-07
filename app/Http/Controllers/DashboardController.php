@@ -143,9 +143,9 @@ class DashboardController extends Controller
         $calculations = [
             'website-total' => $totalTokenWebsite,
             'website-total-percentage' => number_format($totalWebsitePercentage, 2) . '%',
-            'website-total-dua' => $websiteCountDua,
+            'website-total-dua' => $websiteCountDua .'/' . $duaTotal,
             'website-total-percentage-dua' => number_format($percentageWebsiteDua, 2) . '%',
-            'website-total-dum' => $websiteCountDum,
+            'website-total-dum' => $websiteCountDum  .'/' . $dumTotal, ,
             'website-total-percentage-dum' => number_format($percentageWebsiteDum, 2) . '%',
 
             'website-checkIn-dua' => $websiteDuaCheckIn,
@@ -163,9 +163,9 @@ class DashboardController extends Controller
 
 
             'website-total-percentage-wl' => number_format($percentageWebsiteDuawl, 2) . '%',
-            'website-total-wldua' => $websiteCountWlDua,
+            'website-total-wldua' => $websiteCountWlDua  .'/' . $duaTotalwl,
             'website-total-percentage-wldua' => number_format($percentageWebsiteDuawl, 2) . '%',
-            'website-total-wldum' => $websiteCountWlDum,
+            'website-total-wldum' => $websiteCountWlDum  .'/' . $dumTotalwl ,
             'website-total-percentage-wldum' => number_format($percentageWebsiteDumwl, 2) . '%',
 
 
