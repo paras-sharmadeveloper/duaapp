@@ -270,6 +270,36 @@ S
         </a>
       </li>
 
+      <li class="nav-item ">
+        <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-pin-angle-fill"></i><span>Setting Developer</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="visitor-booking-nav"
+        class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
+        data-bs-parent="#sidebar-nav">
+
+
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('config.clear') }}" class="{{ ( $currentPath == 'config.clear') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Clear Cache</span>
+            </a>
+          </li>
+
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('debug.enable',['debug' => 'true']) }}" class="{{ ( $currentPath == 'config.clear') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Enable Debug True</span>
+            </a>
+          </li>
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('debug.enable',['debug' => 'false']) }}" class="{{ ( $currentPath == 'config.clear') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Enable Debug False</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </li>
+
 
 
 

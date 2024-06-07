@@ -144,8 +144,26 @@ Route::get('/de', function () {
 Route::get('config-clear', function () {
     Artisan::call('config:cache');
     Artisan::call('config:clear');
-    return 'Scheduled task triggered successfully.' . env('IP_API_KEY');
-});
+    return 'Config triggered successfully.' . env('IP_API_KEY');
+})->name('config.clear');
+
+Route::get('/update-env-debug/{debug}', function ($debug) {
+    if ($debug === 'true' || $debug === 'false') {
+        $newValue = $debug === 'true' ? 'true' : 'false';
+        file_put_contents(base_path('.env'), preg_replace(
+            '/(APP_DEBUG=)(.*)/',
+            'APP_DEBUG=' . $newValue,
+            file_get_contents(base_path('.env'))
+        ));
+
+        // Reload the environment configuration
+        Artisan::call('config:cache');
+
+        return 'APP_DEBUG updated to ' . $newValue;
+    } else {
+        return 'Invalid debug value. Use "true" or "false".';
+    }
+})->name('debug.enable');
 
 Route::get('/run/command', function () {
     $type = request()->type;
@@ -208,23 +226,7 @@ Route::get('/', function () {
     }
 });
 
-Route::get('/update-env-debug/{debug}', function ($debug) {
-    if ($debug === 'true' || $debug === 'false') {
-        $newValue = $debug === 'true' ? 'true' : 'false';
-        file_put_contents(base_path('.env'), preg_replace(
-            '/(APP_DEBUG=)(.*)/',
-            'APP_DEBUG=' . $newValue,
-            file_get_contents(base_path('.env'))
-        ));
 
-        // Reload the environment configuration
-        Artisan::call('config:cache');
-
-        return 'APP_DEBUG updated to ' . $newValue;
-    } else {
-        return 'Invalid debug value. Use "true" or "false".';
-    }
-});
 
 Auth::routes(['register' => false]);
 
