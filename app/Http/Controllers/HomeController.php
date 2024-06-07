@@ -420,6 +420,7 @@ class HomeController extends Controller
         sleep(5);
         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         $userArr = [];
+        $count = 0;
         Storage::disk('s3')->put($objectKey, $selfieImage);
         if (!empty($userAll) &&  $rejoin > 0) {
 
@@ -470,7 +471,7 @@ class HomeController extends Controller
                     }
                 }
 
-                $count = count($userAll);
+                $count = (!empty($userAll)) ? count($userAll)  : 0;
 
                 if (empty($userArr)) {
                     return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'count' => $count];
