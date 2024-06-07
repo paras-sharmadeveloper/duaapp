@@ -154,11 +154,13 @@ class DashboardController extends Controller
             'website-checkIn-wldua' => $websiteWlDuaCheckIn,
             'website-checkIn-wldum' => $websiteWlDumCheckIn,
             'grand-checkIn' => $grandTotalCheckIn,
+            'website-checkIn' => $grandTotalCheckIn,
             'website-printToken-dua' => ($printDua) ? $printDua : 0,
             'website-printToken-dum' => ($printDum) ? $printDum : 0 ,
             'website-printToken-wldua' => ($printDuaWl) ? $printDuaWl : 0,
             'website-printToken-wldum' => ($printDumWl) ? $printDumWl : 0,
             'grand-printToken' => $grandPrintToken,
+            'website-printToken' => $grandPrintToken,
 
 
 
