@@ -481,8 +481,8 @@ class HomeController extends Controller
             } catch (\Exception $e) {
                 Log::info("aws".$e->getMessage());
 
-                return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'count' => $count, 'status' => false , 'recognized_code' => $objectKey];
-                // return ['message' => $e->getMessage(), 'status' => false];
+                // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $objectKey];
+                return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
