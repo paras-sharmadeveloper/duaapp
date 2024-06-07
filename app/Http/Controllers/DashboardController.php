@@ -110,16 +110,16 @@ class DashboardController extends Controller
         $grandPrintToken = $printDua + $printDum +$printDuaWl + $printDumWl;
 
        // $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-        $totalCollectedTokens = $websiteCountWlDua + $websiteCountWlDum + $websiteCountDua + $websiteCountDum;
+       $totalCollectedTokens = $websiteCountWlDua + $websiteCountWlDum + $websiteCountDua + $websiteCountDum;
 
         // Calculate percentages
      ////   $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $totalCollectedTokens) * 100 : 0;
        //  $percentageWhatsappDum = ($dumTotal > 0) ? ($whatsappCountDum / $totalCollectedTokens) * 100 : 0;
-        $percentageWebsiteDua = ($duaTotal > 0) ? ($websiteCountDua / $totalCollectedTokens) * 100 : 0;
-        $percentageWebsiteDum = ($dumTotal > 0) ? ($websiteCountDum / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDua = ($totalCollectedTokens > 0 ) ? ($websiteCountDua / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDum = ($totalCollectedTokens > 0) ? ($websiteCountDum / $totalCollectedTokens) * 100 : 0;
 
-        $percentageWebsiteDuawl = ($duaTotalwl > 0) ? ($websiteCountWlDua / $totalCollectedTokens) * 100 : 0;
-        $percentageWebsiteDumwl = ($dumTotalwl > 0) ? ($websiteCountWlDum / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDuawl = ($totalCollectedTokens > 0) ? ($websiteCountWlDua / $totalCollectedTokens) * 100 : 0;
+        $percentageWebsiteDumwl = ($totalCollectedTokens > 0) ? ($websiteCountWlDum / $totalCollectedTokens) * 100 : 0;
 
         // Calculate total tokens and percentages
         $totalTokenWebsite = $websiteCountDua + $websiteCountDum + $websiteCountWlDua + $websiteCountWlDum;
@@ -132,20 +132,20 @@ class DashboardController extends Controller
 
 
 
-        $totalWebsitePercentage =  ($totalTokens > 0) ? ($totalTokenWebsite / $totalCollectedTokens) * 100 : 0;
+        $totalWebsitePercentage =  ($totalCollectedTokens > 0) ? ($totalTokenWebsite / $totalCollectedTokens) * 100 : 0;
         // $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalCollectedTokens) * 100 : 0;
         // $totalWhatsAppPercentage =  ($totalTokens > 0) ? ($totalTokenWhatsApp / $totalCollectedTokens) * 100 : 0;
 
 
-        $percentageTotalTokens = ($totalTokens > 0) ? ($totalCollectedTokens / $totalCollectedTokens) * 100 : 0;
+        $percentageTotalTokens = ($totalCollectedTokens > 0) ? ($totalCollectedTokens / $totalCollectedTokens) * 100 : 0;
 
         // Prepare response data
         $calculations = [
             'website-total' => $totalTokenWebsite,
             'website-total-percentage' => number_format($totalWebsitePercentage, 2) . '%',
-            'website-total-dua' => $websiteCountDua .'/' . $duaTotal,
+            'website-total-dua' => $websiteCountDua,
             'website-total-percentage-dua' => number_format($percentageWebsiteDua, 2) . '%',
-            'website-total-dum' => $websiteCountDum  .'/' . $dumTotal, ,
+            'website-total-dum' => $websiteCountDum,
             'website-total-percentage-dum' => number_format($percentageWebsiteDum, 2) . '%',
 
             'website-checkIn-dua' => $websiteDuaCheckIn,
@@ -163,9 +163,9 @@ class DashboardController extends Controller
 
 
             'website-total-percentage-wl' => number_format($percentageWebsiteDuawl, 2) . '%',
-            'website-total-wldua' => $websiteCountWlDua  .'/' . $duaTotalwl,
+            'website-total-wldua' => $websiteCountWlDua,
             'website-total-percentage-wldua' => number_format($percentageWebsiteDuawl, 2) . '%',
-            'website-total-wldum' => $websiteCountWlDum  .'/' . $dumTotalwl ,
+            'website-total-wldum' => $websiteCountWlDum,
             'website-total-percentage-wldum' => number_format($percentageWebsiteDumwl, 2) . '%',
 
 
