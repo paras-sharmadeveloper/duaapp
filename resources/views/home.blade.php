@@ -82,7 +82,7 @@
                                         <th>Row Label</th>
                                         <th>Count of Token</th>
                                         <th>Check-in</th>
-                                        <th>Toaltoken print</th>
+                                        <th>Total Print</th>
                                         <th>%</th>
                                     </tr>
                                 </thead>
