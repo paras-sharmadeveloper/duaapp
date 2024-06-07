@@ -393,10 +393,19 @@
 
                         $("#booking-form").hide();
                         $("#submitBtn").hide();
+                        var redirect = response.refresh;
                         if (lang == 'en') {
                             $("#successForm").find(".alert").text(response.message).removeClass('d-none')
                         } else {
                             $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
+                        }
+                        if(redirect){
+                            $("#submitBtn").prop("disabled", true);
+                            // $("#submitBtn").hide();
+                            setTimeout(() => {
+                                alert("Please Refresh and Try again ")
+                            }, 5000);
+
                         }
                         // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 

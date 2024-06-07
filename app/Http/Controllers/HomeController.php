@@ -350,6 +350,7 @@ class HomeController extends Controller
             if ($errorCode === 1062) { // Error code for Duplicate Entry
                 return response()->json([
                     'status' => false,
+                    'refresh' => true,
                     'message' => trans('messages.slot_id'),
                 ], 422);
             } else {
@@ -1471,6 +1472,7 @@ class HomeController extends Controller
     public function FinalBookingCheck($request){
 
         $duaType = $request->input('duaType');
+        $country_code = $request->input('country_code');
         $today = getCurrentContryTimezone($request->input('venueId'));
         $venuesListArr = VenueAddress::where('id', $request->input('venueId'))
             ->where('city',  $request->input('city'))
