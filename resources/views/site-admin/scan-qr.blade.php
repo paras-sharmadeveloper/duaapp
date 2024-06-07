@@ -185,7 +185,9 @@
         })
 
         function printDiv(divId) {
+            printCount()
             $(".userImag").hide()
+
             $(".main-print-di").css('display', 'block');
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
@@ -200,6 +202,7 @@
                 printWindow.close();
             };
             $('#myModal').modal('hide');
+
             html5QrcodeScanner.resume();
         }
 
@@ -238,5 +241,24 @@
 
             }
         });
+
+        function printCount(){
+            var visitorId = $("#visitorIdPopUp").attr('data-id');
+            $.ajax({
+                url: "{{ route('count-print-count') }}",
+                method: 'POST',
+                data: {
+                    id: visitorId,
+                },
+                success: function(response) {
+
+
+                },
+                error: function(error) {
+
+                }
+            });
+
+        }
     </script>
 @endsection

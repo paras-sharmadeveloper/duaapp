@@ -8,7 +8,7 @@
             }
 
             .custom-table th {
-                text-align: left;
+                text-align: center;
             }
 
             tr.highlighted td {
@@ -24,8 +24,10 @@
                 color: white;
                 font-weight: 700;
             }
-
-            #spinner-div {
+            #website-total-dua , #website-total ,#website-total-dum , #grand-total{
+            text-align: center;
+        }
+                    #spinner-div {
                 position: absolute;
                 display: none;
                 width: 100%;

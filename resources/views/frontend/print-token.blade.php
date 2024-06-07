@@ -360,7 +360,7 @@
      @php
      $bookstatus = route('booking.status', [$visitor->booking_uniqueid]);
  @endphp
-    <div class="mycont d-flex justify-content-between">
+    <div class="mycont d-flex justify-content-between" id="visitorIdPopUp" data-id="{{ $visitor->id  }}">
         <div class="row">
 
 

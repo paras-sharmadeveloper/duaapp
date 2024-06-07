@@ -131,7 +131,7 @@
                             <td>
                                 {{ $visitor->confirmed_at }}
                             </td>
-                            <td></td>
+                            <td>{{ $visitor->print_count }}</td>
                             <td>{{ $visitor->msg_sent_status }}</td>
                             <td>{{ $visitor->msg_date }}</td>
                             <td>{{ $visitor->msg_sid }}</td>

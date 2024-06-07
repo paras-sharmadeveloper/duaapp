@@ -258,6 +258,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/qr-scan/{id}', [BookingController::class, 'scanQRCode'])->name('qr.scan');
 
     Route::post('/process-scan', [BookingController::class, 'processScan'])->name('process-scan');
+    Route::post('/count-print-count', [BookingController::class, 'CountTotalPrints'])->name('count-print-count');
 
     Route::get('/scan-qr', [BookingController::class, 'showQrScan'])->name('qr.show.scan');
     Route::get('/scan-gun', [BookingController::class, 'showGunScan'])->name('qr.gun.scan');

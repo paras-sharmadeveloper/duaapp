@@ -28,6 +28,28 @@ class BookingController extends Controller
     }
 
 
+    public function CountTotalPrints(Request $request)
+    {
+        try {
+            $visitor = Vistors::findOrFail($request->input('id'));
+            // FindOrFail will throw an exception if the visitor is not found
+
+            // Increment the print count
+            $visitor->print_count++;
+
+            // Save the updated count
+            $visitor->save();
+
+            return response()->json(['success' => true, 'message' => 'Print count incremented successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to increment print count']);
+
+        }
+
+
+    }
+
+
     public function processScan(Request $request)
     {
         // Process the scanned content here

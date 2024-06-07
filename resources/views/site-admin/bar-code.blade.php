@@ -133,7 +133,7 @@
             $(".userImag").hide()
 
           //  alert("in print code here")
-
+          printCount()
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
@@ -150,6 +150,7 @@
             };
              $("#barcodeInput").focus();
              $('#myModal').modal('hide');
+
 
         }
 
@@ -179,5 +180,24 @@
                 // $("#barcodeInput").focus();
             }
         });
+
+        function printCount(){
+            var visitorId = $("#visitorIdPopUp").attr('data-id');
+            $.ajax({
+                url: "{{ route('count-print-count') }}",
+                method: 'POST',
+                data: {
+                    id: visitorId,
+                },
+                success: function(response) {
+
+
+                },
+                error: function(error) {
+
+                }
+            });
+
+        }
     </script>
 @endsection
