@@ -24,7 +24,7 @@
                 color: white;
                 font-weight: 700;
             }
-            #website-total-dua , #website-total ,#website-total-dum , #grand-total{
+            #website-total-dua , #website-total ,#website-total-dum , #grand-total,#website-total-wldua,#website-total-wldum{
             text-align: center;
         }
                     #spinner-div {
@@ -81,6 +81,8 @@
                                     <tr>
                                         <th>Row Label</th>
                                         <th>Count of Token</th>
+                                        <th>Check-in</th>
+                                        <th>Toaltoken print</th>
                                         <th>%</th>
                                     </tr>
                                 </thead>
@@ -89,17 +91,38 @@
                                     <tr class="highlighted">
                                         <td>Website</td>
                                         <td id="website-total">0</td>
+                                        <td id="website-checkIn">0</td>
+                                        <td id="website-printToken">0</td>
                                         <td id="website-total-percentage">0%</td>
                                     </tr>
                                     <tr>
                                         <td>Website (Dua)</td>
                                         <td id="website-total-dua">0</td>
+                                        <td id="website-checkIn-dua">0</td>
+                                        <td id="website-printToken-dua">0</td>
                                         <td id="website-total-percentage-dua">0%</td>
                                     </tr>
                                     <tr>
                                         <td>Website (Dum)</td>
                                         <td id="website-total-dum">0</td>
+                                        <td id="website-checkIn-dum">0</td>
+                                        <td id="website-printToken-dum">0</td>
                                         <td id="website-total-percentage-dum">0%</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Website (Working Lady Dua)</td>
+                                        <td id="website-total-wldua">0</td>
+                                        <td id="website-checkIn-wldua">0</td>
+                                        <td id="website-printToken-wldua">0</td>
+                                        <td id="website-total-percentage-wldua">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Website (Working Lady Dum)</td>
+                                        <td id="website-total-wldum">0</td>
+                                        <td id="website-checkIn-wldum">0</td>
+                                        <td id="website-printToken-wldum">0</td>
+                                        <td id="website-total-percentage-wldum">0%</td>
                                     </tr>
 
                                     {{-- <tr class="highlighted">
@@ -121,6 +144,8 @@
                                     <tr class="highlighted">
                                         <td>Grand Total</td>
                                         <td id="grand-total">0</td>
+                                        <td id="grand-checkIn">0</td>
+                                        <td id="grand-printToken">0</td>
                                         <td id="grand-percentage">0%</td>
                                     </tr>
                                 </tbody>
