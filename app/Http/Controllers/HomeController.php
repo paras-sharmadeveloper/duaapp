@@ -300,8 +300,8 @@ class HomeController extends Controller
             if($workingLady  > 0 && !empty($request->input('working_lady_id')) ){
                 return response()->json([
                     'status' => false,
-                    'message' => 'This Qr is not Vaild',
-                    'message_ur' => 'This Qr is not Vaild',
+                    'message' => 'This Qr is not Valid or not active',
+                    'message_ur' => 'یہ Qr درست نہیں ہے یا فعال نہیں ہے۔',
                 ]);
             }
 
