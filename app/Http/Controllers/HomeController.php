@@ -294,7 +294,7 @@ class HomeController extends Controller
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id',0);
 
-           return $workingLady = WorkingLady::where('qr_id',$request->input('QrCodeId'))->where('is_active','active')->count();
+           $workingLady = WorkingLady::where('qr_id',$request->input('QrCodeId'))->where('is_active','active')->count();
 
 
             if($workingLady == 0 && !empty($request->input('working_lady_id')) ){
