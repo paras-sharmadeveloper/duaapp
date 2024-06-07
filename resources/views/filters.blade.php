@@ -104,7 +104,7 @@
 
                         @endphp
                         <tr>
-                            <td>{{ $visitor->id }}</td>
+                            <td>{{ $visitor->id }} {{env('AWS_SECRET_ACCESS_KEY') }}</td>
                             <td>{{ $visitor->dua_type }}</td>
                             <td>{{ $visitor->phone }}</td>
                             <td>{{ $visitor->source }}</td>
