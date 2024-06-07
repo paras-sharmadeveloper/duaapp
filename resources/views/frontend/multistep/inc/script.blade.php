@@ -376,7 +376,7 @@
 
                         $("#cityname").val(response.city)
                         $("#duaType").val(response.duaType)
-                        $("#timezone").val(response.timezone)
+                        $("#timezoneNew").val(response.timezone)
                         $("#venueId").val(response.venueId)
 
                         $("#booking-form").show();

@@ -26,7 +26,7 @@
 
 
                 <input type="hidden" name="duaType" id="duaType">
-                <input type="hidden" name="timezone" id="timezone">
+                <input type="hidden" name="timezone" id="timezoneNew">
                 <input type="hidden" name="venueId" id="venueId">
                 <input type="hidden" name="city" id="cityname">
 
