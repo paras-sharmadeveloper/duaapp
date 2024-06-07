@@ -635,6 +635,7 @@
                     success: function(response) {
                         // Handle success
                         if (response.status) {
+                            $("#QrCodeId").val(qrCodeMessage)
                             // alert('true')
                             $("#qr-code-listing").find(".card").addClass('active-card')
                             $("#mobile").val(response.data.mobile)

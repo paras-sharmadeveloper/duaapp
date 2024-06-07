@@ -9,6 +9,7 @@
 
             <div class="row row-cols-1 row-cols-lg-3 g-2 pb-5 border-bottom main-inner" id="qr-code-listing">
                 <div class="card qr-code" data-id="get_city"  style="display: none"></div>
+
                 <p id="cadr-1r" class="error"></p>
                 <div id="reader"></div>
 
@@ -18,7 +19,7 @@
                     <header>
                         <h4>Select File here</h4>
                     </header>
-                    <input type="file" hidden accept="*" id="qr-input-file" style="display:block;">
+                    <input type="file" hidden accept="*" id="qr-input-file" style="display:block;" name="QrFile">
                     <button class="btn">Choose File</button>
                     </div>
                     <p>{{ trans('messages.working_lady_note') }}</p>

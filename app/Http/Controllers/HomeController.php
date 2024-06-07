@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reason;
 use Twilio\Rest\Client;
-
+use App\Models\WorkingLady;
 class HomeController extends Controller
 {
     use OtpTrait;
@@ -294,6 +294,17 @@ class HomeController extends Controller
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id',0);
 
+            $workingLady = WorkingLady::where('qr_id',$request->input('QrCodeId'))->where('is_active','active')->count();
+
+
+            if($workingLady  > 0 && !empty($request->input('working_lady_id')) ){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'This Qr is not Vaild',
+                    'message_ur' => 'This Qr is not Vaild',
+                ]);
+            }
+
             $booking->token_status = 'vaild';
              // Save the booking record
             $booking->save();
@@ -370,11 +381,7 @@ class HomeController extends Controller
         $objectKey = $this->encryptFilename($filename);
         sleep(5);
         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-       // $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
-
         $userArr = [];
-
         Storage::disk('s3')->put($objectKey, $selfieImage);
         if (!empty($userAll) &&  $rejoin > 0) {
 
