@@ -227,14 +227,13 @@ class HomeController extends Controller
             // 'slot_id.unique' => trans('messages.slot_id'),
         ];
         $validatedData = $request->validate($vaildation, $messages);
-
-
         $tokenStatus = $this->FinalBookingCheck($request);
 
         // echo "<pre>"; print_r($tokenStatus); die;
-
         if($tokenStatus['status']){
             $slotId = $tokenStatus['slot_id'];
+            $tokenId = $tokenStatus['tokenId'];
+            $venueAddress  = $tokenStatus['venuesListArr'];
         }else{
             return response()->json([
                 'errors' =>  $tokenStatus
@@ -243,16 +242,12 @@ class HomeController extends Controller
         // $validatedData = $request->validate($vaildation);
 
         try {
-            $selfieData = "";
-            $selfieImage = "";
             $isUsers = [];
 
-            $venueSlots = VenueSloting::find($slotId);
-            $venueAddress = $venueSlots->venueAddress;
+            // $venueSlots = VenueSloting::find($slotId);
+            // $venueAddress = $venueSlots->venueAddress;
             // $tokenId = $venueSlots->token_id;
-            $tokenId = str_pad($venueSlots->token_id, 2, '0', STR_PAD_LEFT);
-            $tokenType = $venueSlots->type;
-            $venue = $venueAddress->venue;
+            $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
             $source = "Website";
             $rejoin = $venueAddress->rejoin_venue_after;
             $rejoin = $venueAddress->rejoin_venue_after;
@@ -296,7 +291,7 @@ class HomeController extends Controller
             $booking->country_code = '+' . $countryCode;
             $booking->phone = $validatedData['mobile'];
             $booking->user_question =  $request->input('user_question', null);
-            $booking->slot_id = $request->input('slot_id');
+            $booking->slot_id =  $slotId;
             $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
             $booking->booking_uniqueid = $uuid;
             $booking->user_ip =   $request->ip();
@@ -1522,6 +1517,7 @@ class HomeController extends Controller
                         'status' =>  true,
                         'tokenId' => $tokenIs->token_id,
                         'slot_id' => $tokenIs->id,
+                        'venuesListArr' => $venuesListArr
                     ];
 
                 } else {
