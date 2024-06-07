@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Reason;
 use Twilio\Rest\Client;
 use App\Models\WorkingLady;
+use Illuminate\Database\QueryException;
+
 class HomeController extends Controller
 {
     use OtpTrait;
@@ -340,12 +342,35 @@ class HomeController extends Controller
                 'redirect_url' => route('booking.status',[$uuid]).'?time='.$totalTime
             ], 200);
             }
-        } catch (\Exception $e) {
+        } catch (QueryException $e) {
             Log::error('Booking error' . $e);
+
+            $errorCode = $e->errorInfo[1];
+
+            if ($errorCode === 1062) { // Error code for Duplicate Entry
+                return response()->json([
+                    'status' => false,
+                    'message' => trans('messages.slot_id'),
+                ], 422);
+            } else {
+                // Handle other types of database errors
+                return response()->json([
+                    'status' => false,
+                    'message' => $e->getMessage(),
+                ], 500);
+            }
 
             // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
 
-            return response()->json(['message' => $e->getMessage(), "status" => false], 422);
+        } catch (\Exception $e) {
+            // Log any other exceptions
+            Log::error('Exception: ' . $e->getMessage());
+
+            // Return a generic error response
+            return response()->json([
+                'status' => false,
+                'message' =>$e->getMessage(),
+            ], 500);
         }
     }
 
