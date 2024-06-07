@@ -141,7 +141,7 @@ Route::get('/de', function () {
 
 
 
-Route::get('ca', function () {
+Route::get('config-clear', function () {
     Artisan::call('config:cache');
     Artisan::call('config:clear');
     return 'Scheduled task triggered successfully.' . env('IP_API_KEY');

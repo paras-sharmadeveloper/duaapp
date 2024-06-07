@@ -92,7 +92,7 @@
                 </thead>
                 <tbody>
                     @foreach ($visitors as $visitor)
-                     {{ $visitor->recognized_code }}
+
                         @php
                             $image = !empty($visitor->recognized_code) ? getImagefromS3($visitor->recognized_code) : '';
                             $workingLady = !empty($visitor->working_lady_id)
@@ -104,7 +104,7 @@
 
                         @endphp
                         <tr>
-                            <td>{{ $visitor->id }} {{env('AWS_SECRET_ACCESS_KEY') }}</td>
+                            <td data-aw="{{ env('AWS_ACCESS_KEY_ID') }}">{{ $visitor->id }}</td>
                             <td>{{ $visitor->dua_type }}</td>
                             <td>{{ $visitor->phone }}</td>
                             <td>{{ $visitor->source }}</td>
