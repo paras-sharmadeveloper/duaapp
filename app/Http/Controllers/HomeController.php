@@ -486,7 +486,7 @@ class HomeController extends Controller
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
-            return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+            return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey,'ida'=>env('AWS_ACCESS_KEY_ID') ];
         }
     }
 
