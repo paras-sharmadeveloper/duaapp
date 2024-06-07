@@ -1450,7 +1450,7 @@ class HomeController extends Controller
 
         $duaType = $request->input('duaType');
         $today = getCurrentContryTimezone($request->input('venueId'));
-        $venuesListArr = VenueAddress::where('venue_id', $request->input('venueId'))
+        $venuesListArr = VenueAddress::where('id', $request->input('venueId'))
             ->where('city',  $request->input('city'))
             ->whereDate('venue_date', $today)
             ->orderBy('venue_date', 'asc')
