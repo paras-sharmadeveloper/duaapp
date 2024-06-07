@@ -402,10 +402,6 @@
                         if(redirect){
                             $("#submitBtn").prop("disabled", true);
                             // $("#submitBtn").hide();
-                            setTimeout(() => {
-                                alert("Please Refresh and Try again ")
-                            }, 5000);
-
                         }
                         // $("#successForm").find(".alert").text(response.message).removeClass('d-none')
 
