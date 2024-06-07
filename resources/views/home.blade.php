@@ -79,10 +79,10 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <th>Row Label</th>
+                                        <th class="text-left">Row Label</th>
                                         <th>Count of Token</th>
                                         <th>Check-in</th>
-                                        <th>Total Print</th>
+                                        <th>Print</th>
                                         <th>%</th>
                                     </tr>
                                 </thead>
