@@ -1016,12 +1016,6 @@ class HomeController extends Controller
 
         if ($type == 'get_slot_book') {
 
-
-
-
-
-
-
             // return date('Y-m-d');
             $currentTimezone = $request->input('timezone', 'America/New_York');
             $duaType = $request->input('duaType');
@@ -1040,120 +1034,120 @@ class HomeController extends Controller
                     'city' => $request->input('optional'),
                     'timezone' => $request->input('timezone'),
                     'duaType' => $request->input('duaType'),
-                    'venueId' =>  $venuesListArr->id
+                    'venueId' =>  $venuesListArr->id,
+                    'status' => true
+
                 ]);
 
 
 
             $isVisible = false;
 
-            if ($duaType == 'dua' && !empty($venuesListArr->reject_dua_id)) {
-                $reason  = Reason::find($venuesListArr->reject_dua_id);
-                return response()->json([
-                    'status' => false,
-                    'message' => $reason->reason_english,
-                    'message_ur' => $reason->reason_urdu,
-                    'se' =>  $selectionType
+            // if ($duaType == 'dua' && !empty($venuesListArr->reject_dua_id)) {
+            //     $reason  = Reason::find($venuesListArr->reject_dua_id);
+            //     return response()->json([
+            //         'status' => false,
+            //         'message' => $reason->reason_english,
+            //         'message_ur' => $reason->reason_urdu,
+            //         'se' =>  $selectionType
 
-                ]);
-            }
-            if ($duaType == 'dum' && !empty($venuesListArr->reject_dum_id)) {
-                $reason  = Reason::find($venuesListArr->reject_dum_id);
-                return response()->json([
-                    'status' => false,
-                    'message' => $reason->reason_english,
-                    'message_ur' => $reason->reason_urdu,
-                    'se' =>  $selectionType
+            //     ]);
+            // }
+            // if ($duaType == 'dum' && !empty($venuesListArr->reject_dum_id)) {
+            //     $reason  = Reason::find($venuesListArr->reject_dum_id);
+            //     return response()->json([
+            //         'status' => false,
+            //         'message' => $reason->reason_english,
+            //         'message_ur' => $reason->reason_urdu,
+            //         'se' =>  $selectionType
 
-                ]);
-            }
-
-
-            if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
-                    'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
-
-                ]);
-            }
+            //     ]);
+            // }
 
 
+            // if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
+            //     return response()->json([
+            //         'status' => false,
+            //         'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
+            //         'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
 
-            if ($venuesListArr) {
+            //     ]);
+            // }
 
-                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
-                $phoneCode = session('phoneCode');
-                $country = Country::where('phonecode', $phoneCode)->first();
-                $venue_available_country =  json_decode($venuesListArr->venue_available_country);
-                $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
+            // if ($venuesListArr) {
 
-                if (!$userCountry['allowed']) {
-                    session()->forget('phoneCode');
+            //     $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+            //     $phoneCode = session('phoneCode');
+            //     $country = Country::where('phonecode', $phoneCode)->first();
+            //     $venue_available_country =  json_decode($venuesListArr->venue_available_country);
+            //     $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
 
-
-                    return response()->json([
-                        'status' => false,
-                        'message' => $userCountry['message'],
-                        'message_ur' => $userCountry['message_ur'],
-                        'phoneCode' => $phoneCode
-
-                    ]);
-                }
-
-                //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
-
-                if ($status['allowed']) {
-
-                    session()->forget('phoneCode');
+            //     if (!$userCountry['allowed']) {
+            //         session()->forget('phoneCode');
 
 
-                    $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-                        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                        ->where(['type' => $request->input('duaType')])
-                        ->orderBy('id', 'ASC')
-                        ->select(['venue_address_id', 'token_id', 'id'])->first();
+            //         return response()->json([
+            //             'status' => false,
+            //             'message' => $userCountry['message'],
+            //             'message_ur' => $userCountry['message_ur'],
+            //             'phoneCode' => $phoneCode
 
-                    if (!empty($tokenIs)) {
-                        return response()->json([
-                            'status' =>  true,
-                            // 'token_id' => $tokenIs->token_id,
-                            // 'slot_id' => $tokenIs->id,
-                            'venue_address_id' => $venuesListArr->id,
-                            'duaType' => $request->input('duaType')
+            //         ]);
+            //     }
 
-                            //   'hours_until_open' => $status['hours_until_open'],
-                            // 'slotsAppearBefore' => $status['slotsAppearBefore'],
-                        ]);
-                    } else {
-                        return response()->json([
-                            'status' =>  false,
-                            'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                            'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                            //  'message' => "There is no token avilable",
-                            'dt' => $request->input('duaType'),
-                            'dtd' => $venuesListArr->id,
-                            //   'hours_until_open' => $status['hours_until_open'],
-                            //   'slotsAppearBefore' => $status['slotsAppearBefore'],
-                        ]);
-                    }
-                } else {
+            //     //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
-                    return response()->json([
-                        'status' => false,
-                        'message' => $status['message'],
-                        'message_ur' => $status['message_ur'],
+            //     if ($status['allowed']) {
 
-                    ]);
-                }
-            } else {
-                return response()->json([
-                    'status' =>  false,
-                    'message' => 'There is no Dua / Dum token booking available for today. Please try again later.',
-                    'message_ur' => 'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',
+            //         session()->forget('phoneCode');
 
-                ]);
-            }
+
+            //         $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+            //             ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+            //             ->where(['type' => $request->input('duaType')])
+            //             ->orderBy('id', 'ASC')
+            //             ->select(['venue_address_id', 'token_id', 'id'])->first();
+
+            //         if (!empty($tokenIs)) {
+            //             return response()->json([
+            //                 'status' =>  true,
+            //                 // 'token_id' => $tokenIs->token_id,
+            //                 // 'slot_id' => $tokenIs->id,
+            //                 'venue_address_id' => $venuesListArr->id,
+            //                 'duaType' => $request->input('duaType')
+
+            //                 //   'hours_until_open' => $status['hours_until_open'],
+            //                 // 'slotsAppearBefore' => $status['slotsAppearBefore'],
+            //             ]);
+            //         } else {
+            //             return response()->json([
+            //                 'status' =>  false,
+            //                 'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+            //                 'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+            //                 //  'message' => "There is no token avilable",
+            //                 'dt' => $request->input('duaType'),
+            //                 'dtd' => $venuesListArr->id,
+            //                 //   'hours_until_open' => $status['hours_until_open'],
+            //                 //   'slotsAppearBefore' => $status['slotsAppearBefore'],
+            //             ]);
+            //         }
+            //     } else {
+
+            //         return response()->json([
+            //             'status' => false,
+            //             'message' => $status['message'],
+            //             'message_ur' => $status['message_ur'],
+
+            //         ]);
+            //     }
+            // } else {
+            //     return response()->json([
+            //         'status' =>  false,
+            //         'message' => 'There is no Dua / Dum token booking available for today. Please try again later.',
+            //         'message_ur' => 'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',
+
+            //     ]);
+            // }
         }
 
 
@@ -1454,15 +1448,10 @@ class HomeController extends Controller
 
     public function FinalBookingCheck($request){
 
-        $currentTimezone = $request->input('timezone', 'America/New_York');
         $duaType = $request->input('duaType');
-        $selectionType = $request->input('selection_type');
-        // $duaType = $request->input('duaType');
-        $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
         $today = getCurrentContryTimezone($request->input('id'));
-        $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
-            ->where('city',  $request->input('optional'))
-            //->where('venue_date','LIKE',"%{$today}%")
+        $venuesListArr = VenueAddress::where('venue_id', $request->input('venueId'))
+            ->where('city',  $request->input('city'))
             ->whereDate('venue_date', $today)
             ->orderBy('venue_date', 'asc')
             ->first();
@@ -1473,7 +1462,6 @@ class HomeController extends Controller
                 'status' => false,
                 'message' => $reason->reason_english,
                 'message_ur' => $reason->reason_urdu,
-                'se' =>  $selectionType
             ];
         }
         if ($duaType == 'dum' && !empty($venuesListArr->reject_dum_id)) {
@@ -1482,7 +1470,6 @@ class HomeController extends Controller
                 'status' => false,
                 'message' => $reason->reason_english,
                 'message_ur' => $reason->reason_urdu,
-                'se' =>  $selectionType
             ];
         }
         if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {

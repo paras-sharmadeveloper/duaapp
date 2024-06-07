@@ -115,14 +115,14 @@
                         var city = $("#citySelection").val();
                         var duaType = event.attr('data-type');
 
-                        if(selectionType == 'working_lady' && duaType == 'dua'){
-                            duaType ='working_lady_dua';
+                        if (selectionType == 'working_lady' && duaType == 'dua') {
+                            duaType = 'working_lady_dua';
                             $("#dua_type").val('working_lady_dua')
-                        }else if(selectionType == 'working_lady' && duaType == 'dum'){
-                            duaType ='working_lady_dum';
+                        } else if (selectionType == 'working_lady' && duaType == 'dum') {
+                            duaType = 'working_lady_dum';
 
                             $("#dua_type").val('working_lady_dum')
-                        }else{
+                        } else {
                             $("#dua_type").val(duaType)
                         }
 
@@ -320,12 +320,11 @@
 
 
                     } else {
-                        if(response.message && lang == 'en'){
+                        if (response.message && lang == 'en') {
                             city = `<p class="no-data"> ${response.message}</p>`;
-                        }
-                        else if(response.message_ur  && lang == 'ur'){
+                        } else if (response.message_ur && lang == 'ur') {
                             city = `<p class="no-data"> ${response.message_ur}</p>`;
-                        }else{
+                        } else {
                             city = `<p class="no-data"> ${translations['no_dum_dua']}</p>`;
                         }
 
@@ -368,12 +367,21 @@
                 if (type == 'get_slot_book') {
                     var dAte = '';
 
-                    if (response.token_id) {
+
+
+
+
+
+                    if (response.venueId) {
+
+                        $("#cityname").val(response.city)
+                        $("#duaType").val(response.duaType)
+                        $("#timezone").val(response.timezone)
+                        $("#venueId").val(response.venueId)
+
                         $("#booking-form").show();
                         $("#submitBtn").show();
-
-
-                        $("#slot_id_booked").val(response.slot_id);
+                        // $("#slot_id_booked").val(response.slot_id);
                         if (lang == 'en') {
                             $("#successForm").find(".alert").text(response.message).addClass('d-none')
                         } else {
@@ -992,143 +1000,145 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
-                const permissionButton = document.getElementById("startBooking");
+        const permissionButton = document.getElementById("startBooking");
 
-                permissionButton.addEventListener("click", function() {
-                    // Check if camera permission is already granted
-                    navigator.permissions.query({
-                            name: 'camera'
-                        })
-                        .then(function(permissionStatus) {
-                            if (permissionStatus.state === 'granted') {
-                                startCamerDa();
-                            } else {
-                                requestCameraPermission();
-                            }
-                        });
-
-
+        permissionButton.addEventListener("click", function() {
+            // Check if camera permission is already granted
+            navigator.permissions.query({
+                    name: 'camera'
+                })
+                .then(function(permissionStatus) {
+                    if (permissionStatus.state === 'granted') {
+                        startCamerDa();
+                    } else {
+                        requestCameraPermission();
+                    }
                 });
-            });
-
-            function requestCameraPermission() {
-                const imgElement = document.getElementById("img");
-                const videoElement = document.getElementById("video");
-                const submitButton = document.querySelector(".confirm");
-
-                    navigator.mediaDevices.getUserMedia({
-                            video: {
-                                facingMode: "user"
-                            }
-                        })
-                        .then(function(stream) {
-                            // Display the video stream
-                            videoElement.srcObject = stream;
-                            videoElement.style.display = "none";
-
-                            // When the user clicks capture
-                            submitButton.addEventListener("click", function captureImage() {
-                                // Create a canvas element to capture the frame
-                                const canvas = document.createElement("canvas");
-                                const context = canvas.getContext("2d");
-                                canvas.width = videoElement.videoWidth;
-                                canvas.height = videoElement.videoHeight;
-
-                                // Draw the current frame from the video onto the canvas
-                                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                                // Convert canvas to base64 image data
-                                const imageData = canvas.toDataURL("image/png");
-
-                                // Set the captured image as the src of the img element
-                                imgElement.src = imageData;
-
-                                $("#image-input").val(imageData)
-                                $("#imginpuyte").attr('src',imageData)
-                                $("#showhere").val(imageData)
-
-                                // Stop the video stream
-                                stream.getTracks().forEach(track => track.stop());
-
-                                // Remove the event listener to prevent capturing multiple images
-                                submitButton.removeEventListener("click", captureImage);
-                            });
-                        })
-                        .catch(function(error) {
-                            navigator.permissions.query({ name: 'camera' })
-                            .then(function(permissionStatus) {
-                                if (permissionStatus.state === 'denied') {
-                                    // Show alert for permission denied
-                                    alert("Camera permission denied. Please allow camera access to use this feature.");
-                                } else {
-                                    // Handle other errors
-                                    console.error("Error accessing camera:", error);
-                                }
-                            });
 
 
+        });
+    });
 
-                            // Handle permission denied or error
-                            console.error("Camera permission denied or error:", error);
-                        });
+    function requestCameraPermission() {
+        const imgElement = document.getElementById("img");
+        const videoElement = document.getElementById("video");
+        const submitButton = document.querySelector(".confirm");
+
+        navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: "user"
                 }
+            })
+            .then(function(stream) {
+                // Display the video stream
+                videoElement.srcObject = stream;
+                videoElement.style.display = "none";
 
-                function startCamerDa() {
-                    // Camera permission is already granted
-                    requestCameraPermission();
-                }
+                // When the user clicks capture
+                submitButton.addEventListener("click", function captureImage() {
+                    // Create a canvas element to capture the frame
+                    const canvas = document.createElement("canvas");
+                    const context = canvas.getContext("2d");
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
 
+                    // Draw the current frame from the video onto the canvas
+                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
+                    // Convert canvas to base64 image data
+                    const imageData = canvas.toDataURL("image/png");
 
-                document.addEventListener("DOMContentLoaded", function() {
-                    const submitButton = document.querySelector(".confirm");
-                    const videoElement = document.getElementById("video");
-                    const imgElement = document.getElementById("img");
+                    // Set the captured image as the src of the img element
+                    imgElement.src = imageData;
 
-                    submitButton.addEventListener("click", function() {
-                        // Request camera permission
-                        // navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
-                        navigator.mediaDevices.getUserMedia({
-                                video: true
-                            })
-                            .then(function(stream) {
-                                // Display the video stream
-                                videoElement.srcObject = stream;
-                                videoElement.style.display = "none";
+                    $("#image-input").val(imageData)
+                    $("#imginpuyte").attr('src', imageData)
+                    $("#showhere").val(imageData)
 
-                                // When the user clicks capture
-                                submitButton.addEventListener("click", function captureImage() {
-                                    // Create a canvas element to capture the frame
-                                    const canvas = document.createElement("canvas");
-                                    const context = canvas.getContext("2d");
-                                    canvas.width = videoElement.videoWidth;
-                                    canvas.height = videoElement.videoHeight;
+                    // Stop the video stream
+                    stream.getTracks().forEach(track => track.stop());
 
-                                    // Draw the current frame from the video onto the canvas
-                                    context.drawImage(videoElement, 0, 0, canvas.width,
-                                        canvas.height);
-
-                                    // Convert canvas to base64 image data
-                                    const imageData = canvas.toDataURL("image/png");
-
-                                    // Set the captured image as the src of the img element
-                                    imgElement.src = imageData;
-
-                                    $("#image-input").val(imageData)
-
-                                    // Stop the video stream
-                                    stream.getTracks().forEach(track => track.stop());
-
-                                    // Remove the event listener to prevent capturing multiple images
-                                    submitButton.removeEventListener("click", captureImage);
-                                });
-                            })
-                            .catch(function(error) {
-                                alert("You are not allowed to book without Permission");
-                                location.reload();
-                                // Handle permission denied or error
-                                console.error("Camera permission denied or error:", error);
-                            });
+                    // Remove the event listener to prevent capturing multiple images
+                    submitButton.removeEventListener("click", captureImage);
+                });
+            })
+            .catch(function(error) {
+                navigator.permissions.query({
+                        name: 'camera'
+                    })
+                    .then(function(permissionStatus) {
+                        if (permissionStatus.state === 'denied') {
+                            // Show alert for permission denied
+                            alert("Camera permission denied. Please allow camera access to use this feature.");
+                        } else {
+                            // Handle other errors
+                            console.error("Error accessing camera:", error);
+                        }
                     });
+
+
+
+                // Handle permission denied or error
+                console.error("Camera permission denied or error:", error);
+            });
+    }
+
+    function startCamerDa() {
+        // Camera permission is already granted
+        requestCameraPermission();
+    }
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const submitButton = document.querySelector(".confirm");
+        const videoElement = document.getElementById("video");
+        const imgElement = document.getElementById("img");
+
+        submitButton.addEventListener("click", function() {
+            // Request camera permission
+            // navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    // Display the video stream
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = "none";
+
+                    // When the user clicks capture
+                    submitButton.addEventListener("click", function captureImage() {
+                        // Create a canvas element to capture the frame
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
+                        canvas.width = videoElement.videoWidth;
+                        canvas.height = videoElement.videoHeight;
+
+                        // Draw the current frame from the video onto the canvas
+                        context.drawImage(videoElement, 0, 0, canvas.width,
+                            canvas.height);
+
+                        // Convert canvas to base64 image data
+                        const imageData = canvas.toDataURL("image/png");
+
+                        // Set the captured image as the src of the img element
+                        imgElement.src = imageData;
+
+                        $("#image-input").val(imageData)
+
+                        // Stop the video stream
+                        stream.getTracks().forEach(track => track.stop());
+
+                        // Remove the event listener to prevent capturing multiple images
+                        submitButton.removeEventListener("click", captureImage);
+                    });
+                })
+                .catch(function(error) {
+                    alert("You are not allowed to book without Permission");
+                    location.reload();
+                    // Handle permission denied or error
+                    console.error("Camera permission denied or error:", error);
                 });
+        });
+    });
 </script>

@@ -25,6 +25,15 @@
                 <input type="hidden" name="QrCodeId" id="QrCodeId">
 
 
+                <input type="hidden" name="duaType" id="duaType">
+                <input type="hidden" name="timezone" id="timezone">
+                <input type="hidden" name="venueId" id="venueId">
+                <input type="hidden" name="city" id="cityname">
+
+
+
+
+
                 <input type="hidden" name="lang" id="lang" value="{{ $locale }}">
                 <input type="hidden" name="captured_user_image" id="image-input" value="">
                 <img src="" id="imginpuyte" style="height:100px;display:none ">
