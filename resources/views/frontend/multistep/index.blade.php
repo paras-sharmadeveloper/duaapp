@@ -65,6 +65,17 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modal-loading2" data-backdrop="static" style="margin-top: 50%">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="loading-spinner mb-2"></div>
+                    <div id="textPop"><b>Please Wait...</b></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <style>
         .loading-spinner {
             width: 30px;

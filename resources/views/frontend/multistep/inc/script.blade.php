@@ -620,7 +620,7 @@
         const imageFile = e.target.files[0];
         html5QrCode.scanFile(imageFile, /* showImage= */ true)
             .then(qrCodeMessage => {
-
+                $('#modal-loading2').modal('show');
 
                 // alert(qrCodeMessage);
 
@@ -633,6 +633,7 @@
 
                     },
                     success: function(response) {
+                        $('#modal-loading2').modal('hide');
                         // Handle success
                         if (response.status) {
                             $("#QrCodeId").val(qrCodeMessage)
