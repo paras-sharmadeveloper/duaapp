@@ -54,7 +54,6 @@ return new class extends Migration
             $table->enum('token_status',['vaild','invaild'])->default('vaild');
             $table->enum('lang',['en','ur'])->default('en');
             $table->unsignedBigInteger('print_count')->default(0);
-
             $table->timestamps();
 
         });
