@@ -33,7 +33,9 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label> Filter Date </label>
-                        <input class="form-control" type="date" name="date">
+                        <input class="form-control" type="date" name="date" value="{{
+                            (request()->get('date')) ? request()->get('date') : ''
+                        }}">
                     </div>
                     <div class="col-md-4">
 
