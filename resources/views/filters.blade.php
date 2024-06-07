@@ -92,6 +92,7 @@
                 </thead>
                 <tbody>
                     @foreach ($visitors as $visitor)
+                     {{ $visitor->recognized_code }}
                         @php
                             $image = !empty($visitor->recognized_code) ? getImagefromS3($visitor->recognized_code) : '';
                             $workingLady = !empty($visitor->working_lady_id)
