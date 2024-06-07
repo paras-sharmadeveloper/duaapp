@@ -209,7 +209,7 @@ class HomeController extends Controller
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
-                'slot_id' => 'required|numeric|unique:visitors,slot_id'
+                // 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
         } else {
 
@@ -217,14 +217,14 @@ class HomeController extends Controller
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
-                'slot_id' => 'required|numeric|unique:visitors,slot_id'
+                // 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
 
         }
         $messages = [
-            'slot_id.required' => 'The slot ID field is required.',
-            'slot_id.numeric' => 'The slot ID must be a number.',
-            'slot_id.unique' => trans('messages.slot_id'),
+            // 'slot_id.required' => 'The slot ID field is required.',
+            // 'slot_id.numeric' => 'The slot ID must be a number.',
+            // 'slot_id.unique' => trans('messages.slot_id'),
         ];
         $validatedData = $request->validate($vaildation, $messages);
 
