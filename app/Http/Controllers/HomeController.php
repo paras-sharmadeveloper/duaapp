@@ -297,7 +297,7 @@ class HomeController extends Controller
            return $workingLady = WorkingLady::where('qr_id',$request->input('QrCodeId'))->where('is_active','active')->count();
 
 
-            if($workingLady  > 0 && !empty($request->input('working_lady_id')) ){
+            if($workingLady == 0 && !empty($request->input('working_lady_id')) ){
                 return response()->json([
                     'status' => false,
                     'message' => 'This Qr is not Valid or not active',
