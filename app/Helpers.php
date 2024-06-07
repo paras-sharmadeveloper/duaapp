@@ -281,7 +281,8 @@ if (!function_exists('getCurrentContryTimezone')) {
     function getCurrentContryTimezone($id)
     {
 
-        $currentCountry = Venue::find($id);
+        // $currentCountry = Venue::find($id);
+        $currentCountry = Venue::first();
         $timezone =  Timezone::where(['country_code' => $currentCountry->iso])->first();
         Config::set('app.timezone', $timezone->timezone);
         $time = Carbon::now()->tz($timezone->timezone);
