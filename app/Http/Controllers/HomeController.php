@@ -1449,7 +1449,7 @@ class HomeController extends Controller
     public function FinalBookingCheck($request){
 
         $duaType = $request->input('duaType');
-        $today = getCurrentContryTimezone($request->input('id'));
+        $today = getCurrentContryTimezone($request->input('venueId'));
         $venuesListArr = VenueAddress::where('venue_id', $request->input('venueId'))
             ->where('city',  $request->input('city'))
             ->whereDate('venue_date', $today)
