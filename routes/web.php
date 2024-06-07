@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Artisan;
 use App\Events\MyEvent;
 use App\Jobs\WhatsAppConfirmation;
 use Illuminate\Support\Facades\Mail;
+ ;
+
 
 use Illuminate\Support\Facades\Crypt;
 
@@ -203,6 +205,24 @@ Route::get('/', function () {
         return redirect()->route('home');
     } else {
         return redirect('login');
+    }
+});
+
+Route::get('/update-env-debug/{debug}', function ($debug) {
+    if ($debug === 'true' || $debug === 'false') {
+        $newValue = $debug === 'true' ? 'true' : 'false';
+        file_put_contents(base_path('.env'), preg_replace(
+            '/(APP_DEBUG=)(.*)/',
+            'APP_DEBUG=' . $newValue,
+            file_get_contents(base_path('.env'))
+        ));
+
+        // Reload the environment configuration
+        Artisan::call('config:cache');
+
+        return 'APP_DEBUG updated to ' . $newValue;
+    } else {
+        return 'Invalid debug value. Use "true" or "false".';
     }
 });
 
