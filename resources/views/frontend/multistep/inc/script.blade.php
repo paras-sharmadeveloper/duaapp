@@ -512,9 +512,17 @@
                     if (reQStatus == 406 || reQStatus == 422) {
                         if (errors !== undefined) {
                             $("#myalert").html(errors.message).removeClass('d-none');
+                            $this.find('b').text('Opps Error..')
+                                setTimeout(() => {
+                                    $this.find('b').text(defaultText)
+                                }, 2000);
 
                         } else {
                             $("#myalert").html(err.message).removeClass('d-none');
+                            $this.find('b').text('Opps Error..')
+                                setTimeout(() => {
+                                    $this.find('b').text(defaultText)
+                                }, 2000);
 
                         }
 
