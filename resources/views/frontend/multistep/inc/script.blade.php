@@ -503,13 +503,14 @@
                     console.log("textStatus", textStatus)
                     console.log("errors2", errors)
                     console.log("xhr",reQStatus)
+                    console.log("err",err)
 
 
 
 
 
                     if (reQStatus == 406 || reQStatus == 422) {
-                        if(errors.message){
+                        if(errors!== undefined){
                             $("#myalert").html(errors.message).removeClass('d-none');
 
                         }else{
