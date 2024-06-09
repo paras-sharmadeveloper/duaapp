@@ -27,20 +27,8 @@ class FetchVisitorsWithNullMsgSid extends Command
      */
     public function handle()
     {
-        // Get the current date
-        $today = Carbon::now()->toDateString();
-
-        // Fetch visitors with NULL msg_sid for today
 
         $visitors = Vistors::whereDate('created_at',date('Y-m-d'))->whereNull('msg_sid')->get( ['id'])->toArray();
-
-
-        // $visitors = Vistors::whereDate('created_at', date('Y-m-d'))
-        //                     ->whereNull('msg_sid')
-        //                     ->get(['id']);
-
-        // Do something with the fetched visitors, like sending notifications
-        // echo "<pre>"; print_r($visitors); die;
         foreach ($visitors as $visitor) {
             WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification')->onConnection('database');
 
