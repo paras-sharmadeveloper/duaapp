@@ -506,6 +506,7 @@
 
                     console.log("errors1", errors)
                     console.log("errors2", errors.status)
+                    console.log("xhr",xhr)
                     $this.find('b').text(defaultText)
                     if (error.responseJSON || error.responseJSON.errors) {
 
