@@ -495,71 +495,80 @@
 
 
                 },
-                error: function(xhr, textStatus , errorThrown) {
+                error: function(xhr, textStatus, errorThrown) {
 
                     var errors = xhr.responseJSON.errors;
                     var err = xhr.responseJSON;
                     var reQStatus = xhr.status;
                     console.log("textStatus", textStatus)
                     console.log("errors2", errors)
-                    console.log("xhr",reQStatus)
-                    console.log("err",err)
+                    console.log("xhr", reQStatus)
+                    console.log("err", err)
 
 
 
 
 
                     if (reQStatus == 406 || reQStatus == 422) {
-                        if(errors!== undefined){
+                        if (errors !== undefined) {
                             $("#myalert").html(errors.message).removeClass('d-none');
 
-                        }else{
+                        } else {
                             $("#myalert").html(err.message).removeClass('d-none');
 
                         }
 
                     }
 
+                    if (errors !== undefined) {
+                        if (xhr.responseJSON || xhr.responseJSON.errors) {
 
-                    $this.find('b').text(defaultText)
-                    if (xhr.responseJSON || xhr.responseJSON.errors) {
+                            $this.find('b').text(defaultText)
+                            $this.find('span').hide()
+                            if (errors.status == false) {
 
-                        $this.find('b').text(defaultText)
-                        $this.find('span').hide()
-                        if (errors.status == false) {
+                                $this.find('b').text('Opps Error..')
+                                setTimeout(() => {
+                                    $this.find('b').text(defaultText)
+                                }, 2000);
+                            }
 
-                            $this.find('b').text('Opps Error..')
-                            setTimeout(() => {
-                                $this.find('b').text(defaultText)
-                            }, 2000);
-                        }
+                            $("#myalert").html(errors.message).removeClass('d-none');
 
-                        $("#myalert").html(errors.message).removeClass('d-none');
+                            $(".error").remove();
 
-                        $(".error").remove();
 
-                        $('#modal-loading').modal('hide');
 
                             $.each(errors, function(field, messages) {
 
-                                console.log("f",field )
-                                console.log("messages",messages )
+                                console.log("f", field)
+                                console.log("messages", messages)
 
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 if (field == 'country_code') {
                                     $("#countryCodeDiv").find('.error').remove();
-                                    $("#countryCodeDiv").last().append('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
-                                }else {
-                                    $("#myalert").html( messages.join('<br>') ).removeClass('d-none');
-                                    inputElement.after('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
+                                    $("#countryCodeDiv").last().append(
+                                        '<div class="error ' + field + '">' +
+                                        messages.join('<br>') + '</div>');
+                                } else {
+                                    $("#myalert").html(messages.join('<br>'))
+                                        .removeClass('d-none');
+                                    inputElement.after('<div class="error ' +
+                                        field + '">' + messages.join('<br>') +
+                                        '</div>');
                                 }
 
 
                             });
-
-
+                        }
+                    }else{
+                        $('#modal-loading').modal('hide');
                     }
+                    $('#modal-loading').modal('hide');
+
+                    $this.find('b').text(defaultText)
+
                 }
             });
         });
