@@ -426,13 +426,17 @@ class HomeController extends Controller
 
             try {
 
+                $awsDefaultRegion = (env('AWS_DEFAULT_REGION')) ? env('AWS_DEFAULT_REGION'): 'us-east-1';
+                $awsAccessKeyId = (env('AWS_ACCESS_KEY_ID')) ? env('AWS_ACCESS_KEY_ID'): 'AKIAWTTVS7OFB7GJU4AF' ;
+                $awsSecretAcessKey= (env('AWS_SECRET_ACCESS_KEY')) ? env('AWS_SECRET_ACCESS_KEY'): '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';
+
 
                 $rekognition = new RekognitionClient([
                     'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
+                    'region' => $awsDefaultRegion,
                     'credentials' => [
-                        'key' => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        'key' => $awsAccessKeyId ,
+                        'secret' => $awsSecretAcessKey,
                     ],
                 ]);
                 $targetImages = [];
