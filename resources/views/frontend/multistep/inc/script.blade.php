@@ -541,6 +541,7 @@
                                     $("#countryCodeDiv").find('.error').remove();
                                     $("#countryCodeDiv").last().append('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
                                 }else {
+                                    $("#myalert").html( messages.join('<br>') ).removeClass('d-none');
                                     inputElement.after('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
                                 }
 
