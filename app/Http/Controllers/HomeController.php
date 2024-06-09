@@ -752,7 +752,7 @@ class HomeController extends Controller
                 if (!empty($ipInfo)) {
                     $userDetail = json_decode($ipInfo['complete_data'], true);
                 } else {
-                    $userDetail = $this->getIpDetails($request->ip());
+                   return $userDetail = $this->getIpDetails($request->ip());
                 }
                 $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
             } else {
