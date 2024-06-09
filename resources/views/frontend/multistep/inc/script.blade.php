@@ -504,7 +504,7 @@
 
                     $('#modal-loading').modal('hide');
                     if (reQStatus == 406 ||reQStatus == 422) {
-                        $("#myalert").html(xhr.responseJSON.message).removeClass('d-none');
+                        $("#myalert").html(errors.message).removeClass('d-none');
 
                     }
 
@@ -516,7 +516,7 @@
 
                         $this.find('b').text(defaultText)
                         $this.find('span').hide()
-                        if (xhr.responseJSON.status == false) {
+                        if (errors.status == false) {
 
                             $this.find('b').text('Opps Error..')
                             setTimeout(() => {
@@ -524,39 +524,29 @@
                             }, 2000);
                         }
 
-                        $("#myalert").html(xhr.responseJSON.message).removeClass('d-none');
-                        // $("#errors").html(error.responseJSON.message);
+                        $("#myalert").html(errors.message).removeClass('d-none');
 
-                        // Clear any existing error messages
-                        // $('.alert-danger').remove();
                         $(".error").remove();
 
 
-                        if (errors.length > 0) {
+
                             $.each(errors, function(field, messages) {
+
+                                console.log("f",field )
+                                console.log("messages",messages )
 
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 if (field == 'country_code') {
                                     $("#countryCodeDiv").find('.error').remove();
-                                    $("#countryCodeDiv").last().append(
-                                        '<div class="error ' + field + '">' +
-                                        messages.join('<br>') + '</div>');
-                                    //  inputElement.before();
-                                } else if (field == 'otp-verified') {
-                                    inputElement.after('<div class="error ' +
-                                        field +
-                                        '">Submit your OTP to get verified</div>'
-                                        );
-                                } else {
-                                    inputElement.after('<div class="error ' +
-                                        field +
-                                        '">' + messages.join('<br>') + '</div>');
+                                    $("#countryCodeDiv").last().append('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
+                                }else {
+                                    inputElement.after('<div class="error ' + field + '">' + messages.join('<br>') + '</div>');
                                 }
 
 
                             });
-                        }
+
 
                     }
                 }
