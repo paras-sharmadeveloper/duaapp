@@ -507,6 +507,10 @@
                         $("#myalert").html(xhr.responseJSON.message).removeClass('d-none');
 
                     }
+
+                    console.log("textStatus", textStatus)
+                    console.log("errors2", errors)
+                    console.log("xhr",reQStatus)
                     $this.find('b').text(defaultText)
                     if (xhr.responseJSON || xhr.responseJSON.errors) {
 
@@ -521,7 +525,10 @@
                         }
 
                         $("#myalert").html(xhr.responseJSON.message).removeClass('d-none');
+                        // $("#errors").html(error.responseJSON.message);
 
+                        // Clear any existing error messages
+                        // $('.alert-danger').remove();
                         $(".error").remove();
 
 
