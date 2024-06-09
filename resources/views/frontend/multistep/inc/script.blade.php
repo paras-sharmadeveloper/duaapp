@@ -399,7 +399,7 @@
                         } else {
                             $("#successForm").find(".alert").text(response.message_ur).removeClass('d-none')
                         }
-                        if(redirect){
+                        if (redirect) {
                             $("#submitBtn").prop("disabled", true);
                             // $("#submitBtn").hide();
                         }
@@ -524,28 +524,34 @@
                         // $('.alert-danger').remove();
                         $(".error").remove();
 
-                        console.log("errors",errors)
-                        console.log("errors",errors)
-                        $.each(errors, function(field, messages) {
+                        console.log("errors", errors)
+                        console.log("errors", errors)
+                        if (errors.length > 0) {
+                            $.each(errors, function(field, messages) {
 
-                            var inputElement = $('[name="' + field + '"]');
-                            inputElement.addClass('is-invalid');
-                            if (field == 'country_code') {
-                                $("#countryCodeDiv").find('.error').remove();
-                                $("#countryCodeDiv").last().append(
-                                    '<div class="error ' + field + '">' +
-                                    messages.join('<br>') + '</div>');
-                                //  inputElement.before();
-                            } else if (field == 'otp-verified') {
-                                inputElement.after('<div class="error ' + field +
-                                    '">Submit your OTP to get verified</div>');
-                            } else {
-                                inputElement.after('<div class="error ' + field +
-                                    '">' + messages.join('<br>') + '</div>');
-                            }
+                                var inputElement = $('[name="' + field + '"]');
+                                inputElement.addClass('is-invalid');
+                                if (field == 'country_code') {
+                                    $("#countryCodeDiv").find('.error').remove();
+                                    $("#countryCodeDiv").last().append(
+                                        '<div class="error ' + field + '">' +
+                                        messages.join('<br>') + '</div>');
+                                    //  inputElement.before();
+                                } else if (field == 'otp-verified') {
+                                    inputElement.after('<div class="error ' +
+                                        field +
+                                        '">Submit your OTP to get verified</div>'
+                                        );
+                                } else {
+                                    inputElement.after('<div class="error ' +
+                                        field +
+                                        '">' + messages.join('<br>') + '</div>');
+                                }
 
 
-                        });
+                            });
+                        }
+
                     }
                 }
             });
