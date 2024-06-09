@@ -748,10 +748,10 @@ class HomeController extends Controller
 
             if (App::environment('production')) {
                 $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-                if (!empty($ipInfo)) {
+                if (!empty($ipInfo) ) {
                     $userDetail = json_decode($ipInfo['complete_data'], true);
                 } else {
-                   return $userDetail = $this->getIpDetails($request->ip());
+                   $userDetail = $this->getIpDetails($request->ip());
                 }
                 $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
             } else {
@@ -761,7 +761,7 @@ class HomeController extends Controller
             }
 
             session(['phoneCode' => $phoneCode]);
-           echo "<pre>"; print_r($userDetail); die(env('IP_API_KEY'));
+        //    echo "<pre>"; print_r($userDetail); die(env('IP_API_KEY'));
             $countryCode = $userDetail['countryCode'];
 
             $countryName = ucwords($userDetail['countryName']);
@@ -1335,36 +1335,45 @@ class HomeController extends Controller
     }
     public function getIpDetails($userIp)
     {
-        $curl = curl_init();
-        return  'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY');
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
 
-        $response = curl_exec($curl);
-        $result = json_decode($response, true);
+        try {
+            $curl = curl_init();
+            // return  'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY');
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
 
-        curl_close($curl);
+            $response = curl_exec($curl);
+            $result = json_decode($response, true);
 
-        $data = [
-            'user_ip' => $userIp,
-            'countryName' => (isset($result['countryName'])) ? $result['countryName'] : null,
-            'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
-            'city' => (isset($result['city'])) ? $result['city'] . "enc=v" . env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
-            'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
-            'complete_data' => $response,
+            curl_close($curl);
 
-        ];
+            $data = [
+                'user_ip' => $userIp,
+                'countryName' => (isset($result['countryName'])) ? $result['countryName'] : null,
+                'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
+                'city' => (isset($result['city'])) ? $result['city'] . "enc=v" . env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
+                'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
+                'complete_data' => $response,
 
-        Ipinformation::create($data);
-        return $result;
+            ];
+
+            Ipinformation::create($data);
+            return $result;
+        } catch (\Exception $th) {
+            //throw $th;
+            return $th->getMessage();
+        }
+
+
+
     }
 
     public  function deleteRows(Request $request)
