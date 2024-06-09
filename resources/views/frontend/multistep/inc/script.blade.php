@@ -519,7 +519,7 @@
 
                         $this.find('b').text(defaultText)
                         $this.find('span').hide()
-                        if (error.responseJSON.status == false) {
+                        if (xhr.responseJSON.status == false) {
 
                             $this.find('b').text('Opps Error..')
                             setTimeout(() => {
