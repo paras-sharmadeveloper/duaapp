@@ -503,7 +503,7 @@
                     var reQStatus = xhr.status;
 
                     $('#modal-loading').modal('hide');
-                    if (reQStatus == 406 ||reQStatus == 422) {
+                    if (reQStatus == 406 || reQStatus == 422) {
                         $("#myalert").html(errors.message).removeClass('d-none');
 
                     }
