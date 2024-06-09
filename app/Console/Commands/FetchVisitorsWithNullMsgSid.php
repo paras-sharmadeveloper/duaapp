@@ -36,6 +36,8 @@ class FetchVisitorsWithNullMsgSid extends Command
                             ->get(['id']);
 
         // Do something with the fetched visitors, like sending notifications
+
+        echo "<pre>"; print_r($visitors); die;
         foreach ($visitors as $visitor) {
             WhatsAppConfirmation::dispatch($visitor->id)->onQueue('whatsapp-notification')->onConnection('database');
 
