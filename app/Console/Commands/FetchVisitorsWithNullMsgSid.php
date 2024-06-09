@@ -31,7 +31,7 @@ class FetchVisitorsWithNullMsgSid extends Command
         $today = Carbon::now()->toDateString();
 
         // Fetch visitors with NULL msg_sid for today
-        $visitors = Vistors::whereDate('created_at', $today)
+        $visitors = Vistors::whereDate('created_at', date('Y-m-d'))
                             ->whereNull('msg_sid')
                             ->get(['id']);
 
