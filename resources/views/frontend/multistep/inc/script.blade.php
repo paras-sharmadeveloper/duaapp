@@ -503,7 +503,7 @@
                     var err = xhr.responseJSON;
                     var reQStatus = xhr.status;
 
-                    $('#modal-loading').modal('hide');
+
                     if (reQStatus == 406 || reQStatus == 422) {
                         if(errors.message){
                             $("#myalert").html(errors.message).removeClass('d-none');
@@ -535,7 +535,7 @@
 
                         $(".error").remove();
 
-
+                        $('#modal-loading').modal('hide');
 
                             $.each(errors, function(field, messages) {
 
