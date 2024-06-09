@@ -743,68 +743,85 @@ class HomeController extends Controller
 
     public function getTheripistByIp(Request $request)
     {
-        $dataArr = [];
 
-        if (App::environment('production')) {
-            $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-            if (!empty($ipInfo)) {
-                $userDetail = json_decode($ipInfo['complete_data'], true);
+        try {
+            $dataArr = [];
+
+            if (App::environment('production')) {
+                $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+                if (!empty($ipInfo)) {
+                    $userDetail = json_decode($ipInfo['complete_data'], true);
+                } else {
+                    $userDetail = $this->getIpDetails($request->ip());
+                }
+                $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
             } else {
-                $userDetail = $this->getIpDetails($request->ip());
+                $userDetail['countryCode'] = 'IN';
+                $userDetail['countryName'] = 'India';
+                $phoneCode = '91';
             }
-            $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
-        } else {
-            $userDetail['countryCode'] = 'IN';
-            $userDetail['countryName'] = 'India';
-            $phoneCode = '91';
-        }
 
-        session(['phoneCode' => $phoneCode]);
-        // echo "<pre>"; print_r($userDetail); die;
-        $countryCode = $userDetail['countryCode'];
+            session(['phoneCode' => $phoneCode]);
+            // echo "<pre>"; print_r($userDetail); die;
+            $countryCode = $userDetail['countryCode'];
 
-        $countryName = ucwords($userDetail['countryName']);
-        $countryId = Country::where(['nicename' => $countryName])->first();
+            $countryName = ucwords($userDetail['countryName']);
+            $countryId = Country::where(['nicename' => $countryName])->first();
 
-        $venueAddress = VenueAddress::get();
-        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-        $currentTimezone = $timezone->timezone;
+            $venueAddress = VenueAddress::get();
+            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+            $currentTimezone = $timezone->timezone;
 
-        if (!empty($venueAddress)) {
-            foreach ($venueAddress as $venueAdd) {
+            if (!empty($venueAddress)) {
+                foreach ($venueAddress as $venueAdd) {
 
-                $thripist = $venueAdd->thripist;
-                $venue_available_country =  json_decode($venueAdd->venue_available_country);
+                    $thripist = $venueAdd->thripist;
+                    $venue_available_country =  json_decode($venueAdd->venue_available_country);
 
-                if (is_array($venue_available_country) &&  in_array($countryId->id, $venue_available_country)) {
-                    $dataArr[] = [
-                        'id' => $thripist->id,
-                        'name' => $thripist->name,
-                        'profile_pic' => $thripist->profile_pic,
-                        'currentTimezone' =>  $currentTimezone,
-                        'type' => 'recommended',
-                        'venueaddId' => $venueAdd->id,
-                        'venue_available_country' => $venue_available_country
+                    if (is_array($venue_available_country) &&  in_array($countryId->id, $venue_available_country)) {
+                        $dataArr[] = [
+                            'id' => $thripist->id,
+                            'name' => $thripist->name,
+                            'profile_pic' => $thripist->profile_pic,
+                            'currentTimezone' =>  $currentTimezone,
+                            'type' => 'recommended',
+                            'venueaddId' => $venueAdd->id,
+                            'venue_available_country' => $venue_available_country
 
-                    ];
+                        ];
+                    }
                 }
             }
-        }
-        $newArr = [];
-        $existingIds = [];
-        foreach ($dataArr  as $data) {
-            if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
-                $newArr[] = $data;
-                $existingIds[] = $data['id'];
+            $newArr = [];
+            $existingIds = [];
+            foreach ($dataArr  as $data) {
+                if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
+                    $newArr[] = $data;
+                    $existingIds[] = $data['id'];
+                }
             }
-        }
-        return response()->json([
-            'status' => !(empty($newArr)) ? true : false,
-            'data' => $newArr,
-            'currentTimezone' => $currentTimezone,
-            'countryCode' => $countryCode,
-            'phoneCode' => $phoneCode
-        ]);
+            return response()->json([
+                'status' => !(empty($newArr)) ? true : false,
+                'data' => $newArr,
+                'currentTimezone' => $currentTimezone,
+                'countryCode' => $countryCode,
+                'phoneCode' => $phoneCode
+            ]);
+
+
+          } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+                'id' => env('IP_API_KEY')
+            ]);
+
+          }
+
+
+
+
     }
 
 
