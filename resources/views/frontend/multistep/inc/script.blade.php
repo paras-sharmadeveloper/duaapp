@@ -525,6 +525,7 @@
                         $(".error").remove();
 
                         console.log("errors",errors)
+                        console.log("errors",errors)
                         $.each(errors, function(field, messages) {
 
                             var inputElement = $('[name="' + field + '"]');
