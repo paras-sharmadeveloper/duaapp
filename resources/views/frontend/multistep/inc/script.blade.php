@@ -496,12 +496,17 @@
 
                 },
                 error: function(xhr, textStatus , errorThrown) {
-                    var errors = errorThrown.responseJSON.errors;
-                    $('#modal-loading').modal('hide');
-                    if (xhr.status == 406 || xhr.status == 422) {
-                        $("#myalert").html(error.responseJSON.message).removeClass('d-none');
 
-                    }
+                    console.log("textStatus", textStatus)
+                    console.log("errors2", errorThrown)
+                    console.log("xhr",xhr)
+                    // var errors = errorThrown.responseJSON.errors;
+
+                    // $('#modal-loading').modal('hide');
+                    // if (xhr.status == 406 || xhr.status == 422) {
+                    //     $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+
+                    // }
 
                     console.log("textStatus", textStatus)
                     console.log("errors2", errorThrown)
