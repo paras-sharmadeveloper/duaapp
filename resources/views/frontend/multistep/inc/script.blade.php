@@ -496,14 +496,16 @@
 
                 },
                 error: function(xhr, textStatus , errorThrown) {
+
+                    var errors = xhr.responseJSON.errors;
+                    var err = xhr.responseJSON;
+                    var reQStatus = xhr.status;
                     console.log("textStatus", textStatus)
                     console.log("errors2", errors)
                     console.log("xhr",reQStatus)
 
 
-                    var errors = xhr.responseJSON.errors;
-                    var err = xhr.responseJSON;
-                    var reQStatus = xhr.status;
+
 
 
                     if (reQStatus == 406 || reQStatus == 422) {
