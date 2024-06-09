@@ -500,11 +500,18 @@
 
 
                     var errors = xhr.responseJSON.errors;
+                    var err = xhr.responseJSON;
                     var reQStatus = xhr.status;
 
                     $('#modal-loading').modal('hide');
                     if (reQStatus == 406 || reQStatus == 422) {
-                        $("#myalert").html(errors.message).removeClass('d-none');
+                        if(errors.message){
+                            $("#myalert").html(errors.message).removeClass('d-none');
+
+                        }else{
+                            $("#myalert").html(err.message).removeClass('d-none');
+
+                        }
 
                     }
 
