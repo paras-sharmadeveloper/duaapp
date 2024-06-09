@@ -1531,7 +1531,7 @@ class HomeController extends Controller
                 ];
             }
 
-            //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+             $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
 
             if ($status['allowed']) {
 
