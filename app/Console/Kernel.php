@@ -4,17 +4,24 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\FetchVisitorsWithNullMsgSid;
 
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
      */
+    protected $commands = [
+        Commands\FetchVisitorsWithNullMsgSid::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('queue:work --queue=default,high,low,create-slots,whatsapp-notification,create-future-dates')
         ->everyFiveMinutes()
         ->withoutOverlapping();
+        $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyThirtyMinutes();
+
     }
 
     /**
