@@ -743,6 +743,7 @@ class HomeController extends Controller
 
     public function getTheripistByIp(Request $request)
     {
+        return $userDetail = $this->getIpDetails($request->ip());
 
         try {
             $dataArr = [];
