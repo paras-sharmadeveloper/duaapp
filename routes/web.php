@@ -158,6 +158,7 @@ Route::get('/update-env-debug/{debug}', function ($debug) {
 
         // Reload the environment configuration
         Artisan::call('config:cache');
+        Artisan::call('config:clear');
 
         return 'APP_DEBUG updated to ' . $newValue;
     } else {
