@@ -497,14 +497,11 @@
                 },
                 error: function(error, xhr) {
 
-
-
                     $('#modal-loading').modal('hide');
-
-                    if (error.status == 406) {
+                    if (error.status == 406 || error.status == 422) {
                         $("#myalert").html(error.responseJSON.message).removeClass(
                             'd-none');
-                        // $("#errors").html(error.responseJSON.message).show();
+
                     }
                     $this.find('b').text(defaultText)
                     if (error.responseJSON || error.responseJSON.errors) {
