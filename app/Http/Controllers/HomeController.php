@@ -1345,6 +1345,7 @@ class HomeController extends Controller
     public function getIpDetails($userIp)
     {
         $curl = curl_init();
+        return  'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY');
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
             CURLOPT_RETURNTRANSFER => true,
@@ -1367,7 +1368,8 @@ class HomeController extends Controller
             'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
             'city' => (isset($result['city'])) ? $result['city'] . "enc=v" . env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
             'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
-            'complete_data' => $response
+            'complete_data' => $response,
+
         ];
 
         Ipinformation::create($data);
