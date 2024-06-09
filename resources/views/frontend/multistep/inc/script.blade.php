@@ -500,19 +500,22 @@
                     console.log("textStatus", textStatus)
                     console.log("errors2", errorThrown)
                     console.log("xhr",xhr)
-                    // var errors = errorThrown.responseJSON.errors;
 
-                    // $('#modal-loading').modal('hide');
-                    // if (xhr.status == 406 || xhr.status == 422) {
-                    //     $("#myalert").html(error.responseJSON.message).removeClass('d-none');
 
-                    // }
+                    var errors = xhr.responseJSON.errors;
+                    var reQStatus = xhr.status;
+
+                    $('#modal-loading').modal('hide');
+                    if (reQStatus == 406 ||reQStatus == 422) {
+                        $("#myalert").html(error.responseJSON.message).removeClass('d-none');
+
+                    }
 
                     console.log("textStatus", textStatus)
-                    console.log("errors2", errorThrown)
-                    console.log("xhr",xhr)
+                    console.log("errors2", errors)
+                    console.log("xhr",reQStatus)
                     $this.find('b').text(defaultText)
-                    if (error.responseJSON || error.responseJSON.errors) {
+                    if (xhr.responseJSON || xhr.responseJSON.errors) {
 
                         $this.find('b').text(defaultText)
                         $this.find('span').hide()
@@ -524,8 +527,7 @@
                             }, 2000);
                         }
 
-                        $("#myalert").html(error.responseJSON.message).removeClass(
-                            'd-none');
+                        $("#myalert").html(xhr.responseJSON.message).removeClass('d-none');
                         // $("#errors").html(error.responseJSON.message);
 
                         // Clear any existing error messages
