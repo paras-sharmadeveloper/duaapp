@@ -743,9 +743,7 @@ class HomeController extends Controller
 
     public function getTheripistByIp(Request $request)
     {
-        return $userDetail = $this->getIpDetails($request->ip());
 
-        try {
             $dataArr = [];
 
             if (App::environment('production')) {
@@ -763,7 +761,7 @@ class HomeController extends Controller
             }
 
             session(['phoneCode' => $phoneCode]);
-            echo "<pre>"; print_r($userDetail); die(env('IP_API_KEY'));
+        //    echo "<pre>"; print_r($userDetail); die(env('IP_API_KEY'));
             $countryCode = $userDetail['countryCode'];
 
             $countryName = ucwords($userDetail['countryName']);
@@ -810,15 +808,7 @@ class HomeController extends Controller
             ]);
 
 
-          } catch (\Exception $e) {
 
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-                'id' => env('IP_API_KEY')
-            ]);
-
-          }
 
 
 
