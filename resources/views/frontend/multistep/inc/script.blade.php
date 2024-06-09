@@ -496,7 +496,7 @@
 
                 },
                 error: function(error, xhr) {
-
+                    var errors = error.responseJSON.errors;
                     $('#modal-loading').modal('hide');
                     if (error.status == 406 || error.status == 422) {
                         $("#myalert").html(error.responseJSON.message).removeClass(
@@ -504,8 +504,8 @@
 
                     }
 
-                    console.log("errors", errors)
-                    console.log("errors", errors.status)
+                    console.log("errors1", errors)
+                    console.log("errors2", errors.status)
                     $this.find('b').text(defaultText)
                     if (error.responseJSON || error.responseJSON.errors) {
 
@@ -518,7 +518,7 @@
                                 $this.find('b').text(defaultText)
                             }, 2000);
                         }
-                        var errors = error.responseJSON.errors;
+
                         $("#myalert").html(error.responseJSON.message).removeClass(
                             'd-none');
                         // $("#errors").html(error.responseJSON.message);
