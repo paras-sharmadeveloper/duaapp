@@ -503,6 +503,9 @@
                             'd-none');
 
                     }
+
+                    console.log("errors", errors)
+                    console.log("errors", errors.status)
                     $this.find('b').text(defaultText)
                     if (error.responseJSON || error.responseJSON.errors) {
 
@@ -524,8 +527,7 @@
                         // $('.alert-danger').remove();
                         $(".error").remove();
 
-                        console.log("errors", errors)
-                        console.log("errors", errors)
+
                         if (errors.length > 0) {
                             $.each(errors, function(field, messages) {
 
