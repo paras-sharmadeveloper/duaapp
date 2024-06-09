@@ -496,7 +496,9 @@
 
                 },
                 error: function(xhr, textStatus , errorThrown) {
-
+                    console.log("textStatus", textStatus)
+                    console.log("errors2", errors)
+                    console.log("xhr",reQStatus)
 
 
                     var errors = xhr.responseJSON.errors;
@@ -515,9 +517,7 @@
 
                     }
 
-                    console.log("textStatus", textStatus)
-                    console.log("errors2", errors)
-                    console.log("xhr",reQStatus)
+
                     $this.find('b').text(defaultText)
                     if (xhr.responseJSON || xhr.responseJSON.errors) {
 
