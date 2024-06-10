@@ -42,20 +42,20 @@ class HomeController extends Controller
 
                 // $visitor = Vistors::where(['id' => $id])->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code'])->first();
 
-                  $visitor = Vistors::find($id,['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+                $visitor = Vistors::find($id, ['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
                 // return response()->json(['success' => true, 'message' => $visitors]);
 
-                    $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
-                    $dataMessage= str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
-                    $dataMessage= str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
-                    $dataMessage= str_replace('{mobile}', $visitor->phone, $dataMessage);
-                    $dataMessage= str_replace('{id}', $visitor->id, $dataMessage);
-                    $mobile =  $visitor->country_code .  $visitor->phone;
-                    $message = <<<EOT
+                $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
+                $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
+                $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
+                $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
+                $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
+                $mobile =  $visitor->country_code .  $visitor->phone;
+                $message = <<<EOT
                         Please see below urgent message for your kind attention:
                         $dataMessage
                         EOT;
-                    $response =   $this->sendMessage($mobile, $message);
+                $response =   $this->sendMessage($mobile, $message);
 
 
                 // $message = <<<EOT
@@ -75,59 +75,57 @@ class HomeController extends Controller
     }
 
     public function WhatsAppNotifications(Request $request)
-{
-    if ($request->ajax()) {
-        $request->validate([
-            'whatsAppMessage' => 'required',
-            'user_mobile.*' => 'required'
-        ]);
+    {
+        if ($request->ajax()) {
+            $request->validate([
+                'whatsAppMessage' => 'required',
+                'user_mobile.*' => 'required'
+            ]);
 
-        $userMobile = $request->input('user_mobile');
-        $token_template = $request->input('token_template');
-        $dataMessage ='';
-        $userId = [];
-        foreach ($userMobile as $id => $phone) {
-            $userId[] = $id;
-        }
+            $userMobile = $request->input('user_mobile');
+            $token_template = $request->input('token_template');
+            $dataMessage = '';
+            $userId = [];
+            foreach ($userMobile as $id => $phone) {
+                $userId[] = $id;
+            }
 
-        if(isset($token_template)){
+            if (isset($token_template)) {
+            }
 
-        }
+            $visitors = Vistors::whereIn('id', $userId)->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code', 'booking_number', 'slot_id']);
+            $messhhhs = [];
+            foreach ($visitors as $visitor) {
 
-       $visitors = Vistors::whereIn('id',$userId)->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code','booking_number','slot_id']);
-        $messhhhs = [];
-        foreach($visitors as $visitor){
+                $vennueAdd = $visitor->slot->venueAddress;
 
-            $vennueAdd = $visitor->slot->venueAddress;
+                $currentMessage  = $request->input('whatsAppMessage');
+                $mobile          =  $visitor->country_code .  $visitor->phone;
+                $currentMessage0 = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
+                $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
+                $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
+                $currentMessage3 = str_replace('{mobile}', $mobile, $currentMessage2);
+                $currentMessage4 = str_replace('{city}', $vennueAdd->city, $currentMessage3);
+                $finalMessage    = str_replace('{token_number}', $visitor->booking_number, $currentMessage4);
 
-            $currentMessage  = $request->input('whatsAppMessage');
-            $mobile          =  $visitor->country_code .  $visitor->phone;
-            $currentMessage0 = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $currentMessage);
-            $currentMessage1 = str_replace('{dua_type}', $visitor->dua_type, $currentMessage0);
-            $currentMessage2 = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $currentMessage1);
-            $currentMessage3 = str_replace('{mobile}',$mobile, $currentMessage2);
-            $currentMessage4 = str_replace('{city}',$vennueAdd->city, $currentMessage3);
-            $finalMessage    = str_replace('{token_number}', $visitor->booking_number, $currentMessage4);
-
-            if(isset($token_template)){
-            $message = <<<EOT
+                if (isset($token_template)) {
+                    $message = <<<EOT
             $finalMessage
             EOT;
-            }else{
-                $message = <<<EOT
+                } else {
+                    $message = <<<EOT
                 Please see below urgent message for your kind attention :
                 $finalMessage
                 EOT;
+                }
+
+                $this->sendMessage($mobile, $message);
             }
-
-            $this->sendMessage($mobile, $message);
-
+            return response()->json(['success' => true]);
         }
-        return response()->json(['success' => true]);
-    }
 
-    return view('whatsappNotifications.index');
-}
+        return view('whatsappNotifications.index');
+    }
 
 
     public function StatusLcdScreen(Request $request)
@@ -181,19 +179,20 @@ class HomeController extends Controller
     }
 
 
-    public function deleteVisitorShow(){
+    public function deleteVisitorShow()
+    {
         $visitors = Vistors::whereNotNull(['recognized_code'])->get();
         return view('workingLady.visitorsdelete', compact('visitors'));
-
     }
 
-    public function deleteVisitor(Request $request, $id ){
+    public function deleteVisitor(Request $request, $id)
+    {
 
         $is = deleteObject($id);
-        if($is){
+        if ($is) {
             Vistors::where(['recognized_code' => $id])->delete();
             return redirect()->back()->with(['success' => "Object Cleared"]);
-        }else{
+        } else {
             return redirect()->back()->with(['error' => "Failed to delete object"]);
         }
     }
@@ -221,7 +220,6 @@ class HomeController extends Controller
                 'country_code' => 'required',
                 // 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
-
         }
         $messages = [
             // 'slot_id.required' => 'The slot ID field is required.',
@@ -232,11 +230,11 @@ class HomeController extends Controller
         $tokenStatus = $this->FinalBookingCheck($request);
 
         // echo "<pre>"; print_r($tokenStatus); die;
-        if($tokenStatus['status']){
+        if ($tokenStatus['status']) {
             $slotId = $tokenStatus['slot_id'];
             $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
-        }else{
+        } else {
             return response()->json([
                 'errors' =>  $tokenStatus
             ], 422);
@@ -264,13 +262,13 @@ class HomeController extends Controller
             }
 
             $captured_user_image = $request->input('captured_user_image');
-            if(!empty($captured_user_image)){
+            if (!empty($captured_user_image)) {
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                $isUsers = $this->IsRegistredAlready($myImage , $rejoin);
+                $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
                 if (!empty($isUsers) && $isUsers['status'] == false) {
                     $end = microtime(true);
-                        $totalTime = $end - $start;
-                    return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers , "status" => false], 406);
+                    $totalTime = $end - $start;
+                    return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
                 }
             }
             $uuid = Str::uuid()->toString();
@@ -304,12 +302,12 @@ class HomeController extends Controller
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
-            $booking->working_lady_id = $request->input('working_lady_id',0);
+            $booking->working_lady_id = $request->input('working_lady_id', 0);
 
-           $workingLady = WorkingLady::where('qr_id',$request->input('QrCodeId'))->where('is_active','active')->count();
+            $workingLady = WorkingLady::where('qr_id', $request->input('QrCodeId'))->where('is_active', 'active')->count();
 
 
-            if($workingLady == 0 && !empty($request->input('working_lady_id')) ){
+            if ($workingLady == 0 && !empty($request->input('working_lady_id'))) {
                 return response()->json([
                     'errors' => [
                         'status' => false,
@@ -320,7 +318,7 @@ class HomeController extends Controller
             }
 
             $booking->token_status = 'vaild';
-             // Save the booking record
+            // Save the booking record
             $booking->save();
             $bookingId = $booking->id;
 
@@ -336,11 +334,12 @@ class HomeController extends Controller
                 $totalTime = $end - $start;
 
                 // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
-                return response()->json(['message' => 'Booking submitted successfully',
-                "totalTime" => $totalTime,
-                 "status" => true, 'bookingId' => $uuid,
-                'redirect_url' => route('booking.status',[$uuid]).'?time='.$totalTime
-            ], 200);
+                return response()->json([
+                    'message' => 'Booking submitted successfully',
+                    "totalTime" => $totalTime,
+                    "status" => true, 'bookingId' => $uuid,
+                    'redirect_url' => route('booking.status', [$uuid]) . '?time=' . $totalTime
+                ], 200);
             }
         } catch (QueryException $e) {
             Log::error('Booking error' . $e);
@@ -370,7 +369,7 @@ class HomeController extends Controller
             // Return a generic error response
             return response()->json([
                 'status' => false,
-                'message' =>$e->getMessage(),
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -390,9 +389,11 @@ class HomeController extends Controller
             );
             $messageSid = $messageInstance->sid; // Get MessageSid
             $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
-            return ['data' => 'success',
-            'sid' => $messageSid,
-            'status' => $messageSentStatus];
+            return [
+                'data' => 'success',
+                'sid' => $messageSid,
+                'status' => $messageSentStatus
+            ];
         } catch (\Exception $e) {
             //throw $th;
             return response()->json(['error' => $e->getMessage()]);
@@ -412,7 +413,7 @@ class HomeController extends Controller
         }
     }
 
-    protected function IsRegistredAlready($selfieImage , $rejoin)
+    protected function IsRegistredAlready($selfieImage, $rejoin)
     {
 
         $filename = 'selfie_' . time() . '.jpg';
@@ -427,21 +428,21 @@ class HomeController extends Controller
 
             try {
 
-                $awsDefaultRegion = (env('AWS_DEFAULT_REGION')) ? env('AWS_DEFAULT_REGION'): 'us-east-1';
-                $awsAccessKeyId = (env('AWS_ACCESS_KEY_ID')) ? env('AWS_ACCESS_KEY_ID'): 'AKIAWTTVS7OFB7GJU4AF' ;
-                $awsSecretAcessKey= (env('AWS_SECRET_ACCESS_KEY')) ? env('AWS_SECRET_ACCESS_KEY'): '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';
+                $awsDefaultRegion = (env('AWS_DEFAULT_REGION')) ? env('AWS_DEFAULT_REGION') : 'us-east-1';
+                $awsAccessKeyId = (env('AWS_ACCESS_KEY_ID')) ? env('AWS_ACCESS_KEY_ID') : 'AKIAWTTVS7OFB7GJU4AF';
+                $awsSecretAcessKey = (env('AWS_SECRET_ACCESS_KEY')) ? env('AWS_SECRET_ACCESS_KEY') : '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';
 
 
                 $rekognition = new RekognitionClient([
                     'version' => 'latest',
                     'region' => $awsDefaultRegion,
                     'credentials' => [
-                        'key' => $awsAccessKeyId ,
+                        'key' => $awsAccessKeyId,
                         'secret' => $awsSecretAcessKey,
                     ],
                 ]);
                 $targetImages = [];
-                $bucket ='kahayfaqeer-booking-bucket';
+                $bucket = 'kahayfaqeer-booking-bucket';
                 foreach ($userAll as $user) {
                     if (!empty($user['recognized_code'])) {
                         $targetImages[] = [
@@ -479,99 +480,99 @@ class HomeController extends Controller
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
 
                 if (empty($userArr)) {
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey , 'count' => $count];
+                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count];
                 } else {
-                    return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false , 'count' => $count ];
+                    return ['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count];
                 }
             } catch (\Exception $e) {
-                Log::info("aws".$e->getMessage());
+                Log::info("aws" . $e->getMessage());
 
                 // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $objectKey];
                 return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
             Storage::disk('s3')->put($objectKey, $selfieImage);
-            return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey ];
-        }
-    }
-
-    protected function IsRegistredAlreadyOLd($selfieImage , $rejoin)
-    {
-
-        $filename = 'selfie_' . time() . '.jpg';
-        $objectKey = $this->encryptFilename($filename);
-        $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-        // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
-
-        $userArr = [];
-
-        Storage::disk('s3')->put($objectKey, $selfieImage);
-        if (!empty($userAll) &&  $rejoin > 0) {
-
-            try {
-                $rekognition = new RekognitionClient([
-                    'version' => 'latest',
-                    'region' => env('AWS_DEFAULT_REGION'),
-                    'credentials' => [
-                        'key' => env('AWS_ACCESS_KEY_ID'),
-                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                    ],
-                ]);
-
-
-                    foreach ($userAll as $user) {
-                        $response = [];
-                        if(!empty( $user['recognized_code'])){
-                            $bucket ='kahayfaqeer-booking-bucket';
-
-                            $response = $rekognition->compareFaces([
-                                'SimilarityThreshold' => 90,
-                                'SourceImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $objectKey,
-                                    ],
-                                ],
-                                'TargetImage' => [
-                                    'S3Object' => [
-                                        'Bucket' => $bucket,
-                                        'Name' => $user['recognized_code'],
-                                    ],
-                                ],
-                            ]);
-                            $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-
-                                if (count($faceMatches) > 0) {
-
-                                    foreach ($faceMatches as $match) {
-                                        if ($match['Similarity'] >= 80) {
-                                            $userArr[] = $user['id'];
-                                        }
-                                    }
-                                }
-                        }
-
-
-
-                    }
-
-                if (empty($userArr)) {
-
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
-                } else {
-                    return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
-                }
-            } catch (\Exception $e) {
-                Log::info("aws".$e->getMessage());
-
-                return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false , 'recognized_code' => $objectKey];
-                // return ['message' => $e->getMessage(), 'status' => false];
-            }
-        } else {
-            Storage::disk('s3')->put($objectKey, $selfieImage);
             return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
         }
     }
+
+    // protected function IsRegistredAlreadyOLd($selfieImage , $rejoin)
+    // {
+
+    //     $filename = 'selfie_' . time() . '.jpg';
+    //     $objectKey = $this->encryptFilename($filename);
+    //     $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+    //     // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+
+    //     $userArr = [];
+
+    //     Storage::disk('s3')->put($objectKey, $selfieImage);
+    //     if (!empty($userAll) &&  $rejoin > 0) {
+
+    //         try {
+    //             $rekognition = new RekognitionClient([
+    //                 'version' => 'latest',
+    //                 'region' => env('AWS_DEFAULT_REGION'),
+    //                 'credentials' => [
+    //                     'key' => env('AWS_ACCESS_KEY_ID'),
+    //                     'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    //                 ],
+    //             ]);
+
+
+    //                 foreach ($userAll as $user) {
+    //                     $response = [];
+    //                     if(!empty( $user['recognized_code'])){
+    //                         $bucket ='kahayfaqeer-booking-bucket';
+
+    //                         $response = $rekognition->compareFaces([
+    //                             'SimilarityThreshold' => 90,
+    //                             'SourceImage' => [
+    //                                 'S3Object' => [
+    //                                     'Bucket' => $bucket,
+    //                                     'Name' => $objectKey,
+    //                                 ],
+    //                             ],
+    //                             'TargetImage' => [
+    //                                 'S3Object' => [
+    //                                     'Bucket' => $bucket,
+    //                                     'Name' => $user['recognized_code'],
+    //                                 ],
+    //                             ],
+    //                         ]);
+    //                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+
+    //                             if (count($faceMatches) > 0) {
+
+    //                                 foreach ($faceMatches as $match) {
+    //                                     if ($match['Similarity'] >= 80) {
+    //                                         $userArr[] = $user['id'];
+    //                                     }
+    //                                 }
+    //                             }
+    //                     }
+
+
+
+    //                 }
+
+    //             if (empty($userArr)) {
+
+    //                 return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+    //             } else {
+    //                 return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
+    //             }
+    //         } catch (\Exception $e) {
+    //             Log::info("aws".$e->getMessage());
+
+    //             return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false , 'recognized_code' => $objectKey];
+    //             // return ['message' => $e->getMessage(), 'status' => false];
+    //         }
+    //     } else {
+    //         Storage::disk('s3')->put($objectKey, $selfieImage);
+    //         return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+    //     }
+    // }
 
 
 
@@ -745,75 +746,68 @@ class HomeController extends Controller
     public function getTheripistByIp(Request $request)
     {
 
-            $dataArr = [];
+        $dataArr = [];
 
-            if (App::environment('production')) {
-                $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-                if (!empty($ipInfo) ) {
-                    $userDetail = json_decode($ipInfo['complete_data'], true);
-                } else {
-                   $userDetail = $this->getIpDetails($request->ip());
-                }
-                $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
+        if (App::environment('production')) {
+            $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+            if (!empty($ipInfo)) {
+                $userDetail = json_decode($ipInfo['complete_data'], true);
             } else {
-                $userDetail['countryCode'] = 'IN';
-                $userDetail['countryName'] = 'India';
-                $phoneCode = '91';
+                $userDetail = $this->getIpDetails($request->ip());
             }
+            $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
+        } else {
+            $userDetail['countryCode'] = 'IN';
+            $userDetail['countryName'] = 'India';
+            $phoneCode = '91';
+        }
 
-            session(['phoneCode' => $phoneCode]);
+        session(['phoneCode' => $phoneCode]);
         //    echo "<pre>"; print_r($userDetail); die(env('IP_API_KEY'));
-            $countryCode = $userDetail['countryCode'];
+        $countryCode = $userDetail['countryCode'];
 
-            $countryName = ucwords($userDetail['countryName']);
-            $countryId = Country::where(['nicename' => $countryName])->first();
+        $countryName = ucwords($userDetail['countryName']);
+        $countryId = Country::where(['nicename' => $countryName])->first();
 
-            $venueAddress = VenueAddress::get();
-            $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
-            $currentTimezone = $timezone->timezone;
+        $venueAddress = VenueAddress::get();
+        $timezone = Timezone::where(['country_code' => $countryCode])->get()->first();
+        $currentTimezone = $timezone->timezone;
 
-            if (!empty($venueAddress)) {
-                foreach ($venueAddress as $venueAdd) {
+        if (!empty($venueAddress)) {
+            foreach ($venueAddress as $venueAdd) {
 
-                    $thripist = $venueAdd->thripist;
-                    $venue_available_country =  json_decode($venueAdd->venue_available_country);
+                $thripist = $venueAdd->thripist;
+                $venue_available_country =  json_decode($venueAdd->venue_available_country);
 
-                    if (is_array($venue_available_country) &&  in_array($countryId->id, $venue_available_country)) {
-                        $dataArr[] = [
-                            'id' => $thripist->id,
-                            'name' => $thripist->name,
-                            'profile_pic' => $thripist->profile_pic,
-                            'currentTimezone' =>  $currentTimezone,
-                            'type' => 'recommended',
-                            'venueaddId' => $venueAdd->id,
-                            'venue_available_country' => $venue_available_country
+                if (is_array($venue_available_country) &&  in_array($countryId->id, $venue_available_country)) {
+                    $dataArr[] = [
+                        'id' => $thripist->id,
+                        'name' => $thripist->name,
+                        'profile_pic' => $thripist->profile_pic,
+                        'currentTimezone' =>  $currentTimezone,
+                        'type' => 'recommended',
+                        'venueaddId' => $venueAdd->id,
+                        'venue_available_country' => $venue_available_country
 
-                        ];
-                    }
+                    ];
                 }
             }
-            $newArr = [];
-            $existingIds = [];
-            foreach ($dataArr  as $data) {
-                if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
-                    $newArr[] = $data;
-                    $existingIds[] = $data['id'];
-                }
+        }
+        $newArr = [];
+        $existingIds = [];
+        foreach ($dataArr  as $data) {
+            if (isset($data['id']) && !in_array($data['id'], $existingIds)) {
+                $newArr[] = $data;
+                $existingIds[] = $data['id'];
             }
-            return response()->json([
-                'status' => !(empty($newArr)) ? true : false,
-                'data' => $newArr,
-                'currentTimezone' => $currentTimezone,
-                'countryCode' => $countryCode,
-                'phoneCode' => $phoneCode
-            ]);
-
-
-
-
-
-
-
+        }
+        return response()->json([
+            'status' => !(empty($newArr)) ? true : false,
+            'data' => $newArr,
+            'currentTimezone' => $currentTimezone,
+            'countryCode' => $countryCode,
+            'phoneCode' => $phoneCode
+        ]);
     }
 
 
@@ -935,25 +929,24 @@ class HomeController extends Controller
             ]);
         }
 
-        if ($type == 'get_city' || $type =='normal_person' || $type == 'working_lady') {
+        if ($type == 'get_city' || $type == 'normal_person' || $type == 'working_lady') {
 
             $countryId = Venue::where(['iso' => 'PK'])->get()->first();
-            if(empty($countryId)){
+            if (empty($countryId)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'There is no Venue in the system. Please try after some time',
                     'message_ur' => 'سسٹم میں کوئی وینیو نہیں ہے۔ تھوڑی دیر بعد کوشش کریں۔',
 
                 ]);
-
-            }else{
+            } else {
                 $venuesListArr = VenueAddress::where('venue_id', $countryId->id)
-                ->where(function ($query) use ($newDate) {
-                    $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
-                        ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
-                })
-                ->where('venue_date', '>=', now()->format('Y-m-d'))
-                ->get();
+                    ->where(function ($query) use ($newDate) {
+                        $query->where('venue_date', '>=', $newDate) // Use '>=' instead of '>'
+                            ->orWhereDate('venue_date', '=', now()->format('Y-m-d')); // Use now() instead of date()
+                    })
+                    ->where('venue_date', '>=', now()->format('Y-m-d'))
+                    ->get();
             }
 
 
@@ -1067,14 +1060,45 @@ class HomeController extends Controller
                 ->orderBy('venue_date', 'asc')
                 ->first();
 
+            if ($venuesListArr) {
+
+                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+                $phoneCode = session('phoneCode');
+                $country = Country::where('phonecode', $phoneCode)->first();
+                $venue_available_country =  json_decode($venuesListArr->venue_available_country);
+                $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
+
+                if (!$userCountry['allowed']) {
+                    session()->forget('phoneCode');
+
+
+                    return response()->json([
+                        'status' => false,
+                        'message' => $userCountry['message'],
+                        'message_ur' => $userCountry['message_ur'],
+                        'phoneCode' => $phoneCode
+
+                    ]);
+                }
+            }
+
+            if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
                 return response()->json([
-                    'city' => $request->input('optional'),
-                    'timezone' => $request->input('timezone'),
-                    'duaType' => $request->input('duaType'),
-                    'venueId' =>  $venuesListArr->id,
-                    'status' => true
+                    'status' => false,
+                    'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
+                    'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
 
                 ]);
+            }
+
+            return response()->json([
+                'city' => $request->input('optional'),
+                'timezone' => $request->input('timezone'),
+                'duaType' => $request->input('duaType'),
+                'venueId' =>  $venuesListArr->id,
+                'status' => true
+
+            ]);
 
 
 
@@ -1372,9 +1396,6 @@ class HomeController extends Controller
             //throw $th;
             return $th->getMessage();
         }
-
-
-
     }
 
     public  function deleteRows(Request $request)
@@ -1392,7 +1413,7 @@ class HomeController extends Controller
             'venueDate' => 'required'
         ]);
         $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])->whereDate('created_at', $request->input('venueDate'))
-        ->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code']);
+            ->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
         return response()->json(['success' => (!$visitors->IsEmpty()) ? true : false, 'data' => $visitors], 200);
     }
 
@@ -1494,7 +1515,8 @@ class HomeController extends Controller
         return $message;
     }
 
-    public function FinalBookingCheck($request){
+    public function FinalBookingCheck($request)
+    {
 
         $duaType = $request->input('duaType');
         $country_code = $request->input('country_code');
@@ -1522,7 +1544,7 @@ class HomeController extends Controller
             ];
         }
         if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
-            return[
+            return [
                 'status' => false,
                 'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
                 'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
@@ -1533,7 +1555,7 @@ class HomeController extends Controller
         if ($venuesListArr) {
 
             $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
-            $phoneCode = (session('phoneCode')) ? session('phoneCode') :$country_code;
+            $phoneCode = (session('phoneCode')) ? session('phoneCode') : $country_code;
             $phoneCode = session('phoneCode');
             $country = Country::where('phonecode', $phoneCode)->first();
             $venue_available_country =  json_decode($venuesListArr->venue_available_country);
@@ -1552,7 +1574,7 @@ class HomeController extends Controller
                 ];
             }
 
-             $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
+            $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours, $venuesListArr->timezone);
 
             if ($status['allowed']) {
 
@@ -1572,7 +1594,6 @@ class HomeController extends Controller
                         'slot_id' => $tokenIs->id,
                         'venuesListArr' => $venuesListArr
                     ];
-
                 } else {
                     return  [
                         'status' =>  false,
@@ -1597,7 +1618,6 @@ class HomeController extends Controller
 
             ];
         }
-
     }
 
     public function sendMessage($to, $message)
