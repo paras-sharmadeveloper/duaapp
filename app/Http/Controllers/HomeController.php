@@ -263,16 +263,16 @@ class HomeController extends Controller
                 return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
             }
 
-                $captured_user_image = $request->input('captured_user_image');
-                if(!empty($captured_user_image)){
-                    $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                    $isUsers = $this->IsRegistredAlready($myImage , $rejoin);
-                    if (!empty($isUsers) && $isUsers['status'] == false) {
-                        $end = microtime(true);
-                         $totalTime = $end - $start;
-                        return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers , "status" => false], 406);
-                    }
-                }
+            // $captured_user_image = $request->input('captured_user_image');
+            // if(!empty($captured_user_image)){
+            //     $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+            //     $isUsers = $this->IsRegistredAlready($myImage , $rejoin);
+            //     if (!empty($isUsers) && $isUsers['status'] == false) {
+            //         $end = microtime(true);
+            //             $totalTime = $end - $start;
+            //         return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers , "status" => false], 406);
+            //     }
+            // }
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
             $country = Country::where(['phonecode' => $countryCode])->first();
