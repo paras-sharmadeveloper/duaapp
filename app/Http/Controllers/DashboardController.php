@@ -18,7 +18,7 @@ class DashboardController extends Controller
     public function getData(Request $request)
     {
 
-        $data = Vistors::with(['venueSloting']);
+        $data = Vistors::with(['venueSloting'])->whereDate('created_at',date('Y-m-d'));
 
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
