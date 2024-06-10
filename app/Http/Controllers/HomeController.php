@@ -419,8 +419,8 @@ class HomeController extends Controller
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
         sleep(5);
-        // $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-        $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+       // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
         $userArr = [];
         $count = 0;
         Storage::disk('s3')->put($objectKey, $selfieImage);
@@ -464,10 +464,10 @@ class HomeController extends Controller
                     'TargetImage' => [
                         'S3Object' => [
                             'Bucket' => $bucket,
-                            'Name' => $user['recognized_code'],
+                            'Name' =>  $targetImages[0]['S3Object']['Name'],
                         ],
                     ],
-                    'TargetFaces' => $targetImages, // Array of target images for batch comparison
+                    'TargetFaces' => $targetImages,
                 ]);
 
                 $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
