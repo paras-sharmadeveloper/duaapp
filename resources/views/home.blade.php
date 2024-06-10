@@ -981,16 +981,18 @@
                     var venueDate = $('#table_date').val();
                     $(this).attr('data-type', duaType)
                     $(this).attr('data-date', venueDate)
-
                     var selectedLocation = prompt("Please enter the location:", "Lahore");
 
+                    filename = 'DUA/DUM TOKENS - '+new Date().toDateString() +'- LAHORE   DUA GHAR';
+                    if(duaType == 'dua'  ||  duaType == 'working_lady_dua'){
+                        filename = 'DUA TOKENS - ' + new Date().toDateString() + ' - ' + selectedLocation + ' DUA GHAR';
 
-                    filename = 'DUA/DUM TOKENS - '+new Date().toDateString() +'-'+selectedLocation+'   DUA GHAR';
-                    if(duaType == 'dua'){
-                        filename = 'DUA TOKENS - '+new Date().toDateString() +'-'+selectedLocation+'  DUA GHAR';
+
                     }
-                    if(duaType == 'dum'){
-                        filename = 'DUM TOKENS - '+new Date().toDateString() +'-'+selectedLocation+'   DUA GHAR';
+                    if(duaType == 'dum' ||  duaType == 'working_lady_dum'){
+                        filename = 'DUM TOKENS - ' + new Date().toDateString() + ' - ' + selectedLocation + ' DUA GHAR';
+
+                        // filename = 'DUM TOKENS - '+new Date().toDateString() +'- LAHORE   DUA GHAR';
                     }
                     document.title  = filename
 
