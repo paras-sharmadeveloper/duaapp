@@ -1060,6 +1060,7 @@
                             var type = $('#filtertable').attr('data-type');
                             var date = $('#filtertable').attr('data-date');
                             var duaghar = $('#filtertable').attr('data-duaghar');
+                            console.log("duaghar",duaghar)
                             duaghar = duaghar.replace("/ dua", "");
                             duaghar = duaghar.replace("/ dum", "");
 
