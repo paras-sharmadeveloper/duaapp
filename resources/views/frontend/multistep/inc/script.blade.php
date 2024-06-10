@@ -500,11 +500,6 @@
                     var errors = xhr.responseJSON.errors;
                     var err = xhr.responseJSON;
                     var reQStatus = xhr.status;
-                    // console.log("textStatus", textStatus)
-                    // console.log("errors2", errors)
-                    // console.log("xhr", reQStatus)
-                    // console.log("err", err)
-
 
 
 
@@ -529,6 +524,7 @@
                     }
 
                     if (errors !== undefined) {
+
                         if (xhr.responseJSON || xhr.responseJSON.errors) {
 
                             $this.find('b').text(defaultText)
@@ -570,6 +566,7 @@
 
                             });
                         }
+                        $('#modal-loading').modal('hide');
                     }else{
                         $('#modal-loading').modal('hide');
                     }
