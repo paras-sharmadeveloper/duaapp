@@ -61,7 +61,8 @@ class BookingController extends Controller
 
         if(!empty($visitor->working_lady_id) ){
             $workingLady = WorkingLady::findOrFail($visitor->working_lady_id);
-            $databaseImage = getImagefromS3($workingLady->session_image);
+           // $databaseImage = getImagefromS3($workingLady->session_image);
+           $databaseImage = '';
         }
         $UserImage = '';
         $timezone = $visitor->venueSloting->venueAddress->timezone;
