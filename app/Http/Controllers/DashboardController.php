@@ -18,8 +18,15 @@ class DashboardController extends Controller
     public function getData(Request $request)
     {
 
-        $data = Vistors::with(['venueSloting'])->whereDate('created_at',date('Y-m-d'));
+       // $data = Vistors::with(['venueSloting'])->whereDate('created_at',date('Y-m-d'));
 
+                $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+
+        // Retrieve data for one month
+        $data = Vistors::with(['venueSloting'])
+                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->get();
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
             $data->where('dua_type', $request->input('dua_type'));
