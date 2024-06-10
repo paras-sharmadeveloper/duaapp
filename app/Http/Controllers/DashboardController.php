@@ -25,8 +25,8 @@ class DashboardController extends Controller
 
         // Retrieve data for one month
         $data = Vistors::with(['venueSloting'])
-                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->get();
+                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
             $data->where('dua_type', $request->input('dua_type'));
