@@ -511,6 +511,7 @@
                                 setTimeout(() => {
                                     $this.find('b').text(defaultText)
                                 }, 2000);
+                                $('#modal-loading').modal('hide');
 
                         } else {
                             $("#myalert").html(err.message).removeClass('d-none');
@@ -518,6 +519,7 @@
                                 setTimeout(() => {
                                     $this.find('b').text(defaultText)
                                 }, 2000);
+                                $('#modal-loading').modal('hide');
 
                         }
 
@@ -538,6 +540,7 @@
                             }
 
                             $("#myalert").html(errors.message).removeClass('d-none');
+                            $('#modal-loading').modal('hide');
 
                             $(".error").remove();
 
@@ -562,6 +565,7 @@
                                         field + '">' + messages.join('<br>') +
                                         '</div>');
                                 }
+                                $('#modal-loading').modal('hide');
 
 
                             });
