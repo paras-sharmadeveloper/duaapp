@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; 
-use App\Jobs\NotifyUserOfCompletedExport;  
+use Illuminate\Support\Facades\DB;
+use App\Jobs\NotifyUserOfCompletedExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\VisitorsExport;
@@ -13,7 +13,7 @@ class AgGridManagement extends Controller
 {
     public function getDataMessageLog(Request $request)
     {
-        $columnToTableMapping = [ 
+        $columnToTableMapping = [
             'id' => 'vistors',
             'fname' => 'vistors',
             'lname' => 'vistors',
@@ -32,8 +32,8 @@ class AgGridManagement extends Controller
             'confirmed_at' => 'vistors',
             'user_status' => 'vistors',
             'meeting_start_at' => 'vistors',
-            'meeting_ends_at' => 'vistors', 
-            'meeting_total_time' => 'vistors', 
+            'meeting_ends_at' => 'vistors',
+            'meeting_total_time' => 'vistors',
             'country_name' => 'venues',
             'address' => 'venue_addresses',
             'venue_date' => 'venue_addresses',
@@ -58,18 +58,18 @@ class AgGridManagement extends Controller
     }
     $query->select($selectExpressions);
 
-    $exportQuery = $query; 
+    $exportQuery = $query;
         // AG-Grid specific query parameters
         $pageSize = $request->input('pageSize', 200); // Default page size is 10
         $pageNumber = $request->input('pageNumber', 1); // Default page number is 1
-        $skipCount = ($pageNumber - 1) * $pageSize; 
-       $exportArr = []; 
+        $skipCount = ($pageNumber - 1) * $pageSize;
+       $exportArr = [];
         if ($request->has('filterModel')) {
             foreach ($request->input('filterModel') as $columnName => $filter) {
                 if (!empty($filter['filter'])) {
                     $table = $columnToTableMapping[$columnName];
                     $filterValue = $filter['filter'];
-                    $exportArr[$columnName] = $filterValue; 
+                    $exportArr[$columnName] = $filterValue;
                     // Use the table alias or table name in the where clause
                     $query->where($table . '.' . $columnName, 'like', '%' . $filterValue . '%');
                 }
@@ -80,13 +80,13 @@ class AgGridManagement extends Controller
             foreach ($request->input('sortModel') as $sort) {
                 $columnName = $sort['colId']; // The name of the column to sort
                 $sortDirection = $sort['sort']; // 'asc' or 'desc'
-        
+
                 // Determine the associated table and apply sorting
                 $table = $columnToTableMapping[$columnName];
                 $query->orderBy($table . '.' . $columnName, $sortDirection);
             }
         }
-        
+
 
         // Get the total count of records (before filtering)
         $totalCount = $query->count();
@@ -97,19 +97,19 @@ class AgGridManagement extends Controller
         // Execute the query
         $data = $query->get();
 
-        // echo "<pre>"; print_r($exportQuery); die; 
+        // echo "<pre>"; print_r($exportQuery); die;
 
         if($request->input('export') == 1){
-           //  return $data;   
+           //  return $data;
 
-           $filename =  'booking-report-'.uniqid().'.xlsx'; 
-            $userM = $request->input('userEmail');   
+           $filename =  'booking-report-'.uniqid().'.xlsx';
+            $userM = $request->input('userEmail');
             (new VisitorsExport($request->input('filterModel')))->queue($filename,'s3_general')->allOnQueue('exports-excel')->chain([
                 new NotifyUserOfCompletedExport($filename,$userM),
             ]);
 
-            return ['success' => 'true' , 'message' => "Your export is working in backend You will be Notified through Email Once Done. Thanks"]; 
-             
+            return ['success' => 'true' , 'message' => "Your export is working in backend You will be Notified through Email Once Done. Thanks"];
+
         }
 
         return response()->json([
@@ -119,6 +119,6 @@ class AgGridManagement extends Controller
     }
 
 
-    
+
 
 }
