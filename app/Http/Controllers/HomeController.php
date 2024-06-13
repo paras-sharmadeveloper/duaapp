@@ -19,6 +19,7 @@ use App\Models\Reason;
 use Twilio\Rest\Client;
 use App\Models\WorkingLady;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -210,22 +211,17 @@ class HomeController extends Controller
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
                 'country_code' => 'required',
-                // 'slot_id' => 'required|numeric|unique:visitors,slot_id'
             ];
         } else {
 
             $vaildation = [
                 'mobile' => 'required|string|digits:10|max:10',
                 'user_question' => 'nullable|string',
-                'country_code' => 'required',
-                // 'slot_id' => 'required|numeric|unique:visitors,slot_id'
+                'country_code' => 'required'
             ];
+
         }
-        $messages = [
-            // 'slot_id.required' => 'The slot ID field is required.',
-            // 'slot_id.numeric' => 'The slot ID must be a number.',
-            // 'slot_id.unique' => trans('messages.slot_id'),
-        ];
+        $messages = [ ];
         $validatedData = $request->validate($vaildation, $messages);
         $tokenStatus = $this->FinalBookingCheck($request);
 
@@ -239,14 +235,10 @@ class HomeController extends Controller
                 'errors' =>  $tokenStatus
             ], 422);
         }
-        // $validatedData = $request->validate($vaildation);
 
         try {
             $isUsers = [];
 
-            // $venueSlots = VenueSloting::find($slotId);
-            // $venueAddress = $venueSlots->venueAddress;
-            // $tokenId = $venueSlots->token_id;
             $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
             $source = "Website";
             $rejoin = $venueAddress->rejoin_venue_after;
@@ -262,15 +254,15 @@ class HomeController extends Controller
             }
 
             $captured_user_image = $request->input('captured_user_image');
-            // if (!empty($captured_user_image)) {
-            //     $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-            //     $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
-            //     if (!empty($isUsers) && $isUsers['status'] == false) {
-            //         $end = microtime(true);
-            //         $totalTime = $end - $start;
-            //         return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
-            //     }
-            // }
+            if (!empty($captured_user_image)) {
+                $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
+                if (!empty($isUsers) && $isUsers['status'] == false) {
+                    $end = microtime(true);
+                    $totalTime = $end - $start;
+                    return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
+                }
+            }
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
             $country = Country::where(['phonecode' => $countryCode])->first();
@@ -424,6 +416,14 @@ class HomeController extends Controller
         $userArr = [];
         $count = 0;
         Storage::disk('s3')->put($objectKey, $selfieImage);
+
+
+        $dateFolder = date('Y-m-d');
+        $localPath = $dateFolder . '/' . $filename;
+        Storage::disk('public_uploads')->put($localPath, $selfieImage);
+
+
+
         if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
