@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Jobs\{FaceRecognitionJob, WhatsAppConfirmation};
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class VisitorBookingController extends Controller
@@ -180,22 +181,34 @@ class VisitorBookingController extends Controller
 
         $captured_user_image = $request->input('captured_user_image');
         if (!empty($captured_user_image)) {
-            $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-            $job =  FaceRecognitionJob::dispatch($myImage, $rejoin)->onQueue('face-recognition')->onConnection('database');
+            $myImage = $this->sanitizeBase64($captured_user_image);
+            // $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+            $jobId = (string) Str::uuid();
 
-           $jobId =  $job->uuid();
+            FaceRecognitionJob::dispatch($jobId,$myImage, $rejoin)->onQueue('face-recognition')->onConnection('database');
+
             JobStatus::create([
                 'job_id' => $jobId,
                 'status' => 'pending',
                 'user_inputs' => json_encode($userInputs),
             ]);
 
+            Log::info('Job dispatched with ID: ' . $jobId);
             return response()->json([
                 'message' => 'Moving to Waiting Page',
                 "status" => true,
                 'redirect_url' => route('booking.waiting',[$jobId]).'?test=ok'
             ], 200);
         }
+    }
+
+    private function sanitizeBase64($data)
+    {
+        // Remove any characters that are not part of the Base64 alphabet
+        $data = preg_replace('/[^A-Za-z0-9+\/=]/', '', $data);
+
+        // Ensure the string is UTF-8 encoded
+        return mb_convert_encoding($data, 'UTF-8', 'UTF-8');
     }
 
     public function waitingPageShow()

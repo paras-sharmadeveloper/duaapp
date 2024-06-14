@@ -225,7 +225,7 @@ class HomeController extends Controller
         $messages = [ ];
 
 
-
+        $validator = Validator::make($request->all(), $validation, $messages);
 
         $validatedData = $request->validate($vaildation, $messages);
         if ($validator->fails()) {

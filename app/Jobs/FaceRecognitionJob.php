@@ -10,8 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
-use App\Models\{Vistors};
-
+use App\Models\{Vistors,JobStatus};
 class FaceRecognitionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -21,10 +20,12 @@ class FaceRecognitionJob implements ShouldQueue
      */
     public $selfieImage;
     public $rejoin;
-    public function __construct($selfieImage, $rejoin)
+    public $jobId;
+    public function __construct($jobId , $selfieImage, $rejoin)
     {
         $this->selfieImage = $selfieImage;
         $this->rejoin = $rejoin;
+        $this->jobId = $jobId;
         //
     }
 
@@ -33,6 +34,7 @@ class FaceRecognitionJob implements ShouldQueue
      */
     public function handle()
     {
+        Log::info("Job dispatched ff");
         $rejoin = $this->rejoin;
         $selfieImage = $this->selfieImage;
         $filename = 'selfie_' . time() . '.jpg';
@@ -96,22 +98,32 @@ class FaceRecognitionJob implements ShouldQueue
 
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
 
+
+
+                Log::info("Job dispatched");
+
                 if (empty($userArr)) {
-                    return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count];
+                    JobStatus::where(['job_id', $this->jobId])->update(['user_inputs' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count])]);
                 } else {
-                    return ['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count];
+                    JobStatus::where(['job_id', $this->jobId])->update(['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]);
+
+                    return ;
                 }
             } catch (\Exception $e) {
+
+                JobStatus::where(['job_id', $this->jobId])->update(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]);
 
                 Log::info("aws" . $e->getMessage());
 
                 // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $objectKey];
-                return ['message' => $e->getMessage(), 'status' => false];
+                // return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
+            JobStatus::where(['job_id', $this->jobId])->update(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey]);
+
 
             Storage::disk('s3')->put($objectKey, $selfieImage);
-            return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+            // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
         }
     }
 
