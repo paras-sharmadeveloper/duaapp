@@ -295,7 +295,7 @@ class VisitorBookingController extends Controller
                     // Proceed with further actions
                 } else {
                     // Handle the case where file upload failed
-                    Log::error('Failed to upload file to S3.'.$myImage);
+                    // Log::error('Failed to upload file to S3.'.$myImage);
                     return response()->json([
                         'errors' =>  ['message' => 'Unable to upload file adasd '.$objectKey.' ','d' => $uploadSuccess ]
                     ], 422);

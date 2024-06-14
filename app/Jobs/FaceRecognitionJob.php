@@ -38,10 +38,7 @@ class FaceRecognitionJob implements ShouldQueue
     {
         Log::info("Job dispatched ff");
         $rejoin = $this->rejoin;
-        // $selfieImage = $this->selfieImage;
         $objectKey = $this->objectKey;
-        // $filename = 'selfie_' . time() . '.jpg';
-        // $objectKey = $this->encryptFilename($filename);
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         $userArr = [];
         $count = 0;
@@ -127,26 +124,19 @@ class FaceRecognitionJob implements ShouldQueue
 
                 }
             } catch (\Exception $e) {
-
+                Log::info("Error In Aws Side" . $e->getMessage());
                 JobStatus::where(['job_id' => $this->jobId])->update([
                     'result' => json_encode(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]),
                     'status' => 'completed'
                 ]);
 
-                Log::info("aws" . $e->getMessage());
 
-                // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $this->objectKey];
-                // return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
             JobStatus::where(['job_id' => $this->jobId])->update([
                      'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey]),
                      'status' => 'completed'
             ]);
-
-
-            // Storage::disk('s3')->put($this-objectKey, $selfieImage);
-            // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey];
         }
     }
 
