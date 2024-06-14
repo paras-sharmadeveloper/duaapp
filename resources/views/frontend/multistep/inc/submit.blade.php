@@ -11,8 +11,7 @@
     <div class="col-lg-12 col-md-12" id="successForm">
         <div class="mb-1">
             <!-- Final step -->
-            <div class="alert alert-danger text-center d-nne" role="alert" id="myalert">
-            </div>
+            <div class="alert alert-danger text-center d-nne" role="alert" id="myalert">  </div>
 
             <form action="{{ route('booking.submit') }}" method="post" id="booking-form"
                 enctype="multipart/form-data">

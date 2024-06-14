@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background-color: #e4e4e4;
+  background-color: rgb(29, 29, 29);
 }
 #processing.uncomplete .gear-wrapper-1 {
   -webkit-animation: gearEnter1 0.5s ease 1s forwards;
@@ -83,11 +83,11 @@
           animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 1.25s forwards;
 }
 h1 {
-  color: #333;
+  color: #fff;
   font-weight: 400;
 }
 h2 {
-  color: #999;
+  color: #fff;
   font-weight: 300;
 }
 .wrapper {
@@ -417,12 +417,39 @@ h2 {
   }
 }
 
+#error-container {
+            border: 1px solid #ff0000;
+            background-color: #ffe0e0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none; /* Initially hide error container */
+        }
+        #error-message {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        #error-message-ur {
+            color: #ff0000;
+            font-style: italic;
+        }
+
+        div#countdown {
+    font-size: 46px;
+    color: #fff;
+}
 </style>
     <!-- <button id="trigger">Complete/Reverse (debug)</button> -->
-<div id="processing" class="uncomplete center">
+<div id="processing" class="uncomplete center" data-url="{{ route('job.status.check', ['id' => $id]) }}" data-duaRoute="{{ route('book.show')}}">
+    <div id="error-container">
+        <p id="error-message"></p>
+        <p id="error-message-ur"></p>
+    </div>
+
 	<div class="headings">
-		<h1>Payment processing...</h1>
+		<h1>Token processing...</h1>
 		<h2>Please wait</h2>
+        <div id="countdown"></div>
+
 	</div>
 	<div class="wrapper">
 		<div class="gears">
@@ -506,4 +533,89 @@ h2 {
 		</svg>
 	</div>
 </div>
+@endsection
+@section('page-script')
+<script>
+     $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function pingBackend() {
+        var url = $("#processing").attr('data-url');
+        $.ajax({
+            url: url,
+            type: 'post', // or 'POST' depending on your backend setup
+            success: function(response) {
+                window.location.href = response.redirect_url;
+            },
+            error: function(xhr, status, error) {
+
+
+                if (xhr.status === 455) {
+                    var errorMessage = xhr.responseJSON.errors.message;
+                    var errorMessageUr = xhr.responseJSON.errors.message_ur;
+
+                    // Example: Update waiting page with error messages
+                    $('#error-message').text(errorMessage);
+                    $('#error-message-ur').text(errorMessageUr);
+                    $('#error-container').show(); // Show error message container
+                    setTimeout(() => {
+                    var redirectRoute =  $("#processing").attr('data-duaRoute');
+                    window.location.href = redirectRoute;
+
+                    }, 5000);
+                } else {
+                    console.error('Error pinging backend:', error);
+                }
+
+
+
+
+                // Handle errors from the AJAX request
+                console.error('Error pinging backend:', error);
+            }
+        });
+    }
+    setInterval(pingBackend, 5000);
+</script>
+<script>
+    // Set the countdown time to 5 minutes (300 seconds)
+    let countdownTime = 300; // 5 minutes * 60 seconds
+
+    // Get the countdown display element
+    const countdownElement = document.getElementById('countdown');
+
+    // Function to update the countdown timer
+    function updateCountdown() {
+        // Calculate minutes and seconds
+        let minutes = Math.floor(countdownTime / 60);
+        let seconds = countdownTime % 60;
+
+        // Format minutes and seconds to display with leading zeros if necessary
+        let displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        let displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+        // Update the countdown display
+        countdownElement.textContent = `${displayMinutes}:${displaySeconds}`;
+
+        // Decrement countdown time by 1 second
+        countdownTime--;
+
+        // Check if countdown has reached zero
+        if (countdownTime < 0) {
+            clearInterval(intervalId); // Stop the countdown
+            countdownElement.textContent = 'Countdown complete'; // Optional message
+            // You can perform any action here when countdown reaches zero
+        }
+    }
+
+    // Initial call to update countdown
+    updateCountdown();
+
+    // Update the countdown every second (1000 milliseconds)
+    let intervalId = setInterval(updateCountdown, 1000);
+</script>
+
 @endsection

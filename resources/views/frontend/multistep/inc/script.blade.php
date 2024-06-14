@@ -508,18 +508,18 @@
                         if (errors !== undefined) {
                             $("#myalert").html(errors.message).removeClass('d-none');
                             $this.find('b').text('Opps Error..')
-                                setTimeout(() => {
-                                    $this.find('b').text(defaultText)
-                                }, 2000);
-                                $('#modal-loading').modal('hide');
+                            setTimeout(() => {
+                                $this.find('b').text(defaultText)
+                            }, 2000);
+                            $('#modal-loading').modal('hide');
 
                         } else {
                             $("#myalert").html(err.message).removeClass('d-none');
                             $this.find('b').text('Opps Error..')
-                                setTimeout(() => {
-                                    $this.find('b').text(defaultText)
-                                }, 2000);
-                                $('#modal-loading').modal('hide');
+                            setTimeout(() => {
+                                $this.find('b').text(defaultText)
+                            }, 2000);
+                            $('#modal-loading').modal('hide');
 
                         }
 
@@ -571,7 +571,7 @@
                             });
                         }
                         $('#modal-loading').modal('hide');
-                    }else{
+                    } else {
                         $('#modal-loading').modal('hide');
                     }
                     $('#modal-loading').modal('hide');
@@ -1179,40 +1179,41 @@
         });
     });
 
-    $(document).ready(function () {
-	// Progress
-	var progressBar = $(".loading-bar span");
-	var progressAmount = $(".loading-bar").attr("data-progress");
-	progressAmount = 0;
+    $(document).ready(function() {
+        // Progress
+        var progressBar = $(".loading-bar span");
+        var progressAmount = $(".loading-bar").attr("data-progress");
+        progressAmount = 0;
 
-	var loadingDelay = setTimeout(function () {
-		var interval = setInterval(function () {
-			progressAmount += 10;
+        var loadingDelay = setTimeout(function() {
+            var interval = setInterval(function() {
+                progressAmount += 10;
 
-			progressBar.css("width", progressAmount + "%");
+                progressBar.css("width", progressAmount + "%");
 
-			if (progressAmount >= 100) {
-				setTimeout(function () {
-					clearInterval(interval);
-					reverseAnimation();
-				}, 300);
-			}
-		}, 300);
-	}, 2000);
+                if (progressAmount >= 100) {
+                    setTimeout(function() {
+                        clearInterval(interval);
+                        reverseAnimation();
+                    }, 300);
+                }
+            }, 300);
+        }, 2000);
 
-	// Processing over
-	function reverseAnimation() {
-		$("#processing").removeClass("uncomplete").addClass("complete");
-	}
+        // Processing over
+        function reverseAnimation() {
+            $("#processing").removeClass("uncomplete").addClass("complete");
+        }
 
-	// Debug button
-	$("#trigger").on("click", function () {
-		if ($("#processing.uncomplete").length) {
-			$("#processing").removeClass("uncomplete").addClass("complete");
-		} else {
-			$("#processing").removeClass("complete").addClass("uncomplete");
-		}
-	});
-});
-
+        // Debug button
+        $("#trigger").on("click", function() {
+            if ($("#processing.uncomplete").length) {
+                $("#processing").removeClass("uncomplete").addClass("complete");
+            } else {
+                $("#processing").removeClass("complete").addClass("uncomplete");
+            }
+        });
+    });
 </script>
+
+

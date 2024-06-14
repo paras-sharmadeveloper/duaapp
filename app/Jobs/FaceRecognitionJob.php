@@ -103,15 +103,32 @@ class FaceRecognitionJob implements ShouldQueue
                 Log::info("Job dispatched");
 
                 if (empty($userArr)) {
-                    JobStatus::where(['job_id', $this->jobId])->update(['user_inputs' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count])]);
-                } else {
-                    JobStatus::where(['job_id', $this->jobId])->update(['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]);
 
-                    return ;
+
+
+                    JobStatus::where(['job_id' => $this->jobId])->update([
+                        'result' => json_encode(
+                            ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count]
+                        ),
+                        'status' => 'completed'
+                    ]);
+
+
+                } else {
+                    JobStatus::where(['job_id' => $this->jobId])->update([
+                        'result' => json_encode(
+                            ['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]
+                        ),
+                        'status' => 'completed'
+                    ]);
+
                 }
             } catch (\Exception $e) {
 
-                JobStatus::where(['job_id', $this->jobId])->update(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]);
+                JobStatus::where(['job_id' => $this->jobId])->update([
+                    'result' => json_encode(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]),
+                    'status' => 'completed'
+                ]);
 
                 Log::info("aws" . $e->getMessage());
 
@@ -119,7 +136,10 @@ class FaceRecognitionJob implements ShouldQueue
                 // return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
-            JobStatus::where(['job_id', $this->jobId])->update(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey]);
+            JobStatus::where(['job_id' => $this->jobId])->update([
+                     'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey]),
+                     'status' => 'completed'
+            ]);
 
 
             Storage::disk('s3')->put($objectKey, $selfieImage);

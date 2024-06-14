@@ -261,7 +261,7 @@ if (!function_exists('userAllowedRejoin')) {
                     'message' => 'allowed',
                     'message_ur' => 'اجازت دی',
                     'recordAge' => 0,
-                    'days_remaining' =>0,
+                    'days_remaining' => 0,
                 ];
             }
         }

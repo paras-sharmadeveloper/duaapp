@@ -245,6 +245,8 @@ Auth::routes(['register' => false]);
     Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show');
     Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
     Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
+    Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
+
 
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [VisitorBookingController::class, 'getAjax'])->name('booking.ajax');
