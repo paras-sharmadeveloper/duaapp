@@ -225,12 +225,12 @@ class HomeController extends Controller
         $messages = [ ];
 
 
-        $validator = Validator::make($request->all(), $validation, $messages);
+        // $validator = Validator::make($request->all(), $validation, $messages);
 
         $validatedData = $request->validate($vaildation, $messages);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
         $tokenStatus = $this->FinalBookingCheck($request);
 
         // echo "<pre>"; print_r($tokenStatus); die;

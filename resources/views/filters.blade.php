@@ -97,12 +97,8 @@
 
                         @php
                             $image = !empty($visitor->recognized_code) ? getImagefromS3($visitor->recognized_code) : '';
-                            $workingLady = !empty($visitor->working_lady_id)
-                                ? getWorkingLady($visitor->working_lady_id)
-                                : [];
-                            $workingLadySession = !empty($workingLady)
-                                ? getImagefromS3($workingLady->session_image)
-                                : '';
+                            $workingLady = !empty($visitor->working_lady_id) ? getWorkingLady($visitor->working_lady_id) : [];
+                            $workingLadySession = !empty($workingLady)  ? getImagefromS3($workingLady->session_image) : '';
 
                         @endphp
                         <tr>
@@ -112,7 +108,7 @@
                             <td>{{ $visitor->source }}</td>
                             <td><a href="{{ route('booking.status', [$visitor->booking_uniqueid]) }}" target="_blank">
                                     Token Status </a> </td>
-                            <td>{{ $visitor->booking_number }}</td>
+                            <td>{{ $visitor->booking_number }} / {{ $visitor->recognized_code}} </td>
                             <td>
                                 @if ($image)
                                     <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
