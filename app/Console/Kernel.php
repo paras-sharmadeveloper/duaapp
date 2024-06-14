@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,create-future-dates')
-        ->everyMinute()
+        ->everyTwoMinutes()
         ->withoutOverlapping();
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyThirtyMinutes();
 
