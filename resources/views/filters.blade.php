@@ -111,7 +111,7 @@
                             <td>{{ $visitor->booking_number }} / {{ $visitor->recognized_code}} </td>
                             <td>
                                 @if ($image)
-                                    <img src="data:image/jpeg;base64,{{ $image }}" alt="Preview Image"
+                                    <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
                                         style="height: 150px; width:150px;border-radius:20%">
                                 @else
                                     <img src="https://kahayfaqeer-general-bucket.s3.amazonaws.com/na+(1).png"
