@@ -21920,3 +21920,227 @@
 #3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
 #4 {main}
 "} 
+[2024-06-14 07:41:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:42:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:43:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:44:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:45:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:46:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:47:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:48:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:49:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:50:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:51:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:52:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:53:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:54:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:55:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:56:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:57:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:58:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 07:59:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:00:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:01:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:02:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:03:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:04:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:05:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:06:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:07:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2024-06-14 08:08:05] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\wamp64\www\duaapp\app\Helpers.php:12) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\wamp64\\www\\duaapp\\app\\Helpers.php:12) at C:\\wamp64\\www\\duaapp\\app\\Helpers.php:19)
+[stacktrace]
+#0 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(244): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(231): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(255): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:C:\\wamp64\\www\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:254-256}()
+#4 {main}
+"} 

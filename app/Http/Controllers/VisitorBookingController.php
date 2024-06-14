@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+
 class VisitorBookingController extends Controller
 {
     public $venueCountry;
@@ -232,7 +233,7 @@ class VisitorBookingController extends Controller
 
 
 
-         $tokenStatus = $this->FinalBookingCheck($request);
+        $tokenStatus = $this->FinalBookingCheck($request);
         // return response()->json([
         //     'message' => $tokenStatus,
         //     "status" => false,
@@ -257,27 +258,37 @@ class VisitorBookingController extends Controller
 
             $captured_user_image = $request->input('captured_user_image');
             if (!empty($captured_user_image)) {
-                //$myImage = $this->sanitizeBase64($captured_user_image);
+
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 $jobId = (string) Str::uuid();
                 $filename = 'selfie_' . time() . '.jpg';
                 $objectKey = $this->encryptFilename($filename);
                 Storage::disk('s3')->put($objectKey, $myImage);
+                $uploadSuccess = Storage::disk('s3')->put($objectKey, $myImage);
 
-                FaceRecognitionJob::dispatch($jobId, $rejoin ,$objectKey)->onQueue('face-recognition')->onConnection('database');
+                if ($uploadSuccess) {
+                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
 
-                JobStatus::create([
-                    'job_id' => $jobId,
-                    'status' => 'pending',
-                    'user_inputs' => json_encode($userInputs),
-                ]);
+                    JobStatus::create([
+                        'job_id' => $jobId,
+                        'status' => 'pending',
+                        'user_inputs' => json_encode($userInputs),
+                    ]);
 
-                Log::info('Job dispatched with ID: ' . $jobId);
-                return response()->json([
-                    'message' => 'Moving to Waiting Page',
-                    "status" => true,
-                    'redirect_url' => route('booking.waiting', [$jobId]) . '?test=ok'
-                ], 200);
+                    Log::info('Job dispatched with ID: ' . $jobId);
+                    return response()->json([
+                        'message' => 'Moving to Waiting Page',
+                        "status" => true,
+                        'redirect_url' => route('booking.waiting', [$jobId]) . '?test=ok'
+                    ], 200);
+                    // Proceed with further actions
+                } else {
+                    // Handle the case where file upload failed
+                    Log::error('Failed to upload file to S3.'.$myImage);
+                    return response()->json([
+                        'errors' =>  ['message' => 'Unable to upload file '.$objectKey.' ']
+                    ], 422);
+                }
             }
         } else {
             return response()->json([
@@ -311,7 +322,7 @@ class VisitorBookingController extends Controller
         $rejoin = $venuesListArr->rejoin_venue_after;
         if ($duaType == 'dua' && !empty($venuesListArr->reject_dua_id)) {
             $reason  = Reason::find($venuesListArr->reject_dua_id);
-           return [
+            return [
                 'status' => false,
                 'message' => $reason->reason_english,
                 'message_ur' => $reason->reason_urdu,
@@ -319,14 +330,14 @@ class VisitorBookingController extends Controller
         }
         if ($duaType == 'dum' && !empty($venuesListArr->reject_dum_id)) {
             $reason  = Reason::find($venuesListArr->reject_dum_id);
-           return [
+            return [
                 'status' => false,
                 'message' => $reason->reason_english,
                 'message_ur' => $reason->reason_urdu,
             ];
         }
         if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
-           return [
+            return [
                 'status' => false,
                 'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
                 'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
@@ -337,7 +348,7 @@ class VisitorBookingController extends Controller
         $rejoinStatus = userAllowedRejoin($request->input('mobile'), $rejoin);
         if ($rejoinStatus['allowed'] == false) {
 
-           return [
+            return [
                 'status' => false,
                 'message' => $rejoinStatus['message'],
                 'message_ur' => $rejoinStatus['message_ur']
@@ -359,7 +370,7 @@ class VisitorBookingController extends Controller
             if (!$userCountry['allowed']) {
                 session()->forget('phoneCode');
 
-               return [
+                return [
                     'status' => false,
                     'message' => $userCountry['message'],
                     'message_ur' => $userCountry['message_ur'],
@@ -373,8 +384,6 @@ class VisitorBookingController extends Controller
             if ($status['allowed']) {
 
                 session()->forget('phoneCode');
-
-
                 $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
                     ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
                     ->where(['type' => $request->input('duaType')])
@@ -382,7 +391,7 @@ class VisitorBookingController extends Controller
                     ->select(['venue_address_id', 'token_id', 'id'])->first();
 
                 if (!empty($tokenIs)) {
-                   return [
+                    return [
                         'status' =>  true,
                         'tokenId' => $tokenIs->token_id,
                         'slot_id' => $tokenIs->id,
@@ -391,7 +400,7 @@ class VisitorBookingController extends Controller
                     ];
                 } else {
 
-                   return [
+                    return [
                         'status' =>  false,
                         'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
                         'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
@@ -423,5 +432,4 @@ class VisitorBookingController extends Controller
         //  $hashedPassword = Hash::make($filename.now());
         return $key;
     }
-
 }
