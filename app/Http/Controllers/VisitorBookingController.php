@@ -270,7 +270,7 @@ class VisitorBookingController extends Controller
                     //code...
                     $uploadSuccess = Storage::disk('s3')->put($objectKey, $myImage);
                 } catch (\Exception $e) {
-                    Log::error('Failed to upload file to S3.'.$e->getMessage());
+                    // Log::error('Failed to upload file to S3.'.$e->getMessage());
                     return response()->json([
                         'errors' =>  ['message' => 'Unable to upload file '.$objectKey.'   '.$e->getMessage().' ']
                     ], 422);
