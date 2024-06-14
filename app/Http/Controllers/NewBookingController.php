@@ -12,6 +12,12 @@ use Spatie\Permission\Models\Role;
 class NewBookingController extends Controller
 {
     //
+    public $countries;
+    public $timezones;
+    public function __construct() {
+        $this->countries =  new Country;
+        $this->timezones = $this->countries::with('timezones')->get();
+    }
 
     public function index(Request $request, $locale = ''){
         if (!isMobileDevice($request) && env('APP_ENV')!='local') {
@@ -30,9 +36,9 @@ class NewBookingController extends Controller
 
         $therapistRole = Role::where('name', 'therapist')->first();
         $VenueList = Venue::all();
-        $countryList = Country::all();
+        $countryList =  $this->countries->get();
         $therapists = $therapistRole->users;
-        $timezones = Country::with('timezones')->get();
+        $timezones = $this->timezones ;
         $reasons = Reason::where(['type' => 'announcement'])->first();
         return view('frontend.multistep.index', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
     }

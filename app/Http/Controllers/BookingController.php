@@ -416,13 +416,7 @@ class BookingController extends Controller
         if (!file_exists($fontFile)) {
             die('Font file not found: ' . $fontFile);
         }
-        // Jameel-Noori-Nastaleeq-Regular
-        // echo  public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular'); die;
         $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
-
-        // echo "<pre>"; print_r($userBooking);
-
-
 
         if($userBooking->lang == 'en'){
 

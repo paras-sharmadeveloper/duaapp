@@ -70,13 +70,8 @@ function getImagefromS3($imageName)
     }
 
     function getWorkingLady($working_lady_id){
-
         return WorkingLady::findOrFail($working_lady_id);
-
-
     }
-
-
 
     function deleteObject($key){
         $bucket = 'kahayfaqeer-booking-bucket';
@@ -150,15 +145,11 @@ if (!function_exists('TokenBookingAllowed')) {
             ];
 
         }else{
-
-
             return [
                 'allowed' => false,
                 'mytime' => Carbon::now()->format('d M Y h:i A'),
                 'message' =>'Token Booking for Dua / Dum has not started yet. Kindly try again at below mentioned time: '.$venueStartTime->format('d M Y').' at  '.$venueStartTime->format('h:i A').' ('.$timezone.') Time zone',
                 'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔ '.$venueStartTime->format('d-M-Y').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
-
-
             ];
 
         }

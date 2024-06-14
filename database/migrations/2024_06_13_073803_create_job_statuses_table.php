@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('job_id')->unique();
             $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->json('result')->nullable();
+            $table->json('user_inputs')->nullable();
             $table->timestamps();
         });
     }

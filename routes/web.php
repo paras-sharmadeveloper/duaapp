@@ -20,7 +20,8 @@ use App\Http\Controllers\{
     ReasonController,
     DashboardController,
     WorkingLadyController,
-    NewBookingController
+    NewBookingController,
+    VisitorBookingController
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
@@ -242,17 +243,14 @@ Auth::routes(['register' => false]);
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     // Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
     Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show');
-
-
-
-
-
+    Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
+    Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
 
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
-    Route::post('/book/ajax', [HomeController::class, 'getAjax'])->name('booking.ajax');
+    Route::post('/book/ajax', [VisitorBookingController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
     Route::post('/book/timezone/ajax', [HomeController::class, 'getTimzoneAjax'])->name('get-slots-timezone');
-    Route::post('/book/submit', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+
     Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
     Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
     Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');

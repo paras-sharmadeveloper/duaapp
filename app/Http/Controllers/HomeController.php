@@ -20,6 +20,7 @@ use Twilio\Rest\Client;
 use App\Models\WorkingLady;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -222,7 +223,14 @@ class HomeController extends Controller
 
         }
         $messages = [ ];
+
+
+
+
         $validatedData = $request->validate($vaildation, $messages);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
         $tokenStatus = $this->FinalBookingCheck($request);
 
         // echo "<pre>"; print_r($tokenStatus); die;
@@ -392,9 +400,6 @@ class HomeController extends Controller
         }
     }
 
-
-
-
     public function CheckAvilableSolt(Request $request)
     {
         $id = $request->input('id');
@@ -495,85 +500,6 @@ class HomeController extends Controller
             return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
         }
     }
-
-    // protected function IsRegistredAlreadyOLd($selfieImage , $rejoin)
-    // {
-
-    //     $filename = 'selfie_' . time() . '.jpg';
-    //     $objectKey = $this->encryptFilename($filename);
-    //     $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-    //     // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
-
-    //     $userArr = [];
-
-    //     Storage::disk('s3')->put($objectKey, $selfieImage);
-    //     if (!empty($userAll) &&  $rejoin > 0) {
-
-    //         try {
-    //             $rekognition = new RekognitionClient([
-    //                 'version' => 'latest',
-    //                 'region' => env('AWS_DEFAULT_REGION'),
-    //                 'credentials' => [
-    //                     'key' => env('AWS_ACCESS_KEY_ID'),
-    //                     'secret' => env('AWS_SECRET_ACCESS_KEY'),
-    //                 ],
-    //             ]);
-
-
-    //                 foreach ($userAll as $user) {
-    //                     $response = [];
-    //                     if(!empty( $user['recognized_code'])){
-    //                         $bucket ='kahayfaqeer-booking-bucket';
-
-    //                         $response = $rekognition->compareFaces([
-    //                             'SimilarityThreshold' => 90,
-    //                             'SourceImage' => [
-    //                                 'S3Object' => [
-    //                                     'Bucket' => $bucket,
-    //                                     'Name' => $objectKey,
-    //                                 ],
-    //                             ],
-    //                             'TargetImage' => [
-    //                                 'S3Object' => [
-    //                                     'Bucket' => $bucket,
-    //                                     'Name' => $user['recognized_code'],
-    //                                 ],
-    //                             ],
-    //                         ]);
-    //                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-
-    //                             if (count($faceMatches) > 0) {
-
-    //                                 foreach ($faceMatches as $match) {
-    //                                     if ($match['Similarity'] >= 80) {
-    //                                         $userArr[] = $user['id'];
-    //                                     }
-    //                                 }
-    //                             }
-    //                     }
-
-
-
-    //                 }
-
-    //             if (empty($userArr)) {
-
-    //                 return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
-    //             } else {
-    //                 return ['recognized_code' => $objectKey , 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں' , 'status' => false];
-    //             }
-    //         } catch (\Exception $e) {
-    //             Log::info("aws".$e->getMessage());
-
-    //             return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.', 'status' => false , 'recognized_code' => $objectKey];
-    //             // return ['message' => $e->getMessage(), 'status' => false];
-    //         }
-    //     } else {
-    //         Storage::disk('s3')->put($objectKey, $selfieImage);
-    //         return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
-    //     }
-    // }
-
 
 
 
@@ -1048,14 +974,13 @@ class HomeController extends Controller
 
             // return date('Y-m-d');
             $currentTimezone = $request->input('timezone', 'America/New_York');
-            $duaType = $request->input('duaType');
-            $selectionType = $request->input('selection_type');
+            // $duaType = $request->input('duaType');
+            // $selectionType = $request->input('selection_type');
             // $duaType = $request->input('duaType');
             $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
             $today = getCurrentContryTimezone($request->input('id'));
             $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
                 ->where('city',  $request->input('optional'))
-                //->where('venue_date','LIKE',"%{$today}%")
                 ->whereDate('venue_date', $today)
                 ->orderBy('venue_date', 'asc')
                 ->first();
@@ -1107,116 +1032,6 @@ class HomeController extends Controller
                 'status' => true
 
             ]);
-
-
-
-            $isVisible = false;
-
-            // if ($duaType == 'dua' && !empty($venuesListArr->reject_dua_id)) {
-            //     $reason  = Reason::find($venuesListArr->reject_dua_id);
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => $reason->reason_english,
-            //         'message_ur' => $reason->reason_urdu,
-            //         'se' =>  $selectionType
-
-            //     ]);
-            // }
-            // if ($duaType == 'dum' && !empty($venuesListArr->reject_dum_id)) {
-            //     $reason  = Reason::find($venuesListArr->reject_dum_id);
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => $reason->reason_english,
-            //         'message_ur' => $reason->reason_urdu,
-            //         'se' =>  $selectionType
-
-            //     ]);
-            // }
-
-
-            // if (!empty($venuesListArr) && $venuesListArr->status == 'inactive') {
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => 'For some reason currently this venue not accepting bookings. Please try after some time. Thank You',
-            //         'message_ur' => 'کسی وجہ سے فی الحال یہ مقام بکنگ قبول نہیں کر رہا ہے۔ تھوڑی دیر بعد کوشش کریں۔ شکریہ',
-
-            //     ]);
-            // }
-
-            // if ($venuesListArr) {
-
-            //     $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
-            //     $phoneCode = session('phoneCode');
-            //     $country = Country::where('phonecode', $phoneCode)->first();
-            //     $venue_available_country =  json_decode($venuesListArr->venue_available_country);
-            //     $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
-
-            //     if (!$userCountry['allowed']) {
-            //         session()->forget('phoneCode');
-
-
-            //         return response()->json([
-            //             'status' => false,
-            //             'message' => $userCountry['message'],
-            //             'message_ur' => $userCountry['message_ur'],
-            //             'phoneCode' => $phoneCode
-
-            //         ]);
-            //     }
-
-            //     //  $status = isAllowedTokenBooking($venuesListArr->venue_date, $venuesListArr->slot_appear_hours , $venuesListArr->timezone);
-
-            //     if ($status['allowed']) {
-
-            //         session()->forget('phoneCode');
-
-
-            //         $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-            //             ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-            //             ->where(['type' => $request->input('duaType')])
-            //             ->orderBy('id', 'ASC')
-            //             ->select(['venue_address_id', 'token_id', 'id'])->first();
-
-            //         if (!empty($tokenIs)) {
-            //             return response()->json([
-            //                 'status' =>  true,
-            //                 // 'token_id' => $tokenIs->token_id,
-            //                 // 'slot_id' => $tokenIs->id,
-            //                 'venue_address_id' => $venuesListArr->id,
-            //                 'duaType' => $request->input('duaType')
-
-            //                 //   'hours_until_open' => $status['hours_until_open'],
-            //                 // 'slotsAppearBefore' => $status['slotsAppearBefore'],
-            //             ]);
-            //         } else {
-            //             return response()->json([
-            //                 'status' =>  false,
-            //                 'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-            //                 'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-            //                 //  'message' => "There is no token avilable",
-            //                 'dt' => $request->input('duaType'),
-            //                 'dtd' => $venuesListArr->id,
-            //                 //   'hours_until_open' => $status['hours_until_open'],
-            //                 //   'slotsAppearBefore' => $status['slotsAppearBefore'],
-            //             ]);
-            //         }
-            //     } else {
-
-            //         return response()->json([
-            //             'status' => false,
-            //             'message' => $status['message'],
-            //             'message_ur' => $status['message_ur'],
-
-            //         ]);
-            //     }
-            // } else {
-            //     return response()->json([
-            //         'status' =>  false,
-            //         'message' => 'There is no Dua / Dum token booking available for today. Please try again later.',
-            //         'message_ur' => 'آج کے لیے کوئی دعا/دم ٹوکن بکنگ دستیاب نہیں ہے۔ براہ کرم کچھ دیر بعد کوشش کریں.',
-
-            //     ]);
-            // }
         }
 
 

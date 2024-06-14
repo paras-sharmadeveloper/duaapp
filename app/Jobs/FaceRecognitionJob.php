@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
 use App\Models\{Vistors};
+
 class FaceRecognitionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -32,13 +33,11 @@ class FaceRecognitionJob implements ShouldQueue
      */
     public function handle()
     {
-       $rejoin = $this->rejoin;
-       $selfieImage = $this->selfieImage;
+        $rejoin = $this->rejoin;
+        $selfieImage = $this->selfieImage;
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
-        sleep(5);
-         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-       // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+        $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         $userArr = [];
         $count = 0;
         Storage::disk('s3')->put($objectKey, $selfieImage);
