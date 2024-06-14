@@ -80,7 +80,7 @@ class FaceRecognitionJob implements ShouldQueue
                             'Name' => $objectKey,
                         ],
                     ],
-                    // 'TargetImage' => $targetImages,
+                    'TargetImage' => $targetImages,
                     'TargetFaces' => $targetImages,
                 ]);
 
@@ -94,8 +94,6 @@ class FaceRecognitionJob implements ShouldQueue
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
 
 
-
-                Log::info("Job dispatched new");
 
                 if (empty($userArr)) {
 
