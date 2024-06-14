@@ -61,10 +61,10 @@ function getImagefromS3($imageName)
 
             $imageData = $imageObject['Body'];
 
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
 
-            throw $th;
-            $imageData = '';
+
+            $imageData = $e->getMessage();
         }
 
         return $imageData;

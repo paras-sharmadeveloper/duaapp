@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Storage;
 class VisitorBookingController extends Controller
 {
     public $venueCountry;
@@ -257,11 +257,14 @@ class VisitorBookingController extends Controller
 
             $captured_user_image = $request->input('captured_user_image');
             if (!empty($captured_user_image)) {
-                $myImage = $this->sanitizeBase64($captured_user_image);
-                // $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+                //$myImage = $this->sanitizeBase64($captured_user_image);
+                $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
                 $jobId = (string) Str::uuid();
+                $filename = 'selfie_' . time() . '.jpg';
+                $objectKey = $this->encryptFilename($filename);
+                Storage::disk('s3')->put($objectKey, $myImage);
 
-                FaceRecognitionJob::dispatch($jobId, $myImage, $rejoin)->onQueue('face-recognition')->onConnection('database');
+                FaceRecognitionJob::dispatch($jobId, $rejoin ,$objectKey)->onQueue('face-recognition')->onConnection('database');
 
                 JobStatus::create([
                     'job_id' => $jobId,
@@ -413,4 +416,12 @@ class VisitorBookingController extends Controller
         }
         return $message;
     }
+
+    protected function encryptFilename($filename)
+    {
+        $key = hash('sha256', date('Y-m-d') . $filename . now());
+        //  $hashedPassword = Hash::make($filename.now());
+        return $key;
+    }
+
 }

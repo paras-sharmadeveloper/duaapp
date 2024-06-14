@@ -21,11 +21,13 @@ class FaceRecognitionJob implements ShouldQueue
     public $selfieImage;
     public $rejoin;
     public $jobId;
-    public function __construct($jobId , $selfieImage, $rejoin)
+    public $objectKey;
+    public function __construct($jobId ,$rejoin,$objectKey)
     {
-        $this->selfieImage = $selfieImage;
+        // $this->selfieImage = $selfieImage;
         $this->rejoin = $rejoin;
         $this->jobId = $jobId;
+        $this->objectKey = $objectKey;
         //
     }
 
@@ -36,13 +38,14 @@ class FaceRecognitionJob implements ShouldQueue
     {
         Log::info("Job dispatched ff");
         $rejoin = $this->rejoin;
-        $selfieImage = $this->selfieImage;
-        $filename = 'selfie_' . time() . '.jpg';
-        $objectKey = $this->encryptFilename($filename);
+        // $selfieImage = $this->selfieImage;
+        $objectKey = $this->objectKey;
+        // $filename = 'selfie_' . time() . '.jpg';
+        // $objectKey = $this->encryptFilename($filename);
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
         $userArr = [];
         $count = 0;
-        Storage::disk('s3')->put($objectKey, $selfieImage);
+
         if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
@@ -108,7 +111,7 @@ class FaceRecognitionJob implements ShouldQueue
 
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
-                            ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey, 'count' => $count]
+                            ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey, 'count' => $count]
                         ),
                         'status' => 'completed'
                     ]);
@@ -117,7 +120,7 @@ class FaceRecognitionJob implements ShouldQueue
                 } else {
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
-                            ['recognized_code' => $objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]
+                            ['recognized_code' => $this->objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]
                         ),
                         'status' => 'completed'
                     ]);
@@ -132,18 +135,18 @@ class FaceRecognitionJob implements ShouldQueue
 
                 Log::info("aws" . $e->getMessage());
 
-                // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $objectKey];
+                // return ['message' => 'We are encounter some error at application side please report this to admin. Or try after some time.',   'status' => false , 'recognized_code' => $this->objectKey];
                 // return ['message' => $e->getMessage(), 'status' => false];
             }
         } else {
             JobStatus::where(['job_id' => $this->jobId])->update([
-                     'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey]),
+                     'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey]),
                      'status' => 'completed'
             ]);
 
 
-            Storage::disk('s3')->put($objectKey, $selfieImage);
-            // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $objectKey];
+            // Storage::disk('s3')->put($this-objectKey, $selfieImage);
+            // return ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey];
         }
     }
 
