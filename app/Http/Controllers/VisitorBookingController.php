@@ -264,7 +264,18 @@ class VisitorBookingController extends Controller
                 $filename = 'selfie_' . time() . '.jpg';
                 $objectKey = $this->encryptFilename($filename);
                 Storage::disk('s3')->put($objectKey, $myImage);
-                $uploadSuccess = Storage::disk('s3')->put($objectKey, $myImage);
+
+
+                try {
+                    //code...
+                    $uploadSuccess = Storage::disk('s3')->put($objectKey, $myImage);
+                } catch (\Exception $e) {
+                    Log::error('Failed to upload file to S3.'.$e->getMessage());
+                    return response()->json([
+                        'errors' =>  ['message' => 'Unable to upload file '.$objectKey.'   '.$e->getMessage().' ']
+                    ], 422);
+                }
+
 
                 if ($uploadSuccess) {
                     FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
@@ -286,7 +297,7 @@ class VisitorBookingController extends Controller
                     // Handle the case where file upload failed
                     Log::error('Failed to upload file to S3.'.$myImage);
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file '.$objectKey.' ']
+                        'errors' =>  ['message' => 'Unable to upload file adasd '.$objectKey.' ','d' => $uploadSuccess ]
                     ], 422);
                 }
             }
