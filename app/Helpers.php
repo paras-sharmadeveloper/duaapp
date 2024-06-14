@@ -62,7 +62,8 @@ function getImagefromS3($imageName)
             $imageData = $imageObject['Body'];
 
         } catch (\Throwable $th) {
-            //throw $th;
+
+            throw $th;
             $imageData = '';
         }
 
