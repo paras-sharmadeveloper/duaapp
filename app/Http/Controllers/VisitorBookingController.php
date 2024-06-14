@@ -290,7 +290,7 @@ class VisitorBookingController extends Controller
                     return response()->json([
                         'message' => 'Moving to Waiting Page',
                         "status" => true,
-                        'redirect_url' => route('booking.waiting', [$jobId]) . '?test=ok'
+                        'redirect_url' => route('booking.waiting', [$jobId]) . '?test='.$objectKey
                     ], 200);
                     // Proceed with further actions
                 } else {
