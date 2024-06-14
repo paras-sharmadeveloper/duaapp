@@ -80,12 +80,7 @@ class FaceRecognitionJob implements ShouldQueue
                             'Name' => $objectKey,
                         ],
                     ],
-                    'TargetImage' => [
-                        'S3Object' => [
-                            'Bucket' => $bucket,
-                            'Name' =>  $targetImages[0]['S3Object']['Name'],
-                        ],
-                    ],
+                    // 'TargetImage' => $targetImages,
                     'TargetFaces' => $targetImages,
                 ]);
 
@@ -100,7 +95,7 @@ class FaceRecognitionJob implements ShouldQueue
 
 
 
-                Log::info("Job dispatched");
+                Log::info("Job dispatched new");
 
                 if (empty($userArr)) {
 
