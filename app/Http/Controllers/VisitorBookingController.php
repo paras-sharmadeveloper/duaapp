@@ -96,6 +96,7 @@ class VisitorBookingController extends Controller
                                 'status' => false,
                                 'refresh' => true,
                                 'message' => trans('messages.slot_id'),
+                                'message_ur' => 'یہ ٹوکن اس سیکنڈ میں کسی اور نے بک کروایا ہے۔ ٹوکن دوبارہ بک کرنے کے لیے براہ کرم اپنے براؤزر کو ریفریش کریں۔ ایک ہی وقت میں سینکڑوں دوسرے لوگ بھی ٹوکن بک کرنے کی کوشش کر رہے ہیں۔ دوسرا بک کرنے کے لیے براہ کرم اپنی اسکرین ریفریش کریں۔'
                             ]
                         ], 455);
 
