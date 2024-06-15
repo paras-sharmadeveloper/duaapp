@@ -265,6 +265,13 @@ class VisitorBookingController extends Controller
                 $objectKey = $this->encryptFilename($filename);
                 Storage::disk('s3')->put($objectKey, $myImage);
 
+                // Upload to local directory with today's date folder
+                $localDirectory = 'sessionImages/' . date('d-m-Y');
+                if (!Storage::disk('public_uploads')->exists($localDirectory)) {
+                    Storage::disk('public_uploads')->makeDirectory($localDirectory);
+                }
+                Storage::disk('public_uploads')->put($localDirectory . '/' . $filename, $myImage);
+
 
                 try {
                     //code...
@@ -272,7 +279,7 @@ class VisitorBookingController extends Controller
                 } catch (\Exception $e) {
                     // Log::error('Failed to upload file to S3.'.$e->getMessage());
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file '.$objectKey.'   '.$e->getMessage().' ']
+                        'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
                     ], 422);
                 }
 
@@ -290,14 +297,14 @@ class VisitorBookingController extends Controller
                     return response()->json([
                         'message' => 'Moving to Waiting Page',
                         "status" => true,
-                        'redirect_url' => route('booking.waiting', [$jobId]) . '?test='.$objectKey
+                        'redirect_url' => route('booking.waiting', [$jobId]) . '?test=' . $objectKey
                     ], 200);
                     // Proceed with further actions
                 } else {
                     // Handle the case where file upload failed
                     // Log::error('Failed to upload file to S3.'.$myImage);
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file adasd '.$objectKey.' ','d' => $uploadSuccess ]
+                        'errors' =>  ['message' => 'Unable to upload file adasd ' . $objectKey . ' ', 'd' => $uploadSuccess]
                     ], 422);
                 }
             }
