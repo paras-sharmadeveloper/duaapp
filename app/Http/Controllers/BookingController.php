@@ -65,8 +65,17 @@ class BookingController extends Controller
         //    $databaseImage = '';
         }
         $UserImage = '';
+        $localImage = '';
+        $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
+        if (!Storage::disk('public_uploads')->exists($localImageStroage)) {
+            $localImage ='/'.$localImageStroage;
+
+        }
+
+
+
         $timezone = $visitor->venueSloting->venueAddress->timezone;
-        if(!empty($visitor->recognized_code)){
+        if(!empty($visitor->recognized_code) && empty($localImage)){
             $UserImage = getImagefromS3($visitor->recognized_code);
         }
         $currentTime = Carbon::parse(date('Y-m-d H:i:s'));
@@ -75,7 +84,7 @@ class BookingController extends Controller
         $startAt = Carbon::parse($now->format('Y-m-d H:i:s'));
         $endAt = Carbon::parse($now->format('Y-m-d H:i:s'));
 
-        $printToken = view('frontend.print-token',compact('visitor','UserImage','workingLady','databaseImage'))->render();
+        $printToken = view('frontend.print-token',compact('visitor','UserImage','workingLady','databaseImage','localImage'))->render();
 
         if($visitor->user_status == 'admitted' && $visitor->is_available == 'confirmed') {
             return response()->json(['success' => false , 'message' => 'User already Confirmed and Already Printed','printToken' => $printToken ,'print' => false ]);
