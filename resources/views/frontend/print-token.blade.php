@@ -434,10 +434,10 @@
                 <label class="fw-bold"> Token Session Image </label>
                 @if(!empty($UserImage))
 
-                <img src="data:image/jpeg;base64,{{ base64_encode($UserImage) }}" alt="Preview Image"
+                <img src="data:image/jpeg;base64,{{ base64_encode($UserImage) }}" alt="Preview Image awds"
                     style="height: 150px; width:150px;border-radius:20%">
                 @elseif(!empty($localImage))
-                <img src="{{ $localImage }}" alt="Preview Image"
+                <img src="{{ $localImage }}" alt="Preview Image Local iMh"
                 style="height: 150px; width:150px;border-radius:20%">
                 @else
                 <img src="https://kahayfaqeer-general-bucket.s3.amazonaws.com/na+(1).png" alt="Preview Image"
