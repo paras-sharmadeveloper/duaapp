@@ -108,7 +108,10 @@ Route::get('/dispatch', function () {
 });
 
 
-
+Route::get('/retry-queue', function () {
+    Artisan::call('retry:queue all');
+    return 'Scheduled task triggered successfully.';
+});
 
 Route::get('/run/queue', function () {
     Artisan::call('migrate:fresh'); // Replace with the name of your custom command
