@@ -7,10 +7,7 @@ use App\Models\{Vistors, VenueSloting, VenueAddress, Ipinformation, Timezone , W
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
-
 use Illuminate\Support\Facades\App;
-use Mpdf\Mpdf;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Aws\S3\S3Client;
 
 
@@ -68,8 +65,7 @@ class BookingController extends Controller
         $localImage = '';
         $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
         if (!Storage::disk('public_uploads')->exists($localImageStroage)) {
-            $localImage =(!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
-
+            $localImage = (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
         }
 
 
@@ -355,7 +351,6 @@ class BookingController extends Controller
             $message = "Not found.";
             return view('frontend.not-found', compact('message'));
         }
-
         // Get the user's slot time
         $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
 
@@ -418,85 +413,6 @@ class BookingController extends Controller
 
 
 
-    public function generatePDF($id)
-    {
-
-        $fontFile = public_path('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf');
-        if (!file_exists($fontFile)) {
-            die('Font file not found: ' . $fontFile);
-        }
-        $userBooking = Vistors::where('booking_uniqueid', $id)->get()->first();
-
-        if($userBooking->lang == 'en'){
-
-            $mpdf = new Mpdf([
-              //  'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-                // 'fontdata' => [
-                //     'urdu' => [
-                //         'R' => 'CalibriRegular.ttf', // Replace with the actual font file name
-                //         'I' => 'CalibriRegular.ttf',
-                //     ],
-                // ],
-                'format' => 'A4',
-            ]);
-
-        }else{
-            // echo url('assets/fonts/Jameel-Noori-Nastaleeq-Regular.ttf'); die;
-            // echo public_path('assets/fonts/'); die;
-            $mpdf = new Mpdf([
-                'fontDir' => public_path('assets/fonts/'), // Path to the directory containing Urdu font files
-                'mode' => 'utf-8',
-                'fontdata' => [
-                    'urdu' => [
-                        'R' => 'Jameel-Noori-Nastaleeq-Regular.ttf', // Replace
-                    ],
-                ],
-                'format' => 'A4',
-                'mirrorMargins' => true
-            ]);
-            // $mpdf->SetDirectionality('rtl');
-
-        }
-
-
-
-
-        //  echo "<pre>"; print_r($mpdf); die;
-
-
-        // Get the user's slot time
-        $userSlot = VenueSloting::where(['id' => $userBooking->slot_id])->get()->first();
-
-        $userSlotTime = $userSlot->slot_time;
-        // Assuming 'time' is the column where you store the slot time
-        $venueAddress = VenueAddress::find($userSlot->venue_address_id);
-        // Calculate the start of slots
-        $startTimemrg = $venueAddress->slot_starts_at_morning;
-
-
-        // Count bookings from the start time until the user's slot time
-
-        if (App::environment('production')) {
-            $LogoUrl = url('/assets/theme/img/logo.png');
-        } else {
-            $LogoUrl = public_path('assets/theme/img/logo.png');
-        }
-        App::setLocale($userBooking->lang);
-        $translations = trans('messages');
-
-
-        $logoDataUri = 'data:image/png;base64,' . base64_encode(file_get_contents($LogoUrl));
-        $fileName = $venueAddress->venue_date . '-' . $venueAddress->city . '-Token' . $userBooking->booking_number . '.pdf';
-        $bookingStatus = route('booking.status', [$userBooking->booking_uniqueid]);
-        $bookUrl = route('book.show');
-        $eventDate =  \Carbon\Carbon::parse($venueAddress->venue_date)->format('l');
-        $venueDateTime =  date('d-M-Y', strtotime($venueAddress->venue_date));
-        $imageUrl = $userBooking->qr_code_image;
-        $html = $this->PdfHtml($logoDataUri, $imageUrl, $bookingStatus, $bookUrl,   $eventDate, $venueDateTime, $venueAddress, $userBooking ,$translations);
-
-        $mpdf->WriteHtml($html);
-        $mpdf->Output($fileName, 'D');
-    }
 
 
 
