@@ -96,9 +96,6 @@ class FaceRecognitionJob implements ShouldQueue
 
 
                 if (empty($userArr)) {
-
-
-
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
                             ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey, 'count' => $count]

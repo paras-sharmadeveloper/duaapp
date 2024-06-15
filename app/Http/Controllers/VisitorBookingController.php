@@ -270,7 +270,7 @@ class VisitorBookingController extends Controller
                 if (!Storage::disk('public_uploads')->exists($localDirectory)) {
                     Storage::disk('public_uploads')->makeDirectory($localDirectory);
                 }
-                Storage::disk('public_uploads')->put($localDirectory . '/' . $filename, $myImage);
+                Storage::disk('public_uploads')->put($localDirectory . '/' . $objectKey, $myImage);
 
 
                 try {
