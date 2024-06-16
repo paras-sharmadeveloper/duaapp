@@ -96,7 +96,13 @@
                     @foreach ($visitors as $visitor)
 
                         @php
-                            $image = !empty($visitor->recognized_code) ? getImagefromS3($visitor->recognized_code) : '';
+                            $localImage = '';
+                            $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
+                            if (!Storage::disk('public_uploads')->exists($localImageStroage)) {
+                                $localImage = (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
+                            }
+                            $image = (!empty($visitor->recognized_code) &&  empty($localImage)) ? getImagefromS3($visitor->recognized_code) : '';
+
                             $workingLady = !empty($visitor->working_lady_id) ? getWorkingLady($visitor->working_lady_id) : [];
                             $workingLadySession = !empty($workingLady)  ? getImagefromS3($workingLady->session_image) : '';
 
@@ -113,7 +119,10 @@
                                 @if ($image)
                                     <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
                                         style="height: 150px; width:150px;border-radius:20%">
-                                @else
+                                    @elseif(!empty($localImage))
+                                    <img src="{{ $loclpath . $localImage }}" alt="Preview Image Local iMh"
+                                    style="height: 150px; width:150px;border-radius:20%">
+                                    @else
                                     <img src="https://kahayfaqeer-general-bucket.s3.amazonaws.com/na+(1).png"
                                         alt="Preview Image" style="height: 150px; width:150px;border-radius:20%">
                                 @endif
