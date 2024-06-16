@@ -32,7 +32,7 @@ class VisitorBookingController extends Controller
     public function checkStatusForJob($jobId)
     {
         $jobStatus = JobStatus::where(['job_id' => $jobId])->get()->first();
-        if (!empty($jobStatus) && $jobStatus['jobStatus'] == 'completed' ) {
+        if (!empty($jobStatus) && $jobStatus['status'] == 'completed' ) {
             $result = $jobStatus['result'];
             // $result = json_decode($jobStatus['result']);
             if ($result['status']) {
@@ -140,7 +140,7 @@ class VisitorBookingController extends Controller
                     ]
                 ], 455);
             }
-        }else if($jobStatus['jobStatus'] == 'error'){
+        }else if($jobStatus['status'] == 'error'){
             return response()->json([
                 'errors' => [
                     'status' => false,
