@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\{Venue, Reason , VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
+
+use App\Models\{Venue, Reason, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,13 +15,15 @@ class NewBookingController extends Controller
     //
     public $countries;
     public $timezones;
-    public function __construct() {
+    public function __construct()
+    {
         $this->countries =  new Country;
         $this->timezones = $this->countries::with('timezones')->get();
     }
 
-    public function index(Request $request, $locale = ''){
-        if (!isMobileDevice($request) && env('APP_ENV')!='local') {
+    public function index(Request $request, $locale = '')
+    {
+        if (!isMobileDevice($request) && env('APP_ENV') != 'local') {
             return abort('403');
         }
         if ($locale) {
@@ -28,7 +31,7 @@ class NewBookingController extends Controller
         } else {
             App::setLocale('en');
         }
-        $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+        $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
 
 
 
@@ -38,26 +41,27 @@ class NewBookingController extends Controller
         $VenueList = Venue::all();
         $countryList =  $this->countries->get();
         $therapists = $therapistRole->users;
-        $timezones = $this->timezones ;
+        $timezones = $this->timezones;
         $reasons = Reason::where(['type' => 'announcement'])->first();
         return view('frontend.multistep.index', compact('VenueList', 'countryList', 'therapists', 'timezones', 'locale', 'reasons'));
     }
 
-    public function ShowFilterPage(Request $request){
+    public function ShowFilterPage(Request $request)
+    {
         $visitors = [];
-        if($request->input('date')){
-            $visitors =  Vistors::whereDate('created_at',$request->input('date'))->get();
+        if ($request->input('date')) {
+            $visitors =  Vistors::whereDate('created_at', $request->input('date'))->get();
         }
-        return view('filters',compact('visitors'));
+        return view('filters', compact('visitors'));
     }
 
-    public function StatusLead(Request $request,$id){
+    public function StatusLead(Request $request, $id)
+    {
 
         Vistors::find($id)->update([
             'token_status' => $request->input('status')
         ]);
         return redirect()->back()->with(['success' => 'Status updated']);
-
     }
 
     public function handleStatusUpdate(Request $request)
@@ -67,8 +71,8 @@ class NewBookingController extends Controller
         $status = $request->input('MessageStatus');
 
 
-        Log::info('messageSid:'.$messageSid);
-        Log::info('Status:'.$status);
+        Log::info('messageSid:' . $messageSid);
+        Log::info('Status:' . $status);
 
         // Update your database or take any other necessary action based on the status update
         // Example: Update the message status in the database
@@ -82,5 +86,11 @@ class NewBookingController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
+    public function showLogs()
+    {
+        $logFile = storage_path('logs/laravel.log'); // Path to your log file
+        $logs = file_get_contents($logFile);
 
+        return view('frontend.server-logs', ['logs' => $logs]);
+    }
 }

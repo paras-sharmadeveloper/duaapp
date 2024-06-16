@@ -296,6 +296,14 @@ S
             </a>
           </li>
 
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('admin.logs') }}" class="{{ ( $currentPath == 'admin.logs') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Server Logs</span>
+            </a>
+          </li>
+
+
+
 
         </ul>
       </li>
