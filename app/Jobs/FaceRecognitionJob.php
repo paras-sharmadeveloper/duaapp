@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
 use App\Models\{Vistors, JobStatus};
+use Aws\Exception\AwsException;
 use GuzzleHttp\Promise;
 
 class FaceRecognitionJob implements ShouldQueue
@@ -43,7 +44,7 @@ class FaceRecognitionJob implements ShouldQueue
         $objectKey = $this->objectKey;
         // $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
         $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        Log::info("UserAll5" . json_encode($userAll));
+        Log::info("UserAll6" . json_encode($userAll));
         $userArr = [];
         $count = 0;
 
@@ -143,8 +144,9 @@ class FaceRecognitionJob implements ShouldQueue
                         'status' => 'completed'
                     ]);
                 }
-            } catch (\Exception $e) {
-                Log::info("Error In Aws Side" . $e->getMessage());
+            } catch (AwsException  $e) {
+
+                Log::info("Error In Aws Side1" . $e->getMessage());
                 JobStatus::where(['job_id' => $this->jobId])->update([
                     'result' => json_encode(['message' => $e->getMessage(), 'status' => false, 'count' => $count]),
                     'status' => 'error'
