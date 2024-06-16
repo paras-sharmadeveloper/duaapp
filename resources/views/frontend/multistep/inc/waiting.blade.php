@@ -578,11 +578,12 @@ h2 {
             }
         });
     }
-    setInterval(pingBackend, 5000);
+    setInterval(pingBackend, 8000);
 </script>
 <script>
     // Set the countdown time to 5 minutes (300 seconds)
-    let countdownTime = 300; // 5 minutes * 60 seconds
+    // let countdownTime = 300; // 5 minutes * 60 seconds
+    let countdownTime = 600; // 5 minutes * 60 seconds
 
     // Get the countdown display element
     const countdownElement = document.getElementById('countdown');
@@ -606,7 +607,11 @@ h2 {
         // Check if countdown has reached zero
         if (countdownTime < 0) {
             clearInterval(intervalId); // Stop the countdown
-            countdownElement.textContent = 'Countdown complete'; // Optional message
+            countdownElement.textContent = 'Process Done'; // Optional message
+
+            $('#error-message').text("We are sorry, we are experience very high traffic to your token may not book Please try again");
+            $('#error-message-ur').text('ہم معذرت خواہ ہیں، ہمیں آپ کے ٹوکن پر بہت زیادہ ٹریفک کا سامنا ہے، ہو سکتا ہے بک نہ ہو، براہ کرم دوبارہ کوشش کریں۔');
+            $('#error-container').show();
             // You can perform any action here when countdown reaches zero
         }
     }
