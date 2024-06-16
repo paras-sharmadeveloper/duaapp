@@ -43,7 +43,8 @@ class FaceRecognitionJob implements ShouldQueue
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
         // $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+      //   $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+        $userAll = array("00471ac3910d5720780d5e10f1109f96a7d30318085312f86ad12bc0c5b8540c", "00044efc8a6b1a6b3d0ddfb24b60ae7d07abd0403c2d76b8b131cf10610bf006", "0026cc08e134cf595b447616f514b160c995e013aef49ffa5d01f622cd4180d3", "002c818874124e502f6f61c6c2f3f73e6057c14bad37e4dcb31cbd960fa0fb86", "00471ac3910d5720780d5e10f1109f96a7d30318085312f86ad12bc0c5b8540c", "00044efc8a6b1a6b3d0ddfb24b60ae7d07abd0403c2d76b8b131cf10610bf006", "0026cc08e134cf595b447616f514b160c995e013aef49ffa5d01f622cd4180d3", "002c818874124e502f6f61c6c2f3f73e6057c14bad37e4dcb31cbd960fa0fb86", "00471ac3910d5720780d5e10f1109f96a7d30318085312f86ad12bc0c5b8540c", "00044efc8a6b1a6b3d0ddfb24b60ae7d07abd0403c2d76b8b131cf10610bf006", "0026cc08e134cf595b447616f514b160c995e013aef49ffa5d01f622cd4180d3", "002c818874124e502f6f61c6c2f3f73e6057c14bad37e4dcb31cbd960fa0fb86", "00471ac3910d5720780d5e10f1109f96a7d30318085312f86ad12bc0c5b8540c", "00044efc8a6b1a6b3d0ddfb24b60ae7d07abd0403c2d76b8b131cf10610bf006", "0026cc08e134cf595b447616f514b160c995e013aef49ffa5d01f622cd4180d3", "002c818874124e502f6f61c6c2f3f73e6057c14bad37e4dcb31cbd960fa0fb86");
         Log::info("UserAll6" . json_encode($userAll));
         $userArr = [];
         $count = 0;
@@ -80,7 +81,8 @@ class FaceRecognitionJob implements ShouldQueue
                         'TargetImage' =>[
                             'S3Object' => [
                                 'Bucket' => $bucket,
-                                'Name' => $user['recognized_code'],
+                                // 'Name' => $user['recognized_code'],
+                                'Name' => $user,
                             ],
                         ],
                     ]);
@@ -88,7 +90,8 @@ class FaceRecognitionJob implements ShouldQueue
                     $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
                     foreach ($faceMatches as $match) {
                         if ($match['Similarity'] >= 80) {
-                            $userArr[] = $user['id'];
+                            // $userArr[] = $user['id'];
+                            $userArr[] = $user;
                         }
                     }
 
