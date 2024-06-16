@@ -31,8 +31,8 @@ class VisitorBookingController extends Controller
 
     public function checkStatusForJob($jobId)
     {
-        $jobStatus = JobStatus::where(['job_id' => $jobId, 'status' => 'completed'])->get()->first();
-        if (!empty($jobStatus)) {
+        $jobStatus = JobStatus::where(['job_id' => $jobId])->get()->first();
+        if (!empty($jobStatus) && $jobStatus['jobStatus'] == 'completed' ) {
             $result = $jobStatus['result'];
             // $result = json_decode($jobStatus['result']);
             if ($result['status']) {
@@ -140,8 +140,16 @@ class VisitorBookingController extends Controller
                     ]
                 ], 455);
             }
+        }else if($jobStatus['jobStatus'] == 'error'){
+            return response()->json([
+                'errors' => [
+                    'status' => false,
+                    'refresh' => true,
+                    'message' => 'There Might be some issue at backend please try after some time.',
+                    'message_ur' => 'بیک اینڈ پر کچھ مسئلہ ہو سکتا ہے براہ کرم کچھ دیر بعد کوشش کریں۔',
+                ]
+            ], 455);
         } else {
-
             return response()->json([
                 'status' => false,
                 'message' => 'Job not Completed',
