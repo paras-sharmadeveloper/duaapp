@@ -41,9 +41,9 @@ class FaceRecognitionJob implements ShouldQueue
         Log::info("Job dispatched ff");
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
-        // $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-        $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
-        Log::info("UserAll3" . json_encode($userAll));
+        // $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+        $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+        Log::info("UserAll5" . json_encode($userAll));
         $userArr = [];
         $count = 0;
 
