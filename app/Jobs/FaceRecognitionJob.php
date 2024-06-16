@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
-use App\Models\{Vistors,JobStatus};
+use App\Models\{Vistors, JobStatus};
 use GuzzleHttp\Promise;
 
 class FaceRecognitionJob implements ShouldQueue
@@ -24,7 +24,7 @@ class FaceRecognitionJob implements ShouldQueue
     public $rejoin;
     public $jobId;
     public $objectKey;
-    public function __construct($jobId ,$rejoin,$objectKey)
+    public function __construct($jobId, $rejoin, $objectKey)
     {
         // $this->selfieImage = $selfieImage;
         $this->rejoin = $rejoin;
@@ -42,7 +42,7 @@ class FaceRecognitionJob implements ShouldQueue
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-        Log::info("UserAll".json_encode($userAll));
+        Log::info("UserAll3" . json_encode($userAll));
         $userArr = [];
         $count = 0;
 
@@ -75,7 +75,12 @@ class FaceRecognitionJob implements ShouldQueue
                                 'Name' => $objectKey,
                             ],
                         ],
-                        'TargetImage' => $user['recognized_code'],
+                        'TargetImage' =>[
+                            'S3Object' => [
+                                'Bucket' => $bucket,
+                                'Name' => $user['recognized_code'],
+                            ],
+                        ],
                     ]);
 
                     $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
@@ -100,7 +105,7 @@ class FaceRecognitionJob implements ShouldQueue
                     // }
                 }
 
-                Log::info("targetArr1".json_encode($targetImages));
+                Log::info("targetArr1" . json_encode($targetImages));
                 // $response = $rekognition->compareFaces([
                 //     'SimilarityThreshold' => 90,
                 //     'SourceImage' => [
@@ -129,8 +134,6 @@ class FaceRecognitionJob implements ShouldQueue
                         ),
                         'status' => 'completed'
                     ]);
-
-
                 } else {
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
@@ -138,21 +141,18 @@ class FaceRecognitionJob implements ShouldQueue
                         ),
                         'status' => 'completed'
                     ]);
-
                 }
             } catch (\Exception $e) {
                 Log::info("Error In Aws Side" . $e->getMessage());
                 JobStatus::where(['job_id' => $this->jobId])->update([
-                    'result' => json_encode(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]),
+                    'result' => json_encode(['message' => $e->getMessage(), 'status' => false, 'count' => $count]),
                     'status' => 'error'
                 ]);
-
-
             }
         } else {
             JobStatus::where(['job_id' => $this->jobId])->update([
-                     'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey]),
-                     'status' => 'completed'
+                'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey]),
+                'status' => 'completed'
             ]);
         }
     }
