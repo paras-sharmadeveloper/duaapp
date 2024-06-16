@@ -123,11 +123,13 @@ class VisitorBookingController extends Controller
                     // Log any other exceptions
                     Log::error('Exception: ' . $e->getMessage());
 
-                    // Return a generic error response
                     return response()->json([
-                        'status' => false,
-                        'message' => $e->getMessage(),
-                    ], 500);
+                        'errors' => [
+                            'status' => false,
+                            'message' =>  $e->getMessage(),
+                        ]
+                    ], 455);
+
                 }
             } else {
                 return response()->json([

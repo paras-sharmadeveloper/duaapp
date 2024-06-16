@@ -40,6 +40,7 @@ class FaceRecognitionJob implements ShouldQueue
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+        Log::info("UserAll".json_encode($userAll));
         $userArr = [];
         $count = 0;
 
@@ -117,7 +118,7 @@ class FaceRecognitionJob implements ShouldQueue
                 Log::info("Error In Aws Side" . $e->getMessage());
                 JobStatus::where(['job_id' => $this->jobId])->update([
                     'result' => json_encode(['message' =>$e->getMessage(), 'status' => false, 'count' => $count]),
-                    'status' => 'completed'
+                    'status' => 'error'
                 ]);
 
 
