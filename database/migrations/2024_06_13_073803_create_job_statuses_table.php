@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('job_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('job_id')->unique();
-            $table->enum('status', ['pending', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'completed','error'])->default('pending');
             $table->json('result')->nullable();
             $table->json('user_inputs')->nullable();
             $table->timestamps();

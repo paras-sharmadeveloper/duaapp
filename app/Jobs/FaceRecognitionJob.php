@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
 use App\Models\{Vistors,JobStatus};
+use GuzzleHttp\Promise;
+
 class FaceRecognitionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -64,37 +66,61 @@ class FaceRecognitionJob implements ShouldQueue
                 $targetImages = [];
                 $bucket = 'kahayfaqeer-booking-bucket';
                 foreach ($userAll as $user) {
-                    if (!empty($user['recognized_code'])) {
-                        $targetImages[] = [
+
+                    $response = $rekognition->compareFaces([
+                        'SimilarityThreshold' => 90,
+                        'SourceImage' => [
                             'S3Object' => [
                                 'Bucket' => $bucket,
-                                'Name' => $user['recognized_code'],
+                                'Name' => $objectKey,
                             ],
-                        ];
-                    }
-                }
-                $response = $rekognition->compareFaces([
-                    'SimilarityThreshold' => 90,
-                    'SourceImage' => [
-                        'S3Object' => [
-                            'Bucket' => $bucket,
-                            'Name' => $objectKey,
                         ],
-                    ],
-                    'TargetImage' => $targetImages,
-                    'TargetFaces' => $targetImages,
-                ]);
+                        'TargetImage' => $user['recognized_code'],
+                    ]);
 
-                $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-                foreach ($faceMatches as $match) {
-                    if ($match['Similarity'] >= 80) {
-                        $userArr[] = $user['id'];
+                    $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+                    foreach ($faceMatches as $match) {
+                        if ($match['Similarity'] >= 80) {
+                            $userArr[] = $user['id'];
+                        }
                     }
+
+
+
+
+
+
+                    // if (!empty($user['recognized_code'])) {
+                    //     $targetImages[] = [
+                    //         'S3Object' => [
+                    //             'Bucket' => $bucket,
+                    //             'Name' => $user['recognized_code'],
+                    //         ],
+                    //     ];
+                    // }
                 }
+
+                Log::info("targetArr1".json_encode($targetImages));
+                // $response = $rekognition->compareFaces([
+                //     'SimilarityThreshold' => 90,
+                //     'SourceImage' => [
+                //         'S3Object' => [
+                //             'Bucket' => $bucket,
+                //             'Name' => $objectKey,
+                //         ],
+                //     ],
+                //     'TargetImage' => $targetImages,
+                //     'TargetFaces' => $targetImages,
+                // ]);
+
+                // $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+                // foreach ($faceMatches as $match) {
+                //     if ($match['Similarity'] >= 80) {
+                //         $userArr[] = $user['id'];
+                //     }
+                // }
 
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
-
-
 
                 if (empty($userArr)) {
                     JobStatus::where(['job_id' => $this->jobId])->update([
