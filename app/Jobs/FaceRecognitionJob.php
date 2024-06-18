@@ -47,8 +47,8 @@ class FaceRecognitionJob implements ShouldQueue
         Log::info("UserAll7" . json_encode($userAll));
         $userArr = [];
         $count = 0;
-        $ab= 1;
-        $b= 1;
+        $ab = 1;
+        $b = 1;
         if (!empty($userAll) &&  $rejoin > 0 && $ab == $b) {
 
             try {
@@ -72,6 +72,9 @@ class FaceRecognitionJob implements ShouldQueue
 
                 foreach ($userAll as $user) {
 
+                    Log::info('Bucket: ' . $bucket);
+                    Log::info('Source Image Key: ' . $objectKey);
+                    Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
 
                     $response = $rekognition->compareFaces([
                         'SimilarityThreshold' => 90,
@@ -81,7 +84,7 @@ class FaceRecognitionJob implements ShouldQueue
                                 'Name' => $objectKey,
                             ],
                         ],
-                        'TargetImage' =>[
+                        'TargetImage' => [
                             'S3Object' => [
                                 'Bucket' => $bucket,
                                 'Name' => $user['recognized_code']
@@ -94,7 +97,6 @@ class FaceRecognitionJob implements ShouldQueue
                             $userArr[] = $user['id'];
                         }
                     }
-
                 }
 
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
