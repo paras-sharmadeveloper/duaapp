@@ -248,6 +248,8 @@ Auth::routes(['register' => false]);
     Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show');
 
     Route::get('/admin/logs', [NewBookingController::class, 'showLogs'])->name('admin.logs');
+    Route::get('/admin/clear', [NewBookingController::class, 'clearLog'])->name('admin.logs.clear');
+
 
 
 
