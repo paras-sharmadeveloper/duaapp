@@ -101,7 +101,7 @@ class FaceRecognitionJob implements ShouldQueue
                         }
                         //code...
                     } catch (\Exception $e) {
-                        Log::info("Ekajsdkljasdjklajsdklj e" . $e->getMessage());
+                        Log::info("This failed here".$this->jobId.$e->getMessage());
                         //throw $th;
                     }
 
