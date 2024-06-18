@@ -91,6 +91,7 @@ class FaceRecognitionJob implements ShouldQueue
                             ],
                         ],
                     ]);
+                    Log::info('CompareFaces response: ' . json_encode($response));
                     $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
                     foreach ($faceMatches as $match) {
                         if ($match['Similarity'] >= 80) {
