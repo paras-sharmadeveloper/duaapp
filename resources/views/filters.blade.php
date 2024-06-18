@@ -93,6 +93,9 @@
 
                 </thead>
                 <tbody>
+                    @php
+                    $loclpath = '/sessionImages/' . date('d-m-Y').'/';
+                     @endphp
                     @foreach ($visitors as $visitor)
 
                         @php
