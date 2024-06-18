@@ -44,10 +44,10 @@ class FaceRecognitionJob implements ShouldQueue
         $objectKey = $this->objectKey;
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
         // $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        Log::info("UserAll6" . json_encode($userAll));
+        Log::info("UserAll7" . json_encode($userAll));
         $userArr = [];
         $count = 0;
-        $ab= 2;
+        $ab= 1;
         $b= 1;
         if (!empty($userAll) &&  $rejoin > 0 && $ab == $b) {
 
@@ -71,33 +71,30 @@ class FaceRecognitionJob implements ShouldQueue
                 $targetImages = [];
 
                 foreach ($userAll as $user) {
-                    if (!empty($user['recognized_code'])) {
-                        $locationFolder = '/Session_images/'.date('Y-m-d').'/'.$user['recognized_code'];
-                            $targetImages[] = [
-                                'Bytes' => file_get_contents($locationFolder)
-                            ];
-                    }
-                }
 
 
-                Log::info("targetArr1" . json_encode($targetImages));
-                $response = $rekognition->compareFaces([
-                    'SimilarityThreshold' => 90,
-                    'SourceImage' => [
-                        'S3Object' => [
-                            'Bucket' => $bucket,
-                            'Name' => $objectKey,
+                    $response = $rekognition->compareFaces([
+                        'SimilarityThreshold' => 90,
+                        'SourceImage' => [
+                            'S3Object' => [
+                                'Bucket' => $bucket,
+                                'Name' => $objectKey,
+                            ],
                         ],
-                    ],
-                    'TargetImage' => $targetImages,
-                    'TargetFaces' => $targetImages,
-                ]);
-
-                $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-                foreach ($faceMatches as $match) {
-                    if ($match['Similarity'] >= 80) {
-                        $userArr[] = $user['id'];
+                        'TargetImage' =>[
+                            'S3Object' => [
+                                'Bucket' => $bucket,
+                                'Name' => $user['recognized_code']
+                            ],
+                        ],
+                    ]);
+                    $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+                    foreach ($faceMatches as $match) {
+                        if ($match['Similarity'] >= 80) {
+                            $userArr[] = $user['id'];
+                        }
                     }
+
                 }
 
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
