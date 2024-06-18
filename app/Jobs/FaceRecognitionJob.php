@@ -70,8 +70,9 @@ class FaceRecognitionJob implements ShouldQueue
 
                 $targetImages = [];
 
-                foreach ($userAll as $user) {
+                foreach ($userAll as $key => $user) {
                     try {
+                        Log::info("Index try".$key);
 
                         Log::info('Bucket: ' . $bucket);
                         Log::info('Source Image Key: ' . $objectKey);
@@ -101,6 +102,7 @@ class FaceRecognitionJob implements ShouldQueue
                         }
                         //code...
                     } catch (\Exception $e) {
+                        Log::info("Index ex".$key);
                         Log::info("This failed here".$this->jobId.$e->getMessage());
                         //throw $th;
                     }
