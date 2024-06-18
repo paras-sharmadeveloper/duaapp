@@ -71,33 +71,40 @@ class FaceRecognitionJob implements ShouldQueue
                 $targetImages = [];
 
                 foreach ($userAll as $user) {
+                    try {
 
-                    Log::info('Bucket: ' . $bucket);
-                    Log::info('Source Image Key: ' . $objectKey);
-                    Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
+                        Log::info('Bucket: ' . $bucket);
+                        Log::info('Source Image Key: ' . $objectKey);
+                        Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
 
-                    $response = $rekognition->compareFaces([
-                        'SimilarityThreshold' => 90,
-                        'SourceImage' => [
-                            'S3Object' => [
-                                'Bucket' => $bucket,
-                                'Name' => $objectKey,
+                        $response = $rekognition->compareFaces([
+                            'SimilarityThreshold' => 90,
+                            'SourceImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $objectKey,
+                                ],
                             ],
-                        ],
-                        'TargetImage' => [
-                            'S3Object' => [
-                                'Bucket' => $bucket,
-                                'Name' => $user['recognized_code']
+                            'TargetImage' => [
+                                'S3Object' => [
+                                    'Bucket' => $bucket,
+                                    'Name' => $user['recognized_code']
+                                ],
                             ],
-                        ],
-                    ]);
-                    Log::info('CompareFaces response: ' . json_encode($response));
-                    $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-                    foreach ($faceMatches as $match) {
-                        if ($match['Similarity'] >= 80) {
-                            $userArr[] = $user['id'];
+                        ]);
+                        Log::info('CompareFaces response: ' . json_encode($response));
+                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+                        foreach ($faceMatches as $match) {
+                            if ($match['Similarity'] >= 80) {
+                                $userArr[] = $user['id'];
+                            }
                         }
+                        //code...
+                    } catch (\Exception $e) {
+                        Log::info("Ekajsdkljasdjklajsdklj e" . $e->getMessage());
+                        //throw $th;
                     }
+
                 }
 
                 $count = (!empty($userAll)) ? count($userAll)  : 0;
