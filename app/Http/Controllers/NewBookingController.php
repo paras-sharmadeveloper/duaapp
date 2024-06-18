@@ -97,8 +97,7 @@ class NewBookingController extends Controller
     public function clearLog()
     {
         $logFile = storage_path('logs/laravel.log'); // Path to your log file
-        $logs = file_get_contents($logFile,'');
-
-        return view('frontend.server-logs', ['logs' => $logs]);
+        file_put_contents($logFile, '');
+        return redirect()->back();
     }
 }
