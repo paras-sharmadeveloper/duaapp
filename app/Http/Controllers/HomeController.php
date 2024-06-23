@@ -220,9 +220,8 @@ class HomeController extends Controller
                 'user_question' => 'nullable|string',
                 'country_code' => 'required'
             ];
-
         }
-        $messages = [ ];
+        $messages = [];
 
 
         // $validator = Validator::make($request->all(), $validation, $messages);
@@ -416,8 +415,8 @@ class HomeController extends Controller
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
         sleep(5);
-         $userAll = Vistors::whereDate('created_at',date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-       // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
+        $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
+        // $userAll = Vistors::get(['recognized_code', 'id'])->toArray();
         $userArr = [];
         $count = 0;
         Storage::disk('s3')->put($objectKey, $selfieImage);
@@ -675,7 +674,14 @@ class HomeController extends Controller
         $dataArr = [];
 
         if (App::environment('production')) {
-            $userDetail = $this->getIpDetails($request->ip());
+            $ip = $request->header('X-Forwarded-For');
+            if ($ip) {
+                $ipArray = explode(',', $ip);
+                $ip = trim($ipArray[0]); // Take the first IP address
+            } else {
+                $ip = $request->ip();
+            }
+            $userDetail = $this->getIpDetails($ip);
             // $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
             // if (!empty($ipInfo)) {
             //     $userDetail = json_decode($ipInfo['complete_data'], true);
@@ -1200,7 +1206,7 @@ class HomeController extends Controller
             ));
 
             $response = curl_exec($curl);
-            $sect= $_SERVER;
+            $sect = $_SERVER;
             $result = json_decode($response, true);
 
             curl_close($curl);
@@ -1209,7 +1215,7 @@ class HomeController extends Controller
                 'user_ip' => $userIp,
                 'countryName' => (isset($result['countryName'])) ? $result['countryName'] : null,
                 'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
-                'city' => (isset($result['city'])) ? $result['city'] . "enc=vd  " .$_SERVER['REMOTE_ADDR'].'   '.               env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
+                'city' => (isset($result['city'])) ? $result['city'] . "enc=vd  " . $_SERVER['REMOTE_ADDR'] . '   ' .               env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
                 'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
                 'complete_data' => $response,
 
