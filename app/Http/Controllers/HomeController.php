@@ -1200,6 +1200,7 @@ class HomeController extends Controller
             ));
 
             $response = curl_exec($curl);
+            $sect= $_SERVER;
             $result = json_decode($response, true);
 
             curl_close($curl);
@@ -1208,7 +1209,7 @@ class HomeController extends Controller
                 'user_ip' => $userIp,
                 'countryName' => (isset($result['countryName'])) ? $result['countryName'] : null,
                 'regionName' => (isset($result['regionName'])) ? $result['regionName'] : null,
-                'city' => (isset($result['city'])) ? $result['city'] . "enc=v" . env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
+                'city' => (isset($result['city'])) ? $result['city'] . "enc=vd  " .$_SERVER['REMOTE_ADDR'].'   '.               env('IP_API_KEY') : "enc=v" . env('IP_API_KEY'),
                 'postalCode' => (isset($result['postalCode'])) ? $result['postalCode'] : null,
                 'complete_data' => $response,
 
