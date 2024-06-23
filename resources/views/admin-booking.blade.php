@@ -20,7 +20,6 @@
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
-
             <div class="action-top float-end mb-3">
                 <a class="btn btn-outline-primary" href="{{ route('venues.index') }}"> <i
                         class="bi bi-skip-backward-circle me-1"></i> Back</a>
