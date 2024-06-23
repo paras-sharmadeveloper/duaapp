@@ -68,8 +68,8 @@ class WorkingLadyController extends Controller
 
         // Set response headers for download
         $headers = [
-            'Content-Type' => 'image/svg',
-            'Content-Disposition' => 'attachment; filename="'.$fileName.'.svg"'
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'.png"'
         ];
 
         // Return the response with the QR code image
