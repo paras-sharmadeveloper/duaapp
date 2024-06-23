@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,create-future-dates,whatsapp-notification-resend')
         ->everyTwoMinutes()
-        ->withoutOverlapping();
+        ->withoutOverlapping()
+        ->sendOutputTo('storage/logs/scheduler.log');
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyThirtyMinutes();
 
     }
@@ -34,3 +35,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+
+
