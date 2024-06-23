@@ -675,12 +675,13 @@ class HomeController extends Controller
         $dataArr = [];
 
         if (App::environment('production')) {
-            $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-            if (!empty($ipInfo)) {
-                $userDetail = json_decode($ipInfo['complete_data'], true);
-            } else {
-                $userDetail = $this->getIpDetails($request->ip());
-            }
+            $userDetail = $this->getIpDetails($request->ip());
+            // $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
+            // if (!empty($ipInfo)) {
+            //     $userDetail = json_decode($ipInfo['complete_data'], true);
+            // } else {
+            //     $userDetail = $this->getIpDetails($request->ip());
+            // }
             $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
         } else {
             $userDetail['countryCode'] = 'IN';
@@ -1186,7 +1187,7 @@ class HomeController extends Controller
 
         try {
             $curl = curl_init();
-            // return  'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY');
+
             curl_setopt_array($curl, array(
                 CURLOPT_URL => 'https://apiip.net/api/check?ip=' . $userIp . '&accessKey=' . env('IP_API_KEY'),
                 CURLOPT_RETURNTRANSFER => true,
