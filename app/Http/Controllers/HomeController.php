@@ -681,13 +681,13 @@ class HomeController extends Controller
             } else {
                 $ip = $request->ip();
             }
-            $userDetail = $this->getIpDetails($ip);
-            // $ipInfo = Ipinformation::where(['user_ip' => $request->ip()])->get()->first();
-            // if (!empty($ipInfo)) {
-            //     $userDetail = json_decode($ipInfo['complete_data'], true);
-            // } else {
-            //     $userDetail = $this->getIpDetails($request->ip());
-            // }
+           // $userDetail = $this->getIpDetails($ip);
+            $ipInfo = Ipinformation::where(['user_ip' => $ip])->get()->first();
+            if (!empty($ipInfo)) {
+                $userDetail = json_decode($ipInfo['complete_data'], true);
+            } else {
+                $userDetail = $this->getIpDetails($ip);
+            }
             $phoneCode = (isset($userDetail['phoneCode'])) ? $userDetail['phoneCode'] : '91';
         } else {
             $userDetail['countryCode'] = 'IN';
