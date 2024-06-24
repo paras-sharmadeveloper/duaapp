@@ -341,10 +341,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/working/lady/{id}/approve', [WorkingLadyController::class, 'ApproveForm'])->name('working.lady.approve');
 
     Route::get('/working/lady/{qr_id}/qr', [WorkingLadyController::class, 'downloadQR'])->name('working.lady.qr');
-    Route::post('/working/delete/{id}', [WorkingLadyController::class, 'delete'])->name('working.delete');
-
-
-
+    Route::delete('/working/delete/{id}', [WorkingLadyController::class, 'destory'])->name('working.delete');
 
 
 

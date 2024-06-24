@@ -191,9 +191,15 @@ class WorkingLadyController extends Controller
         return $key;
     }
 
-    public function delete($id){
-        $workingLady = WorkingLady::find($id)->delete();
-        return redirect()->back()->with('success', 'Deleted');
+    public function destroy($id) {
+        $workingLady = WorkingLady::find($id);
 
+        if (!$workingLady) {
+            return redirect()->back()->with('error', 'Record not found.');
+        }
+
+        $workingLady->delete();
+
+        return redirect()->back()->with('success', 'Deleted successfully.');
     }
 }
