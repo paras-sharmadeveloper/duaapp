@@ -35,7 +35,16 @@
                     <td>{{ $list->employer_name }}</td>
                     <td>{{ $list->place_of_work }}</td>
                     <td>{{( $list->is_active =='active') ? 'Yes' : 'No' }}</td>
-                    <td><a href="{{route('working.lady.view', $list->id) }}" class="btn btn-sm btn-primary">View</a></td>
+                    <td>
+                        <a href="{{route('working.lady.view', $list->id) }}" class="btn btn-sm btn-primary">View</a>
+
+                        <form id="deleteForm" data-action="{{route('working.delete',[ $list->id ])}}">
+                            @csrf
+                            <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                        </form>
+
+
+                    </td>
 
 
                 </tr>

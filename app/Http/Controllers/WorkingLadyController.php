@@ -59,21 +59,38 @@ class WorkingLadyController extends Controller
         return  redirect()->back()->with('success', $message);
 
 
+
     }
+
+
     public function downloadQR(Request $request,$qr_id)
     {
         // Generate the QR code
+        // $fileName = $request->input('filename','qrcode');
+        //  $qrCode = QrCode::size(150)->generate($qr_id);
+
+        // // Set response headers for download
+        // $headers = [
+        //     'Content-Type' => 'image/png',
+        //     'Content-Disposition' => 'attachment; filename="'.$fileName.'.png"'
+        // ];
+
+        // // Return the response with the QR code image
+        // return Response::make($qrCode, 200, $headers);
+
+
+        $size = 200;
+        $url = $request->input('url'); // Get the URL from the request
+        // $filename = $request->input('filename'); // Get the URL from the request
+
         $fileName = $request->input('filename','qrcode');
-         $qrCode = QrCode::size(150)->generate($qr_id);
+        $qrCode = QrCode::size($size)->generate($qr_id);
 
-        // Set response headers for download
-        $headers = [
+
+        return Response::make($qrCode, 200, [
             'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="'.$fileName.'.png"'
-        ];
-
-        // Return the response with the QR code image
-        return Response::make($qrCode, 200, $headers);
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
+        ]);
     }
 
 
@@ -167,5 +184,11 @@ class WorkingLadyController extends Controller
         $key = hash('sha256', date('Y-m-d') . $filename . now());
         //  $hashedPassword = Hash::make($filename.now());
         return $key;
+    }
+
+    public function delete($id){
+        $workingLady = WorkingLady::find($id)->delete();
+        return redirect()->back()->with('success', 'Deleted');
+
     }
 }

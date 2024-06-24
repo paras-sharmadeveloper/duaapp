@@ -46,7 +46,7 @@ class WhatsAppConfirmation implements ShouldQueue
             $result = $this->sendWhatsAppMessage($mobile, $message);
             if ($result['data'] == 'success') {
                 $visitor->update([
-                    'msg_sent_status' => (!empty($result)) ?   $result['status'] : '',
+                    'msg_sent_status' => (!empty($result)) ?   $result['status'] : '',html/Token_App/app/Http/Controllers/HomeController.php:1393)
                     'msg_sid' => (!empty($result)) ? $result['sid'] : '',
                     'msg_date' =>  Carbon::now(),
 
