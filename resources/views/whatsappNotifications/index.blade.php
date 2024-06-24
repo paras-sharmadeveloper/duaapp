@@ -103,6 +103,8 @@
                                 <option value=""> -- Select Dua Option-- </option>
                                 <option value="dum">Dum</option>
                                 <option value="dua">Dua</option>
+                                <option value="working_lady_dua">Working Dua</option>
+                                <option value="working_lady_dum">Working Dum</option>
                             </select>
                         </div>
                     </div>

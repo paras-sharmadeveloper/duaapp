@@ -321,7 +321,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 
     Route::get('/site/fetch/tokens', [SiteAdminController::class, 'fetchDuaDumTokens'])->name('siteadmin.fetch.token');
-    Route::any('/send/-/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
+    Route::any('/send/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
 
 
 });
