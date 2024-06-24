@@ -83,7 +83,7 @@ class WorkingLadyController extends Controller
         $url = $request->input('url'); // Get the URL from the request
         // $filename = $request->input('filename'); // Get the URL from the request
 
-        $fileName = $request->input('filename','qrcode').'.png';
+        $fileName = $request->input('filename','qrcode').'.jpg';
         $qrCode = QrCode::size($size)->generate($qr_id);
 
 
