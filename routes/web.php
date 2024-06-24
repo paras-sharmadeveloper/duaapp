@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Artisan;
 use App\Events\MyEvent;
 use App\Jobs\WhatsAppConfirmation;
 use Illuminate\Support\Facades\Mail;
- ;
 
 
 use Illuminate\Support\Facades\Crypt;
