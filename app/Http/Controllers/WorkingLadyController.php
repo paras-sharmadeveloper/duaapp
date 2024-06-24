@@ -191,7 +191,7 @@ class WorkingLadyController extends Controller
         return $key;
     }
 
-    public function destroy($id) {
+    public function destory ($id) {
         $workingLady = WorkingLady::find($id);
 
         if (!$workingLady) {
