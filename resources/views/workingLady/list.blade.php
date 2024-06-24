@@ -35,7 +35,7 @@
                     <td>{{ $list->employer_name }}</td>
                     <td>{{ $list->place_of_work }}</td>
                     <td>{{( $list->is_active =='active') ? 'Yes' : 'No' }}</td>
-                    <td>
+                    <td class="d-flex justify-content-between">
                         <a href="{{route('working.lady.view', $list->id) }}" class="btn btn-sm btn-primary">View</a>
 
                         <form id="deleteForm" data-action="{{route('working.delete',[ $list->id ])}}" method="post">
