@@ -38,7 +38,7 @@
                     <td class="d-flex justify-content-between">
                         <a href="{{route('working.lady.view', $list->id) }}" class="btn btn-sm btn-primary">View</a>
 
-                        <form id="deleteForm" data-action="{{route('working.delete',[ $list->id ])}}" method="post">
+                        <form id="deleteForm" action="{{route('working.delete',[ $list->id ])}}" method="post">
                             @csrf
                             <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                         </form>
