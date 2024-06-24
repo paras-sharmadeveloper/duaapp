@@ -254,8 +254,11 @@ Auth::routes(['register' => false]);
 
 
     Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
-    Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
+    // Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
     Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
+    Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+
+
 
 
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
@@ -318,7 +321,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/site/queue/{id}/vistor/update', [SiteAdminController::class, 'VisitorUpdate'])->name('siteadmin.queue.vistor.update');
 
     Route::get('/site/fetch/tokens', [SiteAdminController::class, 'fetchDuaDumTokens'])->name('siteadmin.fetch.token');
-    Route::any('/send/whatsapp/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
+    Route::any('/send/-/notification', [HomeController::class, 'WhatsAppNotifications'])->name('whatsapp.notication.show');
 
 
 });
