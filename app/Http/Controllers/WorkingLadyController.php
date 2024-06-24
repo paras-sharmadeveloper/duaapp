@@ -64,7 +64,7 @@ class WorkingLadyController extends Controller
     {
         // Generate the QR code
         $fileName = $request->input('filename','qrcode');
-         $qrCode = QrCode::size(200)->generate($qr_id);
+         $qrCode = QrCode::size(150)->generate($qr_id);
 
         // Set response headers for download
         $headers = [

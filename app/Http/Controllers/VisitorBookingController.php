@@ -341,7 +341,7 @@ class VisitorBookingController extends Controller
 
 
                 if ($uploadSuccess) {
-                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database')->delay(Carbon::now()->addSeconds(10));
+                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
 
                     JobStatus::create([
                         'job_id' => $jobId,
