@@ -17,14 +17,14 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->exec('/usr/bin/php8.2 artisan queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,create-future-dates,whatsapp-notification-resend')
-         ->everyTwoMinutes()
-         ->withoutOverlapping();
+        // $schedule->exec('/usr/bin/php8.2 artisan queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,create-future-dates,whatsapp-notification-resend')
+        //  ->everyTwoMinutes()
+        //  ->withoutOverlapping();
 
-        // $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,whatsapp-notification-resend,create-future-dates')
-        // ->everyTwoMinutes()
-        // ->withoutOverlapping()
-        // ->sendOutputTo('storage/logs/scheduler.log');
+        $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,whatsapp-notification-resend,create-future-dates')
+        ->everyTwoMinutes()
+        ->withoutOverlapping()
+        ->sendOutputTo('storage/logs/scheduler.log');
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyThirtyMinutes();
 
     }
