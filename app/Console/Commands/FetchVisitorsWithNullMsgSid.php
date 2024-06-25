@@ -39,3 +39,19 @@ class FetchVisitorsWithNullMsgSid extends Command
         $this->info('Visitors with NULL msg_sid fetched successfully.');
     }
 }
+// sudo nano /etc/supervisor/conf.d/app-kahayfaqeer-horizon.conf
+
+// [program:app-kahayfaqeer-horizon]
+// process_name=%(program_name)s_%(process_num)02d
+// command=php /home/kahayfaqeer/public_html/Token_App/artisan horizon
+// autostart=true
+// autorestart=true
+// user=kahayfaqeer
+// redirect_stderr=true
+// stdout_logfile=/home/kahayfaqeer/public_html/Token_App/horizon.log
+// stopwaitsecs=3600
+// sudo supervisorctl start appkahayfaqeerhorizon
+// sudo supervisorctl status appkahayfaqeerhorizon
+
+
+// php /home/kahayfaqeer/public_html/Token_App/artisan schedule:run >> /home/kahayfaqeer/public_html/cron-ta.log
