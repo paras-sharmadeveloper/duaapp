@@ -11,12 +11,12 @@ use Aws\S3\S3Client;
 
 function isMobileDevice(Request $request)
 {
-    // $userAgent = $request->header('User-Agent');
+    $userAgent = $request->header('User-Agent');
 
-    // // Use a regular expression to check if the user agent contains common mobile device keywords
-    // $isMobile = preg_match("/(android|blackberry|iphone|ipod|mobile|palm|phone|windows\s+ce)/i", $userAgent);
+    // Use a regular expression to check if the user agent contains common mobile device keywords
+    $isMobile = preg_match("/(android|blackberry|iphone|ipod|mobile|palm|phone|windows\s+ce)/i", $userAgent);
 
-    // return $isMobile;
+    return $isMobile;
 }
 
 function getObjectfromS3($sourceImageKey)
