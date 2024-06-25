@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        '/twilio/status/callback'
+        '/twilio/status/callback',
+        'horizon/*'
     ];
 }
