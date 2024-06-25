@@ -11,6 +11,7 @@ use Aws\S3\S3Client;
 
 function isMobileDevice(Request $request)
 {
+    echo "here";die;
     $userAgent = $request->header('User-Agent');
 
     // Use a regular expression to check if the user agent contains common mobile device keywords
