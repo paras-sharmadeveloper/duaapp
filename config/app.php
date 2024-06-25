@@ -171,6 +171,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
+
     ])->toArray(),
 
     /*
