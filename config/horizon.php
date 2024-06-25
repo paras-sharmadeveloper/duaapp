@@ -199,7 +199,7 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                'connection' => 'redis',
+                // 'connection' => 'redis',
                 'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
                 'balance' => 'auto',
                 'maxTime' => 0,

@@ -53,5 +53,7 @@ class FetchVisitorsWithNullMsgSid extends Command
 // sudo supervisorctl start appkahayfaqeerhorizon
 // sudo supervisorctl status appkahayfaqeerhorizon
 
+// sudo chown -R www-data:www-data /home/kahayfaqeer/public_html/Token_App/storage
+// sudo chmod -R 777 //home/kahayfaqeer/public_html/Token_App/storage
 
 // php /home/kahayfaqeer/public_html/Token_App/artisan schedule:run >> /home/kahayfaqeer/public_html/cron-ta.log
