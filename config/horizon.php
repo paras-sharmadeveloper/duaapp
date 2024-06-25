@@ -166,7 +166,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 22000,
 
     /*
     |--------------------------------------------------------------------------
@@ -188,9 +188,9 @@ return [
             'maxProcesses' => 1,
             'maxTime' => 0,
             'maxJobs' => 0,
-            'memory' => 128,
-            'tries' => 1,
-            'timeout' => 60,
+            'memory' => 28000,
+            'tries' => 5,
+            'timeout' => 600,
             'nice' => 0,
         ],
     ],
@@ -199,7 +199,15 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                'maxProcesses' => 10,
+                'connection' => 'redis',
+                'queue' => ['default','pipedrive-processing'],
+                'balance' => 'auto',
+                'maxTime' => 0,
+                'maxJobs' => 0,
+                'memory' => 28000,
+                'tries' => 5,
+                'timeout' => 7200,
+                'maxProcesses' => 80,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
