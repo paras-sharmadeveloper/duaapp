@@ -75,7 +75,8 @@ class VisitorBookingController extends Controller
                     $visitor->token_status = 'vaild';
                     $visitor->save();
                     $bookingId = $visitor->id;
-                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
                     return response()->json([
                         'message' => 'Booking submitted successfully',
@@ -341,7 +342,8 @@ class VisitorBookingController extends Controller
 
 
                 if ($uploadSuccess) {
-                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
+                    // FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
+                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition');
 
                     JobStatus::create([
                         'job_id' => $jobId,

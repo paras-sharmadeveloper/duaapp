@@ -44,7 +44,7 @@ class FaceRecognitionJob implements ShouldQueue
         $objectKey = $this->objectKey;
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
         // $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        Log::info("UserAll7" . json_encode($userAll));
+        // Log::info("UserAll7" . json_encode($userAll));
         $userArr = [];
         $count = 0;
         $ab = 1;
@@ -72,11 +72,11 @@ class FaceRecognitionJob implements ShouldQueue
 
                 foreach ($userAll as $key => $user) {
                     try {
-                        Log::info("Index try".$key);
+                        // Log::info("Index try".$key);
 
-                        Log::info('Bucket: ' . $bucket);
-                        Log::info('Source Image Key: ' . $objectKey);
-                        Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
+                        // Log::info('Bucket: ' . $bucket);
+                        // Log::info('Source Image Key: ' . $objectKey);
+                        // Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
 
                         $response = $rekognition->compareFaces([
                             'SimilarityThreshold' => 90,
@@ -93,7 +93,7 @@ class FaceRecognitionJob implements ShouldQueue
                                 ],
                             ],
                         ]);
-                        Log::info('CompareFaces response: ' . json_encode($response));
+                        // Log::info('CompareFaces response: ' . json_encode($response));
                         $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
                         foreach ($faceMatches as $match) {
                             if ($match['Similarity'] >= 80) {
@@ -102,8 +102,8 @@ class FaceRecognitionJob implements ShouldQueue
                         }
                         //code...
                     } catch (\Exception $e) {
-                        Log::info("Index ex".$key);
-                        Log::info("This failed here".$this->jobId.$e->getMessage());
+                        // Log::info("Index ex".$key);
+                        // Log::info("This failed here".$this->jobId.$e->getMessage());
                         //throw $th;
                     }
 

@@ -31,7 +31,8 @@ class FetchVisitorsWithNullMsgSid extends Command
         $visitors = Vistors::whereDate('created_at',date('Y-m-d'))->whereNull('msg_sid')->get( ['id'])->toArray();
         // echo "<pre>"; print_r($visitors); die;
         foreach ($visitors as $visitor) {
-            WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend')->onConnection('database');
+            // WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend')->onConnection('database');
+            WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend');
 
         }
 

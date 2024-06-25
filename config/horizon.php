@@ -182,7 +182,7 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default'],
+            'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
@@ -200,7 +200,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default','pipedrive-processing'],
+                'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
                 'balance' => 'auto',
                 'maxTime' => 0,
                 'maxJobs' => 0,
