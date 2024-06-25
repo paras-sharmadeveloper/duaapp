@@ -35,7 +35,6 @@ class FetchVisitorsWithNullMsgSid extends Command
             WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend');
 
         }
-
         // Output any information if needed
         $this->info('Visitors with NULL msg_sid fetched successfully.');
     }
