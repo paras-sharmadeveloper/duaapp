@@ -317,6 +317,8 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
             var searchText = document.getElementById('searchInput').value.toLowerCase();
             if(searchText == ''){
                 $("#checkAll").show();
+            }else{
+                $("#checkAll").hide();
             }
 
             // Get all labels inside the multiselect div
