@@ -578,12 +578,12 @@ h2 {
             }
         });
     }
-    setInterval(pingBackend, 8000);
+    setInterval(pingBackend, 3000);
 </script>
 <script>
     // Set the countdown time to 5 minutes (300 seconds)
     // let countdownTime = 300; // 5 minutes * 60 seconds
-    let countdownTime = 600; // 5 minutes * 60 seconds
+    let countdownTime = 300; // 5 minutes * 60 seconds
 
     // Get the countdown display element
     const countdownElement = document.getElementById('countdown');

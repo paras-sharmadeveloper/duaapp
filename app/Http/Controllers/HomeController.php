@@ -422,9 +422,11 @@ class HomeController extends Controller
         Storage::disk('s3')->put($objectKey, $selfieImage);
 
 
-        $dateFolder = date('Y-m-d');
-        $localPath = $dateFolder . '/' . $filename;
-        Storage::disk('public_uploads')->put($localPath, $selfieImage);
+        $localDirectory = 'sessionImages/' . date('d-m-Y');
+        if (!Storage::disk('public_uploads')->exists($localDirectory)) {
+            Storage::disk('public_uploads')->makeDirectory($localDirectory);
+        }
+        Storage::disk('public_uploads')->put($localDirectory . '/' . $objectKey, $selfieImage);
 
 
 
