@@ -84,6 +84,7 @@
 
                 <form method="POST" class="row g-3" enctype="multipart/form-data"  id="sendnotiform">
                 <input type="hidden" name="from" value="admin">
+                @csrf
                 {{-- Just for Tracking Purpose --}}
                 <input type="hidden" name="user_question" value="admin-side-booking">
 
