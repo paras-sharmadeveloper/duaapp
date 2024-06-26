@@ -199,19 +199,33 @@ return [
     'environments' => [
         'production' => [
             'supervisor-1' => [
-                // 'connection' => 'redis',
-                'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
+                'connection' => 'redis',
+                'queue' => ['default'],
                 'balance' => 'auto',
-                'maxTime' => 0,
-                'maxJobs' => 0,
-                'memory' => 28000,
-                'tries' => 5,
-                'timeout' => 7200,
-                'maxProcesses' => 80,
+                'autoScalingStrategy' => 'time',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
+                'tries' => 3,
             ],
         ],
+
+        // 'production' => [
+        //     'supervisor-1' => [
+        //         // 'connection' => 'redis',
+        //         'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
+        //         'balance' => 'auto',
+        //         'maxTime' => 0,
+        //         'maxJobs' => 0,
+        //         'memory' => 28000,
+        //         'tries' => 5,
+        //         'timeout' => 7200,
+        //         'maxProcesses' => 80,
+        //         'balanceMaxShift' => 1,
+        //         'balanceCooldown' => 3,
+        //     ],
+        // ],
 
         'local' => [
             'supervisor-1' => [
