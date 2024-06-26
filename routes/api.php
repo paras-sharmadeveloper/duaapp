@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
+// Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
 
 Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
 // Route::post('/handle-incoming-message', [WhatsAppController::class, 'handleWebhook']);
