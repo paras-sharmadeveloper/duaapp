@@ -302,6 +302,12 @@ S
             </a>
           </li>
 
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('horizon.index') }}" class="{{ ( $currentPath == 'horizon.index') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Horizon</span>
+            </a>
+          </li>
+
 
 
 
