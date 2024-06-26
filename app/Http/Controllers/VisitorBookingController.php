@@ -384,6 +384,7 @@ class VisitorBookingController extends Controller
 
     public function FinalBookingCheck($request)
     {
+        return $request->all();
 
         $duaType = $request->input('duaType');
         $country_code = $request->input('country_code');
