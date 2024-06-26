@@ -150,6 +150,35 @@
                 </form>
                 <!-- End Browser Default Validation -->
 
+
+                <table class="table-with-buttons table table-responsive cell-border">
+                    <thead>
+                        <tr>
+                            <th>venue Date</th>
+                            <th>Dua Type</th>
+                            <th>Message</th>
+                            <th>Mobile</th>
+                            <th>Message Sid</th>
+                            <th>Message Sent Status</th>
+                            <th>Message Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($logs as $log)
+                            <tr>
+                                <td>{{ $log->venue_date }}</td>
+                                <td>{{ $log->dua_type }}</td>
+                                <td>{{ $log->whatsAppMessage }}</td>
+                                <td>{{ $log->mobile }}</td>
+                                <td>{{ $log->msg_sid }}</td>
+                                <td>{{ $log->msg_sent_status }}</td>
+                                <td>{{ $log->msg_date }}</td>
+
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
