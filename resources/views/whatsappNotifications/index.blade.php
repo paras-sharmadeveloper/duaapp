@@ -151,7 +151,7 @@
                 <!-- End Browser Default Validation -->
 
 
-                <table class="table-with-buttons table table-responsive cell-border">
+                <table class="table-with-buttons table table-responsive cell-border mt-5">
                     <thead>
                         <tr>
                             <th>venue Date</th>
