@@ -82,70 +82,71 @@
 
 
 
-                <form method="POST" class="row g-3" enctype="multipart/form-data"  id="sendnotiform">
-                <input type="hidden" name="from" value="admin">
-                @csrf
-                {{-- Just for Tracking Purpose --}}
-                <input type="hidden" name="user_question" value="admin-side-booking">
+                <form method="POST" class="row g-3" id="sendnotiform">
 
-                <div class="row mt-3">
+                    @csrf
 
-                    <div class="col-md-5">
-                        <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend2">Pick Date</span>
-                            <input type="date" class="form-control" name="pick_venue_date" id="pick_venue_date">
+                    <div class="row mt-3">
+
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend2">Pick Date</span>
+                                <input type="date" class="form-control" name="pick_venue_date" id="pick_venue_date">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-5">
-                        <div class="input-group">
-                            <span class="input-group-text" id="inputGroupPrepend2">Pick Dua Type</span>
-                            <select class="form-control" name="dua_type" id="type_dua">
-                                <option value=""> -- Select Dua Option-- </option>
-                                <option value="dum">Dum</option>
-                                <option value="dua">Dua</option>
-                                <option value="working_lady_dua">Working Dua</option>
-                                <option value="working_lady_dum">Working Dum</option>
-                            </select>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend2">Pick Dua Type</span>
+                                <select class="form-control" name="dua_type" id="type_dua">
+                                    <option value=""> -- Select Dua Option-- </option>
+                                    <option value="dum">Dum</option>
+                                    <option value="dua">Dua</option>
+                                    <option value="working_lady_dua">Working Dua</option>
+                                    <option value="working_lady_dum">Working Dum</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-info float-end" type="button" id="getList"> Get List </button>
-                    </div>
-
-                </div>
-
-                <div class="row mt-5">
-
-                    <div class="col-md-5">
-                        <label for="reason_english" class="form-label"> User Mobile List </label>
-
-                        <div class="multiselect form-control" id="userMobile" style="height: 300px;overflow:auto">
-                            <label> Please Select Date and Dua Type</label>
-
+                        <div class="col-md-2">
+                            <button class="btn btn-info float-end" type="button" id="getList"> Get List </button>
                         </div>
+
                     </div>
 
-                    <div class="col-md-5">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input token_template" id="token_template" name="token_template">
-                            <label class="form-check-label" for="check1">Load Token Template</label>
-                          </div>
-                        <label for="reason_english" class="form-label">WhatsApp Message
+                    <div class="row mt-5">
 
-                        </label>
-                        <div class="input-group">
+                        <div class="col-md-5">
+                            <label for="reason_english" class="form-label"> User Mobile List </label>
+                            <input class="form-control" id="searchInput" type="text" placeholder="search here">
 
-                            <textarea name="whatsAppMessage" id="whatsAppMessage" class="form-control" cols="40" rows="12" placeholder="Write message here"></textarea>
+                            <div class="multiselect form-control" id="userMobile" style="height: 300px;overflow:auto">
+                                <label> Please Select Date and Dua Type</label>
 
+                            </div>
                         </div>
+
+                        <div class="col-md-5">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input token_template" id="token_template"
+                                    name="token_template">
+                                <label class="form-check-label" for="check1">Load Token Template</label>
+                            </div>
+                            <label for="reason_english" class="form-label">WhatsApp Message
+
+                            </label>
+                            <div class="input-group">
+
+                                <textarea name="whatsAppMessage" id="whatsAppMessage" class="form-control" cols="40" rows="12"
+                                    placeholder="Write message here"></textarea>
+
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
-
-                <div class="col-12">
-                    <button class="btn btn-primary" type="button" id="sendNotification">Send Notification</button>
-                </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="button" id="sendNotification">Send Notification</button>
+                    </div>
                 </form>
                 <!-- End Browser Default Validation -->
 
@@ -166,12 +167,12 @@
             allowClear: true
         });
 
-        $(".token_template").change(function(){
+        $(".token_template").change(function() {
             var isChecked = $(this).prop("checked");
-            console.log("token_template",isChecked)
-            var nt  ='';
-            if(isChecked){
-            nt = `Asalamualaikum,
+            console.log("token_template", isChecked)
+            var nt = '';
+            if (isChecked) {
+                nt = `Asalamualaikum,
 Please see below confirmation for your dua token.
 
 Your Dua Ghar : {city}
@@ -185,10 +186,10 @@ Please reach by 1pm to validate and print your token.
 
 Read and listen all books for free. Please visit KahayFaqeer.org`;
 
-          }
+            }
 
 
-                $("#whatsAppMessage").val(nt)
+            $("#whatsAppMessage").val(nt)
         })
 
         $("#getList").click(function() {
@@ -213,7 +214,9 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                             options +=
                                 `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})</label>`;
                         })
-                        $("#userMobile").html('<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>'+options)
+                        $("#userMobile").html(
+                            '<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>' +
+                            options)
                         $("#getList").text('Get List')
                     } else {
                         $("#err").empty()
@@ -251,7 +254,7 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                 success: function(response) {
                     $("#err").empty()
 
-                   // alert("Message Send")
+                    // alert("Message Send")
                     $("#sendNotification").text('Send Notification')
                     //location.reload();
                     // Handle success response after form submission
@@ -273,11 +276,33 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
         $(document).on("click", "#checkAll", function() {
             var isChecked = $(this).prop("checked");
             $("#userMobile input[type='checkbox']").prop("checked", function(_, oldProp) {
-                $(this).prop("checked",false)
+                $(this).prop("checked", false)
                 return !oldProp;
             });
             $("#userMobile input[type='checkbox']").prop("checked", isChecked);
         });
 
+
+        function searchInMultiselect() {
+            // Get the input value from the search box
+            var searchText = document.getElementById('searchInput').value.toLowerCase();
+
+            // Get all labels inside the multiselect div
+            var labels = document.querySelectorAll('.multiselect label');
+
+            // Loop through each label to find the matching text
+            labels.forEach(function(label) {
+                var text = label.textContent.toLowerCase(); // Get the text content of the label
+
+                // Check if the text contains the search text
+                if (text.includes(searchText)) {
+                    label.style.display = ''; // Show the label if it matches
+                } else {
+                    label.style.display = 'none'; // Hide the label if it does not match
+                }
+            });
+        }
+        var searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('keyup', searchInMultiselect);
     </script>
 @endsection
