@@ -285,7 +285,7 @@ class VisitorBookingController extends Controller
 
 
 
-        $tokenStatus = $this->FinalBookingCheck($request);
+      return  $tokenStatus = $this->FinalBookingCheck($request);
         // return response()->json([
         //     'message' => $tokenStatus,
         //     "status" => false,
