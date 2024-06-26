@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity, WhatsappNotificationLogs};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{WhatsAppConfirmation};
@@ -58,6 +58,15 @@ class HomeController extends Controller
                         $dataMessage
                         EOT;
                 $response =   $this->sendMessage($mobile, $message);
+
+                WhatsappNotificationLogs::create([
+                    'venue_date' => $request->input('pick_venue_date'),
+                    'dua_type' => $request->input('dua_type'),
+                    'whatsAppMessage' => $message,
+                    'mobile' => $userMobile,
+                    'msg_sid' => $response['sid']
+                ]);
+
 
 
                 // $message = <<<EOT
@@ -1458,17 +1467,28 @@ class HomeController extends Controller
         $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
 
         try {
-            $twilio->messages->create(
+            $messageInstance = $twilio->messages->create(
                 "whatsapp:$to",
                 [
                     'from' => "whatsapp:" . env('TWILIO_PHONE_WHATSAPP'),
                     'body' => $message,
+                    "statusCallback" => route('twillio.status.callback.notification')
                 ]
             );
-            return response()->json(['data' => 'success']);
+            $messageSid = $messageInstance->sid; // Get MessageSid
+            $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
+            return [
+                'data' => 'success',
+                'sid' => $messageSid,
+                'status' => $messageSentStatus
+            ];
         } catch (\Exception $e) {
             //throw $th;
-            return response()->json(['error' => $e->getMessage()]);
+            return [
+                'data' => $e->getMessage(),
+                'sid' => '',
+                'status' => ''
+            ];
         }
     }
 }

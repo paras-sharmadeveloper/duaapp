@@ -50,6 +50,7 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->name('ivr.welcome');
 
 Route::post('/twilio/status/callback', [NewBookingController::class, 'handleStatusUpdate'])->name('twillio.status.callback');
+Route::post('/twilio/status/callback/notification', [NewBookingController::class, 'handleStatusUpdateNotification'])->name('twillio.status.callback.notification');
 
 // Route::post('/ivr/dua/option', [TwillioIVRHandleController::class, 'handleDuaOption'])
 //     ->withoutMiddleware(['web', 'verified'])

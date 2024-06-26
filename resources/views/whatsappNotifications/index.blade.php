@@ -117,7 +117,7 @@
 
                         <div class="col-md-5">
                             <label for="reason_english" class="form-label"> User Mobile List </label>
-                            <input class="form-control" id="searchInput" type="text" placeholder="search here">
+                            <input class="form-control mb-3" id="searchInput" type="text" placeholder="search here">
 
                             <div class="multiselect form-control" id="userMobile" style="height: 300px;overflow:auto">
                                 <label> Please Select Date and Dua Type</label>

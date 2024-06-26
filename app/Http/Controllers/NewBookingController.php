@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\{Venue, Reason, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity};
 
 use App\Http\Controllers\Controller;
+use App\Models\WhatsappNotificationLogs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -77,6 +78,28 @@ class NewBookingController extends Controller
         // Update your database or take any other necessary action based on the status update
         // Example: Update the message status in the database
         $message = Vistors::where('msg_sid', $messageSid)->first();
+        if ($message) {
+            $message->msg_sent_status = $status;
+            $message->save();
+        }
+
+        // Respond to Twilio's webhook request with a 200 OK status
+        return response()->json(['status' => 'success'], 200);
+    }
+
+    public function handleStatusUpdateNotification(Request $request)
+    {
+        // Extract information from the Twilio webhook request
+        $messageSid = $request->input('MessageSid');
+        $status = $request->input('MessageStatus');
+
+
+        Log::info('messageSid:' . $messageSid);
+        Log::info('Status:' . $status);
+
+        // Update your database or take any other necessary action based on the status update
+        // Example: Update the message status in the database
+        $message = WhatsappNotificationLogs::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
             $message->save();
