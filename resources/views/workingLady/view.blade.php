@@ -284,7 +284,7 @@
                                     <button type="button" class="btn btn-danger disapprove">Reject</button>
                                 </form>
 
-                                <form id="deleteForm" action="{{route('working.delete',[ $data->id ])}}" method="post">
+                                <form id="deleteForm" action="{{route('working.delete',[ $data->id ])}}" method="post" class="float-right">
                                     @csrf
                                     <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                 </form>
@@ -301,7 +301,7 @@
                                     <button type="button" class="btn btn-danger disapprove">Reject</button>
                                 </form>
 
-                                <form id="deleteForm" action="{{route('working.delete',[ $data->id ])}}" method="post">
+                                <form id="deleteForm" action="{{route('working.delete',[ $data->id ])}}" method="post" class="float-right">
                                     @csrf
                                     <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                 </form>
