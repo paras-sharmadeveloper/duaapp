@@ -300,7 +300,7 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
 
         $(document).on("click", "#checkAll", function() {
             var isChecked = $(this).prop("checked");
-            $("#userMobile input[type='checkbox']").prop("checked", function(_, oldProp) {
+            $("#userMobile input[type='checkbox']:not(.d-none)").prop("checked", function(_, oldProp) {
                 $(this).prop("checked", false)
                 return !oldProp;
             });
@@ -322,8 +322,12 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                 // Check if the text contains the search text
                 if (text.includes(searchText)) {
                     label.style.display = ''; // Show the label if it matches
+                    label.classList.add('d-none');
+
                 } else {
                     label.style.display = 'none'; // Hide the label if it does not match
+                    label.classList.remove('d-none');
+
                 }
             });
         }
