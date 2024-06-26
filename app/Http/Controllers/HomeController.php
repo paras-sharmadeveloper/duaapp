@@ -63,7 +63,7 @@ class HomeController extends Controller
                     'venue_date' => $request->input('pick_venue_date'),
                     'dua_type' => $request->input('dua_type'),
                     'whatsAppMessage' => $message,
-                    'mobile' => $userMobile,
+                    'mobile' => $mobile,
                     'msg_sid' => $response['sid']
                 ]);
 
