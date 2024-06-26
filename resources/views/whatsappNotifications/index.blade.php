@@ -298,14 +298,24 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
 
         });
 
+        // $(document).on("click", "#checkAll", function() {
+        //     var isChecked = $(this).prop("checked");
+        //     $("#userMobile input[type='checkbox']").prop("checked", function(_, oldProp) {
+        //         $(this).prop("checked", false)
+        //         return !oldProp;
+        //     });
+        //     $("#userMobile input[type='checkbox']").prop("checked", isChecked);
+        // });
+
         $(document).on("click", "#checkAll", function() {
-            var isChecked = $(this).prop("checked");
-            $("#userMobile input[type='checkbox']:not(.d-none)").prop("checked", function(_, oldProp) {
-                $(this).prop("checked", false)
-                return !oldProp;
-            });
-            $("#userMobile input[type='checkbox']").prop("checked", isChecked);
-        });
+    var isChecked = $(this).prop("checked");
+
+    // Uncheck all checkboxes that do not have the d-none class
+    $("#userMobile input[type='checkbox']:not(.d-none)").each(function() {
+        $(this).prop("checked", isChecked);
+    });
+});
+
 
 
         function searchInMultiselect() {
