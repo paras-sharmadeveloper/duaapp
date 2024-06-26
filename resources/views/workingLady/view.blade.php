@@ -141,6 +141,9 @@
             top: -130px;
             left: -50px;
         }
+        form#deleteForm {
+    float: right;
+}
     </style>
     <div class="container-fluid">
 
