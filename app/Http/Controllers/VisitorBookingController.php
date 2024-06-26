@@ -285,7 +285,7 @@ class VisitorBookingController extends Controller
 
 
 
-      return  $tokenStatus = $this->FinalBookingCheck($request);
+       $tokenStatus = $this->FinalBookingCheck($request);
         // return response()->json([
         //     'message' => $tokenStatus,
         //     "status" => false,
@@ -384,7 +384,7 @@ class VisitorBookingController extends Controller
 
     public function FinalBookingCheck($request)
     {
-        return $request->all();
+
 
         $duaType = $request->input('duaType');
         $country_code = $request->input('country_code');
@@ -434,7 +434,7 @@ class VisitorBookingController extends Controller
 
             $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
             $phoneCode = (session('phoneCode')) ? session('phoneCode') : $country_code;
-            $phoneCode = session('phoneCode');
+          //   $phoneCode = session('phoneCode');
             $country = Country::where('phonecode', $phoneCode)->first();
             $venue_available_country =  json_decode($venuesListArr->venue_available_country);
             $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
