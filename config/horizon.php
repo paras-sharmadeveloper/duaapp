@@ -181,7 +181,7 @@ return [
 
     'defaults' => [
         'supervisor-1' => [
-            // 'connection' => 'redis',
+            'connection' => 'redis',
             'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
@@ -200,32 +200,18 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
                 'balance' => 'auto',
-                'autoScalingStrategy' => 'time',
-                'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxTime' => 0,
+                'maxJobs' => 0,
+                'memory' => 28000,
+                'tries' => 5,
+                'timeout' => 7200,
+                'maxProcesses' => 80,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
-                'tries' => 3,
             ],
         ],
-
-        // 'production' => [
-        //     'supervisor-1' => [
-        //         // 'connection' => 'redis',
-        //         'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','create-future-dates'],
-        //         'balance' => 'auto',
-        //         'maxTime' => 0,
-        //         'maxJobs' => 0,
-        //         'memory' => 28000,
-        //         'tries' => 5,
-        //         'timeout' => 7200,
-        //         'maxProcesses' => 80,
-        //         'balanceMaxShift' => 1,
-        //         'balanceCooldown' => 3,
-        //     ],
-        // ],
 
         'local' => [
             'supervisor-1' => [
