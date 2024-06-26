@@ -132,7 +132,15 @@ class HomeController extends Controller
                 EOT;
                 }
 
-                $this->sendMessage($mobile, $message);
+                $response = $this->sendMessage($mobile, $message);
+
+                WhatsappNotificationLogs::create([
+                    'venue_date' => $request->input('pick_venue_date'),
+                    'dua_type' => $request->input('dua_type'),
+                    'whatsAppMessage' => $message,
+                    'mobile' => $userMobile,
+                    'msg_sid' => $response['sid']
+                ]);
             }
             return response()->json(['success' => true]);
         }

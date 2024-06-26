@@ -75,13 +75,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Send WhatsApp Notifications</h5>
-
                 <div class="error" id="err"></div>
-
-
-
-
-
                 <form method="POST" class="row g-3" id="sendnotiform">
 
                     @csrf
@@ -148,17 +142,12 @@
                         <button class="btn btn-primary" type="button" id="sendNotification">Send Notification</button>
                     </div>
                 </form>
-                <!-- End Browser Default Validation -->
-
-
-
-
             </div>
             <div class="card-body">
                 <table class="table-with-buttons table table-responsive cell-border mt-5">
                     <thead>
                         <tr>
-                            <th>venue Date</th>
+                            <th>Venue Date</th>
                             <th>Dua Type</th>
                             <th>Message</th>
                             <th>Mobile</th>
