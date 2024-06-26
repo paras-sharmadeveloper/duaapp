@@ -110,11 +110,6 @@ class VisitorBookingController extends Controller
                                 'message' => $e->getMessage(),
                             ]
                         ], 455);
-                        // Handle other types of database errors
-                        // return response()->json([
-                        //     'status' => false,
-                        //     'message' => $e->getMessage(),
-                        // ], 500);
                     }
 
                     // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');

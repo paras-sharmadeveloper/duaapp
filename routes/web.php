@@ -236,9 +236,6 @@ Auth::routes(['register' => false]);
 
     Route::get('/workinglady', [WorkingLadyController::class, 'show'])->name('working.lady.show');
     Route::post('/working/lady/store', [WorkingLadyController::class, 'store'])->name('working.lady.store');
-
-
-
     Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');
     Route::post('/post-signup', [AuthController::class, 'Signup'])->name('post-signup');
     Route::get('/s/{id}', [BookingController::class, 'CustomerBookingStatus'])->name('booking.status');
