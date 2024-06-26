@@ -30,62 +30,7 @@ class HomeController extends Controller
         //  $this->middleware('auth');
     }
 
-    public function WhatsAppNotificationsDDD(Request $request)
-    {
-        if ($request->ajax()) {
-            $request->validate([
-                'whatsAppMessage' => 'required',
-                'user_mobile' => 'required'
-            ]);
-            $userMobile = $request->input('user_mobile');
-            $dataMessage = $request->input('whatsAppMessage');
-
-            foreach ($userMobile as $id => $phone) {
-
-                // $visitor = Vistors::where(['id' => $id])->get(['id','booking_uniqueid' ,'dua_type' ,'created_at','phone','country_code'])->first();
-
-                $visitor = Vistors::find($id, ['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
-                // return response()->json(['success' => true, 'message' => $visitors]);
-
-                $dataMessage = str_replace('{token_url}', route('booking.status', [$visitor->booking_uniqueid]), $dataMessage);
-                $dataMessage = str_replace('{dua_type}', $visitor->dua_type, $dataMessage);
-                $dataMessage = str_replace('{date}', date('d M Y', strtotime($visitor->created_at)), $dataMessage);
-                $dataMessage = str_replace('{mobile}', $visitor->phone, $dataMessage);
-                $dataMessage = str_replace('{id}', $visitor->id, $dataMessage);
-                $mobile =  $visitor->country_code .  $visitor->phone;
-                $message = <<<EOT
-                        Please see below urgent message for your kind attention:
-                        $dataMessage
-                        EOT;
-                $response =   $this->sendMessage($mobile, $message);
-
-                WhatsappNotificationLogs::create([
-                    'venue_date' => $request->input('pick_venue_date'),
-                    'dua_type' => $request->input('dua_type'),
-                    'whatsAppMessage' => $message,
-                    'mobile' => $mobile,
-                    'msg_sid' => $response['sid']
-                ]);
-
-
-
-                // $message = <<<EOT
-                // Please see below urgent message for your kind attention:
-                // $dataMessage
-                // EOT;
-                // $response =   $this->sendMessage($phone, $message);
-            }
-
-
-
-
-            return response()->json(['success' => true, 'message' => $response]);
-        }
-
-        $logs = WhatsappNotificationLogs::all();
-
-        return view('whatsappNotifications.index',compact('logs'));
-    }
+    //
 
     public function WhatsAppNotifications(Request $request)
     {
@@ -138,7 +83,7 @@ class HomeController extends Controller
                     'venue_date' => $request->input('pick_venue_date'),
                     'dua_type' => $request->input('dua_type'),
                     'whatsAppMessage' => $message,
-                    'mobile' => $userMobile,
+                    'mobile' => $mobile,
                     'msg_sid' => $response['sid']
                 ]);
             }
