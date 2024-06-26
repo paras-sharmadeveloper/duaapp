@@ -21,11 +21,11 @@ class Kernel extends ConsoleKernel
         //  ->everyTwoMinutes()
         //  ->withoutOverlapping();
 
-        $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,whatsapp-notification-resend,create-future-dates')
-        ->everyTwoMinutes()
-        ->withoutOverlapping()
-        ->sendOutputTo('storage/logs/scheduler.log');
-        $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyThirtyMinutes();
+        // $schedule->command('queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,whatsapp-notification-resend,create-future-dates')
+        // ->everyTwoMinutes()
+        // ->withoutOverlapping()
+        // ->sendOutputTo('storage/logs/scheduler.log');
+        $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyTenMinutes();
 
     }
 

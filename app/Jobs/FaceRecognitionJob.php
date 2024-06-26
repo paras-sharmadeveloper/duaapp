@@ -118,6 +118,8 @@ class FaceRecognitionJob implements ShouldQueue
                         ),
                         'status' => 'completed'
                     ]);
+
+                    WhatsAppConfirmation::dispatch();
                 } else {
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
