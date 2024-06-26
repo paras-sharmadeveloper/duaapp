@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
         // ->everyTwoMinutes()
         // ->withoutOverlapping()
         // ->sendOutputTo('storage/logs/scheduler.log');
-        $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyTenMinutes();
+        $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyFiveMinutes();
 
     }
 
