@@ -280,7 +280,8 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
 
                     // alert("Message Send")
                     $("#sendNotification").text('Send Notification')
-                    //location.reload();
+                    alert("Message Sent");
+                    location.reload();
                     // Handle success response after form submission
                 },
                 error: function(xhr) {
