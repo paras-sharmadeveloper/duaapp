@@ -102,6 +102,7 @@ class NewBookingController extends Controller
         $message = WhatsappNotificationLogs::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
+            $message->msg_date = date('Y-m-d H:i:s');
             $message->save();
         }
 
