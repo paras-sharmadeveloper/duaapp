@@ -56,7 +56,7 @@ class WorkingLadyController extends Controller
             $message = 'form reject';
             $workingLady->update(['is_active'  => $formType , 'type' =>  $request->input('type')]);;
         }
-        return  redirect()->route('working.lady.list')->with('success', $message);
+        return  redirect()->back()->with('success', $message);
 
 
 
@@ -200,6 +200,6 @@ class WorkingLadyController extends Controller
 
         $workingLady->delete();
 
-        return redirect()->back()->with('success', 'Deleted successfully.');
+        return redirect()->route('working.lady.list')->with('success', 'Deleted successfully.');
     }
 }
