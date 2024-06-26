@@ -136,8 +136,11 @@ class HomeController extends Controller
             }
             return response()->json(['success' => true]);
         }
+        $logs = WhatsappNotificationLogs::all();
 
-        return view('whatsappNotifications.index');
+        return view('whatsappNotifications.index',compact('logs'));
+
+        // return view('whatsappNotifications.index');
     }
 
 
