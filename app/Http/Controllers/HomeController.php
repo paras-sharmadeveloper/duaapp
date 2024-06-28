@@ -1225,13 +1225,13 @@ class HomeController extends Controller
             $visitors = Vistors::
             whereBetween('created_at', [$startDate, $endDate])
                     ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
-                    ->groupBy('phone')
+
                     ->get();
         }else{
             $visitors = Vistors::where('dua_type', $request->input('dua_option'))
-    ->whereBetween('created_at', [$startDate, $endDate])
+                ->whereBetween('created_at', [$startDate, $endDate])
             ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
-            ->groupBy('phone')
+
             ->get();
         }
 
