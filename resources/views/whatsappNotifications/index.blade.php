@@ -234,13 +234,44 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                     var options = '';
 
                     if (response.success) {
+
+                        let uniquePhones = []; // Array to store unique phone numbers
+                        let options = ''; // Variable to accumulate checkbox HTML
                         $("#err").empty()
                         $.each(response.data, function(i, item) {
-                            options +=
-                                `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})
+                            // Check if the phone number is not already in uniquePhones array
+                            if (!uniquePhones.includes(item.phone)) {
+                                // Add phone number to uniquePhones array
+                                uniquePhones.push(item.phone);
 
+                                // Build checkbox HTML
+                                options += `
+                                    <label>
+                                        <span></span>
+                                        <input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">
+                                        ${item.phone} (${item.dua_type})
                                     </label>`;
-                        })
+                            }
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // $.each(response.data, function(i, item) {
+                        //     options +=
+                        //         `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})
+
+                        //             </label>`;
+                        // })
                         $("#userMobile").html(
                             '<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>' +
                             options)
@@ -318,9 +349,9 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
 
             // Get the input value from the search box
             var searchText = document.getElementById('searchInput').value.toLowerCase();
-            if(searchText == ''){
+            if (searchText == '') {
                 $("#checkAll").show();
-            }else{
+            } else {
                 $("#checkAll").hide();
             }
 
