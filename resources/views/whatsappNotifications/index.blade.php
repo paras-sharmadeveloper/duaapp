@@ -238,40 +238,40 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                         let uniquePhones = []; // Array to store unique phone numbers
                         let options = ''; // Variable to accumulate checkbox HTML
                         $("#err").empty()
-                        $.each(response.data, function(i, item) {
-                            // Check if the phone number is not already in uniquePhones array
-                            if (!uniquePhones.includes(item.phone)) {
-                                // Add phone number to uniquePhones array
-                                uniquePhones.push(item.phone);
-
-                                // Build checkbox HTML
-                                options += `
-                                    <label>
-                                        <span></span>
-                                        <input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">
-                                        ${item.phone} (${item.dua_type})
-                                    </label>`;
-                            }
-                        });
-
-
-
-
-
-
-
-
-
-
-
-
-
                         // $.each(response.data, function(i, item) {
-                        //     options +=
-                        //         `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})
+                        //     // Check if the phone number is not already in uniquePhones array
+                        //     if (!uniquePhones.includes(item.phone)) {
+                        //         // Add phone number to uniquePhones array
+                        //         uniquePhones.push(item.phone);
 
+                        //         // Build checkbox HTML
+                        //         options += `
+                        //             <label>
+                        //                 <span></span>
+                        //                 <input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">
+                        //                 ${item.phone} (${item.dua_type})
                         //             </label>`;
-                        // })
+                        //     }
+                        // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        $.each(response.data, function(i, item) {
+                            options +=
+                                `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})
+
+                                    </label>`;
+                        })
                         $("#userMobile").html(
                             '<label><span></span><input type="checkbox" name="check_all" id="checkAll"> Check All</lable>' +
                             options)
