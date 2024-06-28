@@ -194,17 +194,6 @@ class DashboardController extends Controller
             'website-total-wldum' => $websiteCountWlDum,
             'website-total-percentage-wldum' => $whatsappDumWl,
 
-
-
-
-
-            // 'whatsapp-total' => $totalTokenWhatsApp,
-            // 'whatsapp-total-percentage' => number_format($totalWhatsAppPercentage, 2) . '%',
-            // 'whatsapp-total-dua' => $whatsappCountDua,
-            // 'whatsapp-total-percentage-dua' => number_format($percentageWhatsappDua, 2) . '%',
-            // 'whatsapp-total-dum' => $whatsappCountDum,
-            // 'whatsapp-total-percentage-dum' => number_format($percentageWhatsappDum, 2) . '%',
-
             'grand-total' => $totalCollectedTokens,
             'grand-percentage' => $totalWhatsappTokens
         ];
