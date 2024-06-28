@@ -237,7 +237,7 @@ Read and listen all books for free. Please visit KahayFaqeer.org`;
                         $.each(response.data, function(i, item) {
                             options +=
                                 `<label><span></span><input type="checkbox" name="user_mobile[${item.id}]" value="${item.country_code}${item.phone}">  ${item.phone}  (${item.dua_type})
-                                    (${item.created_at})
+
                                     </label>`;
                         })
                         $("#userMobile").html(
