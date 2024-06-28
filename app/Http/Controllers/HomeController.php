@@ -1223,8 +1223,9 @@ class HomeController extends Controller
 
         $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy('phone')
-            ->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
+            ->select(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code'])
+            ->distinct('phone')
+            ->get();
         return response()->json(['success' => (!$visitors->IsEmpty()) ? true : false, 'data' => $visitors], 200);
     }
 
