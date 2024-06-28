@@ -1224,15 +1224,12 @@ class HomeController extends Controller
         if($request->input('dua_option') == 'All'){
             $visitors = Vistors::
             whereBetween('created_at', [$startDate, $endDate])
-                    ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
-
-                    ->get();
+            ->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
         }else{
             $visitors = Vistors::where('dua_type', $request->input('dua_option'))
                 ->whereBetween('created_at', [$startDate, $endDate])
-            ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
 
-            ->get();
+            ->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
         }
 
 
