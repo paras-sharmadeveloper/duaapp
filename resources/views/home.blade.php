@@ -90,7 +90,7 @@
 
                                     <tr class="highlighted">
                                         <td>Website</td>
-                                        <td id="website-total-percentage" style="text-align: center">0%</td>
+                                        <td id="website-total-percentage" style="text-align: center">0</td>
                                         <td id="website-total">0</td>
                                         <td id="website-checkIn">0</td>
                                         <td id="website-printToken">0</td>
@@ -98,7 +98,7 @@
                                     </tr>
                                     <tr>
                                         <td>Website (Dua)</td>
-                                        <td id="website-total-percentage-dua"  style="text-align: center">0%</td>
+                                        <td id="website-total-percentage-dua"  style="text-align: center">0</td>
                                         <td id="website-total-dua">0</td>
                                         <td id="website-checkIn-dua">0</td>
                                         <td id="website-printToken-dua">0</td>
@@ -106,7 +106,7 @@
                                     </tr>
                                     <tr>
                                         <td>Website (Dum)</td>
-                                        <td id="website-total-percentage-dum"  style="text-align: center">0%</td>
+                                        <td id="website-total-percentage-dum"  style="text-align: center">0</td>
                                         <td id="website-total-dum">0</td>
                                         <td id="website-checkIn-dum">0</td>
                                         <td id="website-printToken-dum">0</td>
