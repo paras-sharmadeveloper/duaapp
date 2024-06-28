@@ -123,7 +123,11 @@ class FaceRecognitionJob implements ShouldQueue
                 } else {
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(
-                            ['recognized_code' => $this->objectKey, 'message' => 'Your token cannot be booked at this time. Please try again later.', 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم کچھ دیر بعد کوشش کریں', 'status' => false, 'count' => $count]
+                            ['recognized_code' => $this->objectKey,
+                            'message' => 'Your token cannot be booked at this time. Please try again or later.',
+                            'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+
+                            'status' => false, 'count' => $count]
                         ),
                         'status' => 'completed'
                     ]);
