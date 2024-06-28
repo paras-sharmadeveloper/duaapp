@@ -1220,11 +1220,22 @@ class HomeController extends Controller
         $startDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[0])->format('Y-m-d');
         $endDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[1])->format('Y-m-d');
 
-        $visitors = Vistors::where('dua_type', $request->input('dua_option'))
+
+        if($request->input('dua_option') == 'All'){
+            $visitors = Vistors::
+            whereBetween('created_at', [$startDate, $endDate])
+                    ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
+                    ->groupBy('phone')
+                    ->get();
+        }else{
+            $visitors = Vistors::where('dua_type', $request->input('dua_option'))
     ->whereBetween('created_at', [$startDate, $endDate])
-    ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
-    ->groupBy('phone')
-    ->get();
+            ->select('id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code')
+            ->groupBy('phone')
+            ->get();
+        }
+
+
         // $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])
         //     ->whereBetween('created_at', [$startDate, $endDate])
         //     ->select(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code'])

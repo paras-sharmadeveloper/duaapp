@@ -94,6 +94,7 @@
                                 <span class="input-group-text" id="inputGroupPrepend2">Pick Dua Type</span>
                                 <select class="form-control" name="dua_type" id="type_dua">
                                     <option value=""> -- Select Dua Option-- </option>
+                                    <option value="All">ALL</option>
                                     <option value="dum">Dum</option>
                                     <option value="dua">Dua</option>
                                     <option value="working_lady_dua">Working Dua</option>
