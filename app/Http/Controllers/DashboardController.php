@@ -101,11 +101,19 @@ class DashboardController extends Controller
         $dumTotal = 0;
         $duaTotalwl = 0;
         $dumTotalwl = 0;
+        $whatsappDua = 0;
+        $whatsappDum = 0;
+        $whatsappDuaWl = 0;
+        $whatsappDumWl = 0;
         if ($todayVenue) {
             $duaTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->count();
             $dumTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->count();
             $duaTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->count();
             $dumTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->count();
+            $whatsappDua = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->whereNotNull('msg_sid')->count();
+            $whatsappDum = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->whereNotNull('msg_sid')->count();
+            $whatsappDuaWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->whereNotNull('msg_sid')->count();
+            $whatsappDumWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->whereNotNull('msg_sid')->count();
         }
 
         $printDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
@@ -113,10 +121,7 @@ class DashboardController extends Controller
         $printDuaWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
         $printDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
 
-        $whatsappDua = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->whereNotNull('msg_sid')->count();
-        $whatsappDum = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->whereNotNull('msg_sid')->count();
-        $whatsappDuaWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->whereNotNull('msg_sid')->count();
-        $whatsappDumWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->whereNotNull('msg_sid')->count();
+
 
 
 
