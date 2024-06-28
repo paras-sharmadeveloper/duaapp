@@ -196,33 +196,6 @@ Route::get('/welcome', function () {
 
 Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
 
-Route::get('/print-this', function () {
-
-    return view('frontend.print-token-new');
-
-    $text = "thankyou for your visit at Dua Ghar\n\nYour Token Number #150\n\nVerified\nThank you\nTeam KahayFaqeer";
-
-    // Open a connection to the printer
-    $printer = fopen("php://printer", "w");
-
-    // Check if the printer connection is open
-    if ($printer) {
-        // Send the text to the printer
-        fwrite($printer, $text);
-
-        // Close the printer connection
-        fclose($printer);
-
-        echo "Text sent to printer successfully!";
-    } else {
-        echo "Failed to open printer connection!";
-    }
-
-
-    // return view('welcome');
-});
-
-
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('home');

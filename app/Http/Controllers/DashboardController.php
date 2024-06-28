@@ -110,10 +110,13 @@ class DashboardController extends Controller
             $dumTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->count();
             $duaTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->count();
             $dumTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->count();
-            $whatsappDua = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->whereNotNull('msg_sid')->count();
-            $whatsappDum = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->whereNotNull('msg_sid')->count();
-            $whatsappDuaWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->whereNotNull('msg_sid')->count();
-            $whatsappDumWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->whereNotNull('msg_sid')->count();
+
+            $whatsappDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
+            $whatsappDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
+            $whatsappDuaWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
+            $whatsappDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
+
+
         }
 
         $printDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
