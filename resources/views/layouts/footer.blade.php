@@ -32,10 +32,6 @@
 
 <!-- Include DataTables CSS and JS -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-{{-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script> --}}
 
 
 
@@ -49,9 +45,12 @@
 
 {{-- DataTable Handling End --}}
 
-<script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@27.1.0/dist/ag-grid-enterprise.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@27.1.0/dist/ag-grid-enterprise.min.js"></script> --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
 @yield('page-script')
 {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
@@ -257,6 +256,8 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
+
+    $('input[name="pick_venue_date"]').daterangepicker();
 
 
 

@@ -91,7 +91,7 @@ class HomeController extends Controller
         }
         $logs = WhatsappNotificationLogs::orderBy('id', 'desc')->get();
 
-        return view('whatsappNotifications.index',compact('logs'));
+        return view('whatsappNotifications.index', compact('logs'));
 
         // return view('whatsappNotifications.index');
     }
@@ -650,7 +650,7 @@ class HomeController extends Controller
             } else {
                 $ip = $request->ip();
             }
-           // $userDetail = $this->getIpDetails($ip);
+            // $userDetail = $this->getIpDetails($ip);
             $ipInfo = Ipinformation::where(['user_ip' => $ip])->get()->first();
             if (!empty($ipInfo)) {
                 $userDetail = json_decode($ipInfo['complete_data'], true);
@@ -1212,7 +1212,19 @@ class HomeController extends Controller
             'dua_option' => 'required',
             'venueDate' => 'required'
         ]);
-        $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])->whereDate('created_at', $request->input('venueDate'))
+        $venueDateRange = explode(' - ', $request->input('venueDate'));
+     //   $startDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[0])->startOfDay();
+      // $endDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[1])->endOfDay();
+
+        // Parse the start and end dates from the array and format them as Y-m-d
+        $startDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[0])->format('Y-m-d');
+        $endDate = Carbon::createFromFormat('m/d/Y', $venueDateRange[1])->format('Y-m-d');
+
+
+        $visitors = Vistors::where(['dua_type' => $request->input('dua_option')])
+            ->whereBetween('created_at', [$startDate, $endDate])
+
+            // ->whereDate('created_at', $request->input('venueDate'))
             ->get(['id', 'booking_uniqueid', 'dua_type', 'created_at', 'phone', 'country_code']);
         return response()->json(['success' => (!$visitors->IsEmpty()) ? true : false, 'data' => $visitors], 200);
     }

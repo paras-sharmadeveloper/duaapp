@@ -85,7 +85,7 @@
                         <div class="col-md-5">
                             <div class="input-group">
                                 <span class="input-group-text" id="inputGroupPrepend2">Pick Date</span>
-                                <input type="date" class="form-control" name="pick_venue_date" id="pick_venue_date">
+                                <input type="text" class="form-control" name="pick_venue_date" id="pick_venue_date">
                             </div>
                         </div>
 
