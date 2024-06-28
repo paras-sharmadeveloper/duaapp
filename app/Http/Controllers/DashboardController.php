@@ -87,10 +87,10 @@ class DashboardController extends Controller
         $websiteCountDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->count();
         $websiteCountDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->count();
 
-        $websiteCountWlDua = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->count();
-        $websiteCountWlDum = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->count();
-        $websiteDuaCheckIn = Vistors::where(['source' => 'Website','dua_type' => 'dua','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
-        $websiteDumCheckIn = Vistors::where(['source' => 'Website','dua_type' => 'dum','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
+        $websiteCountWlDua =   Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->count();
+        $websiteCountWlDum =   Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->count();
+        $websiteDuaCheckIn =   Vistors::where(['source' => 'Website','dua_type' => 'dua','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
+        $websiteDumCheckIn =   Vistors::where(['source' => 'Website','dua_type' => 'dum','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
         $websiteWlDuaCheckIn = Vistors::where(['source' => 'Website','dua_type' => 'working_lady_dua','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
         $websiteWlDumCheckIn = Vistors::where(['source' => 'Website','dua_type' => 'working_lady_dum','user_status' =>'admitted'])->whereDate('created_at', $date)->count();
 
@@ -112,6 +112,14 @@ class DashboardController extends Controller
         $printDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
         $printDuaWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
         $printDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
+
+        $whatsappDua = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->whereNotNull('msg_sid')->count();
+        $whatsappDum = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->whereNotNull('msg_sid')->count();
+        $whatsappDuaWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->whereNotNull('msg_sid')->count();
+        $whatsappDumWl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->whereNotNull('msg_sid')->count();
+
+
+
 
         $totalTokens =  $duaTotal + $dumTotal + $duaTotalwl + $dumTotalwl;
         $grandPrintToken = $printDua + $printDum +$printDuaWl + $printDumWl;
@@ -149,11 +157,11 @@ class DashboardController extends Controller
         // Prepare response data
         $calculations = [
             'website-total' => $totalTokenWebsite,
-            'website-total-percentage' => number_format($totalWebsitePercentage, 2) . '%',
+            'website-total-percentage' => $whatsappDua,
             'website-total-dua' => $websiteCountDua,
-            'website-total-percentage-dua' => number_format($percentageWebsiteDua, 2) . '%',
+            'website-total-percentage-dua' => $whatsappDua,
             'website-total-dum' => $websiteCountDum,
-            'website-total-percentage-dum' => number_format($percentageWebsiteDum, 2) . '%',
+            'website-total-percentage-dum' => $whatsappDum,
 
             'website-checkIn-dua' => $websiteDuaCheckIn,
             'website-checkIn-dum' => $websiteDumCheckIn,
@@ -171,11 +179,11 @@ class DashboardController extends Controller
 
 
 
-            'website-total-percentage-wl' => number_format($percentageWebsiteDuawl, 2) . '%',
+            'website-total-percentage-wl' => 0,
             'website-total-wldua' => $websiteCountWlDua,
-            'website-total-percentage-wldua' => number_format($percentageWebsiteDuawl, 2) . '%',
+            'website-total-percentage-wldua' => $whatsappDuaWl,
             'website-total-wldum' => $websiteCountWlDum,
-            'website-total-percentage-wldum' => number_format($percentageWebsiteDumwl, 2) . '%',
+            'website-total-percentage-wldum' => $whatsappDumWl,
 
 
 

@@ -80,73 +80,65 @@
                                     </tr>
                                     <tr>
                                         <th class="text-left">Row Label</th>
+                                        <th>Whatsapp Msg</th>
                                         <th>Count of Token</th>
                                         <th>Check-in</th>
                                         <th>Print</th>
-                                        <th>%</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr class="highlighted">
                                         <td>Website</td>
+                                        <td id="website-total-percentage" style="text-align: center">0%</td>
                                         <td id="website-total">0</td>
                                         <td id="website-checkIn">0</td>
                                         <td id="website-printToken">0</td>
-                                        <td id="website-total-percentage">0%</td>
+
                                     </tr>
                                     <tr>
                                         <td>Website (Dua)</td>
+                                        <td id="website-total-percentage-dua"  style="text-align: center">0%</td>
                                         <td id="website-total-dua">0</td>
                                         <td id="website-checkIn-dua">0</td>
                                         <td id="website-printToken-dua">0</td>
-                                        <td id="website-total-percentage-dua">0%</td>
+
                                     </tr>
                                     <tr>
                                         <td>Website (Dum)</td>
+                                        <td id="website-total-percentage-dum"  style="text-align: center">0%</td>
                                         <td id="website-total-dum">0</td>
                                         <td id="website-checkIn-dum">0</td>
                                         <td id="website-printToken-dum">0</td>
-                                        <td id="website-total-percentage-dum">0%</td>
+
                                     </tr>
 
                                     <tr>
                                         <td>Website (Working Lady Dua)</td>
+                                        <td id="website-total-percentage-wldua"  style="text-align: center">0</td>
                                         <td id="website-total-wldua">0</td>
                                         <td id="website-checkIn-wldua">0</td>
                                         <td id="website-printToken-wldua">0</td>
-                                        <td id="website-total-percentage-wldua">0%</td>
+
                                     </tr>
                                     <tr>
                                         <td>Website (Working Lady Dum)</td>
+                                        <td id="website-total-percentage-wldum"  style="text-align: center">0</td>
                                         <td id="website-total-wldum">0</td>
                                         <td id="website-checkIn-wldum">0</td>
                                         <td id="website-printToken-wldum">0</td>
-                                        <td id="website-total-percentage-wldum">0%</td>
+
                                     </tr>
 
-                                    {{-- <tr class="highlighted">
-                                        <td>WhatsApp</td>
-                                        <td id="whatsapp-total">0</td>
-                                        <td id="whatsapp-total-percentage">0%</td>
-                                    </tr> --}}
-                                    {{-- <tr>
-                                        <td>WhatsApp (Dua)</td>
-                                        <td id="whatsapp-total-dua">0</td>
-                                        <td id="whatsapp-total-percentage-dua">0%</td>
-                                    </tr> --}}
-                                    {{-- <tr>
-                                        <td>WhatsApp (Dum)</td>
-                                        <td id="whatsapp-total-dum">0</td>
-                                        <td id="whatsapp-total-percentage-dum">0%</td>
-                                    </tr> --}}
+
 
                                     <tr class="highlighted">
                                         <td>Grand Total</td>
+                                        <td id="grand-percentage"  style="text-align: center">0</td>
                                         <td id="grand-total">0</td>
                                         <td id="grand-checkIn">0</td>
                                         <td id="grand-printToken">0</td>
-                                        <td id="grand-percentage">0%</td>
+
                                     </tr>
                                 </tbody>
                             </table>
