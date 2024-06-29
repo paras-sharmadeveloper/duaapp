@@ -74,9 +74,9 @@ class VisitorBookingController extends Controller
                     $visitor->token_status = 'vaild';
                     $visitor->save();
                     $bookingId = $visitor->id;
-                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
-                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
                     $jobStatus->update(['entry_created' => 'Yes']);
+                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+
                     //
                     return response()->json([
                         'message' => 'Booking submitted successfully',
