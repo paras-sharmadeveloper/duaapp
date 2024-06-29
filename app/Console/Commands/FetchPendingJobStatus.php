@@ -8,6 +8,8 @@ use App\Models\Vistors;
 use App\Models\WorkingLady;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 class FetchPendingJobStatus extends Command
 {
     /**
@@ -77,7 +79,18 @@ class FetchPendingJobStatus extends Command
                 // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
                 WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
                 $jobStatus->update(['entry_created' => 'Yes']);
-            } catch (\Throwable $th) {
+            } catch (QueryException $e) {
+                Log::error('Booking error' . $e);
+
+                $errorCode = $e->errorInfo[1];
+
+                if ($errorCode === 1062) {
+
+                    $jobStatus->update(['entry_created' => 'Duplicate']);
+                }else{
+                    $jobStatus->update(['entry_created' => 'Error']);
+                    // use Illuminate\Support\Facades\Log;
+                }
                 //throw $th;
             }
 
