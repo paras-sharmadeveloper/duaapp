@@ -328,10 +328,7 @@ class VisitorBookingController extends Controller
             $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
             $rejoin = $venueAddress->rejoin_venue_after;
-            $venueSlotsCount['dua'] = $venueAddress->dua_slots;
-            $venueSlotsCount['dum'] = $venueAddress->dum_slots;
-            $venueSlotsCount['wl_dua'] = $venueAddress->working_lady_dua;
-            $venueSlotsCount['wl_dum'] = $venueAddress->working_lady_dum;
+            $venueAddressId= $venueAddress->id;
             $userInputs['inputs'] = [];
             $userInputs['inputs']['slotId'] = $slotId ?? null;
             $userInputs['inputs']['tokenId'] = $tokenId ?? null;
@@ -371,7 +368,7 @@ class VisitorBookingController extends Controller
 
                 if ($uploadSuccess) {
                     // FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
-                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey,$venueSlotsCount , $request->input('duaType'))->onQueue('face-recognition');
+                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey,$venueAddressId , $request->input('duaType'))->onQueue('face-recognition');
 
                     JobStatus::create([
                         'job_id' => $jobId,

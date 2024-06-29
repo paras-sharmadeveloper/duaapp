@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Aws\Rekognition\RekognitionClient;
-use App\Models\{Vistors, JobStatus};
+use App\Models\{Vistors, JobStatus, VenueSloting};
 use Aws\Exception\AwsException;
 use GuzzleHttp\Promise;
 
@@ -27,14 +27,16 @@ class FaceRecognitionJob implements ShouldQueue
     public $objectKey;
     public $venueSlotCount;
     public $duaType;
-    public function __construct($jobId, $rejoin, $objectKey,$venueSlotCount,$duaType)
+    public $venueId;
+    public function __construct($jobId, $rejoin, $objectKey,$venueId,$duaType)
     {
         // $this->selfieImage = $selfieImage;
         $this->rejoin = $rejoin;
         $this->jobId = $jobId;
         $this->objectKey = $objectKey;
-        $this->venueSlotCount = $venueSlotCount;
+        // $this->venueSlotCount = $venueSlotCount;
         $this->duaType = $duaType;
+        $this->venueId = $venueId;
 
         //
     }
@@ -47,6 +49,7 @@ class FaceRecognitionJob implements ShouldQueue
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
         $query = Vistors::whereDate('created_at', date('Y-m-d'));
+
         $userAll = $query->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
 
         $DuaCount = $query->where(['dua_type' =>'dua'])->count();
@@ -55,10 +58,10 @@ class FaceRecognitionJob implements ShouldQueue
         $wlDumCount = $query->where(['dua_type' =>'working_lady_dum'])->count();
 
 
-        $duaCount = $this->venueSlotCount['dua'];
-        $dumCount = $this->venueSlotCount['dum'] - 1000;
-        $wlduaCount = $this->venueSlotCount['wl_dua'] - 800;
-        $wldumCount = $this->venueSlotCount['wl_dum'] - 1800;
+        $duaCount =  VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'dua'])->count();
+        $dumCount =  VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'dum'])->count();
+        $wlduaCount = VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'working_lady_dua'])->count();
+        $wldumCount = VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'working_lady_dum'])->count();;
 
 
         if( $DuaCount == $duaCount && $this->duaType == 'dua'){
