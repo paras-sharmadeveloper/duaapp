@@ -565,7 +565,7 @@ h2 {
                     var redirectRoute =  $("#processing").attr('data-duaRoute');
                     window.location.href = redirectRoute;
 
-                    }, 5000);
+                    }, 10000);
                 } else {
                     console.error('Error pinging backend:', error);
                 }
