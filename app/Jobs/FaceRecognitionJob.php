@@ -25,12 +25,17 @@ class FaceRecognitionJob implements ShouldQueue
     public $rejoin;
     public $jobId;
     public $objectKey;
-    public function __construct($jobId, $rejoin, $objectKey)
+    public $venueSlotCount;
+    public $duaType;
+    public function __construct($jobId, $rejoin, $objectKey,$venueSlotCount,$duaType)
     {
         // $this->selfieImage = $selfieImage;
         $this->rejoin = $rejoin;
         $this->jobId = $jobId;
         $this->objectKey = $objectKey;
+        $this->venueSlotCount = $venueSlotCount;
+        $this->duaType = $duaType;
+
         //
     }
 
@@ -39,17 +44,99 @@ class FaceRecognitionJob implements ShouldQueue
      */
     public function handle()
     {
-        Log::info("Job dispatched ff");
         $rejoin = $this->rejoin;
         $objectKey = $this->objectKey;
-        $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        // $userAll = Vistors::whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
-        // Log::info("UserAll7" . json_encode($userAll));
+        $query = Vistors::whereDate('created_at', date('Y-m-d'));
+        $userAll = $query->whereNotNull('recognized_code')->get(['recognized_code', 'id'])->toArray();
+
+        $DuaCount = $query->where(['dua_type' =>'dua'])->count();
+        $DumCount = $query->where(['dua_type' =>'dum'])->count();
+        $wlDuaCount = $query->where(['dua_type' =>'working_lady_dua'])->count();
+        $wlDumCount = $query->where(['dua_type' =>'working_lady_dum'])->count();
+
+
+        $duaCount = $this->venueSlotCount['dua'];
+        $dumCount = $this->venueSlotCount['dum'];
+        $wlduaCount = $this->venueSlotCount['wl_dua'];
+        $wldumCount = $this->venueSlotCount['wl_dum'];
+
+
+        if( $DuaCount == $duaCount && $this->duaType == 'dua'){
+
+            JobStatus::where(['job_id' => $this->jobId])->update([
+                'result' => json_encode(
+                    [
+                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
+                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'status' => false,
+                    'token' => 'finished'
+                    ]
+                ),
+                'status' => 'token_finished'
+            ]);
+            return false;
+
+
+        }
+        if( $DumCount == $dumCount && $this->duaType == 'dum'){
+
+            JobStatus::where(['job_id' => $this->jobId])->update([
+                'result' => json_encode(
+                    [
+
+                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
+                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'status' => false,
+                    'token' => 'finished'
+                    ]
+                ),
+                'status' => 'token_finished'
+            ]);
+            return false;
+        }
+
+        if( $wlDuaCount == $wlduaCount && $this->duaType == 'working_lady_dua'){
+
+            JobStatus::where(['job_id' => $this->jobId])->update([
+                'result' => json_encode(
+                    [
+
+                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
+                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'status' => false,
+                    'token' => 'finished'
+                    ]
+                ),
+                'status' => 'token_finished'
+            ]);
+            return false;
+
+        }
+
+        if( $wlDumCount == $wldumCount && $this->duaType == 'working_lady_dum'){
+
+            JobStatus::where(['job_id' => $this->jobId])->update([
+                'result' => json_encode(
+                    [
+
+                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
+                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'status' => false,
+                    'token' => 'finished'
+                    ]
+                ),
+                'status' => 'token_finished'
+            ]);
+            return false;
+
+
+        }
+
+
+
         $userArr = [];
         $count = 0;
-        $ab = 1;
-        $b = 1;
-        if (!empty($userAll) &&  $rejoin > 0 && $ab == $b) {
+        if (!empty($userAll) &&  $rejoin > 0) {
 
             try {
 
@@ -119,7 +206,6 @@ class FaceRecognitionJob implements ShouldQueue
                         'status' => 'completed'
                     ]);
 
-                    WhatsAppConfirmation::dispatch();
                 } else {
                     JobStatus::where(['job_id' => $this->jobId])->update([
                         'result' => json_encode(

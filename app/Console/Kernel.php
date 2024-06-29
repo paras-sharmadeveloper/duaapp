@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\FetchVisitorsWithNullMsgSid;
+use App\Console\Commands\{FetchVisitorsWithNullMsgSid,FetchPendingJobStatus,FetchTokenFinishedJobStatus};
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\FetchVisitorsWithNullMsgSid::class,
+        Commands\FetchPendingJobStatus::class,
+        Commands\FetchTokenFinishedJobStatus::class,
     ];
 
     protected function schedule(Schedule $schedule): void
@@ -26,6 +28,8 @@ class Kernel extends ConsoleKernel
         // ->withoutOverlapping()
         // ->sendOutputTo('storage/logs/scheduler.log');
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyFiveMinutes();
+        $schedule->command(FetchPendingJobStatus::class)->everyFiveMinutes();
+        $schedule->command(FetchTokenFinishedJobStatus::class)->everyFiveMinutes();
 
     }
 

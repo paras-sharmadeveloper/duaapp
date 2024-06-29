@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country,  Timezone, Reason, JobStatus, WorkingLady};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country,  Timezone, Reason, JobStatus, VisitorTemp, WorkingLady};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{FaceRecognitionJob, WhatsAppConfirmation};
+use App\Jobs\{FaceRecognitionJob, WhatsAppConfirmation, WhatsappforTempUsers};
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -50,7 +50,6 @@ class VisitorBookingController extends Controller
                     $visitor->user_timezone = $inputs['timezone'];
                     $visitor->lang = $inputs['lang'];
                     $visitor->country_code = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
-                    // $visitor->country_code = (strpos($inputs['country_code'],'+')) ? $inputs['country_code'] : '+'.$inputs['country_code'];
                     $visitor->phone = $inputs['mobile'];
                     $visitor->is_whatsapp = 'yes';
                     $visitor->booking_uniqueid = $uuid;
@@ -77,6 +76,8 @@ class VisitorBookingController extends Controller
                     $bookingId = $visitor->id;
                     // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
                     WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+                    $jobStatus->update(['entry_created' => 'Yes']);
+                    //
                     return response()->json([
                         'message' => 'Booking submitted successfully',
                         "status" => true,
@@ -90,6 +91,8 @@ class VisitorBookingController extends Controller
 
                     if ($errorCode === 1062) {
 
+                        $jobStatus->update(['entry_created' => 'Duplicate']);
+
                         return response()->json([
                             'errors' => [
                                 'status' => false,
@@ -102,6 +105,7 @@ class VisitorBookingController extends Controller
 
 
                     } else {
+                        $jobStatus->update(['entry_created' => 'Pending']);
                         return response()->json([
                             'errors' => [
                                 'status' => false,
@@ -115,6 +119,7 @@ class VisitorBookingController extends Controller
 
                 } catch (\Exception $e) {
                     // Log any other exceptions
+                    $jobStatus->update(['entry_created' => 'Error']);
                     Log::error('Exception: ' . $e->getMessage());
 
                     return response()->json([
@@ -126,6 +131,7 @@ class VisitorBookingController extends Controller
 
                 }
             } else {
+                $jobStatus->update(['entry_created' => 'Already_booked']);
                 return response()->json([
                     'errors' => [
                         'status' => false,
@@ -135,6 +141,7 @@ class VisitorBookingController extends Controller
                 ], 455);
             }
         }else if($jobStatus['status'] == 'error'){
+            $jobStatus->update(['entry_created' => 'Error']);
             return response()->json([
                 'errors' => [
                     'status' => false,
@@ -143,7 +150,31 @@ class VisitorBookingController extends Controller
                     'message_ur' => 'بیک اینڈ پر کچھ مسئلہ ہو سکتا ہے براہ کرم کچھ دیر بعد کوشش کریں۔',
                 ]
             ], 455);
-        } else {
+        } else if($jobStatus['status'] == 'token_finished'){
+            $userInputs = json_decode($jobStatus['user_inputs'], true);
+            $inputs = $userInputs['inputs'];
+            $countryCode = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
+            $mobile = $inputs['mobile'];
+
+            $completeNumber =   $countryCode . $mobile;
+
+            $temp =  VisitorTemp::create(['user_inputs' => $jobStatus['user_inputs']]);
+            $jobStatus->update(['entry_created' => 'Yes']);
+
+            WhatsappforTempUsers::dispatch($temp->id,  $completeNumber)->onQueue('whatsapp-temp-users');
+            return response()->json([
+                'errors' => [
+                    'status' => false,
+                    'refresh' => true,
+                    'message' => 'All Token is issued for the day. please try after some days.',
+                    'message_ur' => 'تمام ٹوکن دن کے لیے جاری کیے جاتے ہیں۔ براہ کرم کچھ دنوں کے بعد کوشش کریں۔',
+                ]
+            ], 455);
+        }
+
+
+        else {
+            $jobStatus->update(['entry_created' => 'Job_incomplete']);
             return response()->json([
                 'status' => false,
                 'message' => 'Job not Completed',
@@ -269,8 +300,6 @@ class VisitorBookingController extends Controller
 
     public function WaitingPage(Request $request)
     {
-
-        $vaildation = [];
         $validation = [
             'mobile' => 'required|string|digits:10|max:10',
             'country_code' => 'required'
@@ -285,18 +314,24 @@ class VisitorBookingController extends Controller
 
 
        $tokenStatus = $this->FinalBookingCheck($request);
-        // return response()->json([
-        //     'message' => $tokenStatus,
-        //     "status" => false,
-        // ], 422);
+
 
         $rejoin = 0;
         $userInputs = [];
         if ($tokenStatus['status']) {
+
+            $venueSlotsCount = [];
+
+
+
             $slotId = $tokenStatus['slot_id'];
             $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
             $rejoin = $venueAddress->rejoin_venue_after;
+            $venueSlotsCount['dua'] = $venueAddress->dua_slots;
+            $venueSlotsCount['dum'] = $venueAddress->dum_slots;
+            $venueSlotsCount['wl_dua'] = $venueAddress->working_lady_dua;
+            $venueSlotsCount['wl_dum'] = $venueAddress->working_lady_dum;
             $userInputs['inputs'] = [];
             $userInputs['inputs']['slotId'] = $slotId ?? null;
             $userInputs['inputs']['tokenId'] = $tokenId ?? null;
@@ -305,7 +340,6 @@ class VisitorBookingController extends Controller
 
             // Exclude 'captured_user_image' from $request->except
             $userInputs['inputs'] += $request->except('captured_user_image');
-
 
             $captured_user_image = $request->input('captured_user_image');
             if (!empty($captured_user_image)) {
@@ -337,7 +371,7 @@ class VisitorBookingController extends Controller
 
                 if ($uploadSuccess) {
                     // FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
-                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition');
+                    FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey,$venueSlotsCount , $request->input('duaType'))->onQueue('face-recognition');
 
                     JobStatus::create([
                         'job_id' => $jobId,

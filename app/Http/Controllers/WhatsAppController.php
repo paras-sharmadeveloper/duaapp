@@ -70,22 +70,6 @@ class WhatsAppController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Log::info('landed' . $this->countryId->id);
         $body = $request->all();
         $today = Carbon::now();
