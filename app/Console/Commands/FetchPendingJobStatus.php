@@ -98,6 +98,6 @@ class FetchPendingJobStatus extends Command
 
         }
         // Output any information if needed
-        $this->info('Visitors with NULL msg_sid fetched successfully.');
+        $this->info('Fetch Pending Job Status fetched successfully.');
     }
 }

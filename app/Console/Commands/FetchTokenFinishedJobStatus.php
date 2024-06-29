@@ -42,6 +42,6 @@ class FetchTokenFinishedJobStatus extends Command
             WhatsappforTempUsers::dispatch($temp->id,  $completeNumber)->onQueue('whatsapp-temp-users');
         }
         // Output any information if needed
-        $this->info('Visitors with NULL msg_sid fetched successfully.');
+        $this->info('FetchToken Finished Job Status fetched successfully.');
     }
 }
