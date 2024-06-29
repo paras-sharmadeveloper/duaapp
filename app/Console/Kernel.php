@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         // ->withoutOverlapping()
         // ->sendOutputTo('storage/logs/scheduler.log');
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyFiveMinutes();
-        $schedule->command(FetchPendingJobStatus::class)->everyFiveMinutes();
-        $schedule->command(FetchTokenFinishedJobStatus::class)->everyFiveMinutes();
+        $schedule->command(FetchPendingJobStatus::class)->everyTenMinutes();
+        $schedule->command(FetchTokenFinishedJobStatus::class)->everyTenMinutes();
 
     }
 
