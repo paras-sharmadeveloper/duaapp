@@ -56,9 +56,9 @@ class FaceRecognitionJob implements ShouldQueue
 
 
         $duaCount = $this->venueSlotCount['dua'];
-        $dumCount = $this->venueSlotCount['dum'];
-        $wlduaCount = $this->venueSlotCount['wl_dua'];
-        $wldumCount = $this->venueSlotCount['wl_dum'];
+        $dumCount = $this->venueSlotCount['dum'] - 1000;
+        $wlduaCount = $this->venueSlotCount['wl_dua'] - 800;
+        $wldumCount = $this->venueSlotCount['wl_dum'] - 1800;
 
 
         if( $DuaCount == $duaCount && $this->duaType == 'dua'){
