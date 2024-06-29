@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Jobs\WhatsAppConfirmation;
+use App\Jobs\WhatsappforTempUsers;
 use App\Models\JobStatus;
-use App\Models\Vistors;
+use App\Models\{Vistors,VisitorTemp};
 use App\Models\WorkingLady;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -83,14 +84,29 @@ class FetchPendingJobStatus extends Command
                 Log::error('Booking error' . $e);
 
                 $errorCode = $e->errorInfo[1];
-
+                $message = "";
                 if ($errorCode === 1062) {
+
+                    $message = "This Token already taken by someone please try again for another token there is limited tokens in system.";
 
                     JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
                 }else{
                     JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Error']);
                     // use Illuminate\Support\Facades\Log;
                 }
+                $userInputs = json_decode($jobStatus['user_inputs'], true);
+                $inputs = $userInputs['inputs'];
+                $countryCode = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
+                $mobile = $inputs['mobile'];
+
+                $completeNumber =   $countryCode . $mobile;
+
+                $temp =  VisitorTemp::create(['user_inputs' => $jobStatus['user_inputs']]);
+                JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
+
+
+
+                WhatsappforTempUsers::dispatch($temp->id,  $completeNumber,$message)->onQueue('whatsapp-temp-users');
                 //throw $th;
             }
 

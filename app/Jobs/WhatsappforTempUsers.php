@@ -18,10 +18,13 @@ class WhatsappforTempUsers implements ShouldQueue
 
     public $id;
     public $phone;
-    public function __construct($id , $mobile)
+
+    public $data;
+    public function __construct($id , $mobile,$data='')
     {
         $this->id = $id;
         $this->phone = $mobile;
+        $this->data = $data;
 
     }
 
@@ -33,7 +36,13 @@ class WhatsappforTempUsers implements ShouldQueue
         try {
             $mobile =  'whatsapp:' . $this->phone;
 
-            $data = 'All token has been issued for the day. please try in next dua session.';
+            if(!empty($this->data)){
+                $data = $this->data;
+            }else{
+                $data = 'All token has been issued for the day. please try in next dua session.';
+            }
+
+
             $message = <<<EOT
                 Please see the below warning message:
                 $data
