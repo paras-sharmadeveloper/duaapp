@@ -78,7 +78,7 @@ class FetchPendingJobStatus extends Command
                 $bookingId = $visitor->id;
                 // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
                 WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-                $jobStatus->update(['entry_created' => 'Yes']);
+                JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
             } catch (QueryException $e) {
                 Log::error('Booking error' . $e);
 
@@ -86,9 +86,9 @@ class FetchPendingJobStatus extends Command
 
                 if ($errorCode === 1062) {
 
-                    $jobStatus->update(['entry_created' => 'Duplicate']);
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
                 }else{
-                    $jobStatus->update(['entry_created' => 'Error']);
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Error']);
                     // use Illuminate\Support\Facades\Log;
                 }
                 //throw $th;
