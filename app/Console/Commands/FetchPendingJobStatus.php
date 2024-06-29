@@ -30,7 +30,7 @@ class FetchPendingJobStatus extends Command
     public function handle()
     {
 
-        $jobStats = JobStatus::whereDate('created_at',date('Y-m-d'))->where(['entry_created' => 'Pending'])->get( ['id'])->toArray();
+        $jobStats = JobStatus::whereDate('created_at',date('Y-m-d'))->where(['entry_created' => 'Pending'])->get()->toArray();
         // echo "<pre>"; print_r($visitors); die;
         foreach ($jobStats as $jobStatus) {
             $userInputs = json_decode($jobStatus['user_inputs'], true);
