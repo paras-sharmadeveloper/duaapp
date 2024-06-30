@@ -107,14 +107,14 @@
                         foreach($visitors as $visitor){
 
 
-                            if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'dua' ){
+                            // if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'dua' ){
 
-                                $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
-
-                            }
-                            // if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'dum' ){
                             //     $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
+
                             // }
+                            if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'dum' ){
+                                $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
+                            }
                             // if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'working_lady_dua' ){
 
                             //     $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
