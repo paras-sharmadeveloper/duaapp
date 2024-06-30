@@ -123,10 +123,10 @@
                                 $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
 
                             }
-                            if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'working_lady_dum' ){
+                            if($slotCreated > 0  && $visitor->slot->type == 'working_lady_dum' ){
                               $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
-
-
+                            }else{
+                                $totalBookings[$visitor->slot->venue_address_id]['working_lady_dum'][] = 0 ;
                             }
 
                         }
@@ -176,9 +176,8 @@
                                 {{  (isset($totalBookings[$venueAdd->id]['working_lady_dua'])) ?count($totalBookings[$venueAdd->id]['working_lady_dua']):0 }}
                                  / {{getTotalTokens($venueAdd->id , 'working_lady_dua') }}
                             </td>
-                            <td></td>
-                            {{-- <td style="text-align: center"> {{  (isset($totalBookings[$venueAdd->id]['working_lady_dum'])) ?count($totalBookings[$venueAdd->id]['working_lady_dum']):0 }}
-                                / {{getTotalTokens($venueAdd->id , 'working_lady_dum') }}  </td> --}}
+                            <td style="text-align: center"> {{  (isset($totalBookings[$venueAdd->id]['working_lady_dum'])) ?count($totalBookings[$venueAdd->id]['working_lady_dum']):0 }}
+                                / {{getTotalTokens($venueAdd->id , 'working_lady_dum') }}  </td>
                             <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
                             <td><span class="badge bg-{{  ($slotCreated > 0) ? "success" : "warning" }}"> {{  ($slotCreated > 0) ? 'Generated': 'In-porcess'  }} </span> </td>
                             <td class="d-flex-my cdt justify-content-between">
