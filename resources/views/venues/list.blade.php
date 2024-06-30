@@ -123,11 +123,11 @@
                                 $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
 
                             }
-                            if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'working_lady_dum' ){
-                              $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
+                            // if($slotCreated > 0 && $visitor->slot->type !== null && $visitor->slot->type == 'working_lady_dum' ){
+                            //   $totalBookings[$visitor->slot->venue_address_id][$visitor->slot->type][] = $visitor->slot->id ;
 
 
-                            }
+                            // }
 
                         }
 
