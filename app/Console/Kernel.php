@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\{FetchVisitorsWithNullMsgSid,FetchPendingJobStatus,FetchTokenFinishedJobStatus};
+use App\Console\Commands\{FetchVisitorsWithNullMsgSid,FetchPendingJobStatus,FetchTokenFinishedJobStatus,RetryVisitorTempFailedMessage};
 
 class Kernel extends ConsoleKernel
 {
@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
         Commands\FetchVisitorsWithNullMsgSid::class,
         Commands\FetchPendingJobStatus::class,
         Commands\FetchTokenFinishedJobStatus::class,
+        Commands\RetryVisitorTempFailedMessage::class,
+
     ];
 
     protected function schedule(Schedule $schedule): void
@@ -30,6 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyFiveMinutes();
         $schedule->command(FetchPendingJobStatus::class)->everyFiveMinutes();
         $schedule->command(FetchTokenFinishedJobStatus::class)->everyFiveMinutes();
+        $schedule->command(RetryVisitorTempFailedMessage::class)->everyTwoMinutes();
 
     }
 
