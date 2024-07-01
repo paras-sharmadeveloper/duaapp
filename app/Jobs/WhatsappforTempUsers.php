@@ -44,8 +44,8 @@ class WhatsappforTempUsers implements ShouldQueue
 
 
             $message = <<<EOT
-                Please see the below warning message:
-                $data
+            Please see the below warning message:
+            $data
             EOT;
 
 
