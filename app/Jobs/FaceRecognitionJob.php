@@ -160,6 +160,8 @@ class FaceRecognitionJob implements ShouldQueue
 
                 $targetImages = [];
 
+
+
                 foreach ($userAll as $key => $user) {
                     try {
                         // Log::info("Index try".$key);

@@ -20,13 +20,11 @@ class DashboardController extends Controller
 
        // $data = Vistors::with(['venueSloting'])->whereDate('created_at',date('Y-m-d'));
 
-                $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
         $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
 
         // Retrieve data for one month
-        $data = Vistors::with(['venueSloting'])
-                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
-
+        $data = Vistors::with(['venueSloting'])->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
 
         if ($request->has('dua_type') && !empty($request->input('dua_type'))) {
             $data->where('dua_type', $request->input('dua_type'));

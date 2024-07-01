@@ -225,9 +225,9 @@ Auth::routes(['register' => false]);
 
 
     Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
-    // Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit'); // with queue
+    Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit'); // with queue
     Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
-    Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+    // Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 
 

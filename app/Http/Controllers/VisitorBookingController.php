@@ -31,6 +31,10 @@ class VisitorBookingController extends Controller
     public function checkStatusForJob($jobId)
     {
         $jobStatus = JobStatus::where(['job_id' => $jobId])->get()->first();
+
+
+
+
         if (!empty($jobStatus) && $jobStatus['status'] == 'completed' ) {
             $result = $jobStatus['result'];
             // $result = json_decode($jobStatus['result']);
@@ -38,8 +42,21 @@ class VisitorBookingController extends Controller
 
                 try {
                     $userInputs = json_decode($jobStatus['user_inputs'], true);
+
+
                     // $userInputs = $jobStatus['user_inputs'];
                     $inputs = $userInputs['inputs'];
+
+
+                    $tokenIs = VenueSloting::where('venue_address_id',$inputs['venueId'])
+                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                    ->where(['type' => $inputs['dua_type']])
+                    ->orderBy('id', 'ASC')
+                    ->select(['venue_address_id', 'token_id', 'id'])->first();
+
+
+
+
                     $uuid = Str::uuid()->toString();
                     // Create a new Visitor record
                     $visitor = new Vistors();
@@ -324,16 +341,17 @@ class VisitorBookingController extends Controller
 
 
 
-            $slotId = $tokenStatus['slot_id'];
-            $tokenId = $tokenStatus['tokenId'];
+            // $slotId = $tokenStatus['slot_id'];
+            // $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
             $rejoin = $venueAddress->rejoin_venue_after;
             $venueAddressId= $venueAddress->id;
             $userInputs['inputs'] = [];
-            $userInputs['inputs']['slotId'] = $slotId ?? null;
-            $userInputs['inputs']['tokenId'] = $tokenId ?? null;
-            $userInputs['inputs']['booking_number'] = $tokenId ?? null; // Assuming booking_number should be tokenId
+            // $userInputs['inputs']['slotId'] = $slotId ?? null;
+         //   $userInputs['inputs']['tokenId'] = $tokenId ?? null;
+         //   $userInputs['inputs']['booking_number'] = $tokenId ?? null; // Assuming booking_number should be tokenId
             $userInputs['inputs']['user_ip'] = $request->ip();
+            $userInputs['inputs']['venue_address_id'] = $tokenStatus['venue_address_id'];
 
             // Exclude 'captured_user_image' from $request->except
             $userInputs['inputs'] += $request->except('captured_user_image');
@@ -486,28 +504,30 @@ class VisitorBookingController extends Controller
             if ($status['allowed']) {
 
                 session()->forget('phoneCode');
-                $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                    ->where(['type' => $request->input('duaType')])
-                    ->orderBy('id', 'ASC')
-                    ->select(['venue_address_id', 'token_id', 'id'])->first();
+                return [
+                    'venue_address_id' => $venuesListArr->id,
+                    'status' =>  true,
+                    'venuesListArr' => $venuesListArr,
+                    'rejoin' => $rejoinStatus
+                ];
 
-                if (!empty($tokenIs)) {
-                    return [
-                        'status' =>  true,
-                        'tokenId' => $tokenIs->token_id,
-                        'slot_id' => $tokenIs->id,
-                        'venuesListArr' => $venuesListArr,
-                        'rejoin' => $rejoinStatus
-                    ];
-                } else {
 
-                    return [
-                        'status' =>  false,
-                        'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                        'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                    ];
-                }
+                // $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+                //     ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                //     ->where(['type' => $request->input('duaType')])
+                //     ->orderBy('id', 'ASC')
+                //     ->select(['venue_address_id', 'token_id', 'id'])->first();
+
+                // if (!empty($tokenIs)) {
+
+                // } else {
+
+                //     return [
+                //         'status' =>  false,
+                //         'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                //         'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+                //     ];
+                // }
             } else {
 
                 $message =  [
