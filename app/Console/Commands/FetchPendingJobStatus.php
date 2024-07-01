@@ -104,8 +104,6 @@ class FetchPendingJobStatus extends Command
                 $temp =  VisitorTemp::create(['user_inputs' => $jobStatus['user_inputs']]);
                 JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
 
-
-
                 WhatsappforTempUsers::dispatch($temp->id,  $completeNumber,$message)->onQueue('whatsapp-temp-users');
                 //throw $th;
             }

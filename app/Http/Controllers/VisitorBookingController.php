@@ -54,8 +54,7 @@ class VisitorBookingController extends Controller
                     ->orderBy('id', 'ASC')
                     ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-
-
+                    $tokenId = $tokenIs->token_id;
 
                     $uuid = Str::uuid()->toString();
                     // Create a new Visitor record
@@ -70,7 +69,7 @@ class VisitorBookingController extends Controller
                     $visitor->phone = $inputs['mobile'];
                     $visitor->is_whatsapp = 'yes';
                     $visitor->booking_uniqueid = $uuid;
-                    $visitor->booking_number = $inputs['tokenId']; //
+                    $visitor->booking_number = $tokenId; //
                     $visitor->user_ip = (isset($inputs['user_ip'])) ? $inputs['user_ip'] : null;
                     $visitor->recognized_code = (!empty($result)) ?  $result['recognized_code'] : null;
                     $visitor->meeting_type = 'on-site';
@@ -94,7 +93,6 @@ class VisitorBookingController extends Controller
                     $jobStatus->update(['entry_created' => 'Yes']);
                     WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-                    //
                     return response()->json([
                         'message' => 'Booking submitted successfully',
                         "status" => true,
@@ -102,7 +100,6 @@ class VisitorBookingController extends Controller
                         'redirect_url' => route('booking.status', [$uuid])
                     ], 200);
                 } catch (QueryException $e) {
-                    Log::error('Booking error' . $e);
 
                     $errorCode = $e->errorInfo[1];
 
@@ -119,8 +116,6 @@ class VisitorBookingController extends Controller
                             ]
                         ], 455);
 
-
-
                     } else {
                         $jobStatus->update(['entry_created' => 'Pending']);
                         return response()->json([
@@ -132,12 +127,11 @@ class VisitorBookingController extends Controller
                         ], 455);
                     }
 
-                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
 
                 } catch (\Exception $e) {
                     // Log any other exceptions
                     $jobStatus->update(['entry_created' => 'Error']);
-                    Log::error('Exception: ' . $e->getMessage());
+                    // Log::error('Exception: ' . $e->getMessage());
 
                     return response()->json([
                         'errors' => [

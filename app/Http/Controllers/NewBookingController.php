@@ -67,38 +67,20 @@ class NewBookingController extends Controller
 
     public function handleStatusUpdate(Request $request)
     {
-        // Extract information from the Twilio webhook request
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
-
-
-        Log::info('messageSid:' . $messageSid);
-        Log::info('Status:' . $status);
-
-        // Update your database or take any other necessary action based on the status update
-        // Example: Update the message status in the database
         $message = Vistors::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
             $message->save();
         }
-
-        // Respond to Twilio's webhook request with a 200 OK status
         return response()->json(['status' => 'success'], 200);
     }
 
     public function handleStatusUpdateNotification(Request $request)
     {
-        // Extract information from the Twilio webhook request
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
-
-
-        Log::info('messageSid:' . $messageSid);
-        Log::info('Status:' . $status);
-
-        // Update your database or take any other necessary action based on the status update
-        // Example: Update the message status in the database
         $message = WhatsappNotificationLogs::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
@@ -106,21 +88,13 @@ class NewBookingController extends Controller
             $message->save();
         }
 
-        // Respond to Twilio's webhook request with a 200 OK status
         return response()->json(['status' => 'success'], 200);
     }
     public function handleStatusUpdateVisitorTemp(Request $request)
     {
-        // Extract information from the Twilio webhook request
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
 
-
-        Log::info('messageSid:' . $messageSid);
-        Log::info('Status:' . $status);
-
-        // Update your database or take any other necessary action based on the status update
-        // Example: Update the message status in the database
         $message = VisitorTemp::where('msg_sid', $messageSid)->first();
         if ($message) {
             $message->msg_sent_status = $status;
