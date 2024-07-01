@@ -39,14 +39,14 @@ class WhatsappforTempUsers implements ShouldQueue
             if(!empty($this->data)){
                 $data = $this->data;
             }else{
-                $data = 'All token has been issued for the day. please try in next dua session.';
+                $data = 'Due to high traffic all tokens have been issued for today. Kindly please try next week at 08:00 AM sharply. Thank you';
             }
 
 
             $message = <<<EOT
-                Please see the below warning message:
-                $data
-                EOT;
+            Please see the below warning message:
+            $data
+            EOT;
 
 
             $result = $this->sendWhatsAppMessage($mobile, $message);
