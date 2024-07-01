@@ -29,7 +29,7 @@ class RetryVisitorTempFailedMessage extends Command
     {
         $jobSta = VisitorTemp::whereDate('created_at', date('Y-m-d'))
         ->where('msg_sent_status', 'failed')
-        ->limit(2)
+        // ->limit(2)
         ->get()
         ->toArray();        // echo "<pre>"; print_r($visitors); die;
         foreach ($jobSta as $jobStatus) {
