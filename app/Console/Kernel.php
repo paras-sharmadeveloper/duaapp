@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(FetchVisitorsWithNullMsgSid::class)->everyFiveMinutes();
         $schedule->command(FetchPendingJobStatus::class)->everyFiveMinutes();
         $schedule->command(FetchTokenFinishedJobStatus::class)->everyFiveMinutes();
-        $schedule->command(RetryVisitorTempFailedMessage::class)->everyTwoMinutes();
+        // $schedule->command(RetryVisitorTempFailedMessage::class)->everyTwoMinutes();
 
     }
 
