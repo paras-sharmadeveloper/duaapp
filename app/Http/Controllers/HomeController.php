@@ -231,13 +231,13 @@ class HomeController extends Controller
             $captured_user_image = $request->input('captured_user_image');
             if (!empty($captured_user_image)) {
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
-                if (!empty($isUsers) && $isUsers['status'] == false) {
-                    $end = microtime(true);
-                    $totalTime = $end - $start;
-                    $recognizedCode = $isUsers['recognized_code'];
-                    return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
-                }
+                // $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
+                // if (!empty($isUsers) && $isUsers['status'] == false) {
+                //     $end = microtime(true);
+                //     $totalTime = $end - $start;
+                //     $recognizedCode = $isUsers['recognized_code'];
+                //     return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
+                // }
             }
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
