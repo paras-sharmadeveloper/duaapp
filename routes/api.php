@@ -26,9 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
 
 
-
-
-
 // Route::post('/handle-incoming-message', [WhatsAppController::class, 'handleWebhook']);
 // Route::post('/handle-fallback', [WhatsAppController::class, 'handleFallback']);
 // https://app.kahayfaqeer.org/api//twilio/status
