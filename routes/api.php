@@ -14,6 +14,9 @@ use App\Http\Controllers\{NewBookingController, QrCodeDoorUnlockApiController, T
 |
 */
 
+
+Route::post('/door/open', [QrCodeDoorUnlockApiController::class, 'OpenDoor'])->name('open.door');
+Route::post('/door/door_heart_beat', [QrCodeDoorUnlockApiController::class, 'HeartBeat'])->name('heart.beat');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -22,8 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
 
-Route::post('/door/open', [QrCodeDoorUnlockApiController::class, 'OpenDoor'])->name('open.door');
-Route::post('/door/door_heart_beat', [QrCodeDoorUnlockApiController::class, 'HeartBeat'])->name('heart.beat');
 
 
 
