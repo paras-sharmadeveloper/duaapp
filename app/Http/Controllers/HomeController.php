@@ -212,6 +212,7 @@ class HomeController extends Controller
 
         try {
             $isUsers = [];
+            $recognizedCode = null;
 
             $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
             $source = "Website";
@@ -234,7 +235,8 @@ class HomeController extends Controller
                 if (!empty($isUsers) && $isUsers['status'] == false) {
                     $end = microtime(true);
                     $totalTime = $end - $start;
-                    return response()->json(['message' => $isUsers['message'], 'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
+                    $recognizedCode = $isUsers['recognized_code'];
+                    return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
                 }
             }
             $uuid = Str::uuid()->toString();
@@ -261,7 +263,7 @@ class HomeController extends Controller
             $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
             $booking->booking_uniqueid = $uuid;
             $booking->user_ip =   $request->ip();
-            $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : null;
+            $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : $recognizedCode ;
             $booking->booking_number = $bookingNumber;
             $booking->meeting_type = $venueAddress->type;
             $booking->user_timezone = $request->input('timezone', null);
