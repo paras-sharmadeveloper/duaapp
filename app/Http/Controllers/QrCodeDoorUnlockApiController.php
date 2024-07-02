@@ -24,6 +24,11 @@ class QrCodeDoorUnlockApiController extends Controller
         Log::info('Received API request', $validatedData);
 
         // Perform any business logic here
+        // you can respond  {"ResultCode":"1",”ActIndex”:”1”} to open
+        // if not open  respond  {"ResultCode":"0",”ActIndex”:”1”}
+
+
+
 
         $response = [
             'ResultCode' => '1',  // 1 means success; 0 is failure
