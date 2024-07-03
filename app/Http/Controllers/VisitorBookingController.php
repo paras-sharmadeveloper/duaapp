@@ -369,7 +369,17 @@ class VisitorBookingController extends Controller
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
 
 
+                // $livefaces = $this->detectLiveness($myImage);
 
+                // if(!$livefaces['status']){
+                //     return response()->json([
+                //         'errors' =>  [
+                //             'status' => false,
+                //             'message' => 'Your token cannot be booked at this time. Please refresh this window and try again',
+                //             'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ کوشش کریں۔',
+                //         ]
+                //     ], 422);
+                // }
 
                 $jobId = (string) Str::uuid();
                 $filename = 'selfie_' . time() . '.jpg';
