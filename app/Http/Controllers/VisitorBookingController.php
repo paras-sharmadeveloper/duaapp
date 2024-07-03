@@ -373,7 +373,11 @@ class VisitorBookingController extends Controller
 
                 if(!$livefaces['status']){
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
+                        'errors' =>  [
+                            'status' => false,
+                            'message' => 'We are unable to detect you as real human.Please capture properly',
+                            'message_ur' => 'We are unable to detect you as real human.Please capture properly',
+                        ]
                     ], 422);
                 }
 
@@ -396,11 +400,7 @@ class VisitorBookingController extends Controller
                 } catch (\Exception $e) {
                     // Log::error('Failed to upload file to S3.'.$e->getMessage());
                     return response()->json([
-                        'errors' =>  [
-                            'status' => false,
-                            'message' => 'We are unable to detect you as real human.Please capture properly',
-                            'message_ur' => 'We are unable to detect you as real human.Please capture properly',
-                        ]
+                        'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
                     ], 422);
                 }
 
