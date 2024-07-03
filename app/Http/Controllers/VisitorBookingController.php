@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country,  Timezone, Reason, JobStatus, VisitorTemp, WorkingLady};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country,  Reason, JobStatus, VisitorTemp, WorkingLady};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{FaceRecognitionJob, WhatsAppConfirmation, WhatsappforTempUsers};
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\QueryException;
+use Aws\Rekognition\RekognitionClient;
 class VisitorBookingController extends Controller
 {
     public $venueCountry;
@@ -367,6 +367,16 @@ class VisitorBookingController extends Controller
             if (!empty($captured_user_image)) {
 
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+
+
+                $livefaces = $this->detectLiveness($myImage);
+
+                if(!$livefaces['status']){
+                    return response()->json([
+                        'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
+                    ], 422);
+                }
+
                 $jobId = (string) Str::uuid();
                 $filename = 'selfie_' . time() . '.jpg';
                 $objectKey = $this->encryptFilename($filename);
@@ -386,7 +396,11 @@ class VisitorBookingController extends Controller
                 } catch (\Exception $e) {
                     // Log::error('Failed to upload file to S3.'.$e->getMessage());
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
+                        'errors' =>  [
+                            'status' => false,
+                            'message' => 'We are unable to detect you as real human.Please capture properly',
+                            'message_ur' => 'We are unable to detect you as real human.Please capture properly',
+                        ]
                     ], 422);
                 }
 
@@ -553,6 +567,52 @@ class VisitorBookingController extends Controller
             ];
         }
         return $message;
+    }
+
+    public function detectLiveness($selfieImage)
+    {
+        // $imageData = $request->input('image');
+        // $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
+
+        $rekognition = new RekognitionClient([
+            'version' => 'latest',
+            'region' => env('AWS_DEFAULT_REGION'),
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+
+        // Detect faces in the image
+        $result = $rekognition->detectFaces([
+            'Image' => [
+                'Bytes' => $selfieImage,
+            ],
+            'Attributes' => ['ALL'],
+        ]);
+
+        // Check for liveness by analyzing the result
+        if (count($result['FaceDetails']) > 0) {
+            // At least one face detected
+            foreach ($result['FaceDetails'] as $face) {
+                if ($face['Quality']['Sharpness'] >= 80) {
+                    // Face is sharp, indicating a live person
+                    return [
+                        'status' => true,
+                        'message' => 'Human Face'
+                    ];
+                    // return response()->json(['message' => 'Liveness detected.', 'status' => true], 200);
+                }
+            }
+        }
+
+        return [
+            'status' => false,
+            'message' => 'Not a real face it look like some object or not a real face'
+        ];
+
+        // No live faces detected
+        // return response()->json(['message' => 'Liveness not detected.', 'status' => false], 400);
     }
 
     protected function encryptFilename($filename)

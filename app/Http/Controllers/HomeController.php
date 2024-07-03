@@ -290,7 +290,8 @@ class HomeController extends Controller
             $booking->save();
             $bookingId = $booking->id;
 
-            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
             if ($from == 'admin') {
                 return  redirect()->route('booking.status', $uuid);
