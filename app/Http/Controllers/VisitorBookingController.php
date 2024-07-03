@@ -375,8 +375,8 @@ class VisitorBookingController extends Controller
                     return response()->json([
                         'errors' =>  [
                             'status' => false,
-                            'message' => 'We are unable to detect you as real human.Please capture properly',
-                            'message_ur' => 'We are unable to detect you as real human.Please capture properly',
+                            'message' => 'Your token cannot be booked at this time. Please refresh this window and try again',
+                            'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ کوشش کریں۔',
                         ]
                     ], 422);
                 }
