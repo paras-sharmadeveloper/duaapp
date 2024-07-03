@@ -39,7 +39,7 @@ class WhatsappforTempUsers implements ShouldQueue
             if(!empty($this->data)){
                 $data = $this->data;
             }else{
-                $data = 'Due to high traffic all tokens have been issued for today. Kindly please try next week at 08:00 AM sharply. Thank you';
+                $data = 'Due to high traffic all tokens have been issued for today. Kindly please try next Monday at 08:00 AM sharp. Thank you';
             }
 
 

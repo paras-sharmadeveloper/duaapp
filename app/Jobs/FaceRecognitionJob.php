@@ -69,8 +69,8 @@ class FaceRecognitionJob implements ShouldQueue
             JobStatus::where(['job_id' => $this->jobId])->update([
                 'result' => json_encode(
                     [
-                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
-                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'message' => 'Due to high traffic all tokens have been issued for today. Kindly please try next Monday at 08:00 AM sharp. Thank you',
+                    'message_ur' => 'زیادہ ٹریفک کی وجہ سے آج کے لیے تمام ٹوکن جاری کر دیے گئے ہیں۔ برائے مہربانی اگلے پیر کو 08:00 AM شارپ پر کوشش کریں۔ شکریہ',
                     'status' => false,
                     'token' => 'finished'
                     ]
@@ -87,8 +87,8 @@ class FaceRecognitionJob implements ShouldQueue
                 'result' => json_encode(
                     [
 
-                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
-                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'message' => 'Due to high traffic all tokens have been issued for today. Kindly please try next Monday at 08:00 AM sharp. Thank you',
+                    'message_ur' => 'زیادہ ٹریفک کی وجہ سے آج کے لیے تمام ٹوکن جاری کر دیے گئے ہیں۔ برائے مہربانی اگلے پیر کو 08:00 AM شارپ پر کوشش کریں۔ شکریہ',
                     'status' => false,
                     'token' => 'finished'
                     ]
@@ -104,8 +104,8 @@ class FaceRecognitionJob implements ShouldQueue
                 'result' => json_encode(
                     [
 
-                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
-                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'message' => 'Due to high traffic all tokens have been issued for today. Kindly please try next Monday at 08:00 AM sharp. Thank you',
+                    'message_ur' => 'زیادہ ٹریفک کی وجہ سے آج کے لیے تمام ٹوکن جاری کر دیے گئے ہیں۔ برائے مہربانی اگلے پیر کو 08:00 AM شارپ پر کوشش کریں۔ شکریہ',
                     'status' => false,
                     'token' => 'finished'
                     ]
@@ -122,8 +122,8 @@ class FaceRecognitionJob implements ShouldQueue
                 'result' => json_encode(
                     [
 
-                    'message' => 'Your token cannot be booked at this time. Please try again or later.',
-                    'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+                    'message' => 'Due to high traffic all tokens have been issued for today. Kindly please try next Monday at 08:00 AM sharp. Thank you',
+                    'message_ur' => 'زیادہ ٹریفک کی وجہ سے آج کے لیے تمام ٹوکن جاری کر دیے گئے ہیں۔ برائے مہربانی اگلے پیر کو 08:00 AM شارپ پر کوشش کریں۔ شکریہ',
                     'status' => false,
                     'token' => 'finished'
                     ]
@@ -131,7 +131,6 @@ class FaceRecognitionJob implements ShouldQueue
                 'status' => 'token_finished'
             ]);
             return false;
-
 
         }
 
