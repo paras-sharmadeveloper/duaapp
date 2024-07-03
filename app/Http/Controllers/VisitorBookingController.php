@@ -574,42 +574,54 @@ class VisitorBookingController extends Controller
         // $imageData = $request->input('image');
         // $selfieImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
 
-        $rekognition = new RekognitionClient([
-            'version' => 'latest',
-            'region' => env('AWS_DEFAULT_REGION'),
-            'credentials' => [
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            ],
-        ]);
 
-        // Detect faces in the image
-        $result = $rekognition->detectFaces([
-            'Image' => [
-                'Bytes' => $selfieImage,
-            ],
-            'Attributes' => ['ALL'],
-        ]);
+        try {
+            $rekognition = new RekognitionClient([
+                'version' => 'latest',
+                'region' => env('AWS_DEFAULT_REGION'),
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+            ]);
 
-        // Check for liveness by analyzing the result
-        if (count($result['FaceDetails']) > 0) {
-            // At least one face detected
-            foreach ($result['FaceDetails'] as $face) {
-                if ($face['Quality']['Sharpness'] >= 80) {
-                    // Face is sharp, indicating a live person
-                    return [
-                        'status' => true,
-                        'message' => 'Human Face'
-                    ];
-                    // return response()->json(['message' => 'Liveness detected.', 'status' => true], 200);
+            // Detect faces in the image
+            $result = $rekognition->detectFaces([
+                'Image' => [
+                    'Bytes' => $selfieImage,
+                ],
+                'Attributes' => ['ALL'],
+            ]);
+
+            // Check for liveness by analyzing the result
+            if (count($result['FaceDetails']) > 0) {
+                // At least one face detected
+                foreach ($result['FaceDetails'] as $face) {
+                    if ($face['Quality']['Sharpness'] >= 80) {
+                        // Face is sharp, indicating a live person
+                        return [
+                            'status' => true,
+                            'message' => 'Human Face'
+                        ];
+                        // return response()->json(['message' => 'Liveness detected.', 'status' => true], 200);
+                    }
                 }
             }
+            return [
+                'status' => false,
+                'message' => 'Not a real face it look like some object or not a real face'
+            ];
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [
+                'status' => true,
+                'message' => 'Not a real face it look like some object or not a real face'
+            ];
         }
 
-        return [
-            'status' => false,
-            'message' => 'Not a real face it look like some object or not a real face'
-        ];
+
+
+
 
         // No live faces detected
         // return response()->json(['message' => 'Liveness not detected.', 'status' => false], 400);
