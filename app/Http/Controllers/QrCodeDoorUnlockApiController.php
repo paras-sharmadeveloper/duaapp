@@ -36,7 +36,7 @@ class QrCodeDoorUnlockApiController extends Controller
             'Time1' => '000A',    // set the relay1 delaytime (example value)
             'Time2' => '0005',    // set the relay2 delaytime (example value)
             'Audio' => '04',      // value 04 (enter); if not used, omit this field
-            'Msg' => 'Success'    // success or failure validation hint
+            'Msg' => 'Success Paras'    // success or failure validation hint
         ];
 
         // Return the response as JSON
