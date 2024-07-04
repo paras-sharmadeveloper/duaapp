@@ -38,7 +38,7 @@ class QrCodeDoorUnlockApiController extends Controller
             'Audio' => '04',      // value 04 (enter); if not used, omit this field
             'Msg' => 'Success Paras'    // success or failure validation hint
         ];
-
+        echo json_encode(['paras' =>1]); die;
         // Return the response as JSON
         return response()->json($response);
 
