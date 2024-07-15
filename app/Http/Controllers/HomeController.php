@@ -72,7 +72,7 @@ class HomeController extends Controller
             EOT;
                 } else {
                     $message = <<<EOT
-                Please see the below warning message:
+                General Announcement and Notification: Please Read Carefully:
                 $finalMessage
                 EOT;
                 }
