@@ -123,10 +123,6 @@ class DashboardController extends Controller
         $printDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
 
 
-
-
-
-
         $totalTokens =  $duaTotal + $dumTotal + $duaTotalwl + $dumTotalwl;
         $grandPrintToken = $printDua + $printDum +$printDuaWl + $printDumWl;
 
@@ -183,15 +179,11 @@ class DashboardController extends Controller
             'website-printToken-wldum' => ($printDumWl) ? $printDumWl : 0,
             'grand-printToken' => $grandPrintToken,
             'website-printToken' => $grandPrintToken,
-
-
-
             'website-total-percentage-wl' => 0,
             'website-total-wldua' => $websiteCountWlDua,
             'website-total-percentage-wldua' => $whatsappDuaWl,
             'website-total-wldum' => $websiteCountWlDum,
             'website-total-percentage-wldum' => $whatsappDumWl,
-
             'grand-total' => $totalCollectedTokens,
             'grand-percentage' => $totalWhatsappTokens
         ];
@@ -221,9 +213,6 @@ class DashboardController extends Controller
 
         $totalBookDua = $whatsappCountDua + $websiteCountDua;
         $totalBookDum = $whatsappCountDum + $websiteCountDum;
-
-
-
         //  $totalCount = $whatsappCount + $websiteCount;
 
         $percentageWhatsappDua = ($duaTotal > 0) ? ($whatsappCountDua / $duaTotal) * 100 : 0;
@@ -233,10 +222,6 @@ class DashboardController extends Controller
 
         $totalWhatsAppCount = $percentageWhatsappDua + $percentageWhatsappDum;
         $totalWebsiteCount = $percentageWebsiteDua + $percentageWebsiteDum;
-
-
-
-
 
         //   $percentageWhatsapp = ($totalCount > 0 ) ? ($whatsappCount / $totalCount) * 100 : 0;
         //  $percentageWebsite = ($totalCount > 0 ) ?  ($websiteCount / $totalCount) * 100: 0;

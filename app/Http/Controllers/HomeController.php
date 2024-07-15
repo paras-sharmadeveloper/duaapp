@@ -72,10 +72,11 @@ class HomeController extends Controller
             EOT;
                 } else {
                     $message = <<<EOT
-                Please see below urgent message for your kind attention :
+                Please see the below warning message:
                 $finalMessage
                 EOT;
                 }
+
 
                 $response = $this->sendMessage($mobile, $message);
 
