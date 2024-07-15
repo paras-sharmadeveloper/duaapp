@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\RetryVisitorTempFailedMessage::class,
 
     ];
-
+    
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->exec('/usr/bin/php8.2 artisan queue:work --queue=default,high,low,face-recognition,create-slots,whatsapp-notification,create-future-dates,whatsapp-notification-resend')
