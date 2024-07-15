@@ -68,6 +68,11 @@ class VisitorBookingController extends Controller
                     $tokenId = $tokenIs->token_id;
                     $slotId = $tokenIs->id;
 
+                    $existingVisitor = Vistors::where('phone', $inputs['mobile'])
+                               ->whereDate('created_at', now()->toDateString())
+                               ->first();
+
+                if (!$existingVisitor) {
 
                     $uuid = Str::uuid()->toString();
                     // Create a new Visitor record
@@ -112,6 +117,21 @@ class VisitorBookingController extends Controller
                         'bookingId' => $uuid,
                         'redirect_url' => route('booking.status', [$uuid])
                     ], 200);
+                }else{
+
+                    $jobStatus->update(['entry_created' => 'Duplicate']);
+
+                        return response()->json([
+                            'errors' => [
+                                'status' => false,
+                                'refresh' => true,
+                                'message' => trans('messages.slot_id'),
+                                'message_ur' => 'یہ ٹوکن اس سیکنڈ میں کسی اور نے بک کروایا ہے۔ ٹوکن دوبارہ بک کرنے کے لیے براہ کرم اپنے براؤزر کو ریفریش کریں۔ ایک ہی وقت میں سینکڑوں دوسرے لوگ بھی ٹوکن بک کرنے کی کوشش کر رہے ہیں۔ دوسرا بک کرنے کے لیے براہ کرم اپنی اسکرین ریفریش کریں۔'
+                            ]
+                        ], 455);
+
+
+                }
                 } catch (QueryException $e) {
 
                     $errorCode = $e->errorInfo[1];
