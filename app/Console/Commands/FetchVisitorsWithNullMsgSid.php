@@ -34,8 +34,10 @@ class FetchVisitorsWithNullMsgSid extends Command
         // echo "<pre>"; print_r($visitors); die;
         foreach ($visitors as $visitor) {
             echo $visitor['id'];
-            // WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend')->onConnection('database');
-            WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification');
+
+            // WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification');
+            WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification-resend')->onConnection('database');
+            // WhatsAppConfirmation::dispatch($visitor['id'])->onQueue('whatsapp-notification');
 
         }
         // Output any information if needed
