@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobStatus extends Model
 {
     use HasFactory;
-    protected $fillable = ['job_id', 'status', 'result','user_inputs','entry_created'];
+    protected $fillable = ['job_id', 'status', 'result','user_inputs','entry_created','mobile'];
 
     protected $casts = [
         'result' => 'array',

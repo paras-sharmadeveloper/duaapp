@@ -413,6 +413,8 @@ class VisitorBookingController extends Controller
                 }
                 Storage::disk('public_uploads')->put($localDirectory . '/' . $objectKey, $myImage);
 
+                $mobile = $request->input('mobile');
+
 
                 try {
                     //code...
@@ -424,8 +426,12 @@ class VisitorBookingController extends Controller
                     ], 422);
                 }
 
+                //mobile
 
-                if ($uploadSuccess) {
+                $existingRecord = JobStatus::where(['mobile' => $mobile])->whereDate('created_at', now()->toDateString())->count();
+
+
+                if ($existingRecord == 0) {
                     // FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey)->onQueue('face-recognition')->onConnection('database');
                     FaceRecognitionJob::dispatch($jobId, $rejoin, $objectKey,$venueAddressId , $request->input('duaType'))->onQueue('face-recognition');
 
@@ -433,6 +439,7 @@ class VisitorBookingController extends Controller
                         'job_id' => $jobId,
                         'status' => 'pending',
                         'user_inputs' => json_encode($userInputs),
+                        'mobile' => $mobile
                     ]);
 
                     Log::info('Job dispatched with ID: ' . $jobId);
@@ -443,10 +450,8 @@ class VisitorBookingController extends Controller
                     ], 200);
                     // Proceed with further actions
                 } else {
-                    // Handle the case where file upload failed
-                    // Log::error('Failed to upload file to S3.'.$myImage);
                     return response()->json([
-                        'errors' =>  ['message' => 'Unable to upload file adasd ' . $objectKey . ' ', 'd' => $uploadSuccess]
+                        'errors' =>  ['message' => 'Your are already in the Queue, please wait for sometime we are processing tokens.','message_ur' => 'آپ پہلے سے ہی قطار میں ہیں، براہ کرم کچھ دیر انتظار کریں ہم ٹوکنز پر کارروائی کر رہے ہیں۔']
                     ], 422);
                 }
             }

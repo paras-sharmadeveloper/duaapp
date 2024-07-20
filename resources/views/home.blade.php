@@ -142,9 +142,7 @@
                                         <td id="website-checkIn-wldum">0</td>
                                         <td id="website-printToken-wldum">0</td>
 
-                                    </tr>
-
-
+                                    </tr> 
 
                                     <tr class="highlighted">
                                         <td style="text-align: left">Grand Total</td>
