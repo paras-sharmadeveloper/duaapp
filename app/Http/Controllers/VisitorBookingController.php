@@ -428,7 +428,9 @@ class VisitorBookingController extends Controller
 
                 //mobile
 
-                $existingRecord = JobStatus::where(['mobile' => $mobile])->whereDate('created_at', now()->toDateString())->count();
+                $existingRecord = JobStatus::where(['mobile' => $mobile])
+                ->whereNotIn('status',['completed','token_finish'])
+                ->whereDate('created_at', now()->toDateString())->count();
 
 
                 if ($existingRecord == 0) {
