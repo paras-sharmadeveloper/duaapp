@@ -656,7 +656,7 @@ class VisitorBookingController extends Controller
 
     protected function encryptFilename($filename)
     {
-        $key = hash('sha256', date('Y-m-d') . $filename . now());
+        $key = hash('sha256', date('Y-m-d') . $filename . now().uniqid());
         //  $hashedPassword = Hash::make($filename.now());
         return $key;
     }
