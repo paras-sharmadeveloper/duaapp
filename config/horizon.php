@@ -221,3 +221,5 @@ return [
         ],
     ],
 ];
+
+// sudo service supervisor restart
