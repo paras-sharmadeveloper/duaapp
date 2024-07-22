@@ -90,13 +90,8 @@ class FetchPendingJobStatus extends Command
                     $workingLady = WorkingLady::where('qr_id', $inputs['QrCodeId'])->where('is_active', 'active')->count();
 
                     if ($workingLady == 0 && !empty($inputs['working_lady_id'])) {
-                        return response()->json([
-                            'errors' => [
-                                'status' => false,
-                                'message' => 'This Qr is not valid or not active',
-                                'message_ur' => 'یہ Qr درست نہیں ہے یا فعال نہیں ہے۔',
-                            ]
-                        ], 422);
+                        $message = "This Token already taken by someone please try again for another token there is limited tokens in system.";
+                        JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
                     }
                     $visitor->token_status = 'vaild';
 
