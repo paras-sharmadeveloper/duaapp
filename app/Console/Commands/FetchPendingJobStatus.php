@@ -35,11 +35,13 @@ class FetchPendingJobStatus extends Command
 
         $jobStats = JobStatus::whereDate('created_at',date('Y-m-d'))->where(['entry_created' => 'Pending'])->get()->toArray();
 
+        echo "<pre>"; print_r($jobStats); die;
+
         foreach ($jobStats as $jobStatus) {
 
             try {
                 $userInputs = json_decode($jobStatus['user_inputs'], true);
-                echo "<pre>"; print_r($userInputs); die;
+
                 // $userInputs = $jobStatus['user_inputs'];
                 $inputs = $userInputs['inputs'];
 
@@ -112,6 +114,7 @@ class FetchPendingJobStatus extends Command
 
 
         }
+        echo "<pre>"; print_r($jobStats); die;
         // Output any information if needed
         $this->info('Fetch Pending Job Status fetched successfully.');
     }
