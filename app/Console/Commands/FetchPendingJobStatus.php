@@ -53,6 +53,8 @@ class FetchPendingJobStatus extends Command
                 if(empty($tokenIs)){
                     JobStatus::find($jobStatus['id'])->update(['status' => 'token_finished','entry_created' => 'Token_finished']);
                     continue;
+                }else{
+                    // WhatsappforTempUsers::dispatch($temp->id,  $completeNumber,$message)->onQueue('whatsapp-temp-users');
                 }
                 $tokenId = $tokenIs->token_id;
                 $slotId = $tokenIs->id;
