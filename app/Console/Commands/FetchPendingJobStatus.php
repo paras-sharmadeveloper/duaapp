@@ -72,7 +72,7 @@ class FetchPendingJobStatus extends Command
                     $uuid = Str::uuid()->toString();
                     // Create a new Visitor record
                     $visitor = new Vistors();
-                    $visitor->slot_id = $inputs['slotId'];
+                    $visitor->slot_id = $slotId;
                     $visitor->dua_type = $inputs['dua_type'];
                     $visitor->working_lady_id = $inputs['working_lady_id'];
                     $visitor->dua_type = $inputs['duaType'];
