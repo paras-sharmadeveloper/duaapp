@@ -51,16 +51,9 @@ class FetchPendingJobStatus extends Command
                 ->select(['venue_address_id', 'token_id', 'id'])->first();
 
                 if(empty($tokenIs)){
-                    return response()->json([
-                        'errors' => [
-                            'status' => false,
-                            'refresh' => true,
-                            'message' => 'All Token is issued for the day. please try after some days.',
-                            'message_ur' => 'تمام ٹوکن دن کے لیے جاری کیے جاتے ہیں۔ براہ کرم کچھ دنوں کے بعد کوشش کریں۔',
-                        ]
-                    ], 455);
+                    JobStatus::find($jobStatus['id'])->update(['status' => 'token_finished','entry_created' => 'Token_finished']);
+                    continue;
                 }
-
                 $tokenId = $tokenIs->token_id;
                 $slotId = $tokenIs->id;
 
