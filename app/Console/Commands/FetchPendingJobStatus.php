@@ -35,7 +35,7 @@ class FetchPendingJobStatus extends Command
 
         $jobStats = JobStatus::whereDate('created_at',date('Y-m-d'))->where(['entry_created' => 'Pending'])->get()->toArray();
 
-        echo "<pre>"; print_r($jobStats); die;
+        // echo "<pre>"; print_r($jobStats); die;
 
         foreach ($jobStats as $jobStatus) {
 
@@ -76,13 +76,22 @@ class FetchPendingJobStatus extends Command
                     ], 422);
                 }
 
-                $visitor->token_status = 'vaild';
+                $isExist = Vistors::where(['phone' => $inputs['mobile']])->get()->count();
+                if($isExist > 0){
+                    $message = "This Token already taken by someone please try again for another token there is limited tokens in system.";
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
+                    continue;
+                }else{
+                    $visitor->token_status = 'vaild';
 
-                $visitor->save();
-                $bookingId = $visitor->id;
-                // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
-                WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-                JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
+                    $visitor->save();
+
+                    $bookingId = $visitor->id;
+                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
+                }
+
             } catch (QueryException $e) {
                 Log::error('Booking error' . $e);
 
@@ -114,8 +123,8 @@ class FetchPendingJobStatus extends Command
 
 
         }
-        echo "<pre>"; print_r($jobStats); die;
+        // echo "<pre>"; print_r($jobStats); die;
         // Output any information if needed
-        $this->info('Fetch Pending Job Status fetched successfully.');
+        $this->info('Fetch Pending Job Status fetched successfully 111.');
     }
 }
