@@ -63,7 +63,7 @@ class VisitorBookingController extends Controller
                     $slotId = $tokenIs->id;
 
                     $existingVisitor = Vistors::where('phone', $inputs['mobile'])
-                               ->whereDate('created_at', now()->toDateString())
+                               ->whereDate('created_at', date('Y-m-d'))
                                ->first();
 
                 if (!$existingVisitor) {
