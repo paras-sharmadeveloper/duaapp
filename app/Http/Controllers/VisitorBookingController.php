@@ -27,13 +27,9 @@ class VisitorBookingController extends Controller
         $this->venueAddressQuery = VenueAddress::whereDate('venue_date', date('Y-m-d'));
     }
 
-
     public function checkStatusForJob($jobId)
     {
         $jobStatus = JobStatus::where(['job_id' => $jobId])->get()->first();
-
-
-
 
         if (!empty($jobStatus) && $jobStatus['status'] == 'completed' ) {
             $result = $jobStatus['result'];
@@ -42,8 +38,6 @@ class VisitorBookingController extends Controller
 
                 try {
                     $userInputs = json_decode($jobStatus['user_inputs'], true);
-
-
                     // $userInputs = $jobStatus['user_inputs'];
                     $inputs = $userInputs['inputs'];
 
@@ -363,11 +357,7 @@ class VisitorBookingController extends Controller
         $rejoin = 0;
         $userInputs = [];
         if ($tokenStatus['status']) {
-
             $venueSlotsCount = [];
-
-
-
             // $slotId = $tokenStatus['slot_id'];
             // $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
@@ -387,8 +377,6 @@ class VisitorBookingController extends Controller
             if (!empty($captured_user_image)) {
 
                 $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-
-
                 // $livefaces = $this->detectLiveness($myImage);
 
                 // if(!$livefaces['status']){

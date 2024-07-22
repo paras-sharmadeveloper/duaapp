@@ -207,7 +207,7 @@ return [
                 'memory' => 32000,
                 'tries' => 2,
                 'timeout' => 7200,
-                'maxProcesses' => 60,
+                'maxProcesses' => 90,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],

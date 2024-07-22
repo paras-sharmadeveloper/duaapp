@@ -313,8 +313,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/working/delete/{id}', [WorkingLadyController::class, 'destory'])->name('working.delete');
 
 
-
-
     Route::get('/reasons', [ReasonController::class, 'index'])->name('reasons.index');
     Route::get('/reasons/create', [ReasonController::class, 'create'])->name('reasons.create');
     Route::get('/reasons/announcement', [ReasonController::class, 'create'])->name('reasons.announcement');
@@ -343,11 +341,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::resource('country', VenueCountryController::class);
 
     Route::post('/venue/pause/{id}', [VenueController::class, 'pauseResumeVenue'])->name('venues.pause');
-
-
-
     Route::post('/grid/fetch/booking', [AgGridManagement::class, 'getDataMessageLog'])->name('fetch.bookings');
-
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notification.get');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.mark.read');
     Route::delete('/visitor/{id}/delete', [VistorsController::class, 'DeleteNow'])->name('visitor.delete');
