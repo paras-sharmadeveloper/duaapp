@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\WhatsAppConfirmation;
 use App\Jobs\WhatsappforTempUsers;
 use App\Models\JobStatus;
-use App\Models\{Vistors,VisitorTemp};
+use App\Models\{Vistors,VisitorTemp,VenueSloting};
 use App\Models\WorkingLady;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -44,26 +44,70 @@ class FetchPendingJobStatus extends Command
 
                 // $userInputs = $jobStatus['user_inputs'];
                 $inputs = $userInputs['inputs'];
+                $tokenIs = VenueSloting::where('venue_address_id',$inputs['venueId'])
+                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                ->where(['type' => $inputs['dua_type']])
+                ->orderBy('id', 'ASC')
+                ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-                $uuid = Str::uuid()->toString();
-                // Create a new Visitor record
-                $visitor = new Vistors();
-                $visitor->slot_id = $inputs['slotId'];
-                $visitor->dua_type = $inputs['dua_type'];
-                $visitor->working_lady_id = $inputs['working_lady_id'];
-                $visitor->dua_type = $inputs['duaType'];
-                $visitor->user_timezone = $inputs['timezone'];
-                $visitor->lang = $inputs['lang'];
-                $visitor->country_code = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
-                $visitor->phone = $inputs['mobile'];
-                $visitor->is_whatsapp = 'yes';
-                $visitor->booking_uniqueid = $uuid;
-                $visitor->booking_number = $inputs['tokenId']; //
-                $visitor->user_ip = (isset($inputs['user_ip'])) ? $inputs['user_ip'] : null;
-                $visitor->recognized_code = (!empty($result)) ?  $result['recognized_code'] : null;
-                $visitor->meeting_type = 'on-site';
-                $visitor->source = 'Website';
-                $workingLady = WorkingLady::where('qr_id', $inputs['QrCodeId'])->where('is_active', 'active')->count();
+                if(empty($tokenIs)){
+                    return response()->json([
+                        'errors' => [
+                            'status' => false,
+                            'refresh' => true,
+                            'message' => 'All Token is issued for the day. please try after some days.',
+                            'message_ur' => 'تمام ٹوکن دن کے لیے جاری کیے جاتے ہیں۔ براہ کرم کچھ دنوں کے بعد کوشش کریں۔',
+                        ]
+                    ], 455);
+                }
+
+                $tokenId = $tokenIs->token_id;
+                $slotId = $tokenIs->id;
+
+                $existingVisitor = Vistors::where('phone', $inputs['mobile'])
+                           ->whereDate('created_at', now()->toDateString())
+                           ->first();
+
+                if(!$existingVisitor){
+                    $uuid = Str::uuid()->toString();
+                    // Create a new Visitor record
+                    $visitor = new Vistors();
+                    $visitor->slot_id = $inputs['slotId'];
+                    $visitor->dua_type = $inputs['dua_type'];
+                    $visitor->working_lady_id = $inputs['working_lady_id'];
+                    $visitor->dua_type = $inputs['duaType'];
+                    $visitor->user_timezone = $inputs['timezone'];
+                    $visitor->lang = $inputs['lang'];
+                    $visitor->country_code = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
+                    $visitor->phone = $inputs['mobile'];
+                    $visitor->is_whatsapp = 'yes';
+                    $visitor->booking_uniqueid = $uuid;
+                    $visitor->booking_number = $tokenId;//
+                    $visitor->user_ip = (isset($inputs['user_ip'])) ? $inputs['user_ip'] : null;
+                    $visitor->recognized_code = (!empty($result)) ?  $result['recognized_code'] : null;
+                    $visitor->meeting_type = 'on-site';
+                    $visitor->source = 'Website';
+                    $workingLady = WorkingLady::where('qr_id', $inputs['QrCodeId'])->where('is_active', 'active')->count();
+                    $visitor->token_status = 'vaild';
+
+                    $visitor->save();
+
+                    $bookingId = $visitor->id;
+                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
+                }else{
+                    $message = "This Token already taken by someone please try again for another token there is limited tokens in system.";
+                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
+                }
+
+
+
+
+
+
+
+
 
 
                 if ($workingLady == 0 && !empty($inputs['working_lady_id'])) {
@@ -76,21 +120,7 @@ class FetchPendingJobStatus extends Command
                     ], 422);
                 }
 
-                $isExist = Vistors::where(['phone' => $inputs['mobile']])->get()->count();
-                if($isExist > 0){
-                    $message = "This Token already taken by someone please try again for another token there is limited tokens in system.";
-                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Duplicate']);
-                    continue;
-                }else{
-                    $visitor->token_status = 'vaild';
 
-                    $visitor->save();
-
-                    $bookingId = $visitor->id;
-                    // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
-                    WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-                    JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
-                }
 
             } catch (QueryException $e) {
                 Log::error('Booking error' . $e);
