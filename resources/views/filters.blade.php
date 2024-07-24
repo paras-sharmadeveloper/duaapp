@@ -117,7 +117,7 @@
                             <td>{{ $visitor->source }}</td>
                             <td><a href="{{ route('booking.status', [$visitor->booking_uniqueid]) }}" target="_blank">
                                     Token Status </a> </td>
-                            <td>{{ $visitor->booking_number }}  </td>
+                            <td>{{ $visitor->booking_number }} {{$image}}  </td>
                             <td>
                                 @if ($image)
                                     <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
