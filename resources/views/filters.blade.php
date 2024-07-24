@@ -104,7 +104,7 @@
                             if (!empty($visitor->recognized_code) && !Storage::disk('public_uploads')->exists($localImageStroage)) {
                                 $localImage = (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
                             }
-                            $image = (!empty($visitor->recognized_code)) ? getImagefromS3($visitor->recognized_code) : '';
+                            $image = (!empty($visitor->recognized_code) &&  empty($localImage)) ? getImagefromS3($visitor->recognized_code) : '';
 
                             $workingLady = !empty($visitor->working_lady_id) ? getWorkingLady($visitor->working_lady_id) : [];
                             $workingLadySession = !empty($workingLady)  ? getImagefromS3($workingLady->session_image) : '';
@@ -117,7 +117,7 @@
                             <td>{{ $visitor->source }}</td>
                             <td><a href="{{ route('booking.status', [$visitor->booking_uniqueid]) }}" target="_blank">
                                     Token Status </a> </td>
-                            <td>{{ $visitor->booking_number }} </td>
+                            <td>{{ $visitor->booking_number }} {{$image}}  </td>
                             <td>
                                 @if ($image)
                                     <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
@@ -147,6 +147,9 @@
                             <td>{{ $visitor->msg_date }}</td>
                             <td>{{ $visitor->msg_sid }}</td>
                             <td>{{ $visitor->token_status }}</td>
+
+
+
 
                             <td>
                                 @if ($visitor->token_status == 'invaild')
