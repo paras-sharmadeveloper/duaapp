@@ -117,7 +117,7 @@
                             <td>{{ $visitor->source }}</td>
                             <td><a href="{{ route('booking.status', [$visitor->booking_uniqueid]) }}" target="_blank">
                                     Token Status </a> </td>
-                            <td>{{ $visitor->booking_number }} {{$image}}  </td>
+                            <td>{{ $visitor->booking_number }} </td>
                             <td>
                                 @if ($image)
                                     <img src="data:image/jpeg;base64,{{ base64_encode($image) }}" alt="Preview Image"
@@ -147,9 +147,6 @@
                             <td>{{ $visitor->msg_date }}</td>
                             <td>{{ $visitor->msg_sid }}</td>
                             <td>{{ $visitor->token_status }}</td>
-
-
-
 
                             <td>
                                 @if ($visitor->token_status == 'invaild')
@@ -209,7 +206,7 @@
                     "width": "500px" // set width to 500px
                 }],
                 "lengthMenu": [10, 25, 50, 100, 500, 1000, 1500, 2000, 2500, 3000],
-                "pageLength": 500 // set default length to 1000
+                "pageLength": 100 // set default length to 1000
             });
 
 
