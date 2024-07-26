@@ -633,18 +633,13 @@ class VisitorBookingController extends Controller
                 'message' => 'Not a real face it look like some object or not a real face'
             ];
         }
-
-
-
-
-
         // No live faces detected
         // return response()->json(['message' => 'Liveness not detected.', 'status' => false], 400);
     }
 
     protected function encryptFilename($filename)
     {
-        $key = hash('sha256',uniqid(). date('Y-m-d H:i:s') . $filename . now().uniqid());
-        return $key;
+        $key = hash('sha256',uniqid(). date('Y-m-d H:i:s') . $filename . now()->toDateTimeString().uniqid());
+        return  Str::uuid()->toString().$key;
     }
 }
