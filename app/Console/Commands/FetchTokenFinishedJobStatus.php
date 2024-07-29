@@ -36,7 +36,7 @@ class FetchTokenFinishedJobStatus extends Command
             $inputs = $userInputs['inputs'];
             $countryCode = (strpos($inputs['country_code'], '+') === 0)  ? $inputs['country_code'] : '+' . $inputs['country_code'];
             $mobile = $inputs['mobile'];
-            $completeNumber =  '+'. $countryCode . $mobile;
+            $completeNumber =  $countryCode . $mobile;
             $temp =  VisitorTemp::create(['user_inputs' => $jobStatus['user_inputs']]);
             JobStatus::find($jobStatus['id'])->update(['entry_created' => 'Yes']);
             WhatsappforTempUsers::dispatch($temp->id,  $completeNumber)->onQueue('whatsapp-temp-users');
