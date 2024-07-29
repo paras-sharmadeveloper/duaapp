@@ -32,7 +32,7 @@
         .custom-loader {
             width: 48px;
             height: 48px;
-            border: 3px solid #FFF;
+            border: 3px solid #000;
             border-radius: 50%;
             display: inline-block;
             position: relative;
@@ -51,7 +51,7 @@
             height: 56px;
             border-radius: 50%;
             border: 3px solid transparent;
-            border-bottom-color: #FF3D00;
+            border-bottom-color: #58c05c;
         }
 
         @keyframes rotation {
