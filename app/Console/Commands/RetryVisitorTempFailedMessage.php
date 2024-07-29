@@ -28,7 +28,7 @@ class RetryVisitorTempFailedMessage extends Command
     public function handle()
     {
         $jobSta = VisitorTemp::whereDate('created_at', date('Y-m-d'))
-        ->where('msg_sent_status', 'failed')
+        // ->where('msg_sent_status', 'failed')
         // ->limit(2)
         ->get()
         ->toArray();        // echo "<pre>"; print_r($visitors); die;
