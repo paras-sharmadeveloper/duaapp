@@ -72,14 +72,18 @@
                     <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png"
                         alt="checked--v1" />
                     <p>You can start scaning</p>
+                    <span class="loader custom-loader" style="display: none"></span>
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
 
 
-    <span class="loader custom-loader"></span>
+
 
 
     <div class="modal fade bd-example-modal-lg" id="myModal">
@@ -122,7 +126,7 @@
 
         document.getElementById('barcodeInput').addEventListener('change', function(event) {
             barcodeValue = event.target.value;
-
+            $(".custom-loader").show();
 
             $.ajax({
                 url: "{{ route('process-scan') }}",
@@ -132,8 +136,11 @@
                     type: 'verify'
                 },
                 success: function(response) {
+
+                    $(".custom-loader").hide();
                     // Handle success
                     if (response.success) {
+
                         //   alert("if here")
                         $(".token-area").find('p').show();
                         $(".token-area").find('span').text(response.token)
