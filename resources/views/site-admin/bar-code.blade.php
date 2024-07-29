@@ -28,6 +28,41 @@
             display: flex;
             justify-content: center;
         }
+
+        .custom-loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #FFF;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .custom-loader::after {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-bottom-color: #FF3D00;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     <div class="container">
         <div class="row justify-content-center">
@@ -41,6 +76,11 @@
             </div>
         </div>
     </div>
+
+
+
+    <span class="loader custom-loader"></span>
+
 
     <div class="modal fade bd-example-modal-lg" id="myModal">
         <div class="modal-dialog modal-lg">
@@ -94,7 +134,7 @@
                 success: function(response) {
                     // Handle success
                     if (response.success) {
-                     //   alert("if here")
+                        //   alert("if here")
                         $(".token-area").find('p').show();
                         $(".token-area").find('span').text(response.token)
 
@@ -104,7 +144,7 @@
                         $('#myModal').modal('toggle');
 
                     } else {
-                     //   alert("else here")
+                        //   alert("else here")
                         $(".token-area").find('p').hide();
                         $('#myModal').modal('toggle');
                         $("#model-body").html(response.printToken)
@@ -132,8 +172,8 @@
         function printDiv(divId) {
             $(".userImag").hide()
 
-          //  alert("in print code here")
-          printCount()
+            //  alert("in print code here")
+            printCount()
             var printContents = document.getElementById(divId).innerHTML;
             var originalContents = document.body.innerHTML;
 
@@ -144,12 +184,12 @@
 
             printWindow.document.close(); // necessary for IE >= 10
             printWindow.onload = function() {
-               // alert("in print code printing")
+                // alert("in print code printing")
                 printWindow.print();
                 printWindow.close();
             };
-             $("#barcodeInput").focus();
-             $('#myModal').modal('hide');
+            $("#barcodeInput").focus();
+            $('#myModal').modal('hide');
 
 
         }
@@ -181,7 +221,7 @@
             }
         });
 
-        function printCount(){
+        function printCount() {
             var visitorId = $("#visitorIdPopUp").attr('data-id');
             $.ajax({
                 url: "{{ route('count-print-count') }}",
