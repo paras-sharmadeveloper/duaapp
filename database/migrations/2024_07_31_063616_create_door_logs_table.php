@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('DeviceID')->nullable();
             $table->string('ReaderNo')->nullable();
             $table->string('ActIndex')->nullable();
-
-
             $table->timestamps();
         });
     }
@@ -32,3 +30,6 @@ return new class extends Migration
         Schema::dropIfExists('door_logs');
     }
 };
+
+// php artisan migrate:refresh --path=/database/migrations/2024_07_31_063616_create_door_logs_table.php
+

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Venue, Reason, Vistors, Country,  VisitorTemp};
+use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp};
 
 use App\Http\Controllers\Controller;
 use App\Models\WhatsappNotificationLogs;
@@ -115,6 +115,15 @@ class NewBookingController extends Controller
 
         return view('frontend.server-logs', ['logs' => $logs]);
     }
+
+    public function ShowDoorLogs()
+    {
+        $doorLogs = DoorLogs::all();
+
+        return view('doorlog', ['logs' => $doorLogs]);
+    }
+
+
 
     public function clearLog()
     {

@@ -308,6 +308,14 @@ S
             </a>
           </li>
 
+          <li>
+            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('  admin.doorlog') }}" class="{{ ( $currentPath == 'admin.doorlog') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Door Open Logs</span>
+            </a>
+          </li>
+
+
+
 
 
 

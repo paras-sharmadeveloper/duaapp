@@ -220,6 +220,9 @@ Auth::routes(['register' => false]);
 
     Route::get('/admin/logs', [NewBookingController::class, 'showLogs'])->name('admin.logs');
     Route::get('/admin/clear', [NewBookingController::class, 'clearLog'])->name('admin.logs.clear');
+    Route::get('/admin/doorlog', [NewBookingController::class, 'ShowDoorLogs'])->name('admin.doorlog');
+
+
 
 
 
