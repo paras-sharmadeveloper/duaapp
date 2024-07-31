@@ -118,7 +118,7 @@ class NewBookingController extends Controller
 
     public function ShowDoorLogs()
     {
-        $doorLogs = DoorLogs::all();
+        $doorLogs = DoorLogs::orderBy('id', 'desc')->get();
 
         return view('doorlog', ['logs' => $doorLogs]);
     }
