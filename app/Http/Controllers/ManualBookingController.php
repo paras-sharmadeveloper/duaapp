@@ -41,6 +41,17 @@ class ManualBookingController extends Controller
                     ], 200);
             }
 
+            $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at',date('Y-m-d'))->count();
+
+            if( $isPerson  > 0)
+            {
+                return response()->json([
+                    'status' =>  false,
+                    'message' => 'This Person already got the token.',
+                    'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
+                ], 200);
+            }
+
             $booking = new Vistors;
 
             $tokenId =  $tokenIs->token_id;
