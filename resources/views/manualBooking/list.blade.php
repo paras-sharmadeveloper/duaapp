@@ -170,8 +170,11 @@ img.lightgallery {
                                     </div>
                                 @else
                                     <p> Action Taken
+                                        @if($list->action_status)
+                                        <span class="{{ ($list->action_status == 'approve')? 'badge badge-success':'badge badge-danger' }}">{{ $list->action_status}} </span>
+                                        @endif
+                                    </p>
 
-                                        <span class="{{ ($list->action_status == 'approve')? 'badge badge-success':'badge badge-danger' }}">{{ $list->action_status}} </span> </p>
                                 @endif
                             </td>
                         </tr>
