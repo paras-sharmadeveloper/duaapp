@@ -49,6 +49,9 @@
     top: 0;
     left: 0;
 }
+.img-show span {
+    color: red;
+}
 /*End style*/
 
     </style>
@@ -70,12 +73,10 @@
                         <th>phone </th>
                         <th>User Image </th>
                         <th>Dua Type</th>
-
-                        <th>Message</th>
+                        {{-- <th>Message</th>
                         <th>Message Sid</th>
                         <th>Message Sent Status</th>
-                        <th>Message Date</th>
-
+                        <th>Message Date</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -97,28 +98,42 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $list->country_code }}</td>
                             <td>{{ $list->phone }}</td>
-                            <td>　<div class="popup">
+                            <td><div class="popup">
                                 <img class="lightgallery" src="{{$loclpath . $localImageStroage}}"  />
                                 </div>
-
                             </td>
-                            <td>{{ $list->dua_type }}</td>
+                            <td>{{  ucwords($list->dua_type)  }}</td>
+                            {{-- <td>{{ $list->message }}</td>
                             <td>{{ $list->msg_sid }}</td>
                             <td>{{ $list->msg_sent_status }}</td>
-                            <td>{{ $list->msg_date }}</td>
+                            <td>{{ $list->msg_date }}</td> --}}
 
                             <td>
-                                <div class="row d-flex py-4">
-                                    <button class="btn btn-success approve mb-4" data-id="{{ $list->id }}"> Approve </button>
-                                    <button class="btn btn-danger disapprove  " data-id="{{ $list->id }}"> Disapprove
-                                    </button>
-                                </div>
+                                @if(empty($list->action_at))
+                                    <div class="row py-4 actionBtns">
 
+                                        <button type="button" class="btn btn-success approve mb-3"
+                                            data-id="{{ $list->id }}"
+                                            data-loading="Loading..." data-success="Done"
+                                            data-default="Approve">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                                            </span>
+                                            <b>Approve ({{ ucwords($list->dua_type)  }})</b>
+                                        </button>
 
+                                        <button type="button" class="btn  btn-danger disapprove"
+                                            data-id="{{ $list->id }}"
+                                            data-loading="Loading..." data-success="Done"
+                                            data-default="Disapprove">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                                            </span>
+                                            <b>Disapprove  ({{ ucwords($list->dua_type)  }})</b>
+                                        </button>
+                                    </div>
+                                    @else
+                                    <p> Action Taken </p>
+                                @endif
                             </td>
-
-
-
                         </tr>
                     @endforeach
                 </tbody>
@@ -131,7 +146,7 @@
     <div class="show">
         <div class="overlay"></div>
         <div class="img-show">
-          <span>X</span>
+          <span><i class="fa fa-times"></i></span>
           <img src="">
         </div>
       </div>
@@ -161,16 +176,25 @@ $(function () {
 
         $(".approve").click(function() {
             var id = $(this).attr('data-id');
-            AjaxCall(id,'approve')
+            AjaxCall(id,'approve',$(this))
         });
 
         $(".disapprove").click(function() {
             var id = $(this).attr('data-id');
-            AjaxCall(id,'disapprove')
+            AjaxCall(id,'disapprove',$(this))
         });
 
 
-        function AjaxCall(id,type) {
+        function AjaxCall(id,type,event) {
+
+            var loadingText = event.attr('data-loading');
+            var successText = event.attr('data-success');
+            var defaultText = event.attr('data-default');
+
+            event.find('span').show()
+            event.find('b').text(loadingText)
+
+
             $.ajax({
                 url: "{{ route('booking.manual.approve') }}",
                 method: 'POST',
@@ -180,6 +204,15 @@ $(function () {
                     "_token": "{{ csrf_token() }}"
                 },
                 success: function(response) {
+
+                   event.find('span').hide()
+                   event.find('b').text(defaultText)
+
+                   event.parents('.actionBtns').fadeOut();
+
+                //    event.parents('tr').fadeOut();
+
+
                     if(response.status){
                         toastr.success(response.message)
                     }else{
@@ -188,6 +221,8 @@ $(function () {
 
                 },
                 error: function(xhr, status, error) {
+                    event.find('span').hide()
+                    event.find('b').text(defaultText)
                     console.error(error);
                     toastr.error(error)
                 }

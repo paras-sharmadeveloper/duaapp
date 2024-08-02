@@ -66,7 +66,7 @@ class ManualBookingController extends Controller
             $bookingId = $booking->id;
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
             return response()->json([
                 'message' => 'token Issued ' .$tokenId,
                 "status" => true,
@@ -74,7 +74,7 @@ class ManualBookingController extends Controller
 
         }else if($type  == 'disapprove'){
             $message = 'Today your booking will not confirm , Please try again';
-
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
             WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $visitorTemp->phone ,$message)->onQueue('whatsapp-notification-not-approve');
 
             return response()->json([
