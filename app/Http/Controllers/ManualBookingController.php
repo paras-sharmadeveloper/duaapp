@@ -14,7 +14,7 @@ class ManualBookingController extends Controller
     //
 
     public function list(){
-        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','desc')->get();
+        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
 
         return view('manualBooking.list',compact('visitorList'));
     }

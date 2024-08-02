@@ -227,13 +227,9 @@ img.lightgallery {
                 success: function(response) {
 
                     event.find('span').hide()
-                    event.find('b').text(defaultText)
-
+                    event.find('b').text(defaultText);
                     event.parents('.actionBtns').fadeOut();
-
                     //    event.parents('tr').fadeOut();
-
-
                     if (response.status) {
                         toastr.success(response.message)
                     } else {
