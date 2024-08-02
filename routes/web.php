@@ -191,8 +191,8 @@ Route::get('/run/command', function () {
     return 'Scheduled task triggered successfully.';
 });
 
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/thankyou', function () {
+    return view('frontend.thankyou-new');
 });
 
 Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
@@ -222,15 +222,10 @@ Auth::routes(['register' => false]);
     Route::get('/admin/clear', [NewBookingController::class, 'clearLog'])->name('admin.logs.clear');
     Route::get('/admin/doorlog', [NewBookingController::class, 'ShowDoorLogs'])->name('admin.doorlog');
 
-
-
-
-
-
     Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
-    Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit'); // with queue
-    Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
-    // Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+    // Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit'); // with queue
+    // Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
+    Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
 
 
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
