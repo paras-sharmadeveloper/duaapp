@@ -441,6 +441,8 @@ class HomeController extends Controller
             $booking = new VisitorTempEntry;
 
             $booking->country_code = '+' . $countryCode;
+            $booking->venueId = $venueAddress->id;
+
             $booking->phone = $validatedData['mobile'];
             $booking->user_ip =   $request->ip();
             $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : $recognizedCode ;
