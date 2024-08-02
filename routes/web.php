@@ -193,7 +193,7 @@ Route::get('/run/command', function () {
 
 Route::get('/thankyou', function () {
     return view('frontend.thankyou-new');
-});
+})->name('thankyounew');
 
 Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
 
@@ -225,7 +225,10 @@ Auth::routes(['register' => false]);
     Route::get('/dua/waiting/{id}', [VisitorBookingController::class, 'waitingPageShow'])->name('booking.waiting');
     // Route::post('/book/submit/new', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit'); // with queue
     // Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
-    Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+    // Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
+    Route::post('/book/submit/new', [HomeController::class, 'BookingSubmitManual'])->name('booking.submit');
+
+
 
 
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');

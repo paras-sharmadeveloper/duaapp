@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity, WhatsappNotificationLogs};
+use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity, VisitorTempEntry, WhatsappNotificationLogs};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\{WhatsAppConfirmation};
@@ -167,7 +167,185 @@ class HomeController extends Controller
         }
     }
 
-    public function BookingSubmit(Request $request)
+    // public function BookingSubmit(Request $request)
+    // {
+    //     $start = microtime(true);
+    //     $from = $request->input('from', 'null');
+    //     $vaildation = [];
+
+
+    //     if ($from == 'admin') {
+
+    //         $vaildation =  [
+    //             'mobile' => 'required|string|digits:10|max:10',
+    //             'user_question' => 'nullable|string',
+    //             'country_code' => 'required',
+    //         ];
+    //     } else {
+
+    //         $vaildation = [
+    //             'mobile' => 'required|string|digits:10|max:10',
+    //             'user_question' => 'nullable|string',
+    //             'country_code' => 'required'
+    //         ];
+    //     }
+    //     $messages = [];
+
+
+    //     // $validator = Validator::make($request->all(), $validation, $messages);
+
+    //     $validatedData = $request->validate($vaildation, $messages);
+    //     // if ($validator->fails()) {
+    //     //     return response()->json(['errors' => $validator->errors()], 422);
+    //     // }
+    //     $tokenStatus = $this->FinalBookingCheck($request);
+
+    //     // echo "<pre>"; print_r($tokenStatus); die;
+    //     if ($tokenStatus['status']) {
+    //         $slotId = $tokenStatus['slot_id'];
+    //         $tokenId = $tokenStatus['tokenId'];
+    //         $venueAddress  = $tokenStatus['venuesListArr'];
+    //     } else {
+    //         return response()->json([
+    //             'errors' =>  $tokenStatus
+    //         ], 422);
+    //     }
+
+    //     try {
+    //         $isUsers = [];
+    //         $recognizedCode = null;
+
+    //         $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
+    //         $source = "Website";
+    //         $rejoin = $venueAddress->rejoin_venue_after;
+    //         $rejoin = $venueAddress->rejoin_venue_after;
+    //         $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
+    //         if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
+    //             $source = "Website";
+    //             $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
+    //             return response()->json(['message' => $message, "status" => false], 406);
+    //         } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
+    //             $source = "Website";
+    //             return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
+    //         }
+
+    //         $captured_user_image = $request->input('captured_user_image');
+    //         if (!empty($captured_user_image)) {
+    //             $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
+    //             // $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
+    //             // if (!empty($isUsers) && $isUsers['status'] == false) {
+    //             //     $end = microtime(true);
+    //             //     $totalTime = $end - $start;
+    //             //     $recognizedCode = $isUsers['recognized_code'];
+    //             //     return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
+    //             // }
+    //         }
+    //         $uuid = Str::uuid()->toString();
+    //         $countryCode = $request->input('country_code');
+    //         $country = Country::where(['phonecode' => $countryCode])->first();
+    //         $venue_available_country =  json_decode($venueAddress->venue_available_country);
+    //         $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
+    //         if (!$userCountry['allowed']) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => $userCountry['message'],
+    //                 'message_ur' => $userCountry['message_ur'],
+    //             ]);
+    //         }
+
+    //         $bookingNumber =  $tokenId;
+    //         // $mobile = $countryCode . $validatedData['mobile'];
+    //         $booking = new Vistors;
+
+    //         $booking->country_code = '+' . $countryCode;
+    //         $booking->phone = $validatedData['mobile'];
+    //         $booking->user_question =  $request->input('user_question', null);
+    //         $booking->slot_id =  $slotId;
+    //         $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
+    //         $booking->booking_uniqueid = $uuid;
+    //         $booking->user_ip =   $request->ip();
+    //         $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : $recognizedCode ;
+    //         $booking->booking_number = $bookingNumber;
+    //         $booking->meeting_type = $venueAddress->type;
+    //         $booking->user_timezone = $request->input('timezone', null);
+    //         $booking->source = $source;
+    //         $booking->dua_type = $request->input('dua_type');
+    //         $booking->lang = $request->input('lang', 'en');
+    //         $booking->working_lady_id = $request->input('working_lady_id', 0);
+
+    //         $workingLady = WorkingLady::where('qr_id', $request->input('QrCodeId'))->where('is_active', 'active')->count();
+
+
+    //         if ($workingLady == 0 && !empty($request->input('working_lady_id'))) {
+    //             return response()->json([
+    //                 'errors' => [
+    //                     'status' => false,
+    //                     'message' => 'This Qr is not valid or not active',
+    //                     'message_ur' => 'یہ Qr درست نہیں ہے یا فعال نہیں ہے۔',
+    //                 ]
+    //             ], 422);
+    //         }
+
+    //         $booking->token_status = 'vaild';
+    //         // Save the booking record
+    //         $booking->save();
+    //         $bookingId = $booking->id;
+
+    //         // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
+    //         WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+
+    //         if ($from == 'admin') {
+    //             return  redirect()->route('booking.status', $uuid);
+    //             // booking.status
+    //             // return redirect()->back()->with('success', 'Booking created successfully');
+    //         } else {
+
+    //             $end = microtime(true);
+    //             $totalTime = $end - $start;
+
+    //             // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
+    //             return response()->json([
+    //                 'message' => 'Booking submitted successfully',
+    //                 "totalTime" => $totalTime,
+    //                 "status" => true, 'bookingId' => $uuid,
+    //                 'redirect_url' => route('booking.status', [$uuid]) . '?time=' . $totalTime
+    //             ], 200);
+    //         }
+    //     } catch (QueryException $e) {
+    //         Log::error('Booking error' . $e);
+
+    //         $errorCode = $e->errorInfo[1];
+
+    //         if ($errorCode === 1062) { // Error code for Duplicate Entry
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'refresh' => true,
+    //                 'message' => trans('messages.slot_id'),
+    //             ], 422);
+    //         } else {
+    //             // Handle other types of database errors
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => $e->getMessage(),
+    //             ], 500);
+    //         }
+
+    //         // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
+
+    //     } catch (\Exception $e) {
+    //         // Log any other exceptions
+    //         Log::error('Exception: ' . $e->getMessage());
+
+    //         // Return a generic error response
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+
+
+    public function BookingSubmitManual(Request $request)
     {
         $start = microtime(true);
         $from = $request->input('from', 'null');
@@ -177,19 +355,14 @@ class HomeController extends Controller
             'user_question' => 'nullable|string',
             'country_code' => 'required'
         ];
+
         $messages = [];
-
-
         $validatedData = $request->validate($vaildation, $messages);
-        // if ($validator->fails()) {
-        //     return response()->json(['errors' => $validator->errors()], 422);
-        // }
         $tokenStatus = $this->FinalBookingCheck($request);
-
         // echo "<pre>"; print_r($tokenStatus); die;
         if ($tokenStatus['status']) {
-            $slotId = $tokenStatus['slot_id'];
-            $tokenId = $tokenStatus['tokenId'];
+            // $slotId = $tokenStatus['slot_id'];
+            // $tokenId = $tokenStatus['tokenId'];
             $venueAddress  = $tokenStatus['venuesListArr'];
         } else {
             return response()->json([
@@ -201,7 +374,7 @@ class HomeController extends Controller
             $isUsers = [];
             $recognizedCode = null;
 
-            $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
+            // $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
             $source = "Website";
             $rejoin = $venueAddress->rejoin_venue_after;
             $rejoin = $venueAddress->rejoin_venue_after;
@@ -226,6 +399,28 @@ class HomeController extends Controller
                 //     return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
                 // }
             }
+            $filename = 'UserImage_' . time() . '.jpg';
+            $objectKey = $this->encryptFilename($filename);
+            // Storage::disk('s3')->put($objectKey, $myImage);
+
+            // Upload to local directory with today's date folder
+            $localDirectory = 'sessionImages/' . date('d-m-Y');
+            if (!Storage::disk('public_uploads')->exists($localDirectory)) {
+                Storage::disk('public_uploads')->makeDirectory($localDirectory);
+            }
+            Storage::disk('public_uploads')->put($localDirectory . '/' . $objectKey, $myImage);
+
+            try {
+                //code...
+                $uploadSuccess = Storage::disk('s3')->put($objectKey, $myImage);
+            } catch (\Exception $e) {
+                // Log::error('Failed to upload file to S3.'.$e->getMessage());
+                return response()->json([
+                    'errors' =>  ['message' => 'Unable to upload file ' . $objectKey . '   ' . $e->getMessage() . ' ']
+                ], 422);
+            }
+
+
             $uuid = Str::uuid()->toString();
             $countryCode = $request->input('country_code');
             $country = Country::where(['phonecode' => $countryCode])->first();
@@ -239,67 +434,34 @@ class HomeController extends Controller
                 ]);
             }
 
-            $bookingNumber =  $tokenId;
+            // $bookingNumber =  $tokenId;
             // $mobile = $countryCode . $validatedData['mobile'];
-            $booking = new Vistors;
+            $booking = new VisitorTempEntry;
 
             $booking->country_code = '+' . $countryCode;
             $booking->phone = $validatedData['mobile'];
-            $booking->user_question =  $request->input('user_question', null);
-            $booking->slot_id =  $slotId;
-            $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
-            $booking->booking_uniqueid = $uuid;
             $booking->user_ip =   $request->ip();
             $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : $recognizedCode ;
-            $booking->booking_number = $bookingNumber;
-            $booking->meeting_type = $venueAddress->type;
             $booking->user_timezone = $request->input('timezone', null);
             $booking->source = $source;
             $booking->dua_type = $request->input('dua_type');
             $booking->lang = $request->input('lang', 'en');
             $booking->working_lady_id = $request->input('working_lady_id', 0);
+            $booking->working_qr_id = $request->input('QrCodeId');
+            $booking->recognized_code =$objectKey;
 
-            $workingLady = WorkingLady::where('qr_id', $request->input('QrCodeId'))->where('is_active', 'active')->count();
-
-
-            if ($workingLady == 0 && !empty($request->input('working_lady_id'))) {
-                return response()->json([
-                    'errors' => [
-                        'status' => false,
-                        'message' => 'This Qr is not valid or not active',
-                        'message_ur' => 'یہ Qr درست نہیں ہے یا فعال نہیں ہے۔',
-                    ]
-                ], 422);
-            }
-
-            $booking->token_status = 'vaild';
-            // Save the booking record
             $booking->save();
             $bookingId = $booking->id;
-
-            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
-            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-
-            if ($from == 'admin') {
-                return  redirect()->route('booking.status', $uuid);
-                // booking.status
-                // return redirect()->back()->with('success', 'Booking created successfully');
-            } else {
-
-                $end = microtime(true);
-                $totalTime = $end - $start;
-
                 // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
                 return response()->json([
                     'message' => 'Booking submitted successfully',
-                    "totalTime" => $totalTime,
-                    "status" => true, 'bookingId' => $uuid,
-                    'redirect_url' => route('booking.status', [$uuid]) . '?time=' . $totalTime
+                    "status" => true,
+                    'bookingId' => $uuid,
+                    'redirect_url' => route('thankyounew')
                 ], 200);
-            }
-        } catch (QueryException $e) {
-            Log::error('Booking error' . $e);
 
+
+        } catch (QueryException $e) {
             $errorCode = $e->errorInfo[1];
 
             if ($errorCode === 1062) { // Error code for Duplicate Entry
@@ -316,224 +478,13 @@ class HomeController extends Controller
                 ], 500);
             }
 
-            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
-
         } catch (\Exception $e) {
-            // Log any other exceptions
-            Log::error('Exception: ' . $e->getMessage());
-
-            // Return a generic error response
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage(),
             ], 500);
         }
     }
-
-
-
-
-
-
-
-
-    public function BookingSubmitToManual(Request $request)
-    {
-        $start = microtime(true);
-        $from = $request->input('from', 'null');
-        $vaildation = [];
-
-
-        if ($from == 'admin') {
-
-            $vaildation =  [
-                'mobile' => 'required|string|digits:10|max:10',
-                'user_question' => 'nullable|string',
-                'country_code' => 'required',
-            ];
-        } else {
-
-            $vaildation = [
-                'mobile' => 'required|string|digits:10|max:10',
-                'user_question' => 'nullable|string',
-                'country_code' => 'required'
-            ];
-        }
-        $messages = [];
-
-
-        // $validator = Validator::make($request->all(), $validation, $messages);
-
-        $validatedData = $request->validate($vaildation, $messages);
-        // if ($validator->fails()) {
-        //     return response()->json(['errors' => $validator->errors()], 422);
-        // }
-        $tokenStatus = $this->FinalBookingCheck($request);
-
-        // echo "<pre>"; print_r($tokenStatus); die;
-        if ($tokenStatus['status']) {
-            $slotId = $tokenStatus['slot_id'];
-            $tokenId = $tokenStatus['tokenId'];
-            $venueAddress  = $tokenStatus['venuesListArr'];
-        } else {
-            return response()->json([
-                'errors' =>  $tokenStatus
-            ], 422);
-        }
-
-        try {
-            $isUsers = [];
-            $recognizedCode = null;
-
-            $tokenId = str_pad($tokenId, 2, '0', STR_PAD_LEFT);
-            $source = "Website";
-            $rejoin = $venueAddress->rejoin_venue_after;
-            $rejoin = $venueAddress->rejoin_venue_after;
-            $rejoinStatus = userAllowedRejoin($validatedData['mobile'], $rejoin);
-            if (!$rejoinStatus['allowed'] &&  $from != 'admin') {
-                $source = "Website";
-                $message = ($request->input('lang') == 'en') ? $rejoinStatus['message'] : $rejoinStatus['message_ur'];
-                return response()->json(['message' => $message, "status" => false], 406);
-            } else if (!$rejoinStatus['allowed'] && $from == 'admin') {
-                $source = "Website";
-                return redirect()->back()->withErrors(['error' => 'You already booked a seat before']);
-            }
-
-            $captured_user_image = $request->input('captured_user_image');
-            if (!empty($captured_user_image)) {
-                $myImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $captured_user_image));
-                // $isUsers = $this->IsRegistredAlready($myImage, $rejoin);
-                // if (!empty($isUsers) && $isUsers['status'] == false) {
-                //     $end = microtime(true);
-                //     $totalTime = $end - $start;
-                //     $recognizedCode = $isUsers['recognized_code'];
-                //     return response()->json(['message' => $isUsers['message'],  'totalTime' => $totalTime, 'isUser' => $isUsers, "status" => false], 406);
-                // }
-            }
-            $uuid = Str::uuid()->toString();
-            $countryCode = $request->input('country_code');
-            $country = Country::where(['phonecode' => $countryCode])->first();
-            $venue_available_country =  json_decode($venueAddress->venue_available_country);
-            $userCountry = VenueAvilableInCountry($venue_available_country, $country->id);
-            if (!$userCountry['allowed']) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $userCountry['message'],
-                    'message_ur' => $userCountry['message_ur'],
-                ]);
-            }
-
-            $bookingNumber =  $tokenId;
-            // $mobile = $countryCode . $validatedData['mobile'];
-            $booking = new Vistors;
-
-            $booking->country_code = '+' . $countryCode;
-            $booking->phone = $validatedData['mobile'];
-            $booking->user_question =  $request->input('user_question', null);
-            $booking->slot_id =  $slotId;
-            $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
-            $booking->booking_uniqueid = $uuid;
-            $booking->user_ip =   $request->ip();
-            $booking->recognized_code = (!empty($isUsers)) ?  $isUsers['recognized_code'] : $recognizedCode ;
-            $booking->booking_number = $bookingNumber;
-            $booking->meeting_type = $venueAddress->type;
-            $booking->user_timezone = $request->input('timezone', null);
-            $booking->source = $source;
-            $booking->dua_type = $request->input('dua_type');
-            $booking->lang = $request->input('lang', 'en');
-            $booking->working_lady_id = $request->input('working_lady_id', 0);
-
-            $workingLady = WorkingLady::where('qr_id', $request->input('QrCodeId'))->where('is_active', 'active')->count();
-
-
-            if ($workingLady == 0 && !empty($request->input('working_lady_id'))) {
-                return response()->json([
-                    'errors' => [
-                        'status' => false,
-                        'message' => 'This Qr is not valid or not active',
-                        'message_ur' => 'یہ Qr درست نہیں ہے یا فعال نہیں ہے۔',
-                    ]
-                ], 422);
-            }
-
-            $booking->token_status = 'vaild';
-            // Save the booking record
-            $booking->save();
-            $bookingId = $booking->id;
-
-            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification')->onConnection('database');
-            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-
-            if ($from == 'admin') {
-                return  redirect()->route('booking.status', $uuid);
-                // booking.status
-                // return redirect()->back()->with('success', 'Booking created successfully');
-            } else {
-
-                $end = microtime(true);
-                $totalTime = $end - $start;
-
-                // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
-                return response()->json([
-                    'message' => 'Booking submitted successfully',
-                    "totalTime" => $totalTime,
-                    "status" => true, 'bookingId' => $uuid,
-                    'redirect_url' => route('booking.status', [$uuid]) . '?time=' . $totalTime
-                ], 200);
-            }
-        } catch (QueryException $e) {
-            Log::error('Booking error' . $e);
-
-            $errorCode = $e->errorInfo[1];
-
-            if ($errorCode === 1062) { // Error code for Duplicate Entry
-                return response()->json([
-                    'status' => false,
-                    'refresh' => true,
-                    'message' => trans('messages.slot_id'),
-                ], 422);
-            } else {
-                // Handle other types of database errors
-                return response()->json([
-                    'status' => false,
-                    'message' => $e->getMessage(),
-                ], 500);
-            }
-
-            // WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification-send-er')->onConnection('database');
-
-        } catch (\Exception $e) {
-            // Log any other exceptions
-            Log::error('Exception: ' . $e->getMessage());
-
-            // Return a generic error response
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1573,7 +1524,6 @@ class HomeController extends Controller
             ];
         }
 
-
         if ($venuesListArr) {
 
             $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
@@ -1600,20 +1550,20 @@ class HomeController extends Controller
 
             if ($status['allowed']) {
 
-                session()->forget('phoneCode');
+                // session()->forget('phoneCode');
 
 
-                $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
-                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                    ->where(['type' => $request->input('duaType')])
-                    ->orderBy('id', 'ASC')
-                    ->select(['venue_address_id', 'token_id', 'id'])->first();
+                // $tokenIs = VenueSloting::where('venue_address_id', $venuesListArr->id)
+                //     ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+                //     ->where(['type' => $request->input('duaType')])
+                //     ->orderBy('id', 'ASC')
+                //     ->select(['venue_address_id', 'token_id', 'id'])->first();
 
                 if (!empty($tokenIs)) {
                     return [
                         'status' =>  true,
-                        'tokenId' => $tokenIs->token_id,
-                        'slot_id' => $tokenIs->id,
+                        // 'tokenId' => $tokenIs->token_id,
+                        // 'slot_id' => $tokenIs->id,
                         'venuesListArr' => $venuesListArr
                     ];
                 } else {
