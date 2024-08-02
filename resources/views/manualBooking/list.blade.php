@@ -140,6 +140,7 @@ img.lightgallery {
                             <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                             <td>{{ $list->country_code }}</td>
                             <td>{{ $list->phone }}</td>
+
                             <td class="imgc">
                                  <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
 
@@ -168,7 +169,9 @@ img.lightgallery {
                                         </button>
                                     </div>
                                 @else
-                                    <p> Action Taken </p>
+                                    <p> Action Taken
+
+                                        <span class="{{ ($list->action_status == 'approve')? 'badge badge-success':'badge badge-danger' }}">{{ $list->action_status}} </span> </p>
                                 @endif
                             </td>
                         </tr>
