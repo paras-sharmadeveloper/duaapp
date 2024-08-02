@@ -60,7 +60,7 @@ class ManualBookingController extends Controller
                 $tokenId =  $tokenIs->token_id;
                 $slot_id =  $tokenIs->id;
 
-                $booking->country_code = '+' . $visitorTemp->country_code;
+                $booking->country_code = $visitorTemp->country_code;
                 $booking->phone = $visitorTemp->phone;
                 $booking->user_question =  $request->input('user_question', null);
                 $booking->slot_id =  $slot_id;
@@ -86,7 +86,8 @@ class ManualBookingController extends Controller
             }else if($type  == 'disapprove'){
                 $message = 'Today your booking will not confirm , Please try again';
                 $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => $type]);
-                WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $visitorTemp->phone ,$message)->onQueue('whatsapp-notification-not-approve');
+                $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
+                WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
 
 
             }
