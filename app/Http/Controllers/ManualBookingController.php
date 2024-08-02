@@ -80,12 +80,12 @@ class ManualBookingController extends Controller
                 $bookingId = $booking->id;
                 WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => $type]);
 
 
             }else if($type  == 'disapprove'){
                 $message = 'Today your booking will not confirm , Please try again';
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => $type]);
                 WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $visitorTemp->phone ,$message)->onQueue('whatsapp-notification-not-approve');
 
 

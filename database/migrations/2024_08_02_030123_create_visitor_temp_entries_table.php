@@ -33,6 +33,8 @@ return new class extends Migration
             $table->string('msg_sent_status')->nullable();
             $table->string('msg_date')->nullable();
             $table->string('action_at')->nullable();
+            $table->string('action_status')->nullable();
+
             $table->timestamps();
         });
     }
