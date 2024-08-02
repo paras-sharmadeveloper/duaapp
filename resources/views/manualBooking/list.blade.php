@@ -300,26 +300,32 @@ img.lightgallery {
 
         // Bulk Approve button click handler
         $('#bulkApproveBtn').on('click', function() {
-            var selectedIds = $('.bulk-checkbox:checked').map(function() {
-                return $(this).data('id');
-            }).get();
-            if (selectedIds.length > 0) {
-                AjaxCallBulk(selectedIds, 'approve', $(this));
-            }else{
-                alert("Select Checkbox")
+
+            if(confirm('Do you really want to continue ?')){
+                var selectedIds = $('.bulk-checkbox:checked').map(function() {
+                    return $(this).data('id');
+                }).get();
+                if (selectedIds.length > 0) {
+                    AjaxCallBulk(selectedIds, 'approve', $(this));
+                }else{
+                    alert("Select Checkbox")
+                }
             }
         });
 
         // Bulk Disapprove button click handler
         $('#bulkDisapproveBtn').on('click', function() {
-            var selectedIds = $('.bulk-checkbox:checked').map(function() {
+            if(confirm('Do you really want to continue ?')){
+                var selectedIds = $('.bulk-checkbox:checked').map(function() {
                 return $(this).data('id');
-            }).get();
-            if (selectedIds.length > 0) {
-                AjaxCallBulk(selectedIds, 'disapprove', $(this));
-            }else{
-                alert("Select Checkbox")
+                }).get();
+                if (selectedIds.length > 0) {
+                    AjaxCallBulk(selectedIds, 'disapprove', $(this));
+                }else{
+                    alert("Select Checkbox")
+                }
             }
+
         });
     </script>
 @endsection
