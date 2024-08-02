@@ -49,12 +49,12 @@ class ManualBookingController extends Controller
                 {
 
                     $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
-
-                    return response()->json([
-                        'status' =>  false,
-                        'message' => 'This Person already got the token.',
-                        'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
-                    ], 200);
+                    continue;
+                    // return response()->json([
+                    //     'status' =>  false,
+                    //     'message' => 'This Person already got the token.',
+                    //     'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
+                    // ], 200);
                 }
 
                 $booking = new Vistors;
@@ -117,6 +117,7 @@ class ManualBookingController extends Controller
                 ->select(['venue_address_id', 'token_id', 'id'])->first();
 
             if(empty($tokenIs)){
+
                 return response()->json([
                         'status' =>  false,
                         'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
@@ -128,7 +129,8 @@ class ManualBookingController extends Controller
 
             if( $isPerson  > 0)
             {
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
+
                 return response()->json([
                     'status' =>  false,
                     'message' => 'This Person already got the token.',
@@ -161,7 +163,7 @@ class ManualBookingController extends Controller
             $bookingId = $booking->id;
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
             return response()->json([
                 'message' => 'token Issued ' .$tokenId,
                 "status" => true,
@@ -169,8 +171,9 @@ class ManualBookingController extends Controller
 
         }else if($type  == 'disapprove'){
             $message = 'Today your booking will not confirm , Please try again';
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
-            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $visitorTemp->phone ,$message)->onQueue('whatsapp-notification-not-approve');
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
+            $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
+            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
 
             return response()->json([
                 'message' => 'Disapproved',
