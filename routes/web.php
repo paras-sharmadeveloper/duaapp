@@ -19,6 +19,7 @@ use App\Http\Controllers\{
     PrintController,
     ReasonController,
     DashboardController,
+    ManualBookingController,
     WorkingLadyController,
     NewBookingController,
     VisitorBookingController
@@ -229,8 +230,6 @@ Auth::routes(['register' => false]);
     Route::post('/book/submit/new', [HomeController::class, 'BookingSubmitManual'])->name('booking.submit');
 
 
-
-
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [VisitorBookingController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
@@ -248,6 +247,10 @@ Auth::routes(['register' => false]);
     Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+
+
+    Route::get('/book/manual/list', [ManualBookingController::class, 'list'])->name('booking.manual.list');
+    Route::post('/book/manual/approve', [ManualBookingController::class, 'ApproveDisapprove'])->name('booking.manual.approve');
 
 
     Route::get('/filter', [NewBookingController::class, 'ShowFilterPage'])->name('admin.filter');

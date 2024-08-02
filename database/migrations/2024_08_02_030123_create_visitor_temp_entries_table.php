@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('visitor_temp_entries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('booking_number')->nullable();
+            $table->unsignedBigInteger('venueId')->nullable();
             $table->string('country_code',8)->nullable();
             $table->string('phone',15)->nullable();
             $table->enum('is_whatsapp',['yes','no'])->default('no');
@@ -27,6 +28,10 @@ return new class extends Migration
             $table->unsignedBigInteger('working_lady_id')->default(0);
             $table->string('working_qr_id')->nullable();
             $table->text('captured_user_image')->charset('binary')->nullable();
+            $table->string('message')->nullable();
+            $table->string('msg_sid')->nullable();
+            $table->string('msg_sent_status')->nullable();
+            $table->string('msg_date')->nullable();
             $table->timestamps();
         });
     }
