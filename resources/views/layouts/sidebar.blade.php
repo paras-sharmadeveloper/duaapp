@@ -257,9 +257,9 @@ S
       </li>
 
       <li class="nav-item">
-        <a class="{{ ( $currentPath == 'visitorsobj.show') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('visitorsobj.show') }}">
+        <a class="{{ ( $currentPath == 'booking.manual.list') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('booking.manual.list') }}">
             <i class="bi bi-person-vcard"></i>
-          <span>Clear Object </span>
+          <span>Manual Bookings</span>
         </a>
       </li>
 

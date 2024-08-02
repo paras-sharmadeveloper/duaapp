@@ -90,7 +90,7 @@
                     "bSortable": true
                 },
                 {
-                    "aTargets": [6],
+                    "aTargets": [0],
                     "bSortable": true
                 },
             ],

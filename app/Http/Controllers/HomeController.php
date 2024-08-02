@@ -372,6 +372,8 @@ class HomeController extends Controller
             ], 422);
         }
 
+
+
         try {
             $isUsers = [];
             $recognizedCode = null;
