@@ -171,7 +171,7 @@ img.lightgallery {
                                 @else
                                     <p> Action Taken
                                         @if($list->action_status)
-                                        <span class="{{ ($list->action_status == 'approve')? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $list->action_status}} </span>
+                                        <span class="{{ ($list->action_status == 'approved')? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $list->action_status}} </span>
                                         @endif
                                     </p>
 
