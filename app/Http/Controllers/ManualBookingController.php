@@ -141,7 +141,7 @@ class ManualBookingController extends Controller
             $tokenId =  $tokenIs->token_id;
             $slot_id =  $tokenIs->id;
 
-            $booking->country_code = '+' . $visitorTemp->country_code;
+            $booking->country_code = $visitorTemp->country_code;
             $booking->phone = $visitorTemp->phone;
             $booking->user_question =  $request->input('user_question', null);
             $booking->slot_id =  $slot_id;
