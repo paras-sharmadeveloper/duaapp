@@ -47,7 +47,9 @@ class ManualBookingController extends Controller
 
                 if( $isPerson  > 0)
                 {
-                    $visitorTemp->update(['action_at' => date('Y-m-d H:i:s')]);
+
+                    $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
+
                     return response()->json([
                         'status' =>  false,
                         'message' => 'This Person already got the token.',
