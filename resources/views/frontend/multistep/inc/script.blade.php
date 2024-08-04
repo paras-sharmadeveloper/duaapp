@@ -501,7 +501,7 @@
                     var err = xhr.responseJSON;
                     var reQStatus = xhr.status;
 
-
+                    console.log("errors",errors)
 
 
                     if (reQStatus == 406 || reQStatus == 422) {
