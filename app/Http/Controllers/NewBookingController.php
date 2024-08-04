@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\WhatsAppTokenNotBookNotifcation;
 use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp};
 
 use App\Http\Controllers\Controller;
+use App\Models\VenueSloting;
 use App\Models\WhatsappNotificationLogs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -58,8 +60,13 @@ class NewBookingController extends Controller
 
     public function StatusLead(Request $request, $id)
     {
+        $visitor = Vistors::find($id);
+        $completeNumber = $visitor->country_code . $visitor->phone;
+        $tokenId = $visitor->booking_number;
+        $message = "We have found that the token ".$tokenId." is either duplicate or issued via error from our system or a same person tried to get 2 tokens using different mobile numbers. Therefore our system has deleted this token. Kindly don't use or show this token at dua ghar because it is now invalid and deleted in our system.";
+        WhatsAppTokenNotBookNotifcation::dispatch($visitor->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
 
-        Vistors::find($id)->update([
+        $visitor->update([
             'token_status' => $request->input('status')
         ]);
         return redirect()->back()->with(['success' => 'Status updated']);

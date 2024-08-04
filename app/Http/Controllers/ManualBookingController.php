@@ -170,7 +170,7 @@ class ManualBookingController extends Controller
             ], 200);
 
         }else if($type  == 'disapprove'){
-            $message = 'Today your booking will not confirm , Please try again';
+            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
             $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
             $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
             WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
