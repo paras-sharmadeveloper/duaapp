@@ -505,8 +505,20 @@
 
 
                     if (reQStatus == 406 || reQStatus == 422) {
+
+
+
+
                         if (errors !== undefined) {
-                            $("#myalert").html(errors.message).removeClass('d-none');
+
+                            if (lang == 'en') {
+                                $("#myalert").html(errors.message).removeClass('d-none');
+                            } else {
+                                $("#myalert").html(errors.message_ur).removeClass('d-none');
+                            }
+
+
+
                             $this.find('b').text('Opps Error..')
                             setTimeout(() => {
                                 $this.find('b').text(defaultText)
@@ -515,6 +527,11 @@
 
                         } else {
                             $("#myalert").html(err.message).removeClass('d-none');
+                            if (lang == 'en') {
+                                $("#myalert").html(err.message).removeClass('d-none');
+                            } else {
+                                $("#myalert").html(err.message_ur).removeClass('d-none');
+                            }
                             $this.find('b').text('Opps Error..')
                             setTimeout(() => {
                                 $this.find('b').text(defaultText)
@@ -554,10 +571,26 @@
                                 var inputElement = $('[name="' + field + '"]');
                                 inputElement.addClass('is-invalid');
                                 if (field == 'country_code') {
-                                    $("#countryCodeDiv").find('.error').remove();
-                                    $("#countryCodeDiv").last().append(
-                                        '<div class="error ' + field + '">' +
-                                        messages.join('<br>') + '</div>');
+
+
+                                    if (lang == 'en') {
+                                        $("#countryCodeDiv").find('.error')
+                                    .remove();
+                                        $("#countryCodeDiv").last().append(
+                                            '<div class="error ' + field +
+                                            '">' + messages.join('<br>') +
+                                            '</div>');
+                                    } else {
+                                        $("#countryCodeDiv").find('.error')
+                                    .remove();
+                                        $("#countryCodeDiv").last().append(
+                                            '<div class="error ' + field +
+                                            '">' + messages_ur.join('<br>') +
+                                            '</div>');
+                                    }
+
+
+
                                 } else {
                                     $("#myalert").html(messages.join('<br>'))
                                         .removeClass('d-none');
@@ -1215,5 +1248,3 @@
         });
     });
 </script>
-
-
