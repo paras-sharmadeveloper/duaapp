@@ -511,6 +511,8 @@
 
                         if (errors !== undefined) {
 
+                            alert(1)
+
                             if (lang == 'en') {
                                 $("#myalert").html(errors.message).removeClass('d-none');
                             } else {
@@ -526,6 +528,7 @@
                             $('#modal-loading').modal('hide');
 
                         } else {
+                            alert(2)
                             $("#myalert").html(err.message).removeClass('d-none');
                             if (lang == 'en') {
                                 $("#myalert").html(err.message).removeClass('d-none');
@@ -543,7 +546,7 @@
                     }
 
                     if (errors !== undefined) {
-
+                        alert(3)
                         if (xhr.responseJSON || xhr.responseJSON.errors) {
 
                             $this.find('b').text(defaultText)
@@ -592,11 +595,25 @@
 
 
                                 } else {
+                                    alert(4)
+
+                                    if (lang == 'en') {
+                                        $("#countryCodeDiv").find('.error')
+                                    .remove();
                                     $("#myalert").html(messages.join('<br>'))
                                         .removeClass('d-none');
                                     inputElement.after('<div class="error ' +
                                         field + '">' + messages.join('<br>') +
                                         '</div>');
+                                    } else {
+                                        $("#myalert").html(messages.join('<br>'))
+                                        .removeClass('d-none');
+                                    inputElement.after('<div class="error ' +
+                                        field + '">' + messages_ur.join('<br>') +
+                                        '</div>');
+                                    }
+
+
                                 }
                                 $('#modal-loading').modal('hide');
 
