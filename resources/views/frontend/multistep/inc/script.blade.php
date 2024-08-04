@@ -511,7 +511,7 @@
 
                         if (errors !== undefined) {
 
-                            alert(1)
+                            // alert(1)
 
                             if (lang == 'en') {
                                 $("#myalert").html(errors.message).removeClass('d-none');
@@ -547,7 +547,7 @@
                     }
 
                     if (errors !== undefined) {
-                        alert(3)
+                        // alert(3)
                         if (xhr.responseJSON || xhr.responseJSON.errors) {
 
                             $this.find('b').text(defaultText)
@@ -596,7 +596,7 @@
 
 
                                 } else {
-                                    alert(4)
+                                    // alert(4)
 
                                     if (lang == 'en') {
                                         $("#countryCodeDiv").find('.error')
