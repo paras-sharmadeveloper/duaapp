@@ -542,6 +542,7 @@
                             $('#modal-loading').modal('hide');
 
                         }
+                        return false;
 
                     }
 
