@@ -12,7 +12,7 @@ return [
     'select-option' => 'Select Option',
     'select-city' => 'Select Dua Ghar',
     'location-dua-ghar' => 'Dua Ghar',
-    'mobile-label' =>'Mobile',
+    'mobile-label' =>'WhatsApp Mobile',
     'country-label' => 'Country Code',
     'nav-dua-option' => 'Dua Option',
     'nav-city-option' => 'Dua Ghar',
