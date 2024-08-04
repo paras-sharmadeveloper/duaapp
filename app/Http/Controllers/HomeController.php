@@ -376,10 +376,13 @@ class HomeController extends Controller
             if( $isPerson > 0){
 
                 return response()->json([
-                    'status' =>  false,
-                    'message' => "You have already submitted your entry for token booking earlier today. Our system is processing all entries at this time. If system approve your token then it will send token details to your WhatsApp. Kindly don't make further new entries and wait for the next 2 hours.",
-                    'message_ur' => "آپ نے آج پہلے ہی ٹوکن بکنگ کے لیے اپنا اندراج جمع کرایا ہے۔ ہمارا سسٹم اس وقت تمام اندراجات پر کارروائی کر رہا ہے۔ اگر سسٹم آپ کے ٹوکن کو منظور کرتا ہے تو یہ آپ کے واٹس ایپ پر ٹوکن کی تفصیلات بھیجے گا۔ برائے مہربانی مزید نئی اندراجات نہ کریں اور اگلے 2 گھنٹے انتظار کریں۔",
-                ], 200);
+                    'errors' =>  [
+                        'status' =>  false,
+                        'message' => "You have already submitted your entry for token booking earlier today. Our system is processing all entries at this time. If system approve your token then it will send token details to your WhatsApp. Kindly don't make further new entries and wait for the next 2 hours.",
+                        'message_ur' => "آپ نے آج پہلے ہی ٹوکن بکنگ کے لیے اپنا اندراج جمع کرایا ہے۔ ہمارا سسٹم اس وقت تمام اندراجات پر کارروائی کر رہا ہے۔ اگر سسٹم آپ کے ٹوکن کو منظور کرتا ہے تو یہ آپ کے واٹس ایپ پر ٹوکن کی تفصیلات بھیجے گا۔ برائے مہربانی مزید نئی اندراجات نہ کریں اور اگلے 2 گھنٹے انتظار کریں۔",
+                    ]
+                ], 422);
+
 
             }
 
