@@ -60,7 +60,7 @@
         .site-header__title {
             margin: 0;
             font-family: Montserrat, sans-serif;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: 700;
             line-height: 1.1;
             text-transform: uppercase;
@@ -134,12 +134,12 @@
         }
 
         #checkmark {
-            font-size: 12em;
+            font-size: 8em;
         }
         .logoo img {
-    height: 100px;
-    width: 100px;
-}
+            height: 90px;
+            width: 90px;
+        }
     </style>
 
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
@@ -165,9 +165,7 @@
 
     <div class="main-content">
         <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-        <p class="main-content__body" data-lead-id="main-content-body">آپ کی درخواست کا شکریہ۔ آپ کو کچھ منٹوں میں آپ کے
-            ٹوکن کے بارے میں مطلع کیا جائے گا۔</p>
-        <p class="main-content__body" data-lead-id="main-content-body">Thank you for your request. You will be notified
-            about your token in a few minutes.</p>
+        <p class="main-content__body" data-lead-id="main-content-body">آپ کی درخواست کے لیے آپ کا شکریہ۔ ہمارا سسٹم اس وقت تمام اندراجات پر کارروائی کر رہا ہے۔ اگر سسٹم آپ کے ٹوکن کو منظور کرتا ہے تو یہ آپ کے واٹس ایپ پر ٹوکن کی تفصیلات بھیجے گا۔ برائے مہربانی مزید نئی اندراجات نہ کریں اور اگلے 2 گھنٹے انتظار کریں۔</p>
+        <p class="main-content__body" data-lead-id="main-content-body">Thank you for your request. Our system is processing all entries at this time. If system approve your token then it will send token details to your WhatsApp. Kindly don't make further new entries and wait for the next 2 hours.</p>
     </div>
 @endsection
