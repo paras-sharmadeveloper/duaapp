@@ -388,7 +388,7 @@ class HomeController extends Controller
         $wlduaCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dua'])->count();
         $wldumCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dum'])->count();
 
-        if($duaCount == $DuaCount && $request->input('dua_type') =='dua'){
+        if($duaCount == $DuaCount){
 
             return response()->json([
                 'errors' =>  [
