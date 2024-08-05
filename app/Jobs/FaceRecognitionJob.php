@@ -61,7 +61,7 @@ class FaceRecognitionJob implements ShouldQueue
         $duaCount =  VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'dua'])->count();
         $dumCount =  VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'dum'])->count();
         $wlduaCount = VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'working_lady_dua'])->count();
-        $wldumCount = VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'working_lady_dum'])->count();;
+        $wldumCount = VenueSloting::where(['venue_address_id' => $this->venueId,'type' => 'working_lady_dum'])->count();
 
 
         if( $DuaCount == $duaCount && $this->duaType == 'dua'){

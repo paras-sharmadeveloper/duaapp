@@ -359,11 +359,9 @@ class HomeController extends Controller
         ];
 
 
-        return response()->json([
-            'status' =>  false,
-            'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-            'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-        ], 200);
+
+
+
 
         $messages = [];
         $validatedData = $request->validate($vaildation, $messages);
@@ -378,6 +376,51 @@ class HomeController extends Controller
                 'errors' =>  $tokenStatus
             ], 422);
         }
+
+        $query = Vistors::whereDate('created_at', date('Y-m-d'));
+        $DuaCount = $query->where(['dua_type' =>'dua'])->count();
+        $DumCount = $query->where(['dua_type' =>'dum'])->count();
+        $wlDuaCount = $query->where(['dua_type' =>'working_lady_dua'])->count();
+        $wlDumCount = $query->where(['dua_type' =>'working_lady_dum'])->count();
+
+        $duaCount =  VenueSloting::where(['venue_address_id' => $venueAddress->id,'type' => 'dua'])->count();
+        $dumCount =  VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'dum'])->count();
+        $wlduaCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dua'])->count();
+        $wldumCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dum'])->count();
+
+        if($duaCount == $DuaCount){
+            return response()->json([
+                'status' =>  false,
+                'message' => 'All Tokens Dua Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+            ], 200);
+        }
+        if($dumCount == $DumCount){
+            return response()->json([
+                'status' =>  false,
+                'message' => 'All Tokens Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+            ], 200);
+        }
+
+        if($wlduaCount == $wlDuaCount){
+            return response()->json([
+                'status' =>  false,
+                'message' => 'All Tokens Working Lady Dua  Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+            ], 200);
+        }
+
+        if($wlDumCount == $wldumCount){
+            return response()->json([
+                'status' =>  false,
+                'message' => 'All Tokens Working Lady Dum  Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+            ], 200);
+        }
+
+
+
 
         $isPerson = VisitorTempEntry::where(['phone' => $validatedData['mobile']])->whereDate('created_at',date('Y-m-d'))->count();
             if( $isPerson > 0){
