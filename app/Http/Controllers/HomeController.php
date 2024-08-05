@@ -679,11 +679,12 @@ class HomeController extends Controller
         return response()->json(['message' => 'Liveness not detected.', 'status' => false], 400);
     }
 
+
+
     protected function encryptFilename($filename)
     {
-        $key = hash('sha256', date('Y-m-d') . $filename . now());
-        //  $hashedPassword = Hash::make($filename.now());
-        return $key;
+        $key = hash('sha256',uniqid(). date('Y-m-d H:i:s') . $filename . now()->toDateTimeString().uniqid());
+        return  Str::uuid()->toString().$key;
     }
 
 
