@@ -399,7 +399,7 @@ class HomeController extends Controller
             ], 422);
 
         }
-        if($dumCount == $DumCount && $request->input('dua_type') =='dum'){
+        if($dumCount == $DumCount && $request->input('dua_type') == 'dum'){
 
             return response()->json([
                 'errors' =>  [
