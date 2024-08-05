@@ -528,7 +528,7 @@
                             $('#modal-loading').modal('hide');
 
                         } else {
-                            alert(2)
+                            // alert(2)
                             $("#myalert").html(err.message).removeClass('d-none');
                             if (lang == 'en') {
                                 $("#myalert").html(err.message).removeClass('d-none');
