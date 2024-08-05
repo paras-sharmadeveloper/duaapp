@@ -103,7 +103,6 @@ img.lightgallery {
                             <input type="checkbox" id="selectAll">
                         </th>
                         <th>Db Id</th>
-
                         <th>Date</th>
                         <th>CountryCode</th>
                         <th>phone </th>
