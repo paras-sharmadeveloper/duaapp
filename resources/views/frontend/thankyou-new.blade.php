@@ -53,7 +53,7 @@
 
         .site-header {
             margin: 0 auto;
-            padding: 80px 0 0;
+            padding: 30px 0 0;
             max-width: 820px;
         }
 
