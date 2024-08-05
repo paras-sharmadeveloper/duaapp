@@ -137,7 +137,7 @@ img.lightgallery {
                                     <input type="checkbox" class="bulk-checkbox" data-id="{{ $list->id }}">
                                 @endif
                             </td>
-                            <td>{{ $loop->id }}</td>
+                            <td>{{ $list->id }}</td>
                             <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                             <td>{{ $list->country_code }}</td>
                             <td>{{ $list->phone }}</td>
