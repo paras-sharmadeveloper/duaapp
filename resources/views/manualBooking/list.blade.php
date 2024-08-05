@@ -102,7 +102,8 @@ img.lightgallery {
                         <th>
                             <input type="checkbox" id="selectAll">
                         </th>
-                        <th>Sr. No</th>
+                        <th>Db Id</th>
+
                         <th>Date</th>
                         <th>CountryCode</th>
                         <th>phone </th>
@@ -136,7 +137,7 @@ img.lightgallery {
                                     <input type="checkbox" class="bulk-checkbox" data-id="{{ $list->id }}">
                                 @endif
                             </td>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->id }}</td>
                             <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                             <td>{{ $list->country_code }}</td>
                             <td>{{ $list->phone }}</td>
