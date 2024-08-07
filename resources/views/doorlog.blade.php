@@ -42,12 +42,12 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $list->created_at }}</td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : null }} </td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->venue_date: null }} </td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->type : null}} </td>
-                    <td> {{ ($visitor) ? $visitor->phone : null }} </td>
-                    <td> {{ ($visitor) ? $visitor->booking_number : null}} </td>
-                    <td> <a href="{{  ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}" target="_blank"> Token Url</a> </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : 'Invaild Token' }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->venue_date: 'Invaild Token' }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->type : 'Invaild Token'}} </td>
+                    <td> {{ ($visitor) ? $visitor->phone : 'Invaild Token' }} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : 'Invaild Token'}} </td>
+                    <td> <a href="{{  ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"javascript:;" }}" target="_blank"> Token Url</a> </td>
                     <td>{{ $list->SN }}</td>
                     <td>{{ $list->SCode }}</td>
                     <td>{{ $list->DeviceID }}</td>
