@@ -17,7 +17,7 @@
                 <tr>
                     <th>Sr. No</th>
                     <th> Dua Ghar </th>
-                    <th> phone </th>
+                    <th> Phone </th>
                     <th> Token Number </th>
                     <th> Token URL </th>
                     <th>Sn</th>
