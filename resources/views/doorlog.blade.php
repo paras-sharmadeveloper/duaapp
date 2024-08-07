@@ -22,6 +22,7 @@
                     <th>ReaderNo</th>
                     <th>ActIndex</th>
                     <th>CreatedAt</th>
+                    <th> phone </th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                     <td>{{ $list->ReaderNo }}</td>
                     <td>{{ $list->ActIndex }}</td>
                     <td>{{ $list->created_at }}</td>
+                    <td> {{ $list->visitor->phone }}
 
 
 

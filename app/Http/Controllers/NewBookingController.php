@@ -127,7 +127,7 @@ class NewBookingController extends Controller
     {
         $doorLogs = DoorLogs::with('visitor')->orderBy('id', 'desc')->get();
 
-        echo "<pre>"; print_r($doorLogs); die;
+        // echo "<pre>"; print_r($doorLogs); die;
 
         return view('doorlog', ['logs' => $doorLogs]);
     }
