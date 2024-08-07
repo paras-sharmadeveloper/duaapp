@@ -33,7 +33,7 @@
                 @foreach($logs as $list)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td> {{ $list->visitor->venueSloting->venueAddress->state }} </td>
+                    <td> {{ $list->visitor->venueSloting->venueAddress->city }} </td>
                     <td> {{ $list->visitor->phone }} </td>
                     <td> {{ $list->visitor->booking_number }} </td>
                     <td>
