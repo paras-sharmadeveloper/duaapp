@@ -33,4 +33,9 @@ class Vistors extends Model
         return $query->whereNotNull('meeting_ends_at')->count();
     }
 
+    public function doorLogs()
+    {
+        return $this->hasMany(DoorLogs::class, 'SCode', 'booking_uniqueid');
+    }
+
 }

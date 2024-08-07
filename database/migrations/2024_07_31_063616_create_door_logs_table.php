@@ -14,10 +14,18 @@ return new class extends Migration
         Schema::create('door_logs', function (Blueprint $table) {
             $table->id();
             $table->string('SN')->nullable();
-            $table->string('SCode')->nullable();
+            $table->uuid('SCode')->nullable();
+
             $table->string('DeviceID')->nullable();
             $table->string('ReaderNo')->nullable();
             $table->string('ActIndex')->nullable();
+
+            $table->foreign('SCode')
+                  ->references('booking_uniqueid')
+                  ->on('visitors')
+                  ->onDelete('set null');
+
+
             $table->timestamps();
         });
     }
@@ -27,6 +35,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('door_logs', function (Blueprint $table) {
+            $table->dropForeign(['SCode']);
+        });
+
         Schema::dropIfExists('door_logs');
     }
 };

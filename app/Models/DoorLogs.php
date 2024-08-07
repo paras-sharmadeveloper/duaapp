@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DoorLogs extends Model
 {
     use HasFactory;
+
+    public function visitor()
+    {
+        return $this->belongsTo(Vistors::class, 'SCode', 'booking_uniqueid');
+    }
 }
