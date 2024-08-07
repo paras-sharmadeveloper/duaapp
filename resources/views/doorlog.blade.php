@@ -35,11 +35,11 @@
                 @foreach($logs as $list)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td> {{ $list->visitor->venueSloting->venueAddress->city }} </td>
-                    <td> {{ $list->visitor->venueSloting->venueAddress->venue_date }} </td>
-                    <td> {{ $list->visitor->venueSloting->type }} </td>
-                    <td> {{ $list->visitor->phone }} </td>
-                    <td> {{ $list->visitor->booking_number }} </td>
+                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->venueAddress->city : null }} </td>
+                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->venueAddress->venue_date: null }} </td>
+                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->type : null}} </td>
+                    <td> {{ ($list->visitor) ? $list->visitor->phone : null }} </td>
+                    <td> {{ ($list->visitor) ? $list->visitor->booking_number : null}} </td>
                     <td>
                         <a href="{{ route('booking.status',$list->visitor->booking_uniqueid)  }} " target="_blank"> Token Url</a>
 
