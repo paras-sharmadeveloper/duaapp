@@ -17,6 +17,8 @@
                 <tr>
                     <th>Sr. No</th>
                     <th> Dua Ghar </th>
+                    <th> Date of Dua Day </th>
+                    <th> Dua Type </th>
                     <th> Phone </th>
                     <th> Token Number </th>
                     <th> Token URL </th>
@@ -34,6 +36,8 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td> {{ $list->visitor->venueSloting->venueAddress->city }} </td>
+                    <td> {{ $list->visitor->venueSloting->venueAddress->venue_date }} </td>
+                    <td> {{ $list->visitor->venueSloting->type }} </td>
                     <td> {{ $list->visitor->phone }} </td>
                     <td> {{ $list->visitor->booking_number }} </td>
                     <td>
