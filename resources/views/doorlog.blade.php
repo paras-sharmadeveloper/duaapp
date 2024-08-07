@@ -34,15 +34,20 @@
             </thead>
             <tbody>
                 @foreach($logs as $list)
+                @php
+
+                  $visitor =   getVisitor($list->SCode);
+
+                @endphp
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $list->created_at }}</td>
-                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->venueAddress->city : null }} </td>
-                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->venueAddress->venue_date: null }} </td>
-                    <td> {{ ($list->visitor) ? $list->visitor->venueSloting->type : null}} </td>
-                    <td> {{ ($list->visitor) ? $list->visitor->phone : null }} </td>
-                    <td> {{ ($list->visitor) ? $list->visitor->booking_number : null}} </td>
-                    <td> <a href="{{ route('booking.status',$list->visitor->booking_uniqueid)  }} " target="_blank"> Token Url</a> </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : null }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->venue_date: null }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->type : null}} </td>
+                    <td> {{ ($visitor) ? $visitor->phone : null }} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : null}} </td>
+                    <td> <a href="{{  ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}" target="_blank"> Token Url</a> </td>
                     <td>{{ $list->SN }}</td>
                     <td>{{ $list->SCode }}</td>
                     <td>{{ $list->DeviceID }}</td>

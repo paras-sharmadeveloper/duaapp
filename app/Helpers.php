@@ -75,6 +75,10 @@ function getImagefromS3($imageName)
         return WorkingLady::findOrFail($working_lady_id);
     }
 
+    function getVisitor($uuid){
+        return Vistors::where(['booking_uniqueid' => $uuid])->get()->first();
+    }
+
     function deleteObject($key){
         $bucket = 'kahayfaqeer-booking-bucket';
         $s3 = new S3Client([
