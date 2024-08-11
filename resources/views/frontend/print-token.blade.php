@@ -435,11 +435,11 @@
                 @php
                     $loclpath = '/sessionImages/' . date('d-m-Y').'/';
                 @endphp
-                @if(!empty($UserImage) && 1 == 2)
+                @if(!empty($UserImage))
 
                 <img src="data:image/jpeg;base64,{{ base64_encode($UserImage) }}" alt="Preview Image awds"
                     style="height: 150px; width:150px;border-radius:20%">
-                @elseif(!empty($localImage) && 1 == 2)
+                @elseif(!empty($localImage))
                 <img src="{{ $loclpath . $localImage }}" alt="Preview Image Local iMh"
                 style="height: 150px; width:150px;border-radius:20%">
                 @else

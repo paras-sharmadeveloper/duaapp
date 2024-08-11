@@ -49,9 +49,9 @@
                     <td> {{ ($visitor) ? $visitor->booking_number : 'Invaild Token'}} </td>
                     <td>
                         @if($visitor)
-                        <a href="{{  route('booking.status', $visitor->booking_uniqueid) }}" target="_blank"> Token Url</a>
+                            <a href="{{ route('booking.status', $visitor->booking_uniqueid) }}" target="_blank">Token Url</a>
                          @else
-                         Invaild Token
+                             Invaild Token
                          @endif
                     </td>
                     <td>{{ $list->SN }}</td>
