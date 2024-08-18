@@ -49,7 +49,7 @@ class SendInstantWhatsapp implements ShouldQueue
                     'msg_date' => date('Y-m-d H:i:s')
                 ]);
 
-                Log::info('true');
+                Log::info( $result['sid']);
             }
 
         } catch (\Throwable $th) {
