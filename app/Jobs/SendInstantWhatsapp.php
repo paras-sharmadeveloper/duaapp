@@ -43,7 +43,7 @@ class SendInstantWhatsapp implements ShouldQueue
 
             $result = $this->sendWhatsAppMessage($this->mobile, $this->message);
             if ($result['data'] == 'success') {
-                 VisitorTempEntry::find($this->id)->where([
+                 VisitorTempEntry::find($this->id)->update([
                     'msg_sid' => $result['sid'],
                     'msg_sent_status' =>  $result['status'],
                     'msg_date' => date('Y-m-d H:i:s')
