@@ -46,7 +46,7 @@ class SendInstantWhatsapp implements ShouldQueue
                  VisitorTempEntry::find($this->id)->where([
                     'msg_sid' => $result['sid'],
                     'msg_sent_status' =>  $result['status'],
-                    'msg_date' =>now()
+                    'msg_date' => date('Y-m-d H:i:s')
                 ]);
 
                 Log::info('true');
@@ -60,9 +60,16 @@ class SendInstantWhatsapp implements ShouldQueue
 
     }
 
-    private function sendWhatsAppMessage($to, $message)
+    private function sendWhatsAppMessage($to, $data)
     {
         $twilio = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+
+        $message = <<<EOT
+        General Announcement and Notification: Please Read Carefully:
+        $data
+        EOT;
+
+
 
         try {
             $messageInstance =  $twilio->messages->create(

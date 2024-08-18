@@ -540,10 +540,6 @@ class HomeController extends Controller
             $message = "Thank you for your entry submission for Dua/Dum token. Kindly note that our system is processing all entries now on first come first serve basis one by one. Please don't make another submission and we kindly request you to please wait for few minutes while our system process all entries. We will send you an another update in few minutes with the status of your token if its issued or not.";
             SendInstantWhatsapp::dispatch($bookingId,$completeNumber,$message)->onQueue('whatsapp-instant-notification');
 
-            // $completeNumber = '+' . $countryCode.$validatedData['mobile'];
-
-
-                // WhatsAppConfirmation::dispatch($booking->id)->onConnection('database')->onQueue('whatsapp-send');
                 return response()->json([
                     'message' => 'Booking submitted successfully',
                     "status" => true,
