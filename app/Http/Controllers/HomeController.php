@@ -388,12 +388,9 @@ class HomeController extends Controller
         $wlDuaCount = $query->where(['dua_type' =>'working_lady_dua'])->count();
         $wlDumCount = $query->where(['dua_type' =>'working_lady_dum'])->count();
 
-        $duaCount =  VenueSloting::where(['venue_address_id' => $venueAddress->id,'type' => 'dua'])->count();
-        $dumCount =  VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'dum'])->count();
-        $wlduaCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dua'])->count();
-        $wldumCount = VenueSloting::where(['venue_address_id' =>  $venueAddress->id,'type' => 'working_lady_dum'])->count();
-
-        if($duaCount == $DuaCount && $request->input('duaType') == 'dua'){
+        $count =  VenueSloting::where(['venue_address_id' => $venueAddress->id,'type' => $request->input('duaType') ])->count();
+        Log::info("dya".$request->input('duaType'));
+        if($count == $DuaCount && $request->input('duaType') == 'dua'){
 
             return response()->json([
                 'errors' =>  [
@@ -403,7 +400,8 @@ class HomeController extends Controller
                 ]
             ], 422);
 
-        }else if($dumCount == $DumCount && $request->input('duaType') == 'dum'){
+        }
+        if($count == $DumCount && $request->input('duaType') == 'dum'){
 
             return response()->json([
                 'errors' =>  [
@@ -414,7 +412,8 @@ class HomeController extends Controller
             ], 422);
 
 
-        }else if($wlduaCount == $wlDuaCount && $request->input('duaType') =='working_lady_dua'){
+        }
+        if($count == $wlDuaCount && $request->input('duaType') =='working_lady_dua'){
 
             return response()->json([
                 'errors' => [
@@ -424,7 +423,8 @@ class HomeController extends Controller
                 ]
             ], 422);
 
-        }else if($wlDumCount == $wldumCount && $request->input('duaType') =='working_lady_dum'){
+        }
+        if($wlDumCount == $count && $request->input('duaType') =='working_lady_dum'){
 
             return response()->json([
                 'errors' => [
