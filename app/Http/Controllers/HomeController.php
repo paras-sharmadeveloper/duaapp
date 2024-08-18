@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\{Venue, VenueSloting, VenueAddress, Vistors, Country, User, Notification, Timezone, Ipinformation, VenueStateCity, VisitorTempEntry, WhatsappNotificationLogs};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use App\Jobs\{WhatsAppConfirmation};
+use App\Jobs\{WhatsAppConfirmation , SendInstantWhatsapp};
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use App\Traits\OtpTrait;
 use Illuminate\Support\Facades\Log;
-use App\Events\BookingNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reason;
@@ -519,9 +518,6 @@ class HomeController extends Controller
             // $bookingNumber =  $tokenId;
             // $mobile = $countryCode . $validatedData['mobile'];
 
-
-
-
             $booking = new VisitorTempEntry;
 
             $booking->country_code = '+' . $countryCode;
@@ -540,8 +536,9 @@ class HomeController extends Controller
 
             $booking->save();
             $bookingId = $booking->id;
-
-            // $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
+            $completeNumber = '+' . $countryCode.$validatedData['mobile'];
+            $message = "Thank you for your entry submission for Dua/Dum token. Kindly note that our system is processing all entries now on first come first serve basis one by one. Please don't make another submission and we kindly request you to please wait for few minutes while our system process all entries. We will send you an another update in few minutes with the status of your token if its issued or not.";
+            SendInstantWhatsapp::dispatch($bookingId,$completeNumber,$message)->onQueue('whatsapp-instant-notification');
 
             // $completeNumber = '+' . $countryCode.$validatedData['mobile'];
 

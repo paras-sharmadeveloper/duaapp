@@ -200,7 +200,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','whatsapp-temp-users','whatsapp-notification-not-approve'],
+                'queue' => ['default','face-recognition','create-slots','whatsapp-notification','whatsapp-notification-resend','whatsapp-temp-users','whatsapp-notification-not-approve','whatsapp-instant-notification'],
                 'balance' => 'auto',
                 'maxTime' => 0,
                 'maxJobs' => 0,
