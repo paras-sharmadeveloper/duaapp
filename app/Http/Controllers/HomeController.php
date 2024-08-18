@@ -383,18 +383,12 @@ class HomeController extends Controller
         }
 
         $query = Vistors::whereDate('created_at', date('Y-m-d'));
-        $DuaCount = $query->where(['dua_type' =>'dua'])->count();
-        $DumCount = $query->where(['dua_type' =>'dum'])->count();
-        $wlDuaCount = $query->where(['dua_type' =>'working_lady_dua'])->count();
-        $wlDumCount = $query->where(['dua_type' =>'working_lady_dum'])->count();
+        $DuaCount = $query->where(['dua_type' =>$request->input('duaType')])->count();
 
         $count =  VenueSloting::where(['venue_address_id' => $venueAddress->id,'type' => $request->input('duaType') ])->count();
         Log::info("dya".$request->input('duaType'));
         Log::info("count".$count);
         Log::info("DuaCount".$DuaCount);
-        Log::info("DumCount".$DumCount);
-        Log::info("wlDuaCount".$wlDuaCount);
-        Log::info("wlDumCount".$wlDumCount);
 
 
         if($count == $DuaCount && $request->input('duaType') == 'dua'){
@@ -408,7 +402,7 @@ class HomeController extends Controller
             ], 422);
 
         }
-        if($count == $DumCount && $request->input('duaType') == 'dum'){
+        if($count == $DuaCount && $request->input('duaType') == 'dum'){
 
             return response()->json([
                 'errors' =>  [
@@ -420,7 +414,7 @@ class HomeController extends Controller
 
 
         }
-        if($count == $wlDuaCount && $request->input('duaType') =='working_lady_dua'){
+        if($count == $DuaCount && $request->input('duaType') =='working_lady_dua'){
 
             return response()->json([
                 'errors' => [
@@ -431,7 +425,7 @@ class HomeController extends Controller
             ], 422);
 
         }
-        if($wlDumCount == $count && $request->input('duaType') =='working_lady_dum'){
+        if($DuaCount == $count && $request->input('duaType') =='working_lady_dum'){
 
             return response()->json([
                 'errors' => [
