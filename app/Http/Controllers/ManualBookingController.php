@@ -158,7 +158,9 @@ class ManualBookingController extends Controller
             $booking->source = 'Website';
             $booking->dua_type = $visitorTemp->dua_type;
             $booking->lang = $visitorTemp->lang;
-            $booking->working_lady_id = $request->input('working_lady_id', 0);
+            $booking->working_lady_id = $visitorTemp->working_lady_id;
+            $booking->qr_code_image = $visitorTemp->working_qr_id;
+
             $booking->token_status = 'vaild';
             $booking->save();
             $bookingId = $booking->id;
