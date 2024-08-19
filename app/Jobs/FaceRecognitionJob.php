@@ -140,96 +140,96 @@ class FaceRecognitionJob implements ShouldQueue
         $count = 0;
         if (!empty($userAll) &&  $rejoin > 0) {
 
-            try {
+            // try {
 
-                $awsDefaultRegion = (env('AWS_DEFAULT_REGION')) ? env('AWS_DEFAULT_REGION') : 'us-east-1';
-                $awsAccessKeyId = (env('AWS_ACCESS_KEY_ID')) ? env('AWS_ACCESS_KEY_ID') : 'AKIAWTTVS7OFB7GJU4AF';
-                $awsSecretAcessKey = (env('AWS_SECRET_ACCESS_KEY')) ? env('AWS_SECRET_ACCESS_KEY') : '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';
+            //     $awsDefaultRegion = (env('AWS_DEFAULT_REGION')) ? env('AWS_DEFAULT_REGION') : 'us-east-1';
+            //     $awsAccessKeyId = (env('AWS_ACCESS_KEY_ID')) ? env('AWS_ACCESS_KEY_ID') : 'AKIAWTTVS7OFB7GJU4AF';
+            //     $awsSecretAcessKey = (env('AWS_SECRET_ACCESS_KEY')) ? env('AWS_SECRET_ACCESS_KEY') : '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';
 
-                $rekognition = new RekognitionClient([
-                    'version' => 'latest',
-                    'region' => $awsDefaultRegion,
-                    'credentials' => [
-                        'key' => $awsAccessKeyId,
-                        'secret' => $awsSecretAcessKey,
-                    ],
-                ]);
-                $targetImages = [];
-                $bucket = 'kahayfaqeer-booking-bucket';
+            //     $rekognition = new RekognitionClient([
+            //         'version' => 'latest',
+            //         'region' => $awsDefaultRegion,
+            //         'credentials' => [
+            //             'key' => $awsAccessKeyId,
+            //             'secret' => $awsSecretAcessKey,
+            //         ],
+            //     ]);
+            //     $targetImages = [];
+            //     $bucket = 'kahayfaqeer-booking-bucket';
 
-                $targetImages = [];
+            //     $targetImages = [];
 
 
 
-                foreach ($userAll as $key => $user) {
-                    try {
-                        // Log::info("Index try".$key);
+            //     foreach ($userAll as $key => $user) {
+            //         try {
+            //             // Log::info("Index try".$key);
 
-                        // Log::info('Bucket: ' . $bucket);
-                        // Log::info('Source Image Key: ' . $objectKey);
-                        // Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
+            //             // Log::info('Bucket: ' . $bucket);
+            //             // Log::info('Source Image Key: ' . $objectKey);
+            //             // Log::info('User Recognized Codes: ' . json_encode(array_column($userAll, 'recognized_code')));
 
-                        $response = $rekognition->compareFaces([
-                            'SimilarityThreshold' => 90,
-                            'SourceImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $objectKey,
-                                ],
-                            ],
-                            'TargetImage' => [
-                                'S3Object' => [
-                                    'Bucket' => $bucket,
-                                    'Name' => $user['recognized_code']
-                                ],
-                            ],
-                        ]);
-                        // Log::info('CompareFaces response: ' . json_encode($response));
-                        $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
-                        foreach ($faceMatches as $match) {
-                            if ($match['Similarity'] >= 80) {
-                                $userArr[] = $user['id'];
-                            }
-                        }
-                        //code...
-                    } catch (\Exception $e) {
-                        // Log::info("Index ex".$key);
-                        // Log::info("This failed here".$this->jobId.$e->getMessage());
-                        //throw $th;
-                    }
+            //             $response = $rekognition->compareFaces([
+            //                 'SimilarityThreshold' => 90,
+            //                 'SourceImage' => [
+            //                     'S3Object' => [
+            //                         'Bucket' => $bucket,
+            //                         'Name' => $objectKey,
+            //                     ],
+            //                 ],
+            //                 'TargetImage' => [
+            //                     'S3Object' => [
+            //                         'Bucket' => $bucket,
+            //                         'Name' => $user['recognized_code']
+            //                     ],
+            //                 ],
+            //             ]);
+            //             // Log::info('CompareFaces response: ' . json_encode($response));
+            //             $faceMatches = (!empty($response)) ? $response['FaceMatches'] : [];
+            //             foreach ($faceMatches as $match) {
+            //                 if ($match['Similarity'] >= 80) {
+            //                     $userArr[] = $user['id'];
+            //                 }
+            //             }
+            //             //code...
+            //         } catch (\Exception $e) {
+            //             // Log::info("Index ex".$key);
+            //             // Log::info("This failed here".$this->jobId.$e->getMessage());
+            //             //throw $th;
+            //         }
 
-                }
+            //     }
 
-                $count = (!empty($userAll)) ? count($userAll)  : 0;
+            //     $count = (!empty($userAll)) ? count($userAll)  : 0;
 
-                if (empty($userArr)) {
-                    JobStatus::where(['job_id' => $this->jobId])->update([
-                        'result' => json_encode(
-                            ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey, 'count' => $count]
-                        ),
-                        'status' => 'completed'
-                    ]);
+            //     if (empty($userArr)) {
+            //         JobStatus::where(['job_id' => $this->jobId])->update([
+            //             'result' => json_encode(
+            //                 ['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey, 'count' => $count]
+            //             ),
+            //             'status' => 'completed'
+            //         ]);
 
-                } else {
-                    JobStatus::where(['job_id' => $this->jobId])->update([
-                        'result' => json_encode(
-                            ['recognized_code' => $this->objectKey,
-                            'message' => 'Your token cannot be booked at this time. Please try again or later.',
-                            'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
+            //     } else {
+            //         JobStatus::where(['job_id' => $this->jobId])->update([
+            //             'result' => json_encode(
+            //                 ['recognized_code' => $this->objectKey,
+            //                 'message' => 'Your token cannot be booked at this time. Please try again or later.',
+            //                 'message_ur' => 'آپ کا ٹوکن اس وقت بک نہیں کیا جا سکتا۔ براہ کرم دوبارہ یا بعد میں کوشش کریں۔',
 
-                            'status' => false, 'count' => $count]
-                        ),
-                        'status' => 'completed'
-                    ]);
-                }
-            } catch (AwsException  $e) {
+            //                 'status' => false, 'count' => $count]
+            //             ),
+            //             'status' => 'completed'
+            //         ]);
+            //     }
+            // } catch (AwsException  $e) {
 
-                Log::info("Error In Aws Side" . $e->getMessage());
-                JobStatus::where(['job_id' => $this->jobId])->update([
-                    'result' => json_encode(['message' => $e->getMessage(), 'status' => false, 'count' => $count]),
-                    'status' => 'error'
-                ]);
-            }
+            //     Log::info("Error In Aws Side" . $e->getMessage());
+            //     JobStatus::where(['job_id' => $this->jobId])->update([
+            //         'result' => json_encode(['message' => $e->getMessage(), 'status' => false, 'count' => $count]),
+            //         'status' => 'error'
+            //     ]);
+            // }
         } else {
             JobStatus::where(['job_id' => $this->jobId])->update([
                 'result' => json_encode(['message' => 'Congratulation You are new user', 'status' => true, 'recognized_code' => $this->objectKey]),

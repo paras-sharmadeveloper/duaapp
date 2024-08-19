@@ -8,7 +8,7 @@ return [
     'dum' => 'Dum',
     'dua' => 'Dua',
     'working_lady_dua' => 'Dua',
-    'working_lady_dum' => 'Dua',
+    'working_lady_dum' => 'Dum',
     'select-option' => 'Select Option',
     'select-city' => 'Select Dua Ghar',
     'location-dua-ghar' => 'Dua Ghar',
