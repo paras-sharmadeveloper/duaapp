@@ -131,7 +131,6 @@
                                     <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                                     <td>{{ $list->country_code }}</td>
                                     <td>{{ $list->phone }}</td>
-
                                     <td>{{ ucwords($list->dua_type) }}</td>
                                     <td>
                                         <a href="{{route('booking.status',$list->booking_uniqueid)}}" target="_blank">Token URL</a>
