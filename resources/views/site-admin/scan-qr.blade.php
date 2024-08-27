@@ -35,25 +35,26 @@
             text-align: left;
 
         }
-
+        .bg-white.border.rounded.p-5.text-center.shadow-sm:hover {
+    background-color: #dedede !important;
+}
     </style>
 
-@if(request()->get('showUserImage') != 'true')
-
-<style>
-    /* .userImag{
-        display: none;
-    } */
-    </style>
-@endif
+    @if (request()->get('showUserImage') != 'true')
+        <style>
+            /* .userImag{
+            display: none;
+        } */
+        </style>
+    @endif
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            {{-- <div class="col-md-12">
                 <a href="{{ route('qr.gun.scan') }}" class="btn btn-success">Scan With Gun</a>
                 @if (request()->get('show') == null || request()->get('show') == 'false')
                     <a href="{{ route('qr.show.scan') }}?show=true" class="btn btn-success">Scan With Camera</a>
                 @endif
-            </div>
+            </div> --}}
 
         </div>
         <div class="row justify-content-center mt-5">
@@ -67,6 +68,23 @@
             <p style="display: none"><b>Token Number is: </b></p> <span></span>
         </div>
 
+    </div>
+    <h2 class="text-center mb-2"> Please choose the preferred option </h2>
+    <div class="row">
+
+        <div class="col-lg-6 mb-4"><a href="{{ route('qr.gun.scan') }}" class="text-decoration-none">
+                <div class="bg-white border rounded p-5 text-center shadow-sm">
+                    <p class="text-dark font-weight-bold fs-5 mb-3">Scan with Gun</p>
+                    <p class="text-secondary fs-6 mb-0">Click Here to Start Scanning with ScanGun.</p>
+                </div>
+            </a></div>
+
+            <div class="col-lg-6 mb-4"><a href="{{ route('qr.show.scan') }}?show=true" class="text-decoration-none">
+                <div class="bg-white border rounded p-5 text-center shadow-sm">
+                    <p class="text-dark font-weight-bold fs-5 mb-3">Scan with Camera</p>
+                    <p class="text-secondary fs-6 mb-0">Click Here to Start Scanning with Camera.</p>
+                </div>
+            </a></div>
     </div>
 
 
@@ -242,7 +260,7 @@
             }
         });
 
-        function printCount(){
+        function printCount() {
             var visitorId = $("#visitorIdPopUp").attr('data-id');
             $.ajax({
                 url: "{{ route('count-print-count') }}",
