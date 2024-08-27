@@ -88,14 +88,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend2">WhatsApp Mobile Number</span>
+                                <span class="input-group-text" id="inputGroupPrepend2">
+
+                                    WhatsApp Mobile Number</span>
                                 <input type="tel" class="form-control" name="phone" id="mobile" maxlength="10" required>
                             </div>
                         </div>
                     </div>
-
-
-
 
                     <div class="col-12 mt-4">
                         <button class="btn btn-primary" type="submit">Generate Token</button>
