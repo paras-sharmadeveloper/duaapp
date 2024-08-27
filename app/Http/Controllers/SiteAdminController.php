@@ -22,8 +22,8 @@ class SiteAdminController extends Controller
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
         ->get();
-        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
-        // echo "<pre>"; print_r($venueAddress); die;
+        $visitorList = Vistors::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
+        // echo "<pre>"; print_r($visitorList); die;
         return view('site-admin.manualToken',compact('venueAddress','slots','visitorList'));
 
     }
