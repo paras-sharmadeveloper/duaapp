@@ -74,13 +74,14 @@
 
         <div class="col-lg-6 mb-4"><a href="{{ route('qr.gun.scan') }}" class="text-decoration-none">
                 <div class="bg-white border rounded p-5 text-center shadow-sm">
-                    <p class="text-dark font-weight-bold fs-5 mb-3">Scan with Gun</p>
+                    <p class="text-dark font-weight-bold fs-5 mb-3"> Scan with Gun</p>
                     <p class="text-secondary fs-6 mb-0">Click Here to Start Scanning with ScanGun.</p>
                 </div>
             </a></div>
 
             <div class="col-lg-6 mb-4"><a href="{{ route('qr.show.scan') }}?show=true" class="text-decoration-none">
                 <div class="bg-white border rounded p-5 text-center shadow-sm">
+
                     <p class="text-dark font-weight-bold fs-5 mb-3">Scan with Camera</p>
                     <p class="text-secondary fs-6 mb-0">Click Here to Start Scanning with Camera.</p>
                 </div>
