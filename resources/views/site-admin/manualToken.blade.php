@@ -112,7 +112,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <input type="checkbox" id="selectAll">
+                                    Token Number
                                 </th>
                                 <th>Db Id</th>
                                 <th>Date</th>
@@ -126,11 +126,7 @@
                             @foreach ($visitorList as $list)
 
                                 <tr>
-                                    <td>
-                                        @if (empty($list->action_at))
-                                            <input type="checkbox" class="bulk-checkbox" data-id="{{ $list->id }}">
-                                        @endif
-                                    </td>
+                                    <td>{{ $list->booking_number }}</td>
                                     <td>{{ $list->id }}</td>
                                     <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                                     <td>{{ $list->country_code }}</td>
