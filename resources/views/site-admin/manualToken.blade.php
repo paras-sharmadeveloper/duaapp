@@ -129,6 +129,7 @@
                                 <th>Phone </th>
                                 <th>Dua Type</th>
                                 <th>Url</th>
+                                <th>Message Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,6 +145,7 @@
                                     <td>
                                         <a href="{{route('booking.status',$list->booking_uniqueid)}}" target="_blank">Token URL</a>
                                     </td>
+                                    <td>{{ $list->msg_sent_status }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
