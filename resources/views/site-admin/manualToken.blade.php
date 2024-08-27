@@ -70,7 +70,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend2">Country</span>
+                                <span class="input-group-text" id="inputGroupPrepend2">Country Pakistan</span>
 
                                 <input type="text" readonly value="+92"  class="form-control" name="country_code" id="country_cod1e">
 
