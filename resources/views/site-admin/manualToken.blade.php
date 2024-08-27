@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .readonly{
+    color: #c5c1c1;
 
+    }
+</style>
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -43,7 +48,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-text" id="inputGroupPrepend2">Dua Type</span>
-                                <input type="text" readonly value="dua"  class="form-control" name="dua_type" id="type_dua" maxlength="10" required>
+                                <input type="text" readonly value="dua"  class="form-control readonly" name="dua_type" id="type_dua" maxlength="10" required>
 
                                 {{-- <select class="form-control" name="dua_type" id="type_dua" required>
                                     <option value=""> -- Select Dua Option-- </option>
@@ -72,7 +77,7 @@
                             <div class="input-group">
                                 <span class="input-group-text" id="inputGroupPrepend2">Country Pakistan</span>
 
-                                <input type="text" readonly value="+92"  class="form-control" name="country_code" id="country_cod1e">
+                                <input type="text" readonly value="+92"  class="form-control readonly" name="country_code" id="country_cod1e">
 
                                 {{-- <select class="form-control" name="country_code" id="country_cod1e" required>
                                     <option value="+91">India</option>
