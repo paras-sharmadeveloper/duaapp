@@ -48,7 +48,8 @@ class SiteAdminController extends Controller
             $booking->booking_number =$slot->token_id;
             $booking->user_timezone = $request->input('timezone', null);
             $booking->source = 'Website';
-            $booking->dua_type = $request->input('dua_type');
+            // $booking->dua_type = $request->input('dua_type');
+            $booking->dua_type = 'dua';
             $booking->lang = $request->input('lang', 'en');
             $booking->save();
             $bookingId = $booking->id;
