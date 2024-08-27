@@ -98,7 +98,7 @@
 
 
                     <div class="col-12 mt-4">
-                        <button class="btn btn-primary" type="submit">Create Booking</button>
+                        <button class="btn btn-primary" type="submit">Generate Token</button>
                     </div>
 
 
