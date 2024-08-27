@@ -154,11 +154,6 @@
 
 
 
-                    <div class="col-12 mt-4">
-                        <button class="btn btn-primary" type="submit">Create Booking</button>
-                    </div>
-
-
                 </form>
 
 
