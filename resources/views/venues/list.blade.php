@@ -82,7 +82,8 @@
 
                         <th>Issued WorkingDua</th>
                         <th>Issued WorkingDum</th>
-                        <th>Type</th>
+                        <th>Issued Special Token</th>
+                        {{-- <th>Type</th> --}}
                         <th>Slot Generated</th>
 
                         <th style="width: 300px">Action</th>
@@ -118,6 +119,9 @@
                             }
                             if($slotCreated > 0  && !empty($visitor->slot->type) && $visitor->slot->type == 'working_lady_dum' ){
                               $totalBookings[$visitor->slot->venue_address_id]['working_lady_dum'][] = $visitor->slot->id ;
+                            }
+                            if($slotCreated > 0  && !empty($visitor->slot->type) && $visitor->slot->type == 'special_token' ){
+                              $totalBookings[$visitor->slot->venue_address_id]['special_token'][] = $visitor->slot->id ;
                             }
 
                         }
@@ -169,7 +173,10 @@
                             </td>
                             <td style="text-align: center"> {{  (isset($totalBookings[$venueAdd->id]['working_lady_dum'])) ?count($totalBookings[$venueAdd->id]['working_lady_dum']):0 }}
                                 / {{getTotalTokens($venueAdd->id , 'working_lady_dum') }}  </td>
-                            <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td>
+
+                            <td style="text-align: center"> {{  (isset($totalBookings[$venueAdd->id]['special_token'])) ?count($totalBookings[$venueAdd->id]['special_token']):0 }}
+                                    / {{getTotalTokens($venueAdd->id , 'special_token') }}  </td>
+                            {{-- <td><span class="badge bg-success">{{ ($venueAdd->type == 'on-site') ? 'Physical' : 'Online' }}</span></td> --}}
                             <td><span class="badge bg-{{  ($slotCreated > 0) ? "success" : "warning" }}"> {{  ($slotCreated > 0) ? 'Generated': 'In-porcess'  }} </span> </td>
                             <td class="d-flex-my cdt justify-content-between">
 

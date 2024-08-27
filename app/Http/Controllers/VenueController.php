@@ -109,6 +109,8 @@ class VenueController extends Controller
         $IsRecuureing = $request->input('is_recurring');
         $duaSlots = $request->input('dua_slots');
         $dumSlots = $request->input('dum_slots');
+        $SpecialTokenQuote = $request->input('special_token_quote');
+
 
         $recuureingTill = $request->input('recurring_till', 0);
         $rejoin_venue_after = $request->input('rejoin_venue_after', 0);
@@ -156,6 +158,7 @@ class VenueController extends Controller
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
             'working_lady_dua' => $request->input('working_lady_dua',0),
             'working_lady_dum' => $request->input('working_lady_dum',0),
+            'special_token_quote' => $request->input('special_token_quote',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
 
@@ -176,14 +179,14 @@ class VenueController extends Controller
         if (!empty($dayToSet)) {
             if (!VenueAddress::whereDate('venue_date', $venueDate)->where('venue_id', $dataArr['venue_id'])->exists()) {
                 $venueAddress = VenueAddress::create($dataArr);
-                $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
+                $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'),$SpecialTokenQuote);
                 // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             }
             CreateFutureDateVenues::dispatch($dataArr, $dayToSet, $recuureingTill)->onQueue('create-future-dates')->onConnection("database");
         } else {
 
             $venueAddress =   VenueAddress::create($dataArr);
-            $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
+            $this->CraeteVenueSlots($venueAddress->id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'),$SpecialTokenQuote);
             // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
@@ -267,6 +270,7 @@ class VenueController extends Controller
 
         $duaSlots = $request->input('dua_slots');
         $dumSlots = $request->input('dum_slots');
+        $SpecialTokenQuote = $request->input('special_token_quote');
 
         $dataArr = [
             'city' => $request->input('city'),
@@ -296,13 +300,13 @@ class VenueController extends Controller
             'status_page_note' => $request->input('status_page_note'),
             'status_page_note_ur' => $request->input('status_page_note_ur'),
             'address_ur' => $request->input('venue_addresses_ur'),
-            // 'dua_slots' => $duaSlots,
-            // 'dum_slots' => $dumSlots,
+
 
             'dua_slots' => ($request->input('swtich_dua') == 'on') ? $duaSlots : 0,
             'dum_slots' => ($request->input('swtich_dum') == 'on') ? $dumSlots : 0,
             'working_lady_dua' => $request->input('working_lady_dua',0),
             'working_lady_dum' => $request->input('working_lady_dum',0),
+            'special_token_quote' => $request->input('special_token_quote',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
         ];
@@ -314,14 +318,14 @@ class VenueController extends Controller
                 VenueSloting::where(['venue_address_id' => $id])->delete();
             }
 
-            $this->CraeteVenueSlots($id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'));
+            $this->CraeteVenueSlots($id, $duaSlots, $dumSlots, $request->input('working_lady_dua'), $request->input('working_lady_dum'),$SpecialTokenQuote);
             // CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
             //  $this->createVenueTimeSlots($id, $slotDuration);
         }
         return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
     }
 
-    private function CraeteVenueSlots($venueId, $duaSlots, $dumSlots, $working_lady_dua, $working_lady_dum)
+    private function CraeteVenueSlots($venueId, $duaSlots, $dumSlots, $working_lady_dua, $working_lady_dum,$SpecialTokenQuote)
     {
 
         for ($token = 1; $token <= $duaSlots; $token++) {
@@ -357,15 +361,28 @@ class VenueController extends Controller
 
         if($working_lady_dum){
 
-        for ($token = 1801; $token <= $working_lady_dum; $token++) {
+            for ($token = 1801; $token <= $working_lady_dum; $token++) {
 
-                VenueSloting::create([
-                    'venue_address_id' => $venueId,
-                    'slot_time' => date("Y-m-d H:i:s"),
-                    'token_id' => $token,
-                    'type' => 'working_lady_dum'
-                ]);
-            }
+                    VenueSloting::create([
+                        'venue_address_id' => $venueId,
+                        'slot_time' => date("Y-m-d H:i:s"),
+                        'token_id' => $token,
+                        'type' => 'working_lady_dum'
+                    ]);
+                }
+        }
+
+        if($SpecialTokenQuote){
+
+            for ($token = 2001; $token <= $SpecialTokenQuote; $token++) {
+
+                    VenueSloting::create([
+                        'venue_address_id' => $venueId,
+                        'slot_time' => date("Y-m-d H:i:s"),
+                        'token_id' => $token,
+                        'type' => 'special_token'
+                    ]);
+                }
         }
     }
 

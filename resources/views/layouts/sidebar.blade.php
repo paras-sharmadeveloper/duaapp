@@ -148,6 +148,8 @@ S
           || $currentPath == 'siteadmin.queue.list'
           || $currentPath =='siteadmin.pending.show'
           || $currentPath == 'siteadmin.pending.list'
+          || $currentPath =='qr.show.scan'
+          || $currentPath == 'manual.token'
            ) ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
         <li>
@@ -166,6 +168,13 @@ S
             <a data-href="{{ $currentPath }}" href="{{ route('siteadmin.queue.show') }}"
             class="{{ ( $currentPath == 'siteadmin.queue.show' ||  $currentPath == 'siteadmin.queue.list' ) ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Launch Tokens</span>
+            </a>
+          </li>
+
+          <li>
+            <a data-href="{{ $currentPath }}" href="{{ route('manual.token') }}"
+            class="{{ ( $currentPath == 'manual.token' ||  $currentPath == 'manual.token' ) ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Manual Token</span>
             </a>
           </li>
 

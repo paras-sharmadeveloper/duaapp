@@ -272,7 +272,7 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <label>Working Lady Dua (From 801 - 1000)</label>
                         <div class="dua-token1">
                             {{-- {!! Form::number('working_lady_dua', $venueAddress->dua_slots ?? '', [
@@ -289,7 +289,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6 mt-4">
+                    <div class="col-md-4 mt-4">
                         <label>Working Lady Dum (From 1801 - 2000)</label>
                         <div class="dua-token2">
 
@@ -298,13 +298,18 @@
                            class="form-control dum_slots"
                            placeholder="Working Lady Dum Slot" min="1801" max="2000">
 
+                        </div>
+                    </div>
 
-                            {{-- {!! Form::number('working_lady_dum', $venueAddress->working_lady_dum ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'Working Lady Dua Slots',
-                                'min' => 1801,
-                                'max' => 2000,
-                            ]) !!} --}}
+                    <div class="col-md-4 mt-4">
+                        <label>Special Token Quota (From 2001 - 2100)</label>
+                        <div class="dua-token2">
+
+                            <input type="number" name="special_token_quote"
+                           value="{{ isset($venueAddress->special_token_quote ) ? $venueAddress->special_token_quote : 0 }}"
+                           class="form-control"
+                           placeholder="specail token quote" min="2001" max="2100">
+
                         </div>
                     </div>
                 </div>

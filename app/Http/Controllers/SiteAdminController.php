@@ -2,15 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\WhatsAppConfirmation;
 use Illuminate\Http\Request;
-use App\Models\{Vistors, VenueSloting, VenueAddress};
+use App\Models\{Vistors, VenueSloting, VenueAddress,VisitorTempEntry};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 class SiteAdminController extends Controller
 {
     //
+
+    public function manualToken(){
+        $venueAddress = VenueAddress::where(['type' => 'on-site'])
+                ->whereDate('venue_date', '>=', date('Y-m-d'))
+                ->orderBy('venue_date', 'asc')
+                ->first();
+        $slots = VenueSloting::where(['venue_address_id' => $venueAddress->id])
+        ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+        ->orderBy('slot_time', 'ASC')
+        ->get();
+        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
+        // echo "<pre>"; print_r($venueAddress); die;
+        return view('site-admin.manualToken',compact('venueAddress','slots','visitorList'));
+
+    }
+
+    public function manualTokenStore(Request $request){
+        $vaildation = [
+            'mobile' => 'required|string|digits:10|max:10',
+            'user_question' => 'nullable|string',
+            'country_code' => 'required'
+        ];
+
+        $slot = VenueSloting::find( $request->input('slot_id'));
+        $uuid = Str::uuid()->toString();
+        $booking = new Vistors;
+
+        $booking->country_code = $request->input('country_code');
+        $booking->phone = $request->input('phone');
+        $booking->slot_id =  $request->input('slot_id');
+        $booking->booking_uniqueid = $uuid;
+        $booking->user_ip =   $request->ip();
+        $booking->booking_number =$slot->token_id;
+        $booking->user_timezone = $request->input('timezone', null);
+        $booking->source = 'Website';
+        $booking->dua_type = $request->input('dua_type');
+        $booking->lang = $request->input('lang', 'en');
+        $booking->save();
+        $bookingId = $booking->id;
+        WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+        return redirect()->back()->with('success', 'Token Issued');
+
+
+    }
     public function ShowQueue()
     {
         $role = Auth::user()->roles->pluck('name')->first();

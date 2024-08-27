@@ -365,6 +365,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/site/queue/{id}/show', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.queue.list');
     Route::get('/site/queue/{id}/pending', [SiteAdminController::class, 'ShowQueueList'])->name('siteadmin.pending.list');
     Route::get('/site/search/visitors', [SiteAdminController::class, 'searchVisitors'])->name('search.visitors');
+    Route::get('/site/manual/token', [SiteAdminController::class, 'manualToken'])->name('manual.token');
+    Route::post('/site/manual/token/store', [SiteAdminController::class, 'manualTokenStore'])->name('manual.token.store');
 
 
     Route::get('/site/queue/list', [VideoConferenceController::class, 'fieldAdminRequest'])->name('siteadmin.queue.list.request');

@@ -363,11 +363,6 @@ class HomeController extends Controller
             'country_code' => 'required'
         ];
 
-
-
-
-
-
         $messages = [];
         $validatedData = $request->validate($vaildation, $messages);
         $tokenStatus = $this->FinalBookingCheck($request);
@@ -386,9 +381,7 @@ class HomeController extends Controller
         $DuaCount = $query->where(['dua_type' =>$request->input('duaType')])->count();
 
         $count =  VenueSloting::where(['venue_address_id' => $venueAddress->id,'type' => $request->input('duaType') ])->count();
-        Log::info("dya".$request->input('duaType'));
-        Log::info("count".$count);
-        Log::info("DuaCount".$DuaCount);
+
 
 
         if($count == $DuaCount && $request->input('duaType') == 'dua'){
@@ -614,7 +607,7 @@ class HomeController extends Controller
 
     protected function IsRegistredAlready($selfieImage, $rejoin)
     {
-
+        return false;
         $filename = 'selfie_' . time() . '.jpg';
         $objectKey = $this->encryptFilename($filename);
         sleep(5);
