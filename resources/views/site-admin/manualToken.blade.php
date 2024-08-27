@@ -118,30 +118,13 @@
                                 <th>Date</th>
                                 <th>CountryCode</th>
                                 <th>Phone </th>
-                                <th>User Image </th>
                                 <th>Dua Type</th>
-                                <th>Action</th>
+                                <th>Url</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($visitorList as $list)
-                                @php
-                                    $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
-                                @endphp
-                                @php
-                                    $localImage = '';
-                                    $localImageStroage =
-                                        'sessionImages/' . date('d-m-Y') . '/' . !empty($list->recognized_code)
-                                            ? $list->recognized_code
-                                            : '';
-                                    if (
-                                        !empty($list->recognized_code) &&
-                                        !Storage::disk('public_uploads')->exists($localImageStroage)
-                                    ) {
-                                        $localImage = !empty($list->recognized_code) ? $list->recognized_code : '';
-                                    }
 
-                                @endphp
                                 <tr>
                                     <td>
                                         @if (empty($list->action_at))
@@ -153,41 +136,9 @@
                                     <td>{{ $list->country_code }}</td>
                                     <td>{{ $list->phone }}</td>
 
-                                    <td class="imgc">
-                                         <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
-
-                                    </td>
                                     <td>{{ ucwords($list->dua_type) }}</td>
                                     <td>
-                                        @if (empty($list->action_at))
-                                            <div class="row py-4 actionBtns">
-
-                                                <button type="button" class="btn btn-success approve mb-3"
-                                                    data-id="{{ $list->id }}" data-loading="Loading..." data-success="Done"
-                                                    data-default="Approve">
-                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                                        style="display:none">
-                                                    </span>
-                                                    <b>Approve ({{ ucwords($list->dua_type) }})</b>
-                                                </button>
-
-                                                <button type="button" class="btn  btn-danger disapprove"
-                                                    data-id="{{ $list->id }}" data-loading="Loading..." data-success="Done"
-                                                    data-default="Disapprove">
-                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                                        style="display:none">
-                                                    </span>
-                                                    <b>Disapprove ({{ ucwords($list->dua_type) }})</b>
-                                                </button>
-                                            </div>
-                                        @else
-                                            <p> Action Taken
-                                                @if($list->action_status)
-                                                <span class="{{ ($list->action_status == 'approved')? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $list->action_status}} </span>
-                                                @endif
-                                            </p>
-
-                                        @endif
+                                        <a href="{{route('booking.status',$list->booking_uniqueid)}}" target="_blank">Token URL</a>
                                     </td>
                                 </tr>
                             @endforeach
