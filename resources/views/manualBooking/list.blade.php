@@ -198,146 +198,146 @@ img.lightgallery {
 @endsection
 
 @section('page-script')
-    <script>
+<script>
 
 
-        $(".approve").click(function() {
-            var id = $(this).attr('data-id');
-            AjaxCall(id, 'approve', $(this))
-        });
+    $(".approve").click(function() {
+        var id = $(this).attr('data-id');
+        AjaxCall(id, 'approve', $(this))
+    });
 
-        $(".disapprove").click(function() {
-            var id = $(this).attr('data-id');
-            AjaxCall(id, 'disapprove', $(this))
-        });
-
-
-
-
-        function AjaxCall(id, type, event) {
-
-            var loadingText = event.attr('data-loading');
-            var successText = event.attr('data-success');
-            var defaultText = event.attr('data-default');
-
-            event.find('span').show()
-            event.find('b').text(loadingText)
-
-
-            $.ajax({
-                url: "{{ route('booking.manual.approve') }}",
-                method: 'POST',
-                data: {
-                    id: id,
-                    type: type,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function(response) {
-
-                    event.find('span').hide()
-                    event.find('b').text(defaultText);
-                    event.parents('.actionBtns').fadeOut();
-                    //    event.parents('tr').fadeOut();
-                    if (response.status) {
-                        toastr.success(response.message)
-                    } else {
-                        toastr.error(response.message)
-                    }
-
-                },
-                error: function(xhr, status, error) {
-                    event.find('span').hide()
-                    event.find('b').text(defaultText)
-                    console.error(error);
-                    toastr.error(error)
-                }
-            });
-        }
-
-        $('#selectAll').on('change', function() {
-            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-        });
+    $(".disapprove").click(function() {
+        var id = $(this).attr('data-id');
+        AjaxCall(id, 'disapprove', $(this))
+    });
 
 
 
-        function AjaxCallBulk(id, type, event) {
 
-            var loadingText = event.attr('data-loading');
-            var successText = event.attr('data-success');
-            var defaultText = event.attr('data-default');
+    function AjaxCall(id, type, event) {
 
-            event.find('span').show()
-            event.find('b').text(loadingText)
+        var loadingText = event.attr('data-loading');
+        var successText = event.attr('data-success');
+        var defaultText = event.attr('data-default');
 
-
-            $.ajax({
-                url: "{{ route('booking.manual.approve.bulk') }}",
-                method: 'POST',
-                data: {
-                    ids: id,
-                    type: type,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function(response) {
-
-                    event.find('span').hide()
-                    event.find('b').text(defaultText)
-
-                    event.parents('.actionBtns').fadeOut();
-
-                    //    event.parents('tr').fadeOut();
+        event.find('span').show()
+        event.find('b').text(loadingText)
 
 
-                    if (response.status) {
-                        toastr.success(response.message)
-                    } else {
-                        toastr.error(response.message)
-                    }
+        $.ajax({
+            url: "{{ route('booking.manual.approve') }}",
+            method: 'POST',
+            data: {
+                id: id,
+                type: type,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
 
-                },
-                error: function(xhr, status, error) {
-                    event.find('span').hide()
-                    event.find('b').text(defaultText)
-                    console.error(error);
-                    toastr.error(error)
-                }
-            });
-        }
-
-
-
-        // Bulk Approve button click handler
-        $('#bulkApproveBtn').on('click', function() {
-
-
-                var selectedIds = $('.bulk-checkbox:checked').map(function() {
-                    return $(this).data('id');
-                }).get();
-                if (selectedIds.length > 0) {
-                    if(confirm('Do you really want to continue ?')){
-                          AjaxCallBulk(selectedIds, 'approve', $(this));
-                    }
-                }else{
-                    alert("Select Checkbox")
+                event.find('span').hide()
+                event.find('b').text(defaultText);
+                event.parents('.actionBtns').fadeOut();
+                //    event.parents('tr').fadeOut();
+                if (response.status) {
+                    toastr.success(response.message)
+                } else {
+                    toastr.error(response.message)
                 }
 
+            },
+            error: function(xhr, status, error) {
+                event.find('span').hide()
+                event.find('b').text(defaultText)
+                console.error(error);
+                toastr.error(error)
+            }
         });
+    }
 
-        // Bulk Disapprove button click handler
-        $('#bulkDisapproveBtn').on('click', function() {
+    $('#selectAll').on('change', function() {
+        $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+    });
 
-                var selectedIds = $('.bulk-checkbox:checked').map(function() {
+
+
+    function AjaxCallBulk(id, type, event) {
+
+        var loadingText = event.attr('data-loading');
+        var successText = event.attr('data-success');
+        var defaultText = event.attr('data-default');
+
+        event.find('span').show()
+        event.find('b').text(loadingText)
+
+
+        $.ajax({
+            url: "{{ route('booking.manual.approve.bulk') }}",
+            method: 'POST',
+            data: {
+                ids: id,
+                type: type,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+
+                event.find('span').hide()
+                event.find('b').text(defaultText)
+
+                event.parents('.actionBtns').fadeOut();
+
+                //    event.parents('tr').fadeOut();
+
+
+                if (response.status) {
+                    toastr.success(response.message)
+                } else {
+                    toastr.error(response.message)
+                }
+
+            },
+            error: function(xhr, status, error) {
+                event.find('span').hide()
+                event.find('b').text(defaultText)
+                console.error(error);
+                toastr.error(error)
+            }
+        });
+    }
+
+
+
+    // Bulk Approve button click handler
+    $('#bulkApproveBtn').on('click', function() {
+
+
+            var selectedIds = $('.bulk-checkbox:checked').map(function() {
                 return $(this).data('id');
-                }).get();
-                if (selectedIds.length > 0) {
-                    if(confirm('Do you really want to continue ?')){
-                        AjaxCallBulk(selectedIds, 'disapprove', $(this));
-                     }
-                }else{
-                    alert("Select Checkbox")
+            }).get();
+            if (selectedIds.length > 0) {
+                if(confirm('Do you really want to continue ?')){
+                      AjaxCallBulk(selectedIds, 'approve', $(this));
                 }
+            }else{
+                alert("Select Checkbox")
+            }
+
+    });
+
+    // Bulk Disapprove button click handler
+    $('#bulkDisapproveBtn').on('click', function() {
+
+            var selectedIds = $('.bulk-checkbox:checked').map(function() {
+            return $(this).data('id');
+            }).get();
+            if (selectedIds.length > 0) {
+                if(confirm('Do you really want to continue ?')){
+                    AjaxCallBulk(selectedIds, 'disapprove', $(this));
+                 }
+            }else{
+                alert("Select Checkbox")
+            }
 
 
-        });
-    </script>
+    });
+</script>
 @endsection

@@ -174,7 +174,7 @@ S
           <li>
             <a data-href="{{ $currentPath }}" href="{{ route('manual.token') }}"
             class="{{ ( $currentPath == 'manual.token' ||  $currentPath == 'manual.token' ) ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Manual Token</span>
+              <i class="bi bi-circle"></i><span>Manual Special Token</span>
             </a>
           </li>
 
@@ -266,7 +266,7 @@ S
       </li>
 
       <li class="nav-item">
-        <a class="{{ ( $currentPath == 'booking.manual.list') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('booking.manual.list') }}">
+        <a  href="{{ route('booking.manual.list') }}" class="{{ ( $currentPath == 'booking.manual.list') ? 'nav-link' : 'nav-link collapsed' }}" >
             <i class="bi bi-person-vcard"></i>
           <span>Manual Bookings</span>
         </a>
