@@ -35,24 +35,31 @@ class SiteAdminController extends Controller
             'country_code' => 'required'
         ];
 
-        $slot = VenueSloting::find( $request->input('slot_id'));
-        $uuid = Str::uuid()->toString();
-        $booking = new Vistors;
+        try {
+            $slot = VenueSloting::find( $request->input('slot_id'));
+            $uuid = Str::uuid()->toString();
+            $booking = new Vistors;
 
-        $booking->country_code = $request->input('country_code');
-        $booking->phone = $request->input('phone');
-        $booking->slot_id =  $request->input('slot_id');
-        $booking->booking_uniqueid = $uuid;
-        $booking->user_ip =   $request->ip();
-        $booking->booking_number =$slot->token_id;
-        $booking->user_timezone = $request->input('timezone', null);
-        $booking->source = 'Website';
-        $booking->dua_type = $request->input('dua_type');
-        $booking->lang = $request->input('lang', 'en');
-        $booking->save();
-        $bookingId = $booking->id;
-        WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-        return redirect()->back()->with('success', 'Token Issued');
+            $booking->country_code = $request->input('country_code');
+            $booking->phone = $request->input('phone');
+            $booking->slot_id =  $request->input('slot_id');
+            $booking->booking_uniqueid = $uuid;
+            $booking->user_ip =   $request->ip();
+            $booking->booking_number =$slot->token_id;
+            $booking->user_timezone = $request->input('timezone', null);
+            $booking->source = 'Website';
+            $booking->dua_type = $request->input('dua_type');
+            $booking->lang = $request->input('lang', 'en');
+            $booking->save();
+            $bookingId = $booking->id;
+            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
+            return redirect()->back()->with('success', 'Token Issued');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+            //throw $th;
+        }
+
+
 
 
     }
