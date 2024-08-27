@@ -68,7 +68,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
                 <input id='barcodeInput' type='text' class="form-control w-100" />
-                <div class="tickmark" id="greenTick" style="display: none">
+                <div class="tickmark mt-2" id="greenTick" style="display: none">
                     <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/40C057/checked--v1.png"
                         alt="checked--v1" />
                     <p>You can start scaning</p>
