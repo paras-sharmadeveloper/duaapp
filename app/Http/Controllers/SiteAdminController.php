@@ -22,7 +22,7 @@ class SiteAdminController extends Controller
         ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
         ->orderBy('slot_time', 'ASC')
         ->get();
-        $visitorList = Vistors::whereDate('created_at',date('Y-m-d'))->where('dua_type','dua')->orderBy('id','asc')->get();
+        $visitorList = Vistors::whereDate('created_at',date('Y-m-d'))->where('dua_type','special_token')->orderBy('id','asc')->get();
         // echo "<pre>"; print_r($visitorList); die;
         return view('site-admin.manualToken',compact('venueAddress','slots','visitorList'));
 
