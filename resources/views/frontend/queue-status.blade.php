@@ -60,13 +60,9 @@
                         </div> --}}
                         <div class="queue-number">
                             <p> {{ ($slotType == 'working_lady_dua' || $slotType == 'working_lady_dum' ) ? 'Working Lady' : '' }} </p>
-                            @if($slotType  == 'special_token')
-                            {{ ucwords(trans('messages.'.$slotType.'_'.$userBooking->dua_type))  }} {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }}
 
-                            @else
                             {{ ucwords(trans('messages.'.$slotType))  }} {{ trans('messages.pdf_event_token_label') }}  # {{ $userBooking->booking_number }}
 
-                            @endif
                             <br>
                             <p>{{ $userBooking->country_code }} {{ $userBooking->phone }}</p>
                         </div>
