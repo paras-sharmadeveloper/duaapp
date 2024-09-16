@@ -59,10 +59,6 @@ class SiteAdminController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
             //throw $th;
         }
-
-
-
-
     }
     public function ShowQueue()
     {

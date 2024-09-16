@@ -103,6 +103,7 @@ img.lightgallery {
                             <input type="checkbox" id="selectAll">
                         </th>
                         <th>Db Id</th>
+                        <th>Token</th>
                         <th>Date</th>
                         <th>CountryCode</th>
                         <th>phone </th>
@@ -137,6 +138,7 @@ img.lightgallery {
                                     <input type="checkbox" class="bulk-checkbox" data-id="{{ $list->id }}">
                                 @endif
                             </td>
+                            <td>{{ $list->booking_number }}</td>
                             <td>{{ $list->id }}</td>
                             <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                             <td>{{ $list->country_code }}</td>
