@@ -183,32 +183,34 @@ class ManualBookingController extends Controller
 
             $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
 
-            $cardNo = mt_rand(10000000, 9999999999); // Current date and time
-            $validStartDate = date('Ymd%20His');  // Current date and time
+            // Dahua Code
 
-            $validEndDate = date('Ymd%20His', strtotime('+1 day'));
-            $response = $this->dahuaHelper->addAccessCard($this->ip, $bookingId, 'add_user', $cardNo, 1, $validStartDate, $validEndDate);
-            $responseArray = explode('=', $response);
-            $recNo = '';
-            if (isset($responseArray[1])) {
-                $recNo = $responseArray[1];  // This will be '4'
-                $localImageStroage = 'sessionImages/30-09-2024/' . !empty($visitorTemp->recognized_code)? $visitorTemp->recognized_code : '';
-                $compressedImagePath = 'sessionImages/30-09-2024/compressed_' . (!empty($visitorTemp->recognized_code) ? $visitorTemp->recognized_code : '') . '.jpg';
+            // $cardNo = mt_rand(10000000, 9999999999); // Current date and time
+            // $validStartDate = date('Ymd%20His');  // Current date and time
 
-                if ($this->compressImage($localImageStroage, $compressedImagePath)) {
-                    // Convert the compressed image to Base64
-                    $base64Image = $this->imageToBase64($compressedImagePath);
+            // $validEndDate = date('Ymd%20His', strtotime('+1 day'));
+            // $response = $this->dahuaHelper->addAccessCard($this->ip, $bookingId, 'add_user', $cardNo, 1, $validStartDate, $validEndDate);
+            // $responseArray = explode('=', $response);
+            // $recNo = '';
+            // if (isset($responseArray[1])) {
+            //     $recNo = $responseArray[1];  // This will be '4'
+            //     $localImageStroage = 'sessionImages/30-09-2024/' . !empty($visitorTemp->recognized_code)? $visitorTemp->recognized_code : '';
+            //     $compressedImagePath = 'sessionImages/30-09-2024/compressed_' . (!empty($visitorTemp->recognized_code) ? $visitorTemp->recognized_code : '') . '.jpg';
 
-                    // Now you can use the $base64Image in your API request
-                    // Example: Pass the Base64 encoded image in the API request
-                    $this->dahuaHelper->addFaceAccess($this->ip, $recNo, 'add_user_'.$bookingId, $base64Image);
+            //     if ($this->compressImage($localImageStroage, $compressedImagePath)) {
+            //         // Convert the compressed image to Base64
+            //         $base64Image = $this->imageToBase64($compressedImagePath);
 
-                   // echo "Base64 Image: " . $base64Image; // Debugging output
-                }
+            //         // Now you can use the $base64Image in your API request
+            //         // Example: Pass the Base64 encoded image in the API request
+            //         $this->dahuaHelper->addFaceAccess($this->ip, $recNo, 'add_user_'.$bookingId, $base64Image);
+
+            //        // echo "Base64 Image: " . $base64Image; // Debugging output
+            //     }
 
 
 
-             }
+            //  }
 
 
 
@@ -273,7 +275,6 @@ class ManualBookingController extends Controller
     function imageToBase64($imagePath) {
         // Get the image contents
         $imageData = file_get_contents($imagePath);
-
         // Encode the image into base64
         return base64_encode($imageData);
     }
