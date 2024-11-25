@@ -188,9 +188,27 @@ class ManualBookingController extends Controller
 
             $validEndDate = date('Ymd%20His', strtotime('+1 day'));
             $response = $this->dahuaHelper->addAccessCard($this->ip, $bookingId, 'add_user', $cardNo, 1, $validStartDate, $validEndDate);
+            $responseArray = explode('=', $response);
+            $recNo = '';
+            if (isset($responseArray[1])) {
+                $recNo = $responseArray[1];  // This will be '4'
+                $localImageStroage = 'sessionImages/30-09-2024/' . !empty($visitorTemp->recognized_code)? $visitorTemp->recognized_code : '';
+                $compressedImagePath = 'sessionImages/30-09-2024/compressed_' . (!empty($visitorTemp->recognized_code) ? $visitorTemp->recognized_code : '') . '.jpg';
+
+                if ($this->compressImage($localImageStroage, $compressedImagePath)) {
+                    // Convert the compressed image to Base64
+                    $base64Image = $this->imageToBase64($compressedImagePath);
+
+                    // Now you can use the $base64Image in your API request
+                    // Example: Pass the Base64 encoded image in the API request
+                    $this->dahuaHelper->addFaceAccess($this->ip, $recNo, 'add_user_'.$bookingId, $base64Image);
+
+                   // echo "Base64 Image: " . $base64Image; // Debugging output
+                }
 
 
-        // echo $response;
+
+             }
 
 
 
@@ -213,4 +231,51 @@ class ManualBookingController extends Controller
         }
 
     }
+
+    function compressImage($source, $destination, $maxSize = 100000) {
+        // Get the image info
+        list($width, $height, $type) = getimagesize($source);
+        $image = null;
+
+        // Load the image based on its type
+        switch ($type) {
+            case IMAGETYPE_JPEG:
+                $image = imagecreatefromjpeg($source);
+                break;
+            case IMAGETYPE_PNG:
+                $image = imagecreatefrompng($source);
+                break;
+            case IMAGETYPE_GIF:
+                $image = imagecreatefromgif($source);
+                break;
+            default:
+                return false;
+        }
+
+        // Set compression quality
+        $quality = 90;
+        $outputFile = $destination;
+
+        // Compress the image until the size is under the maxSize
+        while (filesize($outputFile) > $maxSize && $quality > 10) {
+            // Save the image with reduced quality
+            imagejpeg($image, $outputFile, $quality);
+            $quality -= 5; // Decrease quality by 5 with each iteration
+        }
+
+        // Free the memory
+        imagedestroy($image);
+
+        // Return true if image is successfully compressed
+        return true;
+    }
+
+    function imageToBase64($imagePath) {
+        // Get the image contents
+        $imageData = file_get_contents($imagePath);
+
+        // Encode the image into base64
+        return base64_encode($imageData);
+    }
+
 }
