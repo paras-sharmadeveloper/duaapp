@@ -9,9 +9,24 @@ use App\Models\VisitorTempEntry;
 use App\Models\Vistors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Helpers\DahuaHelper;
+
 class ManualBookingController extends Controller
 {
     //
+
+    private $dahuaHelper;
+
+    private $ip;
+    public function __construct()
+    {
+        // Instantiate DahuaHelper with username and password
+        // You can set these as env variables or hard-code them
+        $username = env('DAHUA_USERNAME', 'admin'); // Username from .env or default
+        $password = env('DAHUA_PASSWORD', 'admin@123'); // Password from .env or default
+        $ip ='192.168.31.200';
+        $this->dahuaHelper = new DahuaHelper($username, $password);
+    }
 
     public function list(){
         $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
@@ -167,6 +182,18 @@ class ManualBookingController extends Controller
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
             $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
+
+            $cardNo = mt_rand(10000000, 9999999999); // Current date and time
+            $validStartDate = date('Ymd%20His');  // Current date and time
+
+            $validEndDate = date('Ymd%20His', strtotime('+1 day'));
+            $response = $this->dahuaHelper->addAccessCard($this->ip, $bookingId, 'add_user', $cardNo, 1, $validStartDate, $validEndDate);
+
+
+        // echo $response;
+
+
+
             return response()->json([
                 'message' => 'token Issued ' .$tokenId,
                 "status" => true,

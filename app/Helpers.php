@@ -5,7 +5,8 @@ use App\Models\Venue;
 use App\Models\{Reason, Vistors,VenueSloting, WorkingLady};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
 
