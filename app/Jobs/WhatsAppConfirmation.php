@@ -97,11 +97,11 @@ class WhatsAppConfirmation implements ShouldQueue
     $statusLink = route('booking.status', $uuid);
 
     $message = "Kindly see below token confirmation:\n\n";
-    $message .= "Dua Ghar: " . $venueAddress->city . "\n";
-    $message .= "Dua Date: " . $venueDateEn . "\n";
-    $message .= "Token URL: " . $statusLink . "\n";
-    $message .= "Token Number: " . $tokenId . "\n";
-    $message .= "Dua Type: " . $duaType . "\n";
+    $message .= "Dua Ghar : " . $venueAddress->city . "\n";
+    $message .= "Dua Date : " . $venueDateEn . "\n";
+    $message .= "Token URL : " . $statusLink . "\n";
+    $message .= "Token Number : " . $tokenId . "\n";
+    $message .= "Dua Type : " . $duaType . "\n";
     $message .= "Registered mobile: " . $userMobile . "\n\n";
     $message .= "Kindly reach by 1pm to validate and print your token.\n\n";
     $message .= "Visit KahayFaqeer.org to listen or read books.\n";
