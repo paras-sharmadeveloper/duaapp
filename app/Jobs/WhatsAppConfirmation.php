@@ -92,22 +92,27 @@ class WhatsAppConfirmation implements ShouldQueue
         }
     }
     private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType)
-{
-    $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
-    $statusLink = route('booking.status', $uuid);
+    {
+        $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
+        $statusLink = route('booking.status', $uuid);
+        $city = $venueAddress->city;
+        $message = <<<EOT
+Kindly see below token confirmation:
 
-    $message = "Kindly see below token confirmation:\n\n";
-    $message .= "Dua Ghar : " . $venueAddress->city . "\n";
-    $message .= "Dua Date : " . $venueDateEn . "\n";
-    $message .= "Token URL : " . $statusLink . "\n";
-    $message .= "Token Number : " . $tokenId . "\n";
-    $message .= "Dua Type : " . $duaType . "\n";
-    $message .= "Registered mobile: " . $userMobile . "\n\n";
-    $message .= "Kindly reach by 1pm to validate and print your token.\n\n";
-    $message .= "Visit KahayFaqeer.org to listen or read books.\n";
+Dua Ghar: $city
+Dua Date: $venueDateEn
+Token URL: $statusLink
+Token Number: $tokenId
+Dua Type: $duaType
+Registered mobile: $userMobile
 
-    return $message;
-}
+Kindly reach by 1pm to validate and print your token.
+
+Visit KahayFaqeer.org to listen or read books.
+EOT;
+
+        return $message;
+    }
     private function whatsAppConfirmationTemplate1($venueAddress, $uuid, $tokenId, $userMobile, $duaType)
     {
         $venueCity = $venueAddress->city;
