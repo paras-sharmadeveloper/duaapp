@@ -91,63 +91,28 @@ class WhatsAppConfirmation implements ShouldQueue
             ];
         }
     }
+
     private function whatsAppConfirmationTemplate($venueAddress, $uuid, $tokenId, $userMobile, $duaType)
     {
-        $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
-        $statusLink = route('booking.status', $uuid);
-
-        $venueCity = $venueAddress->city;
-        $message = <<<EOT
-Kindly see below token confirmation:
-
-Dua Ghar : $venueCity
-Dua Date : $venueDateEn
-Token URL : $statusLink
-Token Number : $tokenId
-Dua Type : $duaType
-Registered mobile: $userMobile
-
-Kindly reach by 1pm to validate and print your token.
-
-Visit KahayFaqeer.org to listen or read books.
-EOT;
-
-        return $message;
-    }
-    private function whatsAppConfirmationTemplate1($venueAddress, $uuid, $tokenId, $userMobile, $duaType)
-    {
         $venueCity = $venueAddress->city;
         $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
         $statusLink = route('booking.status', $uuid);
-        $message =<<<EOT
-Kindly see below token confirmation:
 
-Dua Ghar : $venueCity
-Dua Date : $venueDateEn
-Token URL : $statusLink
-Token Number : $tokenId
-Dua Type : $duaType
-Registered mobile: $userMobile
+        $message  = <<<EOT
+        Asalamualaikum,
+        Please find below the confirmation for your Dua token.
 
-Kindly reach by 1pm to validate and print your token.
+        Your Dua Ghar : $venueAddress->city
+        Your Dua Date : $venueDateEn
+        Your Online Dua Token : $statusLink
+        Your Token Number :  $tokenId
+        Your Dua Type : $duaType
+        Your registered mobile: $userMobile
 
-Visit KahayFaqeer.org to listen or read books.
-EOT;
-        // $message  = <<<EOT
-        // Asalamualaikum,
-        // Please see below confirmation for your dua token.
+        Please reach by 1pm to validate and print your token.
 
-        // Your Dua Ghar : $venueAddress->city
-        // Your Dua Date : $venueDateEn
-        // Your Online Dua Token : $statusLink
-        // Your Token Number :  $tokenId
-        // Your Dua Type : $duaType
-        // Your registered mobile: $userMobile
-
-        // Please reach by 1pm to validate and print your token.
-
-        // Read and listen all books for free. Please visit KahayFaqeer.org
-        // EOT;
+        Read and listen all books for free. Please visit KahayFaqeer.org
+        EOT;
         return $message;
     }
 }
