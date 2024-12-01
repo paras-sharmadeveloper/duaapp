@@ -99,11 +99,11 @@ class WhatsAppConfirmation implements ShouldQueue
         $message = <<<EOT
 Kindly see below token confirmation:
 
-Dua Ghar: $city
-Dua Date: $venueDateEn
-Token URL: $statusLink
-Token Number: $tokenId
-Dua Type: $duaType
+Dua Ghar : $city
+Dua Date : $venueDateEn
+Token URL : $statusLink
+Token Number : $tokenId
+Dua Type : $duaType
 Registered mobile: $userMobile
 
 Kindly reach by 1pm to validate and print your token.
