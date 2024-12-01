@@ -97,7 +97,7 @@ class WhatsAppConfirmation implements ShouldQueue
         $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
         $statusLink = route('booking.status', $uuid);
         $message =<<<EOT
-        Kindly see below token confirmation:
+Kindly see below token confirmation:
 
 Dua Ghar : $venueAddress->city
 Dua Date : $venueDateEn
