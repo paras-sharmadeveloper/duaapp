@@ -95,11 +95,12 @@ class WhatsAppConfirmation implements ShouldQueue
     {
         $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
         $statusLink = route('booking.status', $uuid);
-        $city = $venueAddress->city;
+
+        $venueCity = $venueAddress->city;
         $message = <<<EOT
 Kindly see below token confirmation:
 
-Dua Ghar : $city
+Dua Ghar : $venueCity
 Dua Date : $venueDateEn
 Token URL : $statusLink
 Token Number : $tokenId
