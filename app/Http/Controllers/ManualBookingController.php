@@ -207,9 +207,6 @@ class ManualBookingController extends Controller
 
             //        // echo "Base64 Image: " . $base64Image; // Debugging output
             //     }
-
-
-
             //  }
 
 
