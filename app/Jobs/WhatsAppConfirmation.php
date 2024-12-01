@@ -97,19 +97,19 @@ class WhatsAppConfirmation implements ShouldQueue
         $venueDateEn = date("d M Y", strtotime($venueAddress->venue_date));
         $statusLink = route('booking.status', $uuid);
         $message =<<<EOT
-        Kindly see below token confirmation:
+Kindly see below token confirmation:
 
-        Dua Ghar : $venueAddress->city
-        Dua Date : $venueDateEn
-        Token URL : $statusLink
-        Token Number : $tokenId
-        Dua Type : $duaType
-        Registered mobile: $userMobile
+Dua Ghar : $venueAddress->city
+Dua Date : $venueDateEn
+Token URL : $statusLink
+Token Number : $tokenId
+Dua Type : $duaType
+Registered mobile: $userMobile
 
-        Kindly reach by 1pm to validate and print your token.
+Kindly reach by 1pm to validate and print your token.
 
-        Visit KahayFaqeer.org to listen or read books.
-        EOT;
+Visit KahayFaqeer.org to listen or read books.
+EOT;
         // $message  = <<<EOT
         // Asalamualaikum,
         // Please see below confirmation for your dua token.
