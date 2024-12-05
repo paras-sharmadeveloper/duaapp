@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\WhatsAppTokenNotBookNotifcation;
-use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp};
+use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp, WhatsAppNotificationNumbers};
 
 use App\Http\Controllers\Controller;
 use App\Models\VenueSloting;
@@ -76,11 +76,19 @@ class NewBookingController extends Controller
     {
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
-        $message = Vistors::where('msg_sid', $messageSid)->first();
-        if ($message) {
-            $message->msg_sent_status = $status;
-            $message->save();
+
+        if( $request->input('event') == 'whatsapp_event'){
+            WhatsAppNotificationNumbers::where('msg_sid', $messageSid)->update([
+            'msg_sent_status' =>  $status
+           ]);
+        }else{
+            $message = Vistors::where('msg_sid', $messageSid)->first();
+            if ($message) {
+                $message->msg_sent_status = $status;
+                $message->save();
+            }
         }
+
         return response()->json(['status' => 'success'], 200);
     }
 

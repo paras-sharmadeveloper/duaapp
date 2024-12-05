@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\WhatsappNotificationLogs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,14 +33,26 @@ class SendWhatsAppMessage implements ShouldQueue
                 config('services.twilio.token')
             );
 
-            $twilioClient->messages->create(
+            $messageInstance = $twilioClient->messages->create(
                 "whatsapp:+".$this->countryCode.$this->phone,
                 [
                   'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
-                  'body' => $this->message
+                  'body' => $this->message,
+                  "statusCallback" => route('twillio.status.callback').'?event=whatsapp_event'
                 ]
               );
-            // Vistors::find($this->visitorId)->update(['sms_sent_at' => date('y-m-d H:i:s')]);
+
+              $messageSid = $messageInstance->sid; // Get MessageSid
+               $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
+              WhatsappNotificationLogs::craete([
+                'venue_date' => date('Y-m-d H:i:s'),
+                'dua_type' => 'Notification',
+                'whatsAppMessage' => $this->message,
+                'mobile' => $this->countryCode.$this->phone,
+                'msg_sid' => $messageSid,
+                'msg_sent_status' => $messageSentStatus,
+                'msg_date' => date('Y-m-d H:i:s'),
+              ]);
             // Your job's code here
         } catch (\Exception $e) {
             Log::error('Job failed SendMessage: ' . $e->getMessage());
