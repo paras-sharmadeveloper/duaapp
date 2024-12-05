@@ -23,7 +23,10 @@ class VisitorBookingController extends Controller
     {
 
         $this->venueCountry =  Venue::where(['iso' => 'PK'])->get()->first();
-        $this->venueAddress = VenueAddress::where('venue_id', $this->venueCountry->id)->whereDate('venue_date', date('Y-m-d'))->first();
+        if($this->venueCountry){
+            $this->venueAddress = VenueAddress::where('venue_id', $this->venueCountry->id)->whereDate('venue_date', date('Y-m-d'))->first();
+
+        }
         $this->venueAddressQuery = VenueAddress::whereDate('venue_date', date('Y-m-d'));
     }
 

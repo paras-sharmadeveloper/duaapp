@@ -14,6 +14,12 @@ use App\Http\Controllers\{NewBookingController, QrCodeDoorUnlockApiController, T
 |
 */
 
+Route::post('/twilio/status/callback', [NewBookingController::class, 'handleStatusUpdate'])->name('twillio.status.callback');
+Route::post('/twilio/status/callback/wa', [NewBookingController::class, 'handleStatusUpdateWhatsApp'])->name('twillio.status.callback.whatsapp');
+
+
+Route::post('/twilio/status/callback/notification', [NewBookingController::class, 'handleStatusUpdateNotification'])->name('twillio.status.callback.notification');
+Route::post('/twilio/status/callback/temp', [NewBookingController::class, 'handleStatusUpdateVisitorTemp'])->name('twillio.status.callback.temp');
 
 Route::any('/door/open', [QrCodeDoorUnlockApiController::class, 'OpenDoor']);
 Route::any('/door/door_heart_beat', [QrCodeDoorUnlockApiController::class, 'HeartBeat']);

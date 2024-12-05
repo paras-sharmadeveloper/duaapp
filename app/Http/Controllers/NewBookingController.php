@@ -78,7 +78,8 @@ class NewBookingController extends Controller
     {
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
-            WhatsappNotificationLogs::where('msg_sid', $messageSid)->update([
+
+        WhatsappNotificationLogs::where('msg_sid', $messageSid)->update([
             'msg_sent_status' =>  $status
            ]);
 
