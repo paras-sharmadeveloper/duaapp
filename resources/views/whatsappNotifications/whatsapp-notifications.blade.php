@@ -148,7 +148,10 @@
     <script>
         $(document).ready(function() {
             // Initialize DataTable
-            $('#recipientTable').DataTable();
+            $('#recipientTable').DataTable({
+                "pageLength": 500,
+                "lengthMenu": [500, 1000, 2000, 5000]  // Optional: Customize available page lengths
+            });
 
             // Handle "Select All" checkbox
             $('#selectAll').click(function() {
