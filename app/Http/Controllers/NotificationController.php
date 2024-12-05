@@ -71,6 +71,7 @@ class NotificationController extends Controller
         //
         // Validate the message
         $validated = $request->validate([
+            'campaign_name' => 'required',
             'message' => 'required|string',
             'selected_recipients' => 'required', // Ensure that selected recipients are passed
             'selected_recipients.*' => 'integer|exists:alhamra_entires,id', // Validate that the recipients are valid IDs in the database
@@ -88,16 +89,29 @@ class NotificationController extends Controller
 
 
         $message = <<<EOT
-                General Announcement and Notification: Please Read Carefully:
+                General announcement for your kind review:
                 $finalMessage
                 EOT;
 
         // Dispatch a job to send the message to each selected phone number
         foreach ($phoneNumbers as $phoneNumber) {
-            SendWhatsAppMessage::dispatch($phoneNumber->country_code, $phoneNumber->phone, $message)->onQueue('whatsapp-notification-event');
+            SendWhatsAppMessage::dispatch($phoneNumber->country_code, $phoneNumber->phone, $message,$request->input('campaign_name'))->onQueue('whatsapp-notification-event');
         }
 
         return back()->with('success', 'Messages are queued for sending.');
+    }
+
+    public function deleteRecipients(Request $request)
+    {
+        $recipientIds = $request->input('recipients');
+
+        if ($recipientIds) {
+            WhatsAppNotificationNumbers::whereIn('id', $recipientIds)->delete();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 400);
     }
 
 }

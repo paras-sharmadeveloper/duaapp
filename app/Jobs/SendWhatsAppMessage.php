@@ -16,12 +16,15 @@ class SendWhatsAppMessage implements ShouldQueue
     protected $countryCode;
     protected $phone;
     protected $message;
+    protected $campaigname;
 
-    public function __construct($countryCode, $phone, $message)
+    public function __construct($countryCode, $phone, $message,$campaignLog)
     {
         $this->countryCode = $countryCode;
         $this->phone = $phone;
         $this->message = $message;
+        $this->campaigname = $campaignLog;
+
     }
 
     public function handle()
@@ -45,6 +48,7 @@ class SendWhatsAppMessage implements ShouldQueue
               $messageSid = $messageInstance->sid; // Get MessageSid
                $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
               WhatsappNotificationLogs::create([
+                    'campaign_name' => $this->campaigname,
                     'venue_date' => date('Y-m-d H:i:s'),
                     'dua_type' => 'Notification',
                     'whatsAppMessage' => $this->message,

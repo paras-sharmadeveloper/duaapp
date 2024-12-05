@@ -395,6 +395,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('whatsapp/import', [NotificationController::class, 'import'])->name('whatsapp.import');
     Route::post('whatsapp/send', [NotificationController::class, 'sendMessages'])->name('whatsapp.send');
 
+    Route::delete('/whatsapp/delete', [NotificationController::class, 'deleteRecipients'])->name('whatsapp.delete');
+
+
 
 
 

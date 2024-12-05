@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.0/css/buttons.dataTables.min.css">
+
     <style>
         .tr-overlay {
             width: 100%;
@@ -81,7 +83,7 @@
                         <table id="recipientTable" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="selectAll"></th>
+                                    <th>Campaign name</th>
                                     <th>Date</th>
                                     <th>Phone Number</th>
                                     <th>WhatsApp Message</th>
@@ -92,7 +94,7 @@
                             <tbody>
                                 @foreach ($recipients as $recipient)
                                     <tr>
-                                        <td><input type="checkbox" class="recipient-checkbox" value="{{ $recipient->id }}"></td>
+                                        <td>{{ $recipient->campaign_name }}</td>
                                         <td>{{ $recipient->venue_date }}</td>
                                         <td>{{ $recipient->mobile }}</td>
                                         <td>{{ $recipient->whatsAppMessage }}</td>
@@ -101,9 +103,10 @@
                                         <td class="queued text-warning">{{ $recipient->msg_sent_status }}</td>
                                         @elseif($recipient->msg_sent_status == 'delivered')
                                           <td class="queued text-success">{{ $recipient->msg_sent_status }}</td>
-                                          @elseif($recipient->msg_sent_status == 'read')
+                                          @elseif($recipient->msg_sent_status == 'read' || $recipient->msg_sent_status == 'sent')
                                           <td class="queued text-success">{{ $recipient->msg_sent_status }}</td>
                                           @else
+
                                           <td class="queued text-danger">{{ $recipient->msg_sent_status }}</td>
                                         @endif
                                     </tr>
@@ -120,6 +123,18 @@
     <!-- jQuery and DataTable -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.0/js/dataTables.buttons.min.js"></script>
 
+    <script src="https://cdn.datatables.net/buttons/2.3.0/js/dataTables.buttons.min.js"></script>
 
+<script>
+   $('#recipientTable').DataTable({
+    "pageLength": 500,
+    "lengthMenu": [500, 1000, 2000, 5000], // Optional: Customize available page lengths
+    dom: 'Bfrtip',  // This enables the buttons
+    buttons: [
+        'csv',       // Export to CSV
+    ]
+});
+</script>
 @endsection

@@ -36,6 +36,10 @@
         .multiselect-blurred {
             background: lightgray;
         }
+
+        .table-responsive.mb-3 {
+    max-height: 600px;
+}
     </style>
 
     <div class="row">
@@ -96,8 +100,11 @@
         <!-- Message Sending Form -->
         <div class="card mt-4">
             <div class="card-header d-flex justify-content-between">
-                <h4>Send WhatsApp Message</h4>
+                <h4>Send WhatsApp Message </h4>
+                <p>Total Count : {{ count($recipients) }}</p>
                 <a href="{{route('whatsapp.form.logs')}}"  target="_blank" class="btn btn-warning float-right "> Logs</a>
+                <button type="button" class="btn btn-danger" id="deleteAllBtn">Delete All Selected</button>
+
             </div>
             <div class="card-body">
                 <form action="{{ route('whatsapp.send') }}"  method="POST" id="send-whatsapp">
@@ -126,6 +133,10 @@
 
                     <!-- Message -->
                     <div class="mb-3">
+                        <label for="message" class="form-label">Campaign Name:</label>
+                        <input name="campaign_name" id="campaign_name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
                         <label for="message" class="form-label">Message:</label>
                         <textarea name="message" id="message" class="form-control" rows="5" required></textarea>
                     </div>
@@ -134,6 +145,9 @@
                     <input type="hidden" name="selected_recipients" id="selected_recipients">
 
                     <button type="submit" class="btn btn-success">Send Message</button>
+
+
+
                 </form>
             </div>
         </div>
@@ -175,5 +189,46 @@
                 }
             });
         });
+
+        $('#deleteAllBtn').click(function() {
+        // Collect selected recipient IDs
+        var selectedRecipients = [];
+        $('.recipient-checkbox:checked').each(function() {
+            selectedRecipients.push($(this).val());
+        });
+
+        // If no recipients are selected, show an alert
+        if (selectedRecipients.length === 0) {
+            alert('Please select at least one recipient to delete.');
+            return;
+        }
+
+        // Confirm before deleting
+        if (confirm('Are you sure you want to delete all selected recipients?')) {
+            // Send an AJAX request to the server to delete the selected recipients
+            $.ajax({
+                url: '{{ route("whatsapp.delete") }}', // Define the route for deletion
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    recipients: selectedRecipients
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Remove the deleted rows from the table
+                        $('.recipient-checkbox:checked').each(function() {
+                            $(this).closest('tr').remove();
+                        });
+                        alert('Selected recipients deleted successfully.');
+                    } else {
+                        alert('An error occurred while deleting the recipients.');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while processing your request.');
+                }
+            });
+        }
+    });
     </script>
 @endsection
