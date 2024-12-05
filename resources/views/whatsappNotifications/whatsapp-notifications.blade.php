@@ -90,10 +90,10 @@
         <div class="card mt-4">
             <div class="card-header d-flex justify-content-between">
                 <h4>Send WhatsApp Message</h4>
-                <a href="{{route('whatsapp.form.logs')}}" class="btn btn-warning float-right "> Logs</a>
+                <a href="{{route('whatsapp.form.logs')}}"  target="_blank" class="btn btn-warning float-right "> Logs</a>
             </div>
             <div class="card-body">
-                <form action="{{ route('whatsapp.send') }}" method="POST" id="send-whatsapp">
+                <form action="{{ route('whatsapp.send') }}"  method="POST" id="send-whatsapp">
                     @csrf
                     <!-- Table to Display Recipients with Checkboxes -->
                     <div class="table-responsive mb-3">
