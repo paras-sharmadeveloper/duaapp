@@ -73,6 +73,13 @@
         <div class="card">
             <div class="card-header">
                 <h4>Import CSV File</h4>
+                <p>
+                    There is 2 columns need to be in sheet
+                    <br/>
+                    1. Country Code (Without +)
+                    <br>
+                    2. Phone
+                </p>
             </div>
             <div class="card-body">
                 <form action="{{ route('whatsapp.import') }}" method="POST" enctype="multipart/form-data">
