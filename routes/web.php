@@ -389,5 +389,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/bookings/list', [VistorsController::class, 'list'])->name('booking.list');
     Route::get('/bookings/edit/{id}', [VistorsController::class, 'edit'])->name('booking.edit');
     Route::post('/bookings/delete/{id}', [VistorsController::class, 'destroy'])->name('booking.delete');
+
+
+
+    Route::get('whatsapp/import', [NotificationController::class, 'showForm'])->name('whatsapp.form');
+    Route::post('whatsapp/import', [NotificationController::class, 'import'])->name('whatsapp.import');
+    Route::post('whatsapp/send', [NotificationController::class, 'sendMessages'])->name('whatsapp.send');
+
+
 });
 // RMb28cc2048ae67bf97983cab765febaa6

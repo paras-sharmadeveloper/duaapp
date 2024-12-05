@@ -251,12 +251,33 @@ S
         </ul>
       </li>
 
-      <li class="nav-item">
-        <a class="{{ ( $currentPath == 'whatsapp.notication.show') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('whatsapp.notication.show') }}">
-          <i class="bi bi-whatsapp"></i>
-          <span>Whatsapp Notification </span>
+      <li class="nav-item ">
+        <a class="nav-link collapsed" data-bs-target="#whatsapp-not-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-pin-angle-fill"></i><span>Notifications</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+        <ul id="whatsapp-not-nav"
+        class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
+        data-bs-parent="#sidebar-nav">
+
+
+          <li>
+            <a class="{{ ( $currentPath == 'whatsapp.notication.show') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('whatsapp.notication.show') }}">
+                <i class="bi bi-whatsapp"></i>
+                <span>Whatsapp Notification </span>
+              </a>
+          </li>
+
+          <li>
+            <a class="{{ ( $currentPath == 'whatsapp.form') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('whatsapp.form') }}">
+                <i class="bi bi-whatsapp"></i>
+                <span>Whatsapp Import </span>
+              </a>
+          </li>
+
+
+        </ul>
       </li>
+
 
       <li class="nav-item">
         <a class="{{ ( $currentPath == 'working.lady.list') ? 'nav-link' : 'nav-link collapsed' }}"  href="{{ route('working.lady.list') }}">
@@ -280,10 +301,10 @@ S
       </li>
 
       <li class="nav-item ">
-        <a class="nav-link collapsed" data-bs-target="#visitor-booking-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#setting-dev-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-pin-angle-fill"></i><span>Setting Developer</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="visitor-booking-nav"
+        <ul id="setting-dev-nav"
         class="{{ ( $currentPath == 'reasons.index'  || $currentPath == 'reasons.create'|| $currentPath == 'reasons.edit' || $currentPath == 'reasons.announcement') ? 'nav-content collapse show' : 'nav-content collapse' }}"
         data-bs-parent="#sidebar-nav">
 
