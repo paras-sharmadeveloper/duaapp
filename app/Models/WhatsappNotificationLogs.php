@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class WhatsappNotificationLogs extends Model
 {
     use HasFactory;
+    protected $table = 'whatsapp_notification_logs';
     protected $guarded = [];
 }

@@ -44,15 +44,15 @@ class SendWhatsAppMessage implements ShouldQueue
 
               $messageSid = $messageInstance->sid; // Get MessageSid
                $messageSentStatus = $messageInstance->status; // Get MessageSentStatus
-              WhatsappNotificationLogs::craete([
-                'venue_date' => date('Y-m-d H:i:s'),
-                'dua_type' => 'Notification',
-                'whatsAppMessage' => $this->message,
-                'mobile' => $this->countryCode.$this->phone,
-                'msg_sid' => $messageSid,
-                'msg_sent_status' => $messageSentStatus,
-                'msg_date' => date('Y-m-d H:i:s'),
-              ]);
+              WhatsappNotificationLogs::create([
+                    'venue_date' => date('Y-m-d H:i:s'),
+                    'dua_type' => 'Notification',
+                    'whatsAppMessage' => $this->message,
+                    'mobile' => $this->countryCode.$this->phone,
+                    'msg_sid' => $messageSid,
+                    'msg_sent_status' => $messageSentStatus,
+                    'msg_date' => date('Y-m-d H:i:s'),
+                ]);
             // Your job's code here
         } catch (\Exception $e) {
             Log::error('Job failed SendMessage: ' . $e->getMessage());
