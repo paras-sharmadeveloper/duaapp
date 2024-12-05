@@ -97,7 +97,15 @@
                                         <td>{{ $recipient->mobile }}</td>
                                         <td>{{ $recipient->whatsAppMessage }}</td>
                                         <td>{{ $recipient->msg_sid }}</td>
-                                        <td>{{ $recipient->msg_sent_status }}</td>
+                                        @if($recipient->msg_sent_status == 'queued')
+                                        <td class="queued text-warning">{{ $recipient->msg_sent_status }}</td>
+                                        @elseif($recipient->msg_sent_status == 'delivered')
+                                          <td class="queued text-success">{{ $recipient->msg_sent_status }}</td>
+                                          @elseif($recipient->msg_sent_status == 'read')
+                                          <td class="queued text-success">{{ $recipient->msg_sent_status }}</td>
+                                          @else
+                                          <td class="queued text-danger">{{ $recipient->msg_sent_status }}</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
