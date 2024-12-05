@@ -66,6 +66,8 @@ class NotificationController extends Controller
             'selected_recipients.*' => 'integer|exists:alhamra_entires,id', // Validate that the recipients are valid IDs in the database
         ]);
 
+        echo "<pre>"; print_r($request->all()); die;
+
         // Get the message from the request
         $finalMessage = $request->input('message');
 
