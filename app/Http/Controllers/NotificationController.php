@@ -59,14 +59,17 @@ class NotificationController extends Controller
 
     public function sendMessages(Request $request)
     {
+        //
         // Validate the message
         $validated = $request->validate([
             'message' => 'required|string',
-            'selected_recipients' => 'required|array', // Ensure that selected recipients are passed
+            'selected_recipients' => 'required', // Ensure that selected recipients are passed
             'selected_recipients.*' => 'integer|exists:alhamra_entires,id', // Validate that the recipients are valid IDs in the database
         ]);
 
-        echo "<pre>"; print_r($request->all()); die;
+        $selectedRecipientIds = $request->input('selected_recipients');
+        // echo "<pre>"; print_r($selectedRecipientIds); die;
+
 
         // Get the message from the request
         $finalMessage = $request->input('message');
@@ -75,7 +78,7 @@ class NotificationController extends Controller
         $selectedRecipientIds = $request->input('selected_recipients');
 
         // Get the phone numbers of the selected recipients
-        $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', $selectedRecipientIds)->get();
+        $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', [$selectedRecipientIds])->get();
 
         $message = <<<EOT
                 General Announcement and Notification: Please Read Carefully:
