@@ -59,20 +59,28 @@ class NotificationController extends Controller
 
     public function sendMessages(Request $request)
     {
+        // Validate the message
         $validated = $request->validate([
             'message' => 'required|string',
+            'selected_recipients' => 'required|array', // Ensure that selected recipients are passed
+            'selected_recipients.*' => 'integer|exists:alhamra_entires,id', // Validate that the recipients are valid IDs in the database
         ]);
 
+        // Get the message from the request
         $message = $request->input('message');
 
-        // Get all phone numbers
-        $phoneNumbers = PhoneNumber::all();
+        // Get the selected recipient IDs
+        $selectedRecipientIds = $request->input('selected_recipients');
 
+        // Get the phone numbers of the selected recipients
+        $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', $selectedRecipientIds)->get();
+
+        // Dispatch a job to send the message to each selected phone number
         foreach ($phoneNumbers as $phoneNumber) {
-            // Dispatch a job to send the message
-            SendWhatsAppMessage::dispatch($phoneNumber->country_code, $phoneNumber->phone, $message);
+            SendWhatsAppMessage::dispatch($phoneNumber->country_code, $phoneNumber->phone, $message)->onQueue('whatsapp-notification-event');
         }
 
         return back()->with('success', 'Messages are queued for sending.');
     }
+
 }
