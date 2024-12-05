@@ -33,7 +33,7 @@ class SendWhatsAppMessage implements ShouldQueue
             );
 
             $twilioClient->messages->create(
-                "whatsapp:+".$this->phone,
+                "whatsapp:+".$this->countryCode.$this->phone,
                 [
                   'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
                   'body' => $this->message
