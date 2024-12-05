@@ -69,65 +69,40 @@
     @endif
 
     <div class="container">
-        <!-- CSV Upload Form -->
-        <div class="card">
-            <div class="card-header">
-                <h4>Import CSV File</h4>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('whatsapp.import') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Upload CSV File:</label>
-                        <input type="file" name="file" id="file" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Import CSV</button>
-                </form>
-            </div>
-        </div>
-
         <!-- Message Sending Form -->
         <div class="card mt-4">
-            <div class="card-header d-flex justify-content-between">
-                <h4>Send WhatsApp Message</h4>
-                <a href="{{route('whatsapp.form.logs')}}" class="btn btn-warning float-right "> Logs</a>
+            <div class="card-header">
+                <h4>Logs</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('whatsapp.send') }}" method="POST" id="send-whatsapp">
-                    @csrf
+
                     <!-- Table to Display Recipients with Checkboxes -->
                     <div class="table-responsive mb-3">
                         <table id="recipientTable" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="selectAll"></th>
-                                    <th>Country Code</th>
+                                    <th>Date</th>
                                     <th>Phone Number</th>
+                                    <th>WhatsApp Message</th>
+                                    <th>Sid</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($recipients as $recipient)
                                     <tr>
                                         <td><input type="checkbox" class="recipient-checkbox" value="{{ $recipient->id }}"></td>
-                                        <td>{{ $recipient->country_code }}</td>
-                                        <td>{{ $recipient->phone }}</td>
+                                        <td>{{ $recipient->venue_date }}</td>
+                                        <td>{{ $recipient->mobile }}</td>
+                                        <td>{{ $recipient->whatsAppMessage }}</td>
+                                        <td>{{ $recipient->msg_sid }}</td>
+                                        <td>{{ $recipient->msg_sent_status }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Message -->
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message:</label>
-                        <textarea name="message" id="message" class="form-control" rows="5" required></textarea>
-                    </div>
-
-                    <!-- Hidden Field for Selected Recipients -->
-                    <input type="hidden" name="selected_recipients" id="selected_recipients">
-
-                    <button type="submit" class="btn btn-success">Send Message</button>
-                </form>
             </div>
         </div>
     </div>
@@ -138,32 +113,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            // Initialize DataTable
-            $('#recipientTable').DataTable();
 
-            // Handle "Select All" checkbox
-            $('#selectAll').click(function() {
-                $('.recipient-checkbox').prop('checked', this.checked);
-            });
-
-            // Handle form submission
-            $('#send-whatsapp').submit(function(e) {
-                var selectedRecipients = [];
-                $('.recipient-checkbox:checked').each(function() {
-                    selectedRecipients.push($(this).val());
-                });
-
-                // Set the hidden input with the selected recipient IDs
-                $('#selected_recipients').val(selectedRecipients.join(','));
-
-                // If no recipients are selected, prevent form submission
-                if (selectedRecipients.length == 0) {
-                    alert('Please select at least one recipient.');
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
 @endsection

@@ -38,7 +38,7 @@ class SendWhatsAppMessage implements ShouldQueue
                 [
                   'from' => 'whatsapp:'.env('TWILIO_PHONE_WHATSAPP'),
                   'body' => $this->message,
-                  "statusCallback" => route('twillio.status.callback').'?event=whatsapp_event'
+                  "statusCallback" => route('twillio.status.callback.whatsapp')
                 ]
               );
 

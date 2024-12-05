@@ -51,6 +51,9 @@ Route::post('/ivr/welcome', [TwillioIVRHandleController::class, 'handleIncomingC
     ->name('ivr.welcome');
 
 Route::post('/twilio/status/callback', [NewBookingController::class, 'handleStatusUpdate'])->name('twillio.status.callback');
+Route::post('/twilio/status/callback/wa', [NewBookingController::class, 'handleStatusUpdateWhatsApp'])->name('twillio.status.callback.whatsapp');
+
+
 Route::post('/twilio/status/callback/notification', [NewBookingController::class, 'handleStatusUpdateNotification'])->name('twillio.status.callback.notification');
 Route::post('/twilio/status/callback/temp', [NewBookingController::class, 'handleStatusUpdateVisitorTemp'])->name('twillio.status.callback.temp');
 
@@ -393,8 +396,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
 
     Route::get('whatsapp/import', [NotificationController::class, 'showForm'])->name('whatsapp.form');
+    Route::get('whatsapp/logs', [NotificationController::class, 'showFormLogs'])->name('whatsapp.form.logs');
     Route::post('whatsapp/import', [NotificationController::class, 'import'])->name('whatsapp.import');
     Route::post('whatsapp/send', [NotificationController::class, 'sendMessages'])->name('whatsapp.send');
+
+
 
 
 });

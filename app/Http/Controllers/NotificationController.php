@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Notification;
 
 
-use App\Models\WhatsAppNotificationNumbers;
+use App\Models\{WhatsAppNotificationNumbers,WhatsappNotificationLogs};
 use Illuminate\Support\Facades\Validator;
 use App\Jobs\SendWhatsAppMessage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -39,10 +39,19 @@ class NotificationController extends Controller
     public function showForm()
     {
 
-        $recipients = WhatsAppNotificationNumbers::all();  // Adjust to your model and table
+        $recipients = WhatsAppNotificationNumbers::get();  // Adjust to your model and table
 
         return view('whatsappNotifications.whatsapp-notifications', compact('recipients'));
     }
+
+    public function showFormLogs()
+    {
+
+        $recipients = WhatsappNotificationLogs::where('dua_type','Notification')->get();  // Adjust to your model and table
+
+        return view('whatsappNotifications.whatsapp-logs', compact('recipients'));
+    }
+
 
     public function import(Request $request)
     {

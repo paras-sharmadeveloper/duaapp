@@ -72,22 +72,30 @@ class NewBookingController extends Controller
         return redirect()->back()->with(['success' => 'Status updated']);
     }
 
+
+
+    public function handleStatusUpdateWhatsApp(Request $request)
+    {
+        $messageSid = $request->input('MessageSid');
+        $status = $request->input('MessageStatus');
+            WhatsAppNotificationNumbers::where('msg_sid', $messageSid)->update([
+            'msg_sent_status' =>  $status
+           ]);
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+
     public function handleStatusUpdate(Request $request)
     {
         $messageSid = $request->input('MessageSid');
         $status = $request->input('MessageStatus');
-
-        if( $request->input('event') == 'whatsapp_event'){
-            WhatsAppNotificationNumbers::where('msg_sid', $messageSid)->update([
-            'msg_sent_status' =>  $status
-           ]);
-        }else{
-            $message = Vistors::where('msg_sid', $messageSid)->first();
+         $message = Vistors::where('msg_sid', $messageSid)->first();
             if ($message) {
                 $message->msg_sent_status = $status;
                 $message->save();
             }
-        }
+
 
         return response()->json(['status' => 'success'], 200);
     }
