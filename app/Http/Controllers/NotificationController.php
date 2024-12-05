@@ -66,16 +66,17 @@ class NotificationController extends Controller
             'selected_recipients' => 'required', // Ensure that selected recipients are passed
             'selected_recipients.*' => 'integer|exists:alhamra_entires,id', // Validate that the recipients are valid IDs in the database
         ]);
-        $selectedRecipientIds = $request->input('selected_recipients');
-        // echo "<pre>"; print_r($selectedRecipientIds); die;
+
+
         // Get the message from the request
         $finalMessage = $request->input('message');
 
         // Get the selected recipient IDs
-        $selectedRecipientIds = $request->input('selected_recipients');
+        $selectedRecipientIds = explode(",",$request->input('selected_recipients')) ;
 
         // Get the phone numbers of the selected recipients
-        $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', [$selectedRecipientIds])->get();
+        $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', $selectedRecipientIds)->get();
+
 
         $message = <<<EOT
                 General Announcement and Notification: Please Read Carefully:
