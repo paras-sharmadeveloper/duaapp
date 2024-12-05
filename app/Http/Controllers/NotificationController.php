@@ -67,13 +67,18 @@ class NotificationController extends Controller
         ]);
 
         // Get the message from the request
-        $message = $request->input('message');
+        $finalMessage = $request->input('message');
 
         // Get the selected recipient IDs
         $selectedRecipientIds = $request->input('selected_recipients');
 
         // Get the phone numbers of the selected recipients
         $phoneNumbers = WhatsAppNotificationNumbers::whereIn('id', $selectedRecipientIds)->get();
+
+        $message = <<<EOT
+                General Announcement and Notification: Please Read Carefully:
+                $finalMessage
+                EOT;
 
         // Dispatch a job to send the message to each selected phone number
         foreach ($phoneNumbers as $phoneNumber) {
