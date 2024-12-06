@@ -9,7 +9,7 @@
 
 
     <div class="card-body">
-        <h5 class="card-title">Working Lady List</h5>
+        <h5 class="card-title">Door Logs </h5>
 
 
         <table class="table-with-buttons table table-responsive cell-border">

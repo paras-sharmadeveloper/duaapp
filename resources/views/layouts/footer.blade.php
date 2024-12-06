@@ -97,6 +97,7 @@
             buttons: [
                 'csv',
                 'excel',
+                'pdf'
             ],
 
         });
