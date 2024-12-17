@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\WhatsAppTokenNotBookNotifcation;
-use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp, WhatsAppNotificationNumbers};
+use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp, VenueAddress};
 
 use App\Http\Controllers\Controller;
 use App\Models\VenueSloting;
@@ -143,12 +143,12 @@ class NewBookingController extends Controller
     public function ShowDoorLogs(Request $request)
     {
         $date =$request->input('DateFilter');
-
+        $todayVenue = VenueAddress::whereDate('venue_date', $date)->first();
         $doorLogs = DoorLogs::with('visitor')->whereDate('created_at',$date)->orderBy('id', 'desc')->get();
 
         // echo "<pre>"; print_r($doorLogs); die;
 
-        return view('doorlog', ['logs' => $doorLogs]);
+        return view('doorlog', ['logs' => $doorLogs,'todayVenue' => $todayVenue]);
     }
 
 
