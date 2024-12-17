@@ -73,7 +73,7 @@ td.action-dv {
                 @foreach($logs as $list)
                 @php
 
-                  $visitor =   $list->visitor;
+                  $visitor =   getVisitor($list->SCode);
 
                 @endphp
                  <tr class="{{ $list->out_of_seq == 1 ? 'row-red' : '' }}">
