@@ -72,7 +72,7 @@
                             <div class="title text-center">
                                 <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""
                                     style="height: 70px; width:70px">
-                                <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span>
+                                <h4><b> DUA / DUM TOKENS SUMMARY </b> <br/> <span id="tbdate"><b>{{ date('l d-M-Y') }}</b></span>
                                 </h4>
                             </div>
                             <div id="spinner-div" class="pt-5">

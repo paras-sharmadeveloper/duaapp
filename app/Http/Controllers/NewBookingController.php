@@ -140,9 +140,11 @@ class NewBookingController extends Controller
         return view('frontend.server-logs', ['logs' => $logs]);
     }
 
-    public function ShowDoorLogs()
+    public function ShowDoorLogs(Request $request)
     {
-        $doorLogs = DoorLogs::with('visitor')->orderBy('id', 'desc')->get();
+        $date =$request->input('DateFilter');
+
+        $doorLogs = DoorLogs::with('visitor')->whereDate('created_at',$date)->orderBy('id', 'desc')->get();
 
         // echo "<pre>"; print_r($doorLogs); die;
 
