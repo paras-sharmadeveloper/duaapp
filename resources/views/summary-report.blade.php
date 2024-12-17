@@ -254,17 +254,27 @@
     <!-- ADMIN STAFF LOG -->
     <div class="section-title page-split1"><b>E) DUA / DUM DOOR ACCESS LOG</b></div>
     <table>
-
+        <tr>
+            <th>Door Access Timestamp</th>
+            <th>Dua Ghar</th>
+            <th>Dua Type</th>
+            <th>Token Number</th>
+            <th>Phone</th>
+            <th>Out of Sequence Access</th>
+            <th>Token URL</th>
+        </tr>
         @foreach ($calculations['door-logs'] as $log)
-        <tr class="{{ $log->visitor->out_of_seq == 1 ? 'row-red' : '' }}">
+        @if(!empty($log))
+        <tr class="{{ $log->out_of_seq == 1 ? 'row-red' : '' }}">
             <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
-            <td>{{ $log->visitor->venue_address }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
+            <td>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->address:'' }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
             <td>{{ $log->visitor->dua_type }}</td>
             <td>{{ $log->visitor->token_number }}</td> <!-- Assuming token_number is stored in visitor -->
             <td>{{ $log->visitor->phone }}</td> <!-- Assuming phone is stored in visitor -->
             <td>{{ $log->visitor->out_of_seq == 1 ? 'Yes' : 'No' }}</td>
             <td><a href="{{ $log->visitor->token_url }}" target="_blank">URL</a></td> <!-- Assuming token_url is stored in visitor -->
         </tr>
+        @endif
     @endforeach
 
 
