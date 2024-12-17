@@ -267,7 +267,7 @@
             <th>Token URL</th>
         </tr>
         @foreach ($calculations['door-logs'] as $log)
-        @if(!empty($log))
+        @if(!empty($log) && !empty($log->visitor->booking_number))
         <tr class="{{ $log->out_of_seq == 1 ? 'row-red' : '' }}">
             <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
             <td>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->city :'' }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
