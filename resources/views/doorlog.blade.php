@@ -80,7 +80,7 @@ td.action-dv {
                     <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
                     <td> {{ ($todayVenue) ? $todayVenue->city : '' }} </td>
                     <td> {{ ($visitor) ? $visitor->dua_type : 'Staff'}} </td>
-                    <td> {{ ($visitor) ? $visitor->booking_number : 'N/A'}} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : $list->SCode }} </td>
                     <td> {{ $list->out_of_seq == 1 ? 'Yes' : '' }} </td>
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : 'N/A' }} </a>
