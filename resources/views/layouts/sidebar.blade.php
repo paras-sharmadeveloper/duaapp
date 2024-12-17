@@ -299,6 +299,12 @@ S
           <span>Token Filter </span>
         </a>
       </li>
+      <li class="nav-item">
+        <a  href="{{ route('admin.doorlog') }}" class="{{ ( $currentPath == 'admin.doorlog') ? 'nav-link' : 'nav-link collapsed' }}" >
+            <i class="bi bi-person-vcard"></i>
+          <span>Door Open Logs</span>
+        </a>
+      </li>
 
       <li class="nav-item ">
         <a class="nav-link collapsed" data-bs-target="#setting-dev-nav" data-bs-toggle="collapse" href="#">
@@ -338,11 +344,7 @@ S
             </a>
           </li>
 
-          <li>
-            <a data-href="{{ $currentPath }}" target="_blank" href="{{ route('admin.doorlog') }}" class="{{ ( $currentPath == 'admin.doorlog') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Door Open Logs</span>
-            </a>
-          </li>
+
 
 
 

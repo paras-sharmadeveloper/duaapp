@@ -5,8 +5,6 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-
   <title>{{ request()->path()}}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
@@ -15,8 +13,6 @@
   <link href="{{ asset('assets/theme/img/logo.png') }}" type="image/x-icon">
     <link href="{{ asset('assets/theme/img/logo.png')}}" rel="icon">
     <link href="{{ asset('assets/theme/img/logo.png') }} " rel="apple-touch-icon">
-
-
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i') }}" rel="stylesheet">
@@ -65,6 +61,15 @@ ul#notification-center {
 }
 #toast-container > div {
     opacity:1;
+}
+
+table tr th {
+    border: 1px solid #000;
+    text-align: center;
+}
+td {
+    border: 1px solid #000000 !important;
+    text-align: center;
 }
 
 

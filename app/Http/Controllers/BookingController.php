@@ -63,7 +63,7 @@ class BookingController extends Controller
         }
         $UserImage = '';
         $localImage = '';
-        $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code :'';
+        $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor)) ? $visitor->recognized_code :'';
         if (!empty($localImageStroage) && !Storage::disk('public_uploads')->exists($localImageStroage)) {
             $localImage = (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
         }

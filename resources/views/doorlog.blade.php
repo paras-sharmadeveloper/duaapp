@@ -10,26 +10,16 @@
 
     <div class="card-body">
         <h5 class="card-title">Door Logs </h5>
-
-
         <table class="table-with-buttons table table-responsive cell-border">
             <thead>
                 <tr>
-                    <th>Sr. No</th>
-                    <th>TimeStamp</th>
+                    <th>Door Access Timestamp</th>
                     <th> Dua Ghar </th>
-                    <th> Date of Dua Day </th>
                     <th> Dua Type </th>
-                    <th> Phone </th>
                     <th> Token Number </th>
+                    <th> Out of Sequence Access </th>
                     <th> Token URL </th>
-                    <th>Sn</th>
-                    <th>SCode </th>
-                    <th>DeviceID</th>
-                    <th>ReaderNo</th>
-                    <th>ActIndex</th>
-
-
+                    <th> Actions </th>
                 </tr>
             </thead>
             <tbody>
@@ -40,25 +30,15 @@
 
                 @endphp
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $list->created_at }}</td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : 'Invaild Token' }} </td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->venue_date: 'Invaild Token' }} </td>
-                    <td> {{ ($visitor) ? $visitor->venueSloting->type : 'Invaild Token'}} </td>
-                    <td> {{ ($visitor) ? $visitor->phone : 'Invaild Token' }} </td>
-                    <td> {{ ($visitor) ? $visitor->booking_number : 'Invaild Token'}} </td>
-                    <td>
-                        @if($visitor)
-                            <a href="{{ route('booking.status', $visitor->booking_uniqueid) }}" target="_blank">Token Url</a>
-                         @else
-                             Invaild Token
-                         @endif
+                    <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : '' }} </td>
+                    <td> {{ ($visitor) ? $visitor->venueSloting->type : ''}} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : ''}} </td>
+                    <td> Yes </td>
+                    <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
+                        target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : '' }} </a>
                     </td>
-                    <td>{{ $list->SN }}</td>
-                    <td>{{ $list->SCode }}</td>
-                    <td>{{ $list->DeviceID }}</td>
-                    <td>{{ $list->ReaderNo }}</td>
-                    <td>{{ $list->ActIndex }}</td>
+                    <td> <button> out of Sequence</button> </td>
 
                 </tr>
                 @endforeach
