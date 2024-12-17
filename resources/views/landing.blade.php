@@ -4,7 +4,7 @@
 
 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
-         
+
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
@@ -32,10 +32,10 @@
                         <div class="alert alert-danger">
                             {{ session()->get('error') }}
                         </div>
-                     @endif 
-                  
+                     @endif
+
                     <div class="row">
-                          <div class="d-flex justify-content-between py-4"> 
+                          <div class="d-flex justify-content-between py-4">
                             <form method="get" action="{{ route('login') }}">
                                <button type="submit" class="btn btn-outline-primary">Super Admin</button>
                             <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#basicModal">
@@ -48,7 +48,7 @@
                 </div>
               </div>
 
-              <div class="credits"> 
+              <div class="credits">
               </div>
 
             </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="modal-body">
 
-                    <div class="col-12"> 
+                    <div class="col-12">
                             <label for="yourPassword" class="form-label">Your Domain</label>
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" placeholder="Domain" aria-label="Domain" aria-describedby="basic-addon2" name="domain" required id="check-domain">
@@ -79,28 +79,28 @@
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <button type="button" class="btn btn-primary" id="send-to-login">Send to MyLogin</button>
                     </div>
-                       
-                        
- 
-                    </div> 
+
+
+
+                    </div>
                   </div>
                 </div>
   </div>
   <!-- End Basic Modal-->
 
- 
-@endsection 
+
+@endsection
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 
 <script type="text/javascript">
 
-    $(document).ready(function() { 
+    $(document).ready(function() {
 
       $("#send-to-login").click(function(){
- 
 
-        var domain = $("#check-domain").val(); 
+
+        var domain = $("#check-domain").val();
 
         if(domain){
           window.open(location.protocol+'//'+domain+"."+location.host+'/login')
@@ -113,5 +113,5 @@
 
     });
 
- 
-</script> 
+
+</script>
