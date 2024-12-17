@@ -79,11 +79,11 @@ td.action-dv {
                  <tr class="{{ $list->out_of_seq == 1 ? 'row-red' : '' }}">
                     <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
                     <td> {{ ($todayVenue) ? $todayVenue->city : '' }} </td>
-                    <td> {{ ($visitor) ? $visitor->dua_type : ''}} </td>
-                    <td> {{ ($visitor) ? $visitor->booking_number : ''}} </td>
+                    <td> {{ ($visitor) ? $visitor->dua_type : 'Staff'}} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : 'N/A'}} </td>
                     <td> {{ $list->out_of_seq == 1 ? 'Yes' : '' }} </td>
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
-                        target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : '' }} </a>
+                        target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : 'N/A' }} </a>
                     </td>
                     <td class="action-dv">
                         <button id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> Out of sequence</button>
