@@ -209,7 +209,7 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 
-Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('generate.pdf');
+
 
 
     Route::get('/workinglady', [WorkingLadyController::class, 'show'])->name('working.lady.show');
@@ -240,7 +240,7 @@ Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('
     Route::get('/book/confirm/spot', [BookingController::class, 'ConfirmBookingAvailabilityShow'])->name('booking.confirm-spot');
     Route::post('/book/confirm/spot/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.post');
     Route::post('/book/confirm/spot/otp/post', [BookingController::class, 'ConfirmBookingAvailability'])->name('booking.confirm-spot.otp.post');
-
+    Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
     Route::post('/book/sent-otp', [HomeController::class, 'SendOtpUser'])->name('send-otp');
     Route::post('/book/get-slots', [HomeController::class, 'getSlotsAjax'])->name('get-slots');
     Route::post('/book/get-visitors', [HomeController::class, 'getVisitors'])->name('get-visitor');
@@ -249,8 +249,8 @@ Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('
     Route::get('/screen/status/{id}', [SiteAdminController::class, 'WaitingQueueShow'])->name('waiting-queue');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
-    Route::get('/generate-pdf/{id}', [BookingController::class, 'generatePDF'])->name('generate-pdf');
 
+    Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('generate.pdf');
     Route::get('/book/manual/list', [ManualBookingController::class, 'list'])->name('booking.manual.list');
     Route::post('/book/manual/approve', [ManualBookingController::class, 'ApproveDisapprove'])->name('booking.manual.approve');
     Route::post('/book/manual/approve/bulk', [ManualBookingController::class, 'ApproveDisapproveBulk'])->name('booking.manual.approve.bulk');
