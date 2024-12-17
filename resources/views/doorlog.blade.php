@@ -86,8 +86,23 @@ td.action-dv {
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : 'N/A' }} </a>
                     </td>
                     <td class="action-dv">
-                        <button id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> Out of sequence</button>
-                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq" style="display:none"> Undo </button>
+                        <button
+
+                        @if($list->out_of_seq == 1)
+                        style="display:none"
+                        @else
+                            style="display:block"
+                        @endif
+
+                        id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> Out of sequence</button>
+                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq"
+
+                            @if($list->out_of_seq == 1)
+                            style="display:block"
+                            @else
+                                style="display:none"
+                            @endif
+                            > Undo </button>
 
                     </td>
 
