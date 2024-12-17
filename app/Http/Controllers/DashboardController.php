@@ -108,14 +108,14 @@ class DashboardController extends Controller
 
     foreach ($staff as $staffName => $staffId) {
         // Count DoorLogs for each staff member in the time range
-        $accessCount = DoorLogs::where('user_id', $staffId)
+        $accessCount = DoorLogs::where('SCode', $staffId)
             ->whereBetween('created_at', [
                 Carbon::parse($date . ' 14:00:00'),
                 Carbon::parse($date . ' 17:30:00')
             ])
             ->count();
 
-            $accessLogs = DoorLogs::where('user_id', $staffId)
+            $accessLogs = DoorLogs::where('SCode', $staffId)
             ->whereBetween('created_at', [
                 Carbon::parse($date . ' 14:00:00'),
                 Carbon::parse($date . ' 17:30:00'),
