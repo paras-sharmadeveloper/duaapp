@@ -134,6 +134,8 @@ class DashboardController extends Controller
             $staffTotalCounts[$staffName] = $accessLogs->count();
         }
 
+        echo '<pre>'; print_r($staffAccessLogs);die;
+
 
         $doorLogs = DoorLogs::with('visitor')->get();
 
