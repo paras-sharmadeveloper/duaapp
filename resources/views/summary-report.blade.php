@@ -114,7 +114,8 @@
         // $date->format('l, d-M-y, h:i A')
     @endphp
     <div class="Timestamp">
-        <span>Report Generated at: <br />  {{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->venue_date->format('l, d-M-y, h:i A') :'' }}</span>
+        <span>Report Generated at: <br /> {{ isset($calculations['todayVenue']) ? $calculations['todayVenue']->venue_date->format('l, d-M-y, h:i A') : '' }}
+        </span>
     </div>
     <div class="head">
         <img src="https://app.kahayfaqeer.org/assets/theme/img/logo.png" />
