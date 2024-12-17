@@ -114,7 +114,7 @@
         // $date->format('l, d-M-y, h:i A')
     @endphp
     <div class="Timestamp">
-        <span>Report Generated at: <br /> {{ isset($calculations['todayVenue']) ? \Carbon\Carbon::parse($calculations['todayVenue']->venue_date)->format('l, d-M-y, h:i A') : '' }}
+        <span>Report Generated at: <br /> {{ \Carbon\Carbon::now()->format('l, d-M-y, h:i A') }}
 
         </span>
     </div>
@@ -124,7 +124,7 @@
         <div class="report-meta">
             <span><b> DUA / DUM TOKENS SUMMARY REPORT</b></span><br />
             <span><b>{{ (isset($calculations['todayVenue'])) ? strtoupper($calculations['todayVenue']->city) :'' }} DUA GHAR</b></span><br>
-            <span><b>    {{ isset($calculations['todayVenue']) ? \Carbon\Carbon::parse($calculations['todayVenue']->venue_date)->format('l, d-M-y') : '' }}
+            <span><b>    {{ isset($calculations['todayVenue']) ? \Carbon\Carbon::parse($calculations['todayVenue']->venue_date)->format('l, d-M-Y') : '' }}
                 </b></span>
         </div>
 
