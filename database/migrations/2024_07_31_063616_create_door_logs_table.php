@@ -24,7 +24,7 @@ return new class extends Migration
                   ->references('booking_uniqueid')
                   ->on('visitors')
                   ->onDelete('set null');
-
+            $table->tinyInteger('out_of_seq')->default(0);
 
             $table->timestamps();
         });

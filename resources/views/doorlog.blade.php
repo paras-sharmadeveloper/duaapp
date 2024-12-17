@@ -22,6 +22,20 @@ form {
     gap: 20px;
     padding: 10px;
 }
+
+td.action-dv {
+    display: flex;
+}
+
+
+td.action-dv button {
+    font-size: 15px;
+}
+
+
+td.action-dv {
+    gap: 10px;
+}
     </style>
     <div class="card-body">
         <div class="row d-flex">
@@ -71,9 +85,9 @@ form {
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : '' }} </a>
                     </td>
-                    <td>
-                        <button id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> out of Sequence</button>
-                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq" style="display:block"> undo </button>
+                    <td class="action-dv">
+                        <button id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> Uut of sequence</button>
+                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq" style="display:none"> Undo </button>
 
                     </td>
 
