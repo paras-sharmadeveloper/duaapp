@@ -47,7 +47,7 @@ class DashboardController extends Controller
         $todayVenue = VenueAddress::whereDate('venue_date', $date)->first();
 
         if (!$todayVenue) {
-            
+
             abort(404, 'Venue not found for the selected date.');
         }
 
@@ -57,8 +57,8 @@ class DashboardController extends Controller
             'Waheed' => 'admin1-f3ae07bc-0fe8-4849-a121-81ff5c4a4dfc',
             'Dr Azhar' => 'admin2-f3fa2c6e-ecfe-4fef-b8f2-a59ac65addb9',
             'Naseem' => 'admin3-c9d46b5c-ffd9-4d7d-a8e1-8b93cd28b1d5',
-            'Admin4' => 'admin4-e3af7047-e371-4659-85ec-fc9ef644720f',
-            'Admin5' => 'admin5-93219a2c-9c0a-4814-80f9-c0475f6c4236',
+            //'Admin4' => 'admin4-e3af7047-e371-4659-85ec-fc9ef644720f',
+           // 'Admin5' => 'admin5-93219a2c-9c0a-4814-80f9-c0475f6c4236',
         ];
         $websiteCounts = [];
         $whatsappCounts = [];

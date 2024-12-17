@@ -114,15 +114,15 @@
         // $date->format('l, d-M-y, h:i A')
     @endphp
     <div class="Timestamp">
-        <span>Report Generated at: <br />  Sunday, 16-Dec-24, 5:33 PM</span>
+        <span>Report Generated at: <br />  {{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->venue_date->format('l, d-M-y, h:i A') :'' }}</span>
     </div>
     <div class="head">
         <img src="https://app.kahayfaqeer.org/assets/theme/img/logo.png" />
 
         <div class="report-meta">
             <span><b> DUA / DUM TOKENS SUMMARY REPORT</b></span><br />
-            <span><b>ISLAMABAD DUA GHAR</b></span><br>
-            <span><b>Monday, 16-Dec-24</b></span>
+            <span><b>{{ (isset($calculations['todayVenue'])) ? strtoupper($calculations['todayVenue']->city) :'' }} DUA GHAR</b></span><br>
+            <span><b>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->venue_date->format('l, d-M-y ') :'' }}</b></span>
         </div>
 
     </div>
@@ -267,7 +267,7 @@
         @if(!empty($log))
         <tr class="{{ $log->out_of_seq == 1 ? 'row-red' : '' }}">
             <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
-            <td>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->address:'' }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
+            <td>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->city :'' }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
             <td>{{ $log->visitor->dua_type }}</td>
             <td>{{ $log->visitor->token_number }}</td> <!-- Assuming token_number is stored in visitor -->
             <td>{{ $log->visitor->phone }}</td> <!-- Assuming phone is stored in visitor -->
