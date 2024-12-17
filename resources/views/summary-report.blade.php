@@ -272,7 +272,7 @@
             <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
             <td>{{ (isset($calculations['todayVenue'])) ? $calculations['todayVenue']->city :'' }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
             <td>{{ ($log->visitor) ?  $log->visitor->dua_type : ''}}</td>
-            <td>{{ ($log->visitor) ? $log->visitor->token_number : '' }}</td> <!-- Assuming token_number is stored in visitor -->
+            <td>{{ ($log->visitor) ? $log->visitor->booking_number : '' }}</td> <!-- Assuming token_number is stored in visitor -->
             <td>{{ ($log->visitor) ? $log->visitor->phone  : ''}}</td> <!-- Assuming phone is stored in visitor -->
             <td>{{ ($log->visitor && $log->visitor->out_of_seq == 1) ? 'Yes' : 'No' }}</td>
             <td><a href="{{ ($log->visitor) ? $log->visitor->token_url : '#' }}" target="_blank">URL</a></td> <!-- Assuming token_url is stored in visitor -->
