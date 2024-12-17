@@ -61,8 +61,8 @@ td.action-dv {
             <thead>
                 <tr>
                     <th>Door Access Timestamp</th>
-                    {{-- <th> Dua Ghar </th> --}}
-                    {{-- <th> Dua Type </th> --}}
+                    <th> Dua Ghar </th>
+                    <th> Dua Type </th>
                     <th> Token Number </th>
                     <th> Out of Sequence Access </th>
                     <th> Token URL </th>
@@ -76,12 +76,12 @@ td.action-dv {
                   $visitor =   getVisitor($list->SCode);
 
                 @endphp
-                <tr>
+                 <tr class="{{ $list->out_of_seq == 1 ? 'row-red' : '' }}">
                     <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
-                    {{-- <td> {{ ($visitor) ? $visitor->venueSloting->venueAddress->city : '' }} </td> --}}
-                    {{-- <td> {{ ($visitor) ? $visitor->venueSloting->type : ''}} </td> --}}
+                    <td> {{ ($visitor) ? $visitor->slot->venueAddress->city : '' }} </td>
+                    <td> {{ ($visitor) ? $visitor->slot->type : ''}} </td>
                     <td> {{ ($visitor) ? $visitor->booking_number : ''}} </td>
-                    <td> Yes </td>
+                    <td> {{ $list->out_of_seq == 1 ? 'Yes' : '' }} </td>
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : '' }} </a>
                     </td>
