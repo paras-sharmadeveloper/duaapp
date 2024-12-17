@@ -159,14 +159,14 @@
             <td>{{$calculations['website-printToken-dum']}}</td>
             <td>{{ $calculations['website-doorAccess-dum'] }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td>Working Ladies (Dua)</td>
             <td>{{$calculations['website-total-wldua']}}</td>
             <td>{{$calculations['website-total-wa-wldua']}}</td>
             <td>{{$calculations['website-checkIn-wldua']}}</td>
             <td>{{$calculations['website-printToken-wldua']}}</td>
             <td>{{ $calculations['website-doorAccess-wldua'] }}</td>
-        </tr>
+        </tr> --}}
         <tr class="highlight">
             <td>Total</td>
             <td>{{$calculations['grand-total']}}</td>
