@@ -275,7 +275,7 @@
             <td>{{ ($log->visitor) ? $log->visitor->booking_number : 'N/A' }}</td> <!-- Assuming token_number is stored in visitor -->
             <td>{{ ($log->visitor) ? $log->visitor->phone  : 'N/A'}}</td> <!-- Assuming phone is stored in visitor -->
             <td>{{ ($log->visitor && $log->visitor->out_of_seq == 1) ? 'Yes' : 'No' }}</td>
-            <td><a href="{{ ($log->visitor) ? $log->visitor->token_url : '#' }}" target="_blank">URL</a></td> <!-- Assuming token_url is stored in visitor -->
+            <td><a href="{{ ($log->visitor) ? route('booking.status', $log->visitor->booking_uniqueid) : '#' }}" target="_blank">URL</a></td> <!-- Assuming token_url is stored in visitor -->
         </tr>
         @endif
     @endforeach
