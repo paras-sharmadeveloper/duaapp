@@ -73,7 +73,7 @@ form {
                     </td>
                     <td>
                         <button id="out_of_seq_{{ $list->id }}" data-targetid="out_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-danger out_of_seq"> out of Sequence</button>
-                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq"> undo </button>
+                        <button id="undo_of_seq_{{ $list->id }}" data-targetid="undo_of_seq_{{ $list->id }}" data-id="{{ $list->id }}" class="btn btn-dark undo_of_seq" style="display:block"> undo </button>
 
                     </td>
 
@@ -136,6 +136,61 @@ function resetForm() {
         // Redirect to remove query parameters
         window.location.href = window.location.pathname;
     }
+
+    $(document).ready(function () {
+    // Out of Sequence Button Clicked
+    $('.out_of_seq').on('click', function () {
+        var id = $(this).data('id');
+        var targetButton = $(this);
+        var targetUndoButton = $('#undo_of_seq_' + id);
+
+        // Send AJAX Request to mark as Out of Sequence
+        $.ajax({
+            url: '/admin/update-out-of-seq/' + id,
+            method: 'POST',
+            data: {
+                type: 'out_of_seq',
+                out_of_seq: 1,  // Set the status to '1' (Out of Sequence)
+                _token: '{{ csrf_token() }}' // CSRF token for security
+            },
+            success: function (response) {
+                // Hide the "Out of Sequence" button and show the "Undo" button
+                targetButton.hide();
+                targetUndoButton.show();
+            },
+            error: function (response) {
+                alert('Error updating status');
+            }
+        });
+    });
+
+    // Undo Out of Sequence Button Clicked
+    $('.undo_of_seq').on('click', function () {
+        var id = $(this).data('id');
+        var targetButton = $('#out_of_seq_' + id);
+        var targetUndoButton = $(this);
+
+        // Send AJAX Request to undo Out of Sequence
+        $.ajax({
+            url: '/admin/update-out-of-seq/' + id,
+            method: 'POST',
+            data: {
+                type: 'undo_of_seq',
+                out_of_seq: 0,  // Set the status to '0' (Undo Out of Sequence)
+                _token: '{{ csrf_token() }}' // CSRF token for security
+            },
+            success: function (response) {
+                // Hide the "Undo" button and show the "Out of Sequence" button
+                targetButton.show();
+                targetUndoButton.hide();
+            },
+            error: function (response) {
+                alert('Error updating status');
+            }
+        });
+    });
+});
+
 </script>
 
 @endsection

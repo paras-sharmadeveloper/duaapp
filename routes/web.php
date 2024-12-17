@@ -308,6 +308,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/duas', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::post('/duas/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    Route::post('/update-out-of-seq/{id}', [DashboardController::class, 'UpdateOuTofSq'])->name('update.out_of_seq');
+
     Route::post('/duas/percentage', [DashboardController::class, 'percentage'])->name('dashboard.percentage');
 
     Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');

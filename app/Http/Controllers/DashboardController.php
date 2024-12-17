@@ -20,6 +20,26 @@ class DashboardController extends Controller
     {
         return view('home');
     }
+    public function UpdateOuTofSq(Request $request, $id)
+    {
+        // Find the door log entry by its ID
+        $logs = DoorLogs::find($id);
+
+        // Ensure the log entry exists
+        if ($logs) {
+            // Update the 'out_of_seq' field based on the request type
+            $logs->out_of_seq = $request->input('out_of_seq');
+            $logs->save();  // Save the updated record
+
+            // Return a success response
+            return response()->json(['status' => 'success', 'message' => 'Status updated successfully']);
+        } else {
+            // If the log entry doesn't exist, return an error response
+            return response()->json(['status' => 'error', 'message' => 'Door log not found'], 404);
+        }
+    }
+
+
 
     public function generatePdf(Request $request)
 {
@@ -58,6 +78,13 @@ class DashboardController extends Controller
             ->pluck('print_count')
             ->sum();
 
+        $doorLogCounts[$type] = Vistors::filterByDate($date)
+            ->filterBySource('Website')
+            ->filterByDuaType($type)
+            ->withCount('doorLogs') // Counts related DoorLogs
+            ->get()
+            ->sum('door_logs_count'); // Sum all doorLogs for this token type
+
         $grandTotalCheckIn += $checkIns[$type];
     }
 
@@ -74,21 +101,25 @@ class DashboardController extends Controller
         'website-total-wa-dua' => $whatsappCounts['dua'],
         'website-checkIn-dua' => $checkIns['dua'],
         'website-printToken-dua' => $printCounts['dua'],
+        'website-doorAccess-dua' => $doorLogCounts['dua'],
 
         'website-total-dum' => $websiteCounts['dum'],
         'website-total-wa-dum' => $whatsappCounts['dum'],
         'website-checkIn-dum' => $checkIns['dum'],
         'website-printToken-dum' => $printCounts['dum'],
+        'website-doorAccess-dum' => $doorLogCounts['dum'],
 
         'website-total-wldua' => $websiteCounts['working_lady_dua'],
         'website-total-wa-wldua' => $whatsappCounts['working_lady_dua'],
         'website-checkIn-wldua' => $checkIns['working_lady_dua'],
         'website-printToken-wldua' => $printCounts['working_lady_dua'],
+        'website-doorAccess-wldua' => $doorLogCounts['working_lady_dua'],
 
         'website-total-wldum' => $websiteCounts['working_lady_dum'],
         'website-total-wa-wldum' => $whatsappCounts['working_lady_dum'],
         'website-checkIn-wldum' => $checkIns['working_lady_dum'],
         'website-printToken-wldum' => $printCounts['working_lady_dum'],
+        'website-doorAccess-wldum' => $doorLogCounts['working_lady_dum'],
 
         'grand-total' => array_sum($websiteCounts),
         'grand-wa' => array_sum($whatsappCounts),

@@ -146,7 +146,7 @@
             <td>{{$calculations['website-total-wa-dua']}}</td>
             <td>{{$calculations['website-checkIn-dua']}}</td>
             <td>{{$calculations['website-printToken-dua']}}</td>
-            <td>234</td>
+            <td>{{ $calculations['website-doorAccess-dua'] }}</td>
         </tr>
         <tr>
             <td>Dum Tokens</td>
@@ -154,7 +154,7 @@
             <td>{{$calculations['website-total-wa-dum']}}</td>
             <td>{{$calculations['website-checkIn-dum']}}</td>
             <td>{{$calculations['website-printToken-dum']}}</td>
-            <td>66</td>
+            <td>{{ $calculations['website-doorAccess-dum'] }}</td>
         </tr>
         <tr>
             <td>Working Ladies (Dua)</td>
@@ -162,7 +162,7 @@
             <td>{{$calculations['website-total-wa-wldua']}}</td>
             <td>{{$calculations['website-checkIn-wldua']}}</td>
             <td>{{$calculations['website-printToken-wldua']}}</td>
-            <td>0</td>
+            <td>{{ $calculations['website-doorAccess-wldua'] }}</td>
         </tr>
         <tr class="highlight">
             <td>Total</td>
@@ -170,7 +170,8 @@
             <td>{{$calculations['grand-wa']}}</td>
             <td>{{$calculations['grand-checkIn']}}</td>
             <td>{{$calculations['grand-printToken']}}</td>
-            <td>300</td>
+            <td>{{ array_sum([$calculations['website-doorAccess-dua'], $calculations['website-doorAccess-dum'], $calculations['website-doorAccess-wldua'], $calculations['website-doorAccess-wldum']]) }}</td>
+
         </tr>
     </table>
 
