@@ -33,6 +33,21 @@ class Vistors extends Model
         return $query->whereNotNull('meeting_ends_at')->count();
     }
 
+    public function scopeFilterByDate($query, $date)
+    {
+        return $query->whereDate('created_at', $date);
+    }
+
+    public function scopeFilterBySource($query, $source)
+    {
+        return $query->where('source', $source);
+    }
+
+    public function scopeFilterByDuaType($query, $type)
+    {
+        return $query->where('dua_type', $type);
+    }
+
     public function doorLogs()
     {
         return $this->hasMany(DoorLogs::class, 'SCode', 'booking_uniqueid');
