@@ -154,10 +154,10 @@
         <tr>
             <td>Dum Tokens</td>
             <td>{{$calculations['website-total-dum']}}</td>
-            <td>{{$calculations['website-total-wa-dum']}}</td>
-            <td>{{$calculations['website-checkIn-dum']}}</td>
-            <td>{{$calculations['website-printToken-dum']}}</td>
-            <td>{{ $calculations['website-doorAccess-dum'] }}</td>
+            <td>{{$calculations['website-total-wa-dum']}}70</td>
+            <td>{{$calculations['website-checkIn-dum']}}70</td>
+            <td>{{$calculations['website-printToken-dum']}}70</td>
+            <td>{{ $calculations['website-doorAccess-dum'] }}70</td>
         </tr>
         <tr>
             <td>Working Ladies (Dua)</td>
