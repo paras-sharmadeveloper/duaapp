@@ -77,7 +77,7 @@ function getImagefromS3($imageName)
     }
 
     function getVisitor($uuid){
-        return Vistors::with('slot')->where(['booking_uniqueid' => $uuid])->get()->first();
+        return Vistors::with(relations: 'slot')->where(['booking_uniqueid' => $uuid])->first();
     }
 
     function deleteObject($key){

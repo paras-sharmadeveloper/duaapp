@@ -20,9 +20,9 @@ class VenueSloting extends Model
 
         // return $this->hasMany(Vistors::class, 'slot_id');
     }
-    public function visitor()
-    {
-        return $this->belongsTo(Vistors::class, foreignKey: 'slot_id' , 'id');
-    }
+    // public function visitor()
+    // {
+    //     return $this->belongsTo(Vistors::class, foreignKey: 'slot_id' , 'id');
+    // }
 
 }
