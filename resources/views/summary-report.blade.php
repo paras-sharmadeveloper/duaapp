@@ -184,11 +184,23 @@
         </tr>
         <tr>
             <td>Dua Tokens</td>
-            <td>27</td>
+            <td>{{ $calculations['website-outOfSeq-dua'] }}</td>
+        </tr>
+        <tr>
+            <td>Dum Tokens</td>
+            <td>{{ $calculations['website-outOfSeq-dum'] }}</td>
+        </tr>
+        <tr>
+            <td>Working Ladies (Dua)</td>
+            <td>{{ $calculations['website-outOfSeq-wldua'] }}</td>
+        </tr>
+        <tr>
+            <td>Working Ladies (Dum)</td>
+            <td>{{ $calculations['website-outOfSeq-wldum'] }}</td>
         </tr>
         <tr class="highlight">
             <td>Total</td>
-            <td>27</td>
+            <td>{{ array_sum([$calculations['website-outOfSeq-dua'], $calculations['website-outOfSeq-dum'], $calculations['website-outOfSeq-wldua'], $calculations['website-outOfSeq-wldum']]) }}</td>
         </tr>
     </table>
 
@@ -199,99 +211,64 @@
             <th>Staff Name</th>
             <th>Staff QR Door Access</th>
         </tr>
-        <tr>
-            <td>Staff Name 1</td>
-            <td>23</td>
-        </tr>
-        <tr>
-            <td>Staff Name 2</td>
-            <td>12</td>
-        </tr>
-        <tr>
-            <td>Staff Name 3</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>Staff Name 4</td>
-            <td>6</td>
-        </tr>
-        <tr>
-            <td>Staff Name 5</td>
-            <td>17</td>
-        </tr>
+        @foreach ($calculations['staff-access'] as $staffName => $accessCount)
+            <tr>
+                <td>{{ $staffName }}</td>
+                <td>{{ $accessCount }}</td>
+            </tr>
+        @endforeach
         <tr class="highlight">
             <td>Total</td>
-            <td>62</td>
+            <td>{{ $calculations['total-access'] }}</td>
         </tr>
     </table>
 
     <div class="section-title  page-split "><b>D) ADMIN STAFF DOOR ACCESS LOG</b></div>
     <div class="tcv">
-        <p>Total Dr Azhar : 3</p>
+        @foreach ($calculations['staff-total-counts'] as $staffName => $count)
+        <p>Total {{ $staffName }} : {{ $count }}</p>
+        @endforeach
+        {{-- <p>Total Dr Azhar : 3</p>
         <p>Total Waheed : 31</p>
-        <p>Total Naseem : 2</p>
+        <p>Total Naseem : 2</p> --}}
     </div>
     <table>
         <tr>
             <th>Door Access Timestamp</th>
             <th>Staff Name</th>
         </tr>
-        <tr>
-            <td>14-12-2024 6:09:37 AM</td>
-            <td>Waheed</td>
-        </tr>
-        <tr>
-            <td>14-12-2024 6:22:40 AM</td>
-            <td>Waheed</td>
-        </tr>
-        <tr class="row-red">
-            <td>14-12-2024 6:24:23 AM</td>
-            <td>Waheed</td>
-        </tr>
-        <tr>
-            <td>14-12-2024 6:22:40 AM</td>
-            <td>Dr Azhar</td>
-        </tr>
-        <tr>
-            <td>14-12-2024 6:22:40 AM</td>
-            <td>Dr Azhar</td>
-        </tr>
-        <tr class="highlight">
-            <td>Total</td>
-            <td>51</td>
-        </tr>
+        @foreach ($calculations['staff-access-logs'] as $staffName => $accessLogs)
+        @foreach ($accessLogs as $log)
+            <tr>
+                <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
+                <td>{{ $staffName }}</td>
+            </tr>
+        @endforeach
+    @endforeach
+    <tr class="highlight">
+        <td>Total</td>
+        <td>{{ $calculations['grand-total-access'] }}</td>
+    </tr>
     </table>
 
     <!-- ADMIN STAFF LOG -->
     <div class="section-title page-split1"><b>E) DUA / DUM DOOR ACCESS LOG</b></div>
     <table>
-        <tr>
-            <th>Door Access Timestamp</th>
-            <th>Dua Ghar</th>
-            <th>Dua Type</th>
-            <th>Token Number</th>
-            <th>Phone</th>
-            <th>Out of Sequence Access</th>
-            <th>Token URL</th>
+
+        @foreach ($calculations['door-logs'] as $log)
+        <tr class="{{ $log->visitor->out_of_seq == 1 ? 'row-red' : '' }}">
+            <td>{{ $log->created_at->format('d-m-Y h:i:s A') }}</td>
+            <td>{{ $log->visitor->venue_address }}</td> <!-- Assuming venue_address is the field for "Dua Ghar" -->
+            <td>{{ $log->visitor->dua_type }}</td>
+            <td>{{ $log->visitor->token_number }}</td> <!-- Assuming token_number is stored in visitor -->
+            <td>{{ $log->visitor->phone }}</td> <!-- Assuming phone is stored in visitor -->
+            <td>{{ $log->visitor->out_of_seq == 1 ? 'Yes' : 'No' }}</td>
+            <td><a href="{{ $log->visitor->token_url }}" target="_blank">URL</a></td> <!-- Assuming token_url is stored in visitor -->
         </tr>
-        <tr class="row-red">
-            <td>14-12-2024 6:09:37 AM</td>
-            <td>Islamabad Dua</td>
-            <td>Dua</td>
-            <td>153</td>
-            <td>3343518102</td>
-            <td>Yes</td>
-            <td><a href="#">URL</a></td>
-        </tr>
-        <tr>
-            <td>14-12-2024 6:22:40 AM</td>
-            <td>Islamabad Dua</td>
-            <td>Dua</td>
-            <td>156</td>
-            <td>3347788554</td>
-            <td>No</td>
-            <td><a href="#">URL</a></td>
-        </tr>
+    @endforeach
+
+
+
     </table>
 
     {{-- <div class="report-meta">Report Generated at: Sunday, 16-Dec-24, 5:33 PM</div> --}}

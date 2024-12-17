@@ -48,11 +48,20 @@ class DashboardController extends Controller
 
     // Website Counts and WhatsApp Confirmation
     $types = ['dua', 'dum', 'working_lady_dua', 'working_lady_dum'];
+    $staff = [
+        'Waheed' => 'admin1-f3ae07bc-0fe8-4849-a121-81ff5c4a4dfc',
+        'Dr Azhar' => 'admin2-f3fa2c6e-ecfe-4fef-b8f2-a59ac65addb9',
+        'Naseem' => 'admin3-c9d46b5c-ffd9-4d7d-a8e1-8b93cd28b1d5',
+        'Admin4' => 'admin4-e3af7047-e371-4659-85ec-fc9ef644720f',
+        'Admin5' => 'admin5-93219a2c-9c0a-4814-80f9-c0475f6c4236',
+    ];
     $websiteCounts = [];
     $whatsappCounts = [];
     $checkIns = [];
     $printCounts = [];
     $grandTotalCheckIn = 0;
+    $outOfSeqCounts = [];
+    $staffAccessCounts = [];
 
     foreach ($types as $type) {
         $websiteCounts[$type] = Vistors::filterByDate($date)
@@ -85,8 +94,50 @@ class DashboardController extends Controller
             ->get()
             ->sum('door_logs_count'); // Sum all doorLogs for this token type
 
+              // New: Count Out of Sequence Door Logs (out_of_seq = 1)
+        $outOfSeqCounts[$type] = Vistors::filterByDate($date)
+        ->filterBySource('Website')
+        ->filterByDuaType($type)
+        ->whereHas('doorLogs', function($query) {
+            $query->where('out_of_seq', 1);
+        })
+        ->count();
+
         $grandTotalCheckIn += $checkIns[$type];
     }
+
+    foreach ($staff as $staffName => $staffId) {
+        // Count DoorLogs for each staff member in the time range
+        $accessCount = DoorLogs::where('user_id', $staffId)
+            ->whereBetween('created_at', [
+                Carbon::parse($date . ' 14:00:00'),
+                Carbon::parse($date . ' 17:30:00')
+            ])
+            ->count();
+
+            $accessLogs = DoorLogs::where('user_id', $staffId)
+            ->whereBetween('created_at', [
+                Carbon::parse($date . ' 14:00:00'),
+                Carbon::parse($date . ' 17:30:00'),
+            ])
+            ->get();
+
+        $staffAccessCounts[$staffName] = $accessCount;
+
+        // Store the logs and the total count for each staff member
+        $staffAccessLogs[$staffName] = $accessLogs;
+        $staffTotalCounts[$staffName] = $accessLogs->count();
+
+
+    }
+
+
+    $doorLogs = DoorLogs::with('visitor')->get();
+
+
+    $totalAccess = array_sum($staffAccessCounts);
+    $grandTotalAccess = array_sum($staffTotalCounts);
+
 
     // Venue Slot Totals
     $slotCounts = [
@@ -121,10 +172,24 @@ class DashboardController extends Controller
         'website-printToken-wldum' => $printCounts['working_lady_dum'],
         'website-doorAccess-wldum' => $doorLogCounts['working_lady_dum'],
 
+
+        'website-outOfSeq-dua' => $outOfSeqCounts['dua'],
+        'website-outOfSeq-dum' => $outOfSeqCounts['dum'],
+        'website-outOfSeq-wldua' => $outOfSeqCounts['working_lady_dua'],
+        'website-outOfSeq-wldum' => $outOfSeqCounts['working_lady_dum'],
+
         'grand-total' => array_sum($websiteCounts),
         'grand-wa' => array_sum($whatsappCounts),
         'grand-checkIn' => $grandTotalCheckIn,
         'grand-printToken' => array_sum($printCounts),
+
+        'staff-access' => $staffAccessCounts,
+        'total-access' => $totalAccess,
+
+        'staff-access-logs' => $staffAccessLogs,
+        'staff-total-counts' => $staffTotalCounts,
+        'grand-total-access' => $grandTotalAccess,
+        'door-logs' => $doorLogs,
     ];
 
     return view('summary-report', compact('calculations'));
