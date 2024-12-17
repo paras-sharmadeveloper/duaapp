@@ -24,10 +24,11 @@
                 color: white;
                 font-weight: 700;
             }
-            #website-total-dua , #website-total ,#website-total-dum , #grand-total,#website-total-wldua,#website-total-wldum{
-            text-align: center;
-        }
-                    #spinner-div {
+            #website-total-dua , #website-total , #website-total-dum ,
+            #grand-total,#website-total-wldua,#website-total-wldum {
+                 text-align: center;
+            }
+            #spinner-div {
                 position: absolute;
                 display: none;
                 width: 100%;
@@ -67,27 +68,20 @@
 
 
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="tokenTable">
+                            <div class="title text-center">
+                                <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""
+                                    style="height: 70px; width:70px">
+                                <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span>
+                                </h4>
+                            </div>
                             <div id="spinner-div" class="pt-5">
                                 <div class="spinner-border text-primary" role="status">
                                 </div>
                             </div>
-                            <table class="table custom-table" id="tokenTable">
-
+                            <table class="table custom-table" >
                                 <thead>
-                                    <tr class=" ">
-                                        <td></td>
-                                        <td>
-                                            <div class="title text-center">
-                                                <img src="{{ asset('assets/theme/img/logo.png') }}" alt=""
-                                                    style="height: 70px; width:70px">
-                                                <h4>DUA / DUM TOKENS SUMMARY - <span id="tbdate">{{ date('l d-M-Y') }}</span>
-                                                </h4>
-                                            </div>
-                                        </td>
 
-                                        <td></td>
-                                    </tr>
                                     <tr>
                                         <th class="" style="text-align: left !important">Row Label</th>
                                         <th>Count of Token</th>
@@ -142,7 +136,7 @@
                                         <td id="website-checkIn-wldum">0</td>
                                         <td id="website-printToken-wldum">0</td>
 
-                                    </tr> 
+                                    </tr>
 
                                     <tr class="highlighted">
                                         <td style="text-align: left">Grand Total</td>
@@ -232,13 +226,6 @@
             <div class="col-lg-8">
                 <div class="row">
 
-
-                    <!-- Revenue Card -->
-
-
-                    <!-- End Revenue Card -->
-
-                    <!-- Customers Card -->
                     <div class="col-xxl-4 col-xl-12  ">
 
                         <div class="card info-card customers-card">
@@ -986,7 +973,7 @@
                     var venueDate = $('#table_date').val();
                     $(this).attr('data-type', duaType)
                     $(this).attr('data-date', venueDate)
-                    var selectedLocation = prompt("Please enter the location:", "Lahore");
+                    var selectedLocation = prompt("Please enter the location:", "Islamabad");
 
                     filename = 'DUA/DUM TOKENS - '+new Date().toDateString() +'- LAHORE   DUA GHAR';
                     if(duaType == 'dua'  ||  duaType == 'working_lady_dua'){

@@ -71,7 +71,13 @@ td {
     border: 1px solid #000000 !important;
     text-align: center;
 }
+.dt-buttons {
+    display: none;
+}
 
+div#DataTables_Table_0_length {
+    padding: 15px 0;
+}
 
 </style>
 

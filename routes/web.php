@@ -208,6 +208,10 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
+
+Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('generate.pdf');
+
+
     Route::get('/workinglady', [WorkingLadyController::class, 'show'])->name('working.lady.show');
     Route::post('/working/lady/store', [WorkingLadyController::class, 'store'])->name('working.lady.store');
     Route::post('/post-login', [AuthController::class, 'Login'])->name('post-login');

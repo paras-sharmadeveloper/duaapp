@@ -9,11 +9,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use DataTables;
 
+use Spatie\LaravelPdf\Facades\Pdf;
+use function Spatie\LaravelPdf\Support\pdf;
+
+
 class DashboardController extends Controller
 {
+
     public function index()
     {
         return view('home');
+    }
+
+    public function generatePdf(){
+        $data = [
+
+        ];
+  // Load the Blade view and pass the data to it
+  $pdf = Pdf::view('pdf.token_summary', $data);
+
+  // Return the PDF as a download
+  return $pdf->download('token_summary.pdf');
     }
     public function getData(Request $request)
     {

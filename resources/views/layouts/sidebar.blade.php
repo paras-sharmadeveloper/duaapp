@@ -344,22 +344,10 @@ S
             </a>
           </li>
 
-
-
-
-
-
-
-
         </ul>
       </li>
-
-
-
-
-
       @endcan
 
     </ul>
 
-  </aside><!-- End Sidebar-->
+  </aside>

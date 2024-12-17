@@ -1,12 +1,12 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1> {{ ucwords(str_replace('/' , ' > ' , request()->path())) }} </h1>
+      <h1> {{ ucwords(str_replace('/' , ' > ' , request()->path() )) }}</h1>
       <nav>
         <div class="row">
           <div class="col-lg-8">
              <ol class="breadcrumb d-none">
-              <li class="breadcrumb-item"><a href="index.html">{{ request()->path() }}</a></li>
+              <li class="breadcrumb-item"><a href="/">{{ request()->path() }}</a></li>
               <li class="breadcrumb-item active"> {{ request()->path() }} </li>
             </ol>
           </div>
