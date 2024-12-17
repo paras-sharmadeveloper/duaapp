@@ -66,7 +66,7 @@ td.action-dv {
                     <th> Token Number </th>
                     <th> Out of Sequence Access </th>
                     <th> Token URL </th>
-                    <th> Actions </th>
+                    <th>Admin Action Tab</th>
                 </tr>
             </thead>
             <tbody>
