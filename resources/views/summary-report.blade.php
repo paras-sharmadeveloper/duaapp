@@ -74,7 +74,7 @@
     }
 
     .mt-10 {
-        margin-top: 25%;
+        margin-top: 30%;
     }
 
     .report-meta span {
