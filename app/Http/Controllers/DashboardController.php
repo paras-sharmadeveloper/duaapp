@@ -121,7 +121,7 @@ class DashboardController extends Controller
                 ])
                 ->count();
 
-            $accessLogs = DoorLogs::where('SCode', $staffId)
+            $accessLogs = DoorLogs::where( 'SCode', $staffId)
                 ->whereBetween('created_at', [
                     Carbon::parse($date . ' 14:00:00'),
                     Carbon::parse($date . ' 17:30:00'),
@@ -138,7 +138,7 @@ class DashboardController extends Controller
         // echo '<pre>'; print_r($staffAccessLogs);die;
 
 
-        $doorLogs = DoorLogs::with('visitor')->get();
+        $doorLogs = DoorLogs::with('visitor')->whereDate('created_at',$date)->get();
 
 
         $totalAccess = array_sum($staffAccessCounts);
@@ -203,86 +203,7 @@ class DashboardController extends Controller
     }
 
 
-    public function generatePdfOld(Request $request)
-    {
-        $date = $request->input('date');
-        // DoorLogs::with('visitor')->whereDate('created_at',$date)->get();
 
-        $todayVenue = VenueAddress::whereDate('venue_date', $date)->first();
-        $websiteCountDua = Vistors::with('doorLogs')->where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->count();
-        $websiteCountDum = Vistors::with('doorLogs')->where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->count();
-        $websiteCountWlDua =   Vistors::with('doorLogs')->where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->count();
-        $websiteCountWlDum =   Vistors::with('doorLogs')->where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->count();
-        $websiteDuaCheckIn =   Vistors::with('doorLogs')->where(['source' => 'Website', 'dua_type' => 'dua', 'user_status' => 'admitted'])->whereDate('created_at', $date)->count();
-        $websiteDumCheckIn =   Vistors::with('doorLogs')->where(['source' => 'Website', 'dua_type' => 'dum', 'user_status' => 'admitted'])->whereDate('created_at', $date)->count();
-        $websiteWlDuaCheckIn = Vistors::with('doorLogs')->where(['source' => 'Website', 'dua_type' => 'working_lady_dua', 'user_status' => 'admitted'])->whereDate('created_at', $date)->count();
-        $websiteWlDumCheckIn = Vistors::with('doorLogs')->where(['source' => 'Website', 'dua_type' => 'working_lady_dum', 'user_status' => 'admitted'])->whereDate('created_at', $date)->count();
-        $grandTotalCheckIn = $websiteDuaCheckIn + $websiteDumCheckIn + $websiteWlDuaCheckIn + $websiteWlDumCheckIn;
-
-        // Calculate total slots for dua and dum at today's venue
-        $duaTotal = 0;
-        $dumTotal = 0;
-        $duaTotalwl = 0;
-        $dumTotalwl = 0;
-        $whatsappDua = 0;
-        $whatsappDum = 0;
-        $whatsappDuaWl = 0;
-        $whatsappDumWl = 0;
-
-        if ($todayVenue) {
-            $duaTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dua')->count();
-            $dumTotal = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'dum')->count();
-            $duaTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dua')->count();
-            $dumTotalwl = VenueSloting::where('venue_address_id', $todayVenue->id)->where('type', 'working_lady_dum')->count();
-            $whatsappDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
-            $whatsappDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
-            $whatsappDuaWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
-            $whatsappDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->whereNotNull('msg_sid')->count();
-        }
-        $printDua = Vistors::where('source', 'Website')->where('dua_type', 'dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
-        $printDum = Vistors::where('source', 'Website')->where('dua_type', 'dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
-        $printDuaWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dua')->whereDate('created_at', $date)->pluck('print_count')->sum();
-        $printDumWl = Vistors::where('source', 'Website')->where('dua_type', 'working_lady_dum')->whereDate('created_at', $date)->pluck('print_count')->sum();
-        $totalTokens =  $duaTotal + $dumTotal + $duaTotalwl + $dumTotalwl;
-        $grandPrintToken = $printDua + $printDum + $printDuaWl + $printDumWl;
-        // $totalCollectedTokens = $whatsappCountDua + $whatsappCountDum + $websiteCountDua + $websiteCountDum;
-        $totalCollectedTokens = $websiteCountWlDua + $websiteCountWlDum + $websiteCountDua + $websiteCountDum;
-        $totalWhatsappTokens = $whatsappDua + $whatsappDum + $whatsappDuaWl + $whatsappDumWl;
-        // Calculate total tokens and percentages
-        $totalTokenWebsite = $websiteCountDua + $websiteCountDum + $websiteCountWlDua + $websiteCountWlDum;
-
-        // Prepare response data
-        $calculations = [
-            'website-total' => $totalTokenWebsite,
-            'website-total-wa' => $totalWhatsappTokens,
-            'website-total-dua' => $websiteCountDua,
-            'website-total-wa-dua' => $whatsappDua,
-            'website-total-dum' => $websiteCountDum,
-            'website-total-wa-dum' => $whatsappDum,
-            'website-checkIn-dua' => $websiteDuaCheckIn,
-            'website-checkIn-dum' => $websiteDumCheckIn,
-            'website-checkIn-wldua' => $websiteWlDuaCheckIn,
-            'website-checkIn-wldum' => $websiteWlDumCheckIn,
-            'grand-checkIn' => $grandTotalCheckIn,
-            'website-checkIn' => $grandTotalCheckIn,
-            'website-printToken-dua' => ($printDua) ? $printDua : 0,
-            'website-printToken-dum' => ($printDum) ? $printDum : 0,
-            'website-printToken-wldua' => ($printDuaWl) ? $printDuaWl : 0,
-            'website-printToken-wldum' => ($printDumWl) ? $printDumWl : 0,
-            'grand-printToken' => $grandPrintToken,
-            'website-printToken' => $grandPrintToken,
-            'website-total-wa-wl' => 0,
-            'website-total-wldua' => $websiteCountWlDua,
-            'website-total-wa-wldua' => $whatsappDuaWl,
-            'website-total-wldum' => $websiteCountWlDum,
-            'website-total-wa-wldum' => $whatsappDumWl,
-            'grand-total' => $totalCollectedTokens,
-            'grand-wa' => $totalWhatsappTokens
-        ];
-
-
-        return view('summary-report', compact('calculations'));
-    }
     public function getData(Request $request)
     {
 
