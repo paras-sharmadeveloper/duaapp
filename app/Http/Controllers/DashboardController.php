@@ -53,7 +53,7 @@ class DashboardController extends Controller
 
         // Website Counts and WhatsApp Confirmation
         $types = ['dua', 'dum', 'working_lady_dua', 'working_lady_dum'];
-        $departments = config('departments');
+        $departments = config('constants');
         $staff = $departments['Staff'];
 
         // $staff = [

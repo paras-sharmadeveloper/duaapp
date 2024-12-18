@@ -75,16 +75,16 @@ td.action-dv {
 
                   $visitor =   getVisitor($list->SCode);
 
-                  $departments = config('departments');
-                  $staff = $departments['Staff'];
-                  $staffName = (empty($visitor)) ? array_search($list->SCode, $staff) : '';
+                  $departments = config('constants');
+                  $StaffArr = $departments['Staff'];
+                  $staffName = (empty($visitor)) ? array_search($list->SCode, $StaffArr) : '';
 
                 @endphp
                  <tr class="{{ $list->out_of_seq == 1 ? 'row-red' : '' }}">
                     <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
                     <td> {{ ($todayVenue) ? $todayVenue->city : '' }} </td>
                     <td> {{ ($visitor) ? $visitor->dua_type : 'Staff'}} </td>
-                    <td> {{ ($visitor) ? $visitor->booking_number : $list->SCode }} </td>
+                    <td> {{ ($visitor) ? $visitor->booking_number : $staffName }} </td>
                     <td> {{ $list->out_of_seq == 1 ? 'Yes' : '' }} </td>
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : 'N/A' }} </a>
