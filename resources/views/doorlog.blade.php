@@ -85,7 +85,7 @@ td.action-dv {
                     <td> {{ ($todayVenue) ? $todayVenue->city : '' }} </td>
                     <td> {{ ($visitor) ? $visitor->dua_type : 'Staff'}} </td>
                     <td> {{ ($visitor) ? $visitor->booking_number : $staffName }} </td>
-                    <td> {{ $list->out_of_seq == 1 ? 'Yes' : '' }} </td>
+                    <td> {{ $list->out_of_seq == 1 ? 'Yes' : 'No' }} </td>
                     <td><a href="{{ ($visitor) ? route('booking.status', $visitor->booking_uniqueid):"#" }}"
                         target="_blank">{{ ($visitor)  ? route('booking.status', $visitor->booking_uniqueid) : 'N/A' }} </a>
                     </td>
