@@ -75,6 +75,10 @@ td.action-dv {
 
                   $visitor =   getVisitor($list->SCode);
 
+                  $departments = config('departments');
+                  $staff = $departments['Staff'];
+                  $staffName = (empty($visitor)) ? array_search($list->SCode, $staff) : '';
+
                 @endphp
                  <tr class="{{ $list->out_of_seq == 1 ? 'row-red' : '' }}">
                     <td>{{$list->created_at->format('d-m-Y h:i:s A') }} </td>
