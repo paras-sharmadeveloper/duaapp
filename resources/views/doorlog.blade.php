@@ -177,6 +177,9 @@ function resetForm() {
         var targetButton = $(this);
         var targetUndoButton = $('#undo_of_seq_' + id);
 
+        // Change button text to "Processing..." and disable it
+        targetButton.prop('disabled', true).text('Processing...');
+
         // Send AJAX Request to mark as Out of Sequence
         $.ajax({
             url: '/admin/update-out-of-seq/' + id,
@@ -192,6 +195,8 @@ function resetForm() {
                 targetUndoButton.show();
             },
             error: function (response) {
+                // Re-enable the button and reset its text on error
+                targetButton.prop('disabled', false).text('Out of Sequence');
                 alert('Error updating status');
             }
         });
@@ -202,6 +207,9 @@ function resetForm() {
         var id = $(this).data('id');
         var targetButton = $('#out_of_seq_' + id);
         var targetUndoButton = $(this);
+
+        // Change button text to "Processing..." and disable it
+        targetUndoButton.prop('disabled', true).text('Processing...');
 
         // Send AJAX Request to undo Out of Sequence
         $.ajax({
@@ -214,15 +222,18 @@ function resetForm() {
             },
             success: function (response) {
                 // Hide the "Undo" button and show the "Out of Sequence" button
-                targetButton.show();
                 targetUndoButton.hide();
+                targetButton.show();
             },
             error: function (response) {
+                // Re-enable the button and reset its text on error
+                targetUndoButton.prop('disabled', false).text('Undo');
                 alert('Error updating status');
             }
         });
     });
 });
+
 
 </script>
 
