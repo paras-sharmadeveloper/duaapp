@@ -31,10 +31,9 @@ class AuthController extends Controller
            $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'User has been successfully login'
-                ],200);
+                $user = Auth::user();
+                $token = $request->user()->createToken($request->email);
+                return response()->json(['token' =>  $token->plainTextToken, 'status' => true, 'userInfo' => $user]);
 
             }
             return response()->json([

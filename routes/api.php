@@ -41,3 +41,9 @@ Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->na
 
 Route::post('/login', [AuthController::class, 'Login']);
 
+
+Route::middleware('auth:sanctum')->group(function () {
+
+
+});
+
