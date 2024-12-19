@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Tenant,User};
@@ -20,60 +20,6 @@ class AuthController extends Controller
 {
     use AuthenticatesUsers;
 
-    public function Signup(Request $request){
-
-
-            $this->validate($request, [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'domain' => ['required', 'string', 'max:20', 'unique:domains,tenant_id'],
-            ]);
-             $token = Str::random(64);
-             $tdomain = $request->input('domain').'.'. env('MASTER_DOMAIN');
-             $userArr = [
-                    'name' => $request->input('name'),
-                    'email' => $request->input('email'),
-                    'domain' => $tdomain,
-                    'password' => Hash::make($request->input('password')),
-                    'verify_token' =>  $token,
-                ];
-               $user = User::create($userArr);
-               $tdomain = $request->input('domain').'.'. env('MASTER_DOMAIN');
-               $tenant =  Tenant::create([
-                    'id' => $request->input('domain'),
-                ]);
-               $tenant->domains()->create(['domain' => $tdomain ]);
-
-               if ($user) {
-
-                        // Switch to the tenant database connection
-                        Tenancy::initialize($tenant);
-                        // Create the user entry in the tenant database
-                        $newuser = User::create($userArr);
-
-                        $this->SendVerificationEmail($token,$request,$user->domain);
-                        Artisan::call('app:tenant-seeder',['user' => $newuser]);
-
-
-                        // Return a response or redirect to the desired page
-                        return redirect('/login')->with('success', 'Registration successful. Please check your email for verification.');
-                    } else {
-                        // Failed to authenticate the user
-                         return redirect('/login')->with('success', 'Registration failed');
-
-                    }
-
-
-
-            // if (Auth::attempt($credentials)) {
-            //     $url = 'http://' . $tdomain.':'.$_SERVER['SERVER_PORT'].'/home?'.http_build_query($userArr);
-            //     return Redirect::to($url);
-            // }
-
-
-
-    }
 
     public function Login(Request $request){
 
@@ -95,52 +41,6 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Please check your Email and Password'
             ],401);
-    }
-
-
-     public function verifyAccount($token)
-        {
-            $user = User::where('verify_token', $token)->first();
-            $domain = DB::table('domains')->where(['domain' => $user->domain])->first();
-            $message = 'Sorry your email cannot be identified.';
-
-            if(!is_null($user) ){
-
-                if(!$user->email_verified_at) {
-                    $user->email_verified_at = date('Y-m-d H:i:s');
-                    $user->save();
-                    $message = "Your e-mail is verified. You can now login.";
-                } else {
-                    $message = "Your e-mail is already verified. You can now login.";
-                }
-            }
-
-            if ($domain) {
-                    $tenantId = $domain->tenant_id;
-                    $tenant = Tenant::find($tenantId);
-                    Tenancy::initialize($tenant);
-                    DB::table('users')->where(['email' => $user->email])->update(['email_verified_at' => date('Y-m-d H:i:s') ]);
-
-
-            }
-
-          return redirect()->route('login')->with('success', $message);
-    }
-
-    public function ResendVerificationCode(Request $request){
-        $user = User::where('email', $request->input('email'))->first();
-        $token = ($user->verify_token)  ? $user->verify_token : Str::random(64);
-        $user->update(['verify_token' => $token ]);
-        $this->SendVerificationEmail($token ,$request,$user->domain);
-        return redirect('/login')->with('success', 'Please check your email for verification.');
-    }
-
-    public function SendVerificationEmail($token,$request,$domain){
-
-        Mail::send('email.emailVerificationEmail', ['token' => $token,'domain' => $domain], function($message) use($request){
-              $message->to($request->email);
-              $message->subject('Email Verification Mail');
-          });
     }
 
 
