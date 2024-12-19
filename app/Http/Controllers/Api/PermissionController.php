@@ -133,8 +133,9 @@ class PermissionController extends Controller
      * @param  Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy($id)
     {
+        $permission = Permission::find($id);
         // Delete the permission
         $permission->delete();
 
