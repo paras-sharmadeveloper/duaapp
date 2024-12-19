@@ -45,7 +45,11 @@ Route::post('/login', [AuthController::class, 'Login']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('permissions', PermissionController::class);
+
+    Route::post('/permission/store', [PermissionController::class, 'store']);
+    Route::post('/permission/update/{id}', [PermissionController::class, 'update']);
+    Route::get('/permission/get/{id}', [PermissionController::class, 'index']);
+    Route::post('/permission/delete', [PermissionController::class, 'destroy']);
 
     // venue Create Api started here
     Route::post('/venue/store', [VenueController::class, 'store']);
