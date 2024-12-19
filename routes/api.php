@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, NewBookingController, QrCodeDoorUnlockApiController, TicketWebhook,WhatsAppController,TwillioIVRHandleController,VisitorBookingController};
+use App\Http\Controllers\Api\{AuthController, NewBookingController, QrCodeDoorUnlockApiController, TicketWebhook,WhatsAppController,TwillioIVRHandleController,VisitorBookingController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,8 +35,4 @@ Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->na
 //  Version 2 APi Codes
 
 Route::post('/login', [AuthController::class, 'Login']);
-
-
-
-
 
