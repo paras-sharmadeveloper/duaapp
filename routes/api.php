@@ -48,13 +48,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/permission/store', [PermissionController::class, 'store']);
     Route::post('/permission/update/{id}', [PermissionController::class, 'update']);
-    Route::get('/permission/get/{id}', [PermissionController::class, 'index']);
+    Route::get('/permission/get/{id}', [PermissionController::class, 'show']);
+    Route::get('/permission/getall', [PermissionController::class, 'index']);
     Route::post('/permission/delete', [PermissionController::class, 'destroy']);
 
     // venue Create Api started here
     Route::post('/venue/store', [VenueController::class, 'store']);
     Route::post('/venue/update/{id}', [AuthController::class, 'update']);
-    Route::get('/venue//get/{id}', [AuthController::class, 'index']);
+    Route::get('/venue//get/{id}', [AuthController::class, 'show']);
+    Route::get('/venue//getall', [AuthController::class, 'index']);
     Route::post('/venue//delete', [AuthController::class, 'destroy']);
         // venue Create Api ends here
 });
