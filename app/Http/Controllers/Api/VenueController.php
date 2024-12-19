@@ -190,7 +190,8 @@ class VenueController extends Controller
             // CreateVenuesSlots::dispatch($venueAddress->id)->onQueue('create-slots')->onConnection('database');
             // $this->createVenueTimeSlots($venueAddress->id, $slotDuration);
         }
-        return redirect()->route('venues.index')->with('success', 'Venue Creating In backend . Please wait for few seconds');
+        return response()->json(['message' => 'Venue Creating In backend . Please wait for few seconds','success' => true]);
+
     }
 
     public function edit($id)
@@ -212,8 +213,18 @@ class VenueController extends Controller
         })->get();
         $venueCountry = Country::all();
         $reasons = Reason::where(['type' => 'reject_reason'])->get();
-        return view('venues.create', compact('venueAddress', 'countries', 'therapists', 'siteAdmins', 'venueCountry', 'reasons'));
-    }
+
+        $dataArr = [
+            'venueAddress' => $venueAddress,
+            'countries' => $countries,
+            'therapists' => $therapists,
+            'siteAdmins' => $siteAdmins,
+            'venueCountry' => $venueCountry,
+            'reasons' => $reasons,
+        ];
+
+        return response()->json(['message' => 'Data Fetched','success' => true , 'data' => $dataArr],200);
+     }
 
     public function update(Request $request, $id)
     {
@@ -322,7 +333,7 @@ class VenueController extends Controller
             // CreateVenuesSlots::dispatch($id)->onQueue('create-slots')->onConnection('database');
             //  $this->createVenueTimeSlots($id, $slotDuration);
         }
-        return redirect()->route('venues.index')->with('success', 'Venue updated successfully');
+        return response()->json(['message' => 'Venue updated successfully','success' => true]);
     }
 
     private function CraeteVenueSlots($venueId, $duaSlots, $dumSlots, $working_lady_dua, $working_lady_dum,$SpecialTokenQuote)

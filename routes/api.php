@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\{AuthController,
+use App\Http\Controllers\Api\{AuthController,VenueController,
     NewBookingController,
      QrCodeDoorUnlockApiController,
-     VisitorBookingController};
+     VisitorBookingController
+    };
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,13 @@ Route::post('/login', [AuthController::class, 'Login']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('permissions', PermissionController::class);
 
-
+    // venue Create Api started here
+    Route::post('/venue/store', [VenueController::class, 'store']);
+    Route::post('/venue/update/{id}', [AuthController::class, 'update']);
+    Route::get('/venue//get/{id}', [AuthController::class, 'index']);
+    Route::post('/venue//delete', [AuthController::class, 'destroy']);
+        // venue Create Api ends here
 });
 

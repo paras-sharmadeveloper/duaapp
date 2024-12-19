@@ -12,19 +12,15 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-
-    // function __construct()
-    // {
-    //    $this->middleware('permission:add-role|edit-role|list-role|delete-role|view-role', ['only' => ['index','store','list','destroy','edit','update']]);
-    // }
-
-
-
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-        ->with('i', ($request->input('page', 1) - 1) * 5);
+        $roles = Role::orderBy('id', 'DESC')->paginate(5);
+
+        return response()->json([
+            'message' => 'Roles fetched successfully',
+            'success' => true,
+            'data' => $roles
+        ], 200);
     }
 
     /**
@@ -32,8 +28,13 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $permissions = Permission::get();
+
+        return response()->json([
+            'message' => 'Permissions fetched for role creation',
+            'success' => true,
+            'data' => $permissions
+        ], 200);
     }
 
     /**
@@ -49,7 +50,11 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
 
-        return redirect()->route('roles.index') ->with('success','Role created successfully');
+        return response()->json([
+            'message' => 'Role created successfully',
+            'success' => true,
+            'data' => $role
+        ], 201); // HTTP 201 Created
     }
 
     /**
@@ -57,12 +62,26 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-         $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
+        $role = Role::find($id);
+        if (!$role) {
+            return response()->json([
+                'message' => 'Role not found',
+                'success' => false
+            ], 404); // HTTP 404 Not Found
+        }
+
+        $rolePermissions = Permission::join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
+            ->where('role_has_permissions.role_id', $id)
             ->get();
 
-        return view('roles.show',compact('role','rolePermissions'));
+        return response()->json([
+            'message' => 'Role and permissions fetched successfully',
+            'success' => true,
+            'data' => [
+                'role' => $role,
+                'permissions' => $rolePermissions
+            ]
+        ], 200);
     }
 
     /**
@@ -71,12 +90,28 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        if (!$role) {
+            return response()->json([
+                'message' => 'Role not found',
+                'success' => false
+            ], 404); // HTTP 404 Not Found
+        }
+
+        $permissions = Permission::get();
+        $rolePermissions = DB::table('role_has_permissions')
+            ->where('role_has_permissions.role_id', $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
 
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+        return response()->json([
+            'message' => 'Role data fetched for editing',
+            'success' => true,
+            'data' => [
+                'role' => $role,
+                'permissions' => $permissions,
+                'rolePermissions' => $rolePermissions
+            ]
+        ], 200);
     }
 
     /**
@@ -89,16 +124,24 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
 
-        // echo "<pre>"; print_r($request->all()); die;
-
         $role = Role::find($id);
+        if (!$role) {
+            return response()->json([
+                'message' => 'Role not found',
+                'success' => false
+            ], 404); // HTTP 404 Not Found
+        }
+
         $role->name = $request->input('name');
         $role->save();
 
         $role->syncPermissions($request->input('permission'));
 
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+        return response()->json([
+            'message' => 'Role updated successfully',
+            'success' => true,
+            'data' => $role
+        ], 200); // HTTP 200 OK
     }
 
     /**
@@ -106,8 +149,19 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-         DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+        $role = Role::find($id);
+        if (!$role) {
+            return response()->json([
+                'message' => 'Role not found',
+                'success' => false
+            ], 404); // HTTP 404 Not Found
+        }
+
+        $role->delete();
+
+        return response()->json([
+            'message' => 'Role deleted successfully',
+            'success' => true
+        ], 200); // HTTP 200 OK
     }
 }

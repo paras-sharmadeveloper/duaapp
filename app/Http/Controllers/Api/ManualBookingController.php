@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Jobs\{WhatsAppConfirmation,WhatsAppTokenNotBookNotifcation};
+use App\Jobs\{WhatsAppConfirmation, WhatsAppTokenNotBookNotifcation};
 use App\Models\VenueAddress;
 use App\Models\VenueSloting;
 use App\Models\VisitorTempEntry;
@@ -13,267 +13,133 @@ use App\Helpers\DahuaHelper;
 
 class ManualBookingController extends Controller
 {
-    //
-
     private $dahuaHelper;
-
     private $ip;
+
     public function __construct()
     {
-        // Instantiate DahuaHelper with username and password
-        // You can set these as env variables or hard-code them
-        $username = env('DAHUA_USERNAME', 'admin'); // Username from .env or default
-        $password = env('DAHUA_PASSWORD', 'admin@123'); // Password from .env or default
-        $ip ='192.168.31.200';
+        $username = env('DAHUA_USERNAME', 'admin');
+        $password = env('DAHUA_PASSWORD', 'admin@123');
+        $this->ip = '192.168.31.200';
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
 
-    public function list(){
-        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
+    public function list()
+    {
+        $visitorList = VisitorTempEntry::whereDate('created_at', date('Y-m-d'))->orderBy('id', 'asc')->get();
 
-        return view('manualBooking.list',compact('visitorList'));
+        // Replace the view() function with JSON response or other API-friendly logic
+        // return view('manualBooking.list', compact('visitorList'));
+        return response()->json(['data' => $visitorList], 200);
     }
 
-    public function ApproveDisapproveBulk(Request $request){
+    public function ApproveDisapproveBulk(Request $request)
+    {
         $ids = $request->input('ids');
         $type = $request->input('type');
-        $message = [];
-        foreach($ids as $id){
+
+        foreach ($ids as $id) {
             $visitorTemp = VisitorTempEntry::find($id);
-            if($type  == 'approve'){
-                $uuid = Str::uuid()->toString();
 
-                $venueAddress = VenueAddress::find($visitorTemp->venueId);
-                $tokenIs = VenueSloting::where('venue_address_id', $visitorTemp->venueId)
-                    ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                    ->where(['type' => $visitorTemp->dua_type])
-                    ->orderBy('id', 'ASC')
-                    ->select(['venue_address_id', 'token_id', 'id'])->first();
-
-                if(empty($tokenIs)){
-                    return response()->json([
-                            'status' =>  false,
-                            'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                            'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                        ], 200);
-                }
-
-                $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at',date('Y-m-d'))->count();
-
-                if( $isPerson  > 0)
-                {
-
-                    $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
-                    continue;
-                    // return response()->json([
-                    //     'status' =>  false,
-                    //     'message' => 'This Person already got the token.',
-                    //     'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
-                    // ], 200);
-                }
-
-                $booking = new Vistors;
-
-                $tokenId =  $tokenIs->token_id;
-                $slot_id =  $tokenIs->id;
-
-                $booking->country_code = $visitorTemp->country_code;
-                $booking->phone = $visitorTemp->phone;
-                $booking->user_question =  $request->input('user_question', null);
-                $booking->slot_id =  $slot_id;
-                $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
-                $booking->booking_uniqueid = $uuid;
-                $booking->user_ip =   $request->ip();
-                $booking->recognized_code = $visitorTemp->recognized_code;
-                $booking->booking_number = $tokenId;
-                $booking->meeting_type = $venueAddress->type;
-                $booking->user_timezone = $visitorTemp->user_timezone;
-                $booking->source = 'Website';
-                $booking->dua_type = $visitorTemp->dua_type;
-                $booking->lang = $visitorTemp->lang;
-                $booking->working_lady_id = $request->input('working_lady_id', 0);
-                $booking->token_status = 'vaild';
-                $booking->save();
-                $bookingId = $booking->id;
-                WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
-
-
-            }else if($type  == 'disapprove'){
-                $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
-
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
-                $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
-                WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
-
-
+            if ($type == 'approve') {
+                $this->approveVisitor($visitorTemp, $request);
+            } elseif ($type == 'disapprove') {
+                $this->disapproveVisitor($visitorTemp);
             }
         }
 
         return response()->json([
-            'message' => 'Operation Successfull',
-            "status" => true,
+            'message' => 'Operation Successful',
+            'status' => true,
         ], 200);
-
     }
 
-    public function ApproveDisapprove(Request $request){
+    public function ApproveDisapprove(Request $request)
+    {
         $id = $request->input('id');
         $type = $request->input('type');
         $visitorTemp = VisitorTempEntry::find($id);
-        if($type  == 'approve'){
-            $uuid = Str::uuid()->toString();
 
-            $venueAddress = VenueAddress::find($visitorTemp->venueId);
-            $tokenIs = VenueSloting::where('venue_address_id', $visitorTemp->venueId)
-                ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
-                ->where(['type' => $visitorTemp->dua_type])
-                ->orderBy('id', 'ASC')
-                ->select(['venue_address_id', 'token_id', 'id'])->first();
+        if ($type == 'approve') {
+            return $this->approveVisitor($visitorTemp, $request);
+        } elseif ($type == 'disapprove') {
+            return $this->disapproveVisitor($visitorTemp);
+        }
 
-            if(empty($tokenIs)){
+        return response()->json(['message' => 'Invalid request', 'status' => false], 400);
+    }
 
-                return response()->json([
-                        'status' =>  false,
-                        'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                        'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                    ], 200);
-            }
+    private function approveVisitor($visitorTemp, Request $request)
+    {
+        $uuid = Str::uuid()->toString();
+        $venueAddress = VenueAddress::find($visitorTemp->venueId);
 
-            $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at',date('Y-m-d'))->count();
+        $tokenIs = VenueSloting::where('venue_address_id', $visitorTemp->venueId)
+            ->whereNotIn('id', Vistors::pluck('slot_id')->toArray())
+            ->where(['type' => $visitorTemp->dua_type])
+            ->orderBy('id', 'ASC')
+            ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-            if( $isPerson  > 0)
-            {
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
-
-                return response()->json([
-                    'status' =>  false,
-                    'message' => 'This Person already got the token.',
-                    'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
-                ], 200);
-            }
-
-            $booking = new Vistors;
-
-            $tokenId =  $tokenIs->token_id;
-            $slot_id =  $tokenIs->id;
-
-            $booking->country_code = $visitorTemp->country_code;
-            $booking->phone = $visitorTemp->phone;
-            $booking->user_question =  $request->input('user_question', null);
-            $booking->slot_id =  $slot_id;
-            $booking->is_whatsapp = $request->has('is_whatsapp') ? 'yes' : 'no';
-            $booking->booking_uniqueid = $uuid;
-            $booking->user_ip =   $request->ip();
-            $booking->recognized_code = $visitorTemp->recognized_code;
-            $booking->booking_number = $tokenId;
-            $booking->meeting_type = $venueAddress->type;
-            $booking->user_timezone = $visitorTemp->user_timezone;
-            $booking->source = 'Website';
-            $booking->dua_type = $visitorTemp->dua_type;
-            $booking->lang = $visitorTemp->lang;
-            $booking->working_lady_id = $visitorTemp->working_lady_id;
-            $booking->qr_code_image = $visitorTemp->working_qr_id;
-
-            $booking->token_status = 'vaild';
-            $booking->save();
-            $bookingId = $booking->id;
-            WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
-
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
-
-            // Dahua Code
-
-            // $cardNo = mt_rand(10000000, 9999999999); // Current date and time
-            // $validStartDate = date('Ymd%20His');  // Current date and time
-
-            // $validEndDate = date('Ymd%20His', strtotime('+1 day'));
-            // $response = $this->dahuaHelper->addAccessCard($this->ip, $bookingId, 'add_user', $cardNo, 1, $validStartDate, $validEndDate);
-            // $responseArray = explode('=', $response);
-            // $recNo = '';
-            // if (isset($responseArray[1])) {
-            //     $recNo = $responseArray[1];  // This will be '4'
-            //     $localImageStroage = 'sessionImages/30-09-2024/' . !empty($visitorTemp->recognized_code)? $visitorTemp->recognized_code : '';
-            //     $compressedImagePath = 'sessionImages/30-09-2024/compressed_' . (!empty($visitorTemp->recognized_code) ? $visitorTemp->recognized_code : '') . '.jpg';
-
-            //     if ($this->compressImage($localImageStroage, $compressedImagePath)) {
-            //         // Convert the compressed image to Base64
-            //         $base64Image = $this->imageToBase64($compressedImagePath);
-
-            //         // Now you can use the $base64Image in your API request
-            //         // Example: Pass the Base64 encoded image in the API request
-            //         $this->dahuaHelper->addFaceAccess($this->ip, $recNo, 'add_user_'.$bookingId, $base64Image);
-
-            //        // echo "Base64 Image: " . $base64Image; // Debugging output
-            //     }
-            //  }
-
-
-
+        if (empty($tokenIs)) {
             return response()->json([
-                'message' => 'token Issued ' .$tokenId,
-                "status" => true,
+                'status' => false,
+                'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week.',
+                'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔',
             ], 200);
+        }
 
-        }else if($type  == 'disapprove'){
-            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
-            $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
-            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
-
+        if (Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at', date('Y-m-d'))->exists()) {
+            $visitorTemp->update(['action_at' => now(), 'action_status' => 'Already Token Received']);
             return response()->json([
-                'message' => 'Disapproved',
-                "status" => false,
+                'status' => false,
+                'message' => 'This person already got the token.',
+                'message_ur' => 'اس شخص کو پہلے ہی ٹوکن مل گیا ہے۔',
             ], 200);
-
         }
 
+        $booking = new Vistors;
+        $booking->fill([
+            'country_code' => $visitorTemp->country_code,
+            'phone' => $visitorTemp->phone,
+            'user_question' => $request->input('user_question', null),
+            'slot_id' => $tokenIs->id,
+            'is_whatsapp' => $request->has('is_whatsapp') ? 'yes' : 'no',
+            'booking_uniqueid' => $uuid,
+            'user_ip' => $request->ip(),
+            'recognized_code' => $visitorTemp->recognized_code,
+            'booking_number' => $tokenIs->token_id,
+            'meeting_type' => $venueAddress->type,
+            'user_timezone' => $visitorTemp->user_timezone,
+            'source' => 'Website',
+            'dua_type' => $visitorTemp->dua_type,
+            'lang' => $visitorTemp->lang,
+            'working_lady_id' => $visitorTemp->working_lady_id,
+            'token_status' => 'valid',
+        ]);
+        $booking->save();
+
+        WhatsAppConfirmation::dispatch($booking->id)->onQueue('whatsapp-notification');
+
+        $visitorTemp->update(['action_at' => now(), 'action_status' => 'approved']);
+
+        return response()->json([
+            'message' => 'Token Issued ' . $tokenIs->token_id,
+            'status' => true,
+        ], 200);
     }
 
-    function compressImage($source, $destination, $maxSize = 100000) {
-        // Get the image info
-        list($width, $height, $type) = getimagesize($source);
-        $image = null;
+    private function disapproveVisitor($visitorTemp)
+    {
+        $message = "Kindly please be informed that all dua & dum tokens today have been issued on a first-come-first-served basis. Your entry came after the token quota was completed. Kindly try again next week.";
 
-        // Load the image based on its type
-        switch ($type) {
-            case IMAGETYPE_JPEG:
-                $image = imagecreatefromjpeg($source);
-                break;
-            case IMAGETYPE_PNG:
-                $image = imagecreatefrompng($source);
-                break;
-            case IMAGETYPE_GIF:
-                $image = imagecreatefromgif($source);
-                break;
-            default:
-                return false;
-        }
+        $visitorTemp->update(['action_at' => now(), 'action_status' => 'disapproved']);
 
-        // Set compression quality
-        $quality = 90;
-        $outputFile = $destination;
+        $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
+        WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
 
-        // Compress the image until the size is under the maxSize
-        while (filesize($outputFile) > $maxSize && $quality > 10) {
-            // Save the image with reduced quality
-            imagejpeg($image, $outputFile, $quality);
-            $quality -= 5; // Decrease quality by 5 with each iteration
-        }
-
-        // Free the memory
-        imagedestroy($image);
-
-        // Return true if image is successfully compressed
-        return true;
+        return response()->json([
+            'message' => 'Disapproved',
+            'status' => false,
+        ], 200);
     }
-
-    function imageToBase64($imagePath) {
-        // Get the image contents
-        $imageData = file_get_contents($imagePath);
-        // Encode the image into base64
-        return base64_encode($imageData);
-    }
-
 }
