@@ -34,7 +34,7 @@ Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->na
 
 //  Version 2 APi Codes
 
-Route::post('/login', [AuthController::class, 'Login'])
+Route::post('/login', [AuthController::class, 'Login']);
 
 
 
