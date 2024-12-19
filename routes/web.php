@@ -206,10 +206,7 @@ Route::get('/', function () {
 
 
 
-Auth::routes(['register' => false]);
-
-
-
+    Auth::routes(['register' => false]);
 
 
     Route::get('/workinglady', [WorkingLadyController::class, 'show'])->name('working.lady.show');
@@ -220,7 +217,6 @@ Auth::routes(['register' => false]);
     Route::get('/i/{id}', [BookingController::class, 'CustomerBookingStatusWithId'])->name('booking.status.withid');
     // Route::get('/dua/{locale?}', [HomeController::class, 'index'])->name('book.show');
     Route::get('/dua/{locale?}', [NewBookingController::class, 'index'])->name('book.show');
-
     Route::get('/admin/logs', [NewBookingController::class, 'showLogs'])->name('admin.logs');
     Route::get('/admin/clear', [NewBookingController::class, 'clearLog'])->name('admin.logs.clear');
     Route::get('/admin/doorlog', [NewBookingController::class, 'ShowDoorLogs'])->name('admin.doorlog');
@@ -230,8 +226,6 @@ Auth::routes(['register' => false]);
     // Route::post('/job/status/{id}', [VisitorBookingController::class, 'checkStatusForJob'])->name('job.status.check');
     // Route::post('/book/submit/new', [HomeController::class, 'BookingSubmit'])->name('booking.submit');
     Route::post('/book/submit/new', [HomeController::class, 'BookingSubmitManual'])->name('booking.submit');
-
-
     // Route::get('/dua-test/{locale?}', [HomeController::class, 'indexTest'])->name('book.show.test');
     Route::post('/book/ajax', [VisitorBookingController::class, 'getAjax'])->name('booking.ajax');
     Route::post('/book/get/users', [HomeController::class, 'getTheripistByIp'])->name('booking.get.users');
@@ -303,7 +297,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 });
 
 
-Route::post('/working/lady/get-working-lady-deatils', [WorkingLadyController::class, 'getWorkingLadyDetails'])->name('get-working-lady-deatils');
+Route::post('/working/lady/get-working-lady-deatils', action: [WorkingLadyController::class, 'getWorkingLadyDetails'])->name('get-working-lady-deatils');
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/duas', [DashboardController::class, 'index'])->name('dashboard.index');

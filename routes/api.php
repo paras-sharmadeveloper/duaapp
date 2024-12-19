@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{NewBookingController, QrCodeDoorUnlockApiController, TicketWebhook,WhatsAppController,TwillioIVRHandleController,VisitorBookingController};
+use App\Http\Controllers\{AuthController, NewBookingController, QrCodeDoorUnlockApiController, TicketWebhook,WhatsAppController,TwillioIVRHandleController,VisitorBookingController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::any('/send/lead/{listid}', [TicketWebhook::class, 'FetchData']);
 
 Route::post('/booksubmit', [VisitorBookingController::class, 'WaitingPage'])->name('booking.submit');
+
+//  Version 2 APi Codes
+
+Route::post('/login', [AuthController::class, 'Login'])
 
 
 
