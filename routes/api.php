@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{AuthController,VenueController,
     NewBookingController,
      QrCodeDoorUnlockApiController,
-     VisitorBookingController
+     VisitorBookingController,
+     PermissionController
     };
 
 /*
