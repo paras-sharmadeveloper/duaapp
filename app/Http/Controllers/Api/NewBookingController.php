@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Jobs\WhatsAppTokenNotBookNotifcation;
 use App\Models\{Venue, Reason, Vistors, Country, DoorLogs, VisitorTemp, VenueAddress};

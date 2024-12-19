@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\{Vistors, VisitorBooking};
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class VistorsController extends Controller
     {
 
         $vistors = Vistors::with('slot')->get();
-        // echo "<pre>"; print_r( $vistors); die; 
+        // echo "<pre>"; print_r( $vistors); die;
         return view('patient.index', compact('vistors'));
     }
 

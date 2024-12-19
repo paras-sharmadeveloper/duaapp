@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,13 +9,13 @@ use App\Models\{VisitorBooking};
 class TicketWebhook extends Controller
 {
     public function FetchData(Request $request, $listId)
-    { 
+    {
           $post = $request->all();
          if(empty($post)){
-            return response()->json(['message' => 'Your Request must have some data'],406); 
-         } 
-      
-        $email =  $post['payload']['email']; 
+            return response()->json(['message' => 'Your Request must have some data'],406);
+         }
+
+        $email =  $post['payload']['email'];
         $fname =   $post['payload']['first_name'];
 
         // VisitorBooking::create([
@@ -73,7 +73,7 @@ class TicketWebhook extends Controller
         } else {
             $data = ['error' =>  [], 'message' => $response, 'status' => true];
         }
-        return response()->json($data); 
-        
+        return response()->json($data);
+
     }
 }

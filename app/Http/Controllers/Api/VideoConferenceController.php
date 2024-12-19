@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\VenueAddress;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use App\Models\{VideoConference, Vistors, Timezone, Ipinformation};
 use Carbon\Carbon;
 
 
-// 
+//
 class VideoConferenceController extends Controller
 {
     use OtpTrait;
@@ -63,7 +63,7 @@ class VideoConferenceController extends Controller
     }
     public function joinConferenceFrontend(Request $request, $bookingId = '')
     {
-        // echo $bookingId; die; 
+        // echo $bookingId; die;
 
         // $vistor = Vistors::where(['booking_uniqueid' => $bookingId, 'meeting_start_at' => null])->get()->first();
         // $venueAddress = [];
@@ -71,11 +71,11 @@ class VideoConferenceController extends Controller
         // if (empty($vistor)) {
         //     abort(404);
         // }
- 
+
         // if (!empty($vistor)) {
         //     $venueAddress =  VenueAddress::find($vistor->slot->venue_address_id);
 
-        //     $iso =  $venueAddress->venue->iso; 
+        //     $iso =  $venueAddress->venue->iso;
         //     $venuesATimezone = Timezone::where(['country_code' => $iso])->first();
         //     $venueTimezone =  $venuesATimezone->timezone;
         //     $userTimeZone =  $vistor->user_timezone;
@@ -86,10 +86,10 @@ class VideoConferenceController extends Controller
         //     $mytime = Carbon::now()->tz('America/New_York');
         //     if (!empty($userTimeZone)) {
         //         $mytime = Carbon::now()->timezone($userTimeZone);
-        //     } 
+        //     }
         //     $venueDateTme = $venueAddress->venue_date . ' ' . $vistor->slot->slot_time;
 
-        //     $meetingStartTime =  Carbon::parse($venueDateTme, $venueTimezone); 
+        //     $meetingStartTime =  Carbon::parse($venueDateTme, $venueTimezone);
         //     $meetingStartTime->timezone($venueTimezone);
         //     $timeRemaining = $meetingStartTime->diffInHours($mytime);
         //     $minuteDifference = $meetingStartTime->diffInMinutes($mytime);
@@ -99,21 +99,21 @@ class VideoConferenceController extends Controller
         //         $timeRemaining = -$timeRemaining;
         //         $minuteDifference = -$minuteDifference;
         //     }
-                        
+
             // echo "Time Remaining in Hours: $timeRemaining hours, Time Remaining in Minutes: $minuteDifference minutes";
 
             // echo "minuteDifference". $minuteDifference . $mytime->isPast();
-            // echo "<br>". $mytime->isFuture(); 
-            // echo "timeRemaining". $timeRemaining; 
+            // echo "<br>". $mytime->isFuture();
+            // echo "timeRemaining". $timeRemaining;
             // echo "<br>";
-            // echo "meetingStartTime". $meetingStartTime; 
+            // echo "meetingStartTime". $meetingStartTime;
             // echo "<br>";
-            // echo "mytime". $mytime; 
+            // echo "mytime". $mytime;
             // echo "<br>";
-            // echo "timezone". $userTimeZone; 
-            // die; 
+            // echo "timezone". $userTimeZone;
+            // die;
 
-            // $timeRemaining = $mytime->diffInHours($meetingStartTime); 
+            // $timeRemaining = $mytime->diffInHours($meetingStartTime);
 
             // $isMeetingInProgress = $mytime->gte($meetingStartTime);
             // $vistorName = $vistor->fname . ' ' . $vistor->lname;
@@ -123,7 +123,7 @@ class VideoConferenceController extends Controller
             // $estimatedWaitTime = $aheadCount * $timePerSlot;
         }
 
-        //  echo  $meetingStartTime ; die;  
+        //  echo  $meetingStartTime ; die;
         // $roomName =  '';
         // $accessToken = '';
         // $roomName =   $venueAddress->room_name;
@@ -174,7 +174,7 @@ class VideoConferenceController extends Controller
     //         $venues =  VenueAddress::where(['therapist_id' => $userId, 'type' => 'virtual'])->get();
     //     }
 
-    //     // echo "<pre>"; print_r($venues); die; 
+    //     // echo "<pre>"; print_r($venues); die;
 
 
     //     return view('conference.create', compact('venues', 'userId', 'userName'));
@@ -258,7 +258,7 @@ class VideoConferenceController extends Controller
     //     }
     //     return response()->json([
     //         'participants' => $dataArr,
-    //         // "venUAdress" => $venUAdress , 
+    //         // "venUAdress" => $venUAdress ,
     //         //"authId" =>  Auth::user()->id,
     //         // 'siteadmin' => $venUAdress->siteadmin_id,
     //         "status" => (!empty($dataArr)) ? true : false
@@ -304,7 +304,7 @@ class VideoConferenceController extends Controller
 
     // private function generateAccessToken($roomName, $identity)
     // {
-    //     // Twilio Account SID and Auth Token from your Twilio account 
+    //     // Twilio Account SID and Auth Token from your Twilio account
 
 
     //     $token = new AccessToken(
@@ -324,7 +324,7 @@ class VideoConferenceController extends Controller
     // private function fetchRoomName($roomId)
     // {
     //     $videoConfernce = VideoConference::where(['room_sid' => $roomId])->get()->first();
-    //     // echo "<pre>"; print_r( $videoConfernce); die; 
+    //     // echo "<pre>"; print_r( $videoConfernce); die;
     //     return  $videoConfernce->room_name;
     // }
 
@@ -335,7 +335,7 @@ class VideoConferenceController extends Controller
     //     $accountSid = env('TWILIO_SID');
     //     $authToken =  env('TWILIO_AUTH_TOKEN');
     //     $apiKeySecret =  env('TWILIO_API_KEY_SID');
-    //     // $rest = $this->getKey(); 
+    //     // $rest = $this->getKey();
 
     //     $accessToken = new AccessToken($accountSid, $authToken, $apiKeySecret);
 
@@ -348,7 +348,7 @@ class VideoConferenceController extends Controller
     //     $accessToken->setIdentity($identity);
     //     // Generate the token as a JWT (JSON Web Token)
     //     $token = $accessToken->toJWT();
-    //     // echo  $token; die;  
+    //     // echo  $token; die;
 
 
     //     return view('video-conference.video-conference', ['token' => $token]);

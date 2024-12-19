@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -34,7 +34,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'name'=>'required',
         ]);
