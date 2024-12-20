@@ -26,13 +26,19 @@ class VenueController extends Controller
             $venuesAddress = VenueAddress::whereDate('venue_date', '>=', date('Y-m-d'))->get();
             $visitors = Vistors::all();
         }
-        return view('venues.list', compact('venuesAddress', 'visitors'));
+        $dataArr = [
+            'venuesAddress' => $venuesAddress,
+            'visitors' => $visitors,
+        ];
+        return response()->json(['message' => 'Edit data fetched', 'success' => true, 'data' => $dataArr], 200);
+
     }
 
 
-    public function show()
+    public function show($id)
     {
-        return view('venues.venueCountry');
+        $venuesAddress = VenueAddress::find($id)->first();
+        return response()->json(['message' => ' data fetched', 'success' => true, 'data' => $venuesAddress], 200);
     }
 
 
@@ -48,8 +54,17 @@ class VenueController extends Controller
         $venueAddress = [];
         $venueCountry = Country::all();
         $reasons = Reason::where(['type' => 'reject_reason'])->get();
-        return view('venues.create', compact('countries', 'therapists', 'siteAdmins', 'venueCountry', 'venueAddress', 'reasons'));
-    }
+        $dataArr = [
+            'countries' => $countries,
+            'therapists' => $therapists,
+            'siteAdmins' => $siteAdmins,
+            'venueAddress' => $venueAddress,
+            'reasons' => $reasons,
+            'venueCountry' => $venueCountry
+        ];
+        return response()->json(['message' => 'Edit data fetched', 'success' => true, 'data' => $dataArr], 200);
+
+     }
 
 
     public function store(Request $request)
