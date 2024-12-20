@@ -24,7 +24,7 @@ class VenueController extends Controller
         $dataArr = [
             'venuesAddress' => $venuesAddress
         ];
-        return response()->json(['message' => 'data fetched', 'success' => true, 'data' => $dataArr], 200);
+        return response()->json(['message' => 'data fetched', 'success' => true, 'data' => $venuesAddress], 200);
 
     }
 
