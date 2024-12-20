@@ -18,17 +18,11 @@ class VenueController extends Controller
     public function index(Request $request)
     {
         $post = $request->all();
-        // echo "<pre>"; print_r($post); die;
-        if (isset($post['inactive']) && $post['inactive'] == 'true') {
-            $venuesAddress = VenueAddress::whereDate('venue_date', '<=', date('Y-m-d'))->get();
-            $visitors = Vistors::all();
-        } else {
-            $venuesAddress = VenueAddress::whereDate('venue_date', '>=', date('Y-m-d'))->get();
-            $visitors = Vistors::all();
-        }
+
+        $venuesAddress = VenueAddress::get();
+
         $dataArr = [
-            'venuesAddress' => $venuesAddress,
-            'visitors' => $visitors,
+            'venuesAddress' => $venuesAddress
         ];
         return response()->json(['message' => 'Edit data fetched', 'success' => true, 'data' => $dataArr], 200);
 
