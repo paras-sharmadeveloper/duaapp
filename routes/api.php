@@ -72,9 +72,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // venue Create Api started here
     Route::post('/venue/store', [VenueController::class, 'store']);
-    Route::post('/venue/update/{id}', [AuthController::class, 'update']);
-    Route::get('/venue/get/{id}', [AuthController::class, 'show']);
-    Route::get('/venue/getall', [AuthController::class, 'index']);
-    Route::post('/venue//delete', [AuthController::class, 'destroy']);
+    Route::post('/venue/update/{id}', [VenueController::class, 'update']);
+    Route::get('/venue/get/{id}', [VenueController::class, 'show']);
+    Route::get('/venue/getall', [VenueController::class, 'index']);
+    Route::post('/venue//delete', [VenueController::class, 'destroy']);
     // venue Create Api ends here
 });
