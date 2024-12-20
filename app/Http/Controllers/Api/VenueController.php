@@ -21,6 +21,9 @@ class VenueController extends Controller
 
         $venuesAddress = VenueAddress::OrderBy('id','desc')->get();
 
+
+
+
         $dataArr = [
             'venuesAddress' => $venuesAddress
         ];
