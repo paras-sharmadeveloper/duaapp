@@ -34,7 +34,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'name'=>'required',
         ]);

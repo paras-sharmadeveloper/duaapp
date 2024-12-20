@@ -109,12 +109,14 @@ class PermissionController extends Controller
      * @param  Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, $id)
     {
+        $permission = Permission::find($id);
         // Validate the request
         $request->validate([
             'name' => 'required|string|unique:permissions,name,' . $permission->id,
         ]);
+
 
         // Update the permission
         $permission->update(['name' => $request->name]);
