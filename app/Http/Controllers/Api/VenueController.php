@@ -19,7 +19,7 @@ class VenueController extends Controller
     {
         $post = $request->all();
 
-        $venuesAddress = VenueAddress::get();
+        $venuesAddress = VenueAddress::OrderBy('id','desc')->get();
 
         $dataArr = [
             'venuesAddress' => $venuesAddress
