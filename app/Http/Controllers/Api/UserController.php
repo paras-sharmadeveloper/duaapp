@@ -18,13 +18,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $data = User::orderBy('id', 'DESC')->get();
-        $therapists = User::whereHas('roles', function ($query) {
-            $query->where('name', 'therapist');
+        $siteAdmins = User::whereHas('roles', function ($query) {
+            $query->where('name', 'site-admin');
         })->get();
 
         $dataArr = [
-            'users' =>$data,
-            'therapists' =>$therapists,
+            'users' => $data,
+            'siteadmin' =>$siteAdmins,
         ];
 
         return response()->json(['message' => 'Users fetched successfully', 'success' => true, 'data' => $dataArr ], 200);
