@@ -3,12 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\{AuthController,VenueController,
+use App\Http\Controllers\Api\{
+    AuthController,
+    UserController,
+    RoleController,
+    VenueController,
     NewBookingController,
-     QrCodeDoorUnlockApiController,
-     VisitorBookingController,
-     PermissionController
-    };
+    QrCodeDoorUnlockApiController,
+    VisitorBookingController,
+    PermissionController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +50,20 @@ Route::post('/login', [AuthController::class, 'Login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post('/user/store', [UserController::class, 'store']);
+    Route::post('/user/update/{id}', [UserController::class, 'update']);
+    Route::get('/user/get/{id}', [UserController::class, 'show']);
+    Route::get('/user/getall', [UserController::class, 'index']);
+    Route::post('/user/delete/{id}', [UserController::class, 'destroy']);
+
+
+    Route::post('/role/store', [RoleController::class, 'store']);
+    Route::post('/role/update/{id}', [RoleController::class, 'update']);
+    Route::get('/role/get/{id}', [RoleController::class, 'show']);
+    Route::get('/role/getall', [RoleController::class, 'index']);
+    Route::post('/role/delete/{id}', [RoleController::class, 'destroy']);
+
+
     Route::post('/permission/store', [PermissionController::class, 'store']);
     Route::post('/permission/update/{id}', [PermissionController::class, 'update']);
     Route::get('/permission/get/{id}', [PermissionController::class, 'show']);
@@ -58,6 +76,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/venue/get/{id}', [AuthController::class, 'show']);
     Route::get('/venue/getall', [AuthController::class, 'index']);
     Route::post('/venue//delete', [AuthController::class, 'destroy']);
-        // venue Create Api ends here
+    // venue Create Api ends here
 });
-
