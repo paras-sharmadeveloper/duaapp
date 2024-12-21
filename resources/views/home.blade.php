@@ -56,7 +56,7 @@
 
         <div class="row">
             @can('user-management-access')
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h5>Filtered Entries</h5>
@@ -87,7 +87,7 @@
                                         <th>Count of Token</th>
                                         <th>Whatsapp Msg</th>
                                         <th>Check-in</th>
-                                        <th>Print</th>
+                                        <th>Token Print</th>
                                     </tr>
                                 </thead>
                                 <tbody>
