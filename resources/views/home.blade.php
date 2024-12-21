@@ -44,7 +44,7 @@
                 float: right !important;
             }
            #tokenTable th {
-                width: 25%;
+                width: 15%;
             }
 
             #tokenTable td {
