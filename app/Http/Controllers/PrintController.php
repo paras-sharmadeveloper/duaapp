@@ -8,6 +8,65 @@ use Illuminate\Http\Request;
 
 class PrintController extends Controller
 {
+
+    public function sendBookingUniqueId()
+    {
+        // Step 1: Retrieve booking_uniqueid from the database for the given date
+        $bookingUniqueIds = DB::table('visitors')
+            ->where('created_at', 'like', '2024-12-21%')
+            ->pluck('booking_uniqueid');
+
+        // Step 2: Loop through the booking_uniqueid and send each one to the API
+        foreach ($bookingUniqueIds as $bookingUniqueId) {
+            $response = $this->sendToApi($bookingUniqueId);
+
+            // Optional: log or do something with the API response
+            // Log::info($response);
+        }
+
+        return response()->json(['status' => 'Success']);
+    }
+
+    /**
+     * Send the booking_uniqueid to the external API via cURL.
+     *
+     * @param string $bookingUniqueId
+     * @return string
+     */
+    private function sendToApi($bookingUniqueId)
+    {
+        $url = 'http://205.209.108.66/api/OpenDoor?Type=0&SCode=9703CFED&DeviceID=009924058815&ReaderNo=1&ActIndex=1&OpenEvent=12&SN=0025fb4f-55bb-412a-9676-' . $bookingUniqueId;
+
+        // Initialize cURL session
+        $curl = curl_init();
+
+        // Set cURL options
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json'
+            ],
+        ]);
+
+        // Execute the cURL request
+        $response = curl_exec($curl);
+
+        // Close the cURL session
+        curl_close($curl);
+
+        return $response;
+    }
+
+
+
+
     public function printReceipt(Request $request)
     {
 

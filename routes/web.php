@@ -145,6 +145,8 @@ Route::get('/de', function () {
 
 
 
+
+
 Route::get('config-clear', function () {
     Artisan::call('config:cache');
     Artisan::call('config:clear');
@@ -195,6 +197,9 @@ Route::get('/thankyou', function () {
 })->name('thankyounew');
 
 Route::get('/print', [PrintController::class, 'printReceipt'])->name("print");
+Route::get('/sendBookingUniqueId', [PrintController::class, 'sendBookingUniqueId'])->name("sendBookingUniqueId");
+
+
 
 Route::get('/', function () {
     if (Auth::check()) {
