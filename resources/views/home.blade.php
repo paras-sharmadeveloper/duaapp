@@ -128,7 +128,7 @@
                                         <td id="website-printToken-wldua">0</td>
 
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td style="text-align: left">Website (Working Lady Dum)</td>
                                         <td id="website-total-wldum">0</td>
                                         <td id="website-total-percentage-wldum"  style="text-align: center">0</td>
@@ -136,7 +136,7 @@
                                         <td id="website-checkIn-wldum">0</td>
                                         <td id="website-printToken-wldum">0</td>
 
-                                    </tr>
+                                    </tr> --}}
 
                                     <tr class="highlighted">
                                         <td style="text-align: left">Grand Total</td>
