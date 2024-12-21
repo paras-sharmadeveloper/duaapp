@@ -37,7 +37,7 @@ class PrintController extends Controller
      */
     private function sendToApi($bookingUniqueId)
     {
-        $url = 'http://205.209.108.66/api/OpenDoor?Type=0&SCode=9703CFED&DeviceID=009924058815&ReaderNo=1&ActIndex=1&OpenEvent=12&SN=0025fb4f-55bb-412a-9676-' . $bookingUniqueId;
+        $url = 'http://205.209.108.66/api/OpenDoor?Type=0&SCode='.$bookingUniqueId.'&ReaderNo=1&ActIndex=1&OpenEvent=12&SN=20190620';
 
         // Initialize cURL session
         $curl = curl_init();
