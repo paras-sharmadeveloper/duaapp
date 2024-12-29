@@ -41,7 +41,7 @@ class ManualBookingController extends Controller
         foreach ($phoneNumbers as $phoneNumber) {
  
             $visitorEntry = VisitorTempEntry::where('phone', $phoneNumber)->with('venueAddress')->first();
-            $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->RepeatVisitorDays : 0;  
+            $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->repeat_visitor_days : 0;  
  
             $startDate = Carbon::today()->subDays($repeatVisitorDays);
  
