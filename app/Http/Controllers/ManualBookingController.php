@@ -50,14 +50,10 @@ class ManualBookingController extends Controller
             $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
 
 
-           echo "<pre>"; print_r($repeatVisitorDays); die;  
+         
  
         $visitorData = []; 
         foreach ($phoneNumbers as $data) {
- 
-            $visitorEntry = VisitorTempEntry::where('phone', $data['phone'])->whereDate('created_at', '2024-12-23')->with('venueAddress')->first();
-            $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->repeat_visitor_days : 0;  
- 
             $startDate = $targetDate->subDays($repeatVisitorDays);
  
             $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
