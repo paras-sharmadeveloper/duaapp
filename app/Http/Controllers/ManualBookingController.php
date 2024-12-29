@@ -33,34 +33,23 @@ class ManualBookingController extends Controller
         
         $startTime = microtime(true);
         $endDate = Carbon::today(); 
-        $targetDate = Carbon::parse('2024-12-23'); 
-
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at','venueId']); 
+        // $targetDate = Carbon::parse('2024-12-23'); 
+        $targetDate = Carbon::today(); 
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->get(['phone','created_at','venueId']); 
         $venueId = $phoneNumbers->isNotEmpty() ? $phoneNumbers[0]->venueId : null; 
-
-// If venueId exists, fetch the VenueAddress using find()
-            if ($venueId) {
-                // Fetch the VenueAddress and select the necessary fields
+            if ($venueId) { 
                 $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days', 'id']);
             } else {
-                // Handle case where no venueId is found (optional)
                 $venueAddress = null;
             }
-
             $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
-
-
-         
- 
         $visitorData = []; 
         foreach ($phoneNumbers as $data) {
             $startDate = $targetDate->subDays($repeatVisitorDays);
- 
             $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc') 
                 ->get();
- 
             $totalVisits = $visitorList->count();
             $lastVisit = $visitorList->last();  
             $visitorData[] = [
