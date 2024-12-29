@@ -44,7 +44,7 @@ class ManualBookingController extends Controller
             $repeatVisitorDays = $visitorEntry ? $visitorEntry->venueAddress->RepeatVisitorDays : 0; // Default to 8 if not set
             $startDate = Carbon::today()->subDays($repeatVisitorDays);
  
-            $visitorList = VisitorTempEntry::where('phone_number', $phoneNumber)
+            $visitorList = VisitorTempEntry::where('phone', $phoneNumber)
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc') 
                 ->get();
