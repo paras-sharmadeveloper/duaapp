@@ -32,14 +32,13 @@ class ManualBookingController extends Controller
     { 
         
         $endDate = Carbon::today(); 
-        $targetDate = '2024-12-23';
 
-        $startOfDay = Carbon::parse($targetDate)->startOfDay();  // '2024-12-23 00:00:00'
-        $endOfDay = Carbon::parse($targetDate)->endOfDay();  
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get('phone','created_at'); 
 
-        $phoneNumbers = VisitorTempEntry::whereBetween('created_at', [$startOfDay, $endOfDay])
-        ->distinct()
-        ->pluck('phone');
+
+          echo "<pre>"; print_r($phoneNumbers); die; 
+
+       
  
         $visitorData = []; 
         foreach ($phoneNumbers as $phoneNumber) {
@@ -62,7 +61,7 @@ class ManualBookingController extends Controller
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id,'startOfDay' => $startOfDay , 'end' =>$endOfDay
+                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id
             ];
         }
         echo "<pre>"; print_r($visitorData); die; 
