@@ -38,7 +38,7 @@ class ManualBookingController extends Controller
         // Fetch all distinct phone numbers created on the target date along with their venue addresses
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)
                                         ->with('venueAddress') // Eager load the venueAddress relationship
-                                        ->get(['phone', 'created_at', 'venue_address_id']);
+                                        ->get(['phone', 'created_at', 'id']);
     
         // Prepare an array to store visitor data
         $visitorData = []; 
