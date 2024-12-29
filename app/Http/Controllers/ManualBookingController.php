@@ -34,6 +34,9 @@ class ManualBookingController extends Controller
         $endDate = Carbon::today(); 
         $targetDate = '2024-12-23';
 
+        $startOfDay = Carbon::parse($targetDate)->startOfDay();  // '2024-12-23 00:00:00'
+        $endOfDay = Carbon::parse($targetDate)->endOfDay();  
+
         $phoneNumbers = VisitorTempEntry::whereBetween('created_at', [$startOfDay, $endOfDay])
         ->distinct()
         ->pluck('phone');
