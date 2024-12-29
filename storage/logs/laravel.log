@@ -10371,3 +10371,121 @@
 #4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #5 {main}
 "} 
+[2024-12-29 06:51:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:52:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:53:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:53:16] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:54:13] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:54:58] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:55:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:55:17] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:55:45] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:55:56] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:56:04] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:56:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:56:23] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:57:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:57:53] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:58:04] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 06:58:10] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
