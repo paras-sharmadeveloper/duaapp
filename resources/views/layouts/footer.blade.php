@@ -84,7 +84,7 @@
             // scrollX: '1200px',
             // scrollCollapse: true,
             // pagingType: 'full_numbers',
-            "lengthMenu": [10, 25, 50, 75, 100,300,500,700,900,100],
+            "lengthMenu": [50,100,300,500,700,1000],
             aoColumnDefs: [{
                     "aTargets": [0],
                     "bSortable": true
