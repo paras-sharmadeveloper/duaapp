@@ -10,7 +10,7 @@ use App\Models\Vistors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Helpers\DahuaHelper;
-
+use Carbon\Carbon;
 class ManualBookingController extends Controller
 {
     //
@@ -30,6 +30,7 @@ class ManualBookingController extends Controller
 
     public function list()
     { 
+        
         $endDate = Carbon::today(); 
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23') // Filter by today's date
