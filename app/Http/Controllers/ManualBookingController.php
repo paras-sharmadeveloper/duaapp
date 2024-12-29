@@ -27,46 +27,47 @@ class ManualBookingController extends Controller
         $ip ='192.168.31.200';
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
- 
 
     public function list()
-    {  
+    { 
+        
         $endDate = Carbon::today(); 
         $targetDate = Carbon::parse('2024-12-23'); 
-     
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)
-                                        ->with('venueAddress') // Eager load the venueAddress relationship
-                                        ->get(['phone', 'created_at', 'id']);
-     
+
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at']); 
+        //   echo "<pre>"; print_r($phoneNumbers); die;  
+ 
         $visitorData = []; 
-     
-        foreach ($phoneNumbers as $data) { 
-            $repeatVisitorDays = $data->venueAddress ? $data->venueAddress->repeat_visitor_days : 0;  
-     
-            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);
-     
-            $visitorList = VisitorTempEntry::where('phone', $data->phone)
-                                            ->whereBetween('created_at', [$startDate, $endDate])
-                                            ->orderBy('created_at', 'asc') 
-                                            ->get();
-     
+        foreach ($phoneNumbers as $data) {
+ 
+            $visitorEntry = VisitorTempEntry::where('phone', $data['phone'])->whereDate('created_at', '2024-12-23')->with('venueAddress')->first();
+            $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->repeat_visitor_days : 0;  
+ 
+            $startDate = $targetDate->subDays($repeatVisitorDays);
+ 
+            $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->orderBy('created_at', 'asc') 
+                ->get();
+ 
             $totalVisits = $visitorList->count();
-            $lastVisit = $visitorList->last();   
-     
+            $lastVisit = $visitorList->last();  
             $visitorData[] = [
-                'phone_number' => $data->phone,
+                'phone_number' =>  $data['phone'],
                 'total_visits' => $totalVisits,
-                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null,  
+                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,  
-                'venue' => $data->venueAddress->id ?? null 
+                'visitorList' => $visitorList,
+                'venue' => $visitorEntry->venueAddress->id
             ];
         }
-    
-        
+        // echo "<pre>"; print_r($visitorData); die;  
         return view('manualBooking.list', compact('visitorData'));
-    }
+    } 
+ 
+
+    
     
 
     public function list1(){
