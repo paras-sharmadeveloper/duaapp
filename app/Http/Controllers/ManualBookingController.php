@@ -31,6 +31,7 @@ class ManualBookingController extends Controller
     public function list()
     { 
         
+        $startTime = microtime(true);
         $endDate = Carbon::today(); 
         $targetDate = Carbon::parse('2024-12-23'); 
 
@@ -62,7 +63,9 @@ class ManualBookingController extends Controller
                 'venue' => $visitorEntry->venueAddress->id
             ];
         } 
-        return view('manualBooking.list', compact('visitorData'));
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+        return view('manualBooking.list', compact('visitorData','executionTime'));
     } 
  
 
