@@ -115,6 +115,7 @@ img.lightgallery {
                 <tbody>
                     @foreach ($visitorList as $list)
                         @php
+                            $repeat_visitor_days = $list->venueAddress->repeat_visitor_days; 
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
                         @endphp
                         @php
@@ -140,7 +141,7 @@ img.lightgallery {
                             <td>{{ $list->id }}</td>
                             <td>{{ $list->created_at->format('d M Y H:i:s A') }}</td>
                             <td>{{ $list->country_code }}</td>
-                            <td>{{ $list->phone }}</td>
+                            <td>{{ $list->phone }} asd {{ $repeat_visitor_days }}</td>
 
                             <td class="imgc">
                                  <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />

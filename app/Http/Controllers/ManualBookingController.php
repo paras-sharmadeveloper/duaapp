@@ -39,7 +39,7 @@ class ManualBookingController extends Controller
         ->orderBy('id', 'asc')
         ->get();
 
-        echo "<pre>"; print_r($visitorList); die; 
+        // echo "<pre>"; print_r($visitorList); die; 
 
         
         return view('manualBooking.list',compact('visitorList'));

@@ -311,7 +311,7 @@ class VenueController extends Controller
             'special_token_quote' => $request->input('special_token_quote',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
-            'repeat_visitor_days' => $request->input('repeat_visitor_days'),
+            'repeat_visitor_days' => $request->input('repeat_visitor_days')
         ];
 
         $VenueAddress->update($dataArr);
