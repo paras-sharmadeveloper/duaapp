@@ -27,8 +27,7 @@ class ManualBookingController extends Controller
         $ip ='192.168.31.200';
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
-
-    use Carbon\Carbon;
+ 
 
     public function list()
     { 
