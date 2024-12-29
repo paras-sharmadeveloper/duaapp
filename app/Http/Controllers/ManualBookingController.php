@@ -28,45 +28,56 @@ class ManualBookingController extends Controller
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
 
+    use Carbon\Carbon;
+
     public function list()
     { 
-        
+        // Define the end date and the target date for calculation
         $endDate = Carbon::today(); 
         $targetDate = Carbon::parse('2024-12-23'); 
-
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at']); 
-        //   echo "<pre>"; print_r($phoneNumbers); die;  
- 
+    
+        // Fetch all distinct phone numbers created on the target date along with their venue addresses
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)
+                                        ->with('venueAddress') // Eager load the venueAddress relationship
+                                        ->get(['phone', 'created_at', 'venue_address_id']);
+    
+        // Prepare an array to store visitor data
         $visitorData = []; 
+    
+        // Pre-process phone numbers and their related data
         foreach ($phoneNumbers as $data) {
- 
-            $visitorEntry = VisitorTempEntry::where('phone', $data['phone'])->whereDate('created_at', '2024-12-23')->with('venueAddress')->first();
-            $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->repeat_visitor_days : 0;  
- 
-            $startDate = $targetDate->subDays($repeatVisitorDays);
- 
-            $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->orderBy('created_at', 'asc') 
-                ->get();
- 
+            // Get the repeat visitor days from venueAddress (if available)
+            $repeatVisitorDays = $data->venueAddress ? $data->venueAddress->repeat_visitor_days : 0;  
+    
+            // Calculate the start date using repeatVisitorDays
+            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);
+    
+            // Fetch all visits for the current phone number within the date range (startDate to endDate)
+            $visitorList = VisitorTempEntry::where('phone', $data->phone)
+                                            ->whereBetween('created_at', [$startDate, $endDate])
+                                            ->orderBy('created_at', 'asc') 
+                                            ->get();
+    
+            // Calculate the total visits and the last visit date
             $totalVisits = $visitorList->count();
-            $lastVisit = $visitorList->last();  
+            $lastVisit = $visitorList->last();  // Get the last visit in the list
+    
+            // Store the data for this phone number
             $visitorData[] = [
-                'phone_number' =>  $data['phone'],
+                'phone_number' => $data->phone,
                 'total_visits' => $totalVisits,
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,
-                'venue' => $visitorEntry->venueAddress->id
+                'visitorList' => $visitorList,  // Optional: If you need the full list of visits
+                'venue' => $data->venueAddress->id ?? null // Get venue ID from the related venueAddress
             ];
         }
-        // echo "<pre>"; print_r($visitorData); die; 
-
-        // Step 5: Return the result to the view
+    
+        // Return the result to the view
         return view('manualBooking.list', compact('visitorData'));
     }
+    
 
     public function list1(){
         // RecurringDays
