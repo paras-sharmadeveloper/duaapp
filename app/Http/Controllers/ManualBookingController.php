@@ -34,7 +34,7 @@ class ManualBookingController extends Controller
         $endDate = Carbon::today(); 
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23') // Filter by today's date
-        ->distinct()
+        // ->distinct()
         ->pluck('phone');
  
         $visitorData = []; 
@@ -58,7 +58,7 @@ class ManualBookingController extends Controller
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress
+                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id
             ];
         }
         echo "<pre>"; print_r($visitorData); die; 
