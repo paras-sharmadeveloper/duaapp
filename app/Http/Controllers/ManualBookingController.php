@@ -32,7 +32,7 @@ class ManualBookingController extends Controller
         // RecurringDays
         
         
-         $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
+         $visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
 
     //     $visitorList = VisitorTempEntry::with('venueAddress') 
     //   //   ->whereDate('created_at',Carbon::today()) 
