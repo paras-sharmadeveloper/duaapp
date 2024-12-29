@@ -117,6 +117,7 @@ img.lightgallery {
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days; 
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
+                           
                         @endphp
                         @php
                             $localImage = '';

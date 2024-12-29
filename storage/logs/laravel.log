@@ -9827,3 +9827,111 @@
 [stacktrace]
 #0 {main}
 "} 
+[2024-12-29 05:47:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:48:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:49:11] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:50:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:51:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:52:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:53:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:54:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:55:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:56:11] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:57:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:58:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 05:59:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:00:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:01:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:02:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:03:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:04:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:05:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:06:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:07:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:08:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:09:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:10:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:11:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:12:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 06:13:12] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 

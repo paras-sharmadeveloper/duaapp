@@ -28,7 +28,44 @@ class ManualBookingController extends Controller
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
 
-    public function list(){
+    public function list()
+    { 
+        $endDate = Carbon::today(); 
+
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23') // Filter by today's date
+        ->distinct()
+        ->pluck('phone');
+ 
+        $visitorData = []; 
+        foreach ($phoneNumbers as $phoneNumber) {
+ 
+            $visitorEntry = VisitorTempEntry::where('phone', $phoneNumber)->first();
+            $repeatVisitorDays = $visitorEntry ? $visitorEntry->venueAddress->RepeatVisitorDays : 0; // Default to 8 if not set
+            $startDate = Carbon::today()->subDays($repeatVisitorDays);
+ 
+            $visitorList = VisitorTempEntry::where('phone_number', $phoneNumber)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->orderBy('created_at', 'asc') 
+                ->get();
+ 
+            $totalVisits = $visitorList->count();
+            $lastVisit = $visitorList->last();  
+            $visitorData[] = [
+                'phone_number' => $phoneNumber,
+                'total_visits' => $totalVisits,
+                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+                'visitorList' => $visitorList
+            ];
+        }
+        echo "<pre>"; print_r($visitorData); die; 
+
+        // Step 5: Return the result to the view
+        return view('manualBooking.list', compact('visitorData'));
+    }
+
+    public function list1(){
         // RecurringDays
         
         
