@@ -154,7 +154,7 @@ img.lightgallery {
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
                             <td>{{ $visitor['last_visit'] }}</td>
-                            <td><span class="badge-warning badge">{{ ($visitor['total_visits']>0) ? 'Yes' : 'No' }}</span></td>
+                            <td><span class="btn btn-warning">{{ ($visitor['total_visits']>0) ? 'Yes' : 'No' }}</span></td>
                             <td>
                                 @if (empty($list->action_at))
                                     <div class="row py-4 actionBtns">
