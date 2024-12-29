@@ -61,7 +61,7 @@ class ManualBookingController extends Controller
                 'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id
             ];
         }
-        echo "<pre>"; print_r($visitorData); die; 
+        // echo "<pre>"; print_r($visitorData); die; 
 
         // Step 5: Return the result to the view
         return view('manualBooking.list', compact('visitorData'));
