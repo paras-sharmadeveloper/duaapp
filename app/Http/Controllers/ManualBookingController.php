@@ -39,7 +39,7 @@ class ManualBookingController extends Controller
         $venueId = ($phoneNumbers) ? $phoneNumbers[0]->venueId : ''; 
         $VenueAddress = VenueAddress::find($venueId)->select(['repeat_visitor_days','id'])->get();
 
-           echo "<pre>"; print_r($VenueAddress); die;  
+           echo "<pre>"; print_r($phoneNumbers); die;  
  
         $visitorData = []; 
         foreach ($phoneNumbers as $data) {
