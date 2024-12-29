@@ -37,7 +37,7 @@ class ManualBookingController extends Controller
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at','venueId']); 
         $venueId = ($phoneNumbers) ? $phoneNumbers[0]->venueId : ''; 
-        $VenueAddress = VenueAddress::find($venueId)->select(['repeat_visitor_days','id']);
+        $VenueAddress = VenueAddress::find($venueId)->select(['repeat_visitor_days','id'])->get();
 
            echo "<pre>"; print_r($VenueAddress); die;  
  
