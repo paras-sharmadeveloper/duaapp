@@ -32,9 +32,10 @@ class ManualBookingController extends Controller
     { 
         
         $endDate = Carbon::today(); 
+        $targetDate = '2024-12-23';
 
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23') // Filter by today's date
-        // ->distinct()
+        $phoneNumbers = VisitorTempEntry::whereBetween('created_at', [$startOfDay, $endOfDay])
+        ->distinct()
         ->pluck('phone');
  
         $visitorData = []; 
