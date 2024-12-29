@@ -115,7 +115,8 @@ img.lightgallery {
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($visitorData['visitorList'] as $list)
+                    @foreach ($visitorData as $visitor)
+                    @foreach ($visitor['visitorList'] as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days; 
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
@@ -152,8 +153,8 @@ img.lightgallery {
                             </td>
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
-                            <td>{{ $visitorData['total_visits'] }}</td>
-                            <td>{{ $visitorData['phone_number'] }}</td>
+                            <td>{{ $visitor['total_visits'] }}</td>
+                            <td>{{ $visitor['phone_number'] }}</td>
                             <td>
                                 @if (empty($list->action_at))
                                     <div class="row py-4 actionBtns">
@@ -186,6 +187,7 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
+                    @endforeach
                     @endforeach
                 </tbody>
             </table>
