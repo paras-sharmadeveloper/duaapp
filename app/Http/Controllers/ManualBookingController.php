@@ -61,8 +61,7 @@ class ManualBookingController extends Controller
                 'visitorList' => $visitorList,
                 'venue' => $visitorEntry->venueAddress->id
             ];
-        }
-         echo "<pre>"; print_r($visitorData); die;  
+        } 
         return view('manualBooking.list', compact('visitorData'));
     } 
  
