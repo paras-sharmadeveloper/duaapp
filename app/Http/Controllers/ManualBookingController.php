@@ -36,7 +36,7 @@ class ManualBookingController extends Controller
 
         $visitorList = VisitorTempEntry::with('venueAddress') 
       //   ->whereDate('created_at',Carbon::today()) 
-        ->orderBy('id', 'id')
+        ->orderBy('id', 'asc')
         ->get();
 
         echo "<pre>"; print_r($visitorList); die; 
