@@ -32,12 +32,12 @@ class ManualBookingController extends Controller
         // RecurringDays
         
         
-         $visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
+         //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
 
-    //     $visitorList = VisitorTempEntry::with('venueAddress') 
-    //   //   ->whereDate('created_at',Carbon::today()) 
-    //     ->orderBy('created_at', 'desc')
-    //     ->get();
+        $visitorList = VisitorTempEntry::with('venueAddress') 
+      //   ->whereDate('created_at',Carbon::today()) 
+        ->orderBy('id', 'id')
+        ->get();
 
         echo "<pre>"; print_r($visitorList); die; 
 
