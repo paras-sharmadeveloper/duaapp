@@ -29,8 +29,19 @@ class ManualBookingController extends Controller
     }
 
     public function list(){
-        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
+        // RecurringDays
+        
+        
+        // $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))->orderBy('id','asc')->get();
 
+        $visitorList = VisitorTempEntry::with('venueAddress') 
+      //   ->whereDate('created_at',Carbon::today()) 
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        echo "<pre>"; print_r($visitorList); die; 
+
+        
         return view('manualBooking.list',compact('visitorList'));
     }
 

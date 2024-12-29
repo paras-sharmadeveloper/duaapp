@@ -52,6 +52,9 @@ return new class extends Migration
 
             $table->integer('working_lady_dua')->nullable();
             $table->integer('working_lady_dum')->nullable();
+            $table->integer('repeat_visitor_days')->default(0);
+
+            
 
             $table->text('status_page_note')->nullable();
 

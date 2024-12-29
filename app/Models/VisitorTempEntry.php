@@ -9,4 +9,8 @@ class VisitorTempEntry extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function venueAddress()
+    {
+        return $this->belongsTo(VenueAddress::class, 'venueId');
+    }
 }

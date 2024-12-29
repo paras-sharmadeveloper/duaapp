@@ -66,6 +66,7 @@ class VenueController extends Controller
             'status_page_note' => 'required',
             'status_page_note_ur' => 'required',
             'venue_addresses_ur' => 'required',
+             
             // 'swtich_dua' => 'required',
             // 'swtich_dum' => 'required',
         ]);
@@ -166,7 +167,8 @@ class VenueController extends Controller
             'status_page_note_ur' => $request->input('status_page_note_ur'),
             'address_ur' => $request->input('venue_addresses_ur'),
             'status_page_note' => $request->input('status_page_note'),
-            'timezone' => $timezone->timezone
+            'timezone' => $timezone->timezone,
+            'repeat_visitor_days' => $request->input('repeat_visitor_days'),
         ];
 
         if (!empty($IsRecuureing)) {
@@ -309,6 +311,7 @@ class VenueController extends Controller
             'special_token_quote' => $request->input('special_token_quote',0),
             'reject_dua_id' => ($request->input('swtich_dua') !== 'on' && $request->input('reject_dua_id')) ? $request->input('reject_dua_id') : null,
             'reject_dum_id' => ($request->input('swtich_dum') !== 'on' && $request->input('reject_dum_id')) ? $request->input('reject_dum_id') : null,
+            'repeat_visitor_days' => $request->input('repeat_visitor_days'),
         ];
 
         $VenueAddress->update($dataArr);

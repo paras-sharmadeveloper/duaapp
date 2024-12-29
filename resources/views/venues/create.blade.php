@@ -306,7 +306,7 @@
                         <div class="dua-token2">
 
                             <input type="number" name="special_token_quote"
-                           value="{{ isset($venueAddress->special_token_quote ) ? $venueAddress->special_token_quote : 0 }}"
+                           value="{{ isset($venueAddress->special_token_quote ) ? $venueAddress->special_token_quote : '' }}"
                            class="form-control"
                            placeholder="specail token quote" min="2001" max="2100">
 
@@ -364,7 +364,7 @@
                     </div>
                 </div> --}}
 
-                <div class="row mt-3">
+                {{-- <div class="row mt-3">
                     <div class="col-md-3 mt-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="" name="is_recurring[sunday]"
@@ -395,8 +395,8 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="row mt-3">
+                </div> --}}
+                {{-- <div class="row mt-3">
                     <div class="col-md-3 mt-4">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="thursday" name="is_recurring[thursday]"
@@ -422,7 +422,7 @@
 
 
 
-                </div>
+                </div> --}}
                 <div class="row mt-3">
                     {{-- <div class="col-md-2 mt-4">
                         <div class="form-check form-switch">
@@ -431,7 +431,7 @@
                             <label class="form-check-label" for="tuesday">Selfie Verification</label>
                         </div>
                     </div> --}}
-                    <div class="col-md-4 mt-4">
+                    {{-- <div class="col-md-4 mt-4">
                         <label>Recurring Till How many Month ? </label>
 
                         <div class="input-group">
@@ -439,26 +439,26 @@
                             <input type="number" name="recurring_till"
                             value="{{ isset($venueAddress->recurring_till) ? $venueAddress->recurring_till : '' }}"
                             class="form-control dum_slots"
-                            placeholder="ends" >
+                            placeholder="ends" > 
 
-                            {{-- {!! Form::number('recurring_till', $venueAddress->recurring_till ?? '', [
-                                'class' => 'form-control',
-                                'placeholder' => 'ends',
-                            ]) !!} --}}
+                        </div>
+                    </div> --}}
+                    <div class="col-md-4 mt-4">
+                        <label>User Rejoin After Days? </label>
+                        <div class="input-group"> 
+                                <input type="number" name="rejoin_venue_after"
+                                value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : 2 }}"
+                                class="form-control dum_slots"
+                                placeholder="Rejoin Venue Afer" >
 
                         </div>
                     </div>
-                    <div class="col-md-4 mt-4">
-                        <label>User Rejoin After Days? </label>
-                        <div class="input-group">
-                            {{-- <span class="input-group-text">User Rejoin After Days? </span>  --}}
-                            {{-- {!! Form::number('rejoin_venue_after', $venueAddress->rejoin_venue_after ?? 0, [
-                                'class' => 'form-control',
-                                'placeholder' => 'rejoin_venue_after',
-                            ]) !!} --}}
 
+                    <div class="col-md-4 mt-4">
+                        <label>Repeat Visitor Days  </label>
+                        <div class="input-group"> 
                                 <input type="number" name="rejoin_venue_after"
-                                value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : 0 }}"
+                                value="{{ isset($venueAddress->repeat_visitor_days) ? $venueAddress->repeat_visitor_days : 0 }}"
                                 class="form-control dum_slots"
                                 placeholder="Rejoin Venue Afer" >
 
