@@ -33,7 +33,7 @@ class ManualBookingController extends Controller
         
         $endDate = Carbon::today(); 
 
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get('phone','created_at'); 
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at']); 
 
 
           echo "<pre>"; print_r($phoneNumbers); die; 
