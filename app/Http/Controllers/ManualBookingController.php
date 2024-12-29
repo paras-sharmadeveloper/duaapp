@@ -36,19 +36,19 @@ class ManualBookingController extends Controller
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', '2024-12-23')->get(['phone','created_at']); 
 
 
-          echo "<pre>"; print_r($phoneNumbers); die; 
+        //   echo "<pre>"; print_r($phoneNumbers); die; 
 
        
  
         $visitorData = []; 
-        foreach ($phoneNumbers as $phoneNumber) {
+        foreach ($phoneNumbers as $data) {
  
-            $visitorEntry = VisitorTempEntry::where('phone', $phoneNumber)->with('venueAddress')->first();
+            $visitorEntry = VisitorTempEntry::where('phone', $data['phone'])->with('venueAddress')->first();
             $repeatVisitorDays = $visitorEntry && $visitorEntry->venueAddress ? $visitorEntry->venueAddress->repeat_visitor_days : 0;  
  
             $startDate = Carbon::today()->subDays($repeatVisitorDays);
  
-            $visitorList = VisitorTempEntry::where('phone', $phoneNumber)
+            $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc') 
                 ->get();
@@ -56,7 +56,7 @@ class ManualBookingController extends Controller
             $totalVisits = $visitorList->count();
             $lastVisit = $visitorList->last();  
             $visitorData[] = [
-                'phone_number' => $phoneNumber,
+                'phone_number' =>  $data['phone'],
                 'total_visits' => $totalVisits,
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
