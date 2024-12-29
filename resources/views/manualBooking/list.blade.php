@@ -77,7 +77,7 @@ img.lightgallery {
 
         <div class="card-body">
 
-            <h5 class="card-title">Manual List for Visitor  </h5>
+            <h5 class="card-title">Manual List for Visitor </h5>
             <div class="text-center mt-4">
 
 

@@ -457,7 +457,7 @@
                     <div class="col-md-4 mt-4">
                         <label>Repeat Visitor Days  </label>
                         <div class="input-group"> 
-                                <input type="number" name="rejoin_venue_after"
+                                <input type="number" name="repeat_visitor_days"
                                 value="{{ isset($venueAddress->repeat_visitor_days) ? $venueAddress->repeat_visitor_days : 0 }}"
                                 class="form-control dum_slots"
                                 placeholder="Rejoin Venue Afer" >
