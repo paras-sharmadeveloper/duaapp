@@ -62,7 +62,7 @@ class ManualBookingController extends Controller
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id
+                'visitorList' => $visitorList,'venue' => $visitorEntry->venueAddress->id,'startOfDay' => $startOfDay , 'end' =>$endOfDay
             ];
         }
         echo "<pre>"; print_r($visitorData); die; 
