@@ -109,14 +109,13 @@ img.lightgallery {
                         <th>User Image </th>
                         <th>Dua Type</th>
                         <th>instant Message</th>
-                        <th>Last Dua Token</th>
-                        <th>Repeat Visitor</th>
+                        <!-- <th>Last Dua Token</th>
+                        <th>Repeat Visitor</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($visitorData as $visitor)
-                    @foreach ($visitor['visitorList'] as $list)
+                <tbody> 
+                    @foreach ($visitorList as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days; 
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
@@ -153,8 +152,7 @@ img.lightgallery {
                             </td>
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
-                            <td>{{ $visitor['last_visit'] }}</td>
-                            <td><span class="btn btn-warning">{{ ($visitor['total_visits']>0) ? 'Yes' : 'No' }}</span></td>
+                             
                             <td>
                                 @if (empty($list->action_at))
                                     <div class="row py-4 actionBtns">
@@ -187,8 +185,7 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
-                    @endforeach
+                    @endforeach 
                 </tbody>
             </table>
         </div>
