@@ -11287,3 +11287,356 @@
 [stacktrace]
 #0 {main}
 "} 
+[2024-12-29 11:37:08] local.ERROR: There are no commands defined in the "ide-helper" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"ide-helper\" namespace. at C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('ide-helper')
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('ide-helper:gene...')
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\duaapp\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2024-12-29 11:37:08] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:37:08] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:37:28] local.ERROR: Uncaught PDOException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it in C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:65
+Stack trace:
+#0 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(65): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(83): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=loca...', 'root', '', Array)
+#2 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(48): Illuminate\Database\Connectors\Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=loca...', 'root', '', Array)
+#3 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=loca...', Array, Array)
+#4 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\ConnectionFactory.php(184): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\Database\Connectors\ConnectionFactory->Illuminate\Database\Connectors\{closure}()
+#6 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(1339): call_user_func(Object(Closure))
+#7 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(1375): Illuminate\Database\Connection->getPdo()
+#8 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(528): Illuminate\Database\Connection->getReadPdo()
+#9 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(423): Illuminate\Database\Connection->getPdoForSelect(true)
+#10 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(816): Illuminate\Database\Connection->Illuminate\Database\{closure}('select `reason_...', Array)
+#11 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(983): Illuminate\Database\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#12 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(962): Illuminate\Database\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#13 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(785): Illuminate\Database\Connection->handleQueryException(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#14 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(414): Illuminate\Database\Connection->run('select `reason_...', Array, Object(Closure))
+#15 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2913): Illuminate\Database\Connection->select('select `reason_...', Array, true)
+#16 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3142): Illuminate\Database\Query\Builder->runSelect()
+#17 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3456): Illuminate\Database\Query\Builder->Illuminate\Database\Query\{closure}()
+#18 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3138): Illuminate\Database\Query\Builder->onceWithColumns(Array, Object(Closure))
+#19 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(889): Illuminate\Database\Query\Builder->pluck('reason_english', NULL)
+#20 C:\xampp\htdocs\duaapp\app\Helpers.php(300): Illuminate\Database\Eloquent\Builder->pluck('reason_english')
+#21 C:\xampp\htdocs\duaapp\resources\lang\en\messages.php(22): getNoVenueReason('reason_english')
+#22 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(123): require('C:\\xampp\\htdocs...')
+#23 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(124): Illuminate\Filesystem\Filesystem::Illuminate\Filesystem\{closure}()
+#24 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(129): Illuminate\Filesystem\Filesystem->getRequire('C:\\xampp\\htdocs...')
+#25 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Collections\Traits\EnumeratesValues.php(791): Illuminate\Translation\FileLoader->Illuminate\Translation\{closure}(Array, 'C:\\xampp\\htdocs...', 1)
+#26 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(127): Illuminate\Support\Collection->reduce(Object(Closure), Array)
+#27 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(68): Illuminate\Translation\FileLoader->loadPaths(Array, 'en', 'messages')
+#28 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(311): Illuminate\Translation\FileLoader->load('en', 'messages', '*')
+#29 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(234): Illuminate\Translation\Translator->load('*', 'messages', 'en')
+#30 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(164): Illuminate\Translation\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#31 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(923): Illuminate\Translation\Translator->get('messages', Array, 'en_US.UTF-8')
+#32 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(958): trans('messages', Array, NULL)
+#33 Command line code(1): __('messages')
+#34 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select `reason_english` from `reasons` where (`type` = novenue)) in C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php:829
+Stack trace:
+#0 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(983): Illuminate\Database\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#1 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(962): Illuminate\Database\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#2 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(785): Illuminate\Database\Connection->handleQueryException(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#3 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(414): Illuminate\Database\Connection->run('select `reason_...', Array, Object(Closure))
+#4 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2913): Illuminate\Database\Connection->select('select `reason_...', Array, true)
+#5 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3142): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3456): Illuminate\Database\Query\Builder->Illuminate\Database\Query\{closure}()
+#7 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3138): Illuminate\Database\Query\Builder->onceWithColumns(Array, Object(Closure))
+#8 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(889): Illuminate\Database\Query\Builder->pluck('reason_english', NULL)
+#9 C:\xampp\htdocs\duaapp\app\Helpers.php(300): Illuminate\Database\Eloquent\Builder->pluck('reason_english')
+#10 C:\xampp\htdocs\duaapp\resources\lang\en\messages.php(22): getNoVenueReason('reason_english')
+#11 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(123): require('C:\\xampp\\htdocs...')
+#12 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(124): Illuminate\Filesystem\Filesystem::Illuminate\Filesystem\{closure}()
+#13 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(129): Illuminate\Filesystem\Filesystem->getRequire('C:\\xampp\\htdocs...')
+#14 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Collections\Traits\EnumeratesValues.php(791): Illuminate\Translation\FileLoader->Illuminate\Translation\{closure}(Array, 'C:\\xampp\\htdocs...', 1)
+#15 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(127): Illuminate\Support\Collection->reduce(Object(Closure), Array)
+#16 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(68): Illuminate\Translation\FileLoader->loadPaths(Array, 'en', 'messages')
+#17 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(311): Illuminate\Translation\FileLoader->load('en', 'messages', '*')
+#18 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(234): Illuminate\Translation\Translator->load('*', 'messages', 'en')
+#19 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(164): Illuminate\Translation\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#20 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(923): Illuminate\Translation\Translator->get('messages', Array, 'en_US.UTF-8')
+#21 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(958): trans('messages', Array, NULL)
+#22 Command line code(1): __('messages')
+#23 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught PDOException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it in C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:65
+Stack trace:
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(65): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(83): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=loca...', 'root', '', Array)
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(48): Illuminate\\Database\\Connectors\\Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=loca...', 'root', '', Array)
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=loca...', Array, Array)
+#4 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1339): call_user_func(Object(Closure))
+#7 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1375): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(528): Illuminate\\Database\\Connection->getReadPdo()
+#9 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(423): Illuminate\\Database\\Connection->getPdoForSelect(true)
+#10 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select `reason_...', Array)
+#11 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(983): Illuminate\\Database\\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#12 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(962): Illuminate\\Database\\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#13 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(785): Illuminate\\Database\\Connection->handleQueryException(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#14 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select `reason_...', Array, Object(Closure))
+#15 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2913): Illuminate\\Database\\Connection->select('select `reason_...', Array, true)
+#16 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3142): Illuminate\\Database\\Query\\Builder->runSelect()
+#17 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#18 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3138): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#19 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(889): Illuminate\\Database\\Query\\Builder->pluck('reason_english', NULL)
+#20 C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php(300): Illuminate\\Database\\Eloquent\\Builder->pluck('reason_english')
+#21 C:\\xampp\\htdocs\\duaapp\\resources\\lang\\en\\messages.php(22): getNoVenueReason('reason_english')
+#22 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(123): require('C:\\\\xampp\\\\htdocs...')
+#23 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#24 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(129): Illuminate\\Filesystem\\Filesystem->getRequire('C:\\\\xampp\\\\htdocs...')
+#25 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(791): Illuminate\\Translation\\FileLoader->Illuminate\\Translation\\{closure}(Array, 'C:\\\\xampp\\\\htdocs...', 1)
+#26 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(127): Illuminate\\Support\\Collection->reduce(Object(Closure), Array)
+#27 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(68): Illuminate\\Translation\\FileLoader->loadPaths(Array, 'en', 'messages')
+#28 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(311): Illuminate\\Translation\\FileLoader->load('en', 'messages', '*')
+#29 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(234): Illuminate\\Translation\\Translator->load('*', 'messages', 'en')
+#30 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(164): Illuminate\\Translation\\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#31 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(923): Illuminate\\Translation\\Translator->get('messages', Array, 'en_US.UTF-8')
+#32 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(958): trans('messages', Array, NULL)
+#33 Command line code(1): __('messages')
+#34 {main}
+
+Next Illuminate\\Database\\QueryException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select `reason_english` from `reasons` where (`type` = novenue)) in C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829
+Stack trace:
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(983): Illuminate\\Database\\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(962): Illuminate\\Database\\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(785): Illuminate\\Database\\Connection->handleQueryException(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select `reason_...', Array, Object(Closure))
+#4 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2913): Illuminate\\Database\\Connection->select('select `reason_...', Array, true)
+#5 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3142): Illuminate\\Database\\Query\\Builder->runSelect()
+#6 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#7 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3138): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#8 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(889): Illuminate\\Database\\Query\\Builder->pluck('reason_english', NULL)
+#9 C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php(300): Illuminate\\Database\\Eloquent\\Builder->pluck('reason_english')
+#10 C:\\xampp\\htdocs\\duaapp\\resources\\lang\\en\\messages.php(22): getNoVenueReason('reason_english')
+#11 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(123): require('C:\\\\xampp\\\\htdocs...')
+#12 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#13 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(129): Illuminate\\Filesystem\\Filesystem->getRequire('C:\\\\xampp\\\\htdocs...')
+#14 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(791): Illuminate\\Translation\\FileLoader->Illuminate\\Translation\\{closure}(Array, 'C:\\\\xampp\\\\htdocs...', 1)
+#15 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(127): Illuminate\\Support\\Collection->reduce(Object(Closure), Array)
+#16 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(68): Illuminate\\Translation\\FileLoader->loadPaths(Array, 'en', 'messages')
+#17 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(311): Illuminate\\Translation\\FileLoader->load('en', 'messages', '*')
+#18 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(234): Illuminate\\Translation\\Translator->load('*', 'messages', 'en')
+#19 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(164): Illuminate\\Translation\\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#20 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(923): Illuminate\\Translation\\Translator->get('messages', Array, 'en_US.UTF-8')
+#21 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(958): trans('messages', Array, NULL)
+#22 Command line code(1): __('messages')
+#23 {main}
+  thrown at C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:37:28] local.ERROR: Uncaught PDOException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it in C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:65
+Stack trace:
+#0 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(65): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(83): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=loca...', 'root', '', Array)
+#2 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(48): Illuminate\Database\Connectors\Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=loca...', 'root', '', Array)
+#3 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnection('mysql:host=loca...', Array, Array)
+#4 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connectors\ConnectionFactory.php(184): Illuminate\Database\Connectors\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\Database\Connectors\ConnectionFactory->Illuminate\Database\Connectors\{closure}()
+#6 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(1339): call_user_func(Object(Closure))
+#7 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(1375): Illuminate\Database\Connection->getPdo()
+#8 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(528): Illuminate\Database\Connection->getReadPdo()
+#9 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(423): Illuminate\Database\Connection->getPdoForSelect(true)
+#10 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(816): Illuminate\Database\Connection->Illuminate\Database\{closure}('select `reason_...', Array)
+#11 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(983): Illuminate\Database\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#12 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(962): Illuminate\Database\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#13 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(785): Illuminate\Database\Connection->handleQueryException(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#14 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(414): Illuminate\Database\Connection->run('select `reason_...', Array, Object(Closure))
+#15 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2913): Illuminate\Database\Connection->select('select `reason_...', Array, true)
+#16 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3142): Illuminate\Database\Query\Builder->runSelect()
+#17 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3456): Illuminate\Database\Query\Builder->Illuminate\Database\Query\{closure}()
+#18 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3138): Illuminate\Database\Query\Builder->onceWithColumns(Array, Object(Closure))
+#19 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(889): Illuminate\Database\Query\Builder->pluck('reason_english', NULL)
+#20 C:\xampp\htdocs\duaapp\app\Helpers.php(300): Illuminate\Database\Eloquent\Builder->pluck('reason_english')
+#21 C:\xampp\htdocs\duaapp\resources\lang\en\messages.php(22): getNoVenueReason('reason_english')
+#22 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(123): require('C:\\xampp\\htdocs...')
+#23 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(124): Illuminate\Filesystem\Filesystem::Illuminate\Filesystem\{closure}()
+#24 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(129): Illuminate\Filesystem\Filesystem->getRequire('C:\\xampp\\htdocs...')
+#25 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Collections\Traits\EnumeratesValues.php(791): Illuminate\Translation\FileLoader->Illuminate\Translation\{closure}(Array, 'C:\\xampp\\htdocs...', 1)
+#26 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(127): Illuminate\Support\Collection->reduce(Object(Closure), Array)
+#27 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(68): Illuminate\Translation\FileLoader->loadPaths(Array, 'en', 'messages')
+#28 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(311): Illuminate\Translation\FileLoader->load('en', 'messages', '*')
+#29 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(234): Illuminate\Translation\Translator->load('*', 'messages', 'en')
+#30 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(164): Illuminate\Translation\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#31 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(923): Illuminate\Translation\Translator->get('messages', Array, 'en_US.UTF-8')
+#32 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(958): trans('messages', Array, NULL)
+#33 Command line code(1): __('messages')
+#34 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select `reason_english` from `reasons` where (`type` = novenue)) in C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php:829
+Stack trace:
+#0 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(983): Illuminate\Database\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#1 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(962): Illuminate\Database\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#2 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(785): Illuminate\Database\Connection->handleQueryException(Object(Illuminate\Database\QueryException), 'select `reason_...', Array, Object(Closure))
+#3 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Connection.php(414): Illuminate\Database\Connection->run('select `reason_...', Array, Object(Closure))
+#4 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(2913): Illuminate\Database\Connection->select('select `reason_...', Array, true)
+#5 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3142): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3456): Illuminate\Database\Query\Builder->Illuminate\Database\Query\{closure}()
+#7 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3138): Illuminate\Database\Query\Builder->onceWithColumns(Array, Object(Closure))
+#8 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(889): Illuminate\Database\Query\Builder->pluck('reason_english', NULL)
+#9 C:\xampp\htdocs\duaapp\app\Helpers.php(300): Illuminate\Database\Eloquent\Builder->pluck('reason_english')
+#10 C:\xampp\htdocs\duaapp\resources\lang\en\messages.php(22): getNoVenueReason('reason_english')
+#11 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(123): require('C:\\xampp\\htdocs...')
+#12 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php(124): Illuminate\Filesystem\Filesystem::Illuminate\Filesystem\{closure}()
+#13 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(129): Illuminate\Filesystem\Filesystem->getRequire('C:\\xampp\\htdocs...')
+#14 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Collections\Traits\EnumeratesValues.php(791): Illuminate\Translation\FileLoader->Illuminate\Translation\{closure}(Array, 'C:\\xampp\\htdocs...', 1)
+#15 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(127): Illuminate\Support\Collection->reduce(Object(Closure), Array)
+#16 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\FileLoader.php(68): Illuminate\Translation\FileLoader->loadPaths(Array, 'en', 'messages')
+#17 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(311): Illuminate\Translation\FileLoader->load('en', 'messages', '*')
+#18 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(234): Illuminate\Translation\Translator->load('*', 'messages', 'en')
+#19 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Translation\Translator.php(164): Illuminate\Translation\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#20 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(923): Illuminate\Translation\Translator->get('messages', Array, 'en_US.UTF-8')
+#21 C:\xampp\htdocs\duaapp\vendor\laravel\framework\src\Illuminate\Foundation\helpers.php(958): trans('messages', Array, NULL)
+#22 Command line code(1): __('messages')
+#23 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught PDOException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it in C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:65
+Stack trace:
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(65): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(83): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=loca...', 'root', '', Array)
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(48): Illuminate\\Database\\Connectors\\Connector->tryAgainIfCausedByLostConnection(Object(PDOException), 'mysql:host=loca...', 'root', '', Array)
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=loca...', Array, Array)
+#4 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#5 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#6 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1339): call_user_func(Object(Closure))
+#7 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1375): Illuminate\\Database\\Connection->getPdo()
+#8 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(528): Illuminate\\Database\\Connection->getReadPdo()
+#9 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(423): Illuminate\\Database\\Connection->getPdoForSelect(true)
+#10 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select `reason_...', Array)
+#11 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(983): Illuminate\\Database\\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#12 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(962): Illuminate\\Database\\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#13 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(785): Illuminate\\Database\\Connection->handleQueryException(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#14 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select `reason_...', Array, Object(Closure))
+#15 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2913): Illuminate\\Database\\Connection->select('select `reason_...', Array, true)
+#16 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3142): Illuminate\\Database\\Query\\Builder->runSelect()
+#17 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#18 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3138): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#19 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(889): Illuminate\\Database\\Query\\Builder->pluck('reason_english', NULL)
+#20 C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php(300): Illuminate\\Database\\Eloquent\\Builder->pluck('reason_english')
+#21 C:\\xampp\\htdocs\\duaapp\\resources\\lang\\en\\messages.php(22): getNoVenueReason('reason_english')
+#22 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(123): require('C:\\\\xampp\\\\htdocs...')
+#23 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#24 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(129): Illuminate\\Filesystem\\Filesystem->getRequire('C:\\\\xampp\\\\htdocs...')
+#25 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(791): Illuminate\\Translation\\FileLoader->Illuminate\\Translation\\{closure}(Array, 'C:\\\\xampp\\\\htdocs...', 1)
+#26 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(127): Illuminate\\Support\\Collection->reduce(Object(Closure), Array)
+#27 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(68): Illuminate\\Translation\\FileLoader->loadPaths(Array, 'en', 'messages')
+#28 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(311): Illuminate\\Translation\\FileLoader->load('en', 'messages', '*')
+#29 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(234): Illuminate\\Translation\\Translator->load('*', 'messages', 'en')
+#30 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(164): Illuminate\\Translation\\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#31 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(923): Illuminate\\Translation\\Translator->get('messages', Array, 'en_US.UTF-8')
+#32 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(958): trans('messages', Array, NULL)
+#33 Command line code(1): __('messages')
+#34 {main}
+
+Next Illuminate\\Database\\QueryException: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select `reason_english` from `reasons` where (`type` = novenue)) in C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829
+Stack trace:
+#0 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(983): Illuminate\\Database\\Connection->runQueryCallback('select `reason_...', Array, Object(Closure))
+#1 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(962): Illuminate\\Database\\Connection->tryAgainIfCausedByLostConnection(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#2 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(785): Illuminate\\Database\\Connection->handleQueryException(Object(Illuminate\\Database\\QueryException), 'select `reason_...', Array, Object(Closure))
+#3 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(414): Illuminate\\Database\\Connection->run('select `reason_...', Array, Object(Closure))
+#4 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2913): Illuminate\\Database\\Connection->select('select `reason_...', Array, true)
+#5 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3142): Illuminate\\Database\\Query\\Builder->runSelect()
+#6 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#7 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3138): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#8 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(889): Illuminate\\Database\\Query\\Builder->pluck('reason_english', NULL)
+#9 C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php(300): Illuminate\\Database\\Eloquent\\Builder->pluck('reason_english')
+#10 C:\\xampp\\htdocs\\duaapp\\resources\\lang\\en\\messages.php(22): getNoVenueReason('reason_english')
+#11 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(123): require('C:\\\\xampp\\\\htdocs...')
+#12 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Filesystem\\Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#13 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(129): Illuminate\\Filesystem\\Filesystem->getRequire('C:\\\\xampp\\\\htdocs...')
+#14 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(791): Illuminate\\Translation\\FileLoader->Illuminate\\Translation\\{closure}(Array, 'C:\\\\xampp\\\\htdocs...', 1)
+#15 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(127): Illuminate\\Support\\Collection->reduce(Object(Closure), Array)
+#16 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\FileLoader.php(68): Illuminate\\Translation\\FileLoader->loadPaths(Array, 'en', 'messages')
+#17 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(311): Illuminate\\Translation\\FileLoader->load('en', 'messages', '*')
+#18 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(234): Illuminate\\Translation\\Translator->load('*', 'messages', 'en')
+#19 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Translation\\Translator.php(164): Illuminate\\Translation\\Translator->getLine('*', 'messages', 'en', NULL, Array)
+#20 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(923): Illuminate\\Translation\\Translator->get('messages', Array, 'en_US.UTF-8')
+#21 C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php(958): trans('messages', Array, NULL)
+#22 Command line code(1): __('messages')
+#23 {main}
+  thrown at C:\\xampp\\htdocs\\duaapp\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:37:50] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:38:50] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:39:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:40:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:41:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:42:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:43:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:44:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:45:50] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:46:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:47:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:48:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:49:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:50:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:51:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:52:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:53:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 
+[2024-12-29 11:54:49] local.ERROR: Cannot redeclare isMobileDevice() (previously declared in C:\xampp\htdocs\duaapp\app\Helpers.php:13) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare isMobileDevice() (previously declared in C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:13) at C:\\xampp\\htdocs\\duaapp\\app\\Helpers.php:21)
+[stacktrace]
+#0 {main}
+"} 

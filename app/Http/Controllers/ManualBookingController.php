@@ -28,7 +28,7 @@ class ManualBookingController extends Controller
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
 
-    public function list()
+    public function list2()
     { 
         
         $startTime = microtime(true);
@@ -70,7 +70,7 @@ class ManualBookingController extends Controller
     
     
 
-    public function list1(){
+    public function list(){
         // RecurringDays
         
         
