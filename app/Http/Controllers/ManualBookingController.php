@@ -101,6 +101,7 @@ class ManualBookingController extends Controller
             $totalVisits = $visitorList->count();
             $lastVisit = $visitorList->last();
             $visitorData[] = [
+                'repeatDay' => $repeatDay,
                 'phone_number' =>  $visitor['phone'],
                 'total_visits' => $totalVisits,
                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
