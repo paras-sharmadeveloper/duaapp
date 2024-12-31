@@ -88,7 +88,7 @@ class ManualBookingController extends Controller
             $venueAdd = VenueAddress::find($firstRecord->venueId)->first();
         }
 
-
+        echo "<pre>"; print_r($visitorList); die;
         $visitorData = [];
         foreach($visitorList  as $visitor){
             $repeatDay = $venueAdd->repeat_visitor_days;
@@ -109,9 +109,8 @@ class ManualBookingController extends Controller
                 'visitorList' => $visitorList,
             ];
 
-
         }
-          echo "<pre>"; print_r($visitorData); die;
+
         return view('manualBooking.list',compact('visitorData'));
     }
 
