@@ -72,50 +72,63 @@ class ManualBookingController extends Controller
 
 
 
-    public function list(request $request){
-        // RecurringDays
-        $filter_date = $request->input('filter_date',date('Y-m-d'));
-        $date = Carbon::parse($filter_date );
-        $endDate = Carbon::today();
-         //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
-        $query = VisitorTempEntry::whereDate('created_at', $filter_date );
-        $visitorList  = $query->orderBy('id', 'asc')->get();
-        $firstRecord =  VisitorTempEntry::whereDate('created_at', $filter_date )->get()->first();
+    public function list(Request $request)
+{
+    // Set filter date, defaults to today if not provided
+    $filter_date = $request->input('filter_date', date('Y-m-d'));
+    $date = Carbon::parse($filter_date);
+    $endDate = Carbon::today();
 
+    // Get the first visitor record to fetch venue address
+    $firstRecord = VisitorTempEntry::whereDate('created_at', $filter_date)->first();
 
-        $venueAdd = null;
-        if($firstRecord){
-            $venueAdd = VenueAddress::find($firstRecord->venueId);
-        }
-        $targetDate = Carbon::parse($filter_date );
-        //   echo "<pre>"; print_r($venueAdd); die;
-
-        $visitorData = [];
-        foreach($visitorList  as $visitor){
-            $repeatDay = $venueAdd->repeat_visitor_days;
-            $startDate = $targetDate->subDays(value: $repeatDay);
-
-            $visitorListNew = VisitorTempEntry::where('id',  $visitor->id)
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->orderBy('created_at', 'asc')
-                ->get();
-            $totalVisits = $visitorListNew->count();
-            $lastVisit = $visitorListNew->last();
-            $visitorData[] = [
-                'repeatDay' => $repeatDay,
-                'phone_number' =>  $visitor['phone'],
-                'total_visits' => $totalVisits,
-                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
-                'start_date' => $startDate->toDateString(),
-                'end_date' => $endDate,
-                'visitorList' => $visitorList,
-            ];
-
-        }
-        // echo "<pre>"; print_r($visitorData); die;
-
-        return view('manualBooking.list',compact('visitorData'));
+    $venueAdd = null;
+    if ($firstRecord) {
+        $venueAdd = VenueAddress::find($firstRecord->venueId);
     }
+
+    if (!$venueAdd) {
+        // If no venue found, you can return early or handle the case
+        return view('manualBooking.list', compact('visitorData'))->with('error', 'Venue not found');
+    }
+
+    // Get all visitors for the selected date
+    $visitorList = VisitorTempEntry::whereDate('created_at', $filter_date)
+        ->orderBy('id', 'asc')
+        ->get();
+
+    $visitorData = [];
+
+    // Preload repeat visitor days from venue
+    $repeatDay = $venueAdd->repeat_visitor_days;
+
+    foreach ($visitorList as $visitor) {
+        // Calculate the start date for repeat visitor window
+        $startDate = $date->copy()->subDays($repeatDay); // Use copy to avoid modifying the original $date
+
+        // Fetch visitor's history in one query instead of fetching in each iteration
+        $visitorHistory = VisitorTempEntry::where('phone', $visitor->phone)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $totalVisits = $visitorHistory->count();
+        $lastVisit = $visitorHistory->last();
+
+        $visitorData[] = [
+            'phone_number' => $visitor->phone,
+            'total_visits' => $totalVisits,
+            'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
+            'visitorList' => $visitorHistory, // You can send the history if needed for the second loop
+        ];
+    }
+
+    // Return the view with visitor data
+    return view('manualBooking.list', compact('visitorData'));
+}
+
 
     public function ApproveDisapproveBulk(Request $request){
         $ids = $request->input('ids');
