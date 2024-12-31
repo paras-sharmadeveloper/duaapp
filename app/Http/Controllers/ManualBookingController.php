@@ -82,6 +82,7 @@ class ManualBookingController extends Controller
         $visitorList  = $query->orderBy('id', 'asc')->get();
         $firstRecord =  VisitorTempEntry::whereDate('created_at', $filter_date )->first();
 
+        echo "<pre>"; print_r($firstRecord); die;
 
         $venueAdd = null;
         if($firstRecord->venueId){
