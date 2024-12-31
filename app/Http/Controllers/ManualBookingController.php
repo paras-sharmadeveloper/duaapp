@@ -86,8 +86,8 @@ class ManualBookingController extends Controller
             $venueAdd = VenueAddress::find($firstRecord->venueId)->first();
         }
 
-        echo "<pre>"; print_r($firstRecord);
-        echo "<pre>"; print_r($visitorList); die;
+        // echo "<pre>"; print_r($firstRecord);
+        // echo "<pre>"; print_r($visitorList); die;
         $visitorData = [];
         foreach($visitorList  as $visitor){
             $repeatDay = $venueAdd->repeat_visitor_days;
