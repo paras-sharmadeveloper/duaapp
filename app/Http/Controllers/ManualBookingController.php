@@ -82,11 +82,13 @@ class ManualBookingController extends Controller
         ->orderBy('id', 'asc')
         ->get();
 
+        $firstRecord =  $visitorList->first();
+
         $venueAdd = VenueAddress::whereDate('created_at',$filter_date)->get()->first();
-        echo "<pre>"; print_r($venueAdd); die;
+        echo "<pre>"; print_r($firstRecord); die;
         $visitorData = [];
         foreach($visitorList  as $visitor){
-            $repeatDay = $visitor->venueAddress->repeat_visitor_days;
+            $repeatDay = $venueAdd->repeat_visitor_days;
             $startDate = $date->subDays($repeatDay);
             $endDate = date('Y-m-d');
             $visitorList = VisitorTempEntry::where('phone',  $visitor->phone)
