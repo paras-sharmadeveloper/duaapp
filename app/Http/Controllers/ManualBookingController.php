@@ -84,11 +84,11 @@ class ManualBookingController extends Controller
 
 
         $venueAdd = null;
-        if($firstRecord->venueId){
+        if($firstRecord){
             $venueAdd = VenueAddress::find($firstRecord->venueId)->first();
         }
         $targetDate = Carbon::parse($filter_date );
-        //  echo "<pre>"; print_r($firstRecord); die;
+          echo "<pre>"; print_r($venueAdd); die;
 
         $visitorData = [];
         foreach($visitorList  as $visitor){
