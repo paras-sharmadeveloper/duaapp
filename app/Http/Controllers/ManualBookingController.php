@@ -78,12 +78,12 @@ class ManualBookingController extends Controller
         $date = Carbon::parse($filter_date );
 
          //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
-        $visitorList = VisitorTempEntry::whereDate('created_at', $date )
-        ->orderBy('id', 'asc')
+        $query = VisitorTempEntry::whereDate('created_at', $filter_date );
+
+
+        $firstRecord =  $query->first();
+        $visitorList  = $query->orderBy('id', 'asc')
         ->get();
-
-        $firstRecord =  $visitorList->first();
-
         $venueAdd = VenueAddress::whereDate('created_at',$filter_date)->get()->first();
         echo "<pre>"; print_r($firstRecord); die;
         $visitorData = [];
