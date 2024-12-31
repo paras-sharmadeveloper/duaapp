@@ -139,13 +139,13 @@ img.lightgallery {
                     @foreach ($visitorList as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days;
-                            $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
+                            $loclpath = '/sessionImages/' . $date . '/';
 
                         @endphp
                         @php
                             $localImage = '';
                             $localImageStroage =
-                                'sessionImages/' . date('d-m-Y') . '/' . !empty($list->recognized_code)
+                                'sessionImages/' . $date . '/' . !empty($list->recognized_code)
                                     ? $list->recognized_code
                                     : '';
                             if (

@@ -80,7 +80,7 @@ class ManualBookingController extends Controller
         ->orderBy('id', 'asc')
         ->get();
         // echo "<pre>"; print_r($visitorList); die;
-        return view('manualBooking.list',compact('visitorList'));
+        return view('manualBooking.list',compact('visitorList','date'));
     }
 
     public function ApproveDisapproveBulk(Request $request){
