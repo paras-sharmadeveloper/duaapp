@@ -175,6 +175,8 @@ img.lightgallery {
                             </td>
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
+                            <td>{{ $data['last_visit']}}</td>
+                            <td>{{ ($data['last_visit']) ? 'Yes' : 'no'}}</td>
 
                             <td>
                                 @if (empty($list->action_at))
