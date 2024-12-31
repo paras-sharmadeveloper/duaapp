@@ -37,6 +37,9 @@ class ManualBookingController extends Controller
         $targetDate = Carbon::parse($date );
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->get(['phone','created_at','venueId']);
+
+
+        echo "<pre>"; print_r($phoneNumbers); die;
         $venueId = $phoneNumbers->isNotEmpty() ? $phoneNumbers[0]->venueId : null;
             if ($venueId) {
                 $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days', 'id']);
