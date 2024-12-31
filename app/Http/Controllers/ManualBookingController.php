@@ -28,63 +28,58 @@ class ManualBookingController extends Controller
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
 
-    public function list(request $request)
-    {
-        $date = $request->input('filter_date',date('Y-m-d'));
+    // public function list(request $request)
+    // {
+    //     $date = $request->input('filter_date',date('Y-m-d'));
 
-        $startTime = microtime(true);
-        $endDate = Carbon::today();
-        $targetDate = Carbon::parse($date );
+    //     $startTime = microtime(true);
+    //     $endDate = Carbon::today();
+    //     $targetDate = Carbon::parse($date );
 
-        $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->distinct('phone')->get(['phone','created_at','venueId']);
-        // echo "<pre>"; print_r($phoneNumbers); die;
-        $venueId = $phoneNumbers->isNotEmpty() ? $phoneNumbers[0]->venueId : null;
-            if ($venueId) {
-                $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days', 'id']);
-            } else {
-                $venueAddress = null;
-            }
-            $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
-        $visitorData = [];
-        foreach ($phoneNumbers as $data) {
-            $startDate = $targetDate->subDays($repeatVisitorDays);
-            $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->orderBy('created_at', 'asc')
-                ->get();
-            $totalVisits = $visitorList->count();
-            $lastVisit = $visitorList->last();
-            $visitorData[] = [
-                'phone_number' =>  $data['phone'],
-                'total_visits' => $totalVisits,
-                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
-                'start_date' => $startDate->toDateString(),
-                'end_date' => $endDate->toDateString(),
-                'visitorList' => $visitorList,
-            ];
-        }
-        $endTime = microtime(true);
-        $executionTime = $endTime - $startTime;
-        return view('manualBooking.list', compact('visitorData','executionTime'));
-    }
-
-
+    //     $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->distinct('phone')->get(['phone','created_at','venueId']);
+    //     // echo "<pre>"; print_r($phoneNumbers); die;
+    //     $venueId = $phoneNumbers->isNotEmpty() ? $phoneNumbers[0]->venueId : null;
+    //         if ($venueId) {
+    //             $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days', 'id']);
+    //         } else {
+    //             $venueAddress = null;
+    //         }
+    //         $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+    //     $visitorData = [];
+    //     foreach ($phoneNumbers as $data) {
+    //         $startDate = $targetDate->subDays($repeatVisitorDays);
+    //         $visitorList = VisitorTempEntry::where('phone',  $data['phone'])
+    //             ->whereBetween('created_at', [$startDate, $endDate])
+    //             ->orderBy('created_at', 'asc')
+    //             ->get();
+    //         $totalVisits = $visitorList->count();
+    //         $lastVisit = $visitorList->last();
+    //         $visitorData[] = [
+    //             'phone_number' =>  $data['phone'],
+    //             'total_visits' => $totalVisits,
+    //             'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
+    //             'start_date' => $startDate->toDateString(),
+    //             'end_date' => $endDate->toDateString(),
+    //             'visitorList' => $visitorList,
+    //         ];
+    //     }
+    //     $endTime = microtime(true);
+    //     $executionTime = $endTime - $startTime;
+    //     return view('manualBooking.list', compact('visitorData','executionTime'));
+    // }
 
 
 
-    public function list1(){
+
+
+    public function list(request $request){
         // RecurringDays
-
-
+        $date = $request->input('filter_date',date('Y-m-d'));
          //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
-
-        $visitorList = VisitorTempEntry::whereDate('created_at',date('Y-m-d'))
+        $visitorList = VisitorTempEntry::whereDate('created_at', $date )
         ->orderBy('id', 'asc')
         ->get();
-
         // echo "<pre>"; print_r($visitorList); die;
-
-
         return view('manualBooking.list',compact('visitorList'));
     }
 
