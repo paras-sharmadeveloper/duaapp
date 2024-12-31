@@ -95,6 +95,27 @@ img.lightgallery {
                     <b>Bulk Disapprove</b>
                 </button>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('booking.manual.list') }}" method="get">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label> Filter Date </label>
+                                <input class="form-control" type="date" name="filter_date" value="{{
+                                    (request()->get('date')) ? request()->get('date') : ''
+                                }}">
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary mt-4" type="submit">Filter </button>
+                    </form>
+                </div>
+            </div>
 
             <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
@@ -114,12 +135,12 @@ img.lightgallery {
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     @foreach ($visitorList as $list)
                         @php
-                            $repeat_visitor_days = $list->venueAddress->repeat_visitor_days; 
+                            $repeat_visitor_days = $list->venueAddress->repeat_visitor_days;
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
-                           
+
                         @endphp
                         @php
                             $localImage = '';
@@ -152,7 +173,7 @@ img.lightgallery {
                             </td>
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
-                             
+
                             <td>
                                 @if (empty($list->action_at))
                                     <div class="row py-4 actionBtns">
@@ -185,7 +206,7 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
-                    @endforeach 
+                    @endforeach
                 </tbody>
             </table>
         </div>

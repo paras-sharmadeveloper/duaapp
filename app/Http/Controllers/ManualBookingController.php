@@ -33,7 +33,7 @@ class ManualBookingController extends Controller
         $date = $request->input('filter_date',date('Y-m-d'));
 
         $startTime = microtime(true);
-        // $endDate = Carbon::today();
+        $endDate = Carbon::today();
         $targetDate = Carbon::parse($date );
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->get(['phone','created_at','venueId']);
