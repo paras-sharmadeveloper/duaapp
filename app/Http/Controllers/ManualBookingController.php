@@ -76,7 +76,7 @@ class ManualBookingController extends Controller
         // RecurringDays
         $filter_date = $request->input('filter_date',date('Y-m-d'));
         $date = Carbon::parse($filter_date );
-
+        $endDate = Carbon::today();
          //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
         $query = VisitorTempEntry::whereDate('created_at', $filter_date );
         $visitorList  = $query->orderBy('id', 'asc')->get();
@@ -85,14 +85,15 @@ class ManualBookingController extends Controller
         if($firstRecord->venueId){
             $venueAdd = VenueAddress::find($firstRecord->venueId)->first();
         }
+        $targetDate = Carbon::parse($filter_date );
 
         // echo "<pre>"; print_r($firstRecord);
         // echo "<pre>"; print_r($visitorList); die;
         $visitorData = [];
         foreach($visitorList  as $visitor){
             $repeatDay = $venueAdd->repeat_visitor_days;
-            $startDate = $date->subDays($repeatDay);
-            $endDate = date('Y-m-d');
+            $startDate = $targetDate->subDays($repeatDay);
+
             $visitorList = VisitorTempEntry::where('id',  $visitor->id)
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc')
