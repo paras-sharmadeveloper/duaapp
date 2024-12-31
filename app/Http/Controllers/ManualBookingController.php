@@ -109,6 +109,7 @@ class ManualBookingController extends Controller
             ];
 
         }
+        echo "<pre>"; print_r($visitorData); die;
 
         return view('manualBooking.list',compact('visitorData'));
     }
