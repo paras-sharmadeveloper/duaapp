@@ -95,12 +95,12 @@ class ManualBookingController extends Controller
             $repeatDay = $venueAdd->repeat_visitor_days;
             $startDate = $targetDate->subDays(value: $repeatDay);
 
-            $visitorList = VisitorTempEntry::where('id',  $visitor->id)
+            $visitorListNew = VisitorTempEntry::where('id',  $visitor->id)
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc')
                 ->get();
-            $totalVisits = $visitorList->count();
-            $lastVisit = $visitorList->last();
+            $totalVisits = $visitorListNew->count();
+            $lastVisit = $visitorListNew->last();
             $visitorData[] = [
                 'repeatDay' => $repeatDay,
                 'phone_number' =>  $visitor['phone'],
