@@ -130,8 +130,7 @@ img.lightgallery {
                         <th>User Image </th>
                         <th>Dua Type</th>
                         <th>instant Message</th>
-                        <th>Last Dua Token</th>
-                        <th>Repeat Visitor</th>
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -175,8 +174,6 @@ img.lightgallery {
                             </td>
                             <td>{{ ucwords($list->dua_type) }}</td>
                             <td>{{ $list->msg_sid .'/' . $list->msg_sent_status}}</td>
-                            <td>{{ $data['last_visit']}}</td>
-                            <td>{{  'Yes'}}</td>
 
                             <td>
                                 @if (empty($list->action_at))
