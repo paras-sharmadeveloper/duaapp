@@ -137,8 +137,7 @@ img.lightgallery {
                 </thead>
                 <tbody>
 
-                    @foreach ($visitorData as $data)
-                    @foreach ($data['visitorList'] as $list)
+                    @foreach ($visitorList as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days;
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
@@ -208,7 +207,6 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
                     @endforeach
                 </tbody>
             </table>
