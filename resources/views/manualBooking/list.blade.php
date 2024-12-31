@@ -102,7 +102,7 @@ img.lightgallery {
                             <div class="col-md-4">
                                 <label> Filter Date </label>
                                 <input class="form-control" type="date" name="filter_date" value="{{
-                                    (request()->get('date')) ? request()->get('date') : ''
+                                    (request()->get('filter_date')) ? request()->get('date') : ''
                                 }}">
                             </div>
                             <div class="col-md-4">
@@ -136,7 +136,9 @@ img.lightgallery {
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($visitorList as $list)
+
+                    @foreach ($visitorData as $data)
+                    @foreach ($data['visitorList'] as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days;
                             $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
@@ -206,6 +208,7 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
+                    @endforeach
                     @endforeach
                 </tbody>
             </table>
