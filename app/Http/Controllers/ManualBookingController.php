@@ -82,16 +82,19 @@ class ManualBookingController extends Controller
 
 
         $firstRecord =  $query->first();
-        $visitorList  = $query->orderBy('id', 'asc')
-        ->get();
-        $venueAdd = VenueAddress::whereDate('created_at',$filter_date)->get()->first();
-        echo "<pre>"; print_r($firstRecord); die;
+        $visitorList  = $query->orderBy('id', 'asc')  ->get();
+        $venueAdd = null;
+        if($firstRecord->venueId){
+            $venueAdd = VenueAddress::find($firstRecord->venueId)->first();
+        }
+
+
         $visitorData = [];
         foreach($visitorList  as $visitor){
             $repeatDay = $venueAdd->repeat_visitor_days;
             $startDate = $date->subDays($repeatDay);
             $endDate = date('Y-m-d');
-            $visitorList = VisitorTempEntry::where('phone',  $visitor->phone)
+            $visitorList = VisitorTempEntry::where('id',  $visitor->id)
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'asc')
                 ->get();
