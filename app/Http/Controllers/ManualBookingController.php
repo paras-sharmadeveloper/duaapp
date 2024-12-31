@@ -37,7 +37,7 @@ class ManualBookingController extends Controller
         $targetDate = Carbon::parse($date );
 
         $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->distinct('phone')->get(['phone','created_at','venueId']);
-        $phoneNumbers = VisitorTempEntry::with('venueAddress')->get();
+        $phoneNumbers = VisitorTempEntry::whereDate('created_at', $targetDate)->with('venueAddress')->get();
 
 
         echo "<pre>"; print_r($phoneNumbers); die;
