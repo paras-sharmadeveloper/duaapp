@@ -75,11 +75,12 @@ class ManualBookingController extends Controller
     public function list(request $request){
         // RecurringDays
         $date = $request->input('filter_date',date('Y-m-d'));
+        echo "<pre>"; print_r($date);
          //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
         $visitorList = VisitorTempEntry::whereDate('created_at', $date )
         ->orderBy('id', 'asc')
         ->get();
-        // echo "<pre>"; print_r($visitorList); die;
+        echo "<pre>"; print_r($visitorList); die;
         return view('manualBooking.list',compact('visitorList','date'));
     }
 
