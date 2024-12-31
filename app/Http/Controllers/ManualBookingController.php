@@ -74,7 +74,8 @@ class ManualBookingController extends Controller
 
     public function list(request $request){
         // RecurringDays
-        $date = $request->input('filter_date',date('Y-m-d'));
+        $filter_date = $request->input('filter_date',date('Y-m-d'));
+        $date = Carbon::parse($filter_date );
 
          //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
         $visitorList = VisitorTempEntry::whereDate('created_at', $date )
