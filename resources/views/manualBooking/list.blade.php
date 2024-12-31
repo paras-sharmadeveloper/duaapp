@@ -130,22 +130,24 @@ img.lightgallery {
                         <th>User Image </th>
                         <th>Dua Type</th>
                         <th>instant Message</th>
-
+                   <th>Last Dua Token</th>
+                        <th>Repeat Visitor</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach ($visitorList as $list)
+                    @foreach ($visitorData as $data)
+                    @foreach ($data['visitorList'] as $list)
                         @php
                             $repeat_visitor_days = $list->venueAddress->repeat_visitor_days;
-                            $loclpath = '/sessionImages/' . $date . '/';
+                            $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
 
                         @endphp
                         @php
                             $localImage = '';
                             $localImageStroage =
-                                'sessionImages/' . $date . '/' . !empty($list->recognized_code)
+                                'sessionImages/' . date('d-m-Y') . '/' . !empty($list->recognized_code)
                                     ? $list->recognized_code
                                     : '';
                             if (
@@ -206,6 +208,7 @@ img.lightgallery {
                                 @endif
                             </td>
                         </tr>
+                    @endforeach
                     @endforeach
                 </tbody>
             </table>

@@ -81,8 +81,31 @@ class ManualBookingController extends Controller
         ->with('venueAddress')
         ->orderBy('id', 'asc')
         ->get();
-        echo "<pre>"; print_r($visitorList); die;
-        return view('manualBooking.list',compact('visitorList','date'));
+
+        $visitorData = [];
+        foreach($visitorList  as $visitor){
+            $repeatDay = $visitor->venueAddress->repeat_visitor_days;
+            $startDate = $date->subDays($repeatDay);
+            $endDate = date('Y-m-d');
+            $visitorList = VisitorTempEntry::where('phone',  $visitor->phone)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->orderBy('created_at', 'asc')
+                ->get();
+            $totalVisits = $visitorList->count();
+            $lastVisit = $visitorList->last();
+            $visitorData[] = [
+                'phone_number' =>  $visitor['phone'],
+                'total_visits' => $totalVisits,
+                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null, // Format the last visit date
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate,
+                'visitorList' => $visitorList,
+            ];
+
+
+        }
+          echo "<pre>"; print_r($visitorData); die;
+        return view('manualBooking.list',compact('visitorData'));
     }
 
     public function ApproveDisapproveBulk(Request $request){
