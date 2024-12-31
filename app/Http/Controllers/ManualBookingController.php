@@ -93,7 +93,7 @@ class ManualBookingController extends Controller
         $visitorData = [];
         foreach($visitorList  as $visitor){
             $repeatDay = $venueAdd->repeat_visitor_days;
-            $startDate = $targetDate->subDays($repeatDay);
+            $startDate = $targetDate->subDays(value: $repeatDay);
 
             $visitorList = VisitorTempEntry::where('id',  $visitor->id)
                 ->whereBetween('created_at', [$startDate, $endDate])
@@ -112,7 +112,7 @@ class ManualBookingController extends Controller
             ];
 
         }
-        echo "<pre>"; print_r($visitorData); die;
+        // echo "<pre>"; print_r($visitorData); die;
 
         return view('manualBooking.list',compact('visitorData'));
     }
