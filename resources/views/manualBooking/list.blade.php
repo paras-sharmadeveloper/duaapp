@@ -115,7 +115,7 @@
                     </form>
                 </div>
             </div>
-            <table id="visitorTable" class="1-table-with-buttons table table-responsive cell-border">
+            <table id="visitorTable" class="table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
                         <th>
@@ -243,43 +243,85 @@
 
 @section('page-script')
     <script>
+        var filterDate = $("#filter_date").val();
+        var url = "{{route('booking.manual.ajax')}}?filter_date="+filterDate
         $(document).ready(function() {
-
-    $('#visitorTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '{{ route('booking.manual.ajax')}}',  // The endpoint to fetch data
-            type: 'GET',
-            data: function(d) {
-                // Send additional parameters if needed
-                d.filter_date = $('#filter_date').val();  // Add filter_date to the request if needed
-            },
-            dataSrc: function(json) {
-                // Handle the response from the server
-                return json.data;
-            }
-        },
-        columns: [
-            { data: 'phone_number' },
-            { data: 'total_visits' },
-            { data: 'last_visit' },
-            { data: 'start_date' },
-            { data: 'end_date' },
-            {
-                data: 'visitorList',
-                render: function(data, type, row) {
-                    // Render the visitor list (e.g., as a JSON object, or formatted list)
-                    return data.map(visit => visit.created_at).join(', ');
+            $('#visitorTable').DataTable({
+                processing: true, // Show processing indicator
+                serverSide: true, // Enable server-side processing
+                ajax: {
+                    url: url, // Server-side endpoint
+                    type: 'GET',
+                    dataSrc: function(json) {
+                        return json.data; // Ensure your response has 'data' key
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        render: function(data, type, row) {
+                            if (row.action_at === null) {
+                                return '<input type="checkbox" class="bulk-checkbox" data-id="' +
+                                    row.id + '">';
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        data: 'id'
+                    },
+                    {
+                        data: 'created_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Format date
+                        }
+                    },
+                    {
+                        data: 'country_code'
+                    },
+                    {
+                        data: 'phone'
+                    },
+                    {
+                        data: 'recognized_code',
+                        render: function(data, type, row) {
+                            const imgSrc = '/sessionImages/' + new Date().toLocaleDateString() +
+                                '/' + data;
+                            return '<img class="lightgallery" src="' + imgSrc + '" />';
+                        }
+                    },
+                    {
+                        data: 'dua_type',
+                        render: function(data) {
+                            return data.charAt(0).toUpperCase() + data.slice(1);
+                        }
+                    },
+                    {
+                        data: 'msg_sid'
+                    },
+                    {
+                        data: 'action_at',
+                        render: function(data, type, row) {
+                            if (!data) {
+                                return '<div class="row py-4 actionBtns">' +
+                                    '<button type="button" class="btn btn-success approve" data-id="' +
+                                    row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+                                    '<button type="button" class="btn btn-danger disapprove" data-id="' +
+                                    row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                                    '</div>';
+                            } else {
+                                return '<p>Action Taken: ' + (row.action_status ?
+                                    '<span class="btn ' + (row.action_status === 'approved' ?
+                                        'btn-success' : 'btn-danger') + ' btn-sm">' + row
+                                    .action_status + '</span>' : '') + '</p>';
+                            }
+                        }
+                    }
+                ],
+                rowCallback: function(row, data, index) {
+                    // Row callback for custom actions or adding event listeners, if needed
                 }
-            },
-            // You can add actions or other columns here as needed
-        ],
-        order: [[1, 'asc']],  // Initial sort on the second column (total_visits)
-        pageLength: 10  // Number of records per page
-    });
-});
-
+            });
+        });
 
 
 
