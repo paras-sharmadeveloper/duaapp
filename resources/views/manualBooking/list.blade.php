@@ -245,100 +245,93 @@
 
 @section('page-script')
     <script>
-        var filterDate = $("#filter_date").val();
-        var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
-
-        $(document).ready(function() {
-            $('#visitorTable').DataTable({
-                processing: true,
-                serverSide: true,
-                deferRender: true, // Helps with large data sets
-                ajax: {
-                    url: url,
-                    type: 'GET',
-                    dataSrc: function(json) {
-                        console.log(json); // Check the response structure
-                        return json.data;
-                    }
-                },
-                columns: [{
-                        data: 'visitor_id',
-                        render: function(data, type, row) {
-                            return '<input type="checkbox" class="bulk-checkbox" data-id="' + row
-                                .visitor_id + '">';
 
 
-                        }
+$(document).ready(function() {
+    var filterDate = $("#filter_date").val();
+    var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
 
-                    },
-                    {
-                        data: 'visitor_id'
-                    },
-                    {
-                        data: 'created_at'
-                    },
-                    {
-                        data: 'country_code'
-                    },
-                    {
-                        data: 'phone'
-                    },
-                    {
-                        data: 'recognized_code',
-                        render: function(data, type, row) {
-                            if (data) {
-                                const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
-                                return '<img class="lightgallery" src="' + imgSrc + '" />';
-                            }
-
-                        }
-                    },
-
-                    {
-                        data: 'dua_type'
-                    },
-                    {
-                        data: 'msg_sid'
-                    },
-                    {
-                        data: 'last_visit'
-                    },
-
-                    {
-                        data: 'last_visit',
-                        render: function(data, type, row) {
-                            if (data) {
-                                 return "Yes";
-                            }
-
-                        }
-                    },
-
-
-                    {
-                        data: 'action_at',
-                        render: function(data, type, row) {
-                            if (data === null) {
-                                return '<div class="row py-4 actionBtns">' +
-                                    '<button type="button" class="btn btn-success approve" data-id="' +
-                                    row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
-                                    '<button type="button" class="btn btn-danger disapprove" data-id="' +
-                                    row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
-                                    '</div>';
-                            } else {
-                                return '<p>Action Taken: ' + (row.action_status ?
-                                    '<span class="btn ' + (row.action_status === 'approved' ?
-                                        'btn-success' : 'btn-danger') + ' btn-sm">' + row
-                                    .action_status + '</span>' : '') + '</p>';
-                            }
-                        }
-                    }
-                ],
-                rowCallback: function(row, data, index) {
-                    // Row callback for custom actions or adding event listeners
+    $('#visitorTable').DataTable({
+        processing: true,
+        serverSide: true,
+        deferRender: true, // Helps with large data sets
+        pageLength: 50, // Set the default number of rows per page
+        lengthMenu: [50, 100], // Options for page length (50 and 100 rows per page)
+        ajax: {
+            url: url,
+            type: 'GET',
+            dataSrc: function(json) {
+                console.log(json); // Check the response structure
+                return json.data;
+            }
+        },
+        columns: [
+            {
+                data: 'visitor_id',
+                render: function(data, type, row) {
+                    return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.visitor_id + '">';
                 }
-            });
-        });
+            },
+            {
+                data: 'visitor_id'
+            },
+            {
+                data: 'created_at'
+            },
+            {
+                data: 'country_code'
+            },
+            {
+                data: 'phone'
+            },
+            {
+                data: 'recognized_code',
+                render: function(data, type, row) {
+                    if (data) {
+                        const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
+                        return '<img class="lightgallery" src="' + imgSrc + '" />';
+                    }
+                }
+            },
+            {
+                data: 'dua_type'
+            },
+            {
+                data: 'msg_sid'
+            },
+            {
+                data: 'last_visit'
+            },
+            {
+                data: 'last_visit',
+                render: function(data, type, row) {
+                    if (data) {
+                        return "Yes";
+                    }
+                }
+            },
+            {
+                data: 'action_at',
+                render: function(data, type, row) {
+                    if (data === null) {
+                        return '<div class="row py-4 actionBtns">' +
+                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                            '</div>';
+                    } else {
+                        return '<p>Action Taken: ' + (row.action_status ?
+                            '<span class="btn ' + (row.action_status === 'approved' ?
+                                'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
+                    }
+                }
+            }
+        ],
+        rowCallback: function(row, data, index) {
+            // Row callback for custom actions or adding event listeners
+        }
+    });
+});
+
 
 
         // var filterDate = $("#filter_date").val();
