@@ -115,7 +115,7 @@
                     </form>
                 </div>
             </div>
-            <table id="visitorTable" class="table-with-buttons table table-responsive cell-border">
+            <table id="visitorTable" class="1-table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
                         <th>
