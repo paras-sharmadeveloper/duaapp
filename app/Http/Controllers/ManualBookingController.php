@@ -62,7 +62,7 @@ class ManualBookingController extends Controller
         }
 
         // Get the filtered phone numbers with pagination
-        $phoneNumbers = $phoneNumbersQuery->skip($start)->take($length)->get();
+        $phoneNumbers = $phoneNumbersQuery->skip($skip)->take($pageLength)->get();
         $totalRecords = $phoneNumbersQuery->count();  // Get total records before pagination
 
         $visitorData = [];
