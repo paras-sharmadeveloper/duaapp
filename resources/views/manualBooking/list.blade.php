@@ -425,15 +425,16 @@ $(document).ready(function() {
 
 
 
-        $(".approve").click(function() {
-            var id = $(this).attr('data-id');
-            AjaxCall(id, 'approve', $(this))
-        });
+        $(document).on('click', '.approve', function() {
+        var id = $(this).attr('data-id');
+        AjaxCall(id, 'approve', $(this));
+    });
 
-        $(".disapprove").click(function() {
-            var id = $(this).attr('data-id');
-            AjaxCall(id, 'disapprove', $(this))
-        });
+    // Delegate the click event for .disapprove buttons
+    $(document).on('click', '.disapprove', function() {
+        var id = $(this).attr('data-id');
+        AjaxCall(id, 'disapprove', $(this));
+    });
 
 
 
