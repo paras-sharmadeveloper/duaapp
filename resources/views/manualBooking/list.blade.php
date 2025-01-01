@@ -245,39 +245,126 @@
 
 @section('page-script')
     <script>
-$(document).ready(function() {
-    var filterDate = $("#filter_date").val();
-    var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
+        var filterDate = $("#filter_date").val();
+var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
 
+$(document).ready(function() {
     $('#visitorTable').DataTable({
-        processing: true,
-        serverSide: true,
+        processing: true, // Show processing indicator
+        serverSide: true, // Enable server-side processing
         ajax: {
-            url: url,
+            url: url, // Server-side endpoint
             type: 'GET',
             dataSrc: function(json) {
-                console.log(json); // Check the data structure returned
-                return json.data;
+                // Flatten the visitorList into individual rows for DataTable
+                var flatData = [];
+                json.data.forEach(function(visitor) {
+                    visitor.visitorList.forEach(function(entry) {
+                        // Each entry from visitorList is a new row
+                        flatData.push({
+                            id: visitor.id,
+                            created_at: entry.created_at,
+                            country_code: entry.country_code,
+                            phone: entry.phone,
+                            recognized_code: entry.recognized_code,
+                            dua_type: entry.dua_type,
+                            msg_sid: entry.msg_sid,
+
+                            action_at: entry.action_at,
+                            action_status: entry.action_status
+                        });
+                    });
+                });
+                return flatData; // Return the flattened array of rows
             }
         },
         columns: [
-            { data: 'visitor_id' },
-            { data: 'phone_number' },
-            { data: 'total_visits' },
-            { data: 'last_visit' },
-            { data: 'start_date' },
-            { data: 'end_date' },
-            { data: 'country_code' },
-            { data: 'phone' },
-            { data: 'recognized_code' },
-            { data: 'dua_type' },
-            { data: 'msg_sid' },
-            { data: 'action_at' }
+            {
+                data: 'id',
+                render: function(data, type, row) {
+                    // Check if action_at is null and show checkbox for bulk select
+                    if (row.action_at === null) {
+                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.id + '">';
+                    }
+                    return '';
+                }
+            },
+            {
+                data: 'id',
+                render: function(data, type, row) {
+                    console.log("data",row)
+                    return row.id; // Display visitor id
+                }
+            },
+            {
+                data: 'created_at',
+                render: function(data) {
+                    return new Date(data).toLocaleString(); // Format date
+                }
+            },
+            {
+                data: 'country_code',
+                render: function(data) {
+                    return data; // Display country code
+                }
+            },
+            {
+                data: 'phone',
+                render: function(data) {
+                    return data; // Display phone number
+                }
+            },
+            {
+                data: 'recognized_code',
+                render: function(data) {
+                    if (data) {
+                        const imgSrc = '/sessionImages/' + filterDate + '/' + data;
+                        return '<img class="lightgallery" src="' + imgSrc + '" />';
+                    }
+                    return ''; // If no image, return an empty string
+                }
+            },
+            {
+                data: 'dua_type',
+                render: function(data) {
+                    // Capitalize dua_type
+                    return data.charAt(0).toUpperCase() + data.slice(1);
+                }
+            },
+            {
+                data: 'msg_sid'
+            },
+            {
+                data: 'last_visit'
+            },
+            {
+                data: 'last_visit',
+
+                render: function(data) {
+                    // Capitalize dua_type
+                    return 'Yes';
+                }
+            },
+            {
+                data: 'action_at',
+                render: function(data, type, row) {
+                    if (!data) {
+                        return '<div class="row py-4 actionBtns">' +
+                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                            '</div>';
+                    } else {
+                        return '<p>Action Taken: ' + (row.action_status ?
+                            '<span class="btn ' + (row.action_status === 'approved' ? 'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
+                    }
+                }
+            }
         ],
-        order: [[1, 'asc']]
+        rowCallback: function(row, data, index) {
+            // Row callback for custom actions or adding event listeners, if needed
+        }
     });
 });
-
 
 
         // var filterDate = $("#filter_date").val();
