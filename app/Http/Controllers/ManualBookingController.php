@@ -46,7 +46,7 @@ class ManualBookingController extends Controller
         // Fetch distinct phone numbers for the given filter date
         $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
             ->distinct('phone')
-            ->select('phone', 'created_at', 'venueId');
+            ->select('phone', 'created_at', 'venueId','id');
 
         // Apply search filter if search value is provided (to filter by phone number or other fields)
         if ($searchValue) {
