@@ -28,9 +28,85 @@ class ManualBookingController extends Controller
         $ip = '192.168.31.200';
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
-
-
     public function getVisitorList(Request $request)
+{
+    $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
+    $startTime = microtime(true);  // Start time for performance tracking
+
+    $endDate = Carbon::today();
+    $targetDate = Carbon::parse($date);  // Parse the filter date
+
+    // Handle sorting, searching, and pagination parameters sent by DataTable
+    $searchValue = $request->input('search.value');
+    $start = $request->input('start', 0);
+    $length = $request->input('length', 10);  // Number of records per page
+
+    // Start with the main query to fetch visitors (not just phone numbers)
+    $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
+        ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
+        ->with('venueAddress'); // Assuming 'venueAddress' is a relation for venue info
+
+    // Apply search filter if search value is provided (to filter by phone number or other fields)
+    if ($searchValue) {
+        $visitorQuery->where(function ($query) use ($searchValue) {
+            $query->where('phone', 'like', '%' . $searchValue . '%')
+                ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+        });
+    }
+
+    // Get the total number of records before pagination (for `recordsTotal`)
+    $totalRecords = $visitorQuery->count();
+
+    // Apply pagination on the visitor query
+    $visitorQuery->skip($start)->take($length);
+
+    // Execute the query to get the paginated results
+    $visitorList = $visitorQuery->get();
+
+    $visitorData = [];
+    $endDate = Carbon::today();
+
+    // Loop through each visitor record to populate the response data
+    foreach ($visitorList as $entry) {
+        $venueId = $entry->venueId;
+        $venueAddress = $entry->venueAddress;
+        $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+        $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
+
+        $visitorData[] = [
+            'phone_number' => $entry->phone,
+            'total_visits' => 1, // This can be adjusted to count total visits for the phone
+            'last_visit' => $entry->created_at->toDateString(),
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
+            'visitor_id' => $entry->id,
+            'created_at' => $entry->created_at->format('Y-m-d'),
+            'country_code' => $entry->country_code,
+            'phone' => $entry->phone,
+            'recognized_code' => $entry->recognized_code,
+            'dua_type' => $entry->dua_type,
+            'msg_sid' => $entry->msg_sid,
+            'action_at' => $entry->action_at,
+            'action_status' => $entry->action_status
+        ];
+    }
+
+    $endTime = microtime(true);  // End time for performance tracking
+    $executionTime = $endTime - $startTime;  // Calculate the execution time
+
+    // Return the data in the required format for DataTables
+    return response()->json([
+        'draw' => intval($request->input('draw')),
+        'recordsTotal' => $totalRecords,  // Total records before any filtering
+        'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
+        'data' => $visitorData,  // The visitor data to be displayed in the table
+        'executionTime' => $executionTime,  // Include the execution time in the response (optional)
+    ]);
+}
+
+
+
+    public function getVisitorListold(Request $request)
     {
         $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
         $startTime = microtime(true);  // Start time for performance tracking
@@ -43,9 +119,6 @@ class ManualBookingController extends Controller
         $start = $request->input('start', 0);
         $length = $request->input('length', 10);  // Number of records per page
 
-        $pageNumber = ( $request->start / $request->length )+1;
-        $pageLength = $request->length;
-        $skip       = ($pageNumber-1) * $pageLength;
 
 
         // Fetch distinct phone numbers for the given filter date
@@ -62,7 +135,7 @@ class ManualBookingController extends Controller
         }
 
         // Get the filtered phone numbers with pagination
-        $phoneNumbers = $phoneNumbersQuery->skip($skip)->take($pageLength)->get();
+        $phoneNumbers = $phoneNumbersQuery->skip($start)->take($length)->get();
         $totalRecords = $phoneNumbersQuery->count();  // Get total records before pagination
 
         $visitorData = [];
@@ -88,7 +161,7 @@ class ManualBookingController extends Controller
             }
 
             // Get the visitor entries with pagination
-            $visitorList = $visitorListQuery->skip($skip)->take($pageLength)->get();
+            $visitorList = $visitorListQuery->skip($start)->take($length)->get();
 
             // Get total visits count for the phone number
             $totalVisits = $visitorList->count();
