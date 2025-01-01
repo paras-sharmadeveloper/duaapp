@@ -91,7 +91,7 @@ class ManualBookingController extends Controller
                 'phone_number' => $entry->phone,
                 'total_visits' => $totalVisits,
                 'last_visit' => $lastVisitDate,
-                'last' => $lastVisit,
+                //'last' => $lastVisit,
                 // 'last_visit' => $entry->created_at->toDateString(),
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
