@@ -265,8 +265,8 @@
                         data: 'visitor_id',
                         render: function(data, type, row) {
                             return '<input type="checkbox" class="bulk-checkbox" data-id="' + row
-                                .visitor_id + '">'
-                            ';
+                                .visitor_id + '">';
+
 
                         }
 
@@ -287,8 +287,7 @@
                         data: 'recognized_code',
                         render: function(data, type, row) {
                             if (data) {
-                                const imgSrc = '/sessionImages/' + row.created_at + '/' + row
-                                    .recognized_code;
+                                const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
                                 return '<img class="lightgallery" src="' + imgSrc + '" />';
                             }
 
