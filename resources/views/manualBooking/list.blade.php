@@ -318,7 +318,7 @@ $(document).ready(function() {
                 data: 'recognized_code',
                 render: function(data) {
                     if (data) {
-                        const imgSrc = '/sessionImages/' + new Date().toLocaleDateString() + '/' + data;
+                        const imgSrc = '/sessionImages/' + filterDate + '/' + data;
                         return '<img class="lightgallery" src="' + imgSrc + '" />';
                     }
                     return ''; // If no image, return an empty string
