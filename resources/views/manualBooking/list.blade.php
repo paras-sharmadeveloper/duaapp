@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
-                                <input class="form-control" type="date" name="filter_date"
+                                <input class="form-control" type="date" name="filter_date" id="filter_date"
                                     value="{{ request()->get('filter_date') ? request()->get('filter_date') : '' }}">
                             </div>
                             <div class="col-md-4">
