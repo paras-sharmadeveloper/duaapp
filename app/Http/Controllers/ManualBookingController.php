@@ -43,6 +43,11 @@ class ManualBookingController extends Controller
         $start = $request->input('start', 0);
         $length = $request->input('length', 10);  // Number of records per page
 
+        $pageNumber = ( $request->start / $request->length )+1;
+        $pageLength = $request->length;
+        $skip       = ($pageNumber-1) * $pageLength;
+
+
         // Fetch distinct phone numbers for the given filter date
         $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
            // ->distinct('phone')
@@ -83,7 +88,7 @@ class ManualBookingController extends Controller
             }
 
             // Get the visitor entries with pagination
-            $visitorList = $visitorListQuery->skip($start)->take($length)->get();
+            $visitorList = $visitorListQuery->skip($skip)->take($pageLength)->get();
 
             // Get total visits count for the phone number
             $totalVisits = $visitorList->count();
@@ -111,7 +116,7 @@ class ManualBookingController extends Controller
         }
 
         $endTime = microtime(true);  // End time for performance tracking
-        $executionTime = $endTime - $startTime;  // Calculate the execution time
+        $executionTime = $endTime - $startTime;  // Calculate
 
         // Return the data in the required format for DataTables
         return response()->json([
