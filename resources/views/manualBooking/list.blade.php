@@ -269,8 +269,7 @@ $(document).ready(function() {
                             recognized_code: entry.recognized_code,
                             dua_type: entry.dua_type,
                             msg_sid: entry.msg_sid,
-                            last_visit: visitor.last_visit,
-                            last_visit_n: (visitor.last_visit) ? 'Yes' : 'No',
+
                             action_at: entry.action_at,
                             action_status: entry.action_status
                         });
@@ -334,6 +333,17 @@ $(document).ready(function() {
             },
             {
                 data: 'msg_sid'
+            },
+            {
+                data: 'last_visit'
+            },
+            {
+                data: 'last_visit',
+
+                render: function(data) {
+                    // Capitalize dua_type
+                    return (data.last_visit) ? 'Yes' : 'No';
+                }
             },
             {
                 data: 'action_at',
