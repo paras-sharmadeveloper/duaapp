@@ -74,7 +74,16 @@ class ManualBookingController extends Controller
         $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
         // Get the last visit entry
 
-        $lastVisit = $visitorList->last();
+        $lastVisit = VisitorTempEntry::where('phone', $entry->phone)
+        ->whereDate('created_at', '<=', $endDate)  // Filter based on the target date range
+        ->orderBy('created_at', 'desc')  // Sort by the most recent visit
+        ->first();  // Get the most recent visit (last visit)
+
+    // Calculate total visits for the phone number in the specified date range
+        $totalVisits = VisitorTempEntry::where('phone', $entry->phone)
+            ->whereDate('created_at', '<=', $endDate)  // Filter based on the target date range
+            ->count();
+
         $visitorData[] = [
             'phone_number' => $entry->phone,
             'total_visits' => $totalVisits,
