@@ -29,95 +29,96 @@ class ManualBookingController extends Controller
         $this->dahuaHelper = new DahuaHelper($username, $password);
     }
     public function getVisitorList(Request $request)
-{
-    $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
-    $startTime = microtime(true);  // Start time for performance tracking
+    {
+        $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
+        $startTime = microtime(true);  // Start time for performance tracking
 
-    $endDate = Carbon::today();
-    $targetDate = Carbon::parse($date);  // Parse the filter date
+        $endDate = Carbon::today();
+        $targetDate = Carbon::parse($date);  // Parse the filter date
 
-    // Handle sorting, searching, and pagination parameters sent by DataTable
-    $searchValue = $request->input('search.value');
-    $start = $request->input('start', 0);
-    $length = $request->input('length', 10);  // Number of records per page
+        // Handle sorting, searching, and pagination parameters sent by DataTable
+        $searchValue = $request->input('search.value');
+        $start = $request->input('start', 0);
+        $length = $request->input('length', 10);  // Number of records per page
 
-    // Start with the main query to fetch visitors (not just phone numbers)
-    $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
-        ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
-        ->with('venueAddress'); // Assuming 'venueAddress' is a relation for venue info
+        // Start with the main query to fetch visitors (not just phone numbers)
+        $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
+            ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
+            ->with('venueAddress'); // Assuming 'venueAddress' is a relation for venue info
 
-    // Apply search filter if search value is provided (to filter by phone number or other fields)
-    if ($searchValue) {
-        $visitorQuery->where(function ($query) use ($searchValue) {
-            $query->where('phone', 'like', '%' . $searchValue . '%')
-                ->orWhere('created_at', 'like', '%' . $searchValue . '%');
-        });
+        // Apply search filter if search value is provided (to filter by phone number or other fields)
+        if ($searchValue) {
+            $visitorQuery->where(function ($query) use ($searchValue) {
+                $query->where('phone', 'like', '%' . $searchValue . '%')
+                    ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Get the total number of records before pagination (for `recordsTotal`)
+        $totalRecords = $visitorQuery->count();
+
+        // Apply pagination on the visitor query
+        $visitorQuery->skip($start)->take($length);
+
+        // Execute the query to get the paginated results
+        $visitorList = $visitorQuery->get();
+
+        $visitorData = [];
+        $endDate = Carbon::today();
+        $totalVisits = $visitorList->count();
+        // Loop through each visitor record to populate the response data
+        foreach ($visitorList as $entry) {
+            $venueId = $entry->venueId;
+            $venueAddress = $entry->venueAddress;
+            $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
+            // Get the last visit entry
+
+            $lastVisit = VisitorTempEntry::where('phone', $entry->phone)
+                ->whereDate('created_at', '<=', $request->input('filter_date'))  // Filter to get visits before or on the filter date
+                ->orderBy('created_at', 'desc')  // Sort by the most recent visit (descending order)
+                ->first();  // Get the most recent visit (last visit)
+
+            // Check if the last visit exists and set its created_at as the last visit date
+            $lastVisitDate = $lastVisit ? $lastVisit->created_at->toDateString() : null;
+
+            // Calculate total visits for the phone number in the specified date range
+            $totalVisits = VisitorTempEntry::where('phone', $entry->phone)
+                ->whereDate('created_at', '<=', $targetDate)  // Filter visits before or on the filter date
+                ->count();
+
+            $visitorData[] = [
+                'phone_number' => $entry->phone,
+                'total_visits' => $totalVisits,
+                'last_visit' => $lastVisitDate,
+                'last' => $lastVisit,
+                // 'last_visit' => $entry->created_at->toDateString(),
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+                'visitor_id' => $entry->id,
+                'created_at' => $entry->created_at->format('Y-m-d'),
+                'country_code' => $entry->country_code,
+                'phone' => $entry->phone,
+                'recognized_code' => $entry->recognized_code,
+                'dua_type' => $entry->dua_type,
+                'msg_sid' => $entry->msg_sid,
+                'action_at' => $entry->action_at,
+                'action_status' => $entry->action_status
+            ];
+        }
+
+        $endTime = microtime(true);  // End time for performance tracking
+        $executionTime = $endTime - $startTime;  // Calculate the execution time
+
+        // Return the data in the required format for DataTables
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalRecords,  // Total records before any filtering
+            'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
+            'data' => $visitorData,  // The visitor data to be displayed in the table
+            'executionTime' => $executionTime,  // Include the execution time in the response (optional)
+        ]);
     }
-
-    // Get the total number of records before pagination (for `recordsTotal`)
-    $totalRecords = $visitorQuery->count();
-
-    // Apply pagination on the visitor query
-    $visitorQuery->skip($start)->take($length);
-
-    // Execute the query to get the paginated results
-    $visitorList = $visitorQuery->get();
-
-    $visitorData = [];
-    $endDate = Carbon::today();
-    $totalVisits = $visitorList->count();
-    // Loop through each visitor record to populate the response data
-    foreach ($visitorList as $entry) {
-        $venueId = $entry->venueId;
-        $venueAddress = $entry->venueAddress;
-        $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
-        $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
-        // Get the last visit entry
-
-        $lastVisit = VisitorTempEntry::where('phone', $entry->phone)
-            ->whereDate('created_at', '<=', $targetDate)  // Filter to get visits before or on the filter date
-            ->orderBy('created_at', 'desc')  // Sort by the most recent visit (descending order)
-            ->first();  // Get the most recent visit (last visit)
-
-        // Check if the last visit exists and set its created_at as the last visit date
-        $lastVisitDate = $lastVisit ? $lastVisit->created_at->toDateString() : null;
-
-        // Calculate total visits for the phone number in the specified date range
-        $totalVisits = VisitorTempEntry::where('phone', $entry->phone)
-            ->whereDate('created_at', '<=', $targetDate)  // Filter visits before or on the filter date
-            ->count();
-
-        $visitorData[] = [
-            'phone_number' => $entry->phone,
-            'total_visits' => $totalVisits,
-             'last_visit' => $lastVisitDate,
-            // 'last_visit' => $entry->created_at->toDateString(),
-            'start_date' => $startDate->toDateString(),
-            'end_date' => $endDate->toDateString(),
-            'visitor_id' => $entry->id,
-            'created_at' => $entry->created_at->format('Y-m-d'),
-            'country_code' => $entry->country_code,
-            'phone' => $entry->phone,
-            'recognized_code' => $entry->recognized_code,
-            'dua_type' => $entry->dua_type,
-            'msg_sid' => $entry->msg_sid,
-            'action_at' => $entry->action_at,
-            'action_status' => $entry->action_status
-        ];
-    }
-
-    $endTime = microtime(true);  // End time for performance tracking
-    $executionTime = $endTime - $startTime;  // Calculate the execution time
-
-    // Return the data in the required format for DataTables
-    return response()->json([
-        'draw' => intval($request->input('draw')),
-        'recordsTotal' => $totalRecords,  // Total records before any filtering
-        'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
-        'data' => $visitorData,  // The visitor data to be displayed in the table
-        'executionTime' => $executionTime,  // Include the execution time in the response (optional)
-    ]);
-}
 
 
 
@@ -138,7 +139,7 @@ class ManualBookingController extends Controller
 
         // Fetch distinct phone numbers for the given filter date
         $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
-           // ->distinct('phone')
+            // ->distinct('phone')
             ->select('phone', 'created_at', 'venueId', 'id');
 
         // Apply search filter if search value is provided (to filter by phone number or other fields)
