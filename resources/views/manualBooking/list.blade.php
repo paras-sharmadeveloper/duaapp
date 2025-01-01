@@ -256,7 +256,7 @@ $(document).ready(function() {
         serverSide: true,
         deferRender: true, // Helps with large data sets
         pageLength: 50, // Set the default number of rows per page
-        lengthMenu: [50, 100], // Options for page length (50 and 100 rows per page)
+        lengthMenu: [50, 100,200,500,], // Options for page length (50 and 100 rows per page)
         ajax: {
             url: url,
             type: 'GET',
