@@ -279,72 +279,17 @@ $(document).ready(function() {
             }
         },
         columns: [
-            {
-                data: 'id',
-                render: function(data, type, row) {
-                    // Check if action_at is null and show checkbox for bulk select
-                    if (row.action_at === null) {
-                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.id + '">';
-                    }
-                    return '';
-                }
-            },
-            {
-                data: 'id',
-                render: function(data, type, row) {
-                    console.log("data",row)
-                    return row.id; // Display visitor id
-                }
-            },
-            {
-                data: 'created_at',
-                render: function(data) {
-                    return new Date(data).toLocaleString(); // Format date
-                }
-            },
-            {
-                data: 'country_code',
-                render: function(data) {
-                    return data; // Display country code
-                }
-            },
-            {
-                data: 'phone',
-                render: function(data) {
-                    return data; // Display phone number
-                }
-            },
-            {
-                data: 'recognized_code',
-                render: function(data) {
-                    if (data) {
-                        const imgSrc = '/sessionImages/' + filterDate + '/' + data;
-                        return '<img class="lightgallery" src="' + imgSrc + '" />';
-                    }
-                    return ''; // If no image, return an empty string
-                }
-            },
-            {
-                data: 'dua_type',
-                render: function(data) {
-                    // Capitalize dua_type
-                    return data.charAt(0).toUpperCase() + data.slice(1);
-                }
-            },
-            {
-                data: 'msg_sid'
-            },
-            {
-                data: 'last_visit'
-            },
-            {
-                data: 'last_visit',
-
-                render: function(data) {
-                    // Capitalize dua_type
-                    return 'Yes';
-                }
-            },
+            { data: 'visitor_id' },
+            { data: 'phone_number' },
+            { data: 'total_visits' },
+            { data: 'last_visit' },
+            { data: 'start_date' },
+            { data: 'end_date' },
+            { data: 'country_code' },
+            { data: 'phone' },
+            { data: 'recognized_code' },
+            { data: 'dua_type' },
+            { data: 'msg_sid' },
             {
                 data: 'action_at',
                 render: function(data, type, row) {
