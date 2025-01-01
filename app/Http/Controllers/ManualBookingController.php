@@ -115,6 +115,8 @@ class ManualBookingController extends Controller
 
         // Return the data in the required format for DataTables
         return response()->json([
+            'start' => $start,
+            'take' => $length,
             'draw' => intval($request->input('draw')),
             'recordsTotal' => $totalRecords,  // Total records before any filtering
             'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
