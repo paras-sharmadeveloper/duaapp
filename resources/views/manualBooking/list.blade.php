@@ -288,9 +288,9 @@ $(document).ready(function() {
             },
             {
                 data: 'id',
-                render: function(data) {
-                    console.log("data",data)
-                    return data; // Display visitor id
+                render: function(data, type, row) {
+                    console.log("data",row)
+                    return row.id; // Display visitor id
                 }
             },
             {
