@@ -303,11 +303,11 @@ $(document).ready(function() {
                 data: 'last_visit'
             },
             {
-                data: 'last_visit',
+                data: 'start_date',
                 render: function(data, type, row) {
-                    if (data) {
+
                         return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '<button type="button" class="btn btn-warning ">No</button>';
-                    }
+
                 }
             },
             {
