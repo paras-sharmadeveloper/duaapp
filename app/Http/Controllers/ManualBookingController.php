@@ -74,7 +74,7 @@ class ManualBookingController extends Controller
         $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
         // Get the last visit entry
 
-    $lastVisit = $entry->last();
+        $lastVisit = $visitorList->last();
         $visitorData[] = [
             'phone_number' => $entry->phone,
             'total_visits' => $totalVisits,
