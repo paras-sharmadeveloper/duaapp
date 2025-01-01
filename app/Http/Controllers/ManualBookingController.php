@@ -98,7 +98,7 @@ class ManualBookingController extends Controller
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
                 'visitor_id' => $entry->id,
-                'created_at' => $entry->created_at,
+                'created_at' => Carbon::parse($entry->created_at)->format('Y-m-d')  ,
                 'country_code' => $entry->country_code,
                 'phone' => $entry->phone,
                 'recognized_code' => $entry->recognized_code,
