@@ -75,7 +75,7 @@ class ManualBookingController extends Controller
             // Get the last visit entry
 
             $lastVisit = VisitorTempEntry::where('phone', $entry->phone)
-                ->whereDate('created_at', '<=', $request->input('filter_date'))  // Filter to get visits before or on the filter date
+                ->whereDate('created_at', '<', $request->input('filter_date'))  // Filter to get visits before or on the filter date
                 ->orderBy('created_at', 'desc')  // Sort by the most recent visit (descending order)
                 ->first();  // Get the most recent visit (last visit)
 
