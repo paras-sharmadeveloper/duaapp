@@ -263,7 +263,6 @@ $(document).ready(function() {
         },
         columns: [
             { data: 'visitor_id' },
-            { data: 'phone_number' },
             { data: 'total_visits' },
             { data: 'last_visit' },
             { data: 'start_date' },
