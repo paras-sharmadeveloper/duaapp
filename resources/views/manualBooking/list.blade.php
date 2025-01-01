@@ -250,33 +250,11 @@ var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
 
 $(document).ready(function() {
     $('#visitorTable').DataTable({
-        processing: true, // Show processing indicator
-        serverSide: true, // Enable server-side processing
+        processing: true,
+        serverSide: true,
         ajax: {
-            url: url, // Server-side endpoint
+            url: url,
             type: 'GET',
-            dataSrc: function(json) {
-                // Flatten the visitorList into individual rows for DataTable
-                var flatData = [];
-                json.data.forEach(function(visitor) {
-                    visitor.visitorList.forEach(function(entry) {
-                        // Each entry from visitorList is a new row
-                        flatData.push({
-                            id: visitor.id,
-                            created_at: entry.created_at,
-                            country_code: entry.country_code,
-                            phone: entry.phone,
-                            recognized_code: entry.recognized_code,
-                            dua_type: entry.dua_type,
-                            msg_sid: entry.msg_sid,
-
-                            action_at: entry.action_at,
-                            action_status: entry.action_status
-                        });
-                    });
-                });
-                return flatData; // Return the flattened array of rows
-            }
         },
         columns: [
             { data: 'visitor_id' },
