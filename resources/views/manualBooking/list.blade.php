@@ -342,7 +342,7 @@ $(document).ready(function() {
 
                 render: function(data) {
                     // Capitalize dua_type
-                    return (data.last_visit) ? 'Yes' : 'No';
+                    return 'Yes';
                 }
             },
             {
