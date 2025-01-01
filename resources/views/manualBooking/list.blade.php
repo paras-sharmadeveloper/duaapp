@@ -252,9 +252,14 @@ $(document).ready(function() {
     $('#visitorTable').DataTable({
         processing: true,
         serverSide: true,
+        deferRender: true, // Helps with large data sets
         ajax: {
             url: url,
             type: 'GET',
+            dataSrc: function(json) {
+                console.log(json);  // Check the response structure
+                return json.data;
+            }
         },
         columns: [
             { data: 'visitor_id' },
@@ -271,7 +276,7 @@ $(document).ready(function() {
             {
                 data: 'action_at',
                 render: function(data, type, row) {
-                    if (!data) {
+                    if (data === null) {
                         return '<div class="row py-4 actionBtns">' +
                             '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
                             '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
@@ -284,7 +289,7 @@ $(document).ready(function() {
             }
         ],
         rowCallback: function(row, data, index) {
-            // Row callback for custom actions or adding event listeners, if needed
+            // Row callback for custom actions or adding event listeners
         }
     });
 });
