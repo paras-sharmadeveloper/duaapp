@@ -66,7 +66,6 @@ class ManualBookingController extends Controller
     $visitorData = [];
     $endDate = Carbon::today();
     $totalVisits = $visitorList->count();
-    $lastVisit = $visitorList->last();
     // Loop through each visitor record to populate the response data
     foreach ($visitorList as $entry) {
         $venueId = $entry->venueId;
@@ -75,6 +74,7 @@ class ManualBookingController extends Controller
         $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
         // Get the last visit entry
 
+    $lastVisit = $entry->last();
         $visitorData[] = [
             'phone_number' => $entry->phone,
             'total_visits' => $totalVisits,
