@@ -75,19 +75,22 @@ class ManualBookingController extends Controller
         // Get the last visit entry
 
         $lastVisit = VisitorTempEntry::where('phone', $entry->phone)
-        ->whereDate('created_at', $date)  // Filter based on the target date range
-        ->orderBy('created_at', 'desc')  // Sort by the most recent visit
-        ->first();  // Get the most recent visit (last visit)
+            ->whereDate('created_at', '<=', $targetDate)  // Filter to get visits before or on the filter date
+            ->orderBy('created_at', 'desc')  // Sort by the most recent visit (descending order)
+            ->first();  // Get the most recent visit (last visit)
 
-    // Calculate total visits for the phone number in the specified date range
+        // Check if the last visit exists and set its created_at as the last visit date
+        $lastVisitDate = $lastVisit ? $lastVisit->created_at->toDateString() : null;
+
+        // Calculate total visits for the phone number in the specified date range
         $totalVisits = VisitorTempEntry::where('phone', $entry->phone)
-            ->whereDate('created_at', '<=', $endDate)  // Filter based on the target date range
+            ->whereDate('created_at', '<=', $targetDate)  // Filter visits before or on the filter date
             ->count();
 
         $visitorData[] = [
             'phone_number' => $entry->phone,
             'total_visits' => $totalVisits,
-             'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null,
+             'last_visit' => $lastVisitDate,
             // 'last_visit' => $entry->created_at->toDateString(),
             'start_date' => $startDate->toDateString(),
             'end_date' => $endDate->toDateString(),
