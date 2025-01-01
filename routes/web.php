@@ -253,6 +253,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/book/manual/list', [ManualBookingController::class, 'list'])->name('booking.manual.list');
     Route::post('/book/manual/approve', [ManualBookingController::class, 'ApproveDisapprove'])->name('booking.manual.approve');
     Route::post('/book/manual/approve/bulk', [ManualBookingController::class, 'ApproveDisapproveBulk'])->name('booking.manual.approve.bulk');
+    Route::get('/book/manual/list/ajax', [ManualBookingController::class, 'getVisitorList'])->name('booking.manual.ajax');
 
 
     Route::get('/filter', [NewBookingController::class, 'ShowFilterPage'])->name('admin.filter');

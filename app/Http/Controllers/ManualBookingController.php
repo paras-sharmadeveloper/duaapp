@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\{WhatsAppConfirmation,WhatsAppTokenNotBookNotifcation};
+use App\Jobs\{WhatsAppConfirmation, WhatsAppTokenNotBookNotifcation};
 use App\Models\VenueAddress;
 use App\Models\VenueSloting;
 use App\Models\VisitorTempEntry;
@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Helpers\DahuaHelper;
 use Carbon\Carbon;
+
 class ManualBookingController extends Controller
 {
     //
@@ -24,8 +25,79 @@ class ManualBookingController extends Controller
         // You can set these as env variables or hard-code them
         $username = env('DAHUA_USERNAME', 'admin'); // Username from .env or default
         $password = env('DAHUA_PASSWORD', 'admin@123'); // Password from .env or default
-        $ip ='192.168.31.200';
+        $ip = '192.168.31.200';
         $this->dahuaHelper = new DahuaHelper($username, $password);
+    }
+
+
+    public function getVisitorList(Request $request)
+    {
+        $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
+        $startTime = microtime(true);  // Start time for performance tracking
+
+        $endDate = Carbon::today();
+        $targetDate = Carbon::parse($date);  // Parse the filter date
+
+        // Handle sorting, searching, and pagination parameters sent by DataTable
+        $searchValue = $request->input('search.value');
+        $start = $request->input('start', 0);
+        $length = $request->input('length', 10);  // Number of records per page
+
+        // Fetch distinct phone numbers for the given filter date
+        $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
+            ->distinct('phone')
+            ->select('phone', 'created_at', 'venueId');
+
+        // Apply search filter if search value is provided (to filter by phone number or other fields)
+        if ($searchValue) {
+            $phoneNumbersQuery->where(function ($query) use ($searchValue) {
+                $query->where('phone', 'like', '%' . $searchValue . '%')
+                    ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Get the filtered, paginated phone numbers
+        $phoneNumbers = $phoneNumbersQuery->skip($start)->take($length)->get();
+        $totalRecords = $phoneNumbersQuery->count();  // Get total records before pagination
+
+        // Get the venue details for each phone number
+        $visitorData = [];
+        foreach ($phoneNumbers as $data) {
+            $venueId = $data->venueId;
+            $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days']);
+            $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
+
+            // Fetch the list of visitors based on the phone number and date range
+            $visitorList = VisitorTempEntry::where('phone', $data->phone)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            $totalVisits = $visitorList->count();
+            $lastVisit = $visitorList->last();  // Get the last visit entry
+
+            $visitorData[] = [
+                'phone_number' => $data->phone,
+                'total_visits' => $totalVisits,
+                'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null,
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate->toDateString(),
+                'visitorList' => $visitorList,
+            ];
+        }
+
+        $endTime = microtime(true);  // End time for performance tracking
+        $executionTime = $endTime - $startTime;  // Calculate the execution time
+
+        // Return the data in the required format for DataTables
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalRecords,  // Total records before any filtering
+            'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
+            'data' => $visitorData,  // The data to be displayed in the table
+            'executionTime' => $executionTime,  // Include the execution time in the response (optional)
+        ]);
     }
 
     // public function list(request $request)
@@ -72,24 +144,27 @@ class ManualBookingController extends Controller
 
 
 
-    public function list(request $request){
+    public function list(request $request)
+    {
         // RecurringDays
-        $date = $request->input('filter_date',date('Y-m-d'));
-         //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
-        $visitorList = VisitorTempEntry::whereDate('created_at', $date )
-        ->orderBy('id', 'asc')
-        ->get();
+        $date = $request->input('filter_date', date('Y-m-d'));
+        //$visitorList = VisitorTempEntry:: orderBy('id','asc')->get();
+        $visitorList = VisitorTempEntry::whereDate('created_at', $date)
+            ->orderBy('id', 'asc')
+            ->get();
         // echo "<pre>"; print_r($visitorList); die;
-        return view('manualBooking.list',compact('visitorList'));
+        return view('manualBooking.list', compact('visitorList'));
     }
 
-    public function ApproveDisapproveBulk(Request $request){
+
+    public function ApproveDisapproveBulk(Request $request)
+    {
         $ids = $request->input('ids');
         $type = $request->input('type');
         $message = [];
-        foreach($ids as $id){
+        foreach ($ids as $id) {
             $visitorTemp = VisitorTempEntry::find($id);
-            if($type  == 'approve'){
+            if ($type  == 'approve') {
                 $uuid = Str::uuid()->toString();
 
                 $venueAddress = VenueAddress::find($visitorTemp->venueId);
@@ -99,20 +174,19 @@ class ManualBookingController extends Controller
                     ->orderBy('id', 'ASC')
                     ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-                if(empty($tokenIs)){
+                if (empty($tokenIs)) {
                     return response()->json([
-                            'status' =>  false,
-                            'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                            'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                        ], 200);
+                        'status' =>  false,
+                        'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                        'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+                    ], 200);
                 }
 
-                $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at',date('Y-m-d'))->count();
+                $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at', date('Y-m-d'))->count();
 
-                if( $isPerson  > 0)
-                {
+                if ($isPerson  > 0) {
 
-                    $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
+                    $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'Already Token Recived']);
                     continue;
                     // return response()->json([
                     //     'status' =>  false,
@@ -146,17 +220,13 @@ class ManualBookingController extends Controller
                 $bookingId = $booking->id;
                 WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
-
-
-            }else if($type  == 'disapprove'){
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved']);
+            } else if ($type  == 'disapprove') {
                 $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
 
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
-                $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
-                WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
-
-
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'disapproved']);
+                $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
+                WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
             }
         }
 
@@ -164,14 +234,14 @@ class ManualBookingController extends Controller
             'message' => 'Operation Successfull',
             "status" => true,
         ], 200);
-
     }
 
-    public function ApproveDisapprove(Request $request){
+    public function ApproveDisapprove(Request $request)
+    {
         $id = $request->input('id');
         $type = $request->input('type');
         $visitorTemp = VisitorTempEntry::find($id);
-        if($type  == 'approve'){
+        if ($type  == 'approve') {
             $uuid = Str::uuid()->toString();
 
             $venueAddress = VenueAddress::find($visitorTemp->venueId);
@@ -181,20 +251,19 @@ class ManualBookingController extends Controller
                 ->orderBy('id', 'ASC')
                 ->select(['venue_address_id', 'token_id', 'id'])->first();
 
-            if(empty($tokenIs)){
+            if (empty($tokenIs)) {
 
                 return response()->json([
-                        'status' =>  false,
-                        'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
-                        'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
-                    ], 200);
+                    'status' =>  false,
+                    'message' => 'All Tokens Dua / Dum Appointments have been issued for today. Kindly try again next week. For more information, you may send us a message using "Contact Us" pop up button below.',
+                    'message_ur' => 'آج کے لیے تمام دعا/دم کے ٹوکن جاری کر دیے گئے ہیں۔ براہ مہربانی اگلے ہفتے دوبارہ کوشش کریں۔ مزید معلومات کے لیے، آپ نیچے "ہم سے رابطہ کریں" پاپ اپ بٹن کا استعمال کرتے ہوئے ہمیں ایک پیغام بھیج سکتے ہیں۔',
+                ], 200);
             }
 
-            $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at',date('Y-m-d'))->count();
+            $isPerson = Vistors::where(['phone' => $visitorTemp->phone])->whereDate('created_at', date('Y-m-d'))->count();
 
-            if( $isPerson  > 0)
-            {
-                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'Already Token Recived']);
+            if ($isPerson  > 0) {
+                $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'Already Token Recived']);
 
                 return response()->json([
                     'status' =>  false,
@@ -230,7 +299,7 @@ class ManualBookingController extends Controller
             $bookingId = $booking->id;
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'approved']);
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved']);
 
             // Dahua Code
 
@@ -261,26 +330,24 @@ class ManualBookingController extends Controller
 
 
             return response()->json([
-                'message' => 'token Issued ' .$tokenId,
+                'message' => 'token Issued ' . $tokenId,
                 "status" => true,
             ], 200);
-
-        }else if($type  == 'disapprove'){
+        } else if ($type  == 'disapprove') {
             $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'),'action_status' => 'disapproved']);
-            $completeNumber = $visitorTemp->country_code.$visitorTemp->phone;
-            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id , $completeNumber,$message)->onQueue('whatsapp-notification-not-approve');
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'disapproved']);
+            $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
+            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
 
             return response()->json([
                 'message' => 'Disapproved',
                 "status" => false,
             ], 200);
-
         }
-
     }
 
-    function compressImage($source, $destination, $maxSize = 100000) {
+    function compressImage($source, $destination, $maxSize = 100000)
+    {
         // Get the image info
         list($width, $height, $type) = getimagesize($source);
         $image = null;
@@ -318,11 +385,11 @@ class ManualBookingController extends Controller
         return true;
     }
 
-    function imageToBase64($imagePath) {
+    function imageToBase64($imagePath)
+    {
         // Get the image contents
         $imageData = file_get_contents($imagePath);
         // Encode the image into base64
         return base64_encode($imageData);
     }
-
 }

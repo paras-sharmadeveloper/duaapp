@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -60,14 +59,15 @@
         }
 
         td.imgc {
-    text-align: center;
-}
+            text-align: center;
+        }
 
-img.lightgallery {
-    height: 150px;
-    width: auto;
-    text-align: center;
-}
+        img.lightgallery {
+            height: 150px;
+            width: auto;
+            text-align: center;
+        }
+
         /*End style*/
     </style>
 
@@ -101,9 +101,8 @@ img.lightgallery {
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
-                                <input class="form-control" type="date" name="filter_date" value="{{
-                                    (request()->get('filter_date')) ? request()->get('filter_date') : ''
-                                }}">
+                                <input class="form-control" type="date" name="filter_date"
+                                    value="{{ request()->get('filter_date') ? request()->get('filter_date') : '' }}">
                             </div>
                             <div class="col-md-4">
 
@@ -116,8 +115,26 @@ img.lightgallery {
                     </form>
                 </div>
             </div>
+            <table id="visitorTable" class="table-with-buttons table table-responsive cell-border">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll">
+                        </th>
+                        <th>Db Id</th>
+                        <th>Date</th>
+                        <th>CountryCode</th>
+                        <th>Phone</th>
+                        <th>User Image</th>
+                        <th>Dua Type</th>
+                        <th>Instant Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
 
-            <table class="table-with-buttons table table-responsive cell-border">
+            {{-- <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
                         <th>
@@ -199,7 +216,7 @@ img.lightgallery {
                                     </div>
                                 @else
                                     <p> Action Taken
-                                        @if($list->action_status)
+                                        @if ($list->action_status)
                                         <span class="{{ ($list->action_status == 'approved')? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $list->action_status}} </span>
                                         @endif
                                     </p>
@@ -209,7 +226,7 @@ img.lightgallery {
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
         </div>
 
 
@@ -225,146 +242,225 @@ img.lightgallery {
 @endsection
 
 @section('page-script')
-<script>
-
-
-    $(".approve").click(function() {
-        var id = $(this).attr('data-id');
-        AjaxCall(id, 'approve', $(this))
-    });
-
-    $(".disapprove").click(function() {
-        var id = $(this).attr('data-id');
-        AjaxCall(id, 'disapprove', $(this))
-    });
-
-
-
-
-    function AjaxCall(id, type, event) {
-
-        var loadingText = event.attr('data-loading');
-        var successText = event.attr('data-success');
-        var defaultText = event.attr('data-default');
-
-        event.find('span').show()
-        event.find('b').text(loadingText)
-
-
-        $.ajax({
-            url: "{{ route('booking.manual.approve') }}",
-            method: 'POST',
-            data: {
-                id: id,
-                type: type,
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-
-                event.find('span').hide()
-                event.find('b').text(defaultText);
-                event.parents('.actionBtns').fadeOut();
-                //    event.parents('tr').fadeOut();
-                if (response.status) {
-                    toastr.success(response.message)
-                } else {
-                    toastr.error(response.message)
+    <script>
+        var url = "{{route('booking.manual.ajax')}}"
+        $(document).ready(function() {
+            $('#visitorTable').DataTable({
+                processing: true, // Show processing indicator
+                serverSide: true, // Enable server-side processing
+                ajax: {
+                    url: url, // Server-side endpoint
+                    type: 'GET',
+                    dataSrc: function(json) {
+                        return json.data; // Ensure your response has 'data' key
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        render: function(data, type, row) {
+                            if (row.action_at === null) {
+                                return '<input type="checkbox" class="bulk-checkbox" data-id="' +
+                                    row.id + '">';
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        data: 'id'
+                    },
+                    {
+                        data: 'created_at',
+                        render: function(data) {
+                            return new Date(data).toLocaleString(); // Format date
+                        }
+                    },
+                    {
+                        data: 'country_code'
+                    },
+                    {
+                        data: 'phone'
+                    },
+                    {
+                        data: 'recognized_code',
+                        render: function(data, type, row) {
+                            const imgSrc = '/sessionImages/' + new Date().toLocaleDateString() +
+                                '/' + data;
+                            return '<img class="lightgallery" src="' + imgSrc + '" />';
+                        }
+                    },
+                    {
+                        data: 'dua_type',
+                        render: function(data) {
+                            return data.charAt(0).toUpperCase() + data.slice(1);
+                        }
+                    },
+                    {
+                        data: 'msg_sid'
+                    },
+                    {
+                        data: 'action_at',
+                        render: function(data, type, row) {
+                            if (!data) {
+                                return '<div class="row py-4 actionBtns">' +
+                                    '<button type="button" class="btn btn-success approve" data-id="' +
+                                    row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+                                    '<button type="button" class="btn btn-danger disapprove" data-id="' +
+                                    row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                                    '</div>';
+                            } else {
+                                return '<p>Action Taken: ' + (row.action_status ?
+                                    '<span class="btn ' + (row.action_status === 'approved' ?
+                                        'btn-success' : 'btn-danger') + ' btn-sm">' + row
+                                    .action_status + '</span>' : '') + '</p>';
+                            }
+                        }
+                    }
+                ],
+                rowCallback: function(row, data, index) {
+                    // Row callback for custom actions or adding event listeners, if needed
                 }
-
-            },
-            error: function(xhr, status, error) {
-                event.find('span').hide()
-                event.find('b').text(defaultText)
-                console.error(error);
-                toastr.error(error)
-            }
+            });
         });
-    }
-
-    $('#selectAll').on('change', function() {
-        $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-    });
 
 
 
-    function AjaxCallBulk(id, type, event) {
+        $(".approve").click(function() {
+            var id = $(this).attr('data-id');
+            AjaxCall(id, 'approve', $(this))
+        });
 
-        var loadingText = event.attr('data-loading');
-        var successText = event.attr('data-success');
-        var defaultText = event.attr('data-default');
-
-        event.find('span').show()
-        event.find('b').text(loadingText)
-
-
-        $.ajax({
-            url: "{{ route('booking.manual.approve.bulk') }}",
-            method: 'POST',
-            data: {
-                ids: id,
-                type: type,
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-
-                event.find('span').hide()
-                event.find('b').text(defaultText)
-
-                event.parents('.actionBtns').fadeOut();
-
-                //    event.parents('tr').fadeOut();
+        $(".disapprove").click(function() {
+            var id = $(this).attr('data-id');
+            AjaxCall(id, 'disapprove', $(this))
+        });
 
 
-                if (response.status) {
-                    toastr.success(response.message)
-                } else {
-                    toastr.error(response.message)
+
+
+        function AjaxCall(id, type, event) {
+
+            var loadingText = event.attr('data-loading');
+            var successText = event.attr('data-success');
+            var defaultText = event.attr('data-default');
+
+            event.find('span').show()
+            event.find('b').text(loadingText)
+
+
+            $.ajax({
+                url: "{{ route('booking.manual.approve') }}",
+                method: 'POST',
+                data: {
+                    id: id,
+                    type: type,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+
+                    event.find('span').hide()
+                    event.find('b').text(defaultText);
+                    event.parents('.actionBtns').fadeOut();
+                    //    event.parents('tr').fadeOut();
+                    if (response.status) {
+                        toastr.success(response.message)
+                    } else {
+                        toastr.error(response.message)
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    event.find('span').hide()
+                    event.find('b').text(defaultText)
+                    console.error(error);
+                    toastr.error(error)
                 }
+            });
+        }
 
-            },
-            error: function(xhr, status, error) {
-                event.find('span').hide()
-                event.find('b').text(defaultText)
-                console.error(error);
-                toastr.error(error)
-            }
+        $('#selectAll').on('change', function() {
+            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
         });
-    }
 
 
 
-    // Bulk Approve button click handler
-    $('#bulkApproveBtn').on('click', function() {
+        function AjaxCallBulk(id, type, event) {
+
+            var loadingText = event.attr('data-loading');
+            var successText = event.attr('data-success');
+            var defaultText = event.attr('data-default');
+
+            event.find('span').show()
+            event.find('b').text(loadingText)
+
+
+            $.ajax({
+                url: "{{ route('booking.manual.approve.bulk') }}",
+                method: 'POST',
+                data: {
+                    ids: id,
+                    type: type,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+
+                    event.find('span').hide()
+                    event.find('b').text(defaultText)
+
+                    event.parents('.actionBtns').fadeOut();
+
+                    //    event.parents('tr').fadeOut();
+
+
+                    if (response.status) {
+                        toastr.success(response.message)
+                    } else {
+                        toastr.error(response.message)
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    event.find('span').hide()
+                    event.find('b').text(defaultText)
+                    console.error(error);
+                    toastr.error(error)
+                }
+            });
+        }
+
+
+
+        // Bulk Approve button click handler
+        $('#bulkApproveBtn').on('click', function() {
 
 
             var selectedIds = $('.bulk-checkbox:checked').map(function() {
                 return $(this).data('id');
             }).get();
             if (selectedIds.length > 0) {
-                if(confirm('Do you really want to continue ?')){
-                      AjaxCallBulk(selectedIds, 'approve', $(this));
+                if (confirm('Do you really want to continue ?')) {
+                    AjaxCallBulk(selectedIds, 'approve', $(this));
                 }
-            }else{
+            } else {
                 alert("Select Checkbox")
             }
 
-    });
+        });
 
-    // Bulk Disapprove button click handler
-    $('#bulkDisapproveBtn').on('click', function() {
+        // Bulk Disapprove button click handler
+        $('#bulkDisapproveBtn').on('click', function() {
 
             var selectedIds = $('.bulk-checkbox:checked').map(function() {
-            return $(this).data('id');
+                return $(this).data('id');
             }).get();
             if (selectedIds.length > 0) {
-                if(confirm('Do you really want to continue ?')){
+                if (confirm('Do you really want to continue ?')) {
                     AjaxCallBulk(selectedIds, 'disapprove', $(this));
-                 }
-            }else{
+                }
+            } else {
                 alert("Select Checkbox")
             }
 
 
-    });
-</script>
+        });
+    </script>
 @endsection
