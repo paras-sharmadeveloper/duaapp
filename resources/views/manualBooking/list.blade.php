@@ -128,6 +128,8 @@
                         <th>User Image</th>
                         <th>Dua Type</th>
                         <th>Instant Message</th>
+                        <th>Last Dua Token</th>
+                        <th>Repeat Visitor</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -267,6 +269,8 @@ $(document).ready(function() {
                             recognized_code: entry.recognized_code,
                             dua_type: entry.dua_type,
                             msg_sid: entry.msg_sid,
+                            last_visit: visitor.last_visit,
+                            last_visit_n: (visitor.last_visit) ? 'Yes' : 'No',
                             action_at: entry.action_at,
                             action_status: entry.action_status
                         });
