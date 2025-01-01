@@ -244,11 +244,12 @@
 @section('page-script')
     <script>
         $(document).ready(function() {
+
     $('#visitorTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-            url: '/path-to-your-ajax-endpoint',  // The endpoint to fetch data
+            url: '{{ route('booking.manual.ajax')}}',  // The endpoint to fetch data
             type: 'GET',
             data: function(d) {
                 // Send additional parameters if needed
