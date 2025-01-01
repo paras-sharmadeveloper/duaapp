@@ -245,126 +245,122 @@
 
 @section('page-script')
     <script>
-        var filterDate = $("#filter_date").val();
-var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
 
 $(document).ready(function() {
-    $('#visitorTable').DataTable({
-        processing: true, // Show processing indicator
-        serverSide: true, // Enable server-side processing
-        ajax: {
-            url: url, // Server-side endpoint
-            type: 'GET',
-            dataSrc: function(json) {
-                // Flatten the visitorList into individual rows for DataTable
-                var flatData = [];
-                json.data.forEach(function(visitor) {
-                    visitor.visitorList.forEach(function(entry) {
-                        // Each entry from visitorList is a new row
-                        flatData.push({
-                            id: visitor.id,
-                            created_at: entry.created_at,
-                            country_code: entry.country_code,
-                            phone: entry.phone,
-                            recognized_code: entry.recognized_code,
-                            dua_type: entry.dua_type,
-                            msg_sid: entry.msg_sid,
+    var filterDate = $("#filter_date").val(); // Get the filter date value
+    var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate; // URL for the server-side request
 
-                            action_at: entry.action_at,
-                            action_status: entry.action_status
-                        });
-                    });
-                });
-                return flatData; // Return the flattened array of rows
+    $('#visitorTable').DataTable({
+        processing: true,   // Show processing indicator
+        serverSide: true,   // Enable server-side processing
+        ajax: {
+            url: url,       // Server-side endpoint
+            type: 'GET',    // HTTP method for the request
+            dataSrc: function(json) {
+                return json.data; // Ensure 'data' key is used in the response
             }
         },
         columns: [
             {
-                data: 'id',
-                render: function(data, type, row) {
-                    // Check if action_at is null and show checkbox for bulk select
-                    if (row.action_at === null) {
-                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.id + '">';
-                    }
-                    return '';
-                }
-            },
-            {
-                data: 'id',
-                render: function(data, type, row) {
-                    console.log("data",row)
-                    return row.id; // Display visitor id
-                }
-            },
-            {
-                data: 'created_at',
+                data: 'visitor_id', // Display the visitor's ID
                 render: function(data) {
-                    return new Date(data).toLocaleString(); // Format date
+                    return data; // Display visitor ID
                 }
             },
             {
-                data: 'country_code',
-                render: function(data) {
-                    return data; // Display country code
-                }
-            },
-            {
-                data: 'phone',
+                data: 'phone_number', // Display the phone number
                 render: function(data) {
                     return data; // Display phone number
                 }
             },
             {
-                data: 'recognized_code',
+                data: 'total_visits', // Display the total number of visits
                 render: function(data) {
-                    if (data) {
-                        const imgSrc = '/sessionImages/' + filterDate + '/' + data;
-                        return '<img class="lightgallery" src="' + imgSrc + '" />';
-                    }
-                    return ''; // If no image, return an empty string
+                    return data; // Display total visits count
                 }
             },
             {
-                data: 'dua_type',
+                data: 'last_visit', // Display the last visit date
                 render: function(data) {
-                    // Capitalize dua_type
-                    return data.charAt(0).toUpperCase() + data.slice(1);
+                    return data ? data : 'N/A'; // If there's no last visit, show 'N/A'
                 }
             },
             {
-                data: 'msg_sid'
-            },
-            {
-                data: 'last_visit'
-            },
-            {
-                data: 'last_visit',
-
+                data: 'start_date', // Display the start date for visitor tracking
                 render: function(data) {
-                    // Capitalize dua_type
-                    return 'Yes';
+                    return data; // Display start date
                 }
             },
             {
-                data: 'action_at',
+                data: 'end_date', // Display the end date for visitor tracking
+                render: function(data) {
+                    return data; // Display end date
+                }
+            },
+            {
+                data: 'country_code', // Display the country code
+                render: function(data) {
+                    return data ? data : ''; // Display country code or empty if not available
+                }
+            },
+            {
+                data: 'phone', // Display the full phone number
+                render: function(data) {
+                    return data; // Display full phone number
+                }
+            },
+            {
+                data: 'recognized_code', // Display recognized code as an image
+                render: function(data) {
+                    const imgSrc = '/sessionImages/' + new Date().toLocaleDateString() + '/' + data;
+                    return '<img class="lightgallery" src="' + imgSrc + '" />'; // Display the image for the recognized code
+                }
+            },
+            {
+                data: 'dua_type', // Display the dua type
+                render: function(data) {
+                    return data ? data.charAt(0).toUpperCase() + data.slice(1) : ''; // Capitalize the first letter of dua type
+                }
+            },
+            {
+                data: 'msg_sid', // Display the message SID
+                render: function(data) {
+                    return data; // Display the message SID
+                }
+            },
+            {
+                data: 'action_at', // Display action timestamp
                 render: function(data, type, row) {
                     if (!data) {
+                        // Display action buttons if no action has been taken
                         return '<div class="row py-4 actionBtns">' +
-                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
-                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
-                            '</div>';
+                               '<button type="button" class="btn btn-success approve" data-id="' + row.visitor_id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+                               '<button type="button" class="btn btn-danger disapprove" data-id="' + row.visitor_id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                               '</div>';
                     } else {
+                        // Display the action status if action is taken
                         return '<p>Action Taken: ' + (row.action_status ?
                             '<span class="btn ' + (row.action_status === 'approved' ? 'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
                     }
                 }
             }
         ],
+        order: [[1, 'asc']], // Default ordering by the phone number
         rowCallback: function(row, data, index) {
-            // Row callback for custom actions or adding event listeners, if needed
+            // Custom row callback for any additional behavior if needed
+        },
+        language: {
+            processing: "Loading data...", // Text displayed while data is loading
+            paginate: {
+                previous: "Previous", // Text for the previous button
+                next: "Next"          // Text for the next button
+            }
         }
     });
+
+    // You can also implement custom actions like Approve/Disapprove buttons here if needed.
 });
+
 
 
         // var filterDate = $("#filter_date").val();
