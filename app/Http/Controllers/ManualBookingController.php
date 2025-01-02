@@ -88,6 +88,7 @@ class ManualBookingController extends Controller
                 ->count();
 
             $visitorData[] = [
+                'id' => $entry->id,
                 'phone_number' => $entry->phone,
                 'total_visits' => $totalVisits,
                 'last_visit' => $lastVisitDate,
