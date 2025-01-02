@@ -96,7 +96,7 @@ class ManualBookingController extends Controller
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $endDate->toDateString(),
                 'visitor_id' => $entry->id,
-                'created_at' => $entry->created_at->format('Y-m-d'),
+                'created_at' => $entry->created_at->format('d-m-Y'),
                 'country_code' => $entry->country_code,
                 'phone' => $entry->phone,
                 'recognized_code' => $entry->recognized_code,
