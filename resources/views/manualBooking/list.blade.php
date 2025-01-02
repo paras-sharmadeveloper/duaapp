@@ -311,7 +311,7 @@ $(document).ready(function() {
                 data: 'start_date',
                 render: function(data, type, row) {
 
-                        return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '<button type="button" class="btn btn-warning ">No</button>';
+                        return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '';
 
                 }
             },
