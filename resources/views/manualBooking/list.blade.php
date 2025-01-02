@@ -17,6 +17,11 @@
             z-index: 999;
             display: none;
         }
+        .actionBtns {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
 
         .show .overlayMy {
             width: 100%;
@@ -256,12 +261,12 @@ $(document).ready(function() {
         serverSide: true,
         deferRender: true, // Helps with large data sets
         pageLength: 50, // Set the default number of rows per page
-        lengthMenu: [50, 100,200,500,], // Options for page length (50 and 100 rows per page)
+        lengthMenu: [50, 100,200,500], // Options for page length (50 and 100 rows per page)
         ajax: {
             url: url,
             type: 'GET',
             dataSrc: function(json) {
-                console.log(json); // Check the response structure
+
                 return json.data;
             }
         },
@@ -314,9 +319,9 @@ $(document).ready(function() {
                 data: 'action_at',
                 render: function(data, type, row) {
                     if (data === null) {
-                        return '<div class="row py-4 actionBtns">' +
-                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
-                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                        return '<div class="actionBtns">' +
+                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Approve (' + row.dua_type + ')</b></button>' +
+                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Disapprove (' + row.dua_type + ')</b></button>' +
                             '</div>';
                     } else {
                         return '<p>Action Taken: ' + (row.action_status ?
