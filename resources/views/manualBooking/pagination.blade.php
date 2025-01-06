@@ -307,6 +307,7 @@
                                             </button>
                                         </div>
                                     @elseif (!empty($visitor['action_at']) && $visitor['action_status'] == 'approved')
+                                        <span class="badge badge-success text-success">{{$visitor['action_status']}}</span><br>
                                         <button type="button" class="btn btn-secondary undo mb-3"
                                             data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
                                             data-default="Undo">
