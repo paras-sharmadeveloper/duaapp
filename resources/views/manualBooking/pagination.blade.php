@@ -17,6 +17,7 @@
             z-index: 999;
             display: none;
         }
+
         .actionBtns {
             display: flex;
             justify-content: space-between;
@@ -158,11 +159,11 @@
                                 <td>{{ $visitor['phone_number'] }}</td>
                                 <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
                                 <td>
-                                    @if ($visitor['user_image'])
+                                    {{-- @if ($visitor['user_image'])
                                         <img src="{{ asset('path_to_images/' . $visitor['user_image']) }}" alt="User Image" width="50">
                                     @else
                                         N/A
-                                    @endif
+                                    @endif --}}
                                 </td>
                                 <!-- Dua Type -->
                                 <td>{{ $visitor['dua_type'] }}</td>
@@ -174,8 +175,22 @@
                                 <td>{{ $visitor['start_date'] }} - {{ $visitor['end_date'] }}</td>
                                 <!-- Action (Example action buttons like Edit/Delete) -->
                                 <td>
-                                    <a href="{{ route('visitor.edit', ['id' => $visitor['id']]) }}">Edit</a> |
-                                    <a href="{{ route('visitor.delete', ['id' => $visitor['id']]) }}" onclick="return confirm('Are you sure?')">Delete</a>
+                                    <button type="button" class="btn btn-success approve mb-3"
+                                        data-id="{{ $list->id }}" data-loading="Loading..." data-success="Done"
+                                        data-default="Approve">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                            style="display:none">
+                                        </span>
+                                        <b>Approve ({{ ucwords($list->dua_type) }})</b>
+                                    </button>
+
+                                    <button type="button" class="btn  btn-danger disapprove" data-id="{{ $list->id }}"
+                                        data-loading="Loading..." data-success="Done" data-default="Disapprove">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                            style="display:none">
+                                        </span>
+                                        <b>Disapprove ({{ ucwords($list->dua_type) }})</b>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -189,7 +204,8 @@
             <!-- Pagination Links -->
             <div>
                 @for ($i = 1; $i <= ceil($totalRecords / $perPage); $i++)
-                    <a href="{{ route('your_route_name', ['filter_date' => $date, 'page' => $i]) }}">{{ $i }}</a>
+                    <a
+                        href="{{ route('your_route_name', ['filter_date' => $date, 'page' => $i]) }}">{{ $i }}</a>
                 @endfor
             </div>
 
@@ -208,137 +224,20 @@
 
 
     </div>
-
 @endsection
 
 @section('page-script')
     <script>
-
-
-$(document).ready(function() {
-    var filterDate = $("#filter_date").val();
-    var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
-
-    $('#visitorTable').DataTable({
-        processing: true,
-        serverSide: true,
-        deferRender: true, // Helps with large data sets
-        pageLength: 50, // Set the default number of rows per page
-        lengthMenu: [50, 100,200,500], // Options for page length (50 and 100 rows per page)
-        ajax: {
-            url: url,
-            type: 'GET',
-            dataSrc: function(json) {
-
-                return json.data;
-            }
-        },
-        columns: [
-            {
-                data: 'visitor_id',
-                render: function(data, type, row) {
-                    if(row.action_status){
-                        return null
-                    }else{
-                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.visitor_id + '">';
-                    }
-
-                }
-            },
-            {
-                data: 'visitor_id',
-                orderable: true
-            },
-            {
-                data: 'created_at',  orderable: true
-            },
-            {
-                data: 'country_code',  orderable: true
-            },
-            {
-                data: 'phone',  orderable: true
-            },
-            {
-                data: 'recognized_code',
-                orderable: false ,
-                render: function(data, type, row) {
-                    if (data) {
-                        const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
-                        return '<img class="lightgallery" src="' + imgSrc + '" />';
-                    }
-                }
-            },
-            {
-                data: 'dua_type',  orderable: true
-            },
-            {
-                data: 'msg_sid',  orderable: true
-            },
-            {
-                data: 'last_visit',  orderable: true
-            },
-            {
-                data: 'start_date',
-                orderable: false,
-                render: function(data, type, row) {
-
-                        return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '';
-
-                }
-            },
-            {
-                data: 'action_at',
-                render: function(data, type, row) {
-                    if (data === null) {
-                        return '<div class="actionBtns">' +
-                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Approve (' + row.dua_type + ')</b></button>' +
-                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Disapprove (' + row.dua_type + ')</b></button>' +
-                            '</div>';
-                    } else {
-                        return '<p>Action Taken: ' + (row.action_status ?
-                            '<span class="btn ' + (row.action_status === 'approved' ?
-                                'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
-                    }
-                },  orderable: false
-            }
-        ],
-        rowCallback: function(row, data, index) {
-            // Row callback for custom actions or adding event listeners
-        },
-        drawCallback: function(settings) {
-            // Re-bind events on dynamically created elements after every redraw (ajax load)
-            bindSelectAllCheckbox();
-            // bindActionButtons();
-        }
-    });
-});
-
-function bindSelectAllCheckbox() {
-        $('#selectAll').off('change').on('change', function() {
-            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-        });
-        $('.bulk-checkbox').off('change').on('change', function() {
-            var totalCheckboxes = $('.bulk-checkbox').length;
-            var checkedCheckboxes = $('.bulk-checkbox:checked').length;
-
-            // If all checkboxes are selected, check the #selectAll checkbox
-            if (totalCheckboxes === checkedCheckboxes) {
-                $('#selectAll').prop('checked', true);
-            } else {
-                $('#selectAll').prop('checked', false);
-            }
-        });
-    }
         $(document).on('click', '.approve', function() {
-        var id = $(this).attr('data-id');
-        AjaxCall(id, 'approve', $(this));
-    });
+            var id = $(this).attr('data-id');
+            AjaxCall(id, 'approve', $(this));
+        });
 
-    // Delegate the click event for .disapprove buttons
-    $(document).on('click', '.disapprove', function() {
-        var id = $(this).attr('data-id');
-        AjaxCall(id, 'disapprove', $(this));
-    });
+        // Delegate the click event for .disapprove buttons
+        $(document).on('click', '.disapprove', function() {
+            var id = $(this).attr('data-id');
+            AjaxCall(id, 'disapprove', $(this));
+        });
 
 
 
@@ -384,10 +283,10 @@ function bindSelectAllCheckbox() {
         }
 
         $(document).ready(function() {
-    $('#selectAll').on('change', function() {
-        $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-    });
-});
+            $('#selectAll').on('change', function() {
+                $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+            });
+        });
 
 
         function AjaxCallBulk(id, type, event) {
