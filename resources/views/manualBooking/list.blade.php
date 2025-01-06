@@ -120,7 +120,7 @@
                     </form>
                 </div>
             </div>
-            <table id="visitorTable" class=" ">
+            {{-- <table id="visitorTable" class=" ">
                 <thead>
                     <tr>
                         <th>
@@ -139,7 +139,7 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
-            </table>
+            </table> --}}
 
              <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
