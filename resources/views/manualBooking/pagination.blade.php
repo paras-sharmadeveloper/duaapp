@@ -286,6 +286,17 @@
                                                 <b>Approve ({{ ucwords($visitor['dua_type']) }})</b>
                                             </button>
 
+                                            <button type="button" class="btn btn-secondary undo undobtn-{{$visitor['id']}} mb-3"
+                                              style="display: none"
+                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
+                                                data-success="Done" data-default="Undo">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true" style="display:none">
+                                                </span>
+                                                <b>Undo
+                                                    ({{ $visitor['dua_type'] == 'working_lady_dua' ? 'wl dua' : ucwords($visitor['dua_type']) }})</b>
+                                            </button>
+
                                             <button type="button" class="btn  btn-danger disapprove"
                                                 data-id="{{ $visitor['id'] }}" data-loading="Loading..."
                                                 data-success="Done" data-default="Disapprove">
@@ -295,17 +306,16 @@
                                                 <b>Disapprove ({{ ucwords($visitor['dua_type']) }})</b>
                                             </button>
                                         </div>
-                                    @elseif (!empty($visitor['action_at']) && $visitor['action_status'] == 'approved' )
-
-                                    <button type="button" class="btn btn-secondary undo mb-3"
-                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
-                                                data-success="Done" data-default="Undo">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true" style="display:none">
-                                                </span>
-                                                <b>Undo ({{ ($visitor['dua_type'] == 'working_lady_dua') ? 'wl dua': ucwords($visitor['dua_type']) }})</b>
-                                            </button>
-
+                                    @elseif (!empty($visitor['action_at']) && $visitor['action_status'] == 'approved')
+                                        <button type="button" class="btn btn-secondary undo mb-3"
+                                            data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
+                                            data-default="Undo">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true" style="display:none">
+                                            </span>
+                                            <b>Undo
+                                                ({{ $visitor['dua_type'] == 'working_lady_dua' ? 'wl dua' : ucwords($visitor['dua_type']) }})</b>
+                                        </button>
                                     @else
                                         <p>
                                             @if ($visitor['action_status'])
@@ -364,6 +374,7 @@
         $(document).on('click', '.approve', function() {
             var id = $(this).attr('data-id');
             AjaxCall(id, 'approve', $(this));
+
         });
 
         // Delegate the click event for .disapprove buttons
@@ -373,7 +384,7 @@
         });
 
         $(document).on('click', '.undo', function() {
-            if(confirm("Are you sure you want to undo this?")){
+            if (confirm("Are you sure you want to undo this?")) {
                 var id = $(this).attr('data-id');
                 AjaxCall(id, 'undo', $(this));
             }
@@ -406,6 +417,9 @@
                     event.find('span').hide()
                     event.find('b').text(defaultText);
                     event.parents('.actionBtns').fadeOut();
+                    if(type == 'approve'){
+                        $(".undobtn-"+id).show();
+                    }
                     //    event.parents('tr').fadeOut();
                     if (response.status) {
                         toastr.success(response.message)
