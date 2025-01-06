@@ -287,7 +287,7 @@ S
       </li>
 
       <li class="nav-item">
-        <a  href="{{ route('booking.manual.list.new') }}" class="{{ ( $currentPath == 'booking.manual.list.new') ? 'nav-link' : 'nav-link collapsed' }}" >
+        <a  href="{{ route('booking.manual.list.new') }}?filter_date={{date('Y-m-d')}}" class="{{ ( $currentPath == 'booking.manual.list.new') ? 'nav-link' : 'nav-link collapsed' }}" >
             <i class="bi bi-person-vcard"></i>
           <span>Manual Bookings</span>
         </a>
