@@ -554,8 +554,8 @@ function bindSelectAllCheckbox() {
 
 
         // Bulk Approve button click handler
-        $('#bulkApproveBtn').on('click', function() {
-
+        $('#bulkApproveBtn').on('click', function(e) {
+            e.preventDefault();
 
             var selectedIds = $('.bulk-checkbox:checked').map(function() {
                 return $(this).data('id');
