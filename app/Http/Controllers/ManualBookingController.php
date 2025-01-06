@@ -286,15 +286,38 @@ class ManualBookingController extends Controller
         $date = $request->input('filter_date', date('Y-m-d'));
         $targetDate = Carbon::parse($date);  // Parse the filter date
 
-        // Handle sorting, searching, and pagination parameters sent by the form
-        $searchValue = $request->input('search', '');  // The search query (filter by phone number or other fields)
-        $page = $request->input('page', 1);  // The page number for pagination
-        $perPage = $request->input('pagination', 50);   // Number of records per page
+
+        $searchValue = $request->input('search', '');
+        $page = $request->input('page', 1);
+        $perPage = $request->input('pagination', 50);
+
+        $searchPhone = $request->input('search_phone', '');  // Search for phone number
+        $searchCountryCode = $request->input('search_country_code', '');  // Search for country code
+        $duaType = $request->input('dua_type', '');  // Search for country code
+        $SearchId = $request->input('search_db_id', '');  // Search for country code
+
+
 
         // Build the base query
         $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
             ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
             ->with('venueAddress');
+
+
+            if ($searchPhone) {
+                $visitorQuery->where('phone', 'like', '%' . $searchPhone . '%');
+            }
+            if ($searchCountryCode) {
+                $visitorQuery->where('country_code', 'like', '%' . $searchCountryCode . '%');
+            }
+            if ($duaType) {
+                $visitorQuery->where('dua_type', '=',  $duaType );
+            }
+            if ($SearchId) {
+                $visitorQuery->where('id', 'like', '%' . $SearchId . '%');
+            }
+
+
 
         // Apply search filter if search value is provided
         if ($searchValue) {

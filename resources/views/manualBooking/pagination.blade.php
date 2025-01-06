@@ -73,11 +73,16 @@
             width: auto;
             text-align: center;
         }
+
         .action-pagination {
 
-    text-align: center;
-    margin: 20px;
-    padding: 10px;
+            text-align: center;
+            margin: 20px;
+            padding: 10px;
+        }
+        .filteraction {
+    text-align: end;
+    cursor: pointer;
 }
 
         /*End style*/
@@ -90,26 +95,27 @@
         <div class="card-body">
 
             <h5 class="card-title">Manual List for Visitor </h5>
-            <div class="text-center mt-4">
 
-
-                <button id="bulkApproveBtn" type="button" class="btn btn-success " data-loading="Loading..." data-success="Done"
-                    data-default="Approve">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
-                    </span>
-                    <b>Bulk Approve</b>
-                </button>
-
-                <button type="button" id="bulkDisapproveBtn" class="btn  btn-danger" data-loading="Loading..."
-                    data-success="Done" data-default="Disapprove">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
-                    </span>
-                    <b>Bulk Disapprove</b>
-                </button>
-            </div>
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('booking.manual.list.new') }}" method="get">
+                    <div class="text-center mt-4">
+
+
+                        <button id="bulkApproveBtn" type="button" class="btn btn-success " data-loading="Loading..." data-success="Done"
+                            data-default="Approve">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                            </span>
+                            <b>Bulk Approve</b>
+                        </button>
+
+                        <button type="button" id="bulkDisapproveBtn" class="btn  btn-danger" data-loading="Loading..."
+                            data-success="Done" data-default="Disapprove">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                            </span>
+                            <b>Bulk Disapprove</b>
+                        </button>
+                    </div>
+                    <form action="{{ route('booking.manual.list.new') }}" class="mt-3" method="get">
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
@@ -119,20 +125,54 @@
                             <div class="col-md-4">
                                 <label> Pagination Date </label>
                                 <select class="form-control" name="pagination">
-                                    <option @if(request()->get('pagination') == '50') ? selected : '' @endif  value="50"> 50 </option>
-                                    <option @if(request()->get('pagination') == '100') ? selected : '' @endif  value="100"> 100 </option>
-                                    <option @if(request()->get('pagination') == '200') ? selected : '' @endif value="200"> 200 </option>
-                                    <option @if(request()->get('pagination') == '500') ? selected : '' @endif value="500"> 500 </option>
+                                    <option @if (request()->get('pagination') == '50') ? selected : '' @endif value="50"> 50
+                                    </option>
+                                    <option @if (request()->get('pagination') == '100') ? selected : '' @endif value="100"> 100
+                                    </option>
+                                    <option @if (request()->get('pagination') == '200') ? selected : '' @endif value="200"> 200
+                                    </option>
+                                    <option @if (request()->get('pagination') == '500') ? selected : '' @endif value="500"> 500
+                                    </option>
                                 </select>
 
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-secondary mt-4" type="submit">Filter </button>
+                                <label> Search by Phone </label>
+                                <input type="text" class="form-control" name="search_phone"
+                                    placeholder="Search by Phone" value="{{ request('search_phone') }}">
                             </div>
                         </div>
+                        <div class="row mt-2">
+
+                            <div class="col-md-4">
+                                <label> Search by Country Code </label>
+                                <input type="text" class="form-control" name="search_country_code"
+                                    placeholder="Search by Country Code" value="{{ request('search_country_code') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Search by Dua Type </label>
+                                <input type="text" class="form-control"
+                                placeholder="Search by Dua Type" name="dua_type" value="{{ request('dua_type') }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Search by Database Id </label>
+                                <input type="text" class="form-control" name="search_db_id"
+                                    placeholder="Search by Database Id" value="{{ request('search_db_id') }}">
+                            </div>
+                        </div>
+                        <input type="hidden" value="page" value="{{ request('page',1) }}">
+                        <div class="filteraction">
+                            <button class="btn btn-dark mt-4" style="" type="submit">Filter </button>
+                            <a href="{{ route('booking.manual.list.new',['filter_date' => $date]) }}"  class="btn btn-secondary mt-4" style="">Reset</a>
+
+                        </div>
+
 
                     </form>
                 </div>
+
+
             </div>
             <form method="POST" action="{{ route('booking.manual.list.new') }}">
 
@@ -158,30 +198,31 @@
                     </thead>
                     <tbody>
                         @foreach ($visitorData as $visitor)
+                            @php
+                                $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
 
-                        @php
-                          $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
+                            @endphp
+                            @php
+                                $localImage = '';
+                                $localImageStroage =
+                                    'sessionImages/' . date('d-m-Y') . '/' . !empty($visitor['recognized_code'])
+                                        ? $visitor['recognized_code']
+                                        : '';
+                                if (
+                                    !empty($visitor['recognized_code']) &&
+                                    !Storage::disk('public_uploads')->exists($localImageStroage)
+                                ) {
+                                    $localImage = !empty($visitor['recognized_code'])
+                                        ? $visitor['recognized_code']
+                                        : '';
+                                }
 
-                    @endphp
-                    @php
-                        $localImage = '';
-                        $localImageStroage =
-                            'sessionImages/' . date('d-m-Y') . '/' . !empty($visitor['recognized_code'])
-                                ? $visitor['recognized_code']
-                                : '';
-                        if (
-                            !empty($visitor['recognized_code']) &&
-                            !Storage::disk('public_uploads')->exists($localImageStroage)
-                        ) {
-                            $localImage = !empty($visitor['recognized_code']) ?$visitor['recognized_code'] : '';
-                        }
-
-                    @endphp
+                            @endphp
                             <tr>
                                 <!-- Checkbox for individual row -->
                                 <td>
-                                    @if (empty( $visitor['action_at']))
-                                      <input type="checkbox" class="bulk-checkbox" data-id="{{ $visitor['id'] }}">
+                                    @if (empty($visitor['action_at']))
+                                        <input type="checkbox" class="bulk-checkbox" data-id="{{ $visitor['id'] }}">
                                     @endif
                                 </td>
                                 <!-- Db Id -->
@@ -204,40 +245,43 @@
                                 <td>{{ $visitor['last_visit'] }}</td>
                                 <!-- Repeat Visitor -->
 
-                                <td>  @if($visitor['last_visit'])
-                                    <button type="button" class="btn btn-warning ">Yes</button>
-                                    @endif  </td>
+                                <td>
+                                    @if ($visitor['last_visit'])
+                                        <button type="button" class="btn btn-warning ">Yes</button>
+                                    @endif
+                                </td>
                                 <!-- Action (Example action buttons like Edit/Delete) -->
                                 <td>
                                     @if (empty($visitor['action_at']))
-                                    <div class="row py-4 actionBtns">
+                                        <div class="row py-4 actionBtns">
 
-                                        <button type="button" class="btn btn-success approve mb-3"
-                                            data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
-                                            data-default="Approve">
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                                style="display:none">
-                                            </span>
-                                            <b>Approve ({{ ucwords($visitor['dua_type']) }})</b>
-                                        </button>
+                                            <button type="button" class="btn btn-success approve mb-3"
+                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
+                                                data-success="Done" data-default="Approve">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true" style="display:none">
+                                                </span>
+                                                <b>Approve ({{ ucwords($visitor['dua_type']) }})</b>
+                                            </button>
 
-                                        <button type="button" class="btn  btn-danger disapprove"
-                                            data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
-                                            data-default="Disapprove">
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                                style="display:none">
-                                            </span>
-                                            <b>Disapprove ({{ ucwords($visitor['dua_type']) }})</b>
-                                        </button>
-                                    </div>
-                                @else
-                                    <p> Action Taken
-                                        @if ($visitor['action_status'])
-                                        <span class="{{ ( $visitor['action_status'] == 'approved') ? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $visitor['action_status'] }} </span>
-                                        @endif
-                                    </p>
-
-                                @endif
+                                            <button type="button" class="btn  btn-danger disapprove"
+                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
+                                                data-success="Done" data-default="Disapprove">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true" style="display:none">
+                                                </span>
+                                                <b>Disapprove ({{ ucwords($visitor['dua_type']) }})</b>
+                                            </button>
+                                        </div>
+                                    @else
+                                        <p> Action Taken
+                                            @if ($visitor['action_status'])
+                                                <span
+                                                    class="{{ $visitor['action_status'] == 'approved' ? 'btn btn-success btn-sm' : 'btn btn-danger btn-sm' }}">{{ $visitor['action_status'] }}
+                                                </span>
+                                            @endif
+                                        </p>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -250,14 +294,19 @@
 
             <div class="action-pagination">
                 @for ($i = 1; $i <= ceil($totalRecords / $perPage); $i++)
-                    <a href="{{ route('booking.manual.list.new', ['filter_date' => $date, 'page' => $i , 'pagination' => request()->get('pagination') ]) }}"
-                        @if(request()->get('page') == $i)
-                        class="btn btn-primary"
+                    <a href="{{ route('booking.manual.list.new',
+                    [
+                    'filter_date' => $date,
+                    'page' => $i,
+                    'pagination' => request()->get('pagination'),
+                    'search_phone' => request()->get('search_phone'),
+                    'search_country_code' => request()->get('search_country_code'),
+                    'dua_type' => request()->get('dua_type'),
+                    'search_db_id' => request()->get('search_db_id')
+                    ]) }}"
+                        @if (request()->get('page') == $i) class="btn btn-primary"
                         @else
-                             class="btn btn-dark"
-                        @endif
-
-                        >{{ $i }}</a>
+                             class="btn btn-dark" @endif>{{ $i }}</a>
                 @endfor
             </div>
 
