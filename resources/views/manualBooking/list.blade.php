@@ -338,9 +338,20 @@ $(document).ready(function() {
         ],
         rowCallback: function(row, data, index) {
             // Row callback for custom actions or adding event listeners
+        },
+        drawCallback: function(settings) {
+            // Re-bind events on dynamically created elements after every redraw (ajax load)
+            bindSelectAllCheckbox();
+            // bindActionButtons();
         }
     });
 });
+
+function bindSelectAllCheckbox() {
+        $('#selectAll').off('change').on('change', function() {
+            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+        });
+    }
 
 
 
