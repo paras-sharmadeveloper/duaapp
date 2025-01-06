@@ -141,7 +141,7 @@
                 <tbody></tbody>
             </table>
 
-             <table class="table-with-buttons table table-responsive cell-border">
+            {{-- <table class="table-with-buttons table table-responsive cell-border">
                 <thead>
                     <tr>
                         <th>
@@ -233,7 +233,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
         </div>
 
 
@@ -252,6 +252,211 @@
     <script>
 
 
+$(document).ready(function() {
+    var filterDate = $("#filter_date").val();
+    var url = "{{ route('booking.manual.ajax') }}?filter_date=" + filterDate;
+
+    $('#visitorTable').DataTable({
+        processing: true,
+        serverSide: true,
+        deferRender: true, // Helps with large data sets
+        pageLength: 50, // Set the default number of rows per page
+        lengthMenu: [50, 100,200,500], // Options for page length (50 and 100 rows per page)
+        ajax: {
+            url: url,
+            type: 'GET',
+            dataSrc: function(json) {
+
+                return json.data;
+            }
+        },
+        columns: [
+            {
+                data: 'visitor_id',
+                render: function(data, type, row) {
+                    if(row.action_status){
+                        return null
+                    }else{
+                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.visitor_id + '">';
+                    }
+
+                }
+            },
+            {
+                data: 'visitor_id',
+                orderable: true
+            },
+            {
+                data: 'created_at',  orderable: true
+            },
+            {
+                data: 'country_code',  orderable: true
+            },
+            {
+                data: 'phone',  orderable: true
+            },
+            {
+                data: 'recognized_code',
+                orderable: false ,
+                render: function(data, type, row) {
+                    if (data) {
+                        const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
+                        return '<img class="lightgallery" src="' + imgSrc + '" />';
+                    }
+                }
+            },
+            {
+                data: 'dua_type',  orderable: true
+            },
+            {
+                data: 'msg_sid',  orderable: true
+            },
+            {
+                data: 'last_visit',  orderable: true
+            },
+            {
+                data: 'start_date',
+                orderable: false,
+                render: function(data, type, row) {
+
+                        return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '';
+
+                }
+            },
+            {
+                data: 'action_at',
+                render: function(data, type, row) {
+                    if (data === null) {
+                        return '<div class="actionBtns">' +
+                            '<button type="button" class="btn btn-success approve" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Approve (' + row.dua_type + ')</b></button>' +
+                            '<button type="button" class="btn btn-danger disapprove" data-id="' + row.id + '"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span><b>Disapprove (' + row.dua_type + ')</b></button>' +
+                            '</div>';
+                    } else {
+                        return '<p>Action Taken: ' + (row.action_status ?
+                            '<span class="btn ' + (row.action_status === 'approved' ?
+                                'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
+                    }
+                },  orderable: false
+            }
+        ],
+        rowCallback: function(row, data, index) {
+            // Row callback for custom actions or adding event listeners
+        },
+        drawCallback: function(settings) {
+            // Re-bind events on dynamically created elements after every redraw (ajax load)
+            bindSelectAllCheckbox();
+            // bindActionButtons();
+        }
+    });
+});
+
+function bindSelectAllCheckbox() {
+        $('#selectAll').off('change').on('change', function() {
+            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+        });
+        $('.bulk-checkbox').off('change').on('change', function() {
+            var totalCheckboxes = $('.bulk-checkbox').length;
+            var checkedCheckboxes = $('.bulk-checkbox:checked').length;
+
+            // If all checkboxes are selected, check the #selectAll checkbox
+            if (totalCheckboxes === checkedCheckboxes) {
+                $('#selectAll').prop('checked', true);
+            } else {
+                $('#selectAll').prop('checked', false);
+            }
+        });
+    }
+
+
+
+        // var filterDate = $("#filter_date").val();
+        // var url = "{{ route('booking.manual.ajax') }}?filter_date="+filterDate
+        // $(document).ready(function() {
+        //     $('#visitorTable').DataTable({
+        //         processing: true, // Show processing indicator
+        //         serverSide: true, // Enable server-side processing
+        //         ajax: {
+        //             url: url, // Server-side endpoint
+        //             type: 'GET',
+        //             dataSrc: function(json) {
+        //                 return json.data; // Ensure your response has 'data' key
+        //             }
+        //         },
+        //         columns: [{
+        //                 data: 'id',
+        //                 render: function(data, type, row) {
+        //                     if (row.action_at === null) {
+        //                         return '<input type="checkbox" class="bulk-checkbox" data-id="' +
+        //                             row.id + '">';
+        //                     }
+        //                     return '';
+        //                 }
+        //             },
+        //             {
+        //                 data: 'id',
+        //                 render: function(data) {
+        //                     return data.visitorList.id; // Format date
+        //                 }
+        //             },
+        //             {
+        //                 data: 'created_at',
+        //                 render: function(data) {
+        //                     return new Date(data.visitorList.created_at).toLocaleString(); // Format date
+        //                 }
+        //             },
+        //             {
+        //                 data: 'country_code',
+        //                 render: function(data) {
+        //                     return data.visitorList.country_code; // Format date
+        //                 }
+        //             },
+        //             {
+        //                 data: 'phone',
+        //                 render: function(data) {
+        //                     return data.visitorList.phone; // Format date
+        //                 }
+        //             },
+        //             {
+        //                 data: 'recognized_code',
+        //                 render: function(data, type, row) {
+        //                     const imgSrc = '/sessionImages/' + new Date().toLocaleDateString() +
+        //                         '/' + data;
+        //                     return '<img class="lightgallery" src="' + imgSrc + '" />';
+        //                 }
+        //             },
+        //             {
+        //                 data: 'dua_type',
+        //                 render: function(data) {
+        //                     return data.charAt(0).toUpperCase() + data.slice(1);
+        //                 }
+        //             },
+        //             {
+        //                 data: 'msg_sid'
+        //             },
+        //             {
+        //                 data: 'action_at',
+        //                 render: function(data, type, row) {
+        //                     if (!data) {
+        //                         return '<div class="row py-4 actionBtns">' +
+        //                             '<button type="button" class="btn btn-success approve" data-id="' +
+        //                             row.id + '"><b>Approve (' + row.dua_type + ')</b></button>' +
+        //                             '<button type="button" class="btn btn-danger disapprove" data-id="' +
+        //                             row.id + '"><b>Disapprove (' + row.dua_type + ')</b></button>' +
+        //                             '</div>';
+        //                     } else {
+        //                         return '<p>Action Taken: ' + (row.action_status ?
+        //                             '<span class="btn ' + (row.action_status === 'approved' ?
+        //                                 'btn-success' : 'btn-danger') + ' btn-sm">' + row
+        //                             .action_status + '</span>' : '') + '</p>';
+        //                     }
+        //                 }
+        //             }
+        //         ],
+        //         rowCallback: function(row, data, index) {
+        //             // Row callback for custom actions or adding event listeners, if needed
+        //         }
+        //     });
+        // });
 
 
 
