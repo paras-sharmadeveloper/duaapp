@@ -209,7 +209,7 @@
                             <th>CountryCode</th>
                             <th>Phone</th>
                             <th>Dua Type</th>
-                            <th>Instant Message</th>
+                            <th>Message Sid</th>
                             <th>Last Dua Token</th>
                             <th>User Image</th>
 
