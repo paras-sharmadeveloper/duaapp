@@ -252,10 +252,7 @@
     <script>
 
 
-
-
-
-        $(document).on('click', '.approve', function() {
+  $(document).on('click', '.approve', function() {
         var id = $(this).attr('data-id');
         AjaxCall(id, 'approve', $(this));
     });
@@ -309,11 +306,9 @@
             });
         }
 
-        $(document).ready(function() {
-    $('#selectAll').on('change', function() {
+        $('#selectAll').on('change', function() {
         $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
     });
-});
 
 
         function AjaxCallBulk(id, type, event) {
