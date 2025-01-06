@@ -523,7 +523,7 @@ class ManualBookingController extends Controller
             $bookingId = $booking->id;
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved']);
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved','visitor_tbl_id' =>$bookingId ]);
 
             // Dahua Code
 
@@ -565,6 +565,25 @@ class ManualBookingController extends Controller
 
             return response()->json([
                 'message' => 'Disapproved',
+                "status" => false,
+            ], 200);
+        }else if ($type  == 'undo') {
+            $visitor_tbl_id = $visitorTemp->visitor_tbl_id;
+            $vistorTempDate = $visitorTemp->created_at->format('Y-m-d');
+            $phone = $visitorTemp->phone;
+            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
+            $visitorTemp->update(['action_at' => null, 'action_status' => null]);
+            if(!empty($visitor_tbl_id) ){
+                Vistors::where('id',$visitor_tbl_id)->delete();
+            }else{
+                Vistors::where('phone',$phone)->whereDate('created_at',$vistorTempDate)->delete();
+            }
+
+            $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
+            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
+
+            return response()->json([
+                'message' => 'Undo Successfully Token Id ',
                 "status" => false,
             ], 200);
         }

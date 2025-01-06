@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('msg_date')->nullable();
             $table->string('action_at')->nullable();
             $table->string('action_status')->nullable();
+            $table->unsignedBigInteger('visitor_tbl_id')->nullable();
 
             $table->timestamps();
         });

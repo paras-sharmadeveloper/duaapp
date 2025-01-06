@@ -295,6 +295,17 @@
                                                 <b>Disapprove ({{ ucwords($visitor['dua_type']) }})</b>
                                             </button>
                                         </div>
+                                    @elseif (!empty($visitor['action_at']) && $visitor['action_status'] == 'approved' )
+
+                                    <button type="button" class="btn btn-secondary undo mb-3"
+                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
+                                                data-success="Done" data-default="Undo">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true" style="display:none">
+                                                </span>
+                                                <b>Undo ({{ ($visitor['dua_type'] == 'working_lady_dua') ? 'wl dua': ucwords($visitor['dua_type']) }})</b>
+                                            </button>
+
                                     @else
                                         <p>
                                             @if ($visitor['action_status'])
@@ -359,6 +370,11 @@
         $(document).on('click', '.disapprove', function() {
             var id = $(this).attr('data-id');
             AjaxCall(id, 'disapprove', $(this));
+        });
+
+        $(document).on('click', '.undo', function() {
+            var id = $(this).attr('data-id');
+            AjaxCall(id, 'undo', $(this));
         });
 
 
