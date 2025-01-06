@@ -73,6 +73,12 @@
             width: auto;
             text-align: center;
         }
+        .action-pagination {
+
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+}
 
         /*End style*/
     </style>
@@ -103,7 +109,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('booking.manual.list') }}" method="get">
+                    <form action="{{ route('booking.manual.list.new') }}" method="get">
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
@@ -111,19 +117,27 @@
                                     value="{{ request()->get('filter_date') ? request()->get('filter_date') : '' }}">
                             </div>
                             <div class="col-md-4">
+                                <label> Pagination Date </label>
+                                <select class="form-control" name="pagination">
+                                    <option @if(request()->get('pagination') == '50') ? selected : '' @endif  value="50"> 50 </option>
+                                    <option @if(request()->get('pagination') == '100') ? selected : '' @endif  value="100"> 100 </option>
+                                    <option @if(request()->get('pagination') == '200') ? selected : '' @endif value="200"> 200 </option>
+                                    <option @if(request()->get('pagination') == '500') ? selected : '' @endif value="500"> 500 </option>
+                                </select>
 
                             </div>
                             <div class="col-md-4">
-
+                                <button class="btn btn-secondary mt-4" type="submit">Filter </button>
                             </div>
                         </div>
-                        <button class="btn btn-secondary mt-4" type="submit">Filter </button>
+
                     </form>
                 </div>
             </div>
-            <form method="POST" action="{{ route('your_route_name') }}">
+            <form method="POST" action="{{ route('booking.manual.list.new') }}">
+
                 @csrf
-                <table>
+                <table class="table table-responsive cell-border">
                     <thead>
                         <tr>
                             <!-- Select All Checkbox -->
@@ -144,10 +158,31 @@
                     </thead>
                     <tbody>
                         @foreach ($visitorData as $visitor)
+
+                        @php
+                          $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
+
+                    @endphp
+                    @php
+                        $localImage = '';
+                        $localImageStroage =
+                            'sessionImages/' . date('d-m-Y') . '/' . !empty($visitor['recognized_code'])
+                                ? $visitor['recognized_code']
+                                : '';
+                        if (
+                            !empty($visitor['recognized_code']) &&
+                            !Storage::disk('public_uploads')->exists($localImageStroage)
+                        ) {
+                            $localImage = !empty($visitor['recognized_code']) ?$visitor['recognized_code'] : '';
+                        }
+
+                    @endphp
                             <tr>
                                 <!-- Checkbox for individual row -->
                                 <td>
-                                    <input type="checkbox" name="visitor_ids[]" value="{{ $visitor['id'] }}">
+                                    @if (empty( $visitor['action_at']))
+                                      <input type="checkbox" class="bulk-checkbox" data-id="{{ $visitor['id'] }}">
+                                    @endif
                                 </td>
                                 <!-- Db Id -->
                                 <td>{{ $visitor['id'] }}</td>
@@ -159,53 +194,70 @@
                                 <td>{{ $visitor['phone_number'] }}</td>
                                 <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
                                 <td>
-                                    {{-- @if ($visitor['user_image'])
-                                        <img src="{{ asset('path_to_images/' . $visitor['user_image']) }}" alt="User Image" width="50">
-                                    @else
-                                        N/A
-                                    @endif --}}
+                                    <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
                                 </td>
                                 <!-- Dua Type -->
                                 <td>{{ $visitor['dua_type'] }}</td>
                                 <!-- Instant Message -->
                                 <td>{{ $visitor['msg_sid'] }}</td>
                                 <!-- Last Dua Token -->
-                                <td>{{ $visitor['recognized_code'] }}</td>
+                                <td>{{ $visitor['last_visit'] }}</td>
                                 <!-- Repeat Visitor -->
-                                <td>{{ $visitor['start_date'] }} - {{ $visitor['end_date'] }}</td>
+
+                                <td>  @if($visitor['last_visit'])
+                                    <button type="button" class="btn btn-warning ">Yes</button>
+                                    @endif  </td>
                                 <!-- Action (Example action buttons like Edit/Delete) -->
                                 <td>
-                                    <button type="button" class="btn btn-success approve mb-3"
-                                        data-id="{{ $list->id }}" data-loading="Loading..." data-success="Done"
-                                        data-default="Approve">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                            style="display:none">
-                                        </span>
-                                        <b>Approve ({{ ucwords($list->dua_type) }})</b>
-                                    </button>
+                                    @if (empty($visitor['action_at']))
+                                    <div class="row py-4 actionBtns">
 
-                                    <button type="button" class="btn  btn-danger disapprove" data-id="{{ $list->id }}"
-                                        data-loading="Loading..." data-success="Done" data-default="Disapprove">
-                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
-                                            style="display:none">
-                                        </span>
-                                        <b>Disapprove ({{ ucwords($list->dua_type) }})</b>
-                                    </button>
+                                        <button type="button" class="btn btn-success approve mb-3"
+                                            data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
+                                            data-default="Approve">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                                style="display:none">
+                                            </span>
+                                            <b>Approve ({{ ucwords($visitor['dua_type']) }})</b>
+                                        </button>
+
+                                        <button type="button" class="btn  btn-danger disapprove"
+                                            data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
+                                            data-default="Disapprove">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                                style="display:none">
+                                            </span>
+                                            <b>Disapprove ({{ ucwords($visitor['dua_type']) }})</b>
+                                        </button>
+                                    </div>
+                                @else
+                                    <p> Action Taken
+                                        @if ($visitor['action_status'])
+                                        <span class="{{ ( $visitor['action_status'] == 'approved') ? 'btn btn-success btn-sm':'btn btn-danger btn-sm' }}">{{ $visitor['action_status'] }} </span>
+                                        @endif
+                                    </p>
+
+                                @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                <!-- Submit Button (Optional, if you want to take action on the selected rows) -->
-                <button type="submit">Submit</button>
             </form>
 
             <!-- Pagination Links -->
-            <div>
+
+            <div class="action-pagination">
                 @for ($i = 1; $i <= ceil($totalRecords / $perPage); $i++)
-                    <a
-                        href="{{ route('your_route_name', ['filter_date' => $date, 'page' => $i]) }}">{{ $i }}</a>
+                    <a href="{{ route('booking.manual.list.new', ['filter_date' => $date, 'page' => $i , 'pagination' => request()->get('pagination') ]) }}"
+                        @if(request()->get('page') == $i)
+                        class="btn btn-primary"
+                        @else
+                             class="btn btn-dark"
+                        @endif
+
+                        >{{ $i }}</a>
                 @endfor
             </div>
 

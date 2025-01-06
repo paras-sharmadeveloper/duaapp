@@ -289,7 +289,7 @@ class ManualBookingController extends Controller
         // Handle sorting, searching, and pagination parameters sent by the form
         $searchValue = $request->input('search', '');  // The search query (filter by phone number or other fields)
         $page = $request->input('page', 1);  // The page number for pagination
-        $perPage = 10;  // Number of records per page
+        $perPage = $request->input('pagination', 50);   // Number of records per page
 
         // Build the base query
         $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
@@ -353,7 +353,7 @@ class ManualBookingController extends Controller
         }
 
         // Return the view with the paginated visitor data and pagination metadata
-        return view('manualBooking.pagination', compact('visitorData', 'totalRecords', 'page', 'perPage'));
+        return view('manualBooking.pagination', compact('visitorData', 'totalRecords', 'page', 'perPage','date'));
     }
 
 
