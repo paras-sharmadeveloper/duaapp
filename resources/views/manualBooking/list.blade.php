@@ -283,19 +283,21 @@ $(document).ready(function() {
                 }
             },
             {
-                data: 'visitor_id'
+                data: 'visitor_id',
+                orderable: true
             },
             {
-                data: 'created_at'
+                data: 'created_at',  orderable: true
             },
             {
-                data: 'country_code'
+                data: 'country_code',  orderable: true
             },
             {
-                data: 'phone'
+                data: 'phone',  orderable: true
             },
             {
                 data: 'recognized_code',
+                orderable: false ,
                 render: function(data, type, row) {
                     if (data) {
                         const imgSrc = '/sessionImages/' + row.created_at + '/' + row.recognized_code;
@@ -304,16 +306,17 @@ $(document).ready(function() {
                 }
             },
             {
-                data: 'dua_type'
+                data: 'dua_type',  orderable: true
             },
             {
-                data: 'msg_sid'
+                data: 'msg_sid',  orderable: true
             },
             {
-                data: 'last_visit'
+                data: 'last_visit',  orderable: true
             },
             {
                 data: 'start_date',
+                orderable: false,
                 render: function(data, type, row) {
 
                         return (row.last_visit) ? '<button type="button" class="btn btn-warning ">Yes</button>' :  '';
@@ -333,7 +336,7 @@ $(document).ready(function() {
                             '<span class="btn ' + (row.action_status === 'approved' ?
                                 'btn-success' : 'btn-danger') + ' btn-sm">' + row.action_status + '</span>' : '') + '</p>';
                     }
-                }
+                },  orderable: false
             }
         ],
         rowCallback: function(row, data, index) {
