@@ -571,7 +571,7 @@ class ManualBookingController extends Controller
             $visitor_tbl_id = $visitorTemp->visitor_tbl_id;
             $vistorTempDate = $visitorTemp->created_at->format('Y-m-d');
             $phone = $visitorTemp->phone;
-            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
+            $message = "Your token has been removed from the system as it was identified as a duplicate. We apologize for any inconvenience caused.";
             $visitorTemp->update(['action_at' => null, 'action_status' => null]);
             if(!empty($visitor_tbl_id) ){
                 Vistors::where('id',$visitor_tbl_id)->delete();
