@@ -80,10 +80,27 @@
             margin: 20px;
             padding: 10px;
         }
+
         .filteraction {
-    text-align: end;
-    cursor: pointer;
-}
+            text-align: end;
+            cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+            .bulk-app-dis {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                /* Smooth scrolling on iOS */
+                width: 100%;
+            }
+        }
 
         /*End style*/
     </style>
@@ -98,19 +115,21 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 bulk-app-dis">
 
 
-                        <button id="bulkApproveBtn" type="button" class="btn btn-success " data-loading="Loading..." data-success="Done"
-                            data-default="Approve">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                        <button id="bulkApproveBtn" type="button" class="btn btn-success " data-loading="Loading..."
+                            data-success="Done" data-default="Approve">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
                             </span>
                             <b>Bulk Approve</b>
                         </button>
 
                         <button type="button" id="bulkDisapproveBtn" class="btn  btn-danger" data-loading="Loading..."
                             data-success="Done" data-default="Disapprove">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                style="display:none">
                             </span>
                             <b>Bulk Disapprove</b>
                         </button>
@@ -138,8 +157,8 @@
                             </div>
                             <div class="col-md-4">
                                 <label> Search by Phone </label>
-                                <input type="text" class="form-control" name="search_phone"
-                                    placeholder="Search by Phone" value="{{ request('search_phone') }}">
+                                <input type="text" class="form-control" name="search_phone" placeholder="Search by Phone"
+                                    value="{{ request('search_phone') }}">
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -151,8 +170,8 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Search by Dua Type </label>
-                                <input type="text" class="form-control"
-                                placeholder="Search by Dua Type" name="dua_type" value="{{ request('dua_type') }}">
+                                <input type="text" class="form-control" placeholder="Search by Dua Type" name="dua_type"
+                                    value="{{ request('dua_type') }}">
                             </div>
 
                             <div class="col-md-4">
@@ -161,10 +180,11 @@
                                     placeholder="Search by Database Id" value="{{ request('search_db_id') }}">
                             </div>
                         </div>
-                        <input type="hidden" value="page" value="{{ request('page',1) }}">
+                        <input type="hidden" value="page" value="{{ request('page', 1) }}">
                         <div class="filteraction">
                             <button class="btn btn-dark mt-4" style="" type="submit">Filter </button>
-                            <a href="{{ route('booking.manual.list.new',['filter_date' => $date]) }}"  class="btn btn-secondary mt-4" style="">Reset</a>
+                            <a href="{{ route('booking.manual.list.new', ['filter_date' => $date]) }}"
+                                class="btn btn-secondary mt-4" style="">Reset</a>
 
                         </div>
 
@@ -294,15 +314,14 @@
 
             <div class="action-pagination">
                 @for ($i = 1; $i <= ceil($totalRecords / $perPage); $i++)
-                    <a href="{{ route('booking.manual.list.new',
-                    [
-                    'filter_date' => $date,
-                    'page' => $i,
-                    'pagination' => request()->get('pagination'),
-                    'search_phone' => request()->get('search_phone'),
-                    'search_country_code' => request()->get('search_country_code'),
-                    'dua_type' => request()->get('dua_type'),
-                    'search_db_id' => request()->get('search_db_id')
+                    <a href="{{ route('booking.manual.list.new', [
+                        'filter_date' => $date,
+                        'page' => $i,
+                        'pagination' => request()->get('pagination'),
+                        'search_phone' => request()->get('search_phone'),
+                        'search_country_code' => request()->get('search_country_code'),
+                        'dua_type' => request()->get('dua_type'),
+                        'search_db_id' => request()->get('search_db_id'),
                     ]) }}"
                         @if (request()->get('page') == $i) class="btn btn-primary"
                         @else
