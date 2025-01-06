@@ -294,7 +294,7 @@
                                             </button>
                                         </div>
                                     @else
-                                        <p> Action Taken
+                                        <p>
                                             @if ($visitor['action_status'])
                                                 <span
                                                     class="{{ $visitor['action_status'] == 'approved' ? 'btn btn-success btn-sm' : 'btn btn-danger btn-sm' }}">{{ $visitor['action_status'] }}
