@@ -489,10 +489,11 @@ $(document).ready(function() {
             });
         }
 
-        $('#selectAll').on('change', function() {
-            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-        });
-
+        $(document).ready(function() {
+    $('#selectAll').on('change', function() {
+        $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+    });
+});
 
 
         function AjaxCallBulk(id, type, event) {
