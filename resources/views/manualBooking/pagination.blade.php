@@ -209,12 +209,13 @@
                             <th>CountryCode</th>
                             <th>Phone</th>
                             <th>Dua Type</th>
-                            <th>Message Sid</th>
+
                             <th>Last Dua Token</th>
                             <th>User Image</th>
 
                             <th>Repeat Visitor</th>
                             <th>Action</th>
+                            <th>Message Sid</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -256,7 +257,7 @@
                                 <td>{{ $visitor['phone_number'] }}</td>
                                 <td>{{ $visitor['dua_type'] }}</td>
                                 <!-- Instant Message -->
-                                <td>{{ $visitor['msg_sid'] }}</td>
+
                                 <!-- Last Dua Token -->
                                 <td>{{ $visitor['last_visit'] }}</td>
                                 <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
@@ -327,6 +328,7 @@
                                         </p>
                                     @endif
                                 </td>
+                                <td>{{ $visitor['msg_sid'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>
