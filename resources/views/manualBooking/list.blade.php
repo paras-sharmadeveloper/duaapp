@@ -351,6 +351,17 @@ function bindSelectAllCheckbox() {
         $('#selectAll').off('change').on('change', function() {
             $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
         });
+        $('.bulk-checkbox').off('change').on('change', function() {
+            var totalCheckboxes = $('.bulk-checkbox').length;
+            var checkedCheckboxes = $('.bulk-checkbox:checked').length;
+
+            // If all checkboxes are selected, check the #selectAll checkbox
+            if (totalCheckboxes === checkedCheckboxes) {
+                $('#selectAll').prop('checked', true);
+            } else {
+                $('#selectAll').prop('checked', false);
+            }
+        });
     }
 
 
