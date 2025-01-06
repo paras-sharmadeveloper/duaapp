@@ -307,8 +307,8 @@
         }
 
         $('#selectAll').on('change', function() {
-        $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
-    });
+            $('.bulk-checkbox').prop('checked', $(this).prop('checked'));
+        });
 
 
         function AjaxCallBulk(id, type, event) {

@@ -280,6 +280,83 @@ class ManualBookingController extends Controller
         return view('manualBooking.list', compact('visitorList'));
     }
 
+    public function listN(request $request)
+    {
+        // Get the filter date from the request or default to today's date
+        $date = $request->input('filter_date', date('Y-m-d'));
+        $targetDate = Carbon::parse($date);  // Parse the filter date
+
+        // Handle sorting, searching, and pagination parameters sent by the form
+        $searchValue = $request->input('search', '');  // The search query (filter by phone number or other fields)
+        $page = $request->input('page', 1);  // The page number for pagination
+        $perPage = 10;  // Number of records per page
+
+        // Build the base query
+        $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
+            ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
+            ->with('venueAddress');
+
+        // Apply search filter if search value is provided
+        if ($searchValue) {
+            $visitorQuery->where(function ($query) use ($searchValue) {
+                $query->where('phone', 'like', '%' . $searchValue . '%')
+                    ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Get total records before pagination (for pagination metadata)
+        $totalRecords = $visitorQuery->count();
+
+        // Apply pagination
+        $visitorList = $visitorQuery->skip(($page - 1) * $perPage)->take($perPage)->get();
+
+        // Prepare the data to be displayed in the view
+        $visitorData = [];
+        foreach ($visitorList as $entry) {
+            $venueId = $entry->venueId;
+            $venueAddress = $entry->venueAddress;
+            $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
+
+            // Get the last visit entry for the visitor
+            $lastVisit = Vistors::where('phone', $entry->phone)
+                ->whereDate('created_at', '<', $request->input('filter_date'))
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            // Last visit date or null if no last visit found
+            $lastVisitDate = $lastVisit ? $lastVisit->created_at->toDateString() : null;
+
+            // Calculate total visits for the phone number in the specified date range
+            $totalVisits = Vistors::where('phone', $entry->phone)
+                ->whereDate('created_at', '<=', $targetDate)  // Filter visits before or on the filter date
+                ->count();
+
+            // Store the visitor data in an array
+            $visitorData[] = [
+                'id' => $entry->id,
+                'phone_number' => $entry->phone,
+                'total_visits' => $totalVisits,
+                'last_visit' => $lastVisitDate,
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $targetDate->toDateString(),
+                'visitor_id' => $entry->id,
+                'created_at' => $entry->created_at->format('d-m-Y'),
+                'country_code' => $entry->country_code,
+                'phone' => $entry->phone,
+                'recognized_code' => $entry->recognized_code,
+                'dua_type' => $entry->dua_type,
+                'msg_sid' => $entry->msg_sid,
+                'action_at' => $entry->action_at,
+                'action_status' => $entry->action_status
+            ];
+        }
+
+        // Return the view with the paginated visitor data and pagination metadata
+        return view('manualBooking.pagination', compact('visitorData', 'totalRecords', 'page', 'perPage'));
+    }
+
+
 
     public function ApproveDisapproveBulk(Request $request)
     {

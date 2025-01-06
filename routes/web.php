@@ -251,6 +251,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/generate-pdf', [DashboardController::class, 'generatePdf'])->name('generate.pdf');
     Route::get('/book/manual/list', [ManualBookingController::class, 'list'])->name('booking.manual.list');
+    Route::get('/book/manual/list/new', [ManualBookingController::class, 'listN'])->name('booking.manual.list.new');
+
     Route::post('/book/manual/approve', [ManualBookingController::class, 'ApproveDisapprove'])->name('booking.manual.approve');
     Route::post('/book/manual/approve/bulk', [ManualBookingController::class, 'ApproveDisapproveBulk'])->name('booking.manual.approve.bulk');
     Route::get('/book/manual/list/ajax', [ManualBookingController::class, 'getVisitorList'])->name('booking.manual.ajax');
