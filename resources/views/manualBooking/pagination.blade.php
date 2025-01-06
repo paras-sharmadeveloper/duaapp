@@ -208,10 +208,11 @@
                             <th>Date</th>
                             <th>CountryCode</th>
                             <th>Phone</th>
-                            <th>User Image</th>
                             <th>Dua Type</th>
                             <th>Instant Message</th>
                             <th>Last Dua Token</th>
+                            <th>User Image</th>
+
                             <th>Repeat Visitor</th>
                             <th>Action</th>
                         </tr>
@@ -253,16 +254,17 @@
                                 <td>{{ $visitor['country_code'] }}</td>
                                 <!-- Phone Number -->
                                 <td>{{ $visitor['phone_number'] }}</td>
-                                <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
-                                <td>
-                                    <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
-                                </td>
-                                <!-- Dua Type -->
                                 <td>{{ $visitor['dua_type'] }}</td>
                                 <!-- Instant Message -->
                                 <td>{{ $visitor['msg_sid'] }}</td>
                                 <!-- Last Dua Token -->
                                 <td>{{ $visitor['last_visit'] }}</td>
+                                <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
+                                <td>
+                                    <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
+                                </td>
+                                <!-- Dua Type -->
+
                                 <!-- Repeat Visitor -->
 
                                 <td>
