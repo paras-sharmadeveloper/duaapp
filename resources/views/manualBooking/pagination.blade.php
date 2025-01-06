@@ -373,8 +373,11 @@
         });
 
         $(document).on('click', '.undo', function() {
-            var id = $(this).attr('data-id');
-            AjaxCall(id, 'undo', $(this));
+            if(confirm("Are you sure you want to undo this?")){
+                var id = $(this).attr('data-id');
+                AjaxCall(id, 'undo', $(this));
+            }
+
         });
 
 
