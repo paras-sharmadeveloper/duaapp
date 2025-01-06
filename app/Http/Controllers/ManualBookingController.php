@@ -523,7 +523,7 @@ class ManualBookingController extends Controller
             $bookingId = $booking->id;
             WhatsAppConfirmation::dispatch($bookingId)->onQueue('whatsapp-notification');
 
-            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved','visitor_tbl_id' =>$bookingId ]);
+            $visitorTemp->update(['booking_number' => $tokenId, 'action_at' => date('Y-m-d H:i:s'), 'action_status' => 'approved','visitor_tbl_id' =>$bookingId ]);
 
             // Dahua Code
 
@@ -571,7 +571,8 @@ class ManualBookingController extends Controller
             $visitor_tbl_id = $visitorTemp->visitor_tbl_id;
             $vistorTempDate = $visitorTemp->created_at->format('Y-m-d');
             $phone = $visitorTemp->phone;
-            $message = "Your token has been removed from the system as it was identified as a duplicate. We apologize for any inconvenience caused.";
+            $bookingN =  $visitorTemp->booking_number;
+            $message = "Token # ".$bookingN." has been removed from the system as it was identified as a duplicate. We apologize for any inconvenience caused.";
             $visitorTemp->update(['action_at' => null, 'action_status' => null]);
             if(!empty($visitor_tbl_id) ){
                 Vistors::where('id',$visitor_tbl_id)->delete();
