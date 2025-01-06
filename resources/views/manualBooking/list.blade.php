@@ -274,7 +274,12 @@ $(document).ready(function() {
             {
                 data: 'visitor_id',
                 render: function(data, type, row) {
-                    return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.visitor_id + '">';
+                    if(row.action_status){
+                        return null
+                    }else{
+                        return '<input type="checkbox" class="bulk-checkbox" data-id="' + row.visitor_id + '">';
+                    }
+
                 }
             },
             {
