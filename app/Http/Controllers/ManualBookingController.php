@@ -173,7 +173,10 @@ class ManualBookingController extends Controller
             if ($searchValue) {
                 $visitorListQuery->where(function ($query) use ($searchValue) {
                     $query->where('phone', 'like', '%' . $searchValue . '%')
-                        ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+                        ->orWhere('created_at', 'like', '%' . $searchValue . '%')
+                        ->orWhere('dua_type', 'like', '%' . $searchValue . '%')
+                        ->orWhere('msg_sid', 'like', '%' . $searchValue . '%')
+                        ->orWhere('id', 'like', '%' . $searchValue . '%');
                 });
             }
 
