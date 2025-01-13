@@ -319,7 +319,7 @@ class ManualBookingController extends Controller
                 $visitorQuery->where('id', 'like', '%' . $SearchId . '%');
             }
             if ($actionType) {
-                $visitorQuery->where('action_status', 'like', '%' . $actionType . '%');
+                $visitorQuery->where('action_status', '=', $actionType );
             }
 
 
