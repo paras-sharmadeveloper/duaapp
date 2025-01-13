@@ -166,6 +166,7 @@
                             <div class="col-md-4">
                                 <label> Search Action Type</label>
                                 <select class="form-control" name="action_type">
+
                                     <option @if (request()->get('action_type') == 'dua') ? selected : '' @endif value="approved"> Approved
                                     </option>
                                     <option @if (request()->get('action_type') == 'dum') ? selected : '' @endif value="disapproved"> Disapproved
@@ -359,7 +360,7 @@
                         'search_phone' => request()->get('search_phone'),
                         'search_country_code' => request()->get('search_country_code'),
                         'dua_type' => request()->get('dua_type'),
-                        'search_db_id' => request()->get('search_db_id'),
+                        'action_type' => request()->get('action_type'),
                     ]) }}"
                         @if (request()->get('page') == $i) class="btn btn-primary"
                         @else
