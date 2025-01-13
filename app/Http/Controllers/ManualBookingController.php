@@ -123,105 +123,105 @@ class ManualBookingController extends Controller
 
 
 
-    public function getVisitorListold(Request $request)
-    {
-        $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
-        $startTime = microtime(true);  // Start time for performance tracking
+    // public function getVisitorListold(Request $request)
+    // {
+    //     $date = $request->input('filter_date', date('Y-m-d'));  // Get filter date from the request, default to today
+    //     $startTime = microtime(true);  // Start time for performance tracking
 
-        $endDate = Carbon::today();
-        $targetDate = Carbon::parse($date);  // Parse the filter date
+    //     $endDate = Carbon::today();
+    //     $targetDate = Carbon::parse($date);  // Parse the filter date
 
-        // Handle sorting, searching, and pagination parameters sent by DataTable
-        $searchValue = $request->input('search.value');
-        $start = $request->input('start', 0);
-        $length = $request->input('length', 10);  // Number of records per page
+    //     // Handle sorting, searching, and pagination parameters sent by DataTable
+    //     $searchValue = $request->input('search.value');
+    //     $start = $request->input('start', 0);
+    //     $length = $request->input('length', 10);  // Number of records per page
 
 
 
-        // Fetch distinct phone numbers for the given filter date
-        $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
-            // ->distinct('phone')
-            ->select('phone', 'created_at', 'venueId', 'id');
+    //     // Fetch distinct phone numbers for the given filter date
+    //     $phoneNumbersQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
+    //         // ->distinct('phone')
+    //         ->select('phone', 'created_at', 'venueId', 'id');
 
-        // Apply search filter if search value is provided (to filter by phone number or other fields)
-        if ($searchValue) {
-            $phoneNumbersQuery->where(function ($query) use ($searchValue) {
-                $query->where('phone', 'like', '%' . $searchValue . '%')
-                    ->orWhere('created_at', 'like', '%' . $searchValue . '%');
-            });
-        }
+    //     // Apply search filter if search value is provided (to filter by phone number or other fields)
+    //     if ($searchValue) {
+    //         $phoneNumbersQuery->where(function ($query) use ($searchValue) {
+    //             $query->where('phone', 'like', '%' . $searchValue . '%')
+    //                 ->orWhere('created_at', 'like', '%' . $searchValue . '%');
+    //         });
+    //     }
 
-        // Get the filtered phone numbers with pagination
-        $phoneNumbers = $phoneNumbersQuery->skip($start)->take($length)->get();
-        $totalRecords = $phoneNumbersQuery->count();  // Get total records before pagination
+    //     // Get the filtered phone numbers with pagination
+    //     $phoneNumbers = $phoneNumbersQuery->skip($start)->take($length)->get();
+    //     $totalRecords = $phoneNumbersQuery->count();  // Get total records before pagination
 
-        $visitorData = [];
+    //     $visitorData = [];
 
-        // Loop through each phone number and retrieve corresponding visitor data
-        foreach ($phoneNumbers as $data) {
-            $venueId = $data->venueId;
-            $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days']);
-            $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
-            $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
+    //     // Loop through each phone number and retrieve corresponding visitor data
+    //     foreach ($phoneNumbers as $data) {
+    //         $venueId = $data->venueId;
+    //         $venueAddress = VenueAddress::find($venueId, ['repeat_visitor_days']);
+    //         $repeatVisitorDays = $venueAddress ? $venueAddress->repeat_visitor_days : 0;
+    //         $startDate = $targetDate->copy()->subDays($repeatVisitorDays);  // Calculate the start date for repeat visitors
 
-            // Fetch the list of visitors based on the phone number and date range
-            $visitorListQuery = VisitorTempEntry::where('phone', $data->phone)
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->orderBy('created_at', 'asc');
+    //         // Fetch the list of visitors based on the phone number and date range
+    //         $visitorListQuery = VisitorTempEntry::where('phone', $data->phone)
+    //             ->whereBetween('created_at', [$startDate, $endDate])
+    //             ->orderBy('created_at', 'asc');
 
-            // Apply search filter on the visitor list query
-            if ($searchValue) {
-                $visitorListQuery->where(function ($query) use ($searchValue) {
-                    $query->where('phone', 'like', '%' . $searchValue . '%')
-                        ->orWhere('created_at', 'like', '%' . $searchValue . '%')
-                        ->orWhere('dua_type', 'like', '%' . $searchValue . '%')
-                        ->orWhere('msg_sid', 'like', '%' . $searchValue . '%')
-                        ->orWhere('id', 'like', '%' . $searchValue . '%');
-                });
-            }
+    //         // Apply search filter on the visitor list query
+    //         if ($searchValue) {
+    //             $visitorListQuery->where(function ($query) use ($searchValue) {
+    //                 $query->where('phone', 'like', '%' . $searchValue . '%')
+    //                     ->orWhere('created_at', 'like', '%' . $searchValue . '%')
+    //                     ->orWhere('dua_type', 'like', '%' . $searchValue . '%')
+    //                     ->orWhere('msg_sid', 'like', '%' . $searchValue . '%')
+    //                     ->orWhere('id', 'like', '%' . $searchValue . '%');
+    //             });
+    //         }
 
-            // Get the visitor entries with pagination
-            $visitorList = $visitorListQuery->skip($start)->take($length)->get();
+    //         // Get the visitor entries with pagination
+    //         $visitorList = $visitorListQuery->skip($start)->take($length)->get();
 
-            // Get total visits count for the phone number
-            $totalVisits = $visitorList->count();
-            $lastVisit = $visitorList->last();  // Get the last visit entry
+    //         // Get total visits count for the phone number
+    //         $totalVisits = $visitorList->count();
+    //         $lastVisit = $visitorList->last();  // Get the last visit entry
 
-            // Add the visitor data to the response array
-            foreach ($visitorList as $entry) {
-                $visitorData[] = [
-                    'phone_number' => $data->phone,
-                    'total_visits' => $totalVisits,
-                    'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null,
-                    'start_date' => $startDate->toDateString(),
-                    'end_date' => $endDate->toDateString(),
-                    'visitor_id' => $entry->id,
-                    'created_at' => Carbon::parse($entry->created_at)->format('Y-m-d'),
-                    'country_code' => $entry->country_code,
-                    'phone' => $entry->phone,
-                    'recognized_code' => $entry->recognized_code,
-                    'dua_type' => $entry->dua_type,
-                    'msg_sid' => $entry->msg_sid,
-                    'action_at' => $entry->action_at,
-                    'action_status' => $entry->action_status
-                ];
-            }
-        }
+    //         // Add the visitor data to the response array
+    //         foreach ($visitorList as $entry) {
+    //             $visitorData[] = [
+    //                 'phone_number' => $data->phone,
+    //                 'total_visits' => $totalVisits,
+    //                 'last_visit' => $lastVisit ? $lastVisit->created_at->toDateString() : null,
+    //                 'start_date' => $startDate->toDateString(),
+    //                 'end_date' => $endDate->toDateString(),
+    //                 'visitor_id' => $entry->id,
+    //                 'created_at' => Carbon::parse($entry->created_at)->format('Y-m-d'),
+    //                 'country_code' => $entry->country_code,
+    //                 'phone' => $entry->phone,
+    //                 'recognized_code' => $entry->recognized_code,
+    //                 'dua_type' => $entry->dua_type,
+    //                 'msg_sid' => $entry->msg_sid,
+    //                 'action_at' => $entry->action_at,
+    //                 'action_status' => $entry->action_status
+    //             ];
+    //         }
+    //     }
 
-        $endTime = microtime(true);  // End time for performance tracking
-        $executionTime = $endTime - $startTime;  // Calculate
+    //     $endTime = microtime(true);  // End time for performance tracking
+    //     $executionTime = $endTime - $startTime;  // Calculate
 
-        // Return the data in the required format for DataTables
-        return response()->json([
-            'start' => $start,
-            'take' => $length,
-            'draw' => intval($request->input('draw')),
-            'recordsTotal' => $totalRecords,  // Total records before any filtering
-            'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
-            'data' => $visitorData,  // The data to be displayed in the table
-            'executionTime' => $executionTime,  // Include the execution time in the response (optional)
-        ]);
-    }
+    //     // Return the data in the required format for DataTables
+    //     return response()->json([
+    //         'start' => $start,
+    //         'take' => $length,
+    //         'draw' => intval($request->input('draw')),
+    //         'recordsTotal' => $totalRecords,  // Total records before any filtering
+    //         'recordsFiltered' => $totalRecords,  // You can adjust this for filtering results
+    //         'data' => $visitorData,  // The data to be displayed in the table
+    //         'executionTime' => $executionTime,  // Include the execution time in the response (optional)
+    //     ]);
+    // }
 
 
     // public function list(request $request)
@@ -290,6 +290,8 @@ class ManualBookingController extends Controller
         $searchValue = $request->input('search', '');
         $page = $request->input('page', 1);
         $perPage = $request->input('pagination', 50);
+        $actionType = $request->input('action_type');
+
 
         $searchPhone = $request->input('search_phone', '');  // Search for phone number
         $searchCountryCode = $request->input('search_country_code', '');  // Search for country code
@@ -316,6 +318,11 @@ class ManualBookingController extends Controller
             if ($SearchId) {
                 $visitorQuery->where('id', 'like', '%' . $SearchId . '%');
             }
+            if ($actionType) {
+                $visitorQuery->where('action_type', 'like', '%' . $actionType . '%');
+            }
+
+
 
 
 
@@ -364,7 +371,7 @@ class ManualBookingController extends Controller
                 'start_date' => $startDate->toDateString(),
                 'end_date' => $targetDate->toDateString(),
                 'visitor_id' => $entry->id,
-                'created_at' => $entry->created_at->format('d-m-Y'),
+                'created_at' => $entry->created_at->format('d-m-Y H:i:s'),
                 'country_code' => $entry->country_code,
                 'phone' => $entry->phone,
                 'recognized_code' => $entry->recognized_code,

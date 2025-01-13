@@ -164,14 +164,30 @@
                         <div class="row mt-2">
 
                             <div class="col-md-4">
-                                <label> Search by Country Code </label>
-                                <input type="text" class="form-control" name="search_country_code"
-                                    placeholder="Search by Country Code" value="{{ request('search_country_code') }}">
+                                <label> Search Action Type</label>
+                                <select class="form-control" name="action_type">
+                                    <option @if (request()->get('action_type') == 'dua') ? selected : '' @endif value="approved"> Approved
+                                    </option>
+                                    <option @if (request()->get('action_type') == 'dum') ? selected : '' @endif value="disapproved"> Disapproved
+                                    </option>
+                                    {{-- <option @if (request()->get('action_type') == 'working_lady_dua') ? selected : '' @endif value="working_lady_dua"> Working Lady Dua
+                                    </option> --}}
+
+                                </select>
+
                             </div>
                             <div class="col-md-4">
                                 <label>Search by Dua Type </label>
-                                <input type="text" class="form-control" placeholder="Search by Dua Type" name="dua_type"
-                                    value="{{ request('dua_type') }}">
+
+                                <select class="form-control" name="dua_type">
+                                    <option @if (request()->get('dua_type') == 'dua') ? selected : '' @endif value="dua"> Dua
+                                    </option>
+                                    <option @if (request()->get('dua_type') == 'dum') ? selected : '' @endif value="dum"> Dum
+                                    </option>
+                                    <option @if (request()->get('dua_type') == 'working_lady_dua') ? selected : '' @endif value="working_lady_dua"> Working Lady Dua
+                                    </option>
+
+                                </select>
                             </div>
 
                             <div class="col-md-4">
@@ -200,7 +216,6 @@
                 <table class="table table-responsive cell-border">
                     <thead>
                         <tr>
-                            <!-- Select All Checkbox -->
                             <th>
                                 <input type="checkbox" id="selectAll">
                             </th>
@@ -209,10 +224,8 @@
                             <th>CountryCode</th>
                             <th>Phone</th>
                             <th>Dua Type</th>
-
                             <th>Last Dua Token</th>
                             <th>User Image</th>
-
                             <th>Repeat Visitor</th>
                             <th>Action</th>
                             <th>Message Sid</th>
@@ -222,7 +235,6 @@
                         @foreach ($visitorData as $visitor)
                             @php
                                 $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
-
                             @endphp
                             @php
                                 $localImage = '';
