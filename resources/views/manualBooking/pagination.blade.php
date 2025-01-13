@@ -190,11 +190,11 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <label>Search by Database Id </label>
                                 <input type="text" class="form-control" name="search_db_id"
                                     placeholder="Search by Database Id" value="{{ request('search_db_id') }}">
-                            </div>
+                            </div> --}}
                         </div>
                         <input type="hidden" value="page" value="{{ request('page', 1) }}">
                         <div class="filteraction">
