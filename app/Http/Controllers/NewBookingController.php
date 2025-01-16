@@ -35,11 +35,7 @@ class NewBookingController extends Controller
             App::setLocale('en');
         }
         $userAll = Vistors::whereDate('created_at', date('Y-m-d'))->get(['recognized_code', 'id'])->toArray();
-
-
-
         // echo $locale; die;
-
         $therapistRole = Role::where('name', 'therapist')->first();
         $VenueList = Venue::all();
         $countryList =  $this->countries->get();

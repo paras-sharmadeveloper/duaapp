@@ -291,12 +291,19 @@ class VisitorBookingController extends Controller
             $venuesListArr = $this->venueAddressQuery->where(['venue_id' => $request->input('id'), 'city' => $request->input('optional')])->first();
             if (!empty($venuesListArr)) {
 
-                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+                $city = $venuesListArr->city;
+                $timezoneA = $venuesListArr->timezone;
+                if($city === 'London'){
+                    $timezoneA = 'Europe/London';
+                }
+
+                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $timezoneA);
                 if (!$status['allowed']) {
                     return response()->json([
                         'status' => false,
                         'message' => $status['message'],
                         'message_ur' => $status['message_ur'],
+                        'tz' => $timezoneA
 
                     ]);
                 }

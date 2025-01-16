@@ -1186,19 +1186,26 @@ class HomeController extends Controller
             $newDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 day'));
             $today = getCurrentContryTimezone($request->input('id'));
             $venuesListArr = VenueAddress::where('venue_id', $request->input('id'))
-                ->where('city',  $request->input('optional'))
+                ->where('city',  operator: $request->input('optional'))
                 ->whereDate('venue_date', $today)
                 ->orderBy('venue_date', 'asc')
                 ->first();
 
             if ($venuesListArr) {
 
-                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $venuesListArr->timezone);
+                $city = $venuesListArr->city;
+                $timeZoneD = $venuesListArr->timezone;
+                if($city  == 'London'){
+                    $timeZoneD = 'Europe/London';
+                }
+
+                $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $timeZoneD);
                 if (!$status['allowed']) {
                     return response()->json([
                         'status' => false,
                         'message' => $status['message'],
                         'message_ur' => $status['message_ur'],
+                        'city' => $city
 
                     ]);
                 }

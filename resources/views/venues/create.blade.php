@@ -105,9 +105,11 @@
                             <span class="input-group-text">City </span>
                             <select name="city" class="form-control">
                                 <option name="Lahore" @if (!empty($venueAddress) && $venueAddress->city == 'Lahore') selected @endif>Lahore </option>
-                                <option name="Islamabad" @if (!empty($venueAddress) && $venueAddress->city == 'Islamabad') selected @endif>Islamabad
-                                </option>
-                                <option name="Karachi"@if (!empty($venueAddress) && $venueAddress->city == 'Karachi') selected @endif>Karachi</option>
+                                <option name="Islamabad" @if(!empty($venueAddress) && $venueAddress->city == 'Islamabad') selected @endif>Islamabad</option>
+                                {{-- <option name="Karachi"@if (!empty($venueAddress) && $venueAddress->city == 'Karachi') selected @endif>Karachi</option> --}}
+                                <option name="London" @if (!empty($venueAddress) && $venueAddress->city == 'London') selected @endif>London</option>
+
+
                             </select>
                             {{-- {!! Form::text('state', $venueAddress->state ?? '', ['class' => 'form-control', 'placeholder' => 'state','id' =>'state_name','readonly'=>true ]) !!} --}}
 
@@ -439,13 +441,13 @@
                             <input type="number" name="recurring_till"
                             value="{{ isset($venueAddress->recurring_till) ? $venueAddress->recurring_till : '' }}"
                             class="form-control dum_slots"
-                            placeholder="ends" > 
+                            placeholder="ends" >
 
                         </div>
                     </div> --}}
                     <div class="col-md-4 mt-4">
                         <label>User Rejoin After Days? </label>
-                        <div class="input-group"> 
+                        <div class="input-group">
                                 <input type="number" name="rejoin_venue_after"
                                 value="{{ isset($venueAddress->rejoin_venue_after) ? $venueAddress->rejoin_venue_after : 2 }}"
                                 class="form-control dum_slots"
@@ -456,7 +458,7 @@
 
                     <div class="col-md-4 mt-4">
                         <label>Repeat Visitor Days  </label>
-                        <div class="input-group"> 
+                        <div class="input-group">
                                 <input type="number" name="repeat_visitor_days"
                                 value="{{ isset($venueAddress->repeat_visitor_days) ? $venueAddress->repeat_visitor_days : 0 }}"
                                 class="form-control dum_slots"

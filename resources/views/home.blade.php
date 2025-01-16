@@ -167,7 +167,6 @@
                             <p id="websiteDum">Website Dum Percentage: <span></span></p>
                             <p id="whatsAppDua">whatsApp Dua Percentage: <span></span></p>
                             <p id="whatsAppDum">whatsApp Dum Percentage: <span></span></p>
-
                             <p id="duatoken">Total Dua: <span></span></p>
                             <p id="dumtoken">Total Dum: <span></span></p>
 
@@ -211,11 +210,6 @@
                                     </tr>
                                 </thead>
                             </table>
-
-
-
-
-
                         </div>
                     </div>
                 </div>
