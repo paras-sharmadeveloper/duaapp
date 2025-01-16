@@ -169,9 +169,7 @@ if (!function_exists('TokenBookingAllowed')) {
                 'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔ '.$venueStartTime->format('d-M-Y').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
             ];
 
-        }
-
-
+        } 
 
     }
 }

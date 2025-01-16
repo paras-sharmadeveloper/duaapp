@@ -214,7 +214,7 @@
             <form method="POST" action="{{ route('booking.manual.list.new') }}">
 
                 @csrf
-                <table class="table table-responsive cell-border">
+                <table class="table table-responsive cell-border table-custom">
                     <thead>
                         <tr>
                             <th>

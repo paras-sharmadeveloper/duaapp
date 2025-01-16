@@ -101,6 +101,24 @@
             // ],
 
         });
+
+        $('.table-custom').DataTable({
+            paging: false,            // Disable pagination
+            autoWidth: true,          // Auto width adjustment
+            responsive: true,         // Make the table responsive
+            "lengthMenu": [50, 100, 300, 500, 700, 1000],  // Length options for pagination (can be removed since paging is false)
+            aoColumnDefs: [
+                {
+                    "aTargets": [0], // Target the first column (index 0)
+                    "bSortable": true // Enable sorting on the first column
+                },
+                {
+                    "aTargets": [1], // Target the second column (index 1)
+                    "bSortable": true // Enable sorting on the second column
+                }
+            ]
+        });
+
     });
 
     $(document).ready(function() {
