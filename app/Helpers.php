@@ -128,8 +128,16 @@ if (!function_exists('VenueAvilableInCountry')) {
 if (!function_exists('TokenBookingAllowed')) {
     function TokenBookingAllowed($venueStartDateTime, $venueEndDateTime, $timezone)
     {
+         $timezone ='Europe/London';
+        if($timezone == 'Asia/Karachi'){
+             $venueStartTime = Carbon::parse($venueStartDateTime,$timezone);
+        }else{
+            $venueStartTime = Carbon::parse($venueStartDateTime);
+            $venueStartTime = $venueStartTime->setTimezone($timezone);
+        }
 
-        $venueStartTime = Carbon::parse($venueStartDateTime,$timezone);
+
+        // $venueStartTime = Carbon::parse($venueStartDateTime,$timezone);
         $venueEndTime = Carbon::parse($venueEndDateTime,$timezone);
         $currentTime = Carbon::now()->tz($timezone);
 
@@ -139,13 +147,14 @@ if (!function_exists('TokenBookingAllowed')) {
                 'allowed' => true,
                 'message' => 'Token booking is allowed.' ,
                 'message_ur' => 'ٹوکن بکنگ کی اجازت ہے۔',
-                'currentTime' => $currentTime->format('d M y h:i A')
+                'currentTime' => $currentTime->format('d M y h:i A'),
+                'mytime' => $currentTime->format('d M Y h:i A'),
             ];
 
         }else if ($currentTime->gt($venueEndTime)) {
             return [
                 'allowed' => false,
-                'mytime' => Carbon::now()->format('d M Y h:i A'),
+                'mytime' => $currentTime->format('d M Y h:i A'),
                 'message' => 'Dua / Dum token booking is now closed as all tokens are now allocated to visitors. Please try again next week. Thank you',
                 'message_ur' =>  'دعا/دم ٹوکن کی بکنگ اب بند ہے کیونکہ تمام ٹوکنز اب زائرین کے لیے مختص ہیں۔ براہ کرم اگلے ہفتے دوبارہ کوشش کریں۔ شکریہ',
 
@@ -153,8 +162,9 @@ if (!function_exists('TokenBookingAllowed')) {
 
         }else{
             return [
+                'tz' => $timezone,
                 'allowed' => false,
-                'mytime' => Carbon::now()->format('d M Y h:i A'),
+                'mytime' => $currentTime->format('d M Y h:i A'),
                 'message' =>'Token Booking for Dua / Dum has not started yet. Kindly try again at below mentioned time: '.$venueStartTime->format('d M Y').' at  '.$venueStartTime->format('h:i A').' ('.$timezone.') Time zone',
                 'message_ur' => 'دعا/دم ملاقات کے لیے ٹوکن بکنگ ابھی شروع نہیں ہوئی ہے۔ براہ مہربانی نیچے دیئے گئے وقت پر دوبارہ کوشش کریں۔ '.$venueStartTime->format('d-M-Y').' at '.$venueStartTime->format('h:i A').' ('.$timezone.') Timezon',
             ];

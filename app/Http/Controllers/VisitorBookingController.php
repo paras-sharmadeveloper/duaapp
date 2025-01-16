@@ -303,7 +303,8 @@ class VisitorBookingController extends Controller
                         'status' => false,
                         'message' => $status['message'],
                         'message_ur' => $status['message_ur'],
-                        'tz' => $timezoneA
+                        'tz' => $status['tz'],
+                        'mytime' => $status['mytime'],
 
                     ]);
                 }
