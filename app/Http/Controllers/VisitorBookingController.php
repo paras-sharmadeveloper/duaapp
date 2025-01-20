@@ -295,6 +295,8 @@ class VisitorBookingController extends Controller
                 $timezoneA = $venuesListArr->timezone;
                 if($city === 'London'){
                     $timezoneA = 'Europe/London';
+                }else{
+                    $timezoneA = $venuesListArr->timezone;
                 }
 
                 $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $timezoneA);
@@ -315,8 +317,6 @@ class VisitorBookingController extends Controller
 
                 if (!$userCountry['allowed']) {
                     session()->forget('phoneCode');
-
-
                     return response()->json([
                         'status' => false,
                         'message' => $userCountry['message'],

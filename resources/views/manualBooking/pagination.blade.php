@@ -166,10 +166,13 @@
                             <div class="col-md-4">
                                 <label> Search Action Type</label>
                                 <select class="form-control" name="action_type">
-
-                                    <option @if (request()->get('action_type') == 'dua') ? selected : '' @endif value="approved"> Approved
+                                    <option @if (request()->get('action_type') == 'all') ? selected : '' @endif value="all"> All
                                     </option>
-                                    <option @if (request()->get('action_type') == 'dum') ? selected : '' @endif value="disapproved"> Disapproved
+                                    <option @if (request()->get('action_type') == 'approved') ? selected : '' @endif value="approved"> Approved
+                                    </option>
+                                    <option @if (request()->get('action_type') == 'disapproved') ? selected : '' @endif value="disapproved"> Disapproved
+                                    </option>
+                                    <option @if (request()->get('action_type') == 'pending') ? selected : '' @endif value="pending"> Pending
                                     </option>
                                     {{-- <option @if (request()->get('action_type') == 'working_lady_dua') ? selected : '' @endif value="working_lady_dua"> Working Lady Dua
                                     </option> --}}
