@@ -296,7 +296,8 @@ class ManualBookingController extends Controller
         $searchPhone = $request->input('search_phone', '');  // Search for phone number
         $searchCountryCode = $request->input('search_country_code', '');  // Search for country code
         $duaType = $request->input('dua_type', '');  // Search for country code
-        $SearchId = $request->input('search_db_id', '');  // Search for country code
+        $serach_all = $request->input('serach_all', '');  // Search for country code
+
 
 
 
@@ -315,8 +316,17 @@ class ManualBookingController extends Controller
             if ($duaType) {
                 $visitorQuery->where('dua_type', '=',  $duaType );
             }
-            if ($SearchId) {
-                $visitorQuery->where('id', 'like', '%' . $SearchId . '%');
+            if ($serach_all) {
+                $visitorQuery->where(function($query) use ($serach_all) {
+                    $query->where('id', 'like', '%' . $serach_all . '%')
+                          ->orWhere('phone', 'like', '%' . $serach_all . '%')
+                          ->orWhere('country_code', 'like', '%' . $serach_all . '%')
+                          ->orWhere('recognized_code', 'like', '%' . $serach_all . '%')
+                          ->orWhere('dua_type', 'like', '%' . $serach_all . '%')
+                          ->orWhere('msg_sid', 'like', '%' . $serach_all . '%')
+                          ->orWhere('action_at', 'like', '%' . $serach_all . '%')
+                          ->orWhere('action_status', 'like', '%' . $serach_all . '%');
+                });
             }
 
             if (!empty($actionType) && $actionType !='all' && $actionType !='pending') {
