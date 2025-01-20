@@ -187,6 +187,7 @@
                                 <label>Search by Dua Type </label>
 
                                 <select class="form-control" name="dua_type">
+                                    <option @if (request()->get('dua_type') == 'all') ? selected : '' @endif value="all"> All </option>
                                     <option @if (request()->get('dua_type') == 'dua') ? selected : '' @endif value="dua"> Dua
                                     </option>
                                     <option @if (request()->get('dua_type') == 'dum') ? selected : '' @endif value="dum"> Dum

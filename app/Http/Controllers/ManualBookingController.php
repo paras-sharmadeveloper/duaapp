@@ -299,8 +299,6 @@ class ManualBookingController extends Controller
         $serach_all = $request->input('serach_all', '');  // Search for country code
 
 
-
-
         // Build the base query
         $visitorQuery = VisitorTempEntry::whereDate('created_at', $targetDate)
             ->select('phone', 'created_at', 'venueId', 'id', 'country_code', 'recognized_code', 'dua_type', 'msg_sid', 'action_at', 'action_status')
@@ -313,9 +311,12 @@ class ManualBookingController extends Controller
             if ($searchCountryCode) {
                 $visitorQuery->where('country_code', 'like', '%' . $searchCountryCode . '%');
             }
-            if ($duaType) {
+            if (!empty($duaType) && $duaType !='all') {
                 $visitorQuery->where('dua_type', '=',  $duaType );
+            }else{
+                $visitorQuery->whereNull('dua_type');
             }
+
             if ($serach_all) {
                 $visitorQuery->where(function($query) use ($serach_all) {
                     $query->where('id', 'like', '%' . $serach_all . '%')
