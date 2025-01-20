@@ -101,6 +101,9 @@
                 width: 100%;
             }
         }
+        .custom-serach-table #DataTables_Table_0_filter{
+            display: none;
+        }
 
         /*End style*/
     </style>
@@ -113,7 +116,7 @@
 
             <h5 class="card-title">Manual List for Visitor </h5>
 
-            <div class="card">
+            <div class="card custom-serach-table">
                 <div class="card-body">
                     <div class="text-center mt-4 bulk-app-dis">
 
