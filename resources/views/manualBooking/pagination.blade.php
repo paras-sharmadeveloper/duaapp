@@ -116,7 +116,7 @@
 
             <h5 class="card-title">Manual List for Visitor </h5>
 
-            <div class="card custom-serach-table">
+            <div class="card ">
                 <div class="card-body">
                     <div class="text-center mt-4 bulk-app-dis">
 
@@ -137,7 +137,7 @@
                             <b>Bulk Disapprove</b>
                         </button>
                     </div>
-                    <form action="{{ route('booking.manual.list.new') }}" class="mt-3" method="get">
+                    <form action="{{ route('booking.manual.list.new') }}" class="mt-3" method="get" >
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
@@ -217,7 +217,7 @@
 
 
             </div>
-            <form method="POST" action="{{ route('booking.manual.list.new') }}">
+            <form method="POST" action="{{ route('booking.manual.list.new') }}" class="custom-serach-table">
 
                 @csrf
                 <table class="table table-responsive cell-border table-custom">
