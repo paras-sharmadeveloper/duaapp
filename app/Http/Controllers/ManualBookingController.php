@@ -319,7 +319,7 @@ class ManualBookingController extends Controller
                 $visitorQuery->where('id', 'like', '%' . $SearchId . '%');
             }
 
-            if (!empty($actionType) && $actionType !=='all') {
+            if (!empty($actionType) && $actionType !='all' && $actionType !='pending') {
                 $visitorQuery->where('action_status', '=', $actionType );
             }elseif($actionType == 'pending'){
                 $visitorQuery->whereNull('action_status');
