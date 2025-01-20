@@ -313,8 +313,6 @@ class ManualBookingController extends Controller
             }
             if (!empty($duaType) && $duaType !='all') {
                 $visitorQuery->where('dua_type', '=',  $duaType );
-            }else{
-                $visitorQuery->whereNull('dua_type');
             }
 
             if ($serach_all) {
