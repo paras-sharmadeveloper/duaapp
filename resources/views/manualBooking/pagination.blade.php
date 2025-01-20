@@ -367,6 +367,7 @@
                         'search_country_code' => request()->get('search_country_code'),
                         'dua_type' => request()->get('dua_type'),
                         'action_type' => request()->get('action_type'),
+                        'serach_all' => request()->get('serach_all'),
                     ]) }}"
                         @if (request()->get('page') == $i) class="btn btn-primary"
                         @else
