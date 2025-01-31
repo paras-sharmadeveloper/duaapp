@@ -1195,9 +1195,14 @@ class HomeController extends Controller
 
                 $city = $venuesListArr->city;
                 $timeZoneD = $venuesListArr->timezone;
-                if($city  == 'London'){
+
+
+                if($city === 'London'){
                     $timeZoneD = 'Europe/London';
+                }else{
+                    $timeZoneD = $venuesListArr->timezone;
                 }
+
 
                 $status = TokenBookingAllowed($venuesListArr->venue_date, $venuesListArr->venue_date_end,  $timeZoneD);
                 if (!$status['allowed']) {

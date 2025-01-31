@@ -334,10 +334,6 @@ class ManualBookingController extends Controller
                 $visitorQuery->whereNull('action_status');
             }
 
-
-
-
-
         // Apply search filter if search value is provided
         if ($searchValue) {
             $visitorQuery->where(function ($query) use ($searchValue) {
