@@ -38,6 +38,32 @@
         .multiselect-blurred {
             background: lightgray;
         }
+        /* Reduce the size of SVG icons */
+svg {
+    width: 16px; /* Adjust width */
+    height: 16px; /* Adjust height */
+}
+
+/* Optionally, you can fine-tune the pagination item alignment */
+.pagination .relative {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+}
+
+/* Adjust spacing between pagination links */
+.pagination a {
+    margin: 0 4px;
+}
+
+/* Ensure the pagination container is responsive */
+.pagination nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
     </style>
 
     <div class="row">
