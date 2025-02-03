@@ -101,7 +101,8 @@
                 width: 100%;
             }
         }
-        .custom-serach-table #DataTables_Table_0_filter{
+
+        .custom-serach-table #DataTables_Table_0_filter {
             display: none;
         }
 
@@ -137,7 +138,7 @@
                             <b>Bulk Disapprove</b>
                         </button>
                     </div>
-                    <form action="{{ route('booking.manual.list.new') }}" class="mt-3" method="get" >
+                    <form action="{{ route('booking.manual.list.new') }}" class="mt-3" method="get">
                         <div class="row">
                             <div class="col-md-4">
                                 <label> Filter Date </label>
@@ -171,11 +172,17 @@
                                 <select class="form-control" name="action_type">
                                     <option @if (request()->get('action_type') == 'all') ? selected : '' @endif value="all"> All
                                     </option>
-                                    <option @if (request()->get('action_type') == 'approved') ? selected : '' @endif value="approved"> Approved
+                                    <option @if (request()->get('action_type') == 'approved') ? selected : '' @endif value="approved">
+                                        Approved
                                     </option>
-                                    <option @if (request()->get('action_type') == 'disapproved') ? selected : '' @endif value="disapproved"> Disapproved
+                                    <option @if (request()->get('action_type') == 'disapproved') ? selected : '' @endif value="disapproved">
+                                        Disapproved
                                     </option>
-                                    <option @if (request()->get('action_type') == 'pending') ? selected : '' @endif value="pending"> Pending
+                                    <option @if (request()->get('action_type') == 'warning') ? selected : '' @endif value="warning">
+                                        Warming
+                                    </option>
+                                    <option @if (request()->get('action_type') == 'pending') ? selected : '' @endif value="pending">
+                                        Pending
                                     </option>
                                     {{-- <option @if (request()->get('action_type') == 'working_lady_dua') ? selected : '' @endif value="working_lady_dua"> Working Lady Dua
                                     </option> --}}
@@ -187,12 +194,14 @@
                                 <label>Search by Dua Type </label>
 
                                 <select class="form-control" name="dua_type">
-                                    <option @if (request()->get('dua_type') == 'all') ? selected : '' @endif value="all"> All </option>
+                                    <option @if (request()->get('dua_type') == 'all') ? selected : '' @endif value="all"> All
+                                    </option>
                                     <option @if (request()->get('dua_type') == 'dua') ? selected : '' @endif value="dua"> Dua
                                     </option>
                                     <option @if (request()->get('dua_type') == 'dum') ? selected : '' @endif value="dum"> Dum
                                     </option>
-                                    <option @if (request()->get('dua_type') == 'working_lady_dua') ? selected : '' @endif value="working_lady_dua"> Working Lady Dua
+                                    <option @if (request()->get('dua_type') == 'working_lady_dua') ? selected : '' @endif
+                                        value="working_lady_dua"> Working Lady Dua
                                     </option>
 
                                 </select>
@@ -200,8 +209,8 @@
 
                             <div class="col-md-4">
                                 <label>Search anything </label>
-                                <input type="text" class="form-control" name="serach_all"
-                                    placeholder="Search anything" value="{{ request('serach_all') }}">
+                                <input type="text" class="form-control" name="serach_all" placeholder="Search anything"
+                                    value="{{ request('serach_all') }}">
                             </div>
                         </div>
                         <input type="hidden" value="page" value="{{ request('page', 1) }}">
@@ -234,7 +243,7 @@
                             <th>Dua Type</th>
                             <th>Last Dua Token</th>
                             <th>User Image</th>
-                            <th>Repeat Visitor</th>
+                            {{-- <th>Repeat Visitor</th> --}}
                             <th>Action</th>
                             <th>Message Sid</th>
                         </tr>
@@ -288,11 +297,11 @@
 
                                 <!-- Repeat Visitor -->
 
-                                <td>
+                                {{-- <td>
                                     @if ($visitor['last_visit'])
                                         <button type="button" class="btn btn-warning ">Yes</button>
                                     @endif
-                                </td>
+                                </td> --}}
                                 <!-- Action (Example action buttons like Edit/Delete) -->
                                 <td>
                                     @if (empty($visitor['action_at']))
@@ -307,15 +316,24 @@
                                                 <b>Approve ({{ ucwords($visitor['dua_type']) }})</b>
                                             </button>
 
-                                            <button type="button" class="btn btn-secondary undo undobtn-{{$visitor['id']}} mb-3"
-                                              style="display: none"
-                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
-                                                data-success="Done" data-default="Undo">
+                                            <button type="button"
+                                                class="btn btn-secondary undo undobtn-{{ $visitor['id'] }} mb-3"
+                                                style="display: none" data-id="{{ $visitor['id'] }}"
+                                                data-loading="Loading..." data-success="Done" data-default="Undo">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true" style="display:none">
                                                 </span>
                                                 <b>Undo
-                                                    ({{ $visitor['dua_type'] == 'working_lady_dua' ? 'wl dua' : ucwords($visitor['dua_type']) }})</b>
+                                                    ({{ $visitor['dua_type'] == 'working_lady_dua' ? 'wl dua' : ucwords($visitor['dua_type']) }})
+                                                </b>
+                                            </button>
+                                            <button type="button" class="btn  btn-warning warning"
+                                                data-id="{{ $visitor['id'] }}" data-loading="Loading..."
+                                                data-success="Done" data-default="Warning">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true" style="display:none">
+                                                </span>
+                                                <b>Warning ({{ ucwords($visitor['dua_type']) }})</b>
                                             </button>
 
                                             <button type="button" class="btn  btn-danger disapprove"
@@ -328,7 +346,8 @@
                                             </button>
                                         </div>
                                     @elseif (!empty($visitor['action_at']) && $visitor['action_status'] == 'approved')
-                                        <span class="badge badge-success text-success">{{$visitor['action_status']}}</span><br>
+                                        <span
+                                            class="badge badge-success text-success">{{ $visitor['action_status'] }}</span><br>
                                         <button type="button" class="btn btn-secondary undo mb-3"
                                             data-id="{{ $visitor['id'] }}" data-loading="Loading..." data-success="Done"
                                             data-default="Undo">
@@ -414,6 +433,16 @@
             }
 
         });
+        $(document).on('click', '.warning', function() {
+            if (confirm("Are you sure you want to send warning to this person?")) {
+                var id = $(this).attr('data-id');
+                AjaxCall(id, 'warning', $(this));
+            }
+
+        });
+
+
+
 
 
 
@@ -441,8 +470,8 @@
                     event.find('span').hide()
                     event.find('b').text(defaultText);
                     event.parents('.actionBtns').fadeOut();
-                    if(type == 'approve'){
-                        $(".undobtn-"+id).show();
+                    if (type == 'approve') {
+                        $(".undobtn-" + id).show();
                     }
                     //    event.parents('tr').fadeOut();
                     if (response.status) {

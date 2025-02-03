@@ -1194,10 +1194,10 @@ class HomeController extends Controller
             if ($venuesListArr) {
 
                 $city = $venuesListArr->city;
-                $timeZoneD = $venuesListArr->timezone;
+                $timeZoneD ='';
 
 
-                if($city === 'London'){
+                if($city == 'London'){
                     $timeZoneD = 'Europe/London';
                 }else{
                     $timeZoneD = $venuesListArr->timezone;

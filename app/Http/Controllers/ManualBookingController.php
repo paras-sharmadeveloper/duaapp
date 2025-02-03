@@ -603,6 +603,17 @@ class ManualBookingController extends Controller
                 "status" => false,
             ], 200);
         }
+        else if ($type  == 'warning') {
+            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
+            $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'warning']);
+            $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
+            WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
+
+            return response()->json([
+                'message' => 'Warning Issued',
+                "status" => false,
+            ], 200);
+        }
     }
 
     function compressImage($source, $destination, $maxSize = 100000)
