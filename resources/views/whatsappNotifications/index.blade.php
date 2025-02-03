@@ -173,7 +173,9 @@
                     </tbody>
                 </table>
             </div>
-
+            <div class="pagination">
+                {{ $logs->links() }}
+            </div>
         </div>
 
 
