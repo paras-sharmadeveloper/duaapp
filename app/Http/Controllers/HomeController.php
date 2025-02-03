@@ -90,7 +90,7 @@ class HomeController extends Controller
             return response()->json(['success' => true]);
         }
 
-        $logs = WhatsappNotificationLogs::orderBy('id', 'desc')->pagination(100);
+        $logs = WhatsappNotificationLogs::orderBy('id', 'desc')->paginate(100);
 
         return view('whatsappNotifications.index', compact('logs'));
 

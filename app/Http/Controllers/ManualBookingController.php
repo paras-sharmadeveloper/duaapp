@@ -604,7 +604,7 @@ class ManualBookingController extends Controller
             ], 200);
         }
         else if ($type  == 'warning') {
-            $message = "Kindly please be informed that all dua & dum tokens today have been issued to people at first come first serve basis. Your entry came when the token quota was already completed. Therefore our system is unable to issue you token today. Kindly please try again next week at 8:00 AM sharp.";
+            $message = "POLICY VIOLATION WARNING - URGENT! We have observed that multiple token bookings have been made using different numbers by you on a regular basis. Please be reminded that our policy allows only one token per visitor. If other family members require tokens, they must apply individually. Booking tokens on their behalf constitutes a policy violation. Continued violation of this policy may result in you being temporarily banned for 1 month to ensure fairness and prevent misuse. We appreciate your understanding and cooperation in following our token booking guidelines in future. Kind regards, KahayFaqeer.org ";
             $visitorTemp->update(['action_at' => date('Y-m-d H:i:s'), 'action_status' => 'warning']);
             $completeNumber = $visitorTemp->country_code . $visitorTemp->phone;
             WhatsAppTokenNotBookNotifcation::dispatch($visitorTemp->id, $completeNumber, $message)->onQueue('whatsapp-notification-not-approve');
