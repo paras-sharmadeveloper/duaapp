@@ -53,6 +53,11 @@ svg {
     width: 1% !important;
     height: 20%;
 }
+
+.pagination .flex.justify-between.flex-1.sm\:hidden {
+    display: flex;
+    justify-content: space-between;
+}
     </style>
 
     <div class="row">
