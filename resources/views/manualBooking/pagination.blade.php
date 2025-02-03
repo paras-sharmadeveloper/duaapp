@@ -179,7 +179,7 @@
                                         Disapproved
                                     </option>
                                     <option @if (request()->get('action_type') == 'warning') ? selected : '' @endif value="warning">
-                                        Warming
+                                        Warning
                                     </option>
                                     <option @if (request()->get('action_type') == 'pending') ? selected : '' @endif value="pending">
                                         Pending
