@@ -171,7 +171,7 @@ svg {
                 </form>
             </div>
             <div class="card-body">
-                <table class="table-with-buttons table table-responsive cell-border mt-5">
+                <table class="table-with-buttons1 table table-responsive cell-border mt-5">
                     <thead>
                         <tr>
                             <th>Venue Date</th>
@@ -198,10 +198,11 @@ svg {
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pagination">
+                    {{ $logs->links() }}
+                </div>
             </div>
-            <div class="pagination">
-                {{ $logs->links() }}
-            </div>
+
         </div>
 
 
