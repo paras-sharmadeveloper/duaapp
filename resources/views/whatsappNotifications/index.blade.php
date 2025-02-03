@@ -45,25 +45,14 @@ svg {
 }
 
 /* Optionally, you can fine-tune the pagination item alignment */
-.pagination .relative {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
+.pagination {
+    text-align: center;
+    padding: 50px;
 }
-
-/* Adjust spacing between pagination links */
-.pagination a {
-    margin: 0 4px;
+.pagination svg {
+    width: 1%;
+    height: 20%;
 }
-
-/* Ensure the pagination container is responsive */
-.pagination nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
     </style>
 
     <div class="row">
