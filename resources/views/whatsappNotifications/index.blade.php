@@ -46,11 +46,11 @@ svg {
 
 /* Optionally, you can fine-tune the pagination item alignment */
 .pagination {
-    text-align: center;
-    padding: 50px;
+    text-align: center !important;
+    padding: 50px !important;
 }
 .pagination svg {
-    width: 1%;
+    width: 1% !important;
     height: 20%;
 }
     </style>
