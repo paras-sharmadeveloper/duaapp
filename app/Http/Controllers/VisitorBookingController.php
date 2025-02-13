@@ -293,7 +293,7 @@ class VisitorBookingController extends Controller
 
                 $city = $venuesListArr->city;
                 $timezoneA = $venuesListArr->timezone;
-                if($city === 'London'){
+                if($city == 'London'){
                     $timezoneA = 'Europe/London';
                 }else{
                     $timezoneA = $venuesListArr->timezone;
@@ -321,7 +321,8 @@ class VisitorBookingController extends Controller
                         'status' => false,
                         'message' => $userCountry['message'],
                         'message_ur' => $userCountry['message_ur'],
-                        'phoneCode' => $phoneCode
+                        'phoneCode' => $phoneCode,
+                        'f' => $city
 
                     ]);
                 }
