@@ -307,6 +307,7 @@ class VisitorBookingController extends Controller
                         'message_ur' => $status['message_ur'],
                         'tz' => $status['tz'],
                         'mytime' => $status['mytime'],
+                        'f1' => $city
 
                     ]);
                 }
