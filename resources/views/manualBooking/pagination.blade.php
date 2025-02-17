@@ -1,113 +1,162 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        .popup {
-            margin: auto;
-            text-align: center
-        }
+<style>
+    /* Existing CSS */
+    .popup {
+        margin: auto;
+        text-align: center;
+    }
 
-        .popup img {
-            width: 100px;
-            height: 100px;
-            cursor: pointer
-        }
+    .popup img {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+    }
 
-        .show {
-            z-index: 999;
-            display: none;
-        }
+    .show {
+        z-index: 999;
+        display: none;
+    }
 
-        .actionBtns {
+    .actionBtns {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .show .overlayMy {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .66);
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .show .img-show {
+        width: 600px;
+        height: 400px;
+        background: #FFF;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+    }
+
+    .img-show span {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 99;
+        cursor: pointer;
+    }
+
+    .img-show img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .img-show span {
+        color: red;
+    }
+
+    td.imgc {
+        text-align: center;
+    }
+
+    img.lightgallery {
+        height: 150px;
+        width: auto;
+        text-align: center;
+    }
+
+    .action-pagination {
+        text-align: center;
+        margin: 20px;
+        padding: 10px;
+    }
+
+    .filteraction {
+        text-align: end;
+        cursor: pointer;
+    }
+
+    /* Responsive Table CSS */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .table-custom th {
+        background-color: #f2f2f2;
+    }
+
+    @media (max-width: 767px) {
+        .bulk-app-dis {
             display: flex;
             justify-content: space-between;
-            gap: 30px;
+            gap: 20px;
         }
 
-        .show .overlayMy {
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, .66);
+        .table-custom {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        .table-custom thead,
+        .table-custom tbody,
+        .table-custom th,
+        .table-custom td,
+        .table-custom tr {
+            display: block;
+        }
+
+        .table-custom thead tr {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: -9999px;
+            left: -9999px;
         }
 
-        .show .img-show {
-            width: 600px;
-            height: 400px;
-            background: #FFF;
+        .table-custom tr {
+            border: 1px solid #ccc;
+        }
+
+        .table-custom td {
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        .table-custom td:before {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            overflow: hidden
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            content: attr(data-label);
         }
-
-        .img-show span {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 99;
-            cursor: pointer;
-        }
-
-        .img-show img {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .img-show span {
-            color: red;
-        }
-
-        td.imgc {
-            text-align: center;
-        }
-
-        img.lightgallery {
-            height: 150px;
-            width: auto;
-            text-align: center;
-        }
-
-        .action-pagination {
-
-            text-align: center;
-            margin: 20px;
-            padding: 10px;
-        }
-
-        .filteraction {
-            text-align: end;
-            cursor: pointer;
-        }
-
-        @media (max-width: 767px) {
-            .bulk-app-dis {
-                display: flex;
-                justify-content: space-between;
-                gap: 20px;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                /* Smooth scrolling on iOS */
-                width: 100%;
-            }
-        }
-
-        .custom-serach-table #DataTables_Table_0_filter {
-            display: none;
-        }
-
-        /*End style*/
-    </style>
+    }
+</style>
 
     <div class="card">
         @include('alerts')
@@ -230,6 +279,7 @@
             <form method="POST" action="{{ route('booking.manual.list.new') }}" class="custom-serach-table">
 
                 @csrf
+                <div class="table-responsive">
                 <table class="table table-responsive cell-border table-custom">
                     <thead>
                         <tr>
@@ -372,6 +422,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
 
             </form>
 
