@@ -522,7 +522,7 @@
                     event.find('b').text(defaultText);
                     event.parents('.actionBtns').fadeOut();
                     if (type == 'approve') {
-                        $(".undobtn-" + id).show();
+                        $(".undobtn-" + id).fadeIn();
                     }
                     //    event.parents('tr').fadeOut();
                     if (response.status) {
