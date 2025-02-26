@@ -56,6 +56,8 @@
                 <thead>
                     <tr>
                         <th>DbId</th>
+                        <th>Date</th>
+                        <th>Venue</th>
                         <th>Dua Type</th>
                         <th>Phone</th>
                         <th>Source</th>
@@ -112,6 +114,9 @@
                         @endphp
                         <tr>
                             <td data-aw="{{ env('AWS_ACCESS_KEY_ID') }}">{{ $visitor->id }}</td>
+                            <td>{{ $visitor->created_at }}</td>
+                            <td>{{ $visitor->slot->venueAddress->city }}</td>
+
                             <td>{{ $visitor->dua_type }}</td>
                             <td>{{ $visitor->phone }}</td>
                             <td>{{ $visitor->source }}</td>

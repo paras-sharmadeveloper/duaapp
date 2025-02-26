@@ -49,7 +49,7 @@ class NewBookingController extends Controller
     {
         $visitors = [];
         if ($request->input('date')) {
-            $visitors =  Vistors::whereDate('created_at', $request->input('date'))->get();
+            $visitors =  Vistors::with('slot')->whereDate('created_at', $request->input('date'))->get();
         }
         return view('filters', compact('visitors'));
     }
