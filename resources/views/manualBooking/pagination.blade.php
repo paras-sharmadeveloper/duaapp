@@ -334,7 +334,7 @@
                                 <!-- Db Id -->
                                 <td>{{ $visitor['id'] }}</td>
                                 <!-- Date -->
-                                <td>{{ \Carbon\Carbon::parse($visitor['created_at'])->format('Y-m-d g:i A') }}
+                                <td>{{ \Carbon\Carbon::parse($visitor['created_at'])->format('Y-m-d g:i:s A') }}
                                 </td>
                                 <!-- Country Code -->
                                 <td>{{ $visitor['country_code'] }}</td>
