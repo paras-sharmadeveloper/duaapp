@@ -299,7 +299,7 @@
                             <th>User Image</th>
                             {{-- <th>Repeat Visitor</th> --}}
                             <th>Action</th>
-                            <th>Message Sid</th>
+                            {{-- <th>Message Sid</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -422,7 +422,7 @@
                                         </p>
                                     @endif
                                 </td>
-                                <td>{{ $visitor['msg_sid'] }}</td>
+                                {{-- <td>{{ $visitor['msg_sid'] }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>
