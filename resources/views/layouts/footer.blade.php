@@ -119,6 +119,35 @@
             ]
         });
 
+        $('.table-manual-booking').DataTable({
+            dom: 'Blfrtip',
+            paging: true,
+            autoWidth: true,
+            responsive: true,
+            // scrollX: '1200px',
+            // scrollCollapse: true,
+            // pagingType: 'full_numbers',
+            // "lengthMenu": [50,100,300,500,700,1000],
+            aoColumnDefs: [{
+                    "aTargets": [0],
+                    "bSortable": true
+                },
+                {
+                    "aTargets": [0],
+                    "bSortable": true
+                },
+            ],
+            // buttons: [
+            //     'csv',
+            //     'excel',
+            //     'pdf'
+            // ],
+
+        });
+
+
+
+
     });
 
     $(document).ready(function() {

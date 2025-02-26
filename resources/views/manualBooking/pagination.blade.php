@@ -199,7 +199,7 @@
                                     value="{{ request()->get('filter_date') ? request()->get('filter_date') : '' }}">
                             </div>
                             <div class="col-md-4">
-                                <label> Pagination Date </label>
+                                <label> Pagination  </label>
                                 <select class="form-control" name="pagination">
                                     <option @if (request()->get('pagination') == '50') ? selected : '' @endif value="50"> 50
                                     </option>
@@ -284,7 +284,7 @@
 
                 @csrf
                 <div class="table-responsive">
-                <table class="table table-responsive cell-border table-custom">
+                <table class="table table-responsive cell-border table1-custom table-manual-booking">
                     <thead>
                         <tr>
                             <th>
