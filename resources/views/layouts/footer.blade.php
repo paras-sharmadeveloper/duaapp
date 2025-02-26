@@ -137,11 +137,11 @@
                     "bSortable": true
                 },
             ],
-            // buttons: [
-            //     'csv',
-            //     'excel',
-            //     'pdf'
-            // ],
+            buttons: [
+                'csv',
+                'excel',
+                'pdf'
+            ],
 
         });
 
