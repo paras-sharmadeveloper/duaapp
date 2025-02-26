@@ -96,13 +96,14 @@
                 </thead>
                 <tbody>
                     @php
-                    $loclpath = '/sessionImages/' . date('d-m-Y').'/';
+                    $filterDate =  \Carbon\Carbon::parse(request()->query('date', date('d-m-Y')))->format('d-m-Y') ;
+                    $loclpath = '/sessionImages/' .  $filterDate.'/';
                      @endphp
                     @foreach ($visitors as $visitor)
 
                         @php
                             $localImage = '';
-                            $localImageStroage = 'sessionImages/' . date('d-m-Y').'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
+                            $localImageStroage = 'sessionImages/' .  $filterDate.'/'. (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
                             if (!empty($visitor->recognized_code) && !Storage::disk('public_uploads')->exists($localImageStroage)) {
                                 $localImage = (!empty($visitor->recognized_code)) ? $visitor->recognized_code:'';
                             }
@@ -121,7 +122,7 @@
                             <td>{{ $visitor->phone }}</td>
                             <td>{{ $visitor->source }}</td>
                             <td><a href="{{ route('booking.status', [$visitor->booking_uniqueid]) }}" target="_blank">
-                                    Token Status </a> </td>
+                                {{ route('booking.status', [$visitor->booking_uniqueid]) }} </a> </td>
                             <td>{{ $visitor->booking_number }} {{$image}}  </td>
                             <td>
                                 @if ($image)
