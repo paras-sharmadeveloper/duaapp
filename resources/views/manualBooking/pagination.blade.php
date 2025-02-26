@@ -158,8 +158,8 @@
     }
 
     .expanded-header {
-  width: 250px;
-}
+    width: 250px;
+    }
 </style>
 
     <div class="card">
