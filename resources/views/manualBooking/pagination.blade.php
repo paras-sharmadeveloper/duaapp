@@ -156,6 +156,10 @@
             content: attr(data-label);
         }
     }
+
+    .expanded-header {
+  width: 250px;
+}
 </style>
 
     <div class="card">
@@ -287,11 +291,11 @@
                                 <input type="checkbox" id="selectAll">
                             </th>
                             <th>Db Id</th>
-                            <th>Date</th>
+                            <th class="expanded-header">Date</th>
                             <th>CountryCode</th>
                             <th>Phone</th>
                             <th>Dua Type</th>
-                            <th>Last Dua Token</th>
+                            <th class="expanded-header">Last Dua Token</th>
                             <th>User Image</th>
                             {{-- <th>Repeat Visitor</th> --}}
                             <th>Action</th>
@@ -301,12 +305,13 @@
                     <tbody>
                         @foreach ($visitorData as $visitor)
                             @php
+                             $filterDate = request()->query('filter_date', date('d-m-Y'));
                                 $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
                             @endphp
                             @php
                                 $localImage = '';
                                 $localImageStroage =
-                                    'sessionImages/' . date('d-m-Y') . '/' . !empty($visitor['recognized_code'])
+                                    'sessionImages/' . $filterDate . '/' . !empty($visitor['recognized_code'])
                                         ? $visitor['recognized_code']
                                         : '';
                                 if (
@@ -329,7 +334,8 @@
                                 <!-- Db Id -->
                                 <td>{{ $visitor['id'] }}</td>
                                 <!-- Date -->
-                                <td>{{ $visitor['created_at'] }}</td>
+                                <td>{{ \Carbon\Carbon::parse($visitor['created_at'])->format('Y-m-d g:i A') }}
+                                </td>
                                 <!-- Country Code -->
                                 <td>{{ $visitor['country_code'] }}</td>
                                 <!-- Phone Number -->
@@ -338,7 +344,8 @@
                                 <!-- Instant Message -->
 
                                 <!-- Last Dua Token -->
-                                <td>{{ $visitor['last_visit'] }}</td>
+                                <td>{{ \Carbon\Carbon::parse($visitor['last_visit'])->format('j M Y') }}
+                                </td>
                                 <!-- User Image (Optional - Replace with actual image if you have a user image URL) -->
                                 <td>
                                     <img class="lightgallery" src="{{ $loclpath . $localImageStroage }}" />
