@@ -306,7 +306,7 @@
                         @foreach ($visitorData as $visitor)
                             @php
                              $filterDate =  \Carbon\Carbon::parse(request()->query('filter_date', date('Y-m-d')))->format('Y-m-d') ;
-                                $loclpath = '/sessionImages/' . date('d-m-Y') . '/';
+                                $loclpath = '/sessionImages/' . $filterDate . '/';
                             @endphp
                             @php
                                 $localImage = '';
