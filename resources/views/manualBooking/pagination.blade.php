@@ -292,7 +292,7 @@
                             </th>
                             <th>Db Id</th>
                             <th class="expanded-header">Date</th>
-                            <th>CountryCode</th>
+
                             <th>Phone</th>
                             <th>Dua Type</th>
                             <th class="expanded-header">Last Dua Token</th>
@@ -336,10 +336,8 @@
                                 <!-- Date -->
                                 <td>{{ \Carbon\Carbon::parse($visitor['created_at'])->format('Y-m-d g:i:s A') }}
                                 </td>
-                                <!-- Country Code -->
-                                <td>{{ $visitor['country_code'] }}</td>
                                 <!-- Phone Number -->
-                                <td>{{ $visitor['phone_number'] }}</td>
+                                <td>{{ $visitor['country_code'] }} {{ $visitor['phone_number'] }}</td>
                                 <td>{{ $visitor['dua_type'] }}</td>
                                 <!-- Instant Message -->
 
